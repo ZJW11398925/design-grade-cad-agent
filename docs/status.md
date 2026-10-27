@@ -1,7 +1,7 @@
 # Project Status
 
 Updated: 2026-10-27
-Version: `0.4.0` (domain slice + E2E-001/002)
+Version: `0.5.0` (domain slice + E2E-001/002/003)
 Research basis: R0 v0.19 + R1 deployment-entry v0.2
 
 ## 1. One-line status
@@ -12,10 +12,10 @@ The project has a working **governance/runtime contract layer**, a **synthetic B
 
 ```text
 python -m pytest -q
-119 passed, 2 xfailed
+125 passed, 15 xfailed
 ```
 
-121 tests collected: 119 passing, 2 expected xfails (`DEV-CAD-003`).
+140 tests collected: 125 passing, 15 strict xfails linked to issues.
 
 | Suite | Tests | Status |
 |---|---|---|
@@ -28,6 +28,7 @@ python -m pytest -q
 | CAD delivery | 9 | 7 passing, 2 xfail |
 | E2E-001 | 8 | passing |
 | E2E-002 | 6 | passing |
+| E2E-003 | 19 | 6 passing, 13 strict xfail |
 
 ## 3. Capability status
 
@@ -48,9 +49,10 @@ python -m pytest -q
 | Real professional road geometry | **not validated** | only centerline + explicit cross-section; no alignment/clothoid/surface |
 | E2E-001 living pipeline | **implemented (synthetic)** | Domain → massing → shadow → CAD-IR → DXF → readback, living packages only |
 | E2E-002 mutation/rebuild | **implemented (synthetic)** | scoped stale + deterministic rebuild worker; height, node, north bearing verified |
+| E2E-003 adversarial delivery | **implemented (same-library)** | 6 positive checks, 13 strict xfails; categories and issue mapping |
 | Road surface geometry | **deferred** | no `SURFACE-R-002` artifact is generated or claimed |
 | DXF delivery | **minimal synthetic** | R2010, 15 entities, audit 0/0; known DEV-CAD gaps deferred |
-| Third-party CAD round-trip | **not validated** | issue #6 |
+| Third-party CAD round-trip | **partial evidence only** | one user-run AutoCAD 2022 core-engine round-trip; no repeatable third-party matrix; issue #6 |
 | Real sketch → trace | **not validated** | no Tier B/C data |
 | Real design-office profile | **not validated** | synthetic and DB11 subset only |
 | IFC round-trip | **blocked** | IfcOpenShell unavailable |
@@ -66,6 +68,7 @@ python -m pytest -q
 | `contracts/cad-ir-v0.1.yaml` | Minimal CAD-IR for the E2E delivery slice |
 | `contracts/e2e-pipeline-v0.1.yaml` | E2E-001 stages, invariants and known gaps |
 | `contracts/e2e-mutation-v0.1.yaml` | E2E-002 mutation, rebuild and manifest comparison |
+| `contracts/e2e-adversarial-v0.1.yaml` | E2E-003 adversarial scenarios, categories and issue mapping |
 | `contracts/evidence-gate-register-v0.2.yaml` | R1-G01..G08 and evidence packages |
 | `contracts/runtime-state-contract-v0.1.yaml` | Runtime state envelope and registries |
 | `contracts/sidecar-lifecycle-contract-v0.1.yaml` | Sidecar lifecycle |
@@ -100,7 +103,7 @@ These were reproduced after the v0.3 synthetic hardening and are accepted as **d
 - `DEV-CAD-007` some validator failures are not structured issues.
 - `DEV-CAD-008` CAD serialization differences vs project profile rules are not fully separated.
 
-E2E-001 records `DEV-CAD-003` bulge/constant-width as strict xfail with issue #3. The old archived validator and the full DEV-CAD matrix remain Milestone 3 work.
+E2E-003 maps the remaining gaps: `DEV-CAD-003` bulge/width (#3), `DEV-CAD-007` structured validator_error (#7), `DEV-CAD-009` entity style overrides (#17), `DEV-CAD-010` CIRCLE/TEXT semantics (#18). The living validator already handles MultiPolygon 2-part+hole, symbol-table case and entity-type substitution; the archived v0.3 validator and the full matrix remain Milestone 3 work.
 
 See `research/archive/r0-v0.19/working/cad-bim-validator/development-acceptance-contract-v0.1.md`.
 
@@ -173,7 +176,37 @@ What it does **not** prove:
 - Third-party CAD compatibility, IFC or standards compliance.
 - Independent shadow-engine accuracy.
 
-## 10. Current non-claims
+## 10. E2E-003 adversarial delivery regression
+
+Implemented in `tests/e2e/test_e2e_003_adversarial.py` and `contracts/e2e-adversarial-v0.1.yaml`.
+
+Positive coverage:
+
+- LWPOLYLINE non-zero elevation → `NONZERO_Z`.
+- MultiPolygon 2 parts + 1 hole → 3 entities, audit 0/0, readback pass.
+- Symbol-table linetype case → semantic pass.
+- Missing XDATA → `MISSING_XDATA`, category `interoperability`.
+- `delivery-comparison.json` contains object IDs, canonical revisions, CAD-IR fingerprint, readback verdict, audit and profile identity.
+- Issue categories distinguish `profile_violation` from `cad_format_semantics`.
+
+Strict xfails with issue links:
+
+- CIRCLE/TEXT Z, TEXT rotation/width/alignment → #18 / DEV-CAD-010.
+- Entity color/linetype/lineweight/true-color/transparency overrides → #17 / DEV-CAD-009.
+- LWPOLYLINE start/end width, thickness, extrusion → #3 / DEV-CAD-003.
+- Structured `VALIDATOR_ERROR` → #7 / DEV-CAD-007.
+
+Existing coverage reused: vertex mutation, unexpected layer, entity-type substitution, bulge and constant width.
+
+Boundaries:
+
+- Same-library `ezdxf` compile/readback only; not third-party CAD evidence.
+- Modelspace only; paper space out of scope.
+- No systematic DEV-CAD fix in this round.
+- Road surface geometry remains deferred.
+- CAD-IR fingerprint/dependency-key consistency is tracked as #16 / DEV-CAD-011.
+
+## 11. Current non-claims
 
 - `research_complete = false`
 - `release_authorized = false`

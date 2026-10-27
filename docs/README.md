@@ -7,6 +7,7 @@
 | [research-to-product-map.md](research-to-product-map.md) | Which research artifacts are promoted, deferred or blocked |
 | [e2e/living-pipeline-001.md](e2e/living-pipeline-001.md) | Executed E2E-001 pipeline result, scope and known gaps |
 | [e2e/dependency-mutation-002.md](e2e/dependency-mutation-002.md) | Executed E2E-002 mutation/rebuild result and road-surface deferral |
+| [e2e/adversarial-delivery-003.md](e2e/adversarial-delivery-003.md) | Executed E2E-003 audit, pass/xfail mapping and boundaries |
 | [architecture/overview.md](architecture/overview.md) | Provisional architecture, module boundaries, Canonical IR |
 | [architecture/authority.md](architecture/authority.md) | Living authority, role and lock model |
 | [development/testing.md](development/testing.md) | Test layers, current coverage scope, what tests do and do not prove |

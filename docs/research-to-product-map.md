@@ -74,6 +74,7 @@ This map is the single index of which research artifacts have been promoted into
 | E2E-FIXTURE-001 v0.1–v0.3 | `research_only` | — | Superseded as the active pipeline by E2E-001; retained as historical evidence |
 | E2E-001 living pipeline | **promoted** | `contracts/e2e-pipeline-v0.1.yaml` + `src/dgcad_e2e/` + `tests/e2e/` | Domain → massing → shadow → CAD-IR → DXF → readback, using living packages only |
 | E2E-002 mutation/rebuild | **promoted** | `contracts/e2e-mutation-v0.1.yaml` + `src/dgcad_e2e/living_project.py` + `tests/e2e/` | Scoped stale, deterministic rebuild worker, manifest comparison; road surface deferred |
+| E2E-003 adversarial delivery | **promoted** | `contracts/e2e-adversarial-v0.1.yaml` + `tests/e2e/test_e2e_003_adversarial.py` | Adversarial scenarios, categories and issue mapping; same-library only |
 | DEV-CAD-001..008 | `deferred` | GitHub issues, Milestone 3 | Issues created; implementation explicitly postponed |
 | R0 acquisition batches (BATCH-001..005) | `research_only` | — | Unclosed evidence; gate claims remain blocked |
 
@@ -122,6 +123,17 @@ Promoted and implemented with 8 E2E tests, 7 analysis tests and 9 CAD delivery t
 
 Still deferred: third-party CAD round-trip, IFC, real sketch input, standards profile and independent shadow engine.
 
+## E2E-003 implementation (0.5.0)
+
+Promoted and implemented with 19 scenarios (6 positive, 13 strict xfail):
+
+- LWPOLYLINE elevation, MultiPolygon 2-part+hole, symbol-table case and missing XDATA handled;
+- CIRCLE/TEXT 3D, TEXT placement, entity style overrides and LWPOLYLINE full semantics remain xfail with issues #17/#18/#3;
+- structured `VALIDATOR_ERROR` remains xfail with #7;
+- issue categories and `delivery-comparison.json` make classification and comparison explicit;
+- same-library ezdxf only; third-party CAD remains out of scope (#6);
+- CAD-IR fingerprint/dependency-key consistency tracked as #16 / DEV-CAD-011.
+
 ## E2E-002 implementation (0.4.0)
 
 Promoted and implemented with 6 E2E tests:
@@ -142,6 +154,7 @@ contracts/
 ├── cad-ir-v0.1.yaml
 ├── e2e-pipeline-v0.1.yaml
 ├── e2e-mutation-v0.1.yaml
+├── e2e-adversarial-v0.1.yaml
 ├── evidence-gate-register-v0.2.yaml
 ├── runtime-state-contract-v0.1.yaml
 ├── runtime-agent-surface-v0.1.yaml

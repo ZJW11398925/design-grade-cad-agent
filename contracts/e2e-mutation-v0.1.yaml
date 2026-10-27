@@ -61,12 +61,22 @@ rebuild:
   failure_marks_job_failed: true
 
 manifest_comparison:
+  artifact: delivery-comparison.json
+  schema_id: dgcad.e2e.delivery-comparison.v0.1
+  composed_from:
+    - readback-manifest-002.json
+    - CAD-IR provenance
+    - DXF readback result
   required:
     - object_ids
     - canonical_revisions
     - cad_ir_dependency_fingerprint
     - dxf_readback_verdict
     - audit_errors
+    - audit_fixes
+    - manifest_sha256
+    - profile_id
+    - profile_version
   forbidden:
     - "file_hash_only_conclusion"
 

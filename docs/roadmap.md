@@ -52,21 +52,23 @@ Input: human-confirmed Trace/Intent fixture. Output: canonical Building/Road obj
 
 **Exit:** mutation → scoped stale → rebuild → new delivery artifact is reproducible, with no global regeneration. Evidence: `docs/e2e/dependency-mutation-002.md`.
 
-## Milestone 2c — E2E-003 adversarial delivery regression (next)
+## Milestone 2c — E2E-003 adversarial delivery regression (complete)
 
-- [ ] Port non-zero Z, style override, unexpected layer, entity-type substitution and symbol-table case tests into living CI.
-- [ ] Add MultiPolygon 2-part + 1-hole fixture.
-- [ ] Add bulge/constant-width/start-end-width mutation cases.
-- [ ] Keep each known gap linked to a `DEV-CAD` issue.
+- [x] Port non-zero Z, style override, unexpected layer, entity-type substitution and symbol-table case tests into living CI.
+- [x] Add MultiPolygon 2-part + 1-hole coverage (passes: 3 entities, audit 0/0).
+- [x] Add bulge/constant-width/start-end-width/thickness/extrusion mutation cases.
+- [x] Keep each known gap linked to a `DEV-CAD` issue (#3, #7, #17, #18).
+- [x] Add `delivery-comparison.json` and issue categories.
+- [x] Track CAD-IR fingerprint/dependency-key consistency as #16 / DEV-CAD-011.
 
-**Exit:** every adversarial delivery case is either detected or explicitly xfailed with an issue link; no silent acceptance.
+**Exit:** every adversarial delivery case is either detected or explicitly xfailed with an issue link; no silent acceptance. Evidence: `docs/e2e/adversarial-delivery-003.md`.
 
-## Milestone 3 — CAD validator hardening
+## Milestone 3 — CAD validator hardening (next)
 
 Implement `DEV-CAD-001..008` and add third-party round-trip gates.
 
-- [ ] MultiPolygon/part/ring contract.
-- [ ] Safe entity dispatch and `ENTITY_TYPE_MISMATCH`.
+- [ ] MultiPolygon/part/ring contract (living validator already covers 2-part+hole; confirm archived validator).
+- [ ] Safe entity dispatch and `ENTITY_TYPE_MISMATCH` (living validator covers; align structured errors).
 - [ ] Full LWPOLYLINE semantics (bulge, width, elevation, thickness, extrusion).
 - [ ] Symbol-table case-insensitive equivalence with preserved spelling.
 - [ ] Structured validator issue schema on every failure path.
