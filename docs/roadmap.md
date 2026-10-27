@@ -117,10 +117,12 @@ Each package has its own decision question, raw evidence, metrics, failure polic
 
 - [x] Intake a designer sketch with a private site reference; publish the sketch and image-space geometry only.
 - [x] Record designer-confirmed semantics: metre, red buildings, magenta garage entrances, brown main roads, blue branch/access roads, green cluster spaces, existing buildings removed, top crop road-only.
-- [x] Produce an image-space proposed trace (63 buildings, 3 garage entrances, 12 green spaces, 9 road areas, 1 boundary) with explicit ambiguities.
+- [x] Produce an image-space proposed trace (58 buildings after two designer-confirmed merges; 63 original components preserved; 3 garage entrances, 12 green spaces, 9 road areas, 1 boundary) with explicit ambiguities.
+- [x] Apply designer building merges: M-001 (0046+0047+0060 plus connectors 0062+0063) and M-002 (0030 with 2 units + 0053 with 1 unit). Record 11 floors as `proposed_initial`.
 - [x] Produce rough road centerlines (312 candidates; main road 1 component, blue network 8 components) as `proposed_rough`.
+- [ ] Apply the unit-type library and replace sketch-era building footprints.
 - [ ] Human-confirmed trace and fidelity metrics (Hausdorff/IoU/topology).
-- [ ] Building merge/split review (10 close pairs, default separate).
+- [ ] Review the remaining close pairs 0001/0037, 0019/0058, 0027/0059.
 - [ ] 支路 vs 入户路 separation.
 - [ ] Canonical Building/Road handoff from this sketch.
 

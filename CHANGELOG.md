@@ -2,6 +2,25 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.9.1 — 2026-10-27
+
+### Changed
+
+- Applied the designer's building merges in CASE-SKETCH-001:
+  - `SK-BLD-MRG-0001`: 0046 + 0047 + 0060 (3 units) with connectors 0062 + 0063.
+  - `SK-BLD-MRG-0002`: 0030 (2 units) + 0053 (1 unit).
+- Building count changes from 63 to **58** (56 standalone + 2 merged); all **63 original red components** are preserved in `building-components.geojson`.
+- Every building records **11 floors** as `proposed_initial`; no floor height, massing, FAR or unit-mix is derived.
+- Every building footprint is marked `sketch_placeholder_pending_unit_type_library`; the unit-type library is pending.
+- Public trace, case summary, README, contract and tests updated. Sketch suite: **10 tests**; total **164 passed**.
+- Remaining close pairs `0001/0037`, `0019/0058` and `0027/0059` stay separate pending review.
+
+### Scope
+
+- Unit counts are confirmed only for the two merged buildings; other buildings remain unknown.
+- No human-confirmed trace, fidelity metrics or canonical handoff yet.
+- Version `0.9.1`.
+
 ## 0.9.0 — 2026-10-27
 
 ### Added

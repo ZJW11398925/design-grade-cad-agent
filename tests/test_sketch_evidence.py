@@ -23,6 +23,7 @@ def test_contract_defines_sketch_semantics_and_review_rules():
     roles = set(contract["trace_object"]["semantic_roles"])
     assert {
         "building_candidate",
+        "building_component",
         "garage_entrance_candidate",
         "cluster_green_space_candidate",
         "road_centerline_candidate",
@@ -48,6 +49,29 @@ def test_contract_defines_sketch_semantics_and_review_rules():
         "must not leak coordinates" in rule
         for rule in contract["publication"]["rules"]
     )
+    design = contract["building_design_state"]
+    assert design["design_states"] == [
+        "sketch_placeholder_pending_unit_type_library",
+        "unit_type_selected",
+        "final",
+    ]
+    assert design["unit_count_states"] == [
+        "unknown",
+        "confirmed",
+        "not_applicable",
+    ]
+    assert design["floor_count_states"] == [
+        "unknown",
+        "proposed_initial",
+        "confirmed",
+    ]
+    assert any(
+        "does not imply height" in rule for rule in design["merge"]["rules"]
+    )
+    assert any(
+        "preserves all source component IDs" in rule
+        for rule in design["merge"]["rules"]
+    )
 
 
 def test_public_case_declares_sketch_only_privacy():
@@ -63,8 +87,13 @@ def test_public_case_declares_sketch_only_privacy():
     assert summary["calibration"]["reference_published"] is False
     assert summary["calibration"]["review_state"] == "reviewed"
     assert summary["calibration"]["accuracy_state"] == "conceptual_approximate"
-    assert summary["merge_review"]["state"] == "default_separate"
+    assert summary["merge_review"]["state"] == "partially_resolved"
     assert len(summary["merge_review"]["pairs"]) == 10
+    assert sum(
+        1
+        for pair in summary["merge_review"]["pairs"]
+        if pair["resolution"] == "merged"
+    ) == 7
 
 
 def test_public_trace_is_image_space_and_proposed():
@@ -118,6 +147,111 @@ def test_semantic_roles_follow_designer_confirmations():
             assert properties["authoritative_reference"] == (
                 "private site reference (not published)"
             )
+
+
+def test_merged_buildings_follow_designer_unit_decisions():
+    trace = load_json("trace-raw.geojson")
+    buildings = {
+        feature["properties"]["trace_id"]: feature
+        for feature in trace["features"]
+        if feature["properties"]["semantic_role"] == "building_candidate"
+    }
+    first = buildings["SK-BLD-MRG-0001"]
+    assert first["properties"]["unit_count"] == 3
+    assert first["properties"]["unit_count_state"] == "confirmed"
+    assert set(first["properties"]["unit_components"]) == {
+        "SK-BLD-0046",
+        "SK-BLD-0047",
+        "SK-BLD-0060",
+    }
+    assert set(first["properties"]["connector_components"]) == {
+        "SK-BLD-0062",
+        "SK-BLD-0063",
+    }
+    assert first["properties"]["merge_state"] == "confirmed"
+    assert first["geometry"]["type"] == "MultiPolygon"
+    assert first["properties"]["geometry_part_count"] == 5
+
+    second = buildings["SK-BLD-MRG-0002"]
+    assert second["properties"]["unit_count"] == 3
+    breakdown = {
+        item["trace_id"]: item["units"]
+        for item in second["properties"]["unit_breakdown"]
+    }
+    assert breakdown == {"SK-BLD-0030": 2, "SK-BLD-0053": 1}
+    assert second["properties"]["merge_state"] == "confirmed"
+    assert second["geometry"]["type"] == "MultiPolygon"
+
+    for merged_component in (
+        "SK-BLD-0030",
+        "SK-BLD-0046",
+        "SK-BLD-0047",
+        "SK-BLD-0053",
+        "SK-BLD-0060",
+        "SK-BLD-0062",
+        "SK-BLD-0063",
+    ):
+        assert merged_component not in buildings
+
+    components = load_json("building-components.geojson")["features"]
+    assert len(components) == 63
+    merged = [
+        feature
+        for feature in components
+        if feature["properties"]["merged_into"] is not None
+    ]
+    assert len(merged) == 7
+    by_id = {
+        feature["properties"]["trace_id"]: feature["properties"]
+        for feature in components
+    }
+    assert by_id["SK-BLD-0030"]["unit_count"] == 2
+    assert by_id["SK-BLD-0053"]["unit_count"] == 1
+    assert by_id["SK-BLD-0062"]["component_role"] == "connector"
+    assert by_id["SK-BLD-0062"]["unit_count_state"] == "not_applicable"
+
+    pairs = load_json("merge-review-pairs.json")
+    assert pairs["state"] == "partially_resolved"
+    assert sum(
+        1 for pair in pairs["pairs"] if pair["resolution"] == "merged"
+    ) == 7
+    assert sum(
+        1 for pair in pairs["pairs"] if pair["resolution"] == "pending"
+    ) == 3
+
+
+def test_floor_count_is_provisional_and_unit_type_library_is_pending():
+    summary = load_json("case-summary.json")
+    trace = load_json("trace-raw.geojson")
+    buildings = [
+        feature
+        for feature in trace["features"]
+        if feature["properties"]["semantic_role"] == "building_candidate"
+    ]
+    assert len(buildings) == summary["counts"]["building_candidates"] == 58
+    for feature in buildings:
+        properties = feature["properties"]
+        assert properties["floor_count"] == 11
+        assert properties["floor_state"] == "proposed_initial"
+        assert properties["floor_height_m"] is None
+        assert properties["height_state"] == "unknown"
+        assert properties["massing_state"] == (
+            "not_generated_pending_unit_type_library"
+        )
+        assert properties["design_state"] == (
+            "sketch_placeholder_pending_unit_type_library"
+        )
+        assert properties["replacement_pending"] == "unit_type_library"
+    design = summary["building_design_state"]
+    assert design["floor_count"] == 11
+    assert design["floor_state"] == "proposed_initial"
+    assert design["floor_height_m"] is None
+    assert design["massing_state"] == (
+        "not_generated_pending_unit_type_library"
+    )
+    assert any(
+        "no floor height" in item for item in summary["non_claims"]
+    )
 
 
 def test_road_centerlines_are_rough_and_do_not_infer_width():

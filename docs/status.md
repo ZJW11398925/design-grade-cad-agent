@@ -1,7 +1,7 @@
 # Project Status
 
 Updated: 2026-10-27
-Version: `0.9.0` (Milestone 4a sketch intake; Milestone 3c partial third-party evidence)
+Version: `0.9.1` (Milestone 4a sketch intake with building merges; Milestone 3c partial third-party evidence)
 Research basis: R0 v0.19 + R1 deployment-entry v0.2
 
 ## 1. One-line status
@@ -12,10 +12,10 @@ The project has a working **governance/runtime contract layer**, a **synthetic B
 
 ```text
 python -m pytest -q
-162 passed
+164 passed
 ```
 
-162 tests collected, all passing. No long-lived strict xfails.
+164 tests collected, all passing. No long-lived strict xfails.
 
 | Suite | Tests | Status |
 |---|---|---|
@@ -31,7 +31,7 @@ python -m pytest -q
 | E2E-003 | 20 | passing |
 | E2E-003b | 11 | passing |
 | Third-party evidence | 2 | passing |
-| Sketch evidence | 8 | passing |
+| Sketch evidence | 10 | passing |
 
 ## 3. Capability status
 
@@ -61,7 +61,7 @@ python -m pytest -q
 | Ring identity | **implemented** | content-derived `ring_key` stable across part insertion |
 | Raw/canonical readback | **implemented** | manifest carries `canonical_target` + `raw_dxf_semantics`; tolerance 1e-9 |
 | Third-party CAD round-trip | **partial evidence only** | AutoCAD 2024 Core Console: semantic pass with serialization differences; LibreCAD/FreeCAD/GUI not run; issue #6 |
-| Real sketch → trace | **partial (designer sketch)** | CASE-SKETCH-001: designer-confirmed semantics, image-space geometry proposed, no human-confirmed trace or fidelity metrics |
+| Real sketch → trace | **partial (designer sketch)** | CASE-SKETCH-001: 58 buildings (2 designer-confirmed merges), 11 floors provisional, image-space geometry proposed; no fidelity metrics or unit-type library yet |
 | Road centerline extraction | **proposed_rough** | skeleton-derived from colour masks; no professional alignment, width or junction design |
 | Real design-office profile | **not validated** | synthetic and DB11 subset only |
 | IFC round-trip | **blocked** | IfcOpenShell unavailable |
@@ -283,15 +283,19 @@ What is confirmed:
 
 What is proposed:
 
-- 63 red building components, 3 garage entrances, 12 cluster green spaces, 9 road areas and 1 site boundary in image space.
+- 58 buildings (56 standalone + 2 designer-confirmed merges), 63 original red components preserved for provenance, 3 garage entrances, 12 cluster green spaces, 9 road areas and 1 site boundary in image space.
+- M-001: 0046 + 0047 + 0060 (3 units) with connectors 0062 + 0063. M-002: 0030 (2 units) + 0053 (1 unit). Merged geometry is a union of components without artificial bridging.
+- All buildings record 11 floors as `proposed_initial`; no floor height, massing, FAR or unit-mix is derived.
+- Building footprints are sketch placeholders pending the unit-type library; unit counts are confirmed only for the two merged buildings.
 - 312 rough centerline candidates: main road 1 component / 40 nodes / 41 edges / 4 endpoints / 6 junctions / 2 loops; blue network 8 components / 266 nodes / 271 edges / 125 endpoints / 93 junctions / 13 loops.
-- Semantic labels are confirmed; all geometry and centerline topology remain proposed.
+- Semantic labels, merge decisions and 11-floor assumption are confirmed; all geometry and centerline topology remain proposed.
 - Calibration to the private reference is a reviewed approximate homography (mean 24.51 px, max 43.42 px); not survey-grade.
 
 What is not done:
 
 - No human-confirmed trace or fidelity metrics (Hausdorff/IoU/topology).
-- No building merge/split decision; 10 close pairs are listed for review.
+- No unit-type library replacement; sketch-era building footprints remain placeholders.
+- Remaining close pairs 0001/0037, 0019/0058 and 0027/0059 are pending; 7 of 10 pairs resolved into the two merged buildings.
 - No 支路/入户路 separation.
 - No canonical Building/Road handoff from this sketch yet.
 - Road centerlines are not professional alignment or junction design.
@@ -306,5 +310,6 @@ Evidence: `docs/e2e/sketch-001/README.md`, `docs/e2e/sketch-001/case-summary.jso
 - No production database decision.
 - No Chinese road/building daylight compliance conclusion.
 - No claim that MCP wire protocol, FreeCAD or IFC have been executed; AutoCAD 2024 Core Console was executed as a file round-trip, not a runtime bridge or GUI/print QA.
-- CASE-SKETCH-001 semantic labels are designer-confirmed; geometry and road centerlines are proposed, and no fidelity metrics exist.
+- CASE-SKETCH-001 semantic labels, two building merges and the 11-floor assumption are designer-confirmed; geometry and road centerlines are proposed, and no fidelity metrics exist.
+- 11 floors is provisional; no floor height, massing, FAR or unit-mix is derived. Building footprints are placeholders pending the unit-type library, and unit counts are confirmed only for the two merged buildings.
 - CASE-SKETCH-001 publishes the sketch and image-space geometry only; the DWG/DXF, redline/project coordinates and metric scale are private.

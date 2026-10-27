@@ -56,6 +56,7 @@ trace_object:
     - provenance
   semantic_roles:
     - building_candidate
+    - building_component
     - garage_entrance_candidate
     - cluster_green_space_candidate
     - main_road_candidate
@@ -79,6 +80,43 @@ trace_object:
     - "algorithmic extraction defaults to proposed"
     - "no orthogonalization, smoothing or occlusion completion without explicit review"
     - "each trace object keeps its source and producer provenance"
+
+building_design_state:
+  required:
+    - design_state
+    - unit_count_state
+    - floor_count
+    - floor_state
+  design_states:
+    - sketch_placeholder_pending_unit_type_library
+    - unit_type_selected
+    - final
+  unit_count_states:
+    - unknown
+    - confirmed
+    - not_applicable
+  floor_count_states:
+    - unknown
+    - proposed_initial
+    - confirmed
+  merge:
+    required:
+      - merge_state
+      - component_trace_ids
+      - unit_components
+      - connector_components
+      - unit_count
+      - unit_count_state
+    merge_states:
+      - none
+      - confirmed
+      - rejected
+    rules:
+      - "a merged building preserves all source component IDs"
+      - "merge decisions are human-confirmed separately from union geometry"
+      - "unit count and floor count are design intent, not measured geometry"
+      - "a sketch placeholder must not be promoted to final building geometry before the unit-type library is applied"
+      - "floor count does not imply height without a floor-to-floor height and section"
 
 road_centerlines:
   required:
