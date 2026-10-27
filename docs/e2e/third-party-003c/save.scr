@@ -1,0 +1,4 @@
+(princ "DGCAD_SAVE\n")
+(command "_.SAVEAS" "DXF" "16" "D:/agent-cad/docs/e2e/third-party-003c/roundtrip.dxf")
+(princ "DGCAD_SAVED\n")
+(command "_.QUIT" "_Y")

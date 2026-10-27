@@ -2,6 +2,32 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.8.0 — 2026-10-27
+
+### Added
+
+- Real third-party CAD evidence: **AutoCAD 2024 Core Console** opened, saved and read back the DGCAD DXF in an isolated profile.
+- `contracts/third-party-roundtrip-v0.1.yaml`.
+- `scripts/third_party/autocad_core_roundtrip.py` — reproducible host harness.
+- `docs/e2e/third-party-003c/` evidence: input/roundtrip DXF, environment, comparison, save script and console output.
+- `docs/e2e/third-party-003c.md` executed report.
+- `tests/e2e/test_e2e_003c_third_party.py`: 2 evidence-integrity tests.
+
+### Verified
+
+- Verdict: `semantic_pass_with_serialization_differences`.
+- Preserved: 15 entities, 15 XDATA records, layers, colors, lineweights, blocks/dimstyles/text styles, units, geometry, audit 0/0.
+- Differences: DXF version `AC1024 → AC1032` (R2010 → R2018) and layer linetype case `CONTINUOUS → Continuous`.
+- Validator passes with an R2018 semantic-equivalence profile.
+
+### Scope
+
+- Matrix is **partial**: AutoCAD 2024 Core Console executed; LibreCAD, FreeCAD and AutoCAD GUI visual QA are not executed.
+- Synthetic fixture only; modelspace only; no real design-office profile.
+- `DEV-CAD-006` / #6 remains open for the remaining matrix.
+- Test suite: **154 passed**.
+- Version `0.8.0`.
+
 ## 0.7.0 — 2026-10-27
 
 ### Added

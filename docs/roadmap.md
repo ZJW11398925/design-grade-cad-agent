@@ -63,7 +63,7 @@ Input: human-confirmed Trace/Intent fixture. Output: canonical Building/Road obj
 
 **Exit (at E2E-003 close):** every adversarial delivery case was either detected or explicitly xfailed with an issue link. All xfails were converted to positive checks in Milestone 3a. Evidence: `docs/e2e/adversarial-delivery-003.md`.
 
-## Milestone 3 — CAD validator hardening (3c next)
+## Milestone 3 — CAD validator hardening (3c partial; Milestone 4 next)
 
 Milestones 3a and 3b are complete. 3c adds the third-party CAD round-trip matrix. Scope explicitly includes `DEV-CAD-001..011`; #2 is closed, #6 remains.
 
@@ -87,11 +87,17 @@ Milestones 3a and 3b are complete. 3c adds the third-party CAD round-trip matrix
 
 **3b exit:** 152/152 tests passing; unrelated commits do not stale CAD-IR, relevant semantic changes do. Evidence: `docs/e2e/semantic-dependency-003b.md`.
 
-### 3c — Third-party CAD evidence
+### 3c — Third-party CAD evidence (partial)
 
-- [ ] `DEV-CAD-006` / #6: repeatable AutoCAD/LibreCAD/FreeCAD open/save/readback matrix with original and round-trip files, semantic diff report and environment metadata.
+- [x] AutoCAD 2024 Core Console open/save/readback: 15 entities/XDATA preserved; `semantic_pass_with_serialization_differences`; evidence in `docs/e2e/third-party-003c/`.
+- [ ] LibreCAD open/save/readback.
+- [ ] FreeCAD Draft open/save/readback.
+- [ ] AutoCAD GUI visual/print QA.
+- [ ] Real design-office profile (separate evidence package).
 
-**Exit:** every strict xfail either becomes a positive test or is explicitly re-scoped with evidence; validator errors are structured and categorised; third-party round-trip produces `semantic_pass` or `semantic_pass_with_serialization_differences` per policy; CI remains green.
+**3c status:** partial; `DEV-CAD-006` / #6 remains open. A host without a third-party CAD app must record `blocked`, never a pass.
+
+**Exit:** every strict xfail either becomes a positive test or is explicitly re-scoped with evidence; validator errors are structured and categorised; the third-party matrix covers at least AutoCAD, LibreCAD and FreeCAD with semantic diff evidence; CI remains green.
 
 After Milestone 3, prioritize the real sketch/trace and road evidence packages before broadening to IFC and independent environment engines.
 

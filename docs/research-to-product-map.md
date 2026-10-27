@@ -76,6 +76,7 @@ This map is the single index of which research artifacts have been promoted into
 | E2E-002 mutation/rebuild | **promoted** | `contracts/e2e-mutation-v0.1.yaml` + `src/dgcad_e2e/living_project.py` + `tests/e2e/` | Scoped stale, deterministic rebuild worker, manifest comparison; road surface deferred |
 | E2E-003 adversarial delivery | **promoted** | `contracts/e2e-adversarial-v0.1.yaml` + `tests/e2e/test_e2e_003_adversarial.py` | Adversarial scenarios, categories and issue mapping; same-library only |
 | E2E-003b semantic/dependency | **promoted** | `src/dgcad_cad/` + `tests/e2e/test_e2e_003b_semantics.py` | Fingerprint consistency, symbol tables, ring keys, raw/canonical manifest; same-library only |
+| E2E-003c third-party CAD | **partially promoted** | `contracts/third-party-roundtrip-v0.1.yaml` + `scripts/third_party/autocad_core_roundtrip.py` | AutoCAD 2024 Core Console evidence captured; LibreCAD/FreeCAD/GUI matrix still open (#6) |
 | DEV-CAD-001..008 | **partially promoted** | Issues #1/#4/#5/#6/#8 + closed #2/#3/#7 | Milestone 3a fixed 002/003/007; 009/010 added and fixed; 001/004/005/006/008/011 remain for 3b/3c |
 | R0 acquisition batches (BATCH-001..005) | `research_only` | — | Unclosed evidence; gate claims remain blocked |
 
@@ -146,7 +147,14 @@ Implemented with 11 tests:
 - readback manifest carries canonical targets and raw DXF semantics with tolerance 1e-9;
 - serialization differences separated from profile violations.
 
-Still open: third-party CAD round-trip (#6), arcs/splines outside the current entity set, real sketch/road/IFC/standards evidence.
+Still open: LibreCAD/FreeCAD/GUI third-party matrix (#6), arcs/splines outside the current entity set, real sketch/road/IFC/standards evidence.
+
+## E2E-003c third-party evidence (0.8.0)
+
+- AutoCAD 2024 Core Console opened, saved and read back the synthetic DXF in an isolated profile.
+- 15 entities and 15 XDATA records preserved; layers, styles, units, geometry and audit 0/0 preserved.
+- Verdict `semantic_pass_with_serialization_differences`: R2010→R2018 and `CONTINUOUS`→`Continuous` only.
+- LibreCAD, FreeCAD and GUI visual/print QA were not executed; #6 remains open.
 
 ## E2E-002 implementation (0.4.0)
 
@@ -169,6 +177,7 @@ contracts/
 ├── e2e-pipeline-v0.1.yaml
 ├── e2e-mutation-v0.1.yaml
 ├── e2e-adversarial-v0.1.yaml
+├── third-party-roundtrip-v0.1.yaml
 ├── evidence-gate-register-v0.2.yaml
 ├── runtime-state-contract-v0.1.yaml
 ├── runtime-agent-surface-v0.1.yaml
