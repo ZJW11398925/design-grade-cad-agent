@@ -40,11 +40,11 @@ This map is the single index of which research artifacts have been promoted into
 
 | Research artifact | Status | Living target | Notes |
 |---|---|---|---|
-| Trace Object Schema v0.1 | **partially promoted** | `contracts/domain-contract-v0.1.yaml` | Only the minimal confirmed-trace fields needed by domain slice 001; multi-revision trace and ambiguity regions deferred |
-| Road Profile Schema v0.1 | **partially promoted** | `contracts/domain-contract-v0.1.yaml` | Multi-axis classification state and the "unknown class blocks derived width" rule promoted; numeric standard profiles deferred |
-| Road Classification and Design Profile research line | **partially promoted** | `contracts/domain-contract-v0.1.yaml` + `src/dgcad_domain/road.py` | Promotes separation of network role / function / access / special use / physical cross-section; no Chinese numeric defaults |
-| Building Object Schema v0.1 | **partially promoted** | `contracts/domain-contract-v0.1.yaml` | Promotes trace/professional footprint split, height state/source, revision axes, locks; typology grammar and real thresholds deferred |
-| Regularization Gate v0.1 | **partially promoted** | `contracts/domain-contract-v0.1.yaml` | Promotes states and "candidate requires review"; real tolerances remain uncalibrated |
+| Trace Object Schema v0.1 | **promoted (minimal)** | `contracts/domain-contract-v0.1.yaml` + `src/dgcad_domain/trace.py` | Confirmed-trace fields and immutability implemented; multi-revision trace and ambiguity regions deferred |
+| Road Profile Schema v0.1 | **promoted (minimal)** | `contracts/domain-contract-v0.1.yaml` + `src/dgcad_domain/road.py` | Multi-axis classification state and "unknown class blocks derived width" implemented; numeric standard profiles deferred |
+| Road Classification and Design Profile research line | **promoted (minimal)** | `contracts/domain-contract-v0.1.yaml` + `src/dgcad_domain/road.py` | Separation of network role / function / access / special use / physical cross-section implemented; no Chinese numeric defaults |
+| Building Object Schema v0.1 | **promoted (minimal)** | `contracts/domain-contract-v0.1.yaml` + `src/dgcad_domain/building.py` | Trace/professional footprint split, height state/source and revision axes implemented; typology grammar deferred |
+| Regularization Gate v0.1 | **promoted (minimal)** | `contracts/domain-contract-v0.1.yaml` + `src/dgcad_domain/building.py` | States and "candidate requires review" implemented; real tolerances remain uncalibrated |
 | Site Topology Contract v0.1 | `deferred` | — | Needed for multi-building shared-edge/overlap slices; not required by domain slice 001 |
 | Environment Analysis Dependency Contract v0.1 | `deferred` | — | Requires an analysis slice and independent engine evidence |
 | Environment Result Schema v0.1 | `deferred` | — | Same |
@@ -93,6 +93,20 @@ This map is the single index of which research artifacts have been promoted into
 4. Deferred artifacts keep their archive path and are not duplicated into the root tree.
 5. A promoted claim is still scope-limited. Promotion is not a capability promotion.
 6. If new evidence invalidates a promoted decision, add a new version and mark the old one `superseded`; never edit archived evidence.
+
+## Domain slice 001 implementation (0.2.0)
+
+Promoted and implemented with 22 tests:
+
+- confirmed trace fixture and immutability;
+- Building intent, footprint preservation/regularization candidate, height state/source;
+- Road graph, corridor, explicit cross-section, profile resolution gate;
+- T-junction atomic change set;
+- massing and road-surface derived artifacts with dependency keys;
+- structured domain validators;
+- StatefulRuntime integration (propose → preview → human approval → commit → stale → rebuild job).
+
+Still deferred: real sketch input, real alignment/junction geometry, standard profiles, DXF/IFC, analysis and UI.
 
 ## Current living contracts
 

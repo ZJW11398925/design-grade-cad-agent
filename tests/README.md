@@ -10,6 +10,7 @@ python -m pytest -q
 | `test_runtime_contracts.py` | 22 | Proposals, approvals, jobs, artifacts, idempotency, restart recovery, stale writers, CLI/MCP semantic parity |
 | `test_deployment_contracts.py` | 8 | SQLite WAL/CAS, artifact dedup/tamper/reopen, service parity, MCP-unverified marking |
 | `test_lifecycle_contracts.py` | 14 | Discovery, pairing, sessions, roles, loopback HTTP security, lease, CAD bridge registration/expiry |
+| `test_domain_contracts.py` | 26 | Confirmed trace, building footprint/height, road class/profile, T-junction atomic change set, stale artifacts, validators, runtime integration |
 
 ## Rules
 
