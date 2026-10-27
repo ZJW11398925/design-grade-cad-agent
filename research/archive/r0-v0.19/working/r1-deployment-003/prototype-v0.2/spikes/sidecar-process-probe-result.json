@@ -1,0 +1,24 @@
+{
+  "child_ready": {
+    "base_url": "http://127.0.0.1:38865",
+    "pairing_id": "PAIR-3cbf7583717a",
+    "status": "ready"
+  },
+  "discovery_removed_after_stop": true,
+  "exit_code": 0,
+  "paired_role": "agent",
+  "pairing_file_mode_octal": "0o600",
+  "pairing_handoff_removed_after_read": true,
+  "registry_contains_token_or_secret": false,
+  "registry_keys": [
+    "generation",
+    "host",
+    "instance_id",
+    "pid",
+    "port",
+    "protocol",
+    "schema_id",
+    "started_at"
+  ],
+  "whoami_role": "agent"
+}

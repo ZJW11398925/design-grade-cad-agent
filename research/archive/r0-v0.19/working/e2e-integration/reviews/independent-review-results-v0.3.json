@@ -1,0 +1,187 @@
+{
+  "review_id": "REVIEW-E2E-FIXTURE-001-R2-ISOLATED-PASS-01",
+  "review_mode": "isolated second-pass by same assistant session; not external review",
+  "generated_at_utc": "2026-10-26T23:52:39.955230+00:00",
+  "manifest_hash_verification": "PASS (33/33 artifacts verified separately before probes)",
+  "dxf_probes": [
+    {
+      "probe": "paper-space-rogue-entity",
+      "classification": "hard_reject",
+      "validator_passed": true,
+      "finding": "FALSE_ACCEPT",
+      "entity_count_modelspace": 11,
+      "expected_entity_count": 11,
+      "audit_errors": 0,
+      "audit_fixes": 0,
+      "all_entities_checked": true,
+      "layers_pass": true
+    },
+    {
+      "probe": "lwpolyline-elevation-z",
+      "classification": "hard_reject",
+      "validator_passed": true,
+      "finding": "FALSE_ACCEPT",
+      "entity_count_modelspace": 11,
+      "expected_entity_count": 11,
+      "audit_errors": 0,
+      "audit_fixes": 0,
+      "all_entities_checked": true,
+      "layers_pass": true
+    },
+    {
+      "probe": "entity-color-override",
+      "classification": "policy_gap",
+      "validator_passed": true,
+      "finding": "POLICY_GAP_ACCEPTED",
+      "entity_count_modelspace": 11,
+      "expected_entity_count": 11,
+      "audit_errors": 0,
+      "audit_fixes": 0,
+      "all_entities_checked": true,
+      "layers_pass": true
+    },
+    {
+      "probe": "entity-lineweight-override",
+      "classification": "policy_gap",
+      "validator_passed": true,
+      "finding": "POLICY_GAP_ACCEPTED",
+      "entity_count_modelspace": 11,
+      "expected_entity_count": 11,
+      "audit_errors": 0,
+      "audit_fixes": 0,
+      "all_entities_checked": true,
+      "layers_pass": true
+    },
+    {
+      "probe": "entity-linetype-explicit-override",
+      "classification": "policy_gap",
+      "validator_passed": true,
+      "finding": "POLICY_GAP_ACCEPTED",
+      "entity_count_modelspace": 11,
+      "expected_entity_count": 11,
+      "audit_errors": 0,
+      "audit_fixes": 0,
+      "all_entities_checked": true,
+      "layers_pass": true
+    },
+    {
+      "probe": "entity-truecolor-override",
+      "classification": "policy_gap",
+      "validator_passed": true,
+      "finding": "POLICY_GAP_ACCEPTED",
+      "entity_count_modelspace": 11,
+      "expected_entity_count": 11,
+      "audit_errors": 0,
+      "audit_fixes": 0,
+      "all_entities_checked": true,
+      "layers_pass": true
+    },
+    {
+      "probe": "point-marker-z",
+      "classification": "hard_reject",
+      "validator_passed": true,
+      "finding": "FALSE_ACCEPT",
+      "entity_count_modelspace": 11,
+      "expected_entity_count": 11,
+      "audit_errors": 0,
+      "audit_fixes": 0,
+      "all_entities_checked": true,
+      "layers_pass": true
+    },
+    {
+      "probe": "text-rotation",
+      "classification": "policy_gap",
+      "validator_passed": true,
+      "finding": "POLICY_GAP_ACCEPTED",
+      "entity_count_modelspace": 11,
+      "expected_entity_count": 11,
+      "audit_errors": 0,
+      "audit_fixes": 0,
+      "all_entities_checked": true,
+      "layers_pass": true
+    },
+    {
+      "probe": "text-insert-z",
+      "classification": "hard_reject",
+      "validator_passed": true,
+      "finding": "FALSE_ACCEPT",
+      "entity_count_modelspace": 11,
+      "expected_entity_count": 11,
+      "audit_errors": 0,
+      "audit_fixes": 0,
+      "all_entities_checked": true,
+      "layers_pass": true
+    },
+    {
+      "probe": "extra-unused-layer",
+      "classification": "policy_gap",
+      "validator_passed": true,
+      "finding": "POLICY_GAP_ACCEPTED",
+      "entity_count_modelspace": 11,
+      "expected_entity_count": 11,
+      "audit_errors": 0,
+      "audit_fixes": 0,
+      "all_entities_checked": true,
+      "layers_pass": true
+    }
+  ],
+  "input_type_probes": {
+    "boolean_confirmed_height": {
+      "accepted": true,
+      "finding": "FALSE_ACCEPT"
+    },
+    "boolean_sensor_coordinate": {
+      "input": [
+        true,
+        0.0
+      ],
+      "observed_status": "confirmed_sunlit_given_declared_context",
+      "accepted": true
+    }
+  },
+  "solar_zenith_probe": {
+    "elevation_deg": 90.0,
+    "observed": {
+      "sensor_xy": [
+        0.0,
+        0.0
+      ],
+      "sunlit": null,
+      "status": "invalid_solar_vector",
+      "blocker_ids": []
+    },
+    "expected_status_for_clear_context": "confirmed_sunlit_given_declared_context",
+    "finding": "FALSE_UNKNOWN"
+  },
+  "duration_interval_probe": {
+    "samples": [
+      {
+        "sample_count": 1,
+        "reported_hours": 1.0,
+        "upper_bound_hours": 1.0
+      },
+      {
+        "sample_count": 2,
+        "reported_hours": 2.0,
+        "upper_bound_hours": 2.0
+      },
+      {
+        "sample_count": 3,
+        "reported_hours": 3.0,
+        "upper_bound_hours": 3.0
+      }
+    ],
+    "observed_rule": "reported duration equals sample_count * timestep_hours",
+    "open_question": "Must the API contract explicitly declare every timestamp as the start of a following interval, including the final sample?"
+  },
+  "summary": {
+    "dxf_hard_false_accepts": 4,
+    "dxf_policy_gaps_accepted": 6,
+    "dxf_probes": 10,
+    "zenith_false_unknown": true,
+    "boolean_height_false_accept": true,
+    "boolean_sensor_coordinate_accepted": true,
+    "external_review_completed": false,
+    "status": "conditional"
+  }
+}

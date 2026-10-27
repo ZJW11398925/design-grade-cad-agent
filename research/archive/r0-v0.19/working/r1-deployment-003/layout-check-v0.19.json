@@ -1,0 +1,14 @@
+{
+  "check": "ctr-topic-layout-v0.1",
+  "layout_valid": true,
+  "scope": "new-topic-layout-and-explicit-requirements",
+  "actual_action_coverage": "not-assessed",
+  "required_artifacts_checked": 0,
+  "expected_runs_checked": 0,
+  "issues": [],
+  "warnings": [],
+  "formal_state_semantics": "not-assessed",
+  "handoff_usability": "not-assessed",
+  "research_complete": false,
+  "release_authorized": false
+}

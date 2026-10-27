@@ -1,0 +1,72 @@
+schema: building_object_r0_v0.1
+status: provisional
+building_object:
+  id: null
+  source_trace_ref: null
+  semantic:
+    role: building_candidate
+    typology: null
+    typology_state: unknown # unknown | proposed | confirmed | disputed
+    typology_evidence: []
+  footprint:
+    trace_revision_id: null
+    professional_revision_id: null
+    decision: needs_review # preserve_trace | regularized_candidate | needs_review
+    regularization:
+      method: null
+      parameters: {}
+      source_tool: null
+    diff_metrics:
+      area_change_ratio: null
+      hausdorff_distance: null
+      percentile_boundary_distance: null
+      centroid_shift: null
+      orientation_change_deg: null
+      component_count_change: null
+      hole_count_change: null
+    review_state: proposed
+  massing:
+    base_elevation:
+      value: null
+      unit: m
+      state: unknown
+      source: null
+    height:
+      value: null
+      unit: m
+      state: unknown # unknown | estimated | proposed | confirmed
+      source: null
+    floors:
+      value: null
+      state: unknown
+      source: null
+    floor_height:
+      value: null
+      unit: m
+      state: unknown
+      source: null
+    depth_or_width_parameters: []
+  placement:
+    coordinate_frame_ref: null
+    transform: null
+  representations:
+    footprint_2d:
+      ref: null
+      state: missing # missing | current | stale
+    body_3d:
+      ref: null
+      state: missing
+    axis:
+      ref: null
+      state: missing
+  dependencies:
+    footprint_drives_body: true
+    changed_inputs: []
+    rebuild_required: []
+  constraints:
+    locked: []
+    conflicts: []
+  provenance:
+    created_from: []
+    change_proposals: []
+    reviewer_decisions: []

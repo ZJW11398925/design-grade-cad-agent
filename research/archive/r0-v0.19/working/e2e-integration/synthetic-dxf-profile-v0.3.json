@@ -1,0 +1,23 @@
+{
+  "profile_id": "SYNTHETIC-SITE-DXF-PROFILE-001",
+  "version": "0.3.0",
+  "purpose": "Executable synthetic test profile only; not a design-office or national standard.",
+  "dxf_version": "R2010",
+  "insunits": 6,
+  "layer_set_policy": "exact_allowlist",
+  "allowed_system_layers": ["0", "Defpoints"],
+  "layers": {
+    "A-SITE-BOUNDARY": {"color": 1, "linetype": "CONTINUOUS", "lineweight": 50},
+    "C-ROAD-CENTER": {"color": 3, "linetype": "CONTINUOUS", "lineweight": 18},
+    "L-GREEN": {"color": 94, "linetype": "CONTINUOUS", "lineweight": 13},
+    "A-BUILDING-OUTLINE": {"color": 7, "linetype": "CONTINUOUS", "lineweight": 35},
+    "A-ENV-SENSOR": {"color": 2, "linetype": "CONTINUOUS", "lineweight": 13}
+  },
+  "entity_style_policy": "BYLAYER",
+  "entity_overrides": {"color": "forbidden", "linetype": "forbidden", "lineweight": "forbidden", "true_color": "forbidden", "transparency": "forbidden"},
+  "layout_policy": "modelspace_only",
+  "planar_output": {"z_m": 0.0, "extrusion": [0.0, 0.0, 1.0], "tolerance": 1e-9},
+  "text_policy": {"style": "Standard", "rotation_deg": 0.0, "width_factor": 1.0, "horizontal_alignment": 0, "vertical_alignment": 0, "height": 0.35},
+  "allowed_entity_types": ["LWPOLYLINE", "CIRCLE", "TEXT"],
+  "known_limits": ["Synthetic profile only", "No third-party CAD application round-trip", "No professional design or regulatory compliance claim"]
+}

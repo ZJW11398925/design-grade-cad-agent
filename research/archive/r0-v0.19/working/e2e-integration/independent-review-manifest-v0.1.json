@@ -1,0 +1,123 @@
+{
+  "review_packet_id": "REVIEW-E2E-FIXTURE-001",
+  "version": "0.1.0",
+  "status": "prepared_for_independent_review",
+  "generated_at_utc": "2026-10-26",
+  "fixture_id": "E2E-FIXTURE-001",
+  "run_ids": [
+    "RUN-E2E-001",
+    "RUN-E2E-002",
+    "RUN-005-01"
+  ],
+  "artifacts": [
+    {
+      "path": "working/e2e-integration/site-fixture-v0.1.json",
+      "sha256": "fb46821afaf64338c382edfb53564b7b6ff8990beec284a3de437b5c779e840c",
+      "bytes": 8350
+    },
+    {
+      "path": "working/e2e-integration/site-fixture-contract-v0.1.md",
+      "sha256": "5505326dc064ec76f5f56c6b9b605a6d7693a4abc2887c5d41c8d32d9a2c01cf",
+      "bytes": 2388
+    },
+    {
+      "path": "working/e2e-integration/site-fixture-cad-ir-v0.1.json",
+      "sha256": "4de1f7178ecf0ee722a984ecc298541fa624ca2d486603df009aacb31153f23e",
+      "bytes": 25941
+    },
+    {
+      "path": "working/e2e-integration/run_fixture_benchmark.py",
+      "sha256": "cec2fb6cce38bfc2909704da64dfed5a270a93da1909d257c3d06007604fcf5a",
+      "bytes": 9745
+    },
+    {
+      "path": "working/e2e-integration/local-e2e-fixture-env-001.json",
+      "sha256": "c1e03a48ab039529d61b1e9e615131fb3564630662e85654a97d097b9920d8cb",
+      "bytes": 3243
+    },
+    {
+      "path": "working/e2e-integration/fixture_to_cad_ir.py",
+      "sha256": "ed775add4282a83cf056a0abf8c63817305f01014f16ec4710dd7b9ebb1bbad3",
+      "bytes": 8317
+    },
+    {
+      "path": "working/e2e-integration/compile_fixture_to_dxf.py",
+      "sha256": "5beb34dad1a20820af9d72750b45e4d0fc872b37506f482d7cebb3d6a9e7a582",
+      "bytes": 8792
+    },
+    {
+      "path": "working/e2e-integration/site-fixture-v0.1.dxf",
+      "sha256": "e4b33b0ab39c7a758e74fefb9ac46b6f07d04b33f12299fb9214849865e27445",
+      "bytes": 19182
+    },
+    {
+      "path": "working/e2e-integration/site-fixture-v0.1-dxf-manifest.json",
+      "sha256": "bc6a5b9237f56fdc0f755839f7af1e6c2e3ef86b900f1ce6d4630d61658ad35e",
+      "bytes": 7120
+    },
+    {
+      "path": "working/e2e-integration/local-e2e-fixture-slice-001.md",
+      "sha256": "31e8de03e8468497d27ee63121a747620ad9f53fd015f19f46bbe652fb2e6128",
+      "bytes": 4349
+    },
+    {
+      "path": "working/e2e-integration/independent-review-checklist-v0.1.md",
+      "sha256": "5f181a8a3816e5b00f70ff24dad053129604f260826a8319ae3abb0e3f20b24e",
+      "bytes": 3266
+    },
+    {
+      "path": "working/environment-analysis/solar_shadow.py",
+      "sha256": "6846d530380fcf2523f6800ca7157397748a84073b6be8688adac99152495013",
+      "bytes": 13601
+    },
+    {
+      "path": "working/environment-analysis/test_solar_shadow.py",
+      "sha256": "c0d04a0ead5f0e77cebfaf6ed145db8d186af9157473f839250d18ffb782964f",
+      "bytes": 6585
+    },
+    {
+      "path": "working/environment-analysis/run_local_benchmark.py",
+      "sha256": "8132c1b64691169f252f0b8b2891e885ab86cb92a34ede9fa45c695ff22d76c0",
+      "bytes": 8698
+    },
+    {
+      "path": "working/environment-analysis/local-benchmark-001-solar-shadow.json",
+      "sha256": "5c9ba2b3118c5b6f2c21bbe77f139bb2b75a43997657af22cfb937bcb235531e",
+      "bytes": 7306
+    },
+    {
+      "path": "working/environment-analysis/local-benchmark-001-solar-shadow.md",
+      "sha256": "7c16d578bab922449c6f4f05e2a6cc61de18f7bbbc29b1e0b21f686918dca6f3",
+      "bytes": 6453
+    },
+    {
+      "path": "working/cad-bim-validator/cad-ir-contract-v0.1.yaml",
+      "sha256": "cf956bcde64d62e78c3dedc151d5fa7878ffa6149c05c09d1a10dec408663d90",
+      "bytes": 2510
+    },
+    {
+      "path": "working/environment-analysis/analysis-dependency-contract-v0.1.yaml",
+      "sha256": "3bbc29bccc5261c73fc13f5023a3f9333040ff2900a9a3de93b521c093972545",
+      "bytes": 2198
+    },
+    {
+      "path": "working/environment-analysis/environment-analysis-result-schema-v0.1.yaml",
+      "sha256": "9f14a0628f2d98beb625487454c4562a0a9e19ce373e4d0dd8e952f705b87f8d",
+      "bytes": 1904
+    },
+    {
+      "path": "working/cross-pipeline-gap-audit-v0.1.md",
+      "sha256": "b8e8957d113e64c74ade57dc0eb2815d985e5c271a6bc0169deca9d4fb792251",
+      "bytes": 8787
+    }
+  ],
+  "known_limits": [
+    "synthetic fixture only",
+    "no IFC generation",
+    "no third-party CAD round-trip",
+    "no real raster-to-Trace run",
+    "no independent Radiance/Honeybee run",
+    "no regulatory compliance determination"
+  ],
+  "review_checklist": "working/e2e-integration/independent-review-checklist-v0.1.md"
+}

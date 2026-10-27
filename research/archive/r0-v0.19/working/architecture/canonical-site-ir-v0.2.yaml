@@ -1,0 +1,186 @@
+schema_id: design-grade-cad-agent.canonical-site-ir.v0.2
+status: provisional_research_contract
+
+principles:
+  canonical_truth_owner: canonical_site_model
+  source_and_trace_are_immutable_evidence: true
+  delivery_artifacts_are_derived: true
+  agent_direct_confirmed_write: false
+
+scene:
+  required: [scene_id, scene_revision, coordinate_frame_ref]
+  scene_id: required
+  scene_revision: required
+  coordinate_frame_ref: required
+  project_profile_bindings: []
+  active_rule_bindings: []
+  dependency_graph_revision: required
+
+base_object:
+  required:
+    - object_id
+    - object_class
+    - semantic_revision
+    - geometry_revision
+    - parameter_revision
+    - authority_state
+    - lifecycle_state
+    - provenance
+  authority_state:
+    enum: [evidence_only, candidate, rule_derived, human_confirmed, locked]
+  lifecycle_state:
+    enum: [current, stale, rejected, blocked]
+  locks: []
+  source_refs: []
+  trace_ref: nullable
+  provenance:
+    created_by: required
+    parent_objects: []
+    change_proposal_ref: nullable
+    change_reason: nullable
+    evidence_refs: []
+    rule_refs: []
+    validator_refs: []
+
+geometry_record:
+  required: [geometry_id, geometry_type, coordinate_frame_ref, revision, geometry_hash]
+  geometry_id: required
+  geometry_type: required
+  coordinate_frame_ref: required
+  revision: required
+  geometry_hash: required
+  z_policy:
+    enum: [planar_zero, explicit_z, derived_z, unknown]
+  topology_summary:
+    component_count: required
+    hole_count: required
+    valid: required
+  diff_from_trace: nullable
+
+road_object:
+  inherits: base_object
+  fields:
+    graph_node_refs: []
+    graph_edge_refs: []
+    hierarchy:
+      value: nullable
+      state: {enum: [unknown, proposed, confirmed]}
+      evidence_refs: []
+    functions: []
+    special_uses: []
+    centerline_geometry_ref: nullable
+    alignment_state: {enum: [trace_only, candidate, confirmed, blocked]}
+    cross_section_profile_ref: nullable
+    junction_refs: []
+    design_profile_ref: nullable
+
+building_object:
+  inherits: base_object
+  fields:
+    trace_footprint_ref: nullable
+    professional_footprint_ref: nullable
+    regularization_state:
+      enum: [not_run, preserve_trace, candidate, needs_review, confirmed]
+    typology:
+      value: nullable
+      state: {enum: [unknown, proposed, confirmed]}
+    height:
+      value_m: nullable
+      state: {enum: [unknown, estimated, proposed, confirmed]}
+      source_ref: nullable
+    floors:
+      value: nullable
+      state: {enum: [unknown, estimated, proposed, confirmed]}
+      source_ref: nullable
+    base_elevation_m: nullable
+    massing_representation_ref: nullable
+    adjacency_refs: []
+
+landscape_object:
+  inherits: base_object
+  fields:
+    landscape_role: nullable
+    surface_geometry_ref: nullable
+
+change_proposal:
+  required:
+    - proposal_id
+    - target_object_ids
+    - operation_type
+    - before_revisions
+    - candidate_after
+    - required_authority
+  proposal_id: required
+  target_object_ids: []
+  operation_type: required
+  before_revisions: []
+  candidate_after: required
+  reason: required
+  evidence_refs: []
+  rule_refs: []
+  expected_side_effects: []
+  required_authority:
+    enum: [deterministic_auto, human_confirm, human_unlock, blocked]
+  proposal_state:
+    enum: [draft, validated, awaiting_confirmation, accepted, rejected, superseded]
+
+representation:
+  required:
+    - representation_id
+    - representation_type
+    - object_id
+    - dependency_hash
+    - method_id
+    - method_version
+    - state
+  representation_id: required
+  representation_type:
+    enum: [trace, professional_2d, massing_3d, road_surface, cad_dxf, bim_ifc, analysis_mesh, rendering]
+  object_id: required
+  source_revisions:
+    semantic_revision: nullable
+    geometry_revision: nullable
+    parameter_revision: nullable
+  method_id: required
+  method_version: required
+  profile_bindings: []
+  dependency_hash: required
+  state:
+    enum: [current, stale, invalid, blocked]
+
+analysis_result:
+  required: [analysis_id, analysis_type, dependency_hash, method_id, method_version, result_state]
+  analysis_id: required
+  analysis_type: required
+  dependency_hash: required
+  input_object_revisions: []
+  input_context_refs: []
+  method_id: required
+  method_version: required
+  coverage_limits: []
+  result_state:
+    enum: [provisional, confirmed_for_scope, stale, blocked]
+
+validation_result:
+  required: [validator_id, validator_version, scope, verdict, issues]
+  validator_id: required
+  validator_version: required
+  scope: required
+  verdict:
+    enum: [pass, pass_with_differences, conditional, fail, validator_error]
+  issues:
+    - code: required
+      severity: required
+      object_id: nullable
+      expected: nullable
+      actual: nullable
+      evidence_locator: nullable
+      fixability: nullable
+  coverage_limits: []
+
+external_reconcile:
+  # Third-party CAD/BIM edits never overwrite canonical directly.
+  required: [external_artifact_ref, comparison_result, proposal_refs]
+  external_artifact_ref: required
+  comparison_result: required
+  proposal_refs: []

@@ -1,0 +1,41 @@
+schema_id: dgcad.deployment.boundary.v0.1
+status: research_candidate
+recommended_mode: local_sidecar_hybrid
+runtime:
+  owns:
+    - canonical_state
+    - proposal_registry
+    - approval_registry
+    - job_registry
+    - artifact_registry
+    - dependency_state
+    - audit_and_idempotency
+  persistence_candidate:
+    metadata: sqlite
+    artifacts: content_addressed_files
+  writer_model: single_project_writer_with_transactional_store
+adapters:
+  cli:
+    role: development_ci_reproduction
+    must_call_same_service: true
+  mcp:
+    role: agent_tool_and_resource_protocol
+    preferred_local_transport: streamable_http_loopback
+    alternate_local_transport: stdio_host_launched
+    wire_level_verified_in_this_environment: false
+    blocker: official_mcp_python_sdk_unavailable_and_pip_dns_failed
+  human_control_plane:
+    role: approval_unlock_conflict_resolution
+    may_write_approval_grants: true
+    exposed_as_agent_tool: false
+cad_bridges:
+  autocad:
+    recommended_initial_shape: thin_in_process_dotnet_plugin_to_local_runtime
+    canonical_owner: runtime
+  freecad:
+    recommended_initial_shape: thin_python_workbench_or_macro_bridge_to_local_runtime
+    canonical_owner: runtime
+security:
+  bind_remote_protocols_to_loopback_by_default: true
+  do_not_expose_store_or_database_to_agent: true
+  approval_is_server_side_state: true

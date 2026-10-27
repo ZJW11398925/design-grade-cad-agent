@@ -1,0 +1,211 @@
+{
+  "run_id": "RUN-005-01",
+  "benchmark_id": "LOCAL-ENV-001",
+  "generated_at_utc": "2026-10-26T16:22:55.186653+00:00",
+  "environment": {
+    "python_version": "3.13.5",
+    "shapely_version": "2.1.2"
+  },
+  "source_sha256": {
+    "solar_shadow.py": "6846d530380fcf2523f6800ca7157397748a84073b6be8688adac99152495013",
+    "test_solar_shadow.py": "c0d04a0ead5f0e77cebfaf6ed145db8d186af9157473f839250d18ffb782964f"
+  },
+  "status": "passed_with_scope_limits",
+  "local_tests": {
+    "runner": "direct_invocation_of_pytest_style_functions",
+    "passed": 17,
+    "failed": [],
+    "passed_tests": [
+      "test_east_blocker_shades_sensor_when_sun_is_east",
+      "test_empty_time_samples_are_rejected",
+      "test_estimated_height_cannot_confirm_sunlit_when_ray_meets_footprint",
+      "test_height_revision_changes_dependency_fingerprint_and_marks_stale",
+      "test_incomplete_context_does_not_confirm_sunlit_result",
+      "test_irregular_sample_times_are_rejected",
+      "test_latitude_out_of_range_is_rejected",
+      "test_missing_north_is_rejected_for_daytime_geometry",
+      "test_naive_datetime_is_rejected",
+      "test_nonfinite_confirmed_height_is_rejected",
+      "test_north_rotation_changes_project_frame_shadow_direction",
+      "test_published_ladybug_sydney_example_is_within_low_precision_tolerance",
+      "test_same_manifest_is_deterministic",
+      "test_sampled_hours_produce_bounds_when_context_is_unknown",
+      "test_shorter_blocker_does_not_reach_sensor_ray",
+      "test_sun_vector_is_unit_length",
+      "test_unknown_height_that_intersects_ray_blocks_confirmation"
+    ]
+  },
+  "solar_position_reference_check": {
+    "input": {
+      "datetime": "2025-11-15T11:00:00+10:00",
+      "latitude_deg": -33.87,
+      "longitude_deg": 151.22
+    },
+    "local_result": {
+      "elevation_deg": 72.04673645599621,
+      "azimuth_deg": 32.309304133746934,
+      "algorithm": "NOAA fractional-year approximation (benchmark only)"
+    },
+    "published_reference": {
+      "elevation_deg": 72.26,
+      "azimuth_deg": 32.37,
+      "source": "Ladybug official README/tests Sydney example; year is abstracted in example"
+    },
+    "absolute_delta_deg": {
+      "elevation": 0.21326354400379444,
+      "azimuth": 0.060695866253063
+    },
+    "tolerance_deg": 0.5,
+    "pass": true
+  },
+  "geometric_occlusion_cases": {
+    "tall_confirmed_blocker": {
+      "sensor_xy": [
+        0,
+        0
+      ],
+      "sunlit": false,
+      "status": "confirmed_shaded",
+      "blocker_ids": [
+        "B-EAST"
+      ]
+    },
+    "short_confirmed_blocker": {
+      "sensor_xy": [
+        0,
+        0
+      ],
+      "sunlit": true,
+      "status": "confirmed_sunlit_given_declared_context",
+      "blocker_ids": []
+    },
+    "unknown_height_blocker": {
+      "sensor_xy": [
+        0,
+        0
+      ],
+      "sunlit": null,
+      "status": "unknown_obstruction_height",
+      "blocker_ids": [
+        "B-UNKNOWN"
+      ]
+    },
+    "estimated_height_blocker": {
+      "sensor_xy": [
+        0,
+        0
+      ],
+      "sunlit": null,
+      "status": "estimated_height_affects_result",
+      "blocker_ids": [
+        "B-ESTIMATED"
+      ]
+    },
+    "incomplete_surrounding_context": {
+      "sensor_xy": [
+        0,
+        0
+      ],
+      "sunlit": null,
+      "status": "incomplete_surrounding_context",
+      "blocker_ids": []
+    }
+  },
+  "revision_staleness": {
+    "current_fingerprint_sha256": "647f87ff4a1dfe290d76d8954819a1d7715c8aa5b1f186d6db4bc827c462db6d",
+    "same_manifest_is_stale": false,
+    "height_revision_changed_is_stale": true,
+    "required_dependencies": {
+      "site_model_id": "SYNTHETIC-ENV-SITE-001",
+      "site_model_revision": "site-r1",
+      "footprint_revision": "fp-r1",
+      "body_revision": "body-r1",
+      "height_revision": "height-r1",
+      "placement_revision": "placement-r1",
+      "terrain_revision": "terrain-r1",
+      "coordinate_frame_id": "LOCAL-ENU-XY-ZUP",
+      "coordinate_units": "metre",
+      "project_y_axis_true_north_bearing_deg": 0.0,
+      "latitude_deg": -33.87,
+      "longitude_deg": 151.22,
+      "local_datetime_iso_with_utc_offset": "2025-11-15T11:00:00+10:00",
+      "timezone_identifier_or_explicit_offset": "+10:00 (explicit offset; no DST rule inferred)",
+      "solar_position_method": "NOAA fractional-year approximation",
+      "solar_position_method_version": "local-probe-0.1.0",
+      "shadow_method": "2D ray segment against vertical prism footprint",
+      "shadow_method_version": "local-probe-0.1.0",
+      "blocker_object_ids_and_revisions": [
+        "B-EAST:r1"
+      ],
+      "blocker_height_source_statuses": [
+        "confirmed"
+      ],
+      "sensor_grid_revision": "sensor-grid-r1",
+      "timestep_hours": 1.0,
+      "analysis_period": "single synthetic timestamp for solar-position check",
+      "context_coverage_status": "declared-complete-for-synthetic-case",
+      "terrain_coverage_status": "flat-ground-assumption",
+      "weather_or_sky_source_and_revision": "none; geometric direct-sun only",
+      "result_metric_definition": "pointwise direct-sun visibility under declared vertical-prism blockers"
+    }
+  },
+  "sampled_direct_sun_hours": {
+    "metric": "sampled_direct_sun_hours_geometry_only",
+    "lower_bound_hours": 0.0,
+    "upper_bound_hours": 2.0,
+    "timestep_hours": 1.0,
+    "sample_count": 2,
+    "unknown_sample_count": 2,
+    "status": "bounded_or_unknown",
+    "samples": [
+      {
+        "time": "2025-11-15T10:00:00+10:00",
+        "solar": {
+          "elevation_deg": 62.79847207307401,
+          "azimuth_deg_from_true_north_clockwise": 61.348219637409926,
+          "declination_deg": -18.281485520371454,
+          "equation_of_time_min": 15.157363483031709,
+          "algorithm": "NOAA fractional-year approximation (benchmark only)"
+        },
+        "assessment": {
+          "sensor_xy": [
+            0,
+            0
+          ],
+          "sunlit": null,
+          "status": "unknown_obstruction_height",
+          "blocker_ids": [
+            "B-UNKNOWN-NE"
+          ]
+        }
+      },
+      {
+        "time": "2025-11-15T11:00:00+10:00",
+        "solar": {
+          "elevation_deg": 72.04673645599621,
+          "azimuth_deg_from_true_north_clockwise": 32.309304133746934,
+          "declination_deg": -18.292313876289935,
+          "equation_of_time_min": 15.149816225699983,
+          "algorithm": "NOAA fractional-year approximation (benchmark only)"
+        },
+        "assessment": {
+          "sensor_xy": [
+            0,
+            0
+          ],
+          "sunlit": null,
+          "status": "unknown_obstruction_height",
+          "blocker_ids": [
+            "B-UNKNOWN-NE"
+          ]
+        }
+      }
+    ]
+  },
+  "limits": [
+    "The NOAA fractional-year formula is low-precision and is only cross-checked against a published example within 0.5 degrees.",
+    "The shadow probe uses vertical prism footprints on a local metric plane; it does not model facade apertures, sloped terrain, transparent materials, refraction, weather, diffuse sky, or complex 3D mesh intersection.",
+    "The sampled-hours output is discrete-time, geometry-only direct sun, not annual climate-based daylight or regulatory compliance.",
+    "No Ladybug, pvlib, Honeybee-Radiance, Radiance, or momepy runtime was available in this sandbox."
+  ]
+}

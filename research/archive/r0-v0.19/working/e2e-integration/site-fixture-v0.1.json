@@ -1,0 +1,323 @@
+{
+  "fixture_id": "E2E-FIXTURE-001",
+  "fixture_revision": "r1",
+  "synthetic_only": true,
+  "purpose": "Shared contract fixture connecting site semantics, building massing, environment analysis and future CAD-IR export mapping.",
+  "site": {
+    "site_model_id": "SYNTH-SITE-001",
+    "site_model_revision": "site-r1",
+    "coordinate_frame": {
+      "coordinate_frame_id": "LOCAL-ENU-XY-ZUP",
+      "coordinate_state": "local_metric_scaled",
+      "units": "metre",
+      "axis_convention": "x=east, y=north, z=up when north bearing is zero",
+      "project_y_axis_true_north_bearing_deg": 0.0,
+      "north_bearing_state": "confirmed_within_synthetic_fixture",
+      "crs": null,
+      "georeferenced": false
+    },
+    "location_for_solar_test_only": {
+      "latitude_deg": -33.87,
+      "longitude_deg": 151.22,
+      "state": "synthetic_reference_only",
+      "note": "Sydney coordinates are used only to exercise a published solar-position example; they do not georeference this local site model."
+    },
+    "local_datetime_iso_with_utc_offset": "2025-11-15T11:00:00+10:00",
+    "context_coverage_status": "complete_for_declared_synthetic_fixture",
+    "terrain": {
+      "terrain_id": "TERRAIN-01",
+      "revision": "terrain-r1",
+      "model": "flat_ground_z0",
+      "elevation_m": 0.0,
+      "evidence_state": "confirmed_within_synthetic_fixture"
+    },
+    "site_boundary": {
+      "object_id": "SITE-BOUNDARY-01",
+      "object_class": "site_boundary",
+      "geometry_revision": "boundary-r1",
+      "geometry_type": "Polygon",
+      "coordinates": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            40,
+            0
+          ],
+          [
+            40,
+            30
+          ],
+          [
+            0,
+            30
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      ],
+      "provenance": {
+        "parent_ids": [],
+        "operation": "synthetic_fixture_creation",
+        "actor": "fixture_author",
+        "reason": "Fixed test boundary; no survey source."
+      },
+      "evidence_state": "synthetic_known_geometry",
+      "review_state": "confirmed_within_fixture",
+      "locked": true
+    }
+  },
+  "objects": [
+    {
+      "object_id": "ROAD-CORRIDOR-01",
+      "object_class": "road_corridor",
+      "geometry_revision": "road-r1",
+      "geometry_type": "LineString",
+      "coordinates": [
+        [
+          0,
+          11
+        ],
+        [
+          40,
+          11
+        ]
+      ],
+      "width_m": 4.0,
+      "width_state": "proposed_synthetic_value",
+      "provenance": {
+        "parent_ids": [],
+        "operation": "synthetic_fixture_creation",
+        "actor": "fixture_author",
+        "reason": "Tests road object identity only; not a road design recommendation."
+      },
+      "evidence_state": "synthetic_known_geometry",
+      "review_state": "confirmed_within_fixture",
+      "locked": false
+    },
+    {
+      "object_id": "GREEN-AREA-01",
+      "object_class": "green_space",
+      "geometry_revision": "green-r1",
+      "geometry_type": "Polygon",
+      "coordinates": [
+        [
+          [
+            5,
+            2
+          ],
+          [
+            22,
+            2
+          ],
+          [
+            22,
+            9
+          ],
+          [
+            5,
+            9
+          ],
+          [
+            5,
+            2
+          ]
+        ]
+      ],
+      "provenance": {
+        "parent_ids": [],
+        "operation": "synthetic_fixture_creation",
+        "actor": "fixture_author",
+        "reason": "Sensor grid sits inside this synthetic open-space polygon."
+      },
+      "evidence_state": "synthetic_known_geometry",
+      "review_state": "confirmed_within_fixture",
+      "locked": false
+    },
+    {
+      "object_id": "BLDG-01",
+      "object_class": "building",
+      "geometry_revision": "footprint-r1",
+      "geometry_type": "Polygon",
+      "coordinates": [
+        [
+          [
+            12,
+            14
+          ],
+          [
+            16,
+            14
+          ],
+          [
+            16,
+            18
+          ],
+          [
+            12,
+            18
+          ],
+          [
+            12,
+            14
+          ]
+        ]
+      ],
+      "massing": {
+        "base_elevation_m": 0.0,
+        "base_elevation_state": "confirmed_within_synthetic_fixture",
+        "height_m": 22.0,
+        "height_state": "confirmed_within_synthetic_fixture",
+        "height_revision": "height-r1",
+        "floors": null,
+        "floors_state": "unknown"
+      },
+      "placement_revision": "placement-r1",
+      "body_revision": "body-r1",
+      "provenance": {
+        "parent_ids": [
+          "TRACE-BLDG-01"
+        ],
+        "operation": "synthetic_extrusion",
+        "actor": "fixture_author",
+        "reason": "Known-height blocker used for analytic shadow test."
+      },
+      "source_trace_stub": {
+        "trace_id": "TRACE-BLDG-01",
+        "revision": "trace-r1",
+        "synthetic_only": true
+      },
+      "evidence_state": "synthetic_known_geometry_and_height",
+      "review_state": "confirmed_within_fixture",
+      "locked": false,
+      "representations": {
+        "footprint_2d": {
+          "ref": "BLDG-01/footprint-r1",
+          "state": "current"
+        },
+        "body_3d": {
+          "ref": "BLDG-01/body-r1",
+          "state": "current",
+          "representation_kind": "synthetic_vertical_prism"
+        }
+      }
+    },
+    {
+      "object_id": "BLDG-02",
+      "object_class": "building",
+      "geometry_revision": "footprint-r1",
+      "geometry_type": "Polygon",
+      "coordinates": [
+        [
+          [
+            4.5,
+            15
+          ],
+          [
+            8,
+            15
+          ],
+          [
+            8,
+            20
+          ],
+          [
+            4.5,
+            20
+          ],
+          [
+            4.5,
+            15
+          ]
+        ]
+      ],
+      "massing": {
+        "base_elevation_m": 0.0,
+        "base_elevation_state": "confirmed_within_synthetic_fixture",
+        "height_m": null,
+        "height_state": "unknown",
+        "height_revision": "height-unknown-r1",
+        "floors": null,
+        "floors_state": "unknown"
+      },
+      "placement_revision": "placement-r1",
+      "body_revision": null,
+      "provenance": {
+        "parent_ids": [
+          "TRACE-BLDG-02"
+        ],
+        "operation": "synthetic_footprint_only",
+        "actor": "fixture_author",
+        "reason": "Intentionally unknown height must not be silently guessed."
+      },
+      "source_trace_stub": {
+        "trace_id": "TRACE-BLDG-02",
+        "revision": "trace-r1",
+        "synthetic_only": true
+      },
+      "evidence_state": "synthetic_known_footprint_unknown_height",
+      "review_state": "confirmed_within_fixture",
+      "locked": false,
+      "representations": {
+        "footprint_2d": {
+          "ref": "BLDG-02/footprint-r1",
+          "state": "current"
+        },
+        "body_3d": {
+          "ref": null,
+          "state": "missing",
+          "reason": "height_unknown_blocks_body_generation"
+        }
+      }
+    }
+  ],
+  "sensors": [
+    {
+      "sensor_id": "SENSOR-GREEN-01",
+      "sensor_grid_revision": "sensor-grid-r1",
+      "x_m": 10.0,
+      "y_m": 8.0,
+      "z_m": 0.0,
+      "expected_status": "confirmed_shaded",
+      "expected_blocker_ids": [
+        "BLDG-01"
+      ]
+    },
+    {
+      "sensor_id": "SENSOR-GREEN-02",
+      "sensor_grid_revision": "sensor-grid-r1",
+      "x_m": 0.0,
+      "y_m": 8.0,
+      "z_m": 0.0,
+      "expected_status": "unknown_obstruction_height",
+      "expected_blocker_ids": [
+        "BLDG-02"
+      ]
+    },
+    {
+      "sensor_id": "SENSOR-GREEN-03",
+      "sensor_grid_revision": "sensor-grid-r1",
+      "x_m": 5.0,
+      "y_m": 5.0,
+      "z_m": 0.0,
+      "expected_status": "confirmed_sunlit_given_declared_context",
+      "expected_blocker_ids": []
+    }
+  ],
+  "metric_definition": {
+    "metric_id": "direct_sun_visibility_at_sample_time",
+    "units": "boolean_or_unknown",
+    "interpretation": "Geometric direct-sun visibility at one timestamp under the declared synthetic vertical-prism context.",
+    "not_included": [
+      "weather weighting",
+      "annual daylight",
+      "indoor illuminance",
+      "radiation",
+      "legal sunlight compliance"
+    ]
+  }
+}

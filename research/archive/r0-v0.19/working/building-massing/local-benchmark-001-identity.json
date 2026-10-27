@@ -1,0 +1,56 @@
+{
+  "benchmark_id": "LOCAL-BLDG-001",
+  "date": "2026-10-26",
+  "environment": {
+    "shapely": "2.1.2"
+  },
+  "scope": "synthetic 2D footprint vs projected-body consistency metrics only; no IfcOpenShell runtime",
+  "base_height_m": 18.0,
+  "cases": {
+    "exact_projection": {
+      "area_a_m2": 160.0,
+      "area_b_m2": 160.0,
+      "iou": 1.0,
+      "symmetric_difference_m2": 0.0,
+      "hausdorff_m": 0.0,
+      "centroid_shift_m": 0.0,
+      "valid_a": true,
+      "valid_b": true
+    },
+    "placement_drift_0p25m_minus0p10m": {
+      "area_a_m2": 160.0,
+      "area_b_m2": 160.0,
+      "iou": 0.9219219219219219,
+      "symmetric_difference_m2": 12.999999999999993,
+      "hausdorff_m": 0.26925824035672524,
+      "centroid_shift_m": 0.2692582403567251,
+      "valid_a": true,
+      "valid_b": true
+    },
+    "rotation_drift_1p5deg": {
+      "area_a_m2": 160.0,
+      "area_b_m2": 160.00000000000003,
+      "iou": 0.9556440226874254,
+      "symmetric_difference_m2": 7.257922492723819,
+      "hausdorff_m": 0.23383632527058948,
+      "centroid_shift_m": 0.0,
+      "valid_a": true,
+      "valid_b": true
+    },
+    "stale_body_after_footprint_revision": {
+      "area_a_m2": 155.8,
+      "area_b_m2": 160.0,
+      "iou": 0.9737500000000001,
+      "symmetric_difference_m2": 4.1999999999999975,
+      "hausdorff_m": 0.5999999999999996,
+      "centroid_shift_m": 0.1473590033857943,
+      "valid_a": true,
+      "valid_b": true
+    }
+  },
+  "interpretation": [
+    "Exact extrusion projection should be geometrically identical to its authoritative footprint.",
+    "Small placement or rotation drift can leave IoU high while still producing non-zero boundary/centroid errors; validator must not rely on IoU alone.",
+    "After an authoritative footprint edit, an unchanged old body becomes stale even if overlap remains high; dependency state is required in addition to geometry metrics."
+  ]
+}

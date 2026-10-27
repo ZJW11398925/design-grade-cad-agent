@@ -1,0 +1,39 @@
+schema_id: dgcad.local.auth.capability.v0.1
+status: research_candidate
+principles:
+  - agent_human_review_and_cad_bridge_are_distinct_principals
+  - role_is_bound_server_side_before_session_exchange
+  - pairing_exchange_accepts_no_requested_role
+  - pairings_are_short_lived_and_single_use
+  - bearer_sessions_are_short_lived_and_revocable
+  - raw_session_tokens_are_not_persisted_by_runtime_prototype
+  - discovery_contains_no_credentials
+roles:
+  agent:
+    capabilities: [read, propose, preview, request_commit, cancel, rebuild, inspect_jobs]
+    prohibited: [approve, unlock, bridge_write_external]
+  human_review:
+    capabilities: [read, approve, unlock, review, conflict_resolve]
+    prohibited: [agent_tool_identity_spoof]
+  cad_bridge:
+    capabilities: [bridge_read, bridge_write_external, bridge_select, bridge_view_sync]
+    prohibited: [approve, unlock, canonical_direct_commit]
+  cli_admin:
+    capabilities: [read, propose, preview, request_commit, cancel, rebuild, inspect_jobs]
+pairing:
+  issuer: trusted_local_launcher_or_control_plane
+  transfer: out_of_band_to_intended_component
+  discovery_file: forbidden
+http_security:
+  loopback_only_default: true
+  validate_host_header: true
+  validate_origin_when_present: true
+  bearer_required_except_health_and_pairing_exchange: true
+  pairing_exchange_requires_unguessable_one_time_pairing_token: true
+mcp_alignment:
+  local_streamable_http_should_retain_sdk_dns_rebinding_protection: true
+  mcp_resource_server_authorization_model_to_verify_when_sdk_available: true
+unverified:
+  - oauth_2_1_wire_flow
+  - mcp_sdk_token_verifier_binding
+  - windows_named_pipe_or_dpapi_pairing_handoff

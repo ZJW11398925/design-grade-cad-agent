@@ -1,0 +1,185 @@
+profile_id: DB11-T-1948-2021-detailed-spatial-planning-extract
+profile_version: 0.1-extract
+status: source-backed-excerpt-not-full-profile
+normative_status: local_standard
+jurisdiction: Beijing Municipality, China
+applicable_scope: Beijing municipal detailed territorial spatial planning CAD drafting and management
+not_applicable_to: >-
+  Other cities/regions, building permit or construction drawing packages, or a
+  design institute's internal CAD layer standard unless separately adopted.
+source_documents:
+  - source_id: STD-DB11-T-1948-2021
+    standard_id_or_template_name: DB11/T 1948-2021 国土空间详细规划计算机辅助制图标准
+    issuing_authority: 北京市规划和自然资源委员会；北京市市场监督管理局
+    official_url: https://ghzrzyw.beijing.gov.cn/biaozhunguanli/bz/cxgh/202207/P020220711347172743065.pdf
+    official_status_url: https://std.samr.gov.cn/db/search/stdDBDetailed?id=D7B84EB1F2C445E9E05397BE0A0AD18E
+    revision: DB11/T 1948—2021
+    effective_from: 2022-07-01
+    supersedes: [DB11/T 997-2013]
+    access_state: full_official_text_read
+rules:
+  - rule_id: DB11-1948-APPLICABILITY
+    subject: drawing_package
+    property: jurisdiction_and_scope
+    requirement_kind: mandatory
+    value: Beijing detailed spatial planning CAD drafting/management
+    value_state: specified
+    source_document_ref: STD-DB11-T-1948-2021
+    clause_or_table_ref: 1.0.2
+    page_ref: PDF page 10
+    applicability: all uses of this profile
+    validation_method: human_review
+    failure_policy: hard_fail
+    exception_policy: not_allowed
+    test_case_refs: []
+    evidence_note: This local standard explicitly limits applicability to detailed spatial planning within Beijing Municipality.
+  - rule_id: DB11-1948-TRUE-COLOR
+    subject: drawing_graphics
+    property: color_mode
+    requirement_kind: mandatory
+    value: true_color
+    value_state: specified
+    source_document_ref: STD-DB11-T-1948-2021
+    clause_or_table_ref: 2.1.5
+    page_ref: PDF page 11
+    applicability: applicable profile outputs
+    validation_method: exact_attribute
+    failure_policy: hard_fail
+    exception_policy: requires_approved_exception
+    test_case_refs: [BEN-OUT-007]
+    evidence_note: The standard says graphic colors use true color; the validator should not silently reduce RGB values to ACI-only colors.
+  - rule_id: DB11-1948-COORDINATE-REFERENCE
+    subject: drawing
+    property: coordinate_reference
+    requirement_kind: mandatory
+    value: Beijing local plane and elevation systems linked to the national spatial reference system
+    value_state: specified
+    source_document_ref: STD-DB11-T-1948-2021
+    clause_or_table_ref: 2.2.1
+    page_ref: PDF page 11
+    applicability: applicable profile outputs
+    validation_method: coordinate_reference
+    failure_policy: blocked
+    exception_policy: not_allowed
+    test_case_refs: [BEN-OUT-007]
+    evidence_note: DXF INSUNITS alone does not encode the required coordinate reference. The synthetic fixture must remain blocked on this rule.
+  - rule_id: DB11-1948-UNITS-PRECISION
+    subject: drawing
+    property: displayed_measurement_units_and_precision
+    requirement_kind: mandatory
+    value: {length_unit: m, length_decimal_places: 2, area_unit: m2, area_decimal_places: 2}
+    value_state: specified
+    source_document_ref: STD-DB11-T-1948-2021
+    clause_or_table_ref: 2.2.3
+    page_ref: PDF page 11
+    applicability: applicable profile outputs
+    validation_method: exact_attribute
+    failure_policy: hard_fail
+    exception_policy: requires_approved_exception
+    test_case_refs: [BEN-OUT-007]
+    evidence_note: Display/measurement precision is stored separately; do not round canonical geometry coordinates without explicit rule authorization.
+  - rule_id: DB11-1948-TOPOLOGY
+    subject: vector_geometry
+    property: topology
+    requirement_kind: mandatory
+    value: {no_self_intersection: true, adjacent_area_overlap: false}
+    value_state: specified
+    source_document_ref: STD-DB11-T-1948-2021
+    clause_or_table_ref: 2.4.1
+    page_ref: PDF page 11
+    applicability: applicable profile outputs
+    validation_method: geometry_topology
+    failure_policy: hard_fail
+    exception_policy: not_allowed
+    test_case_refs: [BEN-OUT-007]
+    evidence_note: The rule is a geometry/topology requirement, not merely a CAD table/style requirement.
+  - rule_id: DB11-1948-ENTITY-TYPE
+    subject: vector_geometry
+    property: entity_type
+    requirement_kind: mandatory
+    value: {linear_geometry: [LWPOLYLINE, ARC], area_boundary: closed_connected_lines_or_arcs}
+    value_state: specified
+    source_document_ref: STD-DB11-T-1948-2021
+    clause_or_table_ref: 2.4.2
+    page_ref: PDF page 11
+    applicability: applicable profile outputs
+    validation_method: exact_attribute
+    failure_policy: hard_fail
+    exception_policy: requires_approved_exception
+    test_case_refs: [BEN-OUT-007]
+    evidence_note: The standard states linear features should be polylines/arcs and area features should be closed by connected lines/arcs.
+  - rule_id: DB11-1948-CAD-LAYER-NAMING
+    subject: cad_layer
+    property: name_structure
+    requirement_kind: mandatory
+    value: five-segment underscore-separated structure using planning-level, category code, layer theme, optional classification code and optional Chinese description
+    value_state: specified
+    source_document_ref: STD-DB11-T-1948-2021
+    clause_or_table_ref: 3.1.3 and explanation of provisions 3.1.3
+    page_ref: PDF pages 12 and 78
+    applicability: applicable CAD outputs
+    validation_method: regex
+    failure_policy: hard_fail
+    exception_policy: requires_approved_exception
+    test_case_refs: [BEN-OUT-007]
+    evidence_note: The source also says classification code and Chinese description may be omitted; the parser must reflect that allowed omission rather than require exactly five non-empty segments.
+  - rule_id: DB11-1948-ROAD-CENTERLINE-LAYER
+    subject: cad_layer
+    property: layer_name_and_true_color
+    requirement_kind: mandatory
+    value: {layer_name: XX_FH_DS_已定道路中线, rgb: [0, 0, 0]}
+    value_state: specified
+    source_document_ref: STD-DB11-T-1948-2021
+    clause_or_table_ref: Appendix D, Table D.2
+    page_ref: PDF page 52
+    applicability: example layer in applicable profile
+    validation_method: exact_attribute
+    failure_policy: hard_fail
+    exception_policy: requires_approved_exception
+    test_case_refs: [BEN-OUT-007]
+    evidence_note: Exact layer name and RGB value are taken from the official text.
+  - rule_id: DB11-1948-ROAD-REDLINE-EXISTING
+    subject: cad_layer
+    property: layer_name_and_true_color
+    requirement_kind: mandatory
+    value: {layer_name: XX_FH_DS_已定道路红线, rgb: [255, 0, 0]}
+    value_state: specified
+    source_document_ref: STD-DB11-T-1948-2021
+    clause_or_table_ref: Appendix D, Table D.2
+    page_ref: PDF page 52
+    applicability: example layer in applicable profile
+    validation_method: exact_attribute
+    failure_policy: hard_fail
+    exception_policy: requires_approved_exception
+    test_case_refs: [BEN-OUT-007]
+    evidence_note: Exact layer name and RGB value are taken from the official text.
+  - rule_id: DB11-1948-ROAD-REDLINE-NEW
+    subject: cad_layer
+    property: layer_name_and_true_color
+    requirement_kind: mandatory
+    value: {layer_name: XX_FH_DS_新定道路红线, rgb: [0, 0, 255]}
+    value_state: specified
+    source_document_ref: STD-DB11-T-1948-2021
+    clause_or_table_ref: Appendix D, Table D.2
+    page_ref: PDF page 52
+    applicability: example layer in applicable profile
+    validation_method: exact_attribute
+    failure_policy: hard_fail
+    exception_policy: requires_approved_exception
+    test_case_refs: [BEN-OUT-007]
+    evidence_note: Exact layer name and RGB value are taken from the official text.
+  - rule_id: DB11-1948-LINEWEIGHT-DISCRETION
+    subject: cad_layer
+    property: lineweight
+    requirement_kind: discretionary
+    value: null
+    value_state: explicitly_discretionary
+    source_document_ref: STD-DB11-T-1948-2021
+    clause_or_table_ref: Appendix D notes, including Table D.2
+    page_ref: PDF page 52
+    applicability: layers for which the standard states line width is determined by drawing effect
+    validation_method: human_review
+    failure_policy: review_required
+    exception_policy: project_defined
+    test_case_refs: [BEN-OUT-007]
+    evidence_note: Do not invent a numeric lineweight where the standard explicitly leaves it to the drawing effect.

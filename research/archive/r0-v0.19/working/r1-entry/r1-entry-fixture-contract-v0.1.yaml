@@ -1,0 +1,17 @@
+schema_id: design-grade-cad-agent.r1-entry-fixture-contract.v0.1
+status: provisional
+fixture_classes:
+  canonical_scene:
+    required: [schema_id, scene_id, scene_revision, world, objects]
+  authority_case:
+    required: [id, expected]
+  dependency_case:
+    required: [artifacts, expected_local_invalidation]
+constraints:
+  pure_synthetic_allowed_for_foundation: true
+  may_support_real_case_claim: false
+  domain_geometry_required: false
+  ai_inference_required: false
+versioning:
+  fixture_schema_version_required: true
+  silent_fixture_overwrite_forbidden: true

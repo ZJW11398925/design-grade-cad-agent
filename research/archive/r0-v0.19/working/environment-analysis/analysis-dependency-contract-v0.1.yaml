@@ -1,0 +1,53 @@
+contract_id: ENV-DEPENDENCY-001
+version: 0.1.0
+status: provisional
+purpose: >-
+  Make every environmental result traceable to the exact geometry, heights,
+  coordinate frame, time basis, environment coverage, method, and sampling settings.
+required_dependency_fields:
+  - site_model_id
+  - site_model_revision
+  - footprint_revision
+  - geometry_content_hashes
+  - sensor_grid_content_hash_sha256
+  - terrain_content_hash_sha256
+  - massing_body_revision
+  - height_revision
+  - placement_revision
+  - terrain_revision
+  - coordinate_frame_id
+  - coordinate_units
+  - project_y_axis_true_north_bearing_deg
+  - latitude_deg
+  - longitude_deg
+  - local_datetime_iso_with_utc_offset
+  - timezone_identifier_or_explicit_offset
+  - solar_position_method
+  - solar_position_method_version
+  - shadow_method
+  - shadow_method_version
+  - blocker_object_ids_and_revisions
+  - blocker_height_source_statuses
+  - sensor_grid_revision
+  - timestep_hours
+  - analysis_period
+  - context_coverage_status
+  - terrain_coverage_status
+  - weather_or_sky_source_and_revision
+  - result_metric_definition
+fingerprint_policy:
+  - Canonicalize dependency fields as deterministic JSON before hashing.
+  - Any required field change invalidates the previous result unless the dependency graph proves that field irrelevant to the specific metric.
+  - Content hashes must detect geometry edits even when an upstream producer incorrectly reuses the previous revision identifier.
+  - Unknown or estimated inputs must remain explicitly represented; do not silently replace with confirmed values.
+  - If an upstream Footprint, Body, Height, Placement, Terrain, North, Time, Weather, or SensorGrid revision changes, mark dependent results stale before showing them as current.
+result_statuses:
+  - confirmed_for_declared_context
+  - estimated_input
+  - bounded_or_unknown
+  - stale_recompute_required
+  - blocked_missing_required_input
+  - failed_geometry_or_validation
+limitations:
+  - A matching hash proves input identity, not physical model accuracy or regulatory compliance.
+  - A complete declared context means complete only within a documented boundary; it does not prove that every real-world obstruction was captured.

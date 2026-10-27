@@ -1,0 +1,321 @@
+{
+  "file_count": 63,
+  "files": [
+    {
+      "bytes": 3198,
+      "path": "README.md",
+      "sha256": "170a0f35eaae69ea08119d0f7f24a74e4eb974231b77aa9548461a45283202a0"
+    },
+    {
+      "bytes": 1052,
+      "path": "contracts/cad-bridge-contract-v0.1.yaml",
+      "sha256": "f6abf00047c12d92155bcd43dcf4dcba5787c8eaf5e1de74513a9db02f5246a2"
+    },
+    {
+      "bytes": 1413,
+      "path": "contracts/cad-bridge-lifecycle-contract-v0.2.yaml",
+      "sha256": "5ac94080e345690c6410b65b98a43c509f64d4c95df92fb43b07703239290052"
+    },
+    {
+      "bytes": 1346,
+      "path": "contracts/deployment-boundary-contract-v0.1.yaml",
+      "sha256": "efc9d74e62c0adb7b7f4d8a957ebd8647b17e1c0e65edb8a2460673603c7ec2c"
+    },
+    {
+      "bytes": 1856,
+      "path": "contracts/deployment-boundary-contract-v0.2.yaml",
+      "sha256": "2531f6fb10697f052efaa59dc3737bb89b3bd7c32fcce54b04f436c6b1d0384f"
+    },
+    {
+      "bytes": 1651,
+      "path": "contracts/local-auth-capability-contract-v0.1.yaml",
+      "sha256": "7af450397a4cb78630d12457f3202415253da9d5250e7693efbed9fa86ecdf5e"
+    },
+    {
+      "bytes": 1060,
+      "path": "contracts/mcp-binding-v0.2.yaml",
+      "sha256": "2c5e226718570b253466730ff4b37219aeb6fc0f976b24b12e30b737eeecec1f"
+    },
+    {
+      "bytes": 882,
+      "path": "contracts/mcp-binding-v0.3.yaml",
+      "sha256": "381ebe20ebe649563ab3c3c41027782cb7a646b9a0ff9182bca6a03d12301e00"
+    },
+    {
+      "bytes": 659,
+      "path": "contracts/runtime-agent-surface-v0.1.yaml",
+      "sha256": "fb7280dcbec789c140541875492694fbdf03b3fa2826136f29723f7d8b5f73e3"
+    },
+    {
+      "bytes": 721,
+      "path": "contracts/runtime-state-contract-v0.1.yaml",
+      "sha256": "271d1de9e8d02bcca7d39498cee9aa30e04bab566e54dc8580beb3a4a02e0da3"
+    },
+    {
+      "bytes": 1449,
+      "path": "contracts/sidecar-lifecycle-contract-v0.1.yaml",
+      "sha256": "85223fb895ea46b9fb1ba5df14289035f8ada3211d8ed9e6a0761c6520adee65"
+    },
+    {
+      "bytes": 2346,
+      "path": "deployment-boundary-decision-v0.1.md",
+      "sha256": "248cfbbef700fd20e770c6a763bc7089d076e7e1a6b7b7bef6016f0308d1ee88"
+    },
+    {
+      "bytes": 2352,
+      "path": "deployment-boundary-review-v0.1.md",
+      "sha256": "a6ab757c515694da9b7d46247fc31729176750c6ef78f9fd29116f47c2b2443d"
+    },
+    {
+      "bytes": 3894,
+      "path": "deployment-lifecycle-review-v0.1.md",
+      "sha256": "a4f8ee84648ba60e636ec53f4d45ca1ed7ac98364de6ae3551892c2fa715e000"
+    },
+    {
+      "bytes": 1470,
+      "path": "deployment-mode-matrix-v0.1.yaml",
+      "sha256": "75853b43be85bf05f8de6c8f3dd0be1187ab80cf22eceb4fbd7b90066ff2f4bb"
+    },
+    {
+      "bytes": 518,
+      "path": "fixtures/authority_cases.yaml",
+      "sha256": "29e51f0fbc4547e320c8b272c5cd167ac707c2d3f7df7a2f915eb4121115ae3c"
+    },
+    {
+      "bytes": 442,
+      "path": "fixtures/dependency_cases.yaml",
+      "sha256": "b8e1d75dd54c16878af8cda15fd56ea712cb2ddc257a998c3d7b2d6fb3df3c67"
+    },
+    {
+      "bytes": 502,
+      "path": "fixtures/minimal_scene.yaml",
+      "sha256": "e17829408523d3d9650e1557544508ac84706b06c0b880f4499d2e828fd6a45e"
+    },
+    {
+      "bytes": 5173,
+      "path": "foundation-contract-register-v0.2.yaml",
+      "sha256": "67580bf7740e3964a9a63cc16b8b0b45b7f215b25b0251967a927810c666dcea"
+    },
+    {
+      "bytes": 864,
+      "path": "human-control-plane-boundary-v0.1.md",
+      "sha256": "bf09b96be8b5240c383b1d7b025504652f314b4db0051bda04d34f4c1eab4dcb"
+    },
+    {
+      "bytes": 2176,
+      "path": "local-sidecar-threat-model-v0.1.md",
+      "sha256": "d3753c1bab1b6da28f64c431a730329021295bd5d596deb9a427308906b66cf6"
+    },
+    {
+      "bytes": 438,
+      "path": "pyproject.toml",
+      "sha256": "3b3d41f47a9b7ab52182c4e4987200ee5b4a179124bc198163ec7a7e986f62f1"
+    },
+    {
+      "bytes": 1844,
+      "path": "recovery-idempotency-policy-v0.1.md",
+      "sha256": "99d3496a29845f4584f8f66109dfd25f1db8a603967b325e43b893994e1b759a"
+    },
+    {
+      "bytes": 832,
+      "path": "run-log.jsonl",
+      "sha256": "cf12bb2f950205790399c6f1d706d7f7c508c37e9587290420e9097ab2434416"
+    },
+    {
+      "bytes": 4940,
+      "path": "runtime-contract-register-v0.1.yaml",
+      "sha256": "94daf4d74a9a6f34f489b63feb29bc0e1201dcd230203ed7e48310ca4d5325d6"
+    },
+    {
+      "bytes": 2206,
+      "path": "runtime-entry-review-v0.1.md",
+      "sha256": "8ba215dee7b46f2f8e0a90619113affd61006b7e804d16b0aa743e317cadf936"
+    },
+    {
+      "bytes": 4779,
+      "path": "source-locators.md",
+      "sha256": "c016b28dee3ee8780659d9717ab36337b66f926994714e94add4a7680b26483b"
+    },
+    {
+      "bytes": 300,
+      "path": "spikes/mcp-install-attempt.txt",
+      "sha256": "ac30bce76e2df0c59d8fc55382407286328ef73270538c94a7d8451240339c06"
+    },
+    {
+      "bytes": 517,
+      "path": "spikes/sidecar-process-probe-result.json",
+      "sha256": "ccb4a122df0bc96e20c6e1cddc5bf16a626d2e88b30750329d5557d327f62cf1"
+    },
+    {
+      "bytes": 1095,
+      "path": "spikes/sidecar_process_probe.py",
+      "sha256": "e9646832819e4446e1eed97d8f9790dec04fec79eb2c1fe646a76900ade56194"
+    },
+    {
+      "bytes": 911,
+      "path": "sqlite-artifact-spike-v0.1.md",
+      "sha256": "2b65e33ec5d8b05ffde63a7524841a3c885347dc16e7f1e38391f2c05ed2f681"
+    },
+    {
+      "bytes": 586,
+      "path": "src/dgcad_deployment/__init__.py",
+      "sha256": "4f9eeee336f8b8b0659a343963f99336bd49d5b9b6d1320716c225ff364fc9ce"
+    },
+    {
+      "bytes": 1038,
+      "path": "src/dgcad_deployment/artifact_store.py",
+      "sha256": "5b9c40805fd3be2657c301610f187f976131142872e5365acc3ca0acb0715e54"
+    },
+    {
+      "bytes": 853,
+      "path": "src/dgcad_deployment/cli.py",
+      "sha256": "d286691e7378f85f796bdcc74c64b66af789349e660179a312907a9e23c4165f"
+    },
+    {
+      "bytes": 16518,
+      "path": "src/dgcad_deployment/lifecycle.py",
+      "sha256": "ffa56024808159e3f641fbd2049cc99a3949710be69791ff9254d4d538cbba8a"
+    },
+    {
+      "bytes": 7650,
+      "path": "src/dgcad_deployment/local_http.py",
+      "sha256": "e4de1a256527bc0631efc7db728d6ec3ec47ba0fbdb78fbe848dab182efa5ede"
+    },
+    {
+      "bytes": 498,
+      "path": "src/dgcad_deployment/service.py",
+      "sha256": "9470e817a859185a4052737f7a97ba13c13ecec75c0357812953150b987c2a75"
+    },
+    {
+      "bytes": 7144,
+      "path": "src/dgcad_deployment/sqlite_store.py",
+      "sha256": "76e86262898924b465e08197ed00559f7d8a7c6b17d0cc18719b2570ea7c6b25"
+    },
+    {
+      "bytes": 1226,
+      "path": "src/dgcad_foundation/__init__.py",
+      "sha256": "c96c4c95eaf0ae4fcc6bd3e8a606d094e3ec415ed0be8b580bed9609817c11ef"
+    },
+    {
+      "bytes": 2044,
+      "path": "src/dgcad_foundation/audit.py",
+      "sha256": "8af6d89a3f1e05574f0caad4935602bd443aaec0b17c48585fa4d79b02e8368b"
+    },
+    {
+      "bytes": 1913,
+      "path": "src/dgcad_foundation/authority.py",
+      "sha256": "64a8402395e7f18c87fdc1f35827df004b8706dad29e433068293823eaccba8e"
+    },
+    {
+      "bytes": 3469,
+      "path": "src/dgcad_foundation/dependency.py",
+      "sha256": "4149ac9261e3d7c66135c1ddaff5c2906ae320dac89375e14e2a0a31883b3095"
+    },
+    {
+      "bytes": 3348,
+      "path": "src/dgcad_foundation/gateway.py",
+      "sha256": "b1499c7981ce6529671fb5ac6e0d273e6fc04d53aeac536d2eeefd9f83248be7"
+    },
+    {
+      "bytes": 1286,
+      "path": "src/dgcad_foundation/migration.py",
+      "sha256": "b86dfdc47b94f5e44bea55fa17a581f4adaf75e1edbfa322aa18fc9e558f241d"
+    },
+    {
+      "bytes": 3967,
+      "path": "src/dgcad_foundation/model.py",
+      "sha256": "2538615028303c8e8f69f885642c36586c49fd9cd51a3b69bfa8e0b7b74d8902"
+    },
+    {
+      "bytes": 562,
+      "path": "src/dgcad_foundation/scheduler.py",
+      "sha256": "979ec91b7e1a690b27cfb5e26b5338ff59461637db03242c807d871a8b8e4c01"
+    },
+    {
+      "bytes": 1236,
+      "path": "src/dgcad_foundation/serialization.py",
+      "sha256": "0bcff8817403a14aee53c85fd563a85bea6dbb53e67af8883029fd726de408d3"
+    },
+    {
+      "bytes": 5168,
+      "path": "src/dgcad_foundation/store.py",
+      "sha256": "8011de60f2a4252cc3efc8ce824be1299ec386319377c8c2ec49e0b71b3e5b62"
+    },
+    {
+      "bytes": 747,
+      "path": "src/dgcad_runtime/__init__.py",
+      "sha256": "00a934f1d02ea1556243c8376e51784837b97e343c2d2e3b20ed4fb9e22f5994"
+    },
+    {
+      "bytes": 343,
+      "path": "src/dgcad_runtime/clock.py",
+      "sha256": "9915f601ec6b1e6e4be8f0c6572035cb358d6ca3b28983abfe45cc5c0eb17737"
+    },
+    {
+      "bytes": 7988,
+      "path": "src/dgcad_runtime/codec.py",
+      "sha256": "1dfdd1058e922fcdea1e3d51d05eeecca5bfd281787c0c6c4a41b83529dedd36"
+    },
+    {
+      "bytes": 943,
+      "path": "src/dgcad_runtime/control.py",
+      "sha256": "891a95b58aac9cd1b424ecbaf0a23bd1686aa4be9407e872928ce0bfc2a23458"
+    },
+    {
+      "bytes": 462,
+      "path": "src/dgcad_runtime/errors.py",
+      "sha256": "1bc4349ec4e5cd839684b60cc6baa0762371566d6ca5151d9ee1ad602e2540c9"
+    },
+    {
+      "bytes": 2657,
+      "path": "src/dgcad_runtime/model.py",
+      "sha256": "45585da73dd6f42c26f57cc500e1b527abf59c9a74b2ed543e2efd8bcdae4f3a"
+    },
+    {
+      "bytes": 3104,
+      "path": "src/dgcad_runtime/persistence.py",
+      "sha256": "9df70d532aecf53c21bd5f2c41b35372d484d09e329407a2f511cde29e7a4823"
+    },
+    {
+      "bytes": 27823,
+      "path": "src/dgcad_runtime/runtime.py",
+      "sha256": "1857ccdea8bd545fc2db370f272fff8212f42c185f0eb19b5ec8015ba7b27b1a"
+    },
+    {
+      "bytes": 2515,
+      "path": "src/dgcad_runtime/surface.py",
+      "sha256": "6d3f6f2adeca1fa37bdd408a11072e72767767d81fb2f5f0ea41bd2845ca82b7"
+    },
+    {
+      "bytes": 5545,
+      "path": "startup-connection-lifecycle-v0.1.md",
+      "sha256": "de3a18f883069e88e45594940ac41d06f0d7bd65cb78d38e47071b828db236df"
+    },
+    {
+      "bytes": 5380,
+      "path": "stateful-runtime-architecture-v0.1.md",
+      "sha256": "6209a37fb0955efdcdae3d43e58f1000838d5445587e1eda9a452ccbcc18ead0"
+    },
+    {
+      "bytes": 4668,
+      "path": "tests/test_deployment_contracts.py",
+      "sha256": "15df155cb80524826619c41c3e668956544700b1fa218f04e8908fe0845b3f12"
+    },
+    {
+      "bytes": 13845,
+      "path": "tests/test_foundation_contracts.py",
+      "sha256": "69c1dcc8fb29ff0ef63c034a45d0e954e5cc514b6e7ece04a7981c8f38721bfa"
+    },
+    {
+      "bytes": 13681,
+      "path": "tests/test_lifecycle_contracts.py",
+      "sha256": "ccf4d0035750062d45f92f1be24b5b0caac38eec58b934fc7da7fd502ba08e9e"
+    },
+    {
+      "bytes": 20362,
+      "path": "tests/test_runtime_contracts.py",
+      "sha256": "ff9f54ad5dedcfe1d4f1f96a3ffd855401b69a22528c5df3f584d17c2a3ebeaa"
+    }
+  ],
+  "schema_id": "dgcad.package.manifest.v0.1"
+}

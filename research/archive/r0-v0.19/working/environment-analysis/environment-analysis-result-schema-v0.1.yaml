@@ -1,0 +1,63 @@
+result_schema_id: ENV-RESULT-001
+version: 0.1.0
+status: provisional
+required:
+  result_id: string
+  site_model_id: string
+  site_model_revision: string
+  dependency_fingerprint_sha256: string
+  metric_definition:
+    metric_id: string
+    name: string
+    units: string
+    interpretation: string
+  method:
+    solar_position_method: string
+    solar_position_version: string
+    shadow_method: string
+    shadow_method_version: string
+  inputs:
+    coordinate_frame_id: string
+    coordinate_units: string
+    latitude_deg: number
+    longitude_deg: number
+    project_y_axis_true_north_bearing_deg: number
+    local_datetime_iso_with_utc_offset: string
+    footprint_revision: string
+    geometry_content_hashes: array
+    sensor_grid_content_hash_sha256: string
+    terrain_content_hash_sha256: string
+    body_revision: string
+    height_revision: string
+    placement_revision: string
+    terrain_revision: string
+    context_coverage_status: string
+    height_provenance_status: string
+  results:
+    status: string
+    value: number|null
+    lower_bound: number|null
+    upper_bound: number|null
+    unknown_sample_count: integer
+    samples: array
+  provenance:
+    source_locators: array
+    run_id: string
+    generated_at_utc: string
+    warnings: array
+allowed_statuses:
+  - confirmed_for_declared_context
+  - estimated_input
+  - bounded_or_unknown
+  - stale_recompute_required
+  - blocked_missing_required_input
+  - failed_geometry_or_validation
+invariants:
+  - >-
+    If a required height, coordinate frame, north bearing, timestamp/timezone,
+    or relevant obstruction input is missing, the result cannot be labeled confirmed.
+  - >-
+    Geometry-only sampled direct sun hours must be named as such and must not be
+    represented as weather-weighted annual daylight or regulatory compliance.
+  - >-
+    Every result must include the dependency fingerprint and source geometry revisions.

@@ -1,0 +1,129 @@
+{
+  "base_fingerprint": "f2cef8cc8eb900998ba4e08afc163d5b85fa857fa17c84a08ac3098d079c45b0",
+  "baseline_dxf_validation": {
+    "status": "passed_with_scope_limits",
+    "passed": true,
+    "entity_count": 11,
+    "expected_entity_count": 11,
+    "layers_pass": true,
+    "units_pass": true
+  },
+  "height_value_mutation": {
+    "name": "height-value",
+    "status": "failed",
+    "fingerprint": "20cb37b101a0fd702bc07c2c7c35a32e998aee3543f9a5bd46469bc72941af31",
+    "sensor_statuses": {
+      "SENSOR-GREEN-01": "confirmed_sunlit_given_declared_context",
+      "SENSOR-GREEN-02": "unknown_obstruction_height",
+      "SENSOR-GREEN-03": "confirmed_sunlit_given_declared_context"
+    },
+    "body_checks_pass": false
+  },
+  "height_state_mutation": {
+    "name": "height-state",
+    "status": "failed",
+    "fingerprint": "83e7cd1e638b4bd88b164c10dee1cc893a676e842b70aef48d414831af9a8b1a",
+    "sensor_statuses": {
+      "SENSOR-GREEN-01": "estimated_height_affects_result",
+      "SENSOR-GREEN-02": "unknown_obstruction_height",
+      "SENSOR-GREEN-03": "estimated_height_affects_result"
+    },
+    "body_checks_pass": true
+  },
+  "base_elevation_mutation": {
+    "name": "base-elevation",
+    "status": "failed",
+    "fingerprint": "8463f41d180229b338973082fd406c8d8a6c4ffa1cc37a18d9cda9d17da0d12c",
+    "sensor_statuses": {
+      "SENSOR-GREEN-01": "confirmed_shaded",
+      "SENSOR-GREEN-02": "unknown_obstruction_height",
+      "SENSOR-GREEN-03": "confirmed_sunlit_given_declared_context"
+    },
+    "body_checks_pass": false
+  },
+  "body_geometry_mutation": {
+    "name": "body-geometry",
+    "status": "failed",
+    "fingerprint": "6b9e77c8f56701d0829099e4673145ad22f67c413994c3ae91d590c63a37aab5",
+    "sensor_statuses": {
+      "SENSOR-GREEN-01": "confirmed_shaded",
+      "SENSOR-GREEN-02": "unknown_obstruction_height",
+      "SENSOR-GREEN-03": "confirmed_sunlit_given_declared_context"
+    },
+    "body_checks_pass": false
+  },
+  "body_bottom_vertex_mutation": {
+    "name": "body-bottom-vertex",
+    "status": "failed",
+    "fingerprint": "bf5ee9f7e130d60fb554ec5fb6efad450748e0d7f05e102aaf8e6a26670c4b7e",
+    "sensor_statuses": {
+      "SENSOR-GREEN-01": "confirmed_shaded",
+      "SENSOR-GREEN-02": "unknown_obstruction_height",
+      "SENSOR-GREEN-03": "confirmed_sunlit_given_declared_context"
+    },
+    "body_checks_pass": false
+  },
+  "dependency_mutations_change_fingerprint": true,
+  "polygon_hole_export": {
+    "compile_status": "passed_with_scope_limits",
+    "manifest_status": "passed_with_scope_limits",
+    "green_ring_roles": [
+      "outer",
+      "hole"
+    ],
+    "hole_ring_preserved": true
+  },
+  "profile_mutation_detected": true,
+  "units_mutation_detected": true,
+  "text_mutation_detected": true,
+  "rogue_entity_detected": true,
+  "geometry_mutation_detected": true,
+  "dxf_mutations": [
+    {
+      "name": "layer-lineweight",
+      "validator_status": "failed",
+      "passed": false,
+      "layer_pass": false,
+      "all_objects_pass": true,
+      "entity_count": 11,
+      "expected_entity_count": 11
+    },
+    {
+      "name": "units",
+      "validator_status": "failed",
+      "passed": false,
+      "layer_pass": true,
+      "all_objects_pass": true,
+      "entity_count": 11,
+      "expected_entity_count": 11
+    },
+    {
+      "name": "label-text",
+      "validator_status": "failed",
+      "passed": false,
+      "layer_pass": true,
+      "all_objects_pass": false,
+      "entity_count": 11,
+      "expected_entity_count": 11
+    },
+    {
+      "name": "rogue-entity",
+      "validator_status": "failed",
+      "passed": false,
+      "layer_pass": true,
+      "all_objects_pass": true,
+      "entity_count": 12,
+      "expected_entity_count": 11
+    },
+    {
+      "name": "polyline-coordinate",
+      "validator_status": "failed",
+      "passed": false,
+      "layer_pass": true,
+      "all_objects_pass": false,
+      "entity_count": 11,
+      "expected_entity_count": 11
+    }
+  ],
+  "all_adversarial_probes_pass": true
+}

@@ -1,0 +1,41 @@
+schema_id: dgcad.runtime.state-contract.v0.1
+status: research_prototype
+registries:
+  - project_state
+  - proposals
+  - approvals
+  - jobs
+  - artifacts
+  - idempotency
+  - audit
+proposal_states:
+  - proposed
+  - previewed
+  - approved
+  - committed
+  - cancelled
+  - expired
+  - blocked
+job_states:
+  - queued
+  - running
+  - succeeded
+  - failed
+  - cancelled
+artifact_states:
+  - current
+  - stale
+  - building
+  - failed
+approval_binding:
+  fields:
+    - proposal_id
+    - changeset_hash
+    - scene_revision
+    - actor_id
+    - grant_kind
+    - expires_at
+  agent_can_mint: false
+worker_delivery_semantics: at_least_once
+concurrent_writer_policy: optimistic_compare_and_swap
+production_storage_decision: not_frozen

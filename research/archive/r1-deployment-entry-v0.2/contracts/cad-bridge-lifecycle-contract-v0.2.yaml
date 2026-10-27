@@ -1,0 +1,40 @@
+schema_id: dgcad.cad_bridge.lifecycle.v0.2
+status: research_candidate
+bridge_role: external_authoring_and_view_adapter
+canonical_owner: dgcad_runtime
+session:
+  requires_role: cad_bridge
+  register_fields:
+    - bridge_type
+    - host_pid
+    - document_key
+  heartbeat_required: true
+  expiry_is_fail_closed: true
+  ownership_bound_to_actor_id: true
+allowed_operations:
+  - read_external_document_metadata
+  - read_selected_external_entities
+  - create_or_update_external_representation_after_runtime_instruction
+  - synchronize_selection_and_view
+  - report_external_save_reopen_or_document_change
+forbidden_operations:
+  - create_human_approval
+  - unlock_canonical_object
+  - mutate_canonical_store_directly
+  - treat_external_document_as_canonical_truth
+host_specific:
+  autocad:
+    candidate: thin_managed_dotnet_in_process_plugin
+    lifecycle_hooks:
+      - initialize_on_plugin_load
+      - register_current_document_context
+      - report_document_open_close_switch
+      - unregister_or_expire_on_autocad_shutdown
+    execution_status_this_environment: not_run_no_autocad
+  freecad:
+    candidate: thin_python_workbench_or_macro_bridge
+    execution_status_this_environment: not_run_no_freecad
+first_message_exchange:
+  generic_loopback_bridge_register_and_heartbeat: executed
+  actual_autocad_plugin_to_runtime: blocked
+  blocker: AutoCAD_and_Windows_dotnet_host_not_available_in_current_environment

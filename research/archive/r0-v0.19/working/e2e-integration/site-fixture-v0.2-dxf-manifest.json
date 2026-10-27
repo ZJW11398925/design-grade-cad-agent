@@ -1,0 +1,322 @@
+{
+  "benchmark_id": "LOCAL-E2E-CAD-002",
+  "run_id": "RUN-E2E-004",
+  "fixture_id": "E2E-FIXTURE-001",
+  "fixture_revision": "r2",
+  "cad_ir_instance": "site-fixture-cad-ir-v0.2.json",
+  "cad_ir_schema": "cad_ir_contract_r0_v0.1",
+  "generated_at_utc": "2026-10-26T17:05:57.333669+00:00",
+  "status": "passed_with_scope_limits",
+  "environment": {
+    "python_version": "3.13.5",
+    "ezdxf_version": "1.4.4"
+  },
+  "output_dxf": "site-fixture-v0.2.dxf",
+  "dxf_validation": {
+    "status": "passed_with_scope_limits",
+    "dxf_path": "/mnt/data/design-grade-cad-agent-r0/working/e2e-integration/site-fixture-v0.2.dxf",
+    "dxf_version": "AC1024",
+    "expected_dxf_version": "R2010",
+    "version_pass": true,
+    "insunits": 6,
+    "expected_insunits": 6,
+    "units_pass": true,
+    "entity_count": 11,
+    "expected_entity_count": 11,
+    "all_entities_checked": true,
+    "entities_without_xdata": [],
+    "malformed_xdata": [],
+    "unknown_object_ids": [],
+    "layer_checks": {
+      "A-SITE-BOUNDARY": {
+        "exists": true,
+        "color_pass": true,
+        "linetype_pass": true,
+        "lineweight_pass": true,
+        "passed": true
+      },
+      "C-ROAD-CENTER": {
+        "exists": true,
+        "color_pass": true,
+        "linetype_pass": true,
+        "lineweight_pass": true,
+        "passed": true
+      },
+      "L-GREEN": {
+        "exists": true,
+        "color_pass": true,
+        "linetype_pass": true,
+        "lineweight_pass": true,
+        "passed": true
+      },
+      "A-BUILDING-OUTLINE": {
+        "exists": true,
+        "color_pass": true,
+        "linetype_pass": true,
+        "lineweight_pass": true,
+        "passed": true
+      },
+      "A-ENV-SENSOR": {
+        "exists": true,
+        "color_pass": true,
+        "linetype_pass": true,
+        "lineweight_pass": true,
+        "passed": true
+      }
+    },
+    "layers_pass": true,
+    "audit_error_count": 0,
+    "audit_fix_count": 0,
+    "audit_pass": true,
+    "object_checks": {
+      "SITE-BOUNDARY-01": {
+        "expected_entity_count": 1,
+        "actual_entity_count": 1,
+        "unexpected_entities": [],
+        "passed": true,
+        "entity_checks": [
+          {
+            "entity_role": "ring",
+            "part_index": 0,
+            "ring_index": 0,
+            "exactly_one_match": true,
+            "type_pass": true,
+            "class_pass": true,
+            "revision_pass": true,
+            "source_hash_pass": true,
+            "representation_hash_pass": true,
+            "layer_pass": true,
+            "coordinates_pass": true,
+            "closed_pass": true,
+            "passed": true
+          }
+        ]
+      },
+      "ROAD-CORRIDOR-01": {
+        "expected_entity_count": 1,
+        "actual_entity_count": 1,
+        "unexpected_entities": [],
+        "passed": true,
+        "entity_checks": [
+          {
+            "entity_role": "line",
+            "part_index": 0,
+            "ring_index": 0,
+            "exactly_one_match": true,
+            "type_pass": true,
+            "class_pass": true,
+            "revision_pass": true,
+            "source_hash_pass": true,
+            "representation_hash_pass": true,
+            "layer_pass": true,
+            "coordinates_pass": true,
+            "closed_pass": true,
+            "passed": true
+          }
+        ]
+      },
+      "GREEN-AREA-01": {
+        "expected_entity_count": 1,
+        "actual_entity_count": 1,
+        "unexpected_entities": [],
+        "passed": true,
+        "entity_checks": [
+          {
+            "entity_role": "ring",
+            "part_index": 0,
+            "ring_index": 0,
+            "exactly_one_match": true,
+            "type_pass": true,
+            "class_pass": true,
+            "revision_pass": true,
+            "source_hash_pass": true,
+            "representation_hash_pass": true,
+            "layer_pass": true,
+            "coordinates_pass": true,
+            "closed_pass": true,
+            "passed": true
+          }
+        ]
+      },
+      "BLDG-01": {
+        "expected_entity_count": 1,
+        "actual_entity_count": 1,
+        "unexpected_entities": [],
+        "passed": true,
+        "entity_checks": [
+          {
+            "entity_role": "ring",
+            "part_index": 0,
+            "ring_index": 0,
+            "exactly_one_match": true,
+            "type_pass": true,
+            "class_pass": true,
+            "revision_pass": true,
+            "source_hash_pass": true,
+            "representation_hash_pass": true,
+            "layer_pass": true,
+            "coordinates_pass": true,
+            "closed_pass": true,
+            "passed": true
+          }
+        ]
+      },
+      "BLDG-02": {
+        "expected_entity_count": 1,
+        "actual_entity_count": 1,
+        "unexpected_entities": [],
+        "passed": true,
+        "entity_checks": [
+          {
+            "entity_role": "ring",
+            "part_index": 0,
+            "ring_index": 0,
+            "exactly_one_match": true,
+            "type_pass": true,
+            "class_pass": true,
+            "revision_pass": true,
+            "source_hash_pass": true,
+            "representation_hash_pass": true,
+            "layer_pass": true,
+            "coordinates_pass": true,
+            "closed_pass": true,
+            "passed": true
+          }
+        ]
+      },
+      "SENSOR-GREEN-01": {
+        "expected_entity_count": 2,
+        "actual_entity_count": 2,
+        "unexpected_entities": [],
+        "passed": true,
+        "entity_checks": [
+          {
+            "entity_role": "point_marker",
+            "part_index": 0,
+            "ring_index": 0,
+            "exactly_one_match": true,
+            "type_pass": true,
+            "class_pass": true,
+            "revision_pass": true,
+            "source_hash_pass": true,
+            "representation_hash_pass": true,
+            "layer_pass": true,
+            "center_pass": true,
+            "radius_pass": true,
+            "passed": true
+          },
+          {
+            "entity_role": "point_label",
+            "part_index": 0,
+            "ring_index": 0,
+            "exactly_one_match": true,
+            "type_pass": true,
+            "class_pass": true,
+            "revision_pass": true,
+            "source_hash_pass": true,
+            "representation_hash_pass": true,
+            "layer_pass": true,
+            "text_pass": true,
+            "insert_pass": true,
+            "height_pass": true,
+            "passed": true
+          }
+        ]
+      },
+      "SENSOR-GREEN-02": {
+        "expected_entity_count": 2,
+        "actual_entity_count": 2,
+        "unexpected_entities": [],
+        "passed": true,
+        "entity_checks": [
+          {
+            "entity_role": "point_marker",
+            "part_index": 0,
+            "ring_index": 0,
+            "exactly_one_match": true,
+            "type_pass": true,
+            "class_pass": true,
+            "revision_pass": true,
+            "source_hash_pass": true,
+            "representation_hash_pass": true,
+            "layer_pass": true,
+            "center_pass": true,
+            "radius_pass": true,
+            "passed": true
+          },
+          {
+            "entity_role": "point_label",
+            "part_index": 0,
+            "ring_index": 0,
+            "exactly_one_match": true,
+            "type_pass": true,
+            "class_pass": true,
+            "revision_pass": true,
+            "source_hash_pass": true,
+            "representation_hash_pass": true,
+            "layer_pass": true,
+            "text_pass": true,
+            "insert_pass": true,
+            "height_pass": true,
+            "passed": true
+          }
+        ]
+      },
+      "SENSOR-GREEN-03": {
+        "expected_entity_count": 2,
+        "actual_entity_count": 2,
+        "unexpected_entities": [],
+        "passed": true,
+        "entity_checks": [
+          {
+            "entity_role": "point_marker",
+            "part_index": 0,
+            "ring_index": 0,
+            "exactly_one_match": true,
+            "type_pass": true,
+            "class_pass": true,
+            "revision_pass": true,
+            "source_hash_pass": true,
+            "representation_hash_pass": true,
+            "layer_pass": true,
+            "center_pass": true,
+            "radius_pass": true,
+            "passed": true
+          },
+          {
+            "entity_role": "point_label",
+            "part_index": 0,
+            "ring_index": 0,
+            "exactly_one_match": true,
+            "type_pass": true,
+            "class_pass": true,
+            "revision_pass": true,
+            "source_hash_pass": true,
+            "representation_hash_pass": true,
+            "layer_pass": true,
+            "text_pass": true,
+            "insert_pass": true,
+            "height_pass": true,
+            "passed": true
+          }
+        ]
+      }
+    },
+    "all_object_checks_pass": true,
+    "passed": true,
+    "limits": [
+      "This is a separate code-path DXF artifact validator, but it still uses ezdxf and is not an independent CAD application.",
+      "DXF plan output projects 3D Point coordinates to XY for marker display; original source geometry hash remains in XDATA and z remains in CAD-IR/sidecar.",
+      "Polygon holes and MultiPolygon parts are emitted as separately tagged outline rings; this preserves ring roles as metadata but does not create a filled DXF region object."
+    ]
+  },
+  "environment_result_ref": "local-e2e-fixture-env-002.json",
+  "environment_dependency_fingerprint_sha256": "b32d0c01a5a188031aeb1d187db33795973ed56d8567b4370b82a535db70ff8c",
+  "limits": [
+    "Synthetic Profile only; no design-office or national standard compliance claim.",
+    "The validator is a separate code path but still uses ezdxf; no LibreCAD/AutoCAD/FreeCAD third-party round-trip.",
+    "The DXF is 2D plan linework. Building height/massing semantics remain in CAD-IR and the sidecar manifest, not a 3D solid or IFC model.",
+    "Polygon/MultiPolygon rings are separate tagged polylines; ring roles are metadata, not filled DXF region semantics.",
+    "Passing this adapter does not prove the road, building, or site design is professionally correct."
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "base_fingerprint": "b32d0c01a5a188031aeb1d187db33795973ed56d8567b4370b82a535db70ff8c",
+  "base_dependency_revision_checks": {
+    "same_manifest_not_stale": true,
+    "height_revision_change_stale": true,
+    "height_value_change_without_revision_bump_stale": true,
+    "height_state_change_without_revision_bump_stale": true,
+    "base_elevation_change_without_revision_bump_stale": true,
+    "body_geometry_change_without_revision_bump_stale": true,
+    "footprint_geometry_change_without_revision_bump_stale": true,
+    "north_bearing_change_stale": true,
+    "timestamp_change_stale": true,
+    "solar_method_version_change_stale": true,
+    "shadow_method_version_change_stale": true,
+    "sensor_grid_content_change_stale": true,
+    "terrain_content_change_stale": true,
+    "context_coverage_change_stale": true
+  },
+  "all_base_dependency_revision_checks_pass": true,
+  "baseline_dxf_validation": {
+    "status": "passed_with_scope_limits",
+    "passed": true,
+    "entity_count": 11,
+    "expected_entity_count": 11,
+    "layers_pass": true,
+    "units_pass": true
+  },
+  "height_value_mutation": {
+    "name": "height-value",
+    "status": "failed",
+    "fingerprint": "127458632cca4d88d7d61881ae12645a688d08616d37863312347316f0184ea2",
+    "sensor_statuses": {
+      "SENSOR-GREEN-01": "confirmed_sunlit_given_declared_context",
+      "SENSOR-GREEN-02": "unknown_obstruction_height",
+      "SENSOR-GREEN-03": "confirmed_sunlit_given_declared_context"
+    },
+    "body_checks_pass": false
+  },
+  "height_state_mutation": {
+    "name": "height-state",
+    "status": "failed",
+    "fingerprint": "e21a61b9fe486a031d57fc0a072bb4779841936916dae142b2f49ce0b01cfbbe",
+    "sensor_statuses": {
+      "SENSOR-GREEN-01": "estimated_height_affects_result",
+      "SENSOR-GREEN-02": "unknown_obstruction_height",
+      "SENSOR-GREEN-03": "estimated_height_affects_result"
+    },
+    "body_checks_pass": true
+  },
+  "base_elevation_mutation": {
+    "name": "base-elevation",
+    "status": "failed",
+    "fingerprint": "55eaec9d5e2d984e7d6e177521c8aeaa80c81908623ac8f947082bf653c6a80e",
+    "sensor_statuses": {
+      "SENSOR-GREEN-01": "confirmed_shaded",
+      "SENSOR-GREEN-02": "unknown_obstruction_height",
+      "SENSOR-GREEN-03": "confirmed_sunlit_given_declared_context"
+    },
+    "body_checks_pass": false
+  },
+  "body_geometry_mutation": {
+    "name": "body-geometry",
+    "status": "failed",
+    "fingerprint": "9755e14b8ada7fa1deafd2a6e5a59f4e6ddfd9f7241cfb0ec93cd26f10917850",
+    "sensor_statuses": {
+      "SENSOR-GREEN-01": "confirmed_shaded",
+      "SENSOR-GREEN-02": "unknown_obstruction_height",
+      "SENSOR-GREEN-03": "confirmed_sunlit_given_declared_context"
+    },
+    "body_checks_pass": false
+  },
+  "body_bottom_vertex_mutation": {
+    "name": "body-bottom-vertex",
+    "status": "failed",
+    "fingerprint": "a63cb23a21feaaa9b843db2c33a1dbd58f14d2a3e436deeaea687ab76d7edba6",
+    "sensor_statuses": {
+      "SENSOR-GREEN-01": "confirmed_shaded",
+      "SENSOR-GREEN-02": "unknown_obstruction_height",
+      "SENSOR-GREEN-03": "confirmed_sunlit_given_declared_context"
+    },
+    "body_checks_pass": false
+  },
+  "dependency_mutations_change_fingerprint": true,
+  "polygon_hole_export": {
+    "compile_status": "passed_with_scope_limits",
+    "manifest_status": "passed_with_scope_limits",
+    "green_ring_roles": [
+      "outer",
+      "hole"
+    ],
+    "hole_ring_preserved": true
+  },
+  "profile_mutation_detected": true,
+  "units_mutation_detected": true,
+  "text_mutation_detected": true,
+  "rogue_entity_detected": true,
+  "geometry_mutation_detected": true,
+  "dxf_mutations": [
+    {
+      "name": "layer-lineweight",
+      "validator_status": "failed",
+      "passed": false,
+      "layer_pass": false,
+      "all_objects_pass": true,
+      "entity_count": 11,
+      "expected_entity_count": 11
+    },
+    {
+      "name": "units",
+      "validator_status": "failed",
+      "passed": false,
+      "layer_pass": true,
+      "all_objects_pass": true,
+      "entity_count": 11,
+      "expected_entity_count": 11
+    },
+    {
+      "name": "label-text",
+      "validator_status": "failed",
+      "passed": false,
+      "layer_pass": true,
+      "all_objects_pass": false,
+      "entity_count": 11,
+      "expected_entity_count": 11
+    },
+    {
+      "name": "rogue-entity",
+      "validator_status": "failed",
+      "passed": false,
+      "layer_pass": true,
+      "all_objects_pass": true,
+      "entity_count": 12,
+      "expected_entity_count": 11
+    },
+    {
+      "name": "polyline-coordinate",
+      "validator_status": "failed",
+      "passed": false,
+      "layer_pass": true,
+      "all_objects_pass": false,
+      "entity_count": 11,
+      "expected_entity_count": 11
+    }
+  ],
+  "all_adversarial_probes_pass": true
+}

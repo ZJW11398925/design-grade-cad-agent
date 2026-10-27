@@ -1,0 +1,170 @@
+{
+  "schema_id": "dgcad.package.manifest.v0.1",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1431,
+      "sha256": "adbb7d1e57a96800b11a63e749a0284057591752a751d39d0f534e6aacc28869"
+    },
+    {
+      "path": "contracts/runtime-agent-surface-v0.1.yaml",
+      "bytes": 659,
+      "sha256": "fb7280dcbec789c140541875492694fbdf03b3fa2826136f29723f7d8b5f73e3"
+    },
+    {
+      "path": "contracts/runtime-state-contract-v0.1.yaml",
+      "bytes": 721,
+      "sha256": "271d1de9e8d02bcca7d39498cee9aa30e04bab566e54dc8580beb3a4a02e0da3"
+    },
+    {
+      "path": "fixtures/authority_cases.yaml",
+      "bytes": 518,
+      "sha256": "29e51f0fbc4547e320c8b272c5cd167ac707c2d3f7df7a2f915eb4121115ae3c"
+    },
+    {
+      "path": "fixtures/dependency_cases.yaml",
+      "bytes": 442,
+      "sha256": "b8e1d75dd54c16878af8cda15fd56ea712cb2ddc257a998c3d7b2d6fb3df3c67"
+    },
+    {
+      "path": "fixtures/minimal_scene.yaml",
+      "bytes": 502,
+      "sha256": "e17829408523d3d9650e1557544508ac84706b06c0b880f4499d2e828fd6a45e"
+    },
+    {
+      "path": "foundation-contract-register-v0.2.yaml",
+      "bytes": 5173,
+      "sha256": "67580bf7740e3964a9a63cc16b8b0b45b7f215b25b0251967a927810c666dcea"
+    },
+    {
+      "path": "pyproject.toml",
+      "bytes": 415,
+      "sha256": "73309d43432c8c9b38ea00527a16993c6fc603624b5b8a2caf970c9fe0e4f9df"
+    },
+    {
+      "path": "recovery-idempotency-policy-v0.1.md",
+      "bytes": 1844,
+      "sha256": "99d3496a29845f4584f8f66109dfd25f1db8a603967b325e43b893994e1b759a"
+    },
+    {
+      "path": "runtime-contract-register-v0.1.yaml",
+      "bytes": 4940,
+      "sha256": "94daf4d74a9a6f34f489b63feb29bc0e1201dcd230203ed7e48310ca4d5325d6"
+    },
+    {
+      "path": "runtime-entry-review-v0.1.md",
+      "bytes": 2206,
+      "sha256": "8ba215dee7b46f2f8e0a90619113affd61006b7e804d16b0aa743e317cadf936"
+    },
+    {
+      "path": "src/dgcad_foundation/__init__.py",
+      "bytes": 1226,
+      "sha256": "c96c4c95eaf0ae4fcc6bd3e8a606d094e3ec415ed0be8b580bed9609817c11ef"
+    },
+    {
+      "path": "src/dgcad_foundation/audit.py",
+      "bytes": 2044,
+      "sha256": "8af6d89a3f1e05574f0caad4935602bd443aaec0b17c48585fa4d79b02e8368b"
+    },
+    {
+      "path": "src/dgcad_foundation/authority.py",
+      "bytes": 1913,
+      "sha256": "64a8402395e7f18c87fdc1f35827df004b8706dad29e433068293823eaccba8e"
+    },
+    {
+      "path": "src/dgcad_foundation/dependency.py",
+      "bytes": 3469,
+      "sha256": "4149ac9261e3d7c66135c1ddaff5c2906ae320dac89375e14e2a0a31883b3095"
+    },
+    {
+      "path": "src/dgcad_foundation/gateway.py",
+      "bytes": 3348,
+      "sha256": "b1499c7981ce6529671fb5ac6e0d273e6fc04d53aeac536d2eeefd9f83248be7"
+    },
+    {
+      "path": "src/dgcad_foundation/migration.py",
+      "bytes": 1286,
+      "sha256": "b86dfdc47b94f5e44bea55fa17a581f4adaf75e1edbfa322aa18fc9e558f241d"
+    },
+    {
+      "path": "src/dgcad_foundation/model.py",
+      "bytes": 3967,
+      "sha256": "2538615028303c8e8f69f885642c36586c49fd9cd51a3b69bfa8e0b7b74d8902"
+    },
+    {
+      "path": "src/dgcad_foundation/scheduler.py",
+      "bytes": 562,
+      "sha256": "979ec91b7e1a690b27cfb5e26b5338ff59461637db03242c807d871a8b8e4c01"
+    },
+    {
+      "path": "src/dgcad_foundation/serialization.py",
+      "bytes": 1236,
+      "sha256": "0bcff8817403a14aee53c85fd563a85bea6dbb53e67af8883029fd726de408d3"
+    },
+    {
+      "path": "src/dgcad_foundation/store.py",
+      "bytes": 5168,
+      "sha256": "8011de60f2a4252cc3efc8ce824be1299ec386319377c8c2ec49e0b71b3e5b62"
+    },
+    {
+      "path": "src/dgcad_runtime/__init__.py",
+      "bytes": 747,
+      "sha256": "00a934f1d02ea1556243c8376e51784837b97e343c2d2e3b20ed4fb9e22f5994"
+    },
+    {
+      "path": "src/dgcad_runtime/clock.py",
+      "bytes": 343,
+      "sha256": "9915f601ec6b1e6e4be8f0c6572035cb358d6ca3b28983abfe45cc5c0eb17737"
+    },
+    {
+      "path": "src/dgcad_runtime/codec.py",
+      "bytes": 7988,
+      "sha256": "1dfdd1058e922fcdea1e3d51d05eeecca5bfd281787c0c6c4a41b83529dedd36"
+    },
+    {
+      "path": "src/dgcad_runtime/control.py",
+      "bytes": 943,
+      "sha256": "891a95b58aac9cd1b424ecbaf0a23bd1686aa4be9407e872928ce0bfc2a23458"
+    },
+    {
+      "path": "src/dgcad_runtime/errors.py",
+      "bytes": 462,
+      "sha256": "1bc4349ec4e5cd839684b60cc6baa0762371566d6ca5151d9ee1ad602e2540c9"
+    },
+    {
+      "path": "src/dgcad_runtime/model.py",
+      "bytes": 2657,
+      "sha256": "45585da73dd6f42c26f57cc500e1b527abf59c9a74b2ed543e2efd8bcdae4f3a"
+    },
+    {
+      "path": "src/dgcad_runtime/persistence.py",
+      "bytes": 3104,
+      "sha256": "9df70d532aecf53c21bd5f2c41b35372d484d09e329407a2f511cde29e7a4823"
+    },
+    {
+      "path": "src/dgcad_runtime/runtime.py",
+      "bytes": 27823,
+      "sha256": "1857ccdea8bd545fc2db370f272fff8212f42c185f0eb19b5ec8015ba7b27b1a"
+    },
+    {
+      "path": "src/dgcad_runtime/surface.py",
+      "bytes": 2515,
+      "sha256": "6d3f6f2adeca1fa37bdd408a11072e72767767d81fb2f5f0ea41bd2845ca82b7"
+    },
+    {
+      "path": "stateful-runtime-architecture-v0.1.md",
+      "bytes": 5380,
+      "sha256": "6209a37fb0955efdcdae3d43e58f1000838d5445587e1eda9a452ccbcc18ead0"
+    },
+    {
+      "path": "tests/test_foundation_contracts.py",
+      "bytes": 13845,
+      "sha256": "69c1dcc8fb29ff0ef63c034a45d0e954e5cc514b6e7ece04a7981c8f38721bfa"
+    },
+    {
+      "path": "tests/test_runtime_contracts.py",
+      "bytes": 20362,
+      "sha256": "ff9f54ad5dedcfe1d4f1f96a3ffd855401b69a22528c5df3f584d17c2a3ebeaa"
+    }
+  ]
+}

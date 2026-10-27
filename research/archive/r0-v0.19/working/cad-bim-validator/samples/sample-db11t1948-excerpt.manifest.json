@@ -1,0 +1,12 @@
+{
+  "artifact": "sample-db11t1948-excerpt.dxf",
+  "profile_id": "DB11-T-1948-2021-detailed-spatial-planning-extract",
+  "standard_id": "DB11/T 1948-2021",
+  "coordinate_state": "synthetic_local_not_beijing_reference",
+  "not_a_compliant_beijing_deliverable": true,
+  "notes": [
+    "Exact selected layer names/RGB are sourced from the official standard excerpt.",
+    "No numeric lineweight was fabricated where the source leaves it discretionary.",
+    "Coordinate reference requirement 2.2.1 remains blocked because coordinates are synthetic."
+  ]
+}

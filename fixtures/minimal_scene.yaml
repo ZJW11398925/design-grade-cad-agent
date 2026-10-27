@@ -1,0 +1,18 @@
+schema_id: dgcad.foundation.fixture.scene.v0.1
+scene_id: scene-001
+scene_revision: 1
+world: canonical_current
+objects:
+  - object_id: B-001
+    object_class: building
+    revisions: {semantic: 1, geometry: 1, parameter: 1}
+    authority_state: human_confirmed
+    values:
+      height_m: 18.0
+      footprint_ref: GEO-B-001
+  - object_id: R-001
+    object_class: road
+    revisions: {semantic: 1, geometry: 1, parameter: 0}
+    authority_state: human_confirmed
+    values:
+      road_graph_ref: RG-001

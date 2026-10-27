@@ -1,0 +1,94 @@
+schema_id: dgcad.agent.tool-contract.v0.1
+status: research-candidate
+principles:
+  - agent_never_receives_raw_write_access_to_canonical_store
+  - actor_identity_and_privileges_are_injected_by_host
+  - human_confirmation_and_unlock_are_not_agent_self_assertable
+  - read_context_is_separate_from_side_effecting_tools
+  - every_side_effect_returns_structured_status_and_evidence
+  - canonical_preview_external_worlds_are_explicit
+  - domain_tools_must_compile_to_foundation_proposals_not_mutate_state_directly
+
+resources:
+  - name: scene_summary
+    uri_template: dgcad://scene/{scene_id}/summary
+    purpose: read-only scene revision, world, object ids, stale artifact summary
+  - name: object_view
+    uri_template: dgcad://object/{object_id}
+    purpose: read-only canonical object, revisions, authority, locks, provenance summary
+  - name: proposal_view
+    uri_template: dgcad://proposal/{proposal_id}
+    purpose: proposal diff, required authority, validation state
+  - name: snapshot_view
+    uri_template: dgcad://snapshot/{snapshot_id}
+    purpose: preview-only snapshot metadata and derived preview artifacts
+  - name: validation_view
+    uri_template: dgcad://validation/{validation_id}
+    purpose: structured validation evidence and coverage limits
+  - name: artifact_status
+    uri_template: dgcad://artifact/{artifact_id}
+    purpose: derived artifact revision, dependency hash, current/stale/blocked state
+
+tools:
+  - name: cad.propose_change
+    side_effect: creates_proposal_record_only
+    canonical_write: false
+    input:
+      required: [object_id, change_intent, reason]
+      forbidden: [actor_is_human, can_unlock, confirmed, unlock_confirmed]
+    output: [proposal_id, normalized_diff, required_authority, blockers]
+  - name: cad.preview_change
+    side_effect: creates_preview_snapshot
+    canonical_write: false
+    input:
+      required: [proposal_or_changeset_id]
+    output: [snapshot_id, validation_summary, stale_preview_artifacts]
+  - name: cad.validate
+    side_effect: validation_evidence_only
+    canonical_write: false
+    input:
+      required: [target_ref, validator_profile]
+    output: [validation_id, verdict, issues, coverage_limits]
+  - name: cad.request_commit
+    side_effect: may_commit_only_when_server_side_authority_allows
+    canonical_write: conditional
+    notes:
+      - an agent session cannot fabricate human approval
+      - human-required requests return approval_required, not an implicit commit
+    output: [status, scene_revision, approval_request, issues]
+  - name: cad.reconcile_external
+    side_effect: creates_diff_and_proposal
+    canonical_write: false
+    input:
+      required: [external_artifact_ref]
+    output: [reconcile_id, mapped_objects, unmatched_entities, proposal_ids, conflicts]
+  - name: cad.rebuild_stale
+    side_effect: rebuilds_derived_artifacts_only
+    canonical_write: false
+    input:
+      required: [artifact_scope]
+    output: [job_id, rebuild_order, rebuilt, blocked]
+  - name: cad.export
+    side_effect: creates_external_artifact
+    canonical_write: false
+    input:
+      required: [format, source_world, profile_id]
+    output: [artifact_id, validation_id, export_status]
+
+human_control_plane:
+  agent_exposed: false
+  operations:
+    - approve_proposal
+    - reject_proposal
+    - unlock_scope
+    - resolve_conflict
+    - promote_profile
+  identity_source: authenticated_host_session
+
+deferred:
+  - arbitrary_python_execution
+  - raw_database_or_store_mutation
+  - generic_set_object_field_tool
+  - direct_external_file_overwrite_of_canonical
+  - autonomous_unlock
+  - autonomous_promotion_of_candidate_rules_to_mandatory

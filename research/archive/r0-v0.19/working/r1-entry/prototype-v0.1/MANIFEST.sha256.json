@@ -1,0 +1,65 @@
+{
+  "schema_id": "dgcad.r1-foundation-entry.manifest.v0.1",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1495,
+      "sha256": "27d243f1608d982b6b98eb82ca9ecd715b430ddae9f6c6fb2369b70f5102afa0"
+    },
+    {
+      "path": "fixtures/authority_cases.yaml",
+      "bytes": 518,
+      "sha256": "29e51f0fbc4547e320c8b272c5cd167ac707c2d3f7df7a2f915eb4121115ae3c"
+    },
+    {
+      "path": "fixtures/dependency_cases.yaml",
+      "bytes": 442,
+      "sha256": "b8e1d75dd54c16878af8cda15fd56ea712cb2ddc257a998c3d7b2d6fb3df3c67"
+    },
+    {
+      "path": "fixtures/minimal_scene.yaml",
+      "bytes": 502,
+      "sha256": "e17829408523d3d9650e1557544508ac84706b06c0b880f4499d2e828fd6a45e"
+    },
+    {
+      "path": "foundation-contract-register-v0.1.yaml",
+      "bytes": 3213,
+      "sha256": "b56e8fcffa4d370944bd50177fd812757d02ae3ad9ad194e3b21aa45198bb6aa"
+    },
+    {
+      "path": "pyproject.toml",
+      "bytes": 445,
+      "sha256": "9ff8789e713b40f63f4b52ceb63970473523dbf8a9e00fea4dbccbb60e8223b9"
+    },
+    {
+      "path": "src/dgcad_foundation/__init__.py",
+      "bytes": 846,
+      "sha256": "1b4fb9f50be2e25a37046a4a2438a46c2e2c13bd7ad8f0f716ecf25c2140b726"
+    },
+    {
+      "path": "src/dgcad_foundation/authority.py",
+      "bytes": 1805,
+      "sha256": "e0af055fec516c968b387e6739f4866323120c625ff59c8f6cf54b7d1974f7d7"
+    },
+    {
+      "path": "src/dgcad_foundation/dependency.py",
+      "bytes": 1359,
+      "sha256": "d2332000e66136753779aabe2ff0f241409f58281c780a47008b422820a364e5"
+    },
+    {
+      "path": "src/dgcad_foundation/model.py",
+      "bytes": 3449,
+      "sha256": "0364360c9d23509108173ef3240d1ad33a38ff302b6f4d99dd4883fedfffb414"
+    },
+    {
+      "path": "src/dgcad_foundation/store.py",
+      "bytes": 2869,
+      "sha256": "3f1b44d995d3b6780ffdbb3c80ff76ec4cb66b6f3ec81c1151990831fa59c1a7"
+    },
+    {
+      "path": "tests/test_foundation_contracts.py",
+      "bytes": 7834,
+      "sha256": "9f8cb375184f4bb5af3a9e672ecca5e2ae5f6cba68dee2d0cb073d51b6516926"
+    }
+  ]
+}

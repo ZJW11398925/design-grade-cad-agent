@@ -1,0 +1,220 @@
+{
+  "benchmark_id": "LOCAL-E2E-CAD-001",
+  "run_id": "RUN-E2E-002",
+  "fixture_id": "E2E-FIXTURE-001",
+  "fixture_revision": "r1",
+  "cad_ir_instance": "site-fixture-cad-ir-v0.1.json",
+  "cad_ir_schema": "cad_ir_contract_r0_v0.1",
+  "generated_at_utc": "2026-10-26T16:22:56.567716+00:00",
+  "status": "passed_with_scope_limits",
+  "environment": {
+    "python_version": "3.13.5",
+    "ezdxf_version": "1.4.4"
+  },
+  "output_dxf": "site-fixture-v0.1.dxf",
+  "dxf_version": "AC1024",
+  "insunits": 6,
+  "entity_count": 11,
+  "audit_error_count": 0,
+  "audit_fix_count": 0,
+  "environment_result_ref": "local-e2e-fixture-env-001.json",
+  "environment_dependency_fingerprint_sha256": "d92ec59a9345a30bb7ce601a411354f85ad962f2962b4a0984d402fc6494b996",
+  "object_mapping_checks": {
+    "SITE-BOUNDARY-01": {
+      "expected_entity_count": 1,
+      "actual_entity_count": 1,
+      "identity_count_pass": true,
+      "class_pass": true,
+      "revision_pass": true,
+      "geometry_hash_pass": true,
+      "layer_pass": true,
+      "entities": [
+        {
+          "handle": "35",
+          "type": "LWPOLYLINE",
+          "layer": "A-SITE-BOUNDARY",
+          "object_class": "site_boundary",
+          "geometry_revision": "boundary-r1",
+          "geometry_hash": "dc6fd3429a7486ce2cd1b45714bc6e1f28ea2cf0fd9f4483286ef8c3107814cc"
+        }
+      ],
+      "vertex_coordinates_pass": true,
+      "closed_pass": true
+    },
+    "ROAD-CORRIDOR-01": {
+      "expected_entity_count": 1,
+      "actual_entity_count": 1,
+      "identity_count_pass": true,
+      "class_pass": true,
+      "revision_pass": true,
+      "geometry_hash_pass": true,
+      "layer_pass": true,
+      "entities": [
+        {
+          "handle": "36",
+          "type": "LWPOLYLINE",
+          "layer": "C-ROAD-CENTER",
+          "object_class": "road_centerline",
+          "geometry_revision": "road-r1",
+          "geometry_hash": "af6e61269e6a64a4bf8dbe44b4344bb040a40c780305d3697a43504963db213b"
+        }
+      ],
+      "vertex_coordinates_pass": true,
+      "closed_pass": true
+    },
+    "GREEN-AREA-01": {
+      "expected_entity_count": 1,
+      "actual_entity_count": 1,
+      "identity_count_pass": true,
+      "class_pass": true,
+      "revision_pass": true,
+      "geometry_hash_pass": true,
+      "layer_pass": true,
+      "entities": [
+        {
+          "handle": "37",
+          "type": "LWPOLYLINE",
+          "layer": "L-GREEN",
+          "object_class": "green_space",
+          "geometry_revision": "green-r1",
+          "geometry_hash": "1bbc8f2ceca4b3240d543a85e2236ccab93105b3566b14c7b9f8674d9289f549"
+        }
+      ],
+      "vertex_coordinates_pass": true,
+      "closed_pass": true
+    },
+    "BLDG-01": {
+      "expected_entity_count": 1,
+      "actual_entity_count": 1,
+      "identity_count_pass": true,
+      "class_pass": true,
+      "revision_pass": true,
+      "geometry_hash_pass": true,
+      "layer_pass": true,
+      "entities": [
+        {
+          "handle": "38",
+          "type": "LWPOLYLINE",
+          "layer": "A-BUILDING-OUTLINE",
+          "object_class": "building_footprint",
+          "geometry_revision": "footprint-r1",
+          "geometry_hash": "9d8527ed2bff07918ff216858837dff290cdf12efa0dc863a626c600af9d6f9c"
+        }
+      ],
+      "vertex_coordinates_pass": true,
+      "closed_pass": true
+    },
+    "BLDG-02": {
+      "expected_entity_count": 1,
+      "actual_entity_count": 1,
+      "identity_count_pass": true,
+      "class_pass": true,
+      "revision_pass": true,
+      "geometry_hash_pass": true,
+      "layer_pass": true,
+      "entities": [
+        {
+          "handle": "39",
+          "type": "LWPOLYLINE",
+          "layer": "A-BUILDING-OUTLINE",
+          "object_class": "building_footprint",
+          "geometry_revision": "footprint-r1",
+          "geometry_hash": "4c07f6f7f092a78051da65d0f6dc0e739cf7f602215c2907631a5e36de7735d4"
+        }
+      ],
+      "vertex_coordinates_pass": true,
+      "closed_pass": true
+    },
+    "SENSOR-GREEN-01": {
+      "expected_entity_count": 2,
+      "actual_entity_count": 2,
+      "identity_count_pass": true,
+      "class_pass": true,
+      "revision_pass": true,
+      "geometry_hash_pass": true,
+      "layer_pass": true,
+      "entities": [
+        {
+          "handle": "3A",
+          "type": "CIRCLE",
+          "layer": "A-ENV-SENSOR",
+          "object_class": "other",
+          "geometry_revision": "sensor-grid-r1",
+          "geometry_hash": "e9dd0e1dcc0453599a5a394755d7e568222a61870a8e86c148e21362d7a872da"
+        },
+        {
+          "handle": "3B",
+          "type": "TEXT",
+          "layer": "A-ENV-SENSOR",
+          "object_class": "other",
+          "geometry_revision": "sensor-grid-r1",
+          "geometry_hash": "e9dd0e1dcc0453599a5a394755d7e568222a61870a8e86c148e21362d7a872da"
+        }
+      ],
+      "sensor_xy_pass": true
+    },
+    "SENSOR-GREEN-02": {
+      "expected_entity_count": 2,
+      "actual_entity_count": 2,
+      "identity_count_pass": true,
+      "class_pass": true,
+      "revision_pass": true,
+      "geometry_hash_pass": true,
+      "layer_pass": true,
+      "entities": [
+        {
+          "handle": "3C",
+          "type": "CIRCLE",
+          "layer": "A-ENV-SENSOR",
+          "object_class": "other",
+          "geometry_revision": "sensor-grid-r1",
+          "geometry_hash": "ff4dbfc9cc9e81d4f2778deeda11fb0963d505276f1de541998cf82e836ab690"
+        },
+        {
+          "handle": "3D",
+          "type": "TEXT",
+          "layer": "A-ENV-SENSOR",
+          "object_class": "other",
+          "geometry_revision": "sensor-grid-r1",
+          "geometry_hash": "ff4dbfc9cc9e81d4f2778deeda11fb0963d505276f1de541998cf82e836ab690"
+        }
+      ],
+      "sensor_xy_pass": true
+    },
+    "SENSOR-GREEN-03": {
+      "expected_entity_count": 2,
+      "actual_entity_count": 2,
+      "identity_count_pass": true,
+      "class_pass": true,
+      "revision_pass": true,
+      "geometry_hash_pass": true,
+      "layer_pass": true,
+      "entities": [
+        {
+          "handle": "3E",
+          "type": "CIRCLE",
+          "layer": "A-ENV-SENSOR",
+          "object_class": "other",
+          "geometry_revision": "sensor-grid-r1",
+          "geometry_hash": "788bff5f74eb5572cde53e956dd2bbb60346f16ba6a577b704a28511038284e6"
+        },
+        {
+          "handle": "3F",
+          "type": "TEXT",
+          "layer": "A-ENV-SENSOR",
+          "object_class": "other",
+          "geometry_revision": "sensor-grid-r1",
+          "geometry_hash": "788bff5f74eb5572cde53e956dd2bbb60346f16ba6a577b704a28511038284e6"
+        }
+      ],
+      "sensor_xy_pass": true
+    }
+  },
+  "all_identity_revision_geometry_checks_pass": true,
+  "limits": [
+    "Synthetic Profile only; no design-office or national standard compliance claim.",
+    "Same-library ezdxf write/read only; no LibreCAD/AutoCAD/FreeCAD third-party round-trip.",
+    "The DXF contains editable 2D entities; building height/massing semantics remain in CAD-IR and the sidecar manifest, not a 3D solid or IFC model.",
+    "Passing this adapter does not prove the road, building, or site design is professionally correct."
+  ]
+}

@@ -1,0 +1,221 @@
+{
+  "run_id": "RUN-E2E-007",
+  "benchmark_id": "LOCAL-E2E-ENV-003",
+  "fixture_id": "E2E-FIXTURE-001",
+  "generated_at_utc": "2026-10-27T00:03:11.105663+00:00",
+  "status": "passed_with_scope_limits",
+  "solar_position": {
+    "elevation_deg": 72.04673645599621,
+    "azimuth_deg_from_true_north_clockwise": 32.309304133746934,
+    "algorithm": "NOAA fractional-year approximation (benchmark only)"
+  },
+  "dependency_manifest": {
+    "site_model_id": "SYNTH-SITE-001",
+    "site_model_revision": "site-r1",
+    "fixture_id": "E2E-FIXTURE-001",
+    "fixture_revision": "r2",
+    "coordinate_frame_id": "LOCAL-ENU-XY-ZUP",
+    "coordinate_state": "local_metric_scaled",
+    "coordinate_units": "metre",
+    "project_y_axis_true_north_bearing_deg": 0.0,
+    "north_bearing_state": "confirmed_within_synthetic_fixture",
+    "site_latitude_deg": -33.87,
+    "site_longitude_deg": 151.22,
+    "local_datetime_iso_with_utc_offset": "2025-11-15T11:00:00+10:00",
+    "terrain_revision": "terrain-r1",
+    "terrain_content_hash_sha256": "ab5de1689c42a03aa1272f59a5dc396b2b3926748b20df97c3e9500d75bce837",
+    "context_coverage_status": "complete_for_declared_synthetic_fixture",
+    "sensor_grid_revisions": [
+      "sensor-grid-r1"
+    ],
+    "sensor_grid_content_hash_sha256": "b2140d3edd0120f78c30f1a87741857d2b84f7ff2b497a317f5fa10edcfb04de",
+    "solar_position_method": "NOAA fractional-year approximation (benchmark only)",
+    "solar_position_method_version": "local-probe-0.2.1",
+    "shadow_method": "2D ray segment against stored vertical-prism mesh/footprint contract",
+    "shadow_method_version": "local-probe-0.2.1",
+    "metric_definition": {
+      "metric_id": "direct_sun_visibility_at_sample_time",
+      "units": "boolean_or_unknown",
+      "interpretation": "Geometric direct-sun visibility at one timestamp under the declared synthetic vertical-prism context.",
+      "not_included": [
+        "weather weighting",
+        "annual daylight",
+        "indoor illuminance",
+        "radiation",
+        "legal sunlight compliance"
+      ]
+    },
+    "blockers": [
+      {
+        "object_id": "BLDG-01",
+        "geometry_revision": "footprint-r1",
+        "geometry_content_hash_sha256": "9d8527ed2bff07918ff216858837dff290cdf12efa0dc863a626c600af9d6f9c",
+        "placement_revision": "placement-r1",
+        "body_revision": "body-r1",
+        "body_ref": "BLDG-01/body-r1",
+        "body_state": "current",
+        "body_representation_kind": "synthetic_vertical_prism",
+        "body_geometry_content_hash_sha256": "48fcc24a58528d4dbc0c9124da4cb033b228315471a5da8f4540a120d72e2685",
+        "height_revision": "height-r1",
+        "height_state": "confirmed_within_synthetic_fixture",
+        "height_value_m": 22.0,
+        "base_elevation_m": 0.0,
+        "base_elevation_state": "confirmed_within_synthetic_fixture"
+      },
+      {
+        "object_id": "BLDG-02",
+        "geometry_revision": "footprint-r1",
+        "geometry_content_hash_sha256": "4c07f6f7f092a78051da65d0f6dc0e739cf7f602215c2907631a5e36de7735d4",
+        "placement_revision": "placement-r1",
+        "body_revision": null,
+        "body_ref": null,
+        "body_state": "missing",
+        "body_representation_kind": null,
+        "body_geometry_content_hash_sha256": null,
+        "height_revision": "height-unknown-r1",
+        "height_state": "unknown",
+        "height_value_m": null,
+        "base_elevation_m": 0.0,
+        "base_elevation_state": "confirmed_within_synthetic_fixture"
+      }
+    ]
+  },
+  "dependency_fingerprint_sha256": "b32d0c01a5a188031aeb1d187db33795973ed56d8567b4370b82a535db70ff8c",
+  "sensor_results": [
+    {
+      "sensor_id": "SENSOR-GREEN-01",
+      "expected_status": "confirmed_shaded",
+      "actual": {
+        "sensor_xy": [
+          10.0,
+          8.0
+        ],
+        "sunlit": false,
+        "status": "confirmed_shaded",
+        "blocker_ids": [
+          "BLDG-01"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "sensor_id": "SENSOR-GREEN-02",
+      "expected_status": "unknown_obstruction_height",
+      "actual": {
+        "sensor_xy": [
+          0.0,
+          8.0
+        ],
+        "sunlit": null,
+        "status": "unknown_obstruction_height",
+        "blocker_ids": [
+          "BLDG-02"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "sensor_id": "SENSOR-GREEN-03",
+      "expected_status": "confirmed_sunlit_given_declared_context",
+      "actual": {
+        "sensor_xy": [
+          5.0,
+          5.0
+        ],
+        "sunlit": true,
+        "status": "confirmed_sunlit_given_declared_context",
+        "blocker_ids": []
+      },
+      "passed": true
+    }
+  ],
+  "stored_body_mesh_checks": [
+    {
+      "object_id": "BLDG-01",
+      "status": "stored_body_mesh_projection_matches_footprint",
+      "top_xy_symmetric_difference_area_m2": 0.0,
+      "bottom_xy_symmetric_difference_area_m2": 0.0,
+      "base_elevation_m": 0.0,
+      "top_elevation_m": 22.0,
+      "top_z_valid": true,
+      "bottom_z_valid": true,
+      "all_vertex_z_valid": true,
+      "same_top_bottom_xy": true,
+      "closed_shell_edge_check": true,
+      "body_geometry_content_hash_sha256": "48fcc24a58528d4dbc0c9124da4cb033b228315471a5da8f4540a120d72e2685",
+      "projected_top_face_coordinates": [
+        [
+          12,
+          14
+        ],
+        [
+          16,
+          14
+        ],
+        [
+          16,
+          18
+        ],
+        [
+          12,
+          18
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "object_id": "BLDG-02",
+      "status": "blocked_missing_height",
+      "body_not_generated": true,
+      "passed": true
+    }
+  ],
+  "revision_checks": {
+    "same_manifest_not_stale": true,
+    "height_revision_change_stale": true,
+    "height_value_change_without_revision_bump_stale": true,
+    "height_state_change_without_revision_bump_stale": true,
+    "base_elevation_change_without_revision_bump_stale": true,
+    "body_geometry_change_without_revision_bump_stale": true,
+    "footprint_geometry_change_without_revision_bump_stale": true,
+    "north_bearing_change_stale": true,
+    "timestamp_change_stale": true,
+    "solar_method_version_change_stale": true,
+    "shadow_method_version_change_stale": true,
+    "sensor_grid_content_change_stale": true,
+    "terrain_content_change_stale": true,
+    "context_coverage_change_stale": true
+  },
+  "north_rotation_probe": {
+    "changed_bearing_deg": 90.0,
+    "dependency_stale": true,
+    "results_changed": true,
+    "sensor_results": [
+      {
+        "sensor_id": "SENSOR-GREEN-01",
+        "status": "confirmed_sunlit_given_declared_context",
+        "sunlit": true,
+        "blocker_ids": []
+      },
+      {
+        "sensor_id": "SENSOR-GREEN-02",
+        "status": "confirmed_sunlit_given_declared_context",
+        "sunlit": true,
+        "blocker_ids": []
+      },
+      {
+        "sensor_id": "SENSOR-GREEN-03",
+        "status": "confirmed_sunlit_given_declared_context",
+        "sunlit": true,
+        "blocker_ids": []
+      }
+    ]
+  },
+  "limits": [
+    "Synthetic fixture only; the body mesh is a simple synthetic vertical-prism mesh, not IFC or a validated solid-kernel result.",
+    "The sun/shadow algorithm is a low-precision benchmark probe, not a validated professional solar simulation engine.",
+    "No real raster-to-Trace, road generation, building regularization, IFC export, or independent solar engine was run.",
+    "The location is a solar-position reference only; local site geometry is not georeferenced.",
+    "Passing proves declared fixture/interface invariants only, not real-site quality, professional design correctness, or regulatory compliance."
+  ]
+}

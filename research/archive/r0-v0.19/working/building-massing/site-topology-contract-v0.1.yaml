@@ -1,0 +1,58 @@
+schema: site_topology_contract_r0_v0.1
+status: provisional
+purpose: Protect site-level relations when building footprints are regularized independently or as a group.
+units:
+  coordinate_frame_ref: required
+  metric_unit: required_if_calibrated
+objects:
+  - object_id: stable_building_object_id
+    trace_revision_ref: required
+    professional_revision_ref: nullable
+relations:
+  relation_id: stable_relation_id
+  endpoints:
+    object_a_id: required
+    object_b_id: required
+  source_relation:
+    type: one_of [shared_boundary, touches, separated, overlaps, contains, contained_by, within_clearance]
+    state: one_of [confirmed, inferred, unknown]
+    evidence_ref: nullable
+    measured_values:
+      shared_boundary_length: nullable
+      gap_distance: nullable
+      overlap_area: nullable
+      unit: required_when_measured
+  protected: false
+  allowed_change:
+    state: one_of [none, proposed, confirmed]
+    change_proposal_ref: nullable
+candidate_diff:
+  required:
+    - object_id_set_changed
+    - object_count_changed
+    - component_count_changed
+    - hole_count_changed
+    - relation_edges_added
+    - relation_edges_removed
+    - shared_boundary_length_delta
+    - gap_distance_delta
+    - overlap_area_delta
+validator_policy:
+  reject_without_explicit_change:
+    - protected_relation_changed
+    - stable_object_id_lost_or_merged
+    - confirmed_shared_boundary_broken
+    - confirmed_separation_removed
+    - confirmed_hole_or_component_removed
+  require_review:
+    - relation_state_unknown
+    - uncalibrated_coordinate_frame
+    - candidate_changes_neighbour_alignment
+    - candidate_changes_minimum_clearance
+provenance:
+  source_trace_refs: required
+  candidate_revision_ref: required
+  algorithm_name_and_version: required
+  parameters: required
+  metric_method_and_units: required
+  reviewer_decision_ref: nullable

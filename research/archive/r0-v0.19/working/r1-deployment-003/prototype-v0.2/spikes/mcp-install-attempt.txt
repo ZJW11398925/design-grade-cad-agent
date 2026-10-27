@@ -1,0 +1,6 @@
+2026-10-27 environment probe
+
+python import mcp -> ModuleNotFoundError
+python -m pip install 'mcp>=2,<3' -> failed after retries because name resolution/network access was unavailable.
+
+Consequence: MCP binding/transport is source-backed but wire-level execution remains blocked in this environment.

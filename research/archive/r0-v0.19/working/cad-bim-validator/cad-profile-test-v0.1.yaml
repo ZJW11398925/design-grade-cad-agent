@@ -1,0 +1,52 @@
+profile_id: synthetic-design-office-profile-test-v0.1
+status: synthetic_fixture_only
+warning: >-
+  This is a test fixture used to exercise DXF serialization and custom validation.
+  It is NOT a Chinese national/industry/local standard or any real design institute's standard.
+units:
+  insunits: 6 # meters in DXF INSUNITS enum
+  expected_lwdisplay: 1
+required_linetypes:
+  - CONTINUOUS
+  - CENTER
+required_layers:
+  A-SITE-BOUNDARY:
+    color: 1
+    linetype: CONTINUOUS
+    lineweight: 50 # 0.50 mm; test value only
+  A-BUILDING-OUTLINE:
+    color: 7
+    linetype: CONTINUOUS
+    lineweight: 35 # 0.35 mm; test value only
+  C-ROAD-CENTER:
+    color: 3
+    linetype: CENTER
+    lineweight: 18 # 0.18 mm; test value only
+  L-GREEN:
+    color: 94
+    linetype: CONTINUOUS
+    lineweight: 18
+  ANNO-DIM:
+    color: 7
+    linetype: CONTINUOUS
+    lineweight: 18
+required_layouts:
+  - Model
+  - Layout1
+  - A3
+required_blocks:
+  - BLDG-MASS
+required_text_styles:
+  - CN_TEXT
+required_dimstyles:
+  - SITE-DIM
+entity_properties:
+  linetype_policy: BYLAYER_ONLY
+  lineweight_policy: BYLAYER_ONLY
+entity_requirements:
+  modelspace_min_count_by_layer:
+    A-SITE-BOUNDARY: 1
+    A-BUILDING-OUTLINE: 1
+    C-ROAD-CENTER: 1
+    L-GREEN: 1
+    ANNO-DIM: 2

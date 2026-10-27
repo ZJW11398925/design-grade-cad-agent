@@ -1,0 +1,119 @@
+schema_id: design-grade-cad-agent.canonical-site-ir.v0.1
+status: provisional_research_contract
+
+scene:
+  scene_id: required
+  coordinate_state:
+    enum: [image_space, local_metric_scaled, project_coordinate, georeferenced]
+  coordinate_reference: nullable
+  transform_revision: required
+  north_state:
+    enum: [unknown, proposed, confirmed]
+  north_angle_deg: nullable
+  profile_bindings: []
+
+base_object:
+  required:
+    - object_id
+    - object_class
+    - semantic_revision
+    - geometry_revision
+    - state
+    - provenance
+  state:
+    enum: [unknown, proposed, confirmed, rejected, stale, blocked]
+  locks: []
+  source_refs: []
+  trace_ref: nullable
+  provenance:
+    created_by: required
+    parent_objects: []
+    change_reason: nullable
+    evidence_refs: []
+
+geometry_record:
+  geometry_type: required
+  plane_or_crs: required
+  revision: required
+  geometry_hash: required
+  topology_summary:
+    component_count: required
+    hole_count: required
+    valid: required
+  diff_from_trace: nullable
+
+road_object:
+  inherits: base_object
+  fields:
+    graph_edge_ids: []
+    hierarchy_state: unknown
+    hierarchy_candidate: nullable
+    functions: []
+    special_uses: []
+    centerline_revision: nullable
+    alignment_state: unknown
+    cross_section_profile_ref: nullable
+    junction_refs: []
+
+building_object:
+  inherits: base_object
+  fields:
+    trace_footprint_ref: nullable
+    professional_footprint_ref: nullable
+    regularization_state:
+      enum: [not_run, preserve_trace, candidate, needs_review, confirmed]
+    typology_state:
+      enum: [unknown, proposed, confirmed]
+    typology: nullable
+    height:
+      value_m: nullable
+      state: unknown
+      source_ref: nullable
+    floors:
+      value: nullable
+      state: unknown
+    base_elevation_m: nullable
+    massing_representation_ref: nullable
+
+landscape_object:
+  inherits: base_object
+  fields:
+    landscape_role: nullable
+    surface_geometry_ref: nullable
+
+representation:
+  representation_id: required
+  representation_type:
+    enum: [trace, professional_2d, massing_3d, cad_dxf, bim_ifc, analysis_mesh, rendering]
+  object_id: required
+  source_geometry_revision: required
+  source_parameter_revision: nullable
+  method_id: required
+  method_version: required
+  dependency_hash: required
+  state:
+    enum: [current, stale, invalid, blocked]
+
+analysis_result:
+  analysis_id: required
+  analysis_type: required
+  dependency_hash: required
+  input_object_revisions: []
+  method_id: required
+  method_version: required
+  coverage_limits: []
+  result_state:
+    enum: [provisional, confirmed_for_scope, stale, blocked]
+
+validation_result:
+  validator_id: required
+  validator_version: required
+  verdict:
+    enum: [pass, pass_with_differences, conditional, fail, validator_error]
+  issues:
+    - code: required
+      severity: required
+      object_id: nullable
+      expected: nullable
+      actual: nullable
+      evidence_locator: nullable

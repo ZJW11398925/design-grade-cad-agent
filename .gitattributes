@@ -1,0 +1,12 @@
+* text=auto eol=lf
+
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Preserve exact bytes of CAD interchange and evidence artifacts
+*.dxf -text
+*.dwg -text
+*.zip binary
+*.png binary
+*.pdf binary

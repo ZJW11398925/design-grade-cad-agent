@@ -1,0 +1,127 @@
+schema_id: design-grade-cad-agent.r1-foundation-contract-register.v0.2
+status: executable-research-contract-candidate
+scope: R1.0 Foundation only
+invariants:
+- id: FND-ID-001
+  title: stable canonical identity
+  gate: R1-G01
+  requirement: object_id does not change when semantic/geometry/parameter revisions
+    change
+  test: test_stable_identity_revision_changes_only_selected_axis
+- id: FND-REV-001
+  title: exact revision precondition
+  gate: R1-G01/R1-G03
+  requirement: stale proposals cannot commit over a newer canonical revision
+  test: test_atomic_changeset_rolls_back_all_when_one_proposal_is_stale
+- id: FND-TXN-001
+  title: atomic multi-object commit
+  gate: R1-G02/R1-G03
+  requirement: an invalid proposal prevents all proposals in the ChangeSet from committing
+  test: test_atomic_changeset_rolls_back_all_when_one_proposal_is_stale
+- id: FND-PREVIEW-001
+  title: preview before confirmation
+  gate: R1-G06
+  requirement: human-confirm-required proposals may be previewed before confirmation
+    but cannot commit
+  test: test_preview_of_human_confirm_proposal_does_not_require_prior_confirmation
+- id: FND-PREVIEW-002
+  title: preview isolation
+  gate: R1-G06
+  requirement: ProposalSnapshot cannot mutate canonical current state
+  test: test_preview_is_isolated_from_canonical_current
+- id: FND-AUTH-001
+  title: scoped locks
+  gate: R1-G02
+  requirement: a geometry lock blocks geometry changes but does not block unrelated
+    parameter changes
+  tests:
+  - test_field_scoped_geometry_lock_does_not_block_parameter_only_change
+  - test_field_scoped_geometry_lock_blocks_geometry_change_without_unlock
+- id: FND-AUTH-002
+  title: explicit unlock
+  gate: R1-G02
+  requirement: locked state requires explicit authorized human unlock
+  test: test_locked_object_requires_explicit_human_unlock
+- id: FND-WORLD-001
+  title: external world isolation
+  gate: R1-G01/R1-G02
+  requirement: external artifacts cannot write canonical current directly
+  test: test_external_world_can_never_write_canonical_directly
+- id: FND-DEP-001
+  title: local invalidation
+  gate: R1-G03
+  requirement: unrelated artifacts remain current after an upstream change
+  test: test_dependency_invalidation_is_local_not_global
+- id: FND-DEP-002
+  title: transitive invalidation
+  gate: R1-G03
+  requirement: stale propagation follows derived-artifact dependency chains
+  test: test_dependency_invalidation_propagates_transitively_across_derived_artifacts
+- id: FND-VAL-001
+  title: structured failure
+  gate: support for R1-G04/R1-G05
+  requirement: validation failures are structured results, not opaque exception-only
+    outcomes
+  test: test_validation_failure_is_structured_not_exception_text
+- id: FND-FIX-001
+  title: fixture identity
+  gate: all
+  requirement: typed fixtures carry a versioned schema_id
+  test: test_fixture_contracts_are_parseable_and_have_schema_ids
+- id: FND-HASH-001
+  title: deterministic canonical serialization and hashing
+  gate: R1-G01/R1-G03
+  requirement: equivalent structured state serializes identically and non-finite floats
+    are rejected
+  tests:
+  - test_canonical_hash_is_deterministic_across_mapping_and_set_order
+  - test_canonical_hash_rejects_non_finite_float
+- id: FND-DEP-003
+  title: acyclic dependency graph
+  gate: R1-G03
+  requirement: derived artifact cycles are rejected and rebuild order is dependency-safe
+  test: test_dependency_cycle_is_rejected_and_rebuild_order_is_topological
+- id: FND-AUDIT-001
+  title: append-only audit evidence
+  gate: R1-G01/R1-G02
+  requirement: preview and commit operations emit ordered audit events that survive
+    JSONL round-trip
+  test: test_audit_log_records_preview_and_commit_and_roundtrips_jsonl
+- id: FND-CONC-001
+  title: conservative proposal rebase
+  gate: R1-G01/R1-G02
+  requirement: stale proposal may rebase only when touched fields are unchanged, and
+    approval is reset
+  test: test_conservative_rebase_succeeds_for_disjoint_field_change_and_resets_approval
+- id: FND-CONC-002
+  title: same-field conflict blocks rebase
+  gate: R1-G01/R1-G02
+  requirement: stale proposal touching a concurrently changed field fails closed
+  test: test_conservative_rebase_rejects_same_field_conflict
+- id: FND-AUTH-003
+  title: field-path lock
+  gate: R1-G02
+  requirement: locked paths block matching field changes without overblocking unrelated
+    fields
+  test: test_field_path_lock_blocks_only_matching_field
+- id: FND-AGENT-001
+  title: server-injected actor authority
+  gate: R1-G02/R1-G06
+  requirement: agent gateway never accepts self-asserted human/unlock privileges and
+    exposes no raw canonical mutation
+  test: test_agent_gateway_injects_actor_context_and_cannot_fabricate_human_confirmation
+- id: FND-MIG-001
+  title: explicit schema migration
+  gate: R1-G01
+  requirement: schema upgrades use explicit registered migration paths and fail when
+    no unique path exists
+  test: test_schema_migration_is_explicit_and_fails_without_unique_path
+explicit_non_claims:
+- geometry_correctness
+- sketch_trace_accuracy
+- road_engineering_validity
+- building_regularization_validity
+- dxf_delivery_compliance
+- ifc_roundtrip_validity
+- shadow_accuracy
+- professional_design_quality

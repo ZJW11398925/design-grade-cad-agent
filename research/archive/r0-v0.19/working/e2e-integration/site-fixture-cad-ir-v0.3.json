@@ -1,0 +1,984 @@
+{
+  "schema": "cad_ir_contract_r0_v0.1",
+  "instance_version": "0.3.0",
+  "status": "synthetic_fixture_instance",
+  "source_fixture_id": "E2E-FIXTURE-001",
+  "source_fixture_revision": "r2",
+  "project": {
+    "project_id": "SYNTH-SITE-001",
+    "coordinate_frame_ref": "LOCAL-ENU-XY-ZUP",
+    "coordinate_state": "local_metric_scaled",
+    "units": "metre",
+    "profile_ref": "SYNTHETIC-SITE-DXF-PROFILE-001",
+    "profile_version": "0.3.0",
+    "design_stage": "synthetic integration fixture; not for design approval",
+    "source_refs": [
+      "fixture://E2E-FIXTURE-001"
+    ],
+    "north_bearing_deg": 0.0,
+    "site_location_for_solar_test_only": {
+      "latitude_deg": -33.87,
+      "longitude_deg": 151.22,
+      "state": "synthetic_reference_only",
+      "note": "Sydney coordinates are used only to exercise a published solar-position example; they do not georeference this local site model."
+    },
+    "local_datetime_iso_with_utc_offset": "2025-11-15T11:00:00+10:00",
+    "terrain_revision": "terrain-r1",
+    "context_coverage_status": "complete_for_declared_synthetic_fixture"
+  },
+  "objects": [
+    {
+      "object_id": "SITE-BOUNDARY-01",
+      "object_class": "site_boundary",
+      "geometry_ref": "fixture://E2E-FIXTURE-001/SITE-BOUNDARY-01/boundary-r1",
+      "geometry_revision": "boundary-r1",
+      "geometry_data": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              40,
+              0
+            ],
+            [
+              40,
+              30
+            ],
+            [
+              0,
+              30
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        ]
+      },
+      "geometry_content_hash_sha256": "dc6fd3429a7486ce2cd1b45714bc6e1f28ea2cf0fd9f4483286ef8c3107814cc",
+      "semantic_properties": {},
+      "source_trace_ref": null,
+      "source_trace_revision": null,
+      "locked": true,
+      "layer_key": "A-SITE-BOUNDARY",
+      "style_key": null,
+      "block_key": null,
+      "placement_ref": null,
+      "massing_parameters": {
+        "height": {
+          "value": null,
+          "unit": "m",
+          "state": "unknown",
+          "source_ref": null
+        },
+        "floors": {
+          "value": null,
+          "state": "unknown",
+          "source_ref": null
+        },
+        "floor_height": {
+          "value": null,
+          "unit": "m",
+          "state": "unknown",
+          "source_ref": null
+        }
+      },
+      "representations": {
+        "dxf": {
+          "state": "not_compiled",
+          "output_entity_refs": []
+        },
+        "ifc_footprint": {
+          "state": "missing",
+          "representation_ref": null
+        },
+        "ifc_body": {
+          "state": "missing",
+          "representation_ref": null
+        }
+      },
+      "dependencies": {
+        "derived_from": [],
+        "stale_reasons": [],
+        "rebuild_required": []
+      },
+      "validation": {
+        "geometry": {
+          "state": "not_run",
+          "findings": []
+        },
+        "topology": {
+          "state": "not_run",
+          "findings": []
+        },
+        "profile": {
+          "state": "not_run",
+          "findings": []
+        },
+        "file_integrity": {
+          "state": "not_run",
+          "findings": []
+        },
+        "roundtrip": {
+          "state": "not_run",
+          "findings": []
+        },
+        "independent_application": {
+          "state": "not_run",
+          "findings": []
+        }
+      },
+      "provenance": {
+        "created_by": "fixture_to_cad_ir.py",
+        "source_version": "r2",
+        "algorithm_and_version": "fixture adapter 0.3.0",
+        "parameters": {},
+        "change_proposal_ref": null,
+        "reviewer_decision_ref": null,
+        "source_provenance": {
+          "parent_ids": [],
+          "operation": "synthetic_fixture_creation",
+          "actor": "fixture_author",
+          "reason": "Fixed test boundary; no survey source."
+        }
+      }
+    },
+    {
+      "object_id": "ROAD-CORRIDOR-01",
+      "object_class": "road_centerline",
+      "geometry_ref": "fixture://E2E-FIXTURE-001/ROAD-CORRIDOR-01/road-r1",
+      "geometry_revision": "road-r1",
+      "geometry_data": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            0,
+            11
+          ],
+          [
+            40,
+            11
+          ]
+        ]
+      },
+      "geometry_content_hash_sha256": "af6e61269e6a64a4bf8dbe44b4344bb040a40c780305d3697a43504963db213b",
+      "semantic_properties": {
+        "fixture_evidence_state": "synthetic_known_geometry",
+        "fixture_review_state": "confirmed_within_fixture"
+      },
+      "source_trace_ref": null,
+      "source_trace_revision": null,
+      "locked": false,
+      "layer_key": "C-ROAD-CENTER",
+      "style_key": null,
+      "block_key": null,
+      "placement_ref": null,
+      "massing_parameters": {
+        "height": {
+          "value": null,
+          "unit": "m",
+          "state": "unknown",
+          "source_ref": null
+        },
+        "floors": {
+          "value": null,
+          "state": "unknown",
+          "source_ref": null
+        },
+        "floor_height": {
+          "value": null,
+          "unit": "m",
+          "state": "unknown",
+          "source_ref": null
+        }
+      },
+      "representations": {
+        "dxf": {
+          "state": "not_compiled",
+          "output_entity_refs": []
+        },
+        "ifc_footprint": {
+          "state": "missing",
+          "representation_ref": null
+        },
+        "ifc_body": {
+          "state": "missing",
+          "representation_ref": null
+        }
+      },
+      "dependencies": {
+        "derived_from": [],
+        "stale_reasons": [],
+        "rebuild_required": []
+      },
+      "validation": {
+        "geometry": {
+          "state": "not_run",
+          "findings": []
+        },
+        "topology": {
+          "state": "not_run",
+          "findings": []
+        },
+        "profile": {
+          "state": "not_run",
+          "findings": []
+        },
+        "file_integrity": {
+          "state": "not_run",
+          "findings": []
+        },
+        "roundtrip": {
+          "state": "not_run",
+          "findings": []
+        },
+        "independent_application": {
+          "state": "not_run",
+          "findings": []
+        }
+      },
+      "provenance": {
+        "created_by": "fixture_to_cad_ir.py",
+        "source_version": "r2",
+        "algorithm_and_version": "fixture adapter 0.3.0",
+        "parameters": {},
+        "change_proposal_ref": null,
+        "reviewer_decision_ref": null,
+        "source_provenance": {
+          "parent_ids": [],
+          "operation": "synthetic_fixture_creation",
+          "actor": "fixture_author",
+          "reason": "Tests road object identity only; not a road design recommendation."
+        }
+      }
+    },
+    {
+      "object_id": "GREEN-AREA-01",
+      "object_class": "green_space",
+      "geometry_ref": "fixture://E2E-FIXTURE-001/GREEN-AREA-01/green-r1",
+      "geometry_revision": "green-r1",
+      "geometry_data": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              5,
+              2
+            ],
+            [
+              22,
+              2
+            ],
+            [
+              22,
+              9
+            ],
+            [
+              5,
+              9
+            ],
+            [
+              5,
+              2
+            ]
+          ]
+        ]
+      },
+      "geometry_content_hash_sha256": "1bbc8f2ceca4b3240d543a85e2236ccab93105b3566b14c7b9f8674d9289f549",
+      "semantic_properties": {
+        "fixture_evidence_state": "synthetic_known_geometry",
+        "fixture_review_state": "confirmed_within_fixture"
+      },
+      "source_trace_ref": null,
+      "source_trace_revision": null,
+      "locked": false,
+      "layer_key": "L-GREEN",
+      "style_key": null,
+      "block_key": null,
+      "placement_ref": null,
+      "massing_parameters": {
+        "height": {
+          "value": null,
+          "unit": "m",
+          "state": "unknown",
+          "source_ref": null
+        },
+        "floors": {
+          "value": null,
+          "state": "unknown",
+          "source_ref": null
+        },
+        "floor_height": {
+          "value": null,
+          "unit": "m",
+          "state": "unknown",
+          "source_ref": null
+        }
+      },
+      "representations": {
+        "dxf": {
+          "state": "not_compiled",
+          "output_entity_refs": []
+        },
+        "ifc_footprint": {
+          "state": "missing",
+          "representation_ref": null
+        },
+        "ifc_body": {
+          "state": "missing",
+          "representation_ref": null
+        }
+      },
+      "dependencies": {
+        "derived_from": [],
+        "stale_reasons": [],
+        "rebuild_required": []
+      },
+      "validation": {
+        "geometry": {
+          "state": "not_run",
+          "findings": []
+        },
+        "topology": {
+          "state": "not_run",
+          "findings": []
+        },
+        "profile": {
+          "state": "not_run",
+          "findings": []
+        },
+        "file_integrity": {
+          "state": "not_run",
+          "findings": []
+        },
+        "roundtrip": {
+          "state": "not_run",
+          "findings": []
+        },
+        "independent_application": {
+          "state": "not_run",
+          "findings": []
+        }
+      },
+      "provenance": {
+        "created_by": "fixture_to_cad_ir.py",
+        "source_version": "r2",
+        "algorithm_and_version": "fixture adapter 0.3.0",
+        "parameters": {},
+        "change_proposal_ref": null,
+        "reviewer_decision_ref": null,
+        "source_provenance": {
+          "parent_ids": [],
+          "operation": "synthetic_fixture_creation",
+          "actor": "fixture_author",
+          "reason": "Sensor grid sits inside this synthetic open-space polygon."
+        }
+      }
+    },
+    {
+      "object_id": "BLDG-01",
+      "object_class": "building_footprint",
+      "geometry_ref": "fixture://E2E-FIXTURE-001/BLDG-01/footprint-r1",
+      "geometry_revision": "footprint-r1",
+      "geometry_data": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12,
+              14
+            ],
+            [
+              16,
+              14
+            ],
+            [
+              16,
+              18
+            ],
+            [
+              12,
+              18
+            ],
+            [
+              12,
+              14
+            ]
+          ]
+        ]
+      },
+      "geometry_content_hash_sha256": "9d8527ed2bff07918ff216858837dff290cdf12efa0dc863a626c600af9d6f9c",
+      "semantic_properties": {
+        "fixture_evidence_state": "synthetic_known_geometry_and_height",
+        "fixture_review_state": "confirmed_within_fixture",
+        "height_state": "confirmed_within_synthetic_fixture",
+        "height_revision": "height-r1",
+        "base_elevation_state": "confirmed_within_synthetic_fixture",
+        "body_fixture_state": "current"
+      },
+      "source_trace_ref": "TRACE-BLDG-01",
+      "source_trace_revision": "trace-r1",
+      "locked": false,
+      "layer_key": "A-BUILDING-OUTLINE",
+      "style_key": null,
+      "block_key": null,
+      "placement_ref": "BLDG-01/placement-r1",
+      "massing_parameters": {
+        "height": {
+          "value": 22.0,
+          "unit": "m",
+          "state": "proposed",
+          "source_ref": "fixture://E2E-FIXTURE-001/BLDG-01/massing"
+        },
+        "floors": {
+          "value": null,
+          "state": "unknown",
+          "source_ref": null
+        },
+        "floor_height": {
+          "value": null,
+          "unit": "m",
+          "state": "unknown",
+          "source_ref": null
+        }
+      },
+      "representations": {
+        "dxf": {
+          "state": "not_compiled",
+          "output_entity_refs": []
+        },
+        "ifc_footprint": {
+          "state": "missing",
+          "representation_ref": null
+        },
+        "ifc_body": {
+          "state": "missing",
+          "representation_ref": null
+        }
+      },
+      "dependencies": {
+        "derived_from": [
+          "TRACE-BLDG-01"
+        ],
+        "stale_reasons": [],
+        "rebuild_required": []
+      },
+      "validation": {
+        "geometry": {
+          "state": "not_run",
+          "findings": []
+        },
+        "topology": {
+          "state": "not_run",
+          "findings": []
+        },
+        "profile": {
+          "state": "not_run",
+          "findings": []
+        },
+        "file_integrity": {
+          "state": "not_run",
+          "findings": []
+        },
+        "roundtrip": {
+          "state": "not_run",
+          "findings": []
+        },
+        "independent_application": {
+          "state": "not_run",
+          "findings": []
+        }
+      },
+      "provenance": {
+        "created_by": "fixture_to_cad_ir.py",
+        "source_version": "r2",
+        "algorithm_and_version": "fixture adapter 0.3.0",
+        "parameters": {},
+        "change_proposal_ref": null,
+        "reviewer_decision_ref": null,
+        "source_provenance": {
+          "parent_ids": [
+            "TRACE-BLDG-01"
+          ],
+          "operation": "synthetic_extrusion",
+          "actor": "fixture_author",
+          "reason": "Known-height blocker used for analytic shadow test."
+        }
+      }
+    },
+    {
+      "object_id": "BLDG-02",
+      "object_class": "building_footprint",
+      "geometry_ref": "fixture://E2E-FIXTURE-001/BLDG-02/footprint-r1",
+      "geometry_revision": "footprint-r1",
+      "geometry_data": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              4.5,
+              15
+            ],
+            [
+              8,
+              15
+            ],
+            [
+              8,
+              20
+            ],
+            [
+              4.5,
+              20
+            ],
+            [
+              4.5,
+              15
+            ]
+          ]
+        ]
+      },
+      "geometry_content_hash_sha256": "4c07f6f7f092a78051da65d0f6dc0e739cf7f602215c2907631a5e36de7735d4",
+      "semantic_properties": {
+        "fixture_evidence_state": "synthetic_known_footprint_unknown_height",
+        "fixture_review_state": "confirmed_within_fixture",
+        "height_state": "unknown",
+        "height_revision": "height-unknown-r1",
+        "base_elevation_state": "confirmed_within_synthetic_fixture",
+        "body_fixture_state": "missing"
+      },
+      "source_trace_ref": "TRACE-BLDG-02",
+      "source_trace_revision": "trace-r1",
+      "locked": false,
+      "layer_key": "A-BUILDING-OUTLINE",
+      "style_key": null,
+      "block_key": null,
+      "placement_ref": "BLDG-02/placement-r1",
+      "massing_parameters": {
+        "height": {
+          "value": null,
+          "unit": "m",
+          "state": "unknown",
+          "source_ref": "fixture://E2E-FIXTURE-001/BLDG-02/massing"
+        },
+        "floors": {
+          "value": null,
+          "state": "unknown",
+          "source_ref": null
+        },
+        "floor_height": {
+          "value": null,
+          "unit": "m",
+          "state": "unknown",
+          "source_ref": null
+        }
+      },
+      "representations": {
+        "dxf": {
+          "state": "not_compiled",
+          "output_entity_refs": []
+        },
+        "ifc_footprint": {
+          "state": "missing",
+          "representation_ref": null
+        },
+        "ifc_body": {
+          "state": "missing",
+          "representation_ref": null
+        }
+      },
+      "dependencies": {
+        "derived_from": [
+          "TRACE-BLDG-02"
+        ],
+        "stale_reasons": [],
+        "rebuild_required": []
+      },
+      "validation": {
+        "geometry": {
+          "state": "not_run",
+          "findings": []
+        },
+        "topology": {
+          "state": "not_run",
+          "findings": []
+        },
+        "profile": {
+          "state": "not_run",
+          "findings": []
+        },
+        "file_integrity": {
+          "state": "not_run",
+          "findings": []
+        },
+        "roundtrip": {
+          "state": "not_run",
+          "findings": []
+        },
+        "independent_application": {
+          "state": "not_run",
+          "findings": []
+        }
+      },
+      "provenance": {
+        "created_by": "fixture_to_cad_ir.py",
+        "source_version": "r2",
+        "algorithm_and_version": "fixture adapter 0.3.0",
+        "parameters": {},
+        "change_proposal_ref": null,
+        "reviewer_decision_ref": null,
+        "source_provenance": {
+          "parent_ids": [
+            "TRACE-BLDG-02"
+          ],
+          "operation": "synthetic_footprint_only",
+          "actor": "fixture_author",
+          "reason": "Intentionally unknown height must not be silently guessed."
+        }
+      }
+    },
+    {
+      "object_id": "SENSOR-GREEN-01",
+      "object_class": "other",
+      "geometry_ref": "fixture://E2E-FIXTURE-001/SENSOR-GREEN-01/sensor-grid-r1",
+      "geometry_revision": "sensor-grid-r1",
+      "geometry_data": {
+        "type": "Point",
+        "coordinates": [
+          10.0,
+          8.0,
+          0.0
+        ]
+      },
+      "geometry_content_hash_sha256": "e9dd0e1dcc0453599a5a394755d7e568222a61870a8e86c148e21362d7a872da",
+      "semantic_properties": {
+        "subclass": "environment_sensor",
+        "expected_status": "confirmed_shaded",
+        "expected_blocker_ids": [
+          "BLDG-01"
+        ]
+      },
+      "source_trace_ref": null,
+      "source_trace_revision": null,
+      "locked": false,
+      "layer_key": "A-ENV-SENSOR",
+      "style_key": null,
+      "block_key": null,
+      "placement_ref": null,
+      "massing_parameters": {
+        "height": {
+          "value": null,
+          "unit": "m",
+          "state": "unknown",
+          "source_ref": null
+        },
+        "floors": {
+          "value": null,
+          "state": "unknown",
+          "source_ref": null
+        },
+        "floor_height": {
+          "value": null,
+          "unit": "m",
+          "state": "unknown",
+          "source_ref": null
+        }
+      },
+      "representations": {
+        "dxf": {
+          "state": "not_compiled",
+          "output_entity_refs": []
+        },
+        "ifc_footprint": {
+          "state": "missing",
+          "representation_ref": null
+        },
+        "ifc_body": {
+          "state": "missing",
+          "representation_ref": null
+        }
+      },
+      "dependencies": {
+        "derived_from": [],
+        "stale_reasons": [],
+        "rebuild_required": []
+      },
+      "validation": {
+        "geometry": {
+          "state": "not_run",
+          "findings": []
+        },
+        "topology": {
+          "state": "not_run",
+          "findings": []
+        },
+        "profile": {
+          "state": "not_run",
+          "findings": []
+        },
+        "file_integrity": {
+          "state": "not_run",
+          "findings": []
+        },
+        "roundtrip": {
+          "state": "not_run",
+          "findings": []
+        },
+        "independent_application": {
+          "state": "not_run",
+          "findings": []
+        }
+      },
+      "provenance": {
+        "created_by": "fixture_to_cad_ir.py",
+        "source_version": "r2",
+        "algorithm_and_version": "fixture adapter 0.3.0",
+        "parameters": {},
+        "change_proposal_ref": null,
+        "reviewer_decision_ref": null,
+        "source_provenance": {
+          "operation": "synthetic_fixture_creation",
+          "reason": "Environment test sensor; not a surveyed location."
+        }
+      }
+    },
+    {
+      "object_id": "SENSOR-GREEN-02",
+      "object_class": "other",
+      "geometry_ref": "fixture://E2E-FIXTURE-001/SENSOR-GREEN-02/sensor-grid-r1",
+      "geometry_revision": "sensor-grid-r1",
+      "geometry_data": {
+        "type": "Point",
+        "coordinates": [
+          0.0,
+          8.0,
+          0.0
+        ]
+      },
+      "geometry_content_hash_sha256": "ff4dbfc9cc9e81d4f2778deeda11fb0963d505276f1de541998cf82e836ab690",
+      "semantic_properties": {
+        "subclass": "environment_sensor",
+        "expected_status": "unknown_obstruction_height",
+        "expected_blocker_ids": [
+          "BLDG-02"
+        ]
+      },
+      "source_trace_ref": null,
+      "source_trace_revision": null,
+      "locked": false,
+      "layer_key": "A-ENV-SENSOR",
+      "style_key": null,
+      "block_key": null,
+      "placement_ref": null,
+      "massing_parameters": {
+        "height": {
+          "value": null,
+          "unit": "m",
+          "state": "unknown",
+          "source_ref": null
+        },
+        "floors": {
+          "value": null,
+          "state": "unknown",
+          "source_ref": null
+        },
+        "floor_height": {
+          "value": null,
+          "unit": "m",
+          "state": "unknown",
+          "source_ref": null
+        }
+      },
+      "representations": {
+        "dxf": {
+          "state": "not_compiled",
+          "output_entity_refs": []
+        },
+        "ifc_footprint": {
+          "state": "missing",
+          "representation_ref": null
+        },
+        "ifc_body": {
+          "state": "missing",
+          "representation_ref": null
+        }
+      },
+      "dependencies": {
+        "derived_from": [],
+        "stale_reasons": [],
+        "rebuild_required": []
+      },
+      "validation": {
+        "geometry": {
+          "state": "not_run",
+          "findings": []
+        },
+        "topology": {
+          "state": "not_run",
+          "findings": []
+        },
+        "profile": {
+          "state": "not_run",
+          "findings": []
+        },
+        "file_integrity": {
+          "state": "not_run",
+          "findings": []
+        },
+        "roundtrip": {
+          "state": "not_run",
+          "findings": []
+        },
+        "independent_application": {
+          "state": "not_run",
+          "findings": []
+        }
+      },
+      "provenance": {
+        "created_by": "fixture_to_cad_ir.py",
+        "source_version": "r2",
+        "algorithm_and_version": "fixture adapter 0.3.0",
+        "parameters": {},
+        "change_proposal_ref": null,
+        "reviewer_decision_ref": null,
+        "source_provenance": {
+          "operation": "synthetic_fixture_creation",
+          "reason": "Environment test sensor; not a surveyed location."
+        }
+      }
+    },
+    {
+      "object_id": "SENSOR-GREEN-03",
+      "object_class": "other",
+      "geometry_ref": "fixture://E2E-FIXTURE-001/SENSOR-GREEN-03/sensor-grid-r1",
+      "geometry_revision": "sensor-grid-r1",
+      "geometry_data": {
+        "type": "Point",
+        "coordinates": [
+          5.0,
+          5.0,
+          0.0
+        ]
+      },
+      "geometry_content_hash_sha256": "788bff5f74eb5572cde53e956dd2bbb60346f16ba6a577b704a28511038284e6",
+      "semantic_properties": {
+        "subclass": "environment_sensor",
+        "expected_status": "confirmed_sunlit_given_declared_context",
+        "expected_blocker_ids": []
+      },
+      "source_trace_ref": null,
+      "source_trace_revision": null,
+      "locked": false,
+      "layer_key": "A-ENV-SENSOR",
+      "style_key": null,
+      "block_key": null,
+      "placement_ref": null,
+      "massing_parameters": {
+        "height": {
+          "value": null,
+          "unit": "m",
+          "state": "unknown",
+          "source_ref": null
+        },
+        "floors": {
+          "value": null,
+          "state": "unknown",
+          "source_ref": null
+        },
+        "floor_height": {
+          "value": null,
+          "unit": "m",
+          "state": "unknown",
+          "source_ref": null
+        }
+      },
+      "representations": {
+        "dxf": {
+          "state": "not_compiled",
+          "output_entity_refs": []
+        },
+        "ifc_footprint": {
+          "state": "missing",
+          "representation_ref": null
+        },
+        "ifc_body": {
+          "state": "missing",
+          "representation_ref": null
+        }
+      },
+      "dependencies": {
+        "derived_from": [],
+        "stale_reasons": [],
+        "rebuild_required": []
+      },
+      "validation": {
+        "geometry": {
+          "state": "not_run",
+          "findings": []
+        },
+        "topology": {
+          "state": "not_run",
+          "findings": []
+        },
+        "profile": {
+          "state": "not_run",
+          "findings": []
+        },
+        "file_integrity": {
+          "state": "not_run",
+          "findings": []
+        },
+        "roundtrip": {
+          "state": "not_run",
+          "findings": []
+        },
+        "independent_application": {
+          "state": "not_run",
+          "findings": []
+        }
+      },
+      "provenance": {
+        "created_by": "fixture_to_cad_ir.py",
+        "source_version": "r2",
+        "algorithm_and_version": "fixture adapter 0.3.0",
+        "parameters": {},
+        "change_proposal_ref": null,
+        "reviewer_decision_ref": null,
+        "source_provenance": {
+          "operation": "synthetic_fixture_creation",
+          "reason": "Environment test sensor; not a surveyed location."
+        }
+      }
+    }
+  ],
+  "export_targets": {
+    "dxf": {
+      "version": "R2010",
+      "profile_ref": "SYNTHETIC-SITE-DXF-PROFILE-001",
+      "unit_policy": "metre / INSUNITS=6"
+    },
+    "ifc": {
+      "schema_version": "IFC4",
+      "profile_ref": "UNSELECTED-NOT-EXECUTED",
+      "representation_policy": "not generated in this benchmark"
+    }
+  },
+  "validation_policy": {
+    "source_trace_is_immutable": true,
+    "unknown_values_must_not_be_silently_promoted": true,
+    "never_collapse_scopes": [
+      "geometry",
+      "topology",
+      "profile",
+      "file_integrity",
+      "roundtrip",
+      "independent_application",
+      "domain_compliance"
+    ]
+  },
+  "created_at_utc": "2026-10-27T00:03:11.863988+00:00"
+}

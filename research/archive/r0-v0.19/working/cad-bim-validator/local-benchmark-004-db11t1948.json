@@ -1,0 +1,38 @@
+{
+  "benchmark_id": "LOCAL-CAD-004",
+  "version": "0.1",
+  "run_date": "2026-10-26T15:26:07.730474+00:00",
+  "status": "source-backed-profile-excerpt-probe",
+  "environment": {
+    "python": "3.13.5",
+    "ezdxf": "1.4.4"
+  },
+  "profile_id": "DB11-T-1948-2021-detailed-spatial-planning-extract",
+  "source_standard": "DB11/T 1948-2021",
+  "source_standard_scope": "Beijing detailed spatial planning only",
+  "valid_sample": "samples/sample-db11t1948-excerpt.dxf",
+  "valid_sample_manifest": "samples/sample-db11t1948-excerpt.manifest.json",
+  "ezdxf_audit_errors": 0,
+  "valid_subset_result": {
+    "errors": [],
+    "blocked": [
+      {
+        "code": "COORDINATE_REFERENCE_NOT_ESTABLISHED",
+        "detail": "Synthetic local coordinates do not prove compliance with clause 2.2.1."
+      }
+    ],
+    "all_testable_checks_passed": true
+  },
+  "mutant_overlap_errors": [
+    {
+      "code": "ADJACENT_AREA_OVERLAP",
+      "detail": "XX_B_GTYDFL_070101_一类城镇住宅用地 overlaps XX_B_GTYDFL_070102_二类城镇住宅用地 by 5.000000 square metres"
+    }
+  ],
+  "mutant_overlap_detected": true,
+  "lineweight_rule": "not_enforced_for_selected rows because the source leaves line width discretionary in the cited cases",
+  "coordinate_reference_rule": "blocked_not_proven_by_synthetic_local_coordinates",
+  "all_testable_checks_passed": true,
+  "full_profile_compliance": false,
+  "scope_limit": "Only a small excerpt was encoded. The sample is not georeferenced to Beijing and must not be represented as compliant with the complete standard."
+}

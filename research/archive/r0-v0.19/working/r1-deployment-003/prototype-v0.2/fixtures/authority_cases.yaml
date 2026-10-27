@@ -1,0 +1,17 @@
+schema_id: dgcad.foundation.fixture.authority.v0.1
+cases:
+  - id: low-risk-derived
+    object_authority: human_confirmed
+    required_authority: deterministic_auto
+    expected: allow
+  - id: design-intent-change
+    object_authority: human_confirmed
+    required_authority: human_confirm
+    expected: require_confirmation
+  - id: locked-redline
+    object_authority: locked
+    required_authority: human_unlock
+    expected: require_unlock
+  - id: external-direct-write
+    source_world: external
+    expected: deny

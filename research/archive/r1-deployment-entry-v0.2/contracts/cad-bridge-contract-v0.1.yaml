@@ -1,0 +1,35 @@
+schema_id: dgcad.cad.bridge.v0.1
+status: research_candidate
+principles:
+  canonical_owner: dgcad_runtime
+  bridge_is_not_authoritative: true
+  external_edit_requires_reconciliation: true
+  bridge_may_not_write_runtime_database_directly: true
+common_messages:
+  - inspect_active_document
+  - export_external_snapshot
+  - apply_approved_patch
+  - select_objects
+  - focus_object
+  - report_external_revision
+  - save_roundtrip_artifact
+autocad:
+  process_location: in_process_plugin
+  preferred_api_initial: managed_dotnet
+  reasons:
+    - direct_access_to_drawing_database
+    - native_object_and_ui_integration
+  risks:
+    - host_version_compatibility
+    - cad_process_crash_coupling
+    - windows_specific_managed_dotnet
+  runtime_transport_candidate: loopback_http_or_named_local_ipc
+freecad:
+  process_location: in_process_python_workbench_or_macro
+  reasons:
+    - broad_python_api
+    - custom_workbench_support
+  risks:
+    - document_model_translation
+    - plugin_version_variability
+  runtime_transport_candidate: loopback_http_or_local_ipc

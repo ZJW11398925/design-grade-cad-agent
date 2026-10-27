@@ -1,0 +1,33 @@
+schema_id: dgcad.agent.mcp-binding.v0.1
+status: research-design-only
+server_name: dgcad
+binding_role: thin_protocol_adapter
+owns_canonical_state: false
+preferred_transports:
+  local_research: stdio
+  desktop_or_multi_client: streamable_http
+resources:
+  dgcad://scene/{scene_id}/summary: scene_summary
+  dgcad://object/{object_id}: object_view
+  dgcad://proposal/{proposal_id}: proposal_view
+  dgcad://snapshot/{snapshot_id}: snapshot_view
+  dgcad://validation/{validation_id}: validation_view
+  dgcad://artifact/{artifact_id}: artifact_status
+tool_mapping:
+  cad.propose_change: runtime.propose_change
+  cad.preview_change: runtime.preview_change
+  cad.validate: runtime.validate
+  cad.request_commit: runtime.request_commit
+  cad.reconcile_external: runtime.reconcile_external
+  cad.rebuild_stale: runtime.rebuild_stale
+  cad.export: runtime.export
+forbidden_protocol_logic:
+  - canonical_revision_rules
+  - authority_decisions
+  - human_approval_interpretation
+  - geometry_validation_truth
+  - rule_profile_authority
+  - dependency_invalidation_semantics
+notes:
+  - MCP adapter may translate structured runtime errors but must preserve stable error codes.
+  - MCP prompts, if added, guide workflows only and never change authorization.

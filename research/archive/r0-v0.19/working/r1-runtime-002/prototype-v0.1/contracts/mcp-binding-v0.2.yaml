@@ -1,0 +1,39 @@
+schema_id: dgcad.mcp.binding.v0.2
+status: research_candidate
+sdk_reference:
+  family: official_mcp_python_sdk
+  release_line: v2_current_stable_as_checked_2026_10_27
+transports:
+  local_host_launched:
+    transport: stdio
+    suitable_when: agent_host_owns_server_subprocess_lifecycle
+  local_sidecar_already_running:
+    transport: streamable_http
+    bind: 127.0.0.1
+    suitable_when: runtime_has_independent_lifecycle_and_multiple_local_clients
+  sse:
+    decision: do_not_use_for_new_dgcad_work
+agent_surface:
+  tools:
+    - scene_summary
+    - propose_change
+    - propose_changeset
+    - preview_change
+    - request_commit
+    - cancel_proposal
+    - rebuild_stale
+    - job_status
+  resources_candidate:
+    - project_status
+    - scene_summary
+    - proposal_status
+    - artifact_status
+    - validation_results
+  forbidden_agent_tools:
+    - approve_proposal
+    - grant_unlock
+    - direct_database_write
+    - direct_canonical_patch
+verification:
+  wire_level_mcp_tested: false
+  reason: official_sdk_not_installed_and_pip_install_failed_due_dns

@@ -1,0 +1,40 @@
+schema_id: dgcad.sidecar.lifecycle.v0.1
+status: research_candidate
+recommended_owner: dgcad_desktop_launcher
+states:
+  - stopped
+  - acquiring_project_lease
+  - starting_loopback_service
+  - ready
+  - draining
+  - stopped
+startup_order:
+  - acquire_project_single_writer_lease
+  - bind_loopback_control_service
+  - publish_token_free_discovery_record
+  - mint_role_bound_one_time_pairings_out_of_band
+  - accept_agent_human_and_cad_bridge_sessions
+shutdown_order:
+  - stop_accepting_new_mutations
+  - drain_or_mark_recoverable_jobs
+  - invalidate_in_memory_sessions_and_pairings
+  - stop_loopback_service
+  - release_project_lease
+  - remove_owned_discovery_record
+invariants:
+  discovery_must_not_contain_bearer_or_pairing_secrets: true
+  discovery_published_only_after_lease_and_bind_succeed: true
+  project_has_one_active_writer_instance: true
+  expired_lease_can_be_taken_over_with_generation_increment: true
+  stale_instance_cannot_heartbeat_after_takeover: true
+  bind_default: 127.0.0.1
+  non_loopback_bind_requires_separate_future_security_review: true
+host_launch_policy:
+  interactive_r1: desktop_launcher_owns_sidecar
+  cad_bridge_if_runtime_absent: request_launcher_start_not_own_runtime
+  mcp_adapter: discover_existing_runtime_by_default
+  ci_cli: may_create_ephemeral_runtime
+unverified:
+  - windows_acl_for_discovery_and_pairing_handoff
+  - os_service_install_upgrade_uninstall
+  - crash_safe_job_draining_across_forced_process_kill

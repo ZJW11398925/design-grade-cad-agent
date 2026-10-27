@@ -1,0 +1,48 @@
+schema: output_profile_rule_contract_r0_v0.1
+status: provisional
+purpose: >-
+  Represent source-backed drawing requirements in a machine-checkable profile
+  without confusing mandatory standards, recommendations, discretionary choices,
+  institute templates, project settings, or user-approved exceptions.
+profile:
+  profile_id: required
+  profile_version: required
+  discipline: required
+  jurisdiction: required
+  applicable_scope: required
+  effective_date: nullable
+  status_checked_at: required
+  normative_status: one_of [mandatory_standard, recommended_standard, local_standard, institute_template, project_profile, synthetic_fixture, unknown]
+  source_documents:
+    - source_id: required
+      standard_id_or_template_name: required
+      issuing_authority: required
+      official_url: required
+      official_status_url: nullable
+      revision: required
+      effective_from: nullable
+      supersedes: []
+      access_state: one_of [full_official_text_read, official_metadata_only, secondary_copy_only, inaccessible, unknown]
+rules:
+  - rule_id: stable_required
+    subject: required
+    property: required
+    requirement_kind: one_of [mandatory, recommended, discretionary, project_configured, institute_defined, user_override, inferred]
+    value: nullable
+    value_state: one_of [specified, explicitly_discretionary, not_specified, unknown, not_applicable]
+    source_document_ref: required
+    clause_or_table_ref: required
+    page_ref: nullable
+    applicability: required
+    validation_method: one_of [exact_attribute, range, regex, geometry_topology, geometry_metric, coordinate_reference, visual_review, human_review, not_machine_checkable]
+    failure_policy: one_of [hard_fail, review_required, warning, informational, blocked]
+    exception_policy: one_of [not_allowed, requires_approved_exception, project_defined, unknown]
+    test_case_refs: []
+    evidence_note: required
+output_contract:
+  preserve_requested_profile_value: true
+  preserve_compiled_value: true
+  report_transformations_or_coercions: true
+  missing_value_must_not_be_filled_by_guess: true
+  unverified_rule_must_not_be_labeled_compliant: true
+  profile_compliance_requires_applicability_check: true

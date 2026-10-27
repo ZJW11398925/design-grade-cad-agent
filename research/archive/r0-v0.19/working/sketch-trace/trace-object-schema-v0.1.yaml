@@ -1,0 +1,93 @@
+schema_id: sketch-trace-v0.1
+status: candidate
+
+coordinate_state:
+  enum:
+    - image_space_unscaled
+    - local_metric_scaled
+    - project_aligned
+    - georeferenced
+
+source_raster:
+  required: [source_id, uri, pixel_width, pixel_height, acquisition_type]
+  fields:
+    source_id: string
+    uri: string
+    acquisition_type: [scan, phone_photo, screenshot, exported_raster, other]
+    pixel_width: integer
+    pixel_height: integer
+    dpi: number|null
+    exif_orientation: string|null
+    source_preserved: true
+
+reference_frame:
+  required: [frame_id, coordinate_state, transform_type, review_state]
+  fields:
+    frame_id: string
+    coordinate_state: coordinate_state
+    transform_type: [identity, scale_only, similarity, affine, homography, gcp_warp]
+    matrix: array|null
+    crs: string|null
+    unit: [pixel, metre, millimetre, other]
+    north_direction_deg: number|null
+    origin_definition: string|null
+    control_point_ids: array
+    residual_mean: number|null
+    residual_p95: number|null
+    residual_unit: string|null
+    review_state: [unreviewed, proposed, confirmed, rejected]
+
+control_point:
+  required: [control_id, image_xy, role, source]
+  fields:
+    control_id: string
+    image_xy: [number, number]
+    target_xy: "tuple[number,number]|null"
+    target_z: number|null
+    known_distance_group: string|null
+    role: [paper_corner, known_dimension_endpoint, redline_anchor, survey_point, manual_anchor, other]
+    source: string
+    locked: boolean
+    uncertainty: number|null
+    review_state: [unreviewed, proposed, confirmed, rejected]
+
+semantic_candidate:
+  required: [candidate_id, source_id, semantic_role, geometry_type, producer, review_state]
+  fields:
+    candidate_id: string
+    source_id: string
+    semantic_role: [building, road, green_area, redline, water, annotation, unknown]
+    geometry_type: [mask, polyline, polygon, point_set]
+    producer:
+      kind: [model, deterministic_cv, human]
+      name: string
+      version: string|null
+    prompt: string|null
+    confidence: number|null
+    mask_locator: string|null
+    review_state: [unreviewed, proposed, confirmed, rejected]
+
+trace_object:
+  required: [trace_id, source_id, raw_geometry, coordinate_frame_id, provenance, review_state]
+  fields:
+    trace_id: string
+    source_id: string
+    semantic_candidate_id: string|null
+    semantic_role: string|null
+    coordinate_frame_id: string
+    raw_geometry: object
+    simplified_geometry: object|null
+    simplification_method: string|null
+    simplification_parameters: object|null
+    fidelity_metrics:
+      hausdorff: number|null
+      area_relative_error: number|null
+      topology_changed: boolean|null
+      control_point_max_error: number|null
+    provenance:
+      parent_ids: array
+      operation: string
+      actor: string
+      reason: string|null
+    locked: boolean
+    review_state: [unreviewed, proposed, confirmed, rejected]

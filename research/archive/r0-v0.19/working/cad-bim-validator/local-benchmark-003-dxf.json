@@ -1,0 +1,167 @@
+{
+  "benchmark_id": "LOCAL-CAD-003",
+  "version": "0.1",
+  "run_date": "2026-10-26T15:16:17.189313+00:00",
+  "status": "local-dxf-roundtrip-probe",
+  "environment": {
+    "python": "3.13.5",
+    "ezdxf": "1.4.4"
+  },
+  "profile": "synthetic-design-office-profile-test-v0.1",
+  "profile_warning": "This is a test fixture used to exercise DXF serialization and custom validation. It is NOT a Chinese national/industry/local standard or any real design institute's standard.",
+  "valid_fixture": "samples/sample-design-office-profile-test.dxf",
+  "baseline_profile_errors": [],
+  "roundtrip_profile_errors": [],
+  "ezdxf_audit_error_count": 0,
+  "ezdxf_audit_fix_count": 0,
+  "roundtrip_structural_snapshot_equal": true,
+  "roundtrip_snapshot": {
+    "version": "AC1024",
+    "insunits": 6,
+    "lwdisplay": 1,
+    "layers": {
+      "A-SITE-BOUNDARY": {
+        "color": 1,
+        "linetype": "CONTINUOUS",
+        "lineweight": 50
+      },
+      "A-BUILDING-OUTLINE": {
+        "color": 7,
+        "linetype": "CONTINUOUS",
+        "lineweight": 35
+      },
+      "C-ROAD-CENTER": {
+        "color": 3,
+        "linetype": "CENTER",
+        "lineweight": 18
+      },
+      "L-GREEN": {
+        "color": 94,
+        "linetype": "CONTINUOUS",
+        "lineweight": 18
+      },
+      "ANNO-DIM": {
+        "color": 7,
+        "linetype": "CONTINUOUS",
+        "lineweight": 18
+      }
+    },
+    "linetypes": [
+      "ByBlock",
+      "ByLayer",
+      "CENTER",
+      "CENTER2",
+      "CENTERX2",
+      "Continuous",
+      "DASHDOT",
+      "DASHDOT2",
+      "DASHDOTX2",
+      "DASHED",
+      "DASHED2",
+      "DASHEDX2",
+      "DIVIDE",
+      "DIVIDE2",
+      "DIVIDEX2",
+      "DOT",
+      "DOT2",
+      "DOTX2",
+      "PHANTOM",
+      "PHANTOM2",
+      "PHANTOMX2"
+    ],
+    "layouts": [
+      "A3",
+      "Layout1",
+      "Model"
+    ],
+    "blocks": [
+      "BLDG-MASS",
+      "_ARCHTICK",
+      "_CLOSEDBLANK",
+      "_CLOSEDFILLED"
+    ],
+    "text_styles": [
+      "CN_TEXT",
+      "LiberationMono",
+      "LiberationMono-Bold",
+      "LiberationMono-BoldItalic",
+      "LiberationMono-Italic",
+      "LiberationSans",
+      "LiberationSans-Bold",
+      "LiberationSans-BoldItalic",
+      "LiberationSans-Italic",
+      "LiberationSerif",
+      "LiberationSerif-Bold",
+      "LiberationSerif-BoldItalic",
+      "LiberationSerif-Italic",
+      "OpenSans",
+      "OpenSans-Bold",
+      "OpenSans-BoldItalic",
+      "OpenSans-ExtraBold",
+      "OpenSans-ExtraBoldItalic",
+      "OpenSans-Italic",
+      "OpenSans-Light",
+      "OpenSans-Light-Italic",
+      "OpenSans-SemiBold",
+      "OpenSans-SemiBoldItalic",
+      "OpenSansCondensed-Bold",
+      "OpenSansCondensed-Italic",
+      "OpenSansCondensed-Light",
+      "Standard"
+    ],
+    "dimstyles": [
+      "EZDXF",
+      "EZ_CURVED",
+      "EZ_M_100_H25_CM",
+      "EZ_M_10_H25_CM",
+      "EZ_M_1_H25_CM",
+      "EZ_M_20_H25_CM",
+      "EZ_M_25_H25_CM",
+      "EZ_M_50_H25_CM",
+      "EZ_M_5_H25_CM",
+      "EZ_RADIUS",
+      "EZ_RADIUS_INSIDE",
+      "SITE-DIM",
+      "Standard"
+    ],
+    "entity_counts_by_layer": {
+      "A-BUILDING-OUTLINE": 2,
+      "A-SITE-BOUNDARY": 1,
+      "ANNO-DIM": 2,
+      "C-ROAD-CENTER": 1,
+      "L-GREEN": 1
+    },
+    "entity_types": {
+      "DIMENSION": 1,
+      "INSERT": 1,
+      "LINE": 1,
+      "LWPOLYLINE": 3,
+      "TEXT": 1
+    }
+  },
+  "mutant_profile_error_codes": [
+    "ENTITY_LINETYPE_OVERRIDE",
+    "ENTITY_LINETYPE_UNDEFINED",
+    "ENTITY_LINEWEIGHT_OVERRIDE"
+  ],
+  "mutant_custom_validator_catches_expected_violations": true,
+  "checks": {
+    "baseline_profile_valid": true,
+    "roundtrip_profile_valid": true,
+    "structural_roundtrip_equal": true,
+    "ezdxf_audit_no_unfixed_errors": true,
+    "mutant_spec_violations_detected": true,
+    "invalid_profile_lineweight_rejected": true
+  },
+  "bad_profile_error_codes": [
+    "LAYER_PROPERTY_MISMATCH",
+    "PROFILE_LINEWEIGHT_INVALID"
+  ],
+  "lineweight_assignment_probe": {
+    "requested": 27,
+    "stored_by_ezdxf": 30,
+    "note": "This observed coercion is version-specific behavior; reject invalid profile values before DXF emission."
+  },
+  "all_checks_passed": true,
+  "scope_limit": "Synthetic DXF profile only. No real design-office standard, no AutoCAD/LibreCAD third-party open-save roundtrip, no geometry correctness or regulatory compliance claim."
+}

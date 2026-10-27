@@ -1,0 +1,75 @@
+schema_id: design-grade-cad-agent.r1-foundation-contract-register.v0.1
+status: executable-research-contract
+scope: R1.0 Foundation only
+invariants:
+  - id: FND-ID-001
+    title: stable canonical identity
+    gate: R1-G01
+    requirement: object_id does not change when semantic/geometry/parameter revisions change
+    test: test_stable_identity_revision_changes_only_selected_axis
+  - id: FND-REV-001
+    title: exact revision precondition
+    gate: R1-G01/R1-G03
+    requirement: stale proposals cannot commit over a newer canonical revision
+    test: test_atomic_changeset_rolls_back_all_when_one_proposal_is_stale
+  - id: FND-TXN-001
+    title: atomic multi-object commit
+    gate: R1-G02/R1-G03
+    requirement: an invalid proposal prevents all proposals in the ChangeSet from committing
+    test: test_atomic_changeset_rolls_back_all_when_one_proposal_is_stale
+  - id: FND-PREVIEW-001
+    title: preview before confirmation
+    gate: R1-G06
+    requirement: human-confirm-required proposals may be previewed before confirmation but cannot commit
+    test: test_preview_of_human_confirm_proposal_does_not_require_prior_confirmation
+  - id: FND-PREVIEW-002
+    title: preview isolation
+    gate: R1-G06
+    requirement: ProposalSnapshot cannot mutate canonical current state
+    test: test_preview_is_isolated_from_canonical_current
+  - id: FND-AUTH-001
+    title: scoped locks
+    gate: R1-G02
+    requirement: a geometry lock blocks geometry changes but does not block unrelated parameter changes
+    tests:
+      - test_field_scoped_geometry_lock_does_not_block_parameter_only_change
+      - test_field_scoped_geometry_lock_blocks_geometry_change_without_unlock
+  - id: FND-AUTH-002
+    title: explicit unlock
+    gate: R1-G02
+    requirement: locked state requires explicit authorized human unlock
+    test: test_locked_object_requires_explicit_human_unlock
+  - id: FND-WORLD-001
+    title: external world isolation
+    gate: R1-G01/R1-G02
+    requirement: external artifacts cannot write canonical current directly
+    test: test_external_world_can_never_write_canonical_directly
+  - id: FND-DEP-001
+    title: local invalidation
+    gate: R1-G03
+    requirement: unrelated artifacts remain current after an upstream change
+    test: test_dependency_invalidation_is_local_not_global
+  - id: FND-DEP-002
+    title: transitive invalidation
+    gate: R1-G03
+    requirement: stale propagation follows derived-artifact dependency chains
+    test: test_dependency_invalidation_propagates_transitively_across_derived_artifacts
+  - id: FND-VAL-001
+    title: structured failure
+    gate: support for R1-G04/R1-G05
+    requirement: validation failures are structured results, not opaque exception-only outcomes
+    test: test_validation_failure_is_structured_not_exception_text
+  - id: FND-FIX-001
+    title: fixture identity
+    gate: all
+    requirement: typed fixtures carry a versioned schema_id
+    test: test_fixture_contracts_are_parseable_and_have_schema_ids
+explicit_non_claims:
+  - geometry_correctness
+  - sketch_trace_accuracy
+  - road_engineering_validity
+  - building_regularization_validity
+  - dxf_delivery_compliance
+  - ifc_roundtrip_validity
+  - shadow_accuracy
+  - professional_design_quality

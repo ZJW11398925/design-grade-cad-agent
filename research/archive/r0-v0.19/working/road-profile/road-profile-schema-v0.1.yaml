@@ -1,0 +1,94 @@
+# Candidate schema only — no engineering values are implied.
+road_corridor:
+  id: string
+  source_trace_refs: list[string]
+  classification_scheme:
+    id: string | null
+    jurisdiction: string | null
+    scope: public_urban_road | site_internal_road | campus_or_park_road | pedestrian_network | other | unknown
+  hierarchy:
+    value: string | null
+    state: proposed | confirmed | unknown | needs_review
+    evidence_refs: list[string]
+  primary_functions: list[string]
+  permitted_modes: list[string]
+  access_constraints: list[string]
+  special_designations: list[string]
+  classification_conflicts: list[string]
+  confidence:
+    label: low | medium | high | uncalibrated
+    basis: list[string]
+  review_state: proposed | confirmed | unknown | needs_review
+  segments: list[road_segment]
+
+road_segment:
+  id: string
+  corridor_id: string
+  start_node_id: string
+  end_node_id: string
+  alignment_ref: string | null
+  cross_section_profile_ref: string | null
+  design_profile_ref: string | null
+  segment_reason: geometry_change | profile_change | junction_boundary | special_constraint | other
+  z_profile_ref: string | null
+  unresolved_questions: list[string]
+
+cross_section_profile:
+  id: string
+  revision: string
+  components:
+    - id: string
+      component_type: sidewalk | traffic_lane | cycle_lane | parking_lane | bus_lane | median | buffer | planting_strip | verge | other
+      side_or_order: string
+      width_m: number | null
+      width_status: sourced | user_specified | derived | proposed | unknown
+      source_refs: list[string]
+  total_width_m: number | null
+  profile_status: draft | needs_review | validated_for_scope
+
+design_profile:
+  id: string
+  revision: string
+  scope:
+    jurisdiction: string | null
+    road_domain: string | null
+    project_phase: string | null
+    valid_as_of: date | null
+  classification_predicates: list[string]
+  required_inputs: list[string]
+  parameters: list[parameter_rule]
+  rule_set_refs: list[string]
+  unresolved_applicability: list[string]
+  status: draft | needs_review | approved_for_specific_scope | retired
+
+parameter_rule:
+  parameter_id: string
+  meaning: string
+  value: number | string | null
+  unit: string | null
+  semantics: mandatory | minimum | maximum | target | recommended | default_candidate | unknown
+  applicability_condition: string
+  source_standard_id: string | null
+  source_edition: string | null
+  clause_locator: string | null
+  verification_state: unverified | source_located | clause_verified | independently_checked
+  conflict_state: none_known | conflict_found | unresolved
+
+rule_record:
+  id: string
+  revision: string
+  scope: string
+  rule_kind: mandatory_requirement | project_constraint | design_intent | recommendation | geometry_invariant
+  applicability: string
+  expression: string
+  severity: error | warning | information | requires_human_review
+  source_refs: list[string]
+  conflict_policy: block | ask_designer | resolve_by_applicability
+  validation_method: string
+  test_refs: list[string]
+
+# Guardrails:
+# - null/unknown is not converted to a numeric default without an explicit, sourced rule.
+# - OSM/SUMO/foreign-city type tags do not directly resolve Chinese legal/engineering parameters.
+# - a candidate classification cannot authorize a production profile until required inputs and rule applicability are resolved.
+# - a profile change splits/versions segments but does not destroy the parent corridor identity.

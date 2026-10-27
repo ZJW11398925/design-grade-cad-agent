@@ -1,0 +1,58 @@
+{
+  "release_candidate": "E2E-FIXTURE-001-adapter-v0.3",
+  "fixture_id": "E2E-FIXTURE-001",
+  "fixture_revision": "r2",
+  "profile_id": "SYNTHETIC-SITE-DXF-PROFILE-001",
+  "profile_version": "0.3.0",
+  "status": "passed_with_scope_limits",
+  "external_review_completed": false,
+  "tests": {
+    "solar_shadow_v0_2_plus_v0_3": {
+      "passed": 44,
+      "failed": 0
+    },
+    "dxf_validator_v0_3": {
+      "passed": 12,
+      "failed": 0
+    },
+    "sensor_outcomes": {
+      "passed": 3,
+      "total": 3
+    },
+    "stored_body_checks": {
+      "passed": 2,
+      "total": 2
+    },
+    "dependency_invalidation_mutations": {
+      "passed": 13,
+      "total": 13
+    },
+    "dxf_modelspace_entities": 11,
+    "dxf_expected_modelspace_entities": 11,
+    "dxf_audit_errors": 0,
+    "dxf_audit_fixes": 0,
+    "total_targeted_tests": {
+      "passed": 56,
+      "failed": 0
+    }
+  },
+  "fixed_findings": [
+    "F-008",
+    "F-009",
+    "F-012",
+    "F-013",
+    "F-014"
+  ],
+  "profile_gaps_closed_for_synthetic_profile": [
+    "F-010",
+    "F-011"
+  ],
+  "remaining_limits": [
+    "same-session implementation and verification; external independent review pending",
+    "no third-party CAD application round-trip",
+    "no real raster-to-Trace input or road generation",
+    "no IFC output or IFC round-trip",
+    "no independent solar simulation engine",
+    "no real design-office Profile or regulatory compliance determination"
+  ]
+}

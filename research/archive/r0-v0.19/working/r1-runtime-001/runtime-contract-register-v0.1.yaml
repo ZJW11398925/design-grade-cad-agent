@@ -1,0 +1,101 @@
+schema_id: dgcad.runtime.contract-register.v0.1
+status: research_checkpoint_passed
+scope: stateful_runtime_contract_only
+foundation_contracts_reused: 21
+runtime_contract_count: 22
+runtime_contracts:
+  - id: RT-01
+    name: atomic_state_envelope_hash
+    claim: persisted runtime state is hash-checked before loading
+    evidence: test_state_envelope_detects_payload_corruption
+  - id: RT-02
+    name: restart_state_recovery
+    claim: scene, proposal registry and audit state survive process restart
+    evidence: test_state_file_roundtrip_restores_scene_proposals_and_audit
+  - id: RT-03
+    name: mutating_operation_idempotency
+    claim: same operation/payload/key replays the original successful result
+    evidence: test_idempotent_propose_returns_same_proposal_across_cli_and_mcp
+  - id: RT-04
+    name: idempotency_key_payload_binding
+    claim: a key cannot be silently reused for a different payload
+    evidence: test_idempotency_key_reuse_with_different_payload_is_rejected
+  - id: RT-05
+    name: capability_enforcement
+    claim: session capabilities are enforced server-side
+    evidence: test_read_only_session_cannot_propose_and_surface_returns_structured_block
+  - id: RT-06
+    name: human_control_plane_separation
+    claim: the agent tool surface cannot mint approval or unlock authority
+    evidence: test_agent_surface_has_no_approval_tool_and_agent_cannot_mint_grant
+  - id: RT-07
+    name: approval_binding
+    claim: approval is bound to proposal content and current scene revision
+    evidence: test_approval_grant_is_bound_to_scene_revision
+  - id: RT-08
+    name: approval_expiry
+    claim: expired approval grants cannot authorize commit
+    evidence: test_approval_grant_expires
+  - id: RT-09
+    name: proposal_terminal_states
+    claim: expired/cancelled proposals cannot later commit
+    evidence: test_proposal_expiry_and_cancel_are_terminal
+  - id: RT-10
+    name: cli_mcp_semantic_parity
+    claim: CLI and MCP adapters invoke the same runtime authority path
+    evidence: test_cli_and_mcp_share_authority_behavior_not_just_data_shape
+  - id: RT-11
+    name: runtime_dependency_invalidation
+    claim: canonical commits stale only direct/transitive dependent artifacts
+    evidence: test_commit_invalidates_only_transitive_dependent_artifacts
+  - id: RT-12
+    name: dependency_safe_job_order
+    claim: rebuild jobs become claimable only after stale predecessors succeed
+    evidence: test_rebuild_jobs_respect_dependency_order
+  - id: RT-13
+    name: interrupted_job_recovery
+    claim: running jobs are requeued after restart
+    evidence: test_running_job_is_requeued_after_restart_and_claim_idempotency_is_invalidated
+  - id: RT-14
+    name: recovered_claim_idempotency_reset
+    claim: a pre-crash claim replay cannot preserve ghost ownership
+    evidence: test_running_job_is_requeued_after_restart_and_claim_idempotency_is_invalidated
+  - id: RT-15
+    name: transient_empty_claim_not_cached
+    claim: an empty queue observation does not become a permanent idempotent response
+    evidence: test_transient_empty_claim_is_not_cached_after_predecessor_completes
+  - id: RT-16
+    name: worker_claim_generation
+    claim: stale workers cannot complete a job after it has been reclaimed
+    evidence: test_old_worker_cannot_complete_reclaimed_job_after_restart
+  - id: RT-17
+    name: completed_job_idempotency
+    claim: successful completion can be safely retried and survives restart
+    evidence: test_completed_job_is_idempotent_and_survives_restart
+  - id: RT-18
+    name: failed_job_retry
+    claim: failed jobs can be explicitly requeued with attempt increment on re-claim
+    evidence: test_failed_job_can_be_retried
+  - id: RT-19
+    name: optimistic_single_project_writer_guard
+    claim: concurrent stale runtime instances are rejected instead of silently overwriting state
+    evidence: test_two_runtime_instances_detect_lost_update_instead_of_overwriting
+  - id: RT-20
+    name: multi_object_changeset_registry
+    claim: a multi-object design change is previewed/approved/committed as one atomic set
+    evidence: test_multi_object_changeset_is_registered_previewed_and_committed_atomically
+  - id: RT-21
+    name: mixed_authority_atomic_set
+    claim: one explicit human unlock grant can authorize the locked scope while retaining human-confirm semantics for the rest of the same atomic set
+    evidence: test_unlock_grant_can_authorize_mixed_atomic_set_without_losing_human_confirmation
+  - id: RT-22
+    name: save_time_disk_integrity_check
+    claim: a loaded runtime refuses to overwrite externally corrupted disk state even when the stale declared hash is unchanged
+    evidence: test_loaded_runtime_refuses_to_overwrite_external_state_corruption
+non_claims:
+  - production_database_complete
+  - distributed_locking_complete
+  - cryptographic_identity_complete
+  - wire_level_mcp_conformance_complete
+  - real_cad_worker_execution_complete
+  - multi_user_collaboration_complete

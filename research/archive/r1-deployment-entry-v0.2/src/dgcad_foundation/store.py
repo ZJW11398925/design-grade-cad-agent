@@ -1,0 +1,104 @@
+from __future__ import annotations
+from copy import deepcopy
+from dataclasses import replace
+from .audit import AuditLog
+from .authority import ActorContext, authority_allows
+from .model import AtomicChangeSet, ChangeProposal, ProposalSnapshot, SceneState, World
+
+
+class CommitError(RuntimeError):
+    def __init__(self, code: str, message: str):
+        self.code = code
+        super().__init__(f"{code}: {message}")
+
+
+class CanonicalStore:
+    def __init__(self, scene: SceneState, *, audit_log: AuditLog | None = None):
+        if scene.world != World.CANONICAL_CURRENT:
+            raise ValueError("CanonicalStore requires canonical_current scene")
+        self._scene = deepcopy(scene)
+        self.audit_log = audit_log or AuditLog()
+
+    @property
+    def current(self) -> SceneState:
+        return deepcopy(self._scene)
+
+    def _validate_changeset(self, changeset: AtomicChangeSet, actor: ActorContext, *, for_preview: bool = False) -> None:
+        if changeset.commit_policy != "all_or_nothing":
+            raise CommitError("UNSUPPORTED_COMMIT_POLICY", changeset.commit_policy)
+        seen_targets: set[str] = set()
+        for proposal in changeset.proposals:
+            if proposal.target_object_id in seen_targets:
+                raise CommitError("DUPLICATE_TARGET_IN_CHANGESET", proposal.target_object_id)
+            seen_targets.add(proposal.target_object_id)
+            if proposal.target_object_id not in self._scene.objects:
+                raise CommitError("OBJECT_NOT_FOUND", proposal.target_object_id)
+            obj = self._scene.objects[proposal.target_object_id]
+            if obj.revisions != proposal.before_revisions:
+                raise CommitError("STALE_PROPOSAL", proposal.target_object_id)
+            allowed, code = authority_allows(obj, proposal, actor, for_preview=for_preview)
+            if not allowed:
+                raise CommitError(code, proposal.target_object_id)
+
+    @staticmethod
+    def _apply(scene: SceneState, changeset: AtomicChangeSet, world: World) -> SceneState:
+        objects = deepcopy(scene.objects)
+        for proposal in changeset.proposals:
+            obj = objects[proposal.target_object_id]
+            objects[proposal.target_object_id] = obj.with_changes(proposal.changes, set(proposal.bump))
+        return SceneState(scene.scene_id, scene.scene_revision, objects, world=world)
+
+    def preview(self, changeset: AtomicChangeSet, actor: ActorContext, snapshot_id: str) -> ProposalSnapshot:
+        self._validate_changeset(changeset, actor, for_preview=True)
+        preview_scene = self._apply(self._scene, changeset, World.PROPOSAL_PREVIEW)
+        self.audit_log.append(
+            event_type="preview_created",
+            actor_id=actor.actor_id,
+            scene_revision_before=self._scene.scene_revision,
+            scene_revision_after=self._scene.scene_revision,
+            change_set_id=changeset.change_set_id,
+            payload={"snapshot_id": snapshot_id},
+        )
+        return ProposalSnapshot(snapshot_id, self._scene.scene_revision, changeset.change_set_id, preview_scene)
+
+    def commit(self, changeset: AtomicChangeSet, actor: ActorContext) -> SceneState:
+        before = self._scene.scene_revision
+        self._validate_changeset(changeset, actor)
+        candidate = self._apply(self._scene, changeset, World.CANONICAL_CURRENT)
+        self._scene = replace(candidate, scene_revision=self._scene.scene_revision + 1)
+        self.audit_log.append(
+            event_type="changeset_committed",
+            actor_id=actor.actor_id,
+            scene_revision_before=before,
+            scene_revision_after=self._scene.scene_revision,
+            change_set_id=changeset.change_set_id,
+            payload={"object_ids": [p.target_object_id for p in changeset.proposals]},
+        )
+        return self.current
+
+    def rebase_proposal(self, proposal: ChangeProposal) -> ChangeProposal:
+        """Rebase only when the fields touched by the proposal are unchanged.
+
+        This is intentionally conservative. It does not merge geometry or infer conflict
+        resolution. The caller must provide before_values when the proposal was created.
+        """
+        if proposal.target_object_id not in self._scene.objects:
+            raise CommitError("OBJECT_NOT_FOUND", proposal.target_object_id)
+        obj = self._scene.objects[proposal.target_object_id]
+        if obj.revisions == proposal.before_revisions:
+            return proposal
+        if not proposal.before_values:
+            raise CommitError("REBASE_REQUIRES_BEFORE_VALUES", proposal.proposal_id)
+        for key in proposal.changes:
+            if obj.values.get(key) != proposal.before_values.get(key):
+                raise CommitError("REBASE_CONFLICT", key)
+        return replace(
+            proposal,
+            before_revisions=obj.revisions,
+            before_values={key: obj.values.get(key) for key in proposal.changes},
+            confirmed=False,
+            unlock_confirmed=False,
+        )
+
+    def direct_external_write(self, *_args, **_kwargs):
+        raise CommitError("EXTERNAL_DIRECT_WRITE_FORBIDDEN", "external artifacts require reconcile -> proposal")

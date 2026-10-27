@@ -1,0 +1,270 @@
+{
+  "benchmark_id": "LOCAL-BLDG-002",
+  "version": "0.1",
+  "run_date": "2026-10-26T15:03:08.842534+00:00",
+  "status": "synthetic-validator-probe",
+  "execution_scope": "Shapely geometry metric probe only; does not execute Building Regulariser, CartAGen, IfcOpenShell, or any CAD/BIM exporter.",
+  "environment": {
+    "shapely": "2.1.2"
+  },
+  "threshold_policy": "No numeric acceptance thresholds frozen. Distances are meaningful only under the synthetic metre coordinate system; real thresholds must be calibrated to source scale, annotation uncertainty, drawing purpose, and reviewed design intent.",
+  "checks": [
+    {
+      "check_id": "CHK-01",
+      "question": "Can a high per-object IoU hide a broken shared-boundary relation?",
+      "observed": true,
+      "expected": true,
+      "meaning": "Per-object overlap is insufficient; site-level relation checks are required.",
+      "passed": true
+    },
+    {
+      "check_id": "CHK-02",
+      "question": "Can a high global IoU hide a two-object-to-one-object merge?",
+      "observed": true,
+      "expected": true,
+      "meaning": "Object identity/count is a hard invariant independent of overlap metrics.",
+      "passed": true
+    },
+    {
+      "check_id": "CHK-03",
+      "question": "Does the validator expose a deleted courtyard hole?",
+      "observed": true,
+      "expected": true,
+      "meaning": "Hole count is a required topology invariant.",
+      "passed": true
+    },
+    {
+      "check_id": "CHK-04",
+      "question": "Does a curved-intent adversarial candidate show large boundary/area deviation?",
+      "observed": true,
+      "expected": true,
+      "meaning": "Curved outlines need a preserve/review route; no production threshold is implied.",
+      "passed": true
+    },
+    {
+      "check_id": "CHK-05",
+      "question": "Does the no-height-evidence fixture retain unknown height/floor states?",
+      "observed": true,
+      "expected": true,
+      "meaning": "Geometry processing must not fabricate massing evidence.",
+      "passed": true
+    }
+  ],
+  "all_checks_passed": true,
+  "cases": [
+    {
+      "case_id": "BEN-BLDG-001A",
+      "name": "hand-wobbled rectangle -> axis-aligned envelope candidate",
+      "purpose": "Check whether low area error alone masks boundary displacement.",
+      "synthetic_only": true,
+      "metrics": {
+        "source_valid": true,
+        "candidate_valid": true,
+        "source_geom_type": "Polygon",
+        "candidate_geom_type": "Polygon",
+        "source_components": 1,
+        "candidate_components": 1,
+        "source_holes": 0,
+        "candidate_holes": 0,
+        "iou": 0.993212,
+        "hausdorff_m": 0.06,
+        "symmetric_difference_area_m2": 1.6448,
+        "relative_area_error": 0.006834,
+        "centroid_shift_m": 0.0,
+        "source_area_m2": 240.68,
+        "candidate_area_m2": 242.3248
+      },
+      "expected_validator_behavior": "Report a candidate with a full diff; acceptance threshold requires calibration against human-marked intent."
+    },
+    {
+      "case_id": "BEN-BLDG-005A",
+      "name": "intentionally rotated rectangle -> forced global-axis envelope",
+      "purpose": "Detect destructive global-axis alignment of an intentional rotation.",
+      "synthetic_only": true,
+      "metrics": {
+        "source_valid": true,
+        "candidate_valid": true,
+        "source_geom_type": "Polygon",
+        "candidate_geom_type": "Polygon",
+        "source_components": 1,
+        "candidate_components": 1,
+        "source_holes": 0,
+        "candidate_holes": 0,
+        "iou": 0.588585,
+        "hausdorff_m": 5.591929,
+        "symmetric_difference_area_m2": 139.798226,
+        "relative_area_error": 0.698991,
+        "centroid_shift_m": 0.0,
+        "source_area_m2": 200.0,
+        "candidate_area_m2": 339.798226
+      },
+      "expected_validator_behavior": "Do not auto-accept global-axis alignment; preserve trace and request intent evidence or review."
+    },
+    {
+      "case_id": "BEN-BLDG-006A",
+      "name": "U-shaped footprint -> bounding rectangle",
+      "purpose": "Ensure concavity loss is surfaced, not treated as harmless cleanup.",
+      "synthetic_only": true,
+      "metrics": {
+        "source_valid": true,
+        "candidate_valid": true,
+        "source_geom_type": "Polygon",
+        "candidate_geom_type": "Polygon",
+        "source_components": 1,
+        "candidate_components": 1,
+        "source_holes": 0,
+        "candidate_holes": 0,
+        "iou": 0.65,
+        "hausdorff_m": 3.0,
+        "symmetric_difference_area_m2": 42.0,
+        "relative_area_error": 0.538462,
+        "centroid_shift_m": 0.807692,
+        "source_area_m2": 78.0,
+        "candidate_area_m2": 120.0
+      },
+      "expected_validator_behavior": "Flag large concavity loss; require explicit approval before replacing a U/L/courtyard intent."
+    },
+    {
+      "case_id": "BEN-BLDG-006B",
+      "name": "courtyard footprint -> solid rectangle",
+      "purpose": "Ensure hole-count/topology checks catch courtyard deletion.",
+      "synthetic_only": true,
+      "metrics": {
+        "source_valid": true,
+        "candidate_valid": true,
+        "source_geom_type": "Polygon",
+        "candidate_geom_type": "Polygon",
+        "source_components": 1,
+        "candidate_components": 1,
+        "source_holes": 1,
+        "candidate_holes": 0,
+        "iou": 0.7,
+        "hausdorff_m": 3.0,
+        "symmetric_difference_area_m2": 36.0,
+        "relative_area_error": 0.428571,
+        "centroid_shift_m": 0.0,
+        "source_area_m2": 84.0,
+        "candidate_area_m2": 120.0
+      },
+      "expected_validator_behavior": "Hard reject if a confirmed hole/courtyard disappears without an explicit design change."
+    },
+    {
+      "case_id": "BEN-BLDG-014A",
+      "name": "two attached buildings -> independent regularization gap",
+      "purpose": "Measure group-topology regression even when each footprint remains individually valid.",
+      "synthetic_only": true,
+      "source_relation": {
+        "touches": true,
+        "shared_boundary_length_m": 8.0,
+        "distance_m": 0.0
+      },
+      "candidate_relation": {
+        "touches": false,
+        "shared_boundary_length_m": 0.0,
+        "distance_m": 0.1,
+        "gap_area_m2": 0.8
+      },
+      "metrics_a": {
+        "source_valid": true,
+        "candidate_valid": true,
+        "source_geom_type": "Polygon",
+        "candidate_geom_type": "Polygon",
+        "source_components": 1,
+        "candidate_components": 1,
+        "source_holes": 0,
+        "candidate_holes": 0,
+        "iou": 0.995,
+        "hausdorff_m": 0.05,
+        "symmetric_difference_area_m2": 0.4,
+        "relative_area_error": 0.005,
+        "centroid_shift_m": 0.025,
+        "source_area_m2": 80.0,
+        "candidate_area_m2": 79.6
+      },
+      "metrics_b": {
+        "source_valid": true,
+        "candidate_valid": true,
+        "source_geom_type": "Polygon",
+        "candidate_geom_type": "Polygon",
+        "source_components": 1,
+        "candidate_components": 1,
+        "source_holes": 0,
+        "candidate_holes": 0,
+        "iou": 0.995,
+        "hausdorff_m": 0.05,
+        "symmetric_difference_area_m2": 0.4,
+        "relative_area_error": 0.005,
+        "centroid_shift_m": 0.025,
+        "source_area_m2": 80.0,
+        "candidate_area_m2": 79.6
+      },
+      "expected_validator_behavior": "Compare site-level adjacency graph and shared-boundary invariants; individual IoU is insufficient."
+    },
+    {
+      "case_id": "BEN-BLDG-015A",
+      "name": "two distinct near buildings -> merged candidate",
+      "purpose": "Ensure object identity/count is protected against geometry unions.",
+      "synthetic_only": true,
+      "source_object_count": 2,
+      "candidate_object_count": 1,
+      "source_component_count": 2,
+      "candidate_component_count": 1,
+      "source_gap_m": 0.4,
+      "metrics": {
+        "source_valid": true,
+        "candidate_valid": true,
+        "source_geom_type": "MultiPolygon",
+        "candidate_geom_type": "Polygon",
+        "source_components": 2,
+        "candidate_components": 1,
+        "source_holes": 0,
+        "candidate_holes": 0,
+        "iou": 0.98,
+        "hausdorff_m": 4.0,
+        "symmetric_difference_area_m2": 3.2,
+        "relative_area_error": 0.020408,
+        "centroid_shift_m": 0.0,
+        "source_area_m2": 156.8,
+        "candidate_area_m2": 160.0
+      },
+      "expected_validator_behavior": "Reject an unapproved identity merge; object count and IDs are hard invariants unless the designer explicitly merges them."
+    },
+    {
+      "case_id": "BEN-BLDG-007A",
+      "name": "curved annular segment -> minimum rotated rectangle",
+      "purpose": "Detect destructive loss of intentional curvature.",
+      "synthetic_only": true,
+      "metrics": {
+        "source_valid": true,
+        "candidate_valid": true,
+        "source_geom_type": "Polygon",
+        "candidate_geom_type": "Polygon",
+        "source_components": 1,
+        "candidate_components": 1,
+        "source_holes": 0,
+        "candidate_holes": 0,
+        "iou": 0.398523,
+        "hausdorff_m": 6.973363,
+        "symmetric_difference_area_m2": 120.295486,
+        "relative_area_error": 1.509268,
+        "centroid_shift_m": 0.453554,
+        "source_area_m2": 79.704514,
+        "candidate_area_m2": 200.0
+      },
+      "expected_validator_behavior": "Curvature/segment distribution outside the approved profile should trigger preserve or needs-review, not forced rectification."
+    },
+    {
+      "case_id": "BEN-BLDG-009A",
+      "name": "footprint without height evidence",
+      "synthetic_only": true,
+      "input": {
+        "footprint_state": "confirmed",
+        "height_source": null,
+        "height_state": "unknown",
+        "floors_source": null,
+        "floors_state": "unknown"
+      },
+      "expected_validator_behavior": "2D footprint may pass; 3D body must remain absent or explicitly schematic/proposed and must not invent a confirmed height or floor count."
+    }
+  ]
+}

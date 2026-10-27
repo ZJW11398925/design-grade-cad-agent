@@ -1,0 +1,12 @@
+schema_id: dgcad.foundation.fixture.dependency.v0.1
+artifacts:
+  - artifact_id: MASS-B001
+    depends_on: [B-001.geometry@1, B-001.parameter@1]
+  - artifact_id: SHADOW-001
+    depends_on: [MASS-B001, context.north@1, method.shadow@1]
+  - artifact_id: DXF-001
+    depends_on: [B-001.geometry@1, R-001.geometry@1, profile.delivery@1]
+expected_local_invalidation:
+  change: B-001.parameter@1
+  stale: [MASS-B001]
+  not_directly_stale: [DXF-001]

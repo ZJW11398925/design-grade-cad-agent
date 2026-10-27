@@ -1,0 +1,47 @@
+schema_id: dgcad.deployment.mode.matrix.v0.1
+status: research_candidate
+criteria:
+  - canonical_truth_isolation
+  - native_cad_access
+  - agent_portability
+  - crash_blast_radius
+  - offline_local_work
+  - multi_cad_support
+  - operational_complexity
+modes:
+  embedded_cad_plugin:
+    canonical_truth_isolation: weak
+    native_cad_access: strongest
+    agent_portability: weak
+    crash_blast_radius: coupled_to_cad_process
+    offline_local_work: strong
+    multi_cad_support: weak
+    operational_complexity: medium
+    decision: reject_as_primary
+  local_sidecar:
+    canonical_truth_isolation: strong
+    native_cad_access: indirect_bridge_required
+    agent_portability: strong
+    crash_blast_radius: bounded
+    offline_local_work: strong
+    multi_cad_support: strong
+    operational_complexity: medium
+    decision: strong_candidate
+  remote_service:
+    canonical_truth_isolation: strong
+    native_cad_access: difficult_without_local_bridge
+    agent_portability: strong
+    crash_blast_radius: separated
+    offline_local_work: weak
+    multi_cad_support: strong
+    operational_complexity: high
+    decision: defer_for_r1
+  hybrid_sidecar_bridges_remote_workers:
+    canonical_truth_isolation: strong
+    native_cad_access: strong_via_thin_bridges
+    agent_portability: strong
+    crash_blast_radius: bounded
+    offline_local_work: strong_for_core
+    multi_cad_support: strong
+    operational_complexity: medium_high
+    decision: recommended_direction

@@ -1,0 +1,214 @@
+{
+  "review_packet_id": "REVIEW-E2E-FIXTURE-001-R2",
+  "version": "0.2.0",
+  "path_root": "workspace_root",
+  "generated_at_utc": "2026-10-27",
+  "status": "conditional_external_review_pending",
+  "internal_adversarial_review": {
+    "status": "conditional_pass_for_next_experiment",
+    "all_adversarial_probes_pass": true,
+    "external_reviewer_completed": false
+  },
+  "fixture_id": "E2E-FIXTURE-001",
+  "fixture_revision": "r2",
+  "run_ids": [
+    "RUN-E2E-003",
+    "RUN-E2E-004",
+    "RUN-E2E-005",
+    "RUN-E2E-006"
+  ],
+  "hash_algorithm": "sha256",
+  "artifacts": [
+    {
+      "path": "README.md",
+      "sha256": "06550aa8f1942ccc94cd94a57e38c820cffac5cdc03fe481082838a707ee889d",
+      "bytes": 9427
+    },
+    {
+      "path": "research-plan.md",
+      "sha256": "e9b055d5b50a363084075f407b7d040cbd98467e5e1f195a9823a42de7dea34f",
+      "bytes": 9224
+    },
+    {
+      "path": "working/coverage-dashboard.md",
+      "sha256": "d1efeded4456537c4961eeef5d87beee527cb208e1d0d26bddb8635ecfd427f8",
+      "bytes": 6765
+    },
+    {
+      "path": "working/mainline-roadmap.md",
+      "sha256": "8d01c41bab5a6739cd769b55b542bb1d5274388b6d71816dfb40310ad6450038",
+      "bytes": 10686
+    },
+    {
+      "path": "working/changelog.md",
+      "sha256": "a527a82f4d6173ed065c7a5924aec129c01a979daff4f1c729c402069117c66f",
+      "bytes": 17671
+    },
+    {
+      "path": "reports/snapshot-r0-v0.9.md",
+      "sha256": "701e375e647fa3a285dc63ad9b45bf43aeb253541c1f378a5c072126617c1bc3",
+      "bytes": 2597
+    },
+    {
+      "path": "working/e2e-integration/site-fixture-v0.1.json",
+      "sha256": "fb46821afaf64338c382edfb53564b7b6ff8990beec284a3de437b5c779e840c",
+      "bytes": 8350
+    },
+    {
+      "path": "working/e2e-integration/site-fixture-cad-ir-v0.1.json",
+      "sha256": "4de1f7178ecf0ee722a984ecc298541fa624ca2d486603df009aacb31153f23e",
+      "bytes": 25941
+    },
+    {
+      "path": "working/e2e-integration/local-e2e-fixture-env-001.json",
+      "sha256": "c1e03a48ab039529d61b1e9e615131fb3564630662e85654a97d097b9920d8cb",
+      "bytes": 3243
+    },
+    {
+      "path": "working/e2e-integration/site-fixture-v0.1.dxf",
+      "sha256": "e4b33b0ab39c7a758e74fefb9ac46b6f07d04b33f12299fb9214849865e27445",
+      "bytes": 19182
+    },
+    {
+      "path": "working/e2e-integration/site-fixture-v0.1-dxf-manifest.json",
+      "sha256": "bc6a5b9237f56fdc0f755839f7af1e6c2e3ef86b900f1ce6d4630d61658ad35e",
+      "bytes": 7120
+    },
+    {
+      "path": "working/e2e-integration/site-fixture-contract-v0.1.md",
+      "sha256": "5505326dc064ec76f5f56c6b9b605a6d7693a4abc2887c5d41c8d32d9a2c01cf",
+      "bytes": 2388
+    },
+    {
+      "path": "working/e2e-integration/site-fixture-v0.2.json",
+      "sha256": "1423ed46ce818d8ba14392a4b3db664c36ad2ec205b68960045a75238e0af2a2",
+      "bytes": 9980
+    },
+    {
+      "path": "working/e2e-integration/site-fixture-contract-v0.2.md",
+      "sha256": "6c035c9f050c3366eb30b60d8b00a81d89b73688aa970e197987ce3d86a74c89",
+      "bytes": 2793
+    },
+    {
+      "path": "working/e2e-integration/run_fixture_benchmark_v0_2.py",
+      "sha256": "8fb742cadf1d639a032799ed022e42cf411583cbf9ac93bdda987a146f2a3da4",
+      "bytes": 16358
+    },
+    {
+      "path": "working/e2e-integration/local-e2e-fixture-env-002.json",
+      "sha256": "0327ea846c2e53b2c1675207971a90de8a75872cc8ad7d6539e1caf730a503ce",
+      "bytes": 7650
+    },
+    {
+      "path": "working/e2e-integration/fixture_to_cad_ir_v0_2.py",
+      "sha256": "68ef6d61247071e7a760258a5389b92aeaf3e43e7774edf136c5feaa450689ec",
+      "bytes": 8317
+    },
+    {
+      "path": "working/e2e-integration/site-fixture-cad-ir-v0.2.json",
+      "sha256": "4888db5206581dec44d0842637896151cf48b2978cdc0dd56c14bb4b81f204db",
+      "bytes": 25941
+    },
+    {
+      "path": "working/e2e-integration/compile_fixture_to_dxf_v0_2.py",
+      "sha256": "f095d7f1de04a52f0ea24cf186dbbc98a0bb89b4162c5be7035201c76a0a06d0",
+      "bytes": 8618
+    },
+    {
+      "path": "working/e2e-integration/dxf_validator.py",
+      "sha256": "38a4920d3a0c76addd16eac5dc0d4bf1bea232bf84c447c1206fcad0bcb8a598",
+      "bytes": 14478
+    },
+    {
+      "path": "working/e2e-integration/site-fixture-v0.2.dxf",
+      "sha256": "a8d58770aaf370aeca46ca28786391df7d1de8a81bc69dd5b05fb36b548deba3",
+      "bytes": 20382
+    },
+    {
+      "path": "working/e2e-integration/site-fixture-v0.2-dxf-manifest.json",
+      "sha256": "397da4bf4d8cb5eb7188a63343a6951121073a14b4e9748b8658b575279a7429",
+      "bytes": 10173
+    },
+    {
+      "path": "working/e2e-integration/run_adversarial_review.py",
+      "sha256": "9960c895f8611f6df1291edff8f68b0ca92007550eac71741a47908dc115c4c4",
+      "bytes": 9302
+    },
+    {
+      "path": "working/e2e-integration/adversarial-review-results-v0.2.json",
+      "sha256": "d08656366abd15d6c8894ba45474cdc456c7966e448a3ae61f2939bcb59279a4",
+      "bytes": 4766
+    },
+    {
+      "path": "working/e2e-integration/local-e2e-fixture-slice-002.md",
+      "sha256": "0aa8e0a16014a67227da4e4896ece9455cb1431db893cfe82808d9c4c712cba8",
+      "bytes": 5683
+    },
+    {
+      "path": "working/e2e-integration/adversarial-review-report-v0.2.md",
+      "sha256": "f90a09d737cb499b4d1e396b7eca129e8675be241b5ecdb42cc93bb6ee1595a6",
+      "bytes": 6841
+    },
+    {
+      "path": "working/e2e-integration/independent-review-checklist-v0.2.md",
+      "sha256": "08b8194f13a117409fa9bba33c0b1f342ed9974a6c6a69c90a4f7033ca38539f",
+      "bytes": 2487
+    },
+    {
+      "path": "working/e2e-integration/review-packet-README-v0.2.md",
+      "sha256": "ef0d4953b4a00e87e6ff994c2a9c4363fcdf4566ee6d3966a9e8abc177ce93e3",
+      "bytes": 2322
+    },
+    {
+      "path": "working/e2e-integration/run-log.jsonl",
+      "sha256": "3ce021478c29e7edc395e5c354a8342f8afacecec9deb5bc57c478cf458ed52e",
+      "bytes": 4145
+    },
+    {
+      "path": "working/environment-analysis/solar_shadow.py",
+      "sha256": "6846d530380fcf2523f6800ca7157397748a84073b6be8688adac99152495013",
+      "bytes": 13601
+    },
+    {
+      "path": "working/environment-analysis/test_solar_shadow.py",
+      "sha256": "c0d04a0ead5f0e77cebfaf6ed145db8d186af9157473f839250d18ffb782964f",
+      "bytes": 6585
+    },
+    {
+      "path": "working/environment-analysis/analysis-dependency-contract-v0.1.yaml",
+      "sha256": "3bbc29bccc5261c73fc13f5023a3f9333040ff2900a9a3de93b521c093972545",
+      "bytes": 2198
+    },
+    {
+      "path": "working/environment-analysis/environment-analysis-result-schema-v0.1.yaml",
+      "sha256": "9f14a0628f2d98beb625487454c4562a0a9e19ce373e4d0dd8e952f705b87f8d",
+      "bytes": 1904
+    },
+    {
+      "path": "working/cad-bim-validator/cad-ir-contract-v0.1.yaml",
+      "sha256": "cf956bcde64d62e78c3dedc151d5fa7878ffa6149c05c09d1a10dec408663d90",
+      "bytes": 2510
+    },
+    {
+      "path": "working/sketch-trace/trace-object-schema-v0.1.yaml",
+      "sha256": "6266b96580020894e913ff54f28aaeb0853f48b83de2128e8995558a0306dbc1",
+      "bytes": 2905
+    },
+    {
+      "path": "working/building-massing/building-object-schema-v0.1.yaml",
+      "sha256": "510cd6ca56e8a565acabb182481dc314ee2690676a35d1067f78a2facc519c2d",
+      "bytes": 1700
+    }
+  ],
+  "known_limits": [
+    "synthetic fixture only",
+    "no real raster-to-Trace run",
+    "no real road generation",
+    "no IFC output",
+    "no third-party CAD application round-trip",
+    "no independent solar engine",
+    "no regulatory compliance determination",
+    "sampled_direct_sun_hours interval semantics remain open"
+  ],
+  "required_external_review": "Return pass_for_next_experiment, conditional, or fail with findings and reproduction steps; do not treat this as A1 or production approval."
+}

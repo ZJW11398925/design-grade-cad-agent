@@ -1,0 +1,30 @@
+schema_id: dgcad.runtime.agent-surface.v0.1
+status: provisional
+agent_tools:
+  read:
+    - scene_summary
+    - object_view
+    - job_status
+  mutate_intent:
+    - propose_change
+    - propose_changeset
+    - preview_change
+    - cancel_proposal
+    - request_commit
+    - rebuild_stale
+  planned_not_implemented:
+    - validate
+    - export
+    - reconcile_external
+privileged_human_only:
+  - approve_proposal
+  - unlock_proposal
+forbidden_agent_inputs:
+  - is_human
+  - can_unlock
+  - confirmed
+  - unlock_confirmed
+  - raw_canonical_write
+mutating_request_requirement:
+  idempotency_key: required
+transport_rule: CLI_and_MCP_must_share_same_runtime_surface

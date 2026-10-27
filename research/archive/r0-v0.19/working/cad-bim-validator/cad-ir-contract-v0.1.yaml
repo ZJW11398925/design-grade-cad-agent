@@ -1,0 +1,67 @@
+schema: cad_ir_contract_r0_v0.1
+status: provisional
+purpose: >-
+  A canonical, tool-independent semantic drawing model compiled separately to
+  DXF and IFC. It is not itself a CAD file or a final architectural schema.
+project:
+  project_id: required
+  coordinate_frame_ref: required
+  coordinate_state: one_of [image_space, local_metric_scaled, project_aligned, georeferenced]
+  units: required
+  profile_ref: required
+  profile_version: required
+  design_stage: required
+  source_refs: required
+objects:
+  object_id: stable_required
+  object_class: one_of [site_boundary, road_centerline, road_surface, building_footprint, green_space, annotation, dimension, terrain, other]
+  geometry_ref: required
+  geometry_revision: required
+  geometry_content_hash_sha256: required_for_inline_geometry; guards against geometry changes without revision bump
+  semantic_properties: {}
+  source_trace_ref: required_for_derived_geometry
+  source_trace_revision: required_for_derived_geometry
+  locked: false
+  layer_key: required_for_dxf
+  style_key: nullable
+  block_key: nullable
+  placement_ref: required_for_3d
+  massing_parameters:
+    height: {value: null, unit: m, state: unknown, source_ref: null}
+    floors: {value: null, state: unknown, source_ref: null}
+    floor_height: {value: null, unit: m, state: unknown, source_ref: null}
+  representations:
+    dxf: {state: missing, output_entity_refs: []}
+    ifc_footprint: {state: missing, representation_ref: null}
+    ifc_body: {state: missing, representation_ref: null}
+  dependencies:
+    derived_from: []
+    stale_reasons: []
+    rebuild_required: []
+  validation:
+    geometry: {state: not_run, findings: []}
+    topology: {state: not_run, findings: []}
+    profile: {state: not_run, findings: []}
+    file_integrity: {state: not_run, findings: []}
+    roundtrip: {state: not_run, findings: []}
+    independent_application: {state: not_run, findings: []}
+provenance:
+  created_by: required
+  source_version: required
+  algorithm_and_version: nullable
+  parameters: {}
+  change_proposal_ref: nullable
+  reviewer_decision_ref: nullable
+export_targets:
+  dxf:
+    version: required
+    profile_ref: required
+    unit_policy: required
+  ifc:
+    schema_version: required
+    profile_ref: required
+    representation_policy: required
+validation_policy:
+  never_collapse_scopes: [geometry, topology, profile, file_integrity, roundtrip, independent_application, domain_compliance]
+  source_trace_is_immutable: true
+  unknown_values_must_not_be_silently_promoted: true

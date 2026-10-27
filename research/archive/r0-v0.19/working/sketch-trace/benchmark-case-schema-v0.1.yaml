@@ -1,0 +1,69 @@
+schema: sketch_trace_benchmark_case_v0.1
+status: provisional
+case:
+  case_id: null
+  tier: null # A_controlled | B_human_known_base | C_field_paired
+  role: null # development | calibration | independent_evaluation
+  source:
+    path: null
+    source_kind: null # scan | phone_photo | screenshot | exported_raster | pdf_page | overlay
+    immutable_sha256: null
+    width_px: null
+    height_px: null
+    dpi: null
+    distortion_notes: []
+    rights:
+      status: unknown # cleared | restricted | unknown
+      basis: null
+      public_release_allowed: null
+  reference_frame:
+    state: image_space_unscaled
+    transform_type: identity
+    parameters: null
+    control_points_path: null
+    known_dimensions_path: null
+    locked_references_path: null
+    residuals:
+      mean_px: null
+      median_px: null
+      p95_px: null
+      max_px: null
+      physical_unit: null
+      mean_physical: null
+      p95_physical: null
+    scale:
+      state: unknown # measured | estimated | unknown
+      value_m_per_px: null
+      evidence: null
+    origin_orientation_evidence: null
+    crs: null
+    review_state: proposed
+  truth:
+    trace_raw_path: null
+    semantic_labels_path: null
+    ambiguity_regions_path: null
+    intent_notes_path: null
+    reviewer_ids: []
+  evaluation:
+    calibration_metrics: []
+    semantic_metrics: []
+    trace_metrics:
+      - hausdorff_distance
+      - percentile_boundary_distance
+      - area_difference
+      - polygon_iou
+      - component_count_change
+      - hole_count_change
+      - invalid_geometry_count
+      - endpoint_junction_deviation
+      - locked_reference_displacement
+    human_review:
+      objects_requiring_review: null
+      objects_modified: null
+      modification_types: []
+      reviewer_time_minutes: null
+  governance:
+    truth_is_immutable: true
+    derived_outputs_must_not_overwrite_truth: true
+    model_outputs_are_candidates_until_reviewed: true
+    unresolved_regions_may_remain_unknown: true

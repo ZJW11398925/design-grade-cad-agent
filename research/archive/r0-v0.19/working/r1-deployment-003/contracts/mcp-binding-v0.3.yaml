@@ -1,0 +1,23 @@
+schema_id: dgcad.mcp.binding.v0.3
+status: source_backed_unexecuted_wire_contract
+transport:
+  preferred: streamable_http
+  bind: 127.0.0.1
+  dns_rebinding_protection: required
+  accepted_hosts: [localhost, 127.0.0.1, "[::1]"]
+  origin_policy: same_origin_or_explicit_allowlist
+  alternate: stdio
+runtime_mapping:
+  tools_call_same_agent_service: true
+  mcp_adapter_does_not_own_canonical_state: true
+  human_approve_unlock_tools_exposed: false
+security_mapping:
+  agent_session: agent_capability_role
+  bearer_or_mcp_authorization: host_managed_not_llm_argument
+  token_issuance_inside_mcp_resource_server: false
+wire_level_status:
+  executed: false
+  blocker: official_mcp_python_sdk_unavailable_in_current_environment
+references:
+  python_deploy: https://py.sdk.modelcontextprotocol.io/run/deploy/
+  python_authorization: https://py.sdk.modelcontextprotocol.io/run/authorization/

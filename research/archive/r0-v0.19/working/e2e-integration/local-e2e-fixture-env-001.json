@@ -1,0 +1,110 @@
+{
+  "run_id": "RUN-E2E-001",
+  "benchmark_id": "LOCAL-E2E-ENV-001",
+  "fixture_id": "E2E-FIXTURE-001",
+  "generated_at_utc": "2026-10-26T16:22:55.548157+00:00",
+  "status": "passed_with_scope_limits",
+  "solar_position": {
+    "elevation_deg": 72.04673645599621,
+    "azimuth_deg_from_true_north_clockwise": 32.309304133746934,
+    "algorithm": "NOAA fractional-year approximation (benchmark only)"
+  },
+  "dependency_fingerprint_sha256": "d92ec59a9345a30bb7ce601a411354f85ad962f2962b4a0984d402fc6494b996",
+  "sensor_results": [
+    {
+      "sensor_id": "SENSOR-GREEN-01",
+      "expected_status": "confirmed_shaded",
+      "actual": {
+        "sensor_xy": [
+          10.0,
+          8.0
+        ],
+        "sunlit": false,
+        "status": "confirmed_shaded",
+        "blocker_ids": [
+          "BLDG-01"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "sensor_id": "SENSOR-GREEN-02",
+      "expected_status": "unknown_obstruction_height",
+      "actual": {
+        "sensor_xy": [
+          0.0,
+          8.0
+        ],
+        "sunlit": null,
+        "status": "unknown_obstruction_height",
+        "blocker_ids": [
+          "BLDG-02"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "sensor_id": "SENSOR-GREEN-03",
+      "expected_status": "confirmed_sunlit_given_declared_context",
+      "actual": {
+        "sensor_xy": [
+          5.0,
+          5.0
+        ],
+        "sunlit": true,
+        "status": "confirmed_sunlit_given_declared_context",
+        "blocker_ids": []
+      },
+      "passed": true
+    }
+  ],
+  "synthetic_footprint_body_identity_checks": [
+    {
+      "object_id": "BLDG-01",
+      "status": "synthetic_body_projection_matches_footprint",
+      "xy_symmetric_difference_area_m2": 0.0,
+      "base_elevation_m": 0.0,
+      "top_elevation_m": 22.0,
+      "passed": true
+    },
+    {
+      "object_id": "BLDG-02",
+      "status": "blocked_missing_height",
+      "body_not_generated": true,
+      "passed": true
+    }
+  ],
+  "revision_checks": {
+    "same_manifest_stale": false,
+    "height_revision_change_stale": true,
+    "geometry_content_change_without_revision_bump_stale": true,
+    "north_bearing_change_stale": true
+  },
+  "north_rotation_probe": {
+    "changed_bearing_deg": 90.0,
+    "dependency_stale": true,
+    "sensor_results": [
+      {
+        "sensor_id": "SENSOR-GREEN-01",
+        "status": "confirmed_sunlit_given_declared_context",
+        "sunlit": true
+      },
+      {
+        "sensor_id": "SENSOR-GREEN-02",
+        "status": "confirmed_sunlit_given_declared_context",
+        "sunlit": true
+      },
+      {
+        "sensor_id": "SENSOR-GREEN-03",
+        "status": "confirmed_sunlit_given_declared_context",
+        "sunlit": true
+      }
+    ]
+  },
+  "limits": [
+    "This is a synthetic vertical slice through the shared fixture into the environment-analysis module only.",
+    "It does not run road generation, building regularization, IFC export, DXF compilation, or an independent solar/shadow engine.",
+    "The location is a solar-position reference only and does not georeference the local site geometry.",
+    "Passing results prove fixture/interface invariants only, not real-site quality, professional design correctness, or regulatory compliance."
+  ]
+}
