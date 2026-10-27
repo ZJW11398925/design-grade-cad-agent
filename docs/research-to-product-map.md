@@ -165,13 +165,13 @@ Still open: LibreCAD/FreeCAD/GUI third-party matrix (#6), arcs/splines outside t
 - Unit counts: 16 one-unit, 21 two-unit, 17 three-unit; 52 inferred from sketch dimensions, 2 confirmed, 1 facility excluded; six length-vs-area conflicts are flagged.
 - 312 rough road centerlines (`proposed_rough`): main road 1 component, blue network 8 components.
 - No human-confirmed trace or fidelity metrics; all 10 close pairs are resolved; six unit-count conflicts and the kindergarten facility remain for review; 支路/入户路 unseparated; no canonical handoff.
-- Contract: `contracts/sketch-evidence-v0.1.yaml`; tests: `tests/test_sketch_evidence.py` (8).
+- Contract: `contracts/sketch-evidence-v0.1.yaml`; tests: `tests/test_sketch_evidence.py` (11).
 
-## EP-R1-ROAD-001 topology start (0.10.0)
+## EP-R1-ROAD-001 as-drawn topology (0.10.1)
 
 - 312 rough centerlines: 41 main-road and 271 branch/access edges.
 - As-drawn graph: 306 nodes, 312 edges, 9 components, 129 endpoints, 99 junctions, 15 cycles.
-- Connected with eight inferred nearest-node connectors: 320 edges, 1 component; every connector is marked `inferred_nearest_endpoint`, `proposed`, and is not a designed road link.
+- Eight nearest-node connectors were attempted and **rejected by designer review**; no connected graph is claimed; gaps 15.62–76.06 px remain open. Rejected connectors are retained as negative evidence.
 - No road width, cross-section, profile, alignment, junction turn geometry or surface; 支路/入户路 remain combined.
 - Contract: `contracts/sketch-evidence-v0.1.yaml` (`road_topology`); tests: `tests/test_road_topology.py` (3).
 
@@ -214,7 +214,7 @@ contracts/
 Re-run this map before each milestone exit. The next expected promotions are:
 
 - Sketch evidence → human-confirmed trace and fidelity metrics when the designer supplies or approves the geometry reference.
-- Road width/profile/alignment → after review of the eight inferred connectors and 支路/入户路 separation.
+- Road connectivity from actual geometry → after review of the nine as-drawn components; then width/profile/alignment and 支路/入户路 separation.
 - Site Topology Contract → when multi-building shared-boundary/overlap validation starts.
 - Environment dependency/result schemas → when an analysis slice starts and `EP-R1-ENV-001` has evidence.
 - CAD-IR + semantic equivalence → completed in Milestones 3a/3b; third-party matrix remains partial (#6).

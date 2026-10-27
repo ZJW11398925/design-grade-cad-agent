@@ -10,7 +10,7 @@ Testing is the primary engineering control in this project. Research claims are 
 | L1 Domain contract | Prove building/road domain objects, unknown-state preservation, atomic topology changes and validators | **26 tests passing** |
 | L2 Integration | Prove the synthetic E2E pipeline, scoped mutation/rebuild, adversarial delivery and semantic/dependency closure | **45 tests (8 E2E-001 + 6 E2E-002 + 20 E2E-003 + 11 E2E-003b), all passing** |
 | L2 Sketch evidence | Prove the sketch case's privacy boundary, designer-confirmed semantics, building merges/unit states and image-space-only trace/centerlines | **11 tests passing** |
-| L2 Road topology | Prove the as-drawn vs connected road graph and that inferred connectors are marked, measured and scoped | **3 tests passing** |
+| L2 Road topology | Prove the as-drawn road graph and that nearest-node connectors are rejected and retained as negative evidence | **3 tests passing** |
 | L3 Third-party | Prove semantic round-trip through independent CAD/BIM applications | partial evidence: AutoCAD 2024 Core Console semantic pass with serialization differences; no LibreCAD/FreeCAD/GUI matrix |
 | L4 Security / lifecycle | Prove loopback, roles, pairing, lease, bridge expiry, stale writers | 14 lifecycle tests |
 
@@ -112,7 +112,7 @@ python -m pytest -q --cov --cov-report=term-missing
 - Five designer-confirmed merged buildings preserve unit counts, connectors and all 63 original component IDs; all 10 close pairs are resolved.
 - Unit counts are inferred from sketch dimensions (16 one-unit, 21 two-unit, 17 three-unit, plus one facility); 52 are inferred and 2 confirmed; six length-vs-area conflicts are flagged; the kindergarten is not forced into a unit type.
 - Every building carries a provisional 11-floor state with no floor height, massing or FAR; the unit-type library and human-confirmed geometry remain pending.
-- The as-drawn road graph has 306 nodes, 312 edges and 9 components; eight inferred nearest-node connectors produce a 320-edge, one-component graph, and every connector is marked `inferred_nearest_endpoint`, `proposed`, and is not a designed road link.
+- The as-drawn road graph has 306 nodes, 312 edges and 9 components; eight nearest-node connectors were attempted and **rejected**; no connected graph is claimed, and the rejected connectors are retained as negative evidence.
 - Road topology carries no width, cross-section, profile, alignment or surface fields.
 
 ## 4. What the current tests do **not** prove
@@ -124,7 +124,7 @@ python -m pytest -q --cov --cov-report=term-missing
 - That real sketch recognition, geometry construction, road design or building regularization works.
 - That CASE-SKETCH-001's trace is human-confirmed or accurate: semantic labels are designer-confirmed, but geometry is proposed and no Hausdorff/IoU metrics against a human reference exist yet.
 - That building merge/split, 支路/入户路 separation or the canonical Building/Road handoff are resolved.
-- That the sketch road centerline topology is professionally correct; it is `proposed_rough`, and its eight inferred connectors are not designed links.
+- That the sketch road topology is connected or professionally correct; it is `as_drawn_unresolved`, and its eight nearest-node connectors were rejected.
 - That road width, cross-section, profile or alignment has been designed; none is derived.
 - That the domain slice's simplified regularization (axis-aligned envelope) or road centerline merge is professionally correct.
 - That DXF output is compliant with any real project/design-office profile.

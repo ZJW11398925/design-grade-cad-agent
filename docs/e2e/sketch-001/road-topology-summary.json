@@ -1,7 +1,7 @@
 {
-  "schema_id": "dgcad.sketch.road-topology.proposed.v0.1",
-  "status": "proposed_rough",
-  "topology_state": "connected_with_inferred_connectors",
+  "schema_id": "dgcad.sketch.road-topology.proposed.v0.2",
+  "status": "as_drawn_unresolved",
+  "topology_state": "as_drawn_unresolved",
   "as_drawn": {
     "node_count": 306,
     "edge_count": 312,
@@ -14,139 +14,115 @@
       "branch_or_access_road": 271
     }
   },
-  "connected": {
-    "node_count": 306,
-    "edge_count": 320,
-    "component_count": 1,
-    "endpoints": 120,
-    "junctions": 103,
-    "cyclomatic_number": 15,
-    "road_class_edge_counts": {
-      "main_road": 41,
-      "branch_or_access_road": 279
-    }
-  },
-  "inferred_connector_count": 8,
-  "inferred_connectors": [
+  "connected": null,
+  "inferred_connector_count": 0,
+  "rejected_connector_count": 8,
+  "rejected_connectors": [
     {
       "trace_id": "SK-RDC-CONN-001",
       "from_component": "RC-01",
       "to_component": "RC-05",
       "gap_px": 15.62,
-      "length_px": 15.62,
-      "from_node": [
-        574.0,
-        106.0
-      ],
-      "to_node": [
-        562.0,
-        116.0
-      ]
+      "rejection_reason": "designer review: nearest-node straight-line connector is not evidence of a road connection and can create false topology"
     },
     {
       "trace_id": "SK-RDC-CONN-002",
       "from_component": "RC-01",
       "to_component": "RC-03",
       "gap_px": 23.77,
-      "length_px": 23.77,
-      "from_node": [
-        620.0,
-        1233.0
-      ],
-      "to_node": [
-        629.0,
-        1211.0
-      ]
+      "rejection_reason": "designer review: nearest-node straight-line connector is not evidence of a road connection and can create false topology"
     },
     {
       "trace_id": "SK-RDC-CONN-003",
       "from_component": "RC-01",
       "to_component": "RC-06",
       "gap_px": 33.24,
-      "length_px": 33.24,
-      "from_node": [
-        773.0,
-        1225.0
-      ],
-      "to_node": [
-        769.0,
-        1258.0
-      ]
+      "rejection_reason": "designer review: nearest-node straight-line connector is not evidence of a road connection and can create false topology"
     },
     {
       "trace_id": "SK-RDC-CONN-004",
       "from_component": "RC-01",
       "to_component": "RC-04",
       "gap_px": 34.21,
-      "length_px": 34.21,
-      "from_node": [
-        779.0,
-        627.0
-      ],
-      "to_node": [
-        788.0,
-        594.0
-      ]
+      "rejection_reason": "designer review: nearest-node straight-line connector is not evidence of a road connection and can create false topology"
     },
     {
       "trace_id": "SK-RDC-CONN-005",
       "from_component": "RC-06",
       "to_component": "RC-07",
       "gap_px": 37.22,
-      "length_px": 37.22,
-      "from_node": [
-        638.0,
-        1330.0
-      ],
-      "to_node": [
-        601.0,
-        1334.0
-      ]
+      "rejection_reason": "designer review: nearest-node straight-line connector is not evidence of a road connection and can create false topology"
     },
     {
       "trace_id": "SK-RDC-CONN-006",
       "from_component": "RC-02",
       "to_component": "RC-03",
       "gap_px": 43.01,
-      "length_px": 43.01,
-      "from_node": [
-        273.0,
-        896.0
-      ],
-      "to_node": [
-        316.0,
-        897.0
-      ]
+      "rejection_reason": "designer review: nearest-node straight-line connector is not evidence of a road connection and can create false topology"
     },
     {
       "trace_id": "SK-RDC-CONN-007",
       "from_component": "RC-01",
       "to_component": "RC-09",
       "gap_px": 46.75,
-      "length_px": 46.75,
-      "from_node": [
-        795.0,
-        702.0
-      ],
-      "to_node": [
-        830.0,
-        733.0
-      ]
+      "rejection_reason": "designer review: nearest-node straight-line connector is not evidence of a road connection and can create false topology"
     },
     {
       "trace_id": "SK-RDC-CONN-008",
       "from_component": "RC-03",
       "to_component": "RC-08",
       "gap_px": 76.06,
-      "length_px": 76.06,
-      "from_node": [
-        765.0,
-        1018.0
-      ],
-      "to_node": [
-        801.0,
-        1085.0
-      ]
+      "rejection_reason": "designer review: nearest-node straight-line connector is not evidence of a road connection and can create false topology"
+    }
+  ],
+  "open_gaps": [
+    {
+      "trace_id": "SK-RDC-CONN-001",
+      "component_a": "RC-01",
+      "component_b": "RC-05",
+      "distance_px": 15.62
+    },
+    {
+      "trace_id": "SK-RDC-CONN-002",
+      "component_a": "RC-01",
+      "component_b": "RC-03",
+      "distance_px": 23.77
+    },
+    {
+      "trace_id": "SK-RDC-CONN-003",
+      "component_a": "RC-01",
+      "component_b": "RC-06",
+      "distance_px": 33.24
+    },
+    {
+      "trace_id": "SK-RDC-CONN-004",
+      "component_a": "RC-01",
+      "component_b": "RC-04",
+      "distance_px": 34.21
+    },
+    {
+      "trace_id": "SK-RDC-CONN-005",
+      "component_a": "RC-06",
+      "component_b": "RC-07",
+      "distance_px": 37.22
+    },
+    {
+      "trace_id": "SK-RDC-CONN-006",
+      "component_a": "RC-02",
+      "component_b": "RC-03",
+      "distance_px": 43.01
+    },
+    {
+      "trace_id": "SK-RDC-CONN-007",
+      "component_a": "RC-01",
+      "component_b": "RC-09",
+      "distance_px": 46.75
+    },
+    {
+      "trace_id": "SK-RDC-CONN-008",
+      "component_a": "RC-03",
+      "component_b": "RC-08",
+      "distance_px": 76.06
     }
   ],
   "components": [
@@ -286,7 +262,21 @@
       ]
     }
   ],
-  "nearest_component_pairs": [
+  "method": "as-drawn centerline graph; nearest-node inference withdrawn",
+  "rules": [
+    "as-drawn components are the only road connectivity evidence",
+    "nearest-node straight-line inference is rejected and retained as negative evidence",
+    "gaps remain open until confirmed from actual road geometry",
+    "no width, cross-section, alignment or surface is inferred"
+  ],
+  "non_claims": [
+    "road connectivity is unresolved; there is no connected-graph claim",
+    "eight nearest-node connectors were rejected by designer review",
+    "no road width, cross-section, alignment, junction turn geometry or surface",
+    "image-space topology only; no project coordinates or metric lengths",
+    "blue combines 支路 and 入户路; subtypes are not separated"
+  ],
+  "all_component_pair_gaps": [
     {
       "distance_px": 119.55,
       "component_a": 1,
@@ -755,17 +745,5 @@
         789.0
       ]
     }
-  ],
-  "method": "component nearest-node gaps + minimum spanning tree connectors",
-  "rules": [
-    "as-drawn components are reported separately from the connected graph",
-    "every inferred connector is marked and measured",
-    "topology is not road design"
-  ],
-  "non_claims": [
-    "inferred connectors are not designed roads; they need human review",
-    "no road width, cross-section, alignment, junction turn geometry or surface",
-    "image-space topology only; no project coordinates or metric lengths",
-    "blue combines 支路 and 入户路; subtypes are not separated"
   ]
 }
