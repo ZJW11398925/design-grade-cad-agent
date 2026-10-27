@@ -14,8 +14,15 @@ issue_categories:
       - COORDINATE_MISMATCH
       - CLOSED_MISMATCH
       - NONZERO_Z
+      - CIRCLE_NONZERO_Z
+      - TEXT_NONZERO_Z
       - CIRCLE_MISMATCH
       - TEXT_MISMATCH
+      - BULGE_MISMATCH
+      - VERTEX_WIDTH_MISMATCH
+      - CONST_WIDTH_MISMATCH
+      - THICKNESS_MISMATCH
+      - EXTRUSION_MISMATCH
       - AUDIT_ERROR
   interoperability:
     description: "Identity/provenance mismatch between CAD-IR and the written DXF."
@@ -29,12 +36,20 @@ issue_categories:
       - REP_HASH_MISMATCH
       - RING_ROLE_MISMATCH
   profile_violation:
-    description: "Violation of the declared delivery profile/layer policy."
+    description: "Violation of the declared delivery profile, layer or entity-style policy."
     codes:
       - LAYER_MISSING
       - UNEXPECTED_LAYER
       - LAYER_PROPERTY_MISMATCH
       - LAYER_MISMATCH
+      - ENTITY_COLOR_OVERRIDE
+      - ENTITY_LINETYPE_OVERRIDE
+      - ENTITY_LINEWEIGHT_OVERRIDE
+      - ENTITY_TRUE_COLOR_OVERRIDE
+      - ENTITY_TRANSPARENCY_OVERRIDE
+      - TEXT_ROTATION_MISMATCH
+      - TEXT_WIDTH_MISMATCH
+      - TEXT_ALIGNMENT_MISMATCH
   serialization_difference:
     description: "Serialization normalization that is not a design failure."
     codes:
@@ -56,63 +71,74 @@ scenarios:
     issue: null
   - id: CIRCLE_NONZERO_Z
     group: geometry
-    expected: strict_xfail
-    code: expected_future_nonzero_z
+    expected: detected
+    code: CIRCLE_NONZERO_Z
     test: test_circle_nonzero_z_is_detected
     issue: "#18"
   - id: TEXT_NONZERO_Z
     group: geometry
-    expected: strict_xfail
+    expected: detected
+    code: TEXT_NONZERO_Z
     test: test_text_nonzero_z_is_detected
     issue: "#18"
   - id: TEXT_ROTATION
     group: text
-    expected: strict_xfail
+    expected: detected
+    code: TEXT_ROTATION_MISMATCH
     test: test_text_rotation_is_detected
     issue: "#18"
   - id: TEXT_WIDTH_ALIGNMENT
     group: text
-    expected: strict_xfail
+    expected: detected
+    codes: [TEXT_WIDTH_MISMATCH, TEXT_ALIGNMENT_MISMATCH]
     test: test_text_width_and_alignment_are_detected
     issue: "#18"
   - id: ENTITY_COLOR_OVERRIDE
     group: style
-    expected: strict_xfail
+    expected: detected
+    code: ENTITY_COLOR_OVERRIDE
     test: test_entity_style_override_is_detected[color]
     issue: "#17"
   - id: ENTITY_LINETYPE_OVERRIDE
     group: style
-    expected: strict_xfail
+    expected: detected
+    code: ENTITY_LINETYPE_OVERRIDE
     test: test_entity_style_override_is_detected[linetype]
     issue: "#17"
   - id: ENTITY_LINEWEIGHT_OVERRIDE
     group: style
-    expected: strict_xfail
+    expected: detected
+    code: ENTITY_LINEWEIGHT_OVERRIDE
     test: test_entity_style_override_is_detected[lineweight]
     issue: "#17"
   - id: ENTITY_TRUE_COLOR_OVERRIDE
     group: style
-    expected: strict_xfail
+    expected: detected
+    code: ENTITY_TRUE_COLOR_OVERRIDE
     test: test_entity_style_override_is_detected[true_color]
     issue: "#17"
   - id: ENTITY_TRANSPARENCY_OVERRIDE
     group: style
-    expected: strict_xfail
+    expected: detected
+    code: ENTITY_TRANSPARENCY_OVERRIDE
     test: test_entity_style_override_is_detected[transparency]
     issue: "#17"
   - id: LWPOLYLINE_START_END_WIDTH
     group: geometry
-    expected: strict_xfail
+    expected: detected
+    code: VERTEX_WIDTH_MISMATCH
     test: test_lwpolyline_start_end_width_is_detected
     issue: "#3"
   - id: LWPOLYLINE_THICKNESS
     group: geometry
-    expected: strict_xfail
+    expected: detected
+    code: THICKNESS_MISMATCH
     test: test_lwpolyline_thickness_is_detected
     issue: "#3"
   - id: LWPOLYLINE_EXTRUSION
     group: geometry
-    expected: strict_xfail
+    expected: detected
+    code: EXTRUSION_MISMATCH
     test: test_lwpolyline_extrusion_is_detected
     issue: "#3"
   - id: MULTIPOLYGON_TWO_PARTS_HOLE
@@ -134,7 +160,8 @@ scenarios:
     issue: null
   - id: VALIDATOR_ERROR_STRUCTURED
     group: validator
-    expected: strict_xfail
+    expected: detected
+    code: VALIDATOR_ERROR
     test: test_validator_error_is_structured
     issue: "#7"
 
@@ -155,24 +182,24 @@ existing_coverage:
     code: ENTITY_TYPE_MISMATCH
     status: positive
   - id: BULGE
-    test: test_known_gap_bulge_mutation_is_not_detected
+    test: test_bulge_mutation_is_detected
     file: tests/test_cad_delivery_contracts.py
-    status: strict_xfail
-    issue: "#3"
+    code: BULGE_MISMATCH
+    status: positive
   - id: CONSTANT_WIDTH
-    test: test_known_gap_constant_width_mutation_is_not_detected
+    test: test_constant_width_mutation_is_detected
     file: tests/test_cad_delivery_contracts.py
-    status: strict_xfail
-    issue: "#3"
+    code: CONST_WIDTH_MISMATCH
+    status: positive
 
 boundaries:
   modelspace_only: true
   paper_space: out_of_scope
   third_party_roundtrip: not_claimed
   same_library_readback_only: true
-  dev_cad_systematic_fix: out_of_scope
+  dev_cad_scope: "3a fixes only (003/007/009/010); 001/004/005/006/008/011 remain open"
   road_surface_geometry: deferred
   real_sketch_input: out_of_scope
   ifc: out_of_scope
 
-completion_rule: "Every scenario is detected, passes as a positive case, or is a strict xfail linked to an accurate issue. No silent acceptance."
+completion_rule: "Every scenario is detected or passes as a positive case. No strict xfail remains in Milestone 3a."

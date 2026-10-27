@@ -36,7 +36,7 @@ Input: human-confirmed Trace/Intent fixture. Output: canonical Building/Road obj
 - [x] Run the pipeline in CI on Ubuntu and Windows.
 - [x] Freeze expected object IDs (11), entity count (15), audit result (0/0) and dependency fingerprints.
 - [x] Add mutation tests for vertex mutation, unexpected layer and entity-type substitution.
-- [x] Record bulge/constant-width gaps as strict xfail referencing `DEV-CAD-003` / issue #3.
+- [x] Record bulge/constant-width gaps at E2E-001 time; resolved in Milestone 3a (issue #3 closed).
 
 **Exit:** E2E-001 runs in CI with no external engine and no archive imports. Evidence: `docs/e2e/living-pipeline-001.md`.
 
@@ -61,18 +61,20 @@ Input: human-confirmed Trace/Intent fixture. Output: canonical Building/Road obj
 - [x] Add `delivery-comparison.json` and issue categories.
 - [x] Track CAD-IR fingerprint/dependency-key consistency as #16 / DEV-CAD-011.
 
-**Exit:** every adversarial delivery case is either detected or explicitly xfailed with an issue link; no silent acceptance. Evidence: `docs/e2e/adversarial-delivery-003.md`.
+**Exit (at E2E-003 close):** every adversarial delivery case was either detected or explicitly xfailed with an issue link. All xfails were converted to positive checks in Milestone 3a. Evidence: `docs/e2e/adversarial-delivery-003.md`.
 
-## Milestone 3 — CAD validator hardening (next)
+## Milestone 3 — CAD validator hardening (3b next)
 
-Close the 15 strict xfails and the remaining interoperability gaps. Scope explicitly includes `DEV-CAD-001..011`.
+Milestone 3a is complete: all 15 strict xfails are now positive checks. 3b/3c close the remaining interoperability and dependency gaps. Scope explicitly includes `DEV-CAD-001..011`.
 
 ### 3a — Fix existing strict xfails
 
-- [ ] `DEV-CAD-003` / #3: LWPOLYLINE bulge, start/end width, constant width, thickness and extrusion.
-- [ ] `DEV-CAD-007` / #7: structured `validator_error`; validator-internal exceptions never become design failures or passes.
-- [ ] `DEV-CAD-009` / #17: entity-level color, linetype, lineweight, true color and transparency.
-- [ ] `DEV-CAD-010` / #18: CIRCLE center Z, TEXT insertion Z, rotation, width and alignment.
+- [x] `DEV-CAD-003` / #3: LWPOLYLINE bulge, start/end width, constant width, thickness and extrusion.
+- [x] `DEV-CAD-007` / #7: structured `validator_error`; validator-internal exceptions never become design failures or passes.
+- [x] `DEV-CAD-009` / #17: entity-level color, linetype, lineweight, true color and transparency.
+- [x] `DEV-CAD-010` / #18: CIRCLE center Z, TEXT insertion Z, rotation, width and alignment.
+
+**3a exit:** 141/141 tests passing; no permanent xfails. Evidence: `docs/e2e/adversarial-delivery-003.md`.
 
 ### 3b — Semantic equivalence and dependency closure
 

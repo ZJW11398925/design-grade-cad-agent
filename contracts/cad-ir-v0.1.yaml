@@ -102,6 +102,18 @@ dxf_export:
     - ring_role
   ring_index_semantics: "global within the CAD object: parts in order, then rings within each part"
   ring_identity_stability: "not guaranteed across revisions; Milestone 3 decision"
+  lwpolyline_semantics:
+    expected_defaults:
+      bulge: 0.0
+      start_width: 0.0
+      end_width: 0.0
+      const_width: 0.0
+      thickness: 0.0
+      elevation: 0.0
+      extrusion: [0.0, 0.0, 1.0]
+  text_style_policy:
+    required: [rotation, width_factor, halign, valign]
+    defaults: {rotation: 0.0, width_factor: 1.0, halign: 0, valign: 0}
   invariants:
     - "every modelspace entity carries the XDATA field set"
     - "every polygon ring is a separate closed LWPOLYLINE with outer/hole role"

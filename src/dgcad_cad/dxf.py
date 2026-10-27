@@ -211,6 +211,14 @@ def compile_to_dxf(
                 dxfattribs={"layer": "ANNO-DIM"},
             )
             label.dxf.insert = (x + 0.3, y + 0.3)
+            label.dxf.rotation = float(
+                profile.text_style_policy["rotation"]
+            )
+            label.dxf.width = float(
+                profile.text_style_policy["width_factor"]
+            )
+            label.dxf.halign = int(profile.text_style_policy["halign"])
+            label.dxf.valign = int(profile.text_style_policy["valign"])
             _set_xdata(
                 label,
                 obj,

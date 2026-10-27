@@ -53,7 +53,7 @@ The domain verdict is intentionally **blocked**: the fixture contains a building
 
 ## Known gaps (deliberately not fixed here)
 
-- `DEV-CAD-003` / issue #3: bulge and constant-width mutations are not detected. Two tests are strict `xfail`.
+- `DEV-CAD-003` / issue #3: at E2E-001 time bulge and constant-width mutations were not detected (two strict xfails). Resolved in Milestone 3a / 0.6.0; this report records the earlier state.
 - `DEV-CAD-001`, `002`, `004`–`008` remain Milestone 3 work.
 - No third-party CAD round-trip.
 - No real sketch → trace.

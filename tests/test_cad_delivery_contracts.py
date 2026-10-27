@@ -181,11 +181,7 @@ def test_readback_detects_entity_type_substitution_without_crashing(
     assert "ENTITY_TYPE_MISMATCH" in readback.codes
 
 
-@pytest.mark.xfail(
-    reason="DEV-CAD-003 / issue #3: bulge is not validated in E2E-001",
-    strict=True,
-)
-def test_known_gap_bulge_mutation_is_not_detected(pipeline_artifacts, tmp_path):
+def test_bulge_mutation_is_detected(pipeline_artifacts, tmp_path):
     result, profile = pipeline_artifacts
 
     def mutate(doc):
@@ -199,15 +195,10 @@ def test_known_gap_bulge_mutation_is_not_detected(pipeline_artifacts, tmp_path):
     mutated = _save_copy(result.dxf_path, tmp_path / "bulge.dxf", mutate)
     readback = validate_dxf(mutated, result.cad_ir, profile)
     assert readback.verdict == "fail"
+    assert "BULGE_MISMATCH" in readback.codes
 
 
-@pytest.mark.xfail(
-    reason="DEV-CAD-003 / issue #3: constant width is not validated in E2E-001",
-    strict=True,
-)
-def test_known_gap_constant_width_mutation_is_not_detected(
-    pipeline_artifacts, tmp_path
-):
+def test_constant_width_mutation_is_detected(pipeline_artifacts, tmp_path):
     result, profile = pipeline_artifacts
 
     def mutate(doc):
@@ -219,6 +210,7 @@ def test_known_gap_constant_width_mutation_is_not_detected(
     mutated = _save_copy(result.dxf_path, tmp_path / "width.dxf", mutate)
     readback = validate_dxf(mutated, result.cad_ir, profile)
     assert readback.verdict == "fail"
+    assert "CONST_WIDTH_MISMATCH" in readback.codes
 
 
 def test_third_party_roundtrip_is_not_claimed(pipeline_artifacts):

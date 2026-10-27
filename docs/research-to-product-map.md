@@ -75,7 +75,7 @@ This map is the single index of which research artifacts have been promoted into
 | E2E-001 living pipeline | **promoted** | `contracts/e2e-pipeline-v0.1.yaml` + `src/dgcad_e2e/` + `tests/e2e/` | Domain → massing → shadow → CAD-IR → DXF → readback, using living packages only |
 | E2E-002 mutation/rebuild | **promoted** | `contracts/e2e-mutation-v0.1.yaml` + `src/dgcad_e2e/living_project.py` + `tests/e2e/` | Scoped stale, deterministic rebuild worker, manifest comparison; road surface deferred |
 | E2E-003 adversarial delivery | **promoted** | `contracts/e2e-adversarial-v0.1.yaml` + `tests/e2e/test_e2e_003_adversarial.py` | Adversarial scenarios, categories and issue mapping; same-library only |
-| DEV-CAD-001..008 | `deferred` | GitHub issues, Milestone 3 | Issues created; implementation explicitly postponed |
+| DEV-CAD-001..008 | **partially promoted** | Issues #1/#4/#5/#6/#8 + closed #2/#3/#7 | Milestone 3a fixed 002/003/007; 009/010 added and fixed; 001/004/005/006/008/011 remain for 3b/3c |
 | R0 acquisition batches (BATCH-001..005) | `research_only` | — | Unclosed evidence; gate claims remain blocked |
 
 ### Code prototypes
@@ -113,25 +113,26 @@ Still deferred: real sketch input, real alignment/junction geometry, standard pr
 
 ## E2E-001 implementation (0.3.0)
 
-Promoted and implemented with 8 E2E tests, 7 analysis tests and 9 CAD delivery tests (2 xfail):
+Promoted and implemented with 8 E2E tests, 7 analysis tests and 9 CAD delivery tests:
 
 - synthetic shadow baseline with explicit unknown states;
 - minimal CAD-IR with identity/revision/provenance;
 - DXF R2010 compiler and independent readback validator/manifest;
 - living pipeline from DOMAIN-SLICE-001 to DXF readback;
-- `DEV-CAD-003` gaps recorded as strict xfail.
+- `DEV-CAD-003` LWPOLYLINE gaps are now detected (Milestone 3a).
 
 Still deferred: third-party CAD round-trip, IFC, real sketch input, standards profile and independent shadow engine.
 
 ## E2E-003 implementation (0.5.0)
 
-Promoted and implemented with 20 scenarios (7 positive, 13 strict xfail):
+Promoted and implemented with 20 scenarios, all positive:
 
 - LWPOLYLINE elevation, MultiPolygon 2-part+hole, one layer linetype case and missing XDATA handled;
-- CIRCLE/TEXT 3D, TEXT placement, entity style overrides and LWPOLYLINE full semantics remain xfail with issues #17/#18/#3;
-- structured `VALIDATOR_ERROR` remains xfail with #7;
+- CIRCLE/TEXT 3D, TEXT placement, entity style overrides and LWPOLYLINE full semantics are now detected (issues #17/#18/#3 closed);
+- structured `VALIDATOR_ERROR` is implemented (#7 closed);
 - issue categories and `delivery-comparison.json` make classification and comparison explicit, with DXF/manifest hashes verified against files;
 - same-library ezdxf only; third-party CAD remains out of scope (#6);
+- 3b/3c remain: full symbol table (#5), fingerprint/dependency consistency (#16), ring identity (#1), raw/canonical geometry (#4), profile semantics (#8);
 - CAD-IR fingerprint/dependency-key consistency tracked as #16 / DEV-CAD-011.
 
 ## E2E-002 implementation (0.4.0)
