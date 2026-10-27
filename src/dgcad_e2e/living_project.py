@@ -24,6 +24,7 @@ from dgcad_domain import (
     build_initial_scene,
     building_massing,
     building_proposal,
+    confirm_road_class_proposal,
     height_change_proposal,
     load_confirmed_trace_fixture,
     move_road_node_changeset,
@@ -83,16 +84,27 @@ ARTIFACT_REGISTRATIONS = (
         "cad_ir",
         {
             "SHADOW-E2E-002",
+            "SITE-001.semantic",
             "SITE-001.geometry",
+            "SITE-001.parameter",
+            "G-001.semantic",
             "G-001.geometry",
+            "G-001.parameter",
+            "B-001.semantic",
             "B-001.geometry",
             "B-001.parameter",
+            "B-002.semantic",
             "B-002.geometry",
             "B-002.parameter",
+            "B-003.semantic",
             "B-003.geometry",
             "B-003.parameter",
+            "R-001.semantic",
             "R-001.geometry",
+            "R-001.parameter",
+            "R-002.semantic",
             "R-002.geometry",
+            "R-002.parameter",
         },
     ),
     ("DXF-E2E-002", "cad_dxf", {"CAD-IR-E2E-002"}),
@@ -407,6 +419,43 @@ class LivingProject:
         )
         return self._commit_single(
             proposal, prefix=self._next_label("NORTH")
+        )
+
+    def mutate_road_node_flag(
+        self, node_id: str, *, junction: bool = True
+    ) -> dict[str, Any]:
+        """Change a non-exported road-node property for dependency testing."""
+        node = self.scene.objects[node_id]
+        if node.object_class != "road_node":
+            raise ValueError(f"{node_id} is not a road node")
+        changes = {"junction": bool(junction)}
+        proposal = ChangeProposal(
+            proposal_id=self._next_label(f"UNRELATED-{node_id}"),
+            target_object_id=node_id,
+            before_revisions=node.revisions,
+            changes=changes,
+            bump=frozenset({"semantic"}),
+            required_authority=RequiredAuthority.HUMAN_CONFIRM,
+            reason="unrelated road-node semantic change for dependency check",
+            confirmed=True,
+            before_values={key: node.values.get(key) for key in changes},
+        )
+        return self._commit_single(
+            proposal, prefix=self._next_label(f"UNRELATED-{node_id}")
+        )
+
+    def mutate_road_class(
+        self, corridor_id: str, hierarchy: str
+    ) -> dict[str, Any]:
+        proposal = confirm_road_class_proposal(
+            self.scene,
+            corridor_id,
+            hierarchy,
+            proposal_id=self._next_label(f"CLASS-{corridor_id}"),
+            confirm=True,
+        )
+        return self._commit_single(
+            proposal, prefix=self._next_label(f"CLASS-{corridor_id}")
         )
 
     def rebuild_all(self) -> RebuildReport:

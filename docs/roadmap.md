@@ -63,9 +63,9 @@ Input: human-confirmed Trace/Intent fixture. Output: canonical Building/Road obj
 
 **Exit (at E2E-003 close):** every adversarial delivery case was either detected or explicitly xfailed with an issue link. All xfails were converted to positive checks in Milestone 3a. Evidence: `docs/e2e/adversarial-delivery-003.md`.
 
-## Milestone 3 — CAD validator hardening (3b next)
+## Milestone 3 — CAD validator hardening (3c next)
 
-Milestone 3a is complete: all 15 strict xfails are now positive checks. 3b/3c close the remaining interoperability and dependency gaps. Scope explicitly includes `DEV-CAD-001..011`.
+Milestones 3a and 3b are complete. 3c adds the third-party CAD round-trip matrix. Scope explicitly includes `DEV-CAD-001..011`; #2 is closed, #6 remains.
 
 ### 3a — Fix existing strict xfails
 
@@ -78,11 +78,14 @@ Milestone 3a is complete: all 15 strict xfails are now positive checks. 3b/3c cl
 
 ### 3b — Semantic equivalence and dependency closure
 
-- [ ] `DEV-CAD-005` / #5: full symbol-table case semantics (layer, linetype, text style, block, dimstyle) with original spelling retained.
-- [ ] `DEV-CAD-011` / #16: align CAD-IR fingerprint inputs with registered dependency keys; add an unrelated-object negative test.
-- [ ] `DEV-CAD-001` / #1: MultiPolygon/part/ring contract; confirm archived validator and define ring identity stability across revisions.
-- [ ] `DEV-CAD-002` / #2: archived v0.3 safe-dispatch path; decide retirement vs fix.
-- [ ] Keep the `delivery-comparison.json` hash/file correspondence as a regression check.
+- [x] `DEV-CAD-005` / #5: full symbol-table case semantics (layer, linetype, text style, block, dimstyle) with original spelling retained.
+- [x] `DEV-CAD-011` / #16: align CAD-IR fingerprint inputs with registered dependency keys; add an unrelated-object negative test.
+- [x] `DEV-CAD-001` / #1: MultiPolygon 2-part+hole contract; content-derived ring keys stable across sibling-part insertion.
+- [x] `DEV-CAD-004` / #4: raw DXF semantics and canonical targets both in the readback manifest; tolerance 1e-9 (current entity set: LWPOLYLINE/CIRCLE/TEXT).
+- [x] `DEV-CAD-008` / #8: serialization-difference vs profile-violation categories separated and tested.
+- [x] Keep the `delivery-comparison.json` hash/file correspondence as a regression check.
+
+**3b exit:** 152/152 tests passing; unrelated commits do not stale CAD-IR, relevant semantic changes do. Evidence: `docs/e2e/semantic-dependency-003b.md`.
 
 ### 3c — Third-party CAD evidence
 

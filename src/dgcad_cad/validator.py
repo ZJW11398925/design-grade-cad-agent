@@ -9,7 +9,7 @@ import ezdxf
 
 from dgcad_domain import parse_geometry
 
-from .dxf import XDATA_APPID, _insunits, _polygon_rings, _ring_coords, _source_hash, _rep_hash
+from .dxf import XDATA_APPID, _insunits, _polygon_rings, _ring_coords, _ring_key, _source_hash, _rep_hash
 from .ir import CadIR, DeliveryProfile
 
 
@@ -40,6 +40,7 @@ ISSUE_CATEGORIES = {
     "SOURCE_HASH_MISMATCH": "interoperability",
     "REP_HASH_MISMATCH": "interoperability",
     "RING_ROLE_MISMATCH": "interoperability",
+    "RING_KEY_MISMATCH": "interoperability",
     "COORDINATE_MISMATCH": "cad_format_semantics",
     "CLOSED_MISMATCH": "cad_format_semantics",
     "NONZERO_Z": "cad_format_semantics",
@@ -48,6 +49,10 @@ ISSUE_CATEGORIES = {
     "TEXT_ROTATION_MISMATCH": "profile_violation",
     "TEXT_WIDTH_MISMATCH": "profile_violation",
     "TEXT_ALIGNMENT_MISMATCH": "profile_violation",
+    "TEXT_STYLE_MISMATCH": "profile_violation",
+    "BLOCK_MISSING": "profile_violation",
+    "DIMSTYLE_MISSING": "profile_violation",
+    "TEXT_STYLE_MISSING": "profile_violation",
     "ENTITY_COLOR_OVERRIDE": "profile_violation",
     "ENTITY_LINETYPE_OVERRIDE": "profile_violation",
     "ENTITY_LINEWEIGHT_OVERRIDE": "profile_violation",
@@ -112,7 +117,17 @@ class DxfReadbackResult:
         }
 
 
-def _expected_entities(cad_ir: CadIR) -> dict[tuple[str, str, int, int], dict[str, Any]]:
+def symbol_name_equal(
+    first: str, second: str, policy: str = "case_insensitive"
+) -> bool:
+    if policy == "exact":
+        return first == second
+    return first.casefold() == second.casefold()
+
+
+def _expected_entities(
+    cad_ir: CadIR, profile: DeliveryProfile
+) -> dict[tuple[str, str, int, int], dict[str, Any]]:
     expected: dict[tuple[str, str, int, int], dict[str, Any]] = {}
     for obj in cad_ir.objects:
         geometry = parse_geometry(obj.geometry)
@@ -128,6 +143,9 @@ def _expected_entities(cad_ir: CadIR) -> dict[tuple[str, str, int, int], dict[st
                     "closed": True,
                     "coords": _ring_coords(ring),
                     "ring_role": ring_role,
+                    "ring_key": _ring_key(
+                        obj, "polygon_ring", ring_role, _ring_coords(ring)
+                    ),
                     "geometry_revision": obj.geometry_revision,
                     "source_hash": _source_hash(obj),
                     "rep_hash": _rep_hash(obj),
@@ -150,6 +168,7 @@ def _expected_entities(cad_ir: CadIR) -> dict[tuple[str, str, int, int], dict[st
                     "closed": False,
                     "coords": [(float(x), float(y)) for x, y in line.coords],
                     "ring_role": "none",
+                    "ring_key": "",
                     "geometry_revision": obj.geometry_revision,
                     "source_hash": _source_hash(obj),
                     "rep_hash": _rep_hash(obj),
@@ -166,6 +185,7 @@ def _expected_entities(cad_ir: CadIR) -> dict[tuple[str, str, int, int], dict[st
                 "center": (x, y),
                 "radius": 0.25,
                 "ring_role": "none",
+                "ring_key": "",
                 "geometry_revision": obj.geometry_revision,
                 "source_hash": _source_hash(obj),
                 "rep_hash": _rep_hash(obj),
@@ -177,7 +197,9 @@ def _expected_entities(cad_ir: CadIR) -> dict[tuple[str, str, int, int], dict[st
                 "layer": "ANNO-DIM",
                 "text": obj.object_id,
                 "height": 0.35,
+                "style": profile.text_style_policy["style"],
                 "ring_role": "none",
+                "ring_key": "",
                 "geometry_revision": obj.geometry_revision,
                 "source_hash": _source_hash(obj),
                 "rep_hash": _rep_hash(obj),
@@ -189,7 +211,7 @@ def _read_xdata(entity) -> tuple[dict[str, Any] | None, str | None]:
     if not entity.has_xdata(XDATA_APPID):
         return None, "MISSING_XDATA"
     values = list(entity.get_xdata(XDATA_APPID))
-    if len(values) != 9:
+    if len(values) != 10:
         return None, "MISSING_XDATA"
     try:
         return (
@@ -203,6 +225,7 @@ def _read_xdata(entity) -> tuple[dict[str, Any] | None, str | None]:
                 "part_index": int(values[6][1]),
                 "ring_index": int(values[7][1]),
                 "ring_role": str(values[8][1]),
+                "ring_key": str(values[9][1]),
             },
             None,
         )
@@ -287,7 +310,8 @@ def _validate_dxf_impl(
     dxf_path = Path(dxf_path)
     doc = ezdxf.readfile(dxf_path)
     issues: list[DxfIssue] = []
-    expected = _expected_entities(cad_ir)
+    expected = _expected_entities(cad_ir, profile)
+    name_policy = profile.symbol_name_policy
 
     expected_version = DXF_VERSION_MAP.get(profile.dxf_version)
     if expected_version and doc.dxfversion != expected_version:
@@ -315,27 +339,46 @@ def _validate_dxf_impl(
         )
 
     layer_names = {layer.dxf.name for layer in doc.layers}
-    allowed_layers = set(profile.layers) | set(SYSTEM_LAYERS)
-    for name in sorted(allowed_layers - layer_names):
-        issues.append(
-            DxfIssue(
-                "LAYER_MISSING",
-                "error",
-                None,
-                f"required layer {name} is missing",
+    actual_layer_names = [layer.dxf.name for layer in doc.layers]
+
+    def _layer_key(name: str) -> str:
+        return name if name_policy == "exact" else name.casefold()
+
+    def _find_layer(name: str):
+        for layer in doc.layers:
+            if symbol_name_equal(layer.dxf.name, name, name_policy):
+                return layer
+        return None
+
+    profile_layer_keys = {_layer_key(name) for name in profile.layers}
+    system_layer_keys = {_layer_key(name) for name in SYSTEM_LAYERS}
+    actual_layer_keys = {_layer_key(name) for name in actual_layer_names}
+    for name in profile.layers:
+        if _layer_key(name) not in actual_layer_keys:
+            issues.append(
+                DxfIssue(
+                    "LAYER_MISSING",
+                    "error",
+                    None,
+                    f"required layer {name} is missing",
+                    name,
+                    sorted(actual_layer_names),
+                )
             )
-        )
-    for name in sorted(layer_names - allowed_layers):
-        issues.append(
-            DxfIssue(
-                "UNEXPECTED_LAYER",
-                "error",
-                None,
-                f"unexpected layer {name}",
+    for name in actual_layer_names:
+        if _layer_key(name) not in profile_layer_keys | system_layer_keys:
+            issues.append(
+                DxfIssue(
+                    "UNEXPECTED_LAYER",
+                    "error",
+                    None,
+                    f"unexpected layer {name}",
+                    None,
+                    name,
+                )
             )
-        )
     for name, spec in profile.layers.items():
-        layer = doc.layers.get(name) if name in layer_names else None
+        layer = _find_layer(name)
         if layer is None:
             continue
         if int(layer.dxf.color) != int(spec.get("color", 7)):
@@ -349,9 +392,11 @@ def _validate_dxf_impl(
                     layer.dxf.color,
                 )
             )
-        if str(layer.dxf.linetype).upper() != str(
-            spec.get("linetype", "CONTINUOUS")
-        ).upper():
+        if not symbol_name_equal(
+            str(layer.dxf.linetype),
+            str(spec.get("linetype", "CONTINUOUS")),
+            name_policy,
+        ):
             issues.append(
                 DxfIssue(
                     "LAYER_PROPERTY_MISMATCH",
@@ -371,6 +416,52 @@ def _validate_dxf_impl(
                     f"layer {name} lineweight mismatch",
                     spec.get("lineweight"),
                     layer.dxf.lineweight,
+                )
+            )
+
+    def _collection_has_name(collection, expected: str) -> bool:
+        for item in collection:
+            name = getattr(item, "name", None)
+            if name is None:
+                name = item.dxf.name
+            if symbol_name_equal(str(name), expected, name_policy):
+                return True
+        return False
+
+    for name in profile.required_blocks:
+        if not _collection_has_name(doc.blocks, name):
+            issues.append(
+                DxfIssue(
+                    "BLOCK_MISSING",
+                    "error",
+                    None,
+                    f"required block {name} is missing",
+                    name,
+                    None,
+                )
+            )
+    for name in profile.required_dimstyles:
+        if not _collection_has_name(doc.dimstyles, name):
+            issues.append(
+                DxfIssue(
+                    "DIMSTYLE_MISSING",
+                    "error",
+                    None,
+                    f"required dimstyle {name} is missing",
+                    name,
+                    None,
+                )
+            )
+    for name in profile.required_text_styles:
+        if not _collection_has_name(doc.styles, name):
+            issues.append(
+                DxfIssue(
+                    "TEXT_STYLE_MISSING",
+                    "error",
+                    None,
+                    f"required text style {name} is missing",
+                    name,
+                    None,
                 )
             )
 
@@ -420,7 +511,9 @@ def _validate_dxf_impl(
                 )
             )
             continue
-        if entity.dxf.layer != spec["layer"]:
+        if not symbol_name_equal(
+            entity.dxf.layer, spec["layer"], name_policy
+        ):
             issues.append(
                 DxfIssue(
                     "LAYER_MISMATCH",
@@ -481,6 +574,17 @@ def _validate_dxf_impl(
                     "XDATA ring role does not match CAD-IR",
                     spec["ring_role"],
                     xdata["ring_role"],
+                )
+            )
+        if xdata["ring_key"] != spec.get("ring_key", ""):
+            issues.append(
+                DxfIssue(
+                    "RING_KEY_MISMATCH",
+                    "error",
+                    xdata["object_id"],
+                    "XDATA ring key does not match CAD-IR",
+                    spec["ring_key"],
+                    xdata["ring_key"],
                 )
             )
 
@@ -645,6 +749,19 @@ def _validate_dxf_impl(
                         entity.dxf.height,
                     )
                 )
+            if not symbol_name_equal(
+                str(entity.dxf.style), spec["style"], name_policy
+            ):
+                issues.append(
+                    DxfIssue(
+                        "TEXT_STYLE_MISMATCH",
+                        "error",
+                        xdata["object_id"],
+                        "TEXT style does not match the delivery profile",
+                        spec["style"],
+                        entity.dxf.style,
+                    )
+                )
             if abs(float(entity.dxf.insert.z)) > TOLERANCE:
                 issues.append(
                     DxfIssue(
@@ -699,6 +816,67 @@ def _validate_dxf_impl(
                     )
                 )
 
+        if entity.dxftype() == "LWPOLYLINE":
+            raw_points = list(entity.get_points("xyseb"))
+            raw_semantics = {
+                "closed": bool(entity.closed),
+                "elevation": float(entity.dxf.elevation),
+                "bulge": [float(point[4]) for point in raw_points],
+                "start_width": [float(point[2]) for point in raw_points],
+                "end_width": [float(point[3]) for point in raw_points],
+                "const_width": float(
+                    getattr(entity.dxf, "const_width", 0.0)
+                ),
+                "thickness": float(
+                    getattr(entity.dxf, "thickness", 0.0)
+                ),
+                "extrusion": [
+                    float(entity.dxf.extrusion.x),
+                    float(entity.dxf.extrusion.y),
+                    float(entity.dxf.extrusion.z),
+                ],
+            }
+            canonical_target = {
+                "coords": spec.get("coords"),
+                "closed": spec.get("closed"),
+            }
+        elif entity.dxftype() == "CIRCLE":
+            raw_semantics = {
+                "center": [
+                    float(entity.dxf.center.x),
+                    float(entity.dxf.center.y),
+                    float(entity.dxf.center.z),
+                ],
+                "radius": float(entity.dxf.radius),
+            }
+            canonical_target = {
+                "center": spec.get("center"),
+                "radius": spec.get("radius"),
+            }
+        elif entity.dxftype() == "TEXT":
+            raw_semantics = {
+                "insert": [
+                    float(entity.dxf.insert.x),
+                    float(entity.dxf.insert.y),
+                    float(entity.dxf.insert.z),
+                ],
+                "height": float(entity.dxf.height),
+                "rotation": float(entity.dxf.rotation),
+                "width": float(entity.dxf.width),
+                "halign": int(entity.dxf.halign),
+                "valign": int(entity.dxf.valign),
+                "style": str(entity.dxf.style),
+                "text": str(entity.dxf.text),
+            }
+            canonical_target = {
+                "text": spec.get("text"),
+                "height": spec.get("height"),
+                "style": spec.get("style"),
+            }
+        else:
+            raw_semantics = {}
+            canonical_target = {}
+
         entities_manifest.append(
             {
                 "object_id": xdata["object_id"],
@@ -707,8 +885,11 @@ def _validate_dxf_impl(
                 "part_index": xdata["part_index"],
                 "ring_index": xdata["ring_index"],
                 "ring_role": xdata["ring_role"],
+                "ring_key": xdata["ring_key"],
                 "dxftype": entity.dxftype(),
                 "layer": entity.dxf.layer,
+                "canonical_target": canonical_target,
+                "raw_dxf_semantics": raw_semantics,
             }
         )
 

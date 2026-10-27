@@ -16,6 +16,7 @@ python -m pytest -q
 | `e2e/test_living_pipeline.py` | 8 | Full living pipeline, evidence files, declared unknowns, living-package-only check |
 | `e2e/test_e2e_002_mutations.py` | 6 | Height change, node move, north bearing, rebuild worker, manifest comparison, road-surface deferral |
 | `e2e/test_e2e_003_adversarial.py` | 20 | Geometry, style, identity, serialization and validator-error adversarial cases |
+| `e2e/test_e2e_003b_semantics.py` | 11 | Fingerprint consistency, symbol-table case, ring keys, raw/canonical manifest |
 
 ## Rules
 
