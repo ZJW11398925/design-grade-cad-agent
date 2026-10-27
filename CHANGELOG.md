@@ -19,6 +19,7 @@ All notable changes to the formal repository are recorded here. Research snapsho
 
 - `pyproject.toml`: version `0.3.0`; added `ezdxf>=1.4`.
 - Domain road corridors now carry `trace_ref` and `trace_refs`; domain scene validation no longer reports `TRACE_REF_MISSING` for roads.
+- `contracts/domain-contract-v0.1.yaml`: `road_corridor.required` now explicitly includes `trace_refs`.
 - CAD-IR road provenance now records the source road trace reference.
 
 ### Known gaps
