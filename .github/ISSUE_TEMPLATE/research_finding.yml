@@ -1,0 +1,51 @@
+name: Research finding
+description: Propose a new evidence-backed finding, benchmark or contract
+title: "[research] "
+labels: ["research"]
+body:
+  - type: input
+    id: decision_question
+    attributes:
+      label: Decision question
+      description: The single question this finding serves.
+    validations:
+      required: true
+  - type: textarea
+    id: claim
+    attributes:
+      label: Claim
+      description: State the claim precisely and the scope in which it holds.
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Sources and locators
+      description: Official docs, source code revision, paper, dataset, standard clause. Include stable paths or URLs.
+    validations:
+      required: true
+  - type: dropdown
+    id: evidence_level
+    attributes:
+      label: Evidence level
+      options:
+        - project claim / README
+        - official documentation
+        - source-code inspection
+        - local synthetic test
+        - independent test
+        - real-world evidence
+    validations:
+      required: true
+  - type: textarea
+    id: non_claims
+    attributes:
+      label: What this does NOT prove
+      description: List adjacent capabilities that remain unvalidated.
+    validations:
+      required: true
+  - type: textarea
+    id: test_proposal
+    attributes:
+      label: Proposed executable test or fixture
+      description: How should this become a contract test?

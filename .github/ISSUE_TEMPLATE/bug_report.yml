@@ -1,0 +1,52 @@
+name: Bug report
+description: Report a reproducible defect in the code, contracts or tests
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not report security vulnerabilities here. See SECURITY.md.
+        Please state the scope of the defect and whether it is a contract issue or an implementation issue.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: One or two sentences describing the defect.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction
+      description: Exact commands, fixture and commit.
+      placeholder: |
+        commit:
+        command:
+        observed:
+        expected:
+    validations:
+      required: true
+  - type: dropdown
+    id: layer
+    attributes:
+      label: Test layer
+      options:
+        - L0 contract
+        - L1 domain
+        - L2 integration
+        - L3 third-party
+        - L4 security / lifecycle
+        - documentation / tooling
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and non-claims
+      description: What does this defect prove, and what does it not prove?
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Python version, package versions, CAD/MCP host if relevant.
