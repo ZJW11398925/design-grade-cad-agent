@@ -216,7 +216,17 @@ Verified behavior:
 
 Boundaries: same-library `ezdxf` only, modelspace only, no systematic DEV-CAD fix, no third-party CAD evidence, road surface still deferred. CAD-IR fingerprint/dependency-key consistency is tracked as #16 / DEV-CAD-011.
 
-## 13. Open architecture questions
+## 13. Implemented E2E-003b semantic/dependency closure (v0.7.0)
+
+- CAD-IR fingerprint excludes the global scene revision; per-object revisions are registered dependencies.
+- Symbol-table case semantics cover layers, linetypes, text styles, required blocks/dimstyles/text styles.
+- XDATA carries a content-derived `ring_key`; part/ring indices remain build indices.
+- Readback manifests carry `canonical_target` and `raw_dxf_semantics` with tolerance `1e-9`.
+- Serialization differences, profile violations, CAD semantics, interoperability and validator errors are distinct categories.
+
+Boundaries: same-library, modelspace only, current entity set LWPOLYLINE/CIRCLE/TEXT, no third-party CAD (#6), road surface deferred.
+
+## 14. Open architecture questions
 
 - Final road alignment algorithm and Chinese profile source.
 - Shapely vs CGAL boundary.

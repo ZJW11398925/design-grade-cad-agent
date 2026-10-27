@@ -1,21 +1,21 @@
 # Project Status
 
 Updated: 2026-10-27
-Version: `0.6.0` (Milestone 3a validator hardening)
+Version: `0.7.0` (Milestone 3b semantic/dependency closure)
 Research basis: R0 v0.19 + R1 deployment-entry v0.2
 
 ## 1. One-line status
 
-The project has a working **governance/runtime contract layer**, a **synthetic Building/Road domain slice**, and **living E2E-001/002/003 pipelines** from confirmed trace to DXF readback with scoped mutation/rebuild and adversarial delivery checks. It does **not** yet have real sketch input, real road engineering, third-party CAD interoperability, IFC, or real-world validated behavior.
+The project has a working **governance/runtime contract layer**, a **synthetic Building/Road domain slice**, and **living E2E-001/002/003/003b pipelines** from confirmed trace to DXF readback with scoped mutation/rebuild, adversarial delivery checks and semantic/dependency closure. It does **not** yet have real sketch input, real road engineering, third-party CAD interoperability, IFC, or real-world validated behavior.
 
 ## 2. Test baseline
 
 ```text
 python -m pytest -q
-141 passed
+152 passed
 ```
 
-141 tests collected, all passing. No long-lived strict xfails.
+152 tests collected, all passing. No long-lived strict xfails.
 
 | Suite | Tests | Status |
 |---|---|---|
@@ -29,6 +29,7 @@ python -m pytest -q
 | E2E-001 | 8 | passing |
 | E2E-002 | 6 | passing |
 | E2E-003 | 20 | passing |
+| E2E-003b | 11 | passing |
 
 ## 3. Capability status
 
@@ -50,8 +51,13 @@ python -m pytest -q
 | E2E-001 living pipeline | **implemented (synthetic)** | Domain → massing → shadow → CAD-IR → DXF → readback, living packages only |
 | E2E-002 mutation/rebuild | **implemented (synthetic)** | scoped stale + deterministic rebuild worker; height, node, north bearing verified |
 | E2E-003 adversarial delivery | **implemented (same-library)** | 20/20 positive checks; no permanent xfails; categories and issue mapping |
+| E2E-003b semantic/dependency | **implemented (same-library)** | fingerprint consistency, symbol tables, ring keys, raw/canonical manifest |
 | Road surface geometry | **deferred** | no `SURFACE-R-002` artifact is generated or claimed |
 | DXF delivery | **minimal synthetic** | R2010, 15 entities, audit 0/0; known DEV-CAD gaps deferred |
+| Symbol-table case semantics | **implemented** | layer/linetype/text style/block/dimstyle case-insensitive; `exact` policy available |
+| CAD-IR dependency consistency | **implemented** | global scene revision is metadata; per-object revisions registered |
+| Ring identity | **implemented** | content-derived `ring_key` stable across part insertion |
+| Raw/canonical readback | **implemented** | manifest carries `canonical_target` + `raw_dxf_semantics`; tolerance 1e-9 |
 | Third-party CAD round-trip | **partial evidence only** | one user-run AutoCAD 2022 core-engine round-trip; no repeatable third-party matrix; issue #6 |
 | Real sketch → trace | **not validated** | no Tier B/C data |
 | Real design-office profile | **not validated** | synthetic and DB11 subset only |
@@ -102,14 +108,17 @@ Resolved in the living validator (0.6.0):
 - `DEV-CAD-009` entity-level style overrides — issue #17 closed.
 - `DEV-CAD-010` CIRCLE/TEXT 3D and text placement — issue #18 closed.
 
-Still open (Milestone 3b/3c):
+Resolved in 0.7.0 (Milestone 3b):
 
-- `DEV-CAD-001` / #1: MultiPolygon/ring contract for the archived v0.3 path; ring identity stability.
-- `DEV-CAD-004` / #4: raw DXF semantics and canonical/sampled geometry both preserved.
-- `DEV-CAD-005` / #5: full symbol-table case semantics; only one linetype case is covered.
-- `DEV-CAD-006` / #6: repeatable third-party CAD round-trip matrix.
-- `DEV-CAD-008` / #8: CAD serialization differences vs project profile rules.
-- `DEV-CAD-011` / #16: CAD-IR fingerprint and registered dependency-key consistency.
+- `DEV-CAD-001` / #1: MultiPolygon 2-part+hole passes; content-derived ring keys are stable across sibling-part insertion.
+- `DEV-CAD-004` / #4: raw DXF semantics and canonical targets are both in the readback manifest; tolerance `1e-9`. Arcs/splines are outside the current delivery entity set.
+- `DEV-CAD-005` / #5: layer/linetype/text style/block/dimstyle case semantics implemented; original spelling retained.
+- `DEV-CAD-008` / #8: serialization-difference vs profile-violation categories tested and separated.
+- `DEV-CAD-011` / #16: global scene revision is metadata; per-object revisions drive CAD-IR dependencies.
+
+Still open:
+
+- `DEV-CAD-006` / #6: repeatable third-party CAD round-trip matrix (Milestone 3c).
 
 See `research/archive/r0-v0.19/working/cad-bim-validator/development-acceptance-contract-v0.1.md`.
 
@@ -212,7 +221,28 @@ Boundaries:
 - Road surface geometry remains deferred.
 - CAD-IR fingerprint/dependency-key consistency is tracked as #16 / DEV-CAD-011.
 
-## 11. Current non-claims
+## 11. E2E-003b semantic and dependency closure
+
+Implemented in `src/dgcad_cad/` and `tests/e2e/test_e2e_003b_semantics.py`.
+
+What it proves:
+
+- An unrelated node-property change advances the scene revision but does not stale CAD-IR/DXF or change the CAD-IR fingerprint.
+- A road hierarchy change stales CAD-IR/DXF and changes the fingerprint, because per-object semantic revisions are registered.
+- Layer, linetype, text style, block and dimstyle names compare case-insensitively; `exact` policy remains available.
+- A missing required block/dimstyle/text style is a structured profile violation.
+- MultiPolygon ring keys are content-derived and stable when a sibling part shifts indices.
+- The readback manifest carries both canonical targets and raw DXF semantics, with tolerance `1e-9`.
+- Serialization differences (`AUDIT_FIX`) are distinct from profile violations.
+
+Boundaries:
+
+- Same-library `ezdxf` only; no third-party CAD evidence (#6).
+- Modelspace only.
+- Arcs/splines are outside the current delivery entity set.
+- No road surface geometry, real sketch, IFC or standards compliance.
+
+## 12. Current non-claims
 
 - `research_complete = false`
 - `release_authorized = false`

@@ -35,6 +35,7 @@ issue_categories:
       - SOURCE_HASH_MISMATCH
       - REP_HASH_MISMATCH
       - RING_ROLE_MISMATCH
+      - RING_KEY_MISMATCH
   profile_violation:
     description: "Violation of the declared delivery profile, layer or entity-style policy."
     codes:
@@ -50,6 +51,10 @@ issue_categories:
       - TEXT_ROTATION_MISMATCH
       - TEXT_WIDTH_MISMATCH
       - TEXT_ALIGNMENT_MISMATCH
+      - TEXT_STYLE_MISMATCH
+      - BLOCK_MISSING
+      - DIMSTYLE_MISSING
+      - TEXT_STYLE_MISSING
   serialization_difference:
     description: "Serialization normalization that is not a design failure."
     codes:
@@ -152,6 +157,28 @@ scenarios:
     expected: pass
     test: test_symbol_table_name_case_is_semantically_equal
     issue: null
+  - id: TEXT_STYLE_CASE
+    group: serialization
+    expected: pass
+    test: test_text_style_case_is_semantically_equal
+    issue: null
+  - id: TEXT_STYLE_MISMATCH
+    group: style
+    expected: detected
+    code: TEXT_STYLE_MISMATCH
+    test: test_text_style_mismatch_is_detected
+    issue: "#5"
+  - id: REQUIRED_SYMBOL_TABLES
+    group: serialization
+    expected: pass
+    test: test_required_symbol_tables_accept_case_differences
+    issue: null
+  - id: MISSING_SYMBOL_TABLE
+    group: serialization
+    expected: detected
+    code: BLOCK_MISSING
+    test: test_missing_symbol_table_is_detected
+    issue: "#5"
   - id: MISSING_XDATA
     group: identity
     expected: detected
@@ -164,6 +191,32 @@ scenarios:
     code: VALIDATOR_ERROR
     test: test_validator_error_is_structured
     issue: "#7"
+  - id: DEPENDENCY_UNRELATED_OBJECT
+    group: dependency
+    expected: pass_current_and_same_fingerprint
+    test: test_unrelated_node_flag_does_not_stale_cad_ir_or_change_fingerprint
+    issue: "#16"
+  - id: ROAD_SEMANTIC_DEPENDENCY
+    group: dependency
+    expected: stale_and_fingerprint_change
+    test: test_road_semantic_change_stales_cad_ir_and_changes_fingerprint
+    issue: "#16"
+  - id: RING_KEY_STABILITY
+    group: geometry
+    expected: pass
+    test: test_ring_key_is_stable_when_sibling_part_is_inserted
+    issue: "#1"
+  - id: RAW_CANONICAL_MANIFEST
+    group: evidence
+    expected: pass
+    test: test_readback_manifest_preserves_raw_and_canonical_geometry
+    issue: "#4"
+  - id: SERIALIZATION_DIFFERENCE
+    group: serialization
+    expected: detected
+    code: AUDIT_FIX
+    test: test_serialization_difference_is_distinct_from_profile_violation
+    issue: "#8"
 
 existing_coverage:
   - id: VERTEX_MUTATION
@@ -201,5 +254,6 @@ boundaries:
   road_surface_geometry: deferred
   real_sketch_input: out_of_scope
   ifc: out_of_scope
+  arcs_splines: outside_current_entity_set
 
-completion_rule: "Every scenario is detected or passes as a positive case. No strict xfail remains in Milestone 3a."
+completion_rule: "Every scenario is detected, passes, or asserts the expected dependency/stale behavior. No strict xfail remains."

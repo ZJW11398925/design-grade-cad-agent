@@ -28,8 +28,13 @@ class DeliveryProfile:
     layers: dict[str, dict[str, Any]]
     entity_style_policy: str
     layer_set_policy: str
+    symbol_name_policy: str = "case_insensitive"
+    required_blocks: tuple[str, ...] = ()
+    required_dimstyles: tuple[str, ...] = ()
+    required_text_styles: tuple[str, ...] = ()
     text_style_policy: dict[str, Any] = field(
         default_factory=lambda: {
+            "style": "Standard",
             "rotation": 0.0,
             "width_factor": 1.0,
             "halign": 0,
@@ -45,6 +50,13 @@ class DeliveryProfile:
         text_policy = data.get("text_style_policy", {})
         if not isinstance(text_policy, dict):
             raise ValueError("delivery.text_style_policy must be a mapping")
+        symbol_policy = str(
+            data.get("symbol_name_policy", "case_insensitive")
+        )
+        if symbol_policy not in {"case_insensitive", "exact"}:
+            raise ValueError(
+                f"unsupported symbol_name_policy: {symbol_policy}"
+            )
         return cls(
             profile_id=str(data["profile_id"]),
             profile_version=str(data["profile_version"]),
@@ -57,7 +69,18 @@ class DeliveryProfile:
             layers={str(name): dict(spec) for name, spec in layers.items()},
             entity_style_policy=str(data.get("entity_style_policy", "BYLAYER")),
             layer_set_policy=str(data.get("layer_set_policy", "exact_allowlist")),
+            symbol_name_policy=symbol_policy,
+            required_blocks=tuple(
+                str(item) for item in data.get("required_blocks", [])
+            ),
+            required_dimstyles=tuple(
+                str(item) for item in data.get("required_dimstyles", [])
+            ),
+            required_text_styles=tuple(
+                str(item) for item in data.get("required_text_styles", [])
+            ),
             text_style_policy={
+                "style": str(text_policy.get("style", "Standard")),
                 "rotation": float(text_policy.get("rotation", 0.0)),
                 "width_factor": float(text_policy.get("width_factor", 1.0)),
                 "halign": int(text_policy.get("halign", 0)),
@@ -299,16 +322,24 @@ def build_cad_ir(
 
     project = {
         "project_id": scene.scene_id,
-        "canonical_scene_revision": scene.scene_revision,
+        "built_from_scene_revision": scene.scene_revision,
         "units": profile.units,
         "coordinate_frame_ref": profile.coordinate_frame_ref,
         "coordinate_state": profile.coordinate_state,
         "profile_ref": profile.profile_id,
         "profile_version": profile.profile_version,
     }
+    # The global scene revision is build metadata, not a semantic dependency.
+    # Otherwise an unrelated commit would change the fingerprint while the
+    # CAD-IR artifact is still correctly marked current.
+    fingerprint_project = {
+        key: value
+        for key, value in project.items()
+        if key != "built_from_scene_revision"
+    }
     fingerprint_payload = {
         "schema_id": CAD_IR_SCHEMA_ID,
-        "project": project,
+        "project": fingerprint_project,
         "objects": [obj.to_dict() for obj in objects],
         "shadow_dependency_fingerprint": shadow_result.dependency_fingerprint,
     }

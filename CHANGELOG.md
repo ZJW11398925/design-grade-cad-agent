@@ -2,6 +2,34 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.7.0 — 2026-10-27
+
+### Added
+
+- CAD-IR fingerprint decoupling: global scene revision is `built_from_scene_revision` metadata, excluded from the semantic hash (#16).
+- Full CAD-IR dependency registration for every exported object's semantic/geometry/parameter revisions.
+- Symbol-table case semantics (`symbol_name_policy`): layers, linetypes, text styles, required blocks/dimstyles/text styles, with original spelling preserved (#5).
+- Stable `ring_key` in XDATA, content-derived rather than part/ring-index-derived; `RING_KEY_MISMATCH` (#1).
+- Readback manifest records `canonical_target` and `raw_dxf_semantics` per entity; numeric tolerance/version documented (#4).
+- Serialization-difference vs profile-violation category test (#8).
+- `tests/e2e/test_e2e_003b_semantics.py`: 11 tests.
+- `docs/e2e/semantic-dependency-003b.md`: executed 3b report.
+
+### Changed
+
+- Test suite: **152 passed**.
+- `contracts/e2e-adversarial-v0.1.yaml` and `contracts/cad-ir-v0.1.yaml` updated for symbol tables, ring keys and raw/canonical evidence.
+- Roadmap: Milestone 3b complete; 3c (third-party CAD evidence) next.
+- Issues #1, #4, #5, #8, #16 closed with evidence; #6 remains for 3c.
+- Version `0.7.0`.
+
+### Scope
+
+- Same-library `ezdxf` only; no third-party CAD evidence.
+- Modelspace only.
+- Arcs/splines are outside the current delivery entity set (LWPOLYLINE/CIRCLE/TEXT).
+- No road surface geometry, real sketch input, IFC or standards compliance.
+
 ## 0.6.0 — 2026-10-27
 
 ### Fixed

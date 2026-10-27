@@ -75,6 +75,7 @@ This map is the single index of which research artifacts have been promoted into
 | E2E-001 living pipeline | **promoted** | `contracts/e2e-pipeline-v0.1.yaml` + `src/dgcad_e2e/` + `tests/e2e/` | Domain → massing → shadow → CAD-IR → DXF → readback, using living packages only |
 | E2E-002 mutation/rebuild | **promoted** | `contracts/e2e-mutation-v0.1.yaml` + `src/dgcad_e2e/living_project.py` + `tests/e2e/` | Scoped stale, deterministic rebuild worker, manifest comparison; road surface deferred |
 | E2E-003 adversarial delivery | **promoted** | `contracts/e2e-adversarial-v0.1.yaml` + `tests/e2e/test_e2e_003_adversarial.py` | Adversarial scenarios, categories and issue mapping; same-library only |
+| E2E-003b semantic/dependency | **promoted** | `src/dgcad_cad/` + `tests/e2e/test_e2e_003b_semantics.py` | Fingerprint consistency, symbol tables, ring keys, raw/canonical manifest; same-library only |
 | DEV-CAD-001..008 | **partially promoted** | Issues #1/#4/#5/#6/#8 + closed #2/#3/#7 | Milestone 3a fixed 002/003/007; 009/010 added and fixed; 001/004/005/006/008/011 remain for 3b/3c |
 | R0 acquisition batches (BATCH-001..005) | `research_only` | — | Unclosed evidence; gate claims remain blocked |
 
@@ -133,7 +134,19 @@ Promoted and implemented with 20 scenarios, all positive:
 - issue categories and `delivery-comparison.json` make classification and comparison explicit, with DXF/manifest hashes verified against files;
 - same-library ezdxf only; third-party CAD remains out of scope (#6);
 - 3b/3c remain: full symbol table (#5), fingerprint/dependency consistency (#16), ring identity (#1), raw/canonical geometry (#4), profile semantics (#8);
-- CAD-IR fingerprint/dependency-key consistency tracked as #16 / DEV-CAD-011.
+- CAD-IR fingerprint/dependency-key consistency is fixed (3b); global scene revision is metadata.
+
+## E2E-003b implementation (0.7.0)
+
+Implemented with 11 tests:
+
+- unrelated commits do not stale CAD-IR or change its fingerprint; relevant road semantic changes do;
+- symbol-table case semantics for layers, linetypes, text styles, blocks and dimstyles;
+- content-derived `ring_key` stable across sibling-part insertion;
+- readback manifest carries canonical targets and raw DXF semantics with tolerance 1e-9;
+- serialization differences separated from profile violations.
+
+Still open: third-party CAD round-trip (#6), arcs/splines outside the current entity set, real sketch/road/IFC/standards evidence.
 
 ## E2E-002 implementation (0.4.0)
 

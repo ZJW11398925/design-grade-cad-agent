@@ -112,7 +112,7 @@ def test_multipolygon_two_parts_and_hole_roundtrip(project, tmp_path):
     cad_ir = CadIR(
         project={
             "project_id": "MP-001",
-            "canonical_scene_revision": 1,
+            "built_from_scene_revision": 1,
             "units": project.profile.units,
             "coordinate_frame_ref": project.profile.coordinate_frame_ref,
             "coordinate_state": project.profile.coordinate_state,

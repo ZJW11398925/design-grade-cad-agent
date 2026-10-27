@@ -23,6 +23,7 @@ XDATA_FIELDS = (
     "part_index",
     "ring_index",
     "ring_role",
+    "ring_key",
 )
 
 
@@ -66,6 +67,25 @@ def _rep_hash(obj: CadObject) -> str:
     )
 
 
+def _ring_key(
+    obj: CadObject,
+    entity_role: str,
+    ring_role: str,
+    coords,
+) -> str:
+    return canonical_hash(
+        {
+            "object_id": obj.object_id,
+            "entity_role": entity_role,
+            "ring_role": ring_role,
+            "coordinates": [
+                [round(float(x), 9), round(float(y), 9)]
+                for x, y in coords
+            ],
+        }
+    )
+
+
 def _set_xdata(
     entity,
     obj: CadObject,
@@ -74,6 +94,7 @@ def _set_xdata(
     part_index: int,
     ring_index: int,
     ring_role: str,
+    ring_key: str = "",
 ) -> None:
     entity.set_xdata(
         XDATA_APPID,
@@ -87,6 +108,7 @@ def _set_xdata(
             (1070, part_index),
             (1070, ring_index),
             (1000, ring_role),
+            (1000, ring_key),
         ],
     )
 
@@ -146,8 +168,9 @@ def compile_to_dxf(
         if obj.representation_kind == "polygon_ring":
             ring_index = 0
             for part_index, ring_role, ring in _polygon_rings(geometry):
+                coords = _ring_coords(ring)
                 entity = msp.add_lwpolyline(
-                    _ring_coords(ring),
+                    coords,
                     close=True,
                     dxfattribs={"layer": obj.layer_key},
                 )
@@ -158,6 +181,9 @@ def compile_to_dxf(
                     part_index=part_index,
                     ring_index=ring_index,
                     ring_role=ring_role,
+                    ring_key=_ring_key(
+                        obj, "polygon_ring", ring_role, coords
+                    ),
                 )
                 ring_index += 1
                 entity_count += 1
@@ -211,6 +237,7 @@ def compile_to_dxf(
                 dxfattribs={"layer": "ANNO-DIM"},
             )
             label.dxf.insert = (x + 0.3, y + 0.3)
+            label.dxf.style = str(profile.text_style_policy["style"])
             label.dxf.rotation = float(
                 profile.text_style_policy["rotation"]
             )
