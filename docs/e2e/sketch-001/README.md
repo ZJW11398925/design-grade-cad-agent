@@ -1,6 +1,6 @@
 # CASE-SKETCH-001 — real designer sketch intake
 
-Status: **proposed, not human-confirmed**.
+Status: **proposed geometry; designer-confirmed semantics and building merges**.
 Tier: **B — designer sketch on a known base**.
 Public scope: **sketch raster and image-space derived geometry only**.
 
@@ -16,6 +16,10 @@ published. Public files contain image-space pixels only. The sketch is published
 with the designer's authorization; no separate licence is asserted for the
 drawing, which remains the designer's work.
 
+The current building footprints are **sketch-era placeholders**. The designer
+will supply a unit-type library (户型库) to replace them; unit counts and floor
+counts are the stable design inputs for now.
+
 ## Designer confirmations (2026-10-27)
 
 - The private redline is the site boundary; the sketch is hand-modified with a
@@ -26,13 +30,22 @@ drawing, which remains the designer's work.
 - **Brown** = main road; **blue** = branch road and access road; **green** =
   cluster green space.
 - The top edge is intentional; only a road segment is clipped.
+- Building merges:
+  - **M-001**: 0046, 0047 and 0060 are three units; 0062 and 0063 are the
+    connecting parts. They form one 3-unit building.
+  - **M-002**: 0030 contains two units; 0053 contains one unit. They form one
+    3-unit building.
+- **Floors**: 11 floors is the provisional assumption for **all** buildings.
+- **Unit-type library**: pending; sketch-era footprints are placeholders.
 - Publication: **sketch only**.
 
 ## What was extracted
 
 | Class | Count | State |
 |---|---|---|
-| Building candidates (red components) | 63 | semantic label confirmed; geometry proposed |
+| Buildings (56 standalone + 2 merged) | 58 | semantic label and merge confirmed; geometry proposed |
+| Original red components | 63 | preserved for provenance in `building-components.geojson` |
+| Merged buildings | 2 | M-001 3 units; M-002 3 units |
 | Garage entrance candidates (magenta) | 3 | semantic label confirmed; geometry proposed |
 | Cluster green spaces | 12 | semantic label confirmed; geometry proposed |
 | Road area candidates | 9 | label confirmed; area not validated |
@@ -40,18 +53,30 @@ drawing, which remains the designer's work.
 | Site boundary | 1 | label confirmed; geometry approximate |
 
 The trace is a deterministic colour segmentation. It does **not** orthogonalise
-buildings, smooth roads, or complete occluded boundaries. Buildings are red
-connected components; no merge or split has been applied.
+buildings, smooth roads, or complete occluded boundaries. Building geometry
+remains `proposed`; only the semantic labels and merge decisions are confirmed.
 
-### Merge/split and the left cluster
+### Building merges and the left cluster
 
-A red connected component is treated as one building. If two adjacent components
-are actually one building with an attached wing, they should be merged; if one
-component contains two buildings separated by a gap, it should be split. The
-current default is **separate**. The 10 close pairs (≤4 px) are listed in
-`merge-review-pairs.json`; see `merge-review-left-cluster.png` for the left
-cluster IDs 0040–0049. To merge, name the two trace IDs; to split, name the
-component and the cut. No merge or split has been applied yet.
+A merged building is the union of its confirmed components, **without artificial
+bridging**:
+
+- **M-001** (`SK-BLD-MRG-0001`) is a MultiPolygon of five parts: three units
+  (0046, 0047, 0060) and two connectors (0062, 0063). Unit count: 3.
+- **M-002** (`SK-BLD-MRG-0002`) is a MultiPolygon of two parts: 0030 (2 units)
+  and 0053 (1 unit). Unit count: 3.
+- The other 56 red components remain one building each. Their unit counts are
+  **unknown** and are not inferred.
+- Seven of the ten close pairs are resolved into M-001/M-002; the remaining pairs
+  `0001/0037`, `0019/0058` and `0027/0059` stay separate pending review.
+- All 63 original red components are preserved in `building-components.geojson`
+  with `merged_into`, `component_role` and `unit_count`.
+- `merge-review-left-cluster.png` shows the pre-merge components;
+  `merge-applied-left-cluster.png` shows M-001 after the merge.
+
+Every building records `floor_count: 11`, `floor_state: proposed_initial`, and
+`floor_height_m: null`. No height, massing, FAR or unit-mix is derived from the
+11-floor assumption.
 
 ## Calibration
 
@@ -78,16 +103,22 @@ installable package; the public artifact is the evidence, not a benchmark harnes
 
 ## Open items
 
-- Building merge/split decisions (default: separate).
+- Provide the unit-type library and replace the sketch-era building footprints.
+- Confirm the remaining close pairs `0001/0037`, `0019/0058`, `0027/0059`.
 - A human-confirmed trace and fidelity metrics (Hausdorff, IoU, topology) have
   not been produced. No accuracy claim is made.
 - 支路 vs 入户路 separation.
 - Road topology review.
+- Canonical Building/Road handoff from this sketch.
 
 ## Non-claims
 
 - One hand-modified concept sketch is not a sketch-recognition benchmark.
-- Semantic confirmation does not confirm geometry.
+- Semantic confirmation and merge decisions do not confirm geometry.
+- 11 floors is a provisional design assumption; no floor height, massing, FAR
+  or unit-mix is derived.
+- Every building footprint is a sketch placeholder pending the unit-type library.
+- Unit counts are confirmed only for M-001 and M-002; other buildings remain unknown.
 - Calibration is approximate and not survey-grade.
 - Road centerlines are not professional road design.
 - No claim that building footprints, counts or topology match the design record.
@@ -96,10 +127,11 @@ installable package; the public artifact is the evidence, not a benchmark harnes
 ## Files
 
 - `source/sketch.png` — published sketch (designer authorisation: sketch only).
-- `trace-raw.geojson` — image-space trace with labels and review states.
+- `trace-raw.geojson` — image-space buildings/garage/green/roads/boundary with labels and review states.
+- `building-components.geojson` — all 63 original red components and merge provenance.
+- `merge-review-pairs.json` — close pairs and their merge resolutions.
+- `merge-review-left-cluster.png` — pre-merge left cluster; `merge-applied-left-cluster.png` — M-001 after merge.
 - `road-centerlines-proposed.geojson` — rough image-space centerlines.
 - `ambiguities.geojson` — image-space ambiguity regions.
 - `trace-overlay.png`, `road-centerlines-overlay.png` — visual review.
-- `merge-review-left-cluster.png` — merge/split review crop.
-- `merge-review-pairs.json` — the 10 close pairs, default separate.
 - `case-summary.json` — machine-readable public summary.

@@ -39,7 +39,10 @@
     "green": "cluster green space",
     "top_crop": "only a road segment is clipped; no missing site-boundary content",
     "boundary_registration": "accepted; hand-drawn deviation is large",
-    "publication": "sketch_only"
+    "publication": "sketch_only",
+    "building_merges": "0046+0047+0060 (3 units) with connectors 0062+0063 = one building; 0030 (2 units) + 0053 (1 unit) = one building",
+    "floors": "11 floors provisional for all buildings",
+    "unit_type_library": "pending; sketch-era building footprints are placeholders to be replaced"
   },
   "calibration": {
     "transform_type": "homography",
@@ -51,7 +54,10 @@
     "note": "Designer accepts the boundary registration. The sketch is hand-modified; the residual is large and the result is not survey-grade. The reference frame and matrix are private."
   },
   "counts": {
-    "building_candidates": 63,
+    "building_candidates": 58,
+    "building_components": 63,
+    "merged_buildings": 2,
+    "merged_component_count": 7,
     "garage_entrance_candidates": 3,
     "cluster_green_space_candidates": 12,
     "road_area_candidates": 9,
@@ -170,10 +176,12 @@
     }
   ],
   "open_items": [
-    "Building merge/split: the 10 close red-component pairs are kept separate by default.",
+    "Provide the unit-type library; sketch-era building footprints are placeholders.",
+    "Confirm the remaining close pairs 0001/0037, 0019/0058 and 0027/0059; they stay separate.",
     "Human-confirmed trace and fidelity metrics are not yet available.",
     "支路 and 入户路 are not separated within the blue class.",
-    "Road centerline topology is rough; junction merging and connectivity need human review."
+    "Road centerline topology is rough; junction merging and connectivity need human review.",
+    "No canonical Building/Road handoff from this sketch yet."
   ],
   "non_claims": [
     "one conceptual hand-modified sketch; not a validated sketch-recognition benchmark",
@@ -182,63 +190,165 @@
     "no OCR was executed; the visible 幼儿园 label is a visual observation",
     "road centerlines are rough skeleton-derived candidates; no professional alignment, width or junction design",
     "no claim that building footprints, areas or counts match the designed building record",
-    "no claim of professional geometry, code compliance or construction accuracy"
+    "no claim of professional geometry, code compliance or construction accuracy",
+    "11 floors is a provisional design assumption; no floor height, massing or FAR is derived.",
+    "Every building footprint is a sketch placeholder pending the unit-type library; it is not final building geometry.",
+    "Unit counts are confirmed only for the two merged buildings; other buildings remain unknown."
   ],
   "merge_review": {
     "schema_id": "dgcad.sketch.merge-review.v0.1",
-    "state": "default_separate",
-    "note": "Each red connected component is one building. Merge if a pair is one building with an attached wing; split if one component contains two buildings. No merge/split has been applied.",
+    "state": "partially_resolved",
+    "note": "Two designer-confirmed merged buildings replace seven components. Remaining close pairs stay separate pending review.",
     "pairs": [
       {
         "gap_px": 0.0,
         "a": "SK-BLD-0001",
-        "b": "SK-BLD-0037"
+        "b": "SK-BLD-0037",
+        "resolution": "pending",
+        "merged_into": null
       },
       {
         "gap_px": 0.0,
         "a": "SK-BLD-0060",
-        "b": "SK-BLD-0063"
+        "b": "SK-BLD-0063",
+        "resolution": "merged",
+        "merged_into": "SK-BLD-MRG-0001"
       },
       {
         "gap_px": 1.0,
         "a": "SK-BLD-0019",
-        "b": "SK-BLD-0058"
+        "b": "SK-BLD-0058",
+        "resolution": "pending",
+        "merged_into": null
       },
       {
         "gap_px": 1.0,
         "a": "SK-BLD-0046",
-        "b": "SK-BLD-0063"
+        "b": "SK-BLD-0063",
+        "resolution": "merged",
+        "merged_into": "SK-BLD-MRG-0001"
       },
       {
         "gap_px": 1.0,
         "a": "SK-BLD-0047",
-        "b": "SK-BLD-0062"
+        "b": "SK-BLD-0062",
+        "resolution": "merged",
+        "merged_into": "SK-BLD-MRG-0001"
       },
       {
         "gap_px": 1.0,
         "a": "SK-BLD-0047",
-        "b": "SK-BLD-0063"
+        "b": "SK-BLD-0063",
+        "resolution": "merged",
+        "merged_into": "SK-BLD-MRG-0001"
       },
       {
         "gap_px": 1.0,
         "a": "SK-BLD-0062",
-        "b": "SK-BLD-0063"
+        "b": "SK-BLD-0063",
+        "resolution": "merged",
+        "merged_into": "SK-BLD-MRG-0001"
       },
       {
         "gap_px": 2.0,
         "a": "SK-BLD-0027",
-        "b": "SK-BLD-0059"
+        "b": "SK-BLD-0059",
+        "resolution": "pending",
+        "merged_into": null
       },
       {
         "gap_px": 4.0,
         "a": "SK-BLD-0030",
-        "b": "SK-BLD-0053"
+        "b": "SK-BLD-0053",
+        "resolution": "merged",
+        "merged_into": "SK-BLD-MRG-0002"
       },
       {
         "gap_px": 4.0,
         "a": "SK-BLD-0046",
-        "b": "SK-BLD-0062"
+        "b": "SK-BLD-0062",
+        "resolution": "merged",
+        "merged_into": "SK-BLD-MRG-0001"
+      }
+    ],
+    "resolved_buildings": [
+      {
+        "new_id": "SK-BLD-MRG-0001",
+        "components": [
+          "SK-BLD-0046",
+          "SK-BLD-0047",
+          "SK-BLD-0060"
+        ],
+        "connectors": [
+          "SK-BLD-0062",
+          "SK-BLD-0063"
+        ],
+        "unit_count": 3
+      },
+      {
+        "new_id": "SK-BLD-MRG-0002",
+        "components": [
+          "SK-BLD-0030",
+          "SK-BLD-0053"
+        ],
+        "connectors": [],
+        "unit_count": 3,
+        "unit_breakdown": [
+          {
+            "trace_id": "SK-BLD-0030",
+            "units": 2
+          },
+          {
+            "trace_id": "SK-BLD-0053",
+            "units": 1
+          }
+        ]
       }
     ]
+  },
+  "merge_decisions": [
+    {
+      "new_id": "SK-BLD-MRG-0001",
+      "unit_components": [
+        "SK-BLD-0046",
+        "SK-BLD-0047",
+        "SK-BLD-0060"
+      ],
+      "connector_components": [
+        "SK-BLD-0062",
+        "SK-BLD-0063"
+      ],
+      "unit_count": 3
+    },
+    {
+      "new_id": "SK-BLD-MRG-0002",
+      "unit_components": [
+        "SK-BLD-0030",
+        "SK-BLD-0053"
+      ],
+      "connector_components": [],
+      "unit_count": 3,
+      "unit_breakdown": [
+        {
+          "trace_id": "SK-BLD-0030",
+          "units": 2
+        },
+        {
+          "trace_id": "SK-BLD-0053",
+          "units": 1
+        }
+      ]
+    }
+  ],
+  "building_design_state": {
+    "floor_count": 11,
+    "floor_state": "proposed_initial",
+    "floor_source": "designer_initial_2026-10-27",
+    "floor_height_m": null,
+    "height_state": "unknown",
+    "massing_state": "not_generated_pending_unit_type_library",
+    "design_state": "sketch_placeholder_pending_unit_type_library",
+    "replacement_pending": "unit_type_library",
+    "note": "11 floors is a provisional design assumption; no height or massing is derived without a floor-to-floor height and section."
   }
 }
