@@ -265,13 +265,30 @@ def test_text_width_and_alignment_are_detected(project, tmp_path):
 
 
 STYLE_MUTATIONS = (
-    ("color", lambda entity: setattr(entity.dxf, "color", 1)),
-    ("linetype", lambda entity: setattr(entity.dxf, "linetype", "DASHED")),
-    ("lineweight", lambda entity: setattr(entity.dxf, "lineweight", 211)),
-    ("true_color", lambda entity: setattr(entity.dxf, "true_color", 0xFF0000)),
-    (
+    pytest.param(
+        "color",
+        lambda entity: setattr(entity.dxf, "color", 1),
+        id="color",
+    ),
+    pytest.param(
+        "linetype",
+        lambda entity: setattr(entity.dxf, "linetype", "DASHED"),
+        id="linetype",
+    ),
+    pytest.param(
+        "lineweight",
+        lambda entity: setattr(entity.dxf, "lineweight", 211),
+        id="lineweight",
+    ),
+    pytest.param(
+        "true_color",
+        lambda entity: setattr(entity.dxf, "true_color", 0xFF0000),
+        id="true_color",
+    ),
+    pytest.param(
         "transparency",
         lambda entity: setattr(entity.dxf, "transparency", 0x020000FF),
+        id="transparency",
     ),
 )
 
