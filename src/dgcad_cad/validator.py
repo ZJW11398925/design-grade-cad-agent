@@ -24,6 +24,34 @@ COVERAGE_LIMITS = (
 )
 
 
+ISSUE_CATEGORIES = {
+    "DXF_VERSION_MISMATCH": "cad_format_semantics",
+    "UNITS_MISMATCH": "cad_format_semantics",
+    "LAYER_MISSING": "profile_violation",
+    "UNEXPECTED_LAYER": "profile_violation",
+    "LAYER_PROPERTY_MISMATCH": "profile_violation",
+    "LAYER_MISMATCH": "profile_violation",
+    "MISSING_XDATA": "interoperability",
+    "UNEXPECTED_ENTITY": "interoperability",
+    "MISSING_ENTITY": "interoperability",
+    "ENTITY_TYPE_MISMATCH": "cad_format_semantics",
+    "OBJECT_CLASS_MISMATCH": "interoperability",
+    "REVISION_MISMATCH": "interoperability",
+    "SOURCE_HASH_MISMATCH": "interoperability",
+    "REP_HASH_MISMATCH": "interoperability",
+    "RING_ROLE_MISMATCH": "interoperability",
+    "COORDINATE_MISMATCH": "cad_format_semantics",
+    "CLOSED_MISMATCH": "cad_format_semantics",
+    "NONZERO_Z": "cad_format_semantics",
+    "CIRCLE_MISMATCH": "cad_format_semantics",
+    "TEXT_MISMATCH": "cad_format_semantics",
+    "AUDIT_ERROR": "cad_format_semantics",
+    "AUDIT_FIX": "serialization_difference",
+    "VALIDATOR_ERROR": "validator_error",
+}
+DEFAULT_CATEGORY = "cad_format_semantics"
+
+
 @dataclass(frozen=True)
 class DxfIssue:
     code: str
@@ -33,9 +61,14 @@ class DxfIssue:
     expected: Any = None
     actual: Any = None
 
+    @property
+    def category(self) -> str:
+        return ISSUE_CATEGORIES.get(self.code, DEFAULT_CATEGORY)
+
     def to_dict(self) -> dict[str, Any]:
         return {
             "code": self.code,
+            "category": self.category,
             "severity": self.severity,
             "object_id": self.object_id,
             "message": self.message,

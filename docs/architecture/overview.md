@@ -205,7 +205,18 @@ Verified behavior:
 - Delivery comparison uses object IDs, revisions, dependency fingerprints, readback verdict and audit result.
 - Road surface geometry is explicitly deferred; `SURFACE-R-002` is not registered or claimed as generated.
 
-## 12. Open architecture questions
+## 12. Implemented E2E-003 adversarial delivery (v0.5.0)
+
+`tests/e2e/test_e2e_003_adversarial.py` and `contracts/e2e-adversarial-v0.1.yaml` add:
+
+- issue categories: `cad_format_semantics`, `interoperability`, `profile_violation`, `serialization_difference`, `validator_error`;
+- a `delivery-comparison.json` artifact combining object IDs, canonical revisions, CAD-IR fingerprint, readback verdict, audit and profile identity;
+- positive checks for LWPOLYLINE elevation, MultiPolygon 2-part+hole, symbol-table case and missing XDATA;
+- strict xfails for CIRCLE/TEXT 3D, text placement, entity style overrides, LWPOLYLINE full semantics and structured validator errors.
+
+Boundaries: same-library `ezdxf` only, modelspace only, no systematic DEV-CAD fix, no third-party CAD evidence, road surface still deferred. CAD-IR fingerprint/dependency-key consistency is tracked as #16 / DEV-CAD-011.
+
+## 13. Open architecture questions
 
 - Final road alignment algorithm and Chinese profile source.
 - Shapely vs CGAL boundary.

@@ -144,6 +144,7 @@ class LivingProject:
     latest_shadow: ShadowAnalysisResult | None = None
     latest_cad_ir: CadIR | None = None
     latest_manifest: dict[str, Any] | None = None
+    latest_comparison: dict[str, Any] | None = None
     road_surface_status: str = ROAD_SURFACE_STATUS
     _seq: int = 0
 
@@ -608,6 +609,39 @@ class LivingProject:
                     "DXF_READBACK_FAILED", str(readback.codes)
                 )
             self.latest_manifest = readback.manifest
+            comparison = {
+                "schema_id": "dgcad.e2e.delivery-comparison.v0.1",
+                "object_ids": sorted(
+                    obj.object_id for obj in self.latest_cad_ir.objects
+                ),
+                "canonical_revisions": {
+                    obj.object_id: obj.provenance.get(
+                        "canonical_revisions"
+                    )
+                    for obj in self.latest_cad_ir.objects
+                },
+                "cad_ir_dependency_fingerprint": (
+                    self.latest_cad_ir.dependency_fingerprint
+                ),
+                "dxf_readback_verdict": readback.verdict,
+                "audit_errors": readback.manifest["audit_errors"],
+                "audit_fixes": readback.manifest["audit_fixes"],
+                "manifest_sha256": readback.manifest["sha256"],
+                "manifest_ref": "readback-manifest-002.json",
+                "profile_id": self.profile.profile_id,
+                "profile_version": self.profile.profile_version,
+            }
+            self.latest_comparison = comparison
+            comparison_path = self.output_dir / "delivery-comparison.json"
+            comparison_path.write_text(
+                json.dumps(
+                    comparison,
+                    indent=2,
+                    sort_keys=True,
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
             manifest_path = self.output_dir / "readback-manifest-002.json"
             manifest_path.write_text(
                 json.dumps(
@@ -629,6 +663,9 @@ class LivingProject:
                     "dxf": compile_result.to_dict(),
                     "readback": readback.to_dict(),
                     "manifest_ref": manifest_path.relative_to(
+                        self.output_dir
+                    ).as_posix(),
+                    "comparison_ref": comparison_path.relative_to(
                         self.output_dir
                     ).as_posix(),
                 },
@@ -661,6 +698,7 @@ class LivingProject:
                 else self.latest_cad_ir.dependency_fingerprint
             ),
             "manifest": self.latest_manifest,
+            "delivery_comparison": self.latest_comparison,
         }
 
 

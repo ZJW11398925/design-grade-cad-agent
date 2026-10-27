@@ -2,6 +2,32 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.5.0 — 2026-10-27
+
+### Added
+
+- `contracts/e2e-adversarial-v0.1.yaml`: adversarial scenario, category, expected outcome and issue-mapping contract.
+- `tests/e2e/test_e2e_003_adversarial.py`: 19 scenarios (6 positive, 13 strict xfail) covering geometry, style, identity, serialization and validator-error gaps.
+- `docs/e2e/adversarial-delivery-003.md`: executed E2E-003 audit, results and boundaries.
+- `DxfIssue.category` and an issue-category mapping: cad_format_semantics, interoperability, profile_violation, serialization_difference, validator_error.
+- `delivery-comparison.json` generated with the DXF: object IDs, canonical revisions, CAD-IR fingerprint, readback verdict, audit counts, manifest hash and profile identity.
+- Issues #16 (DEV-CAD-011 dependency fingerprint consistency), #17 (DEV-CAD-009 entity style overrides), #18 (DEV-CAD-010 CIRCLE/TEXT semantics).
+
+### Changed
+
+- `contracts/e2e-mutation-v0.1.yaml`: `manifest_comparison` now explicitly names `delivery-comparison.json` as a composite artifact.
+- `pyproject.toml`: version `0.5.0`.
+- Test suite: **140 collected / 125 passed / 15 xfailed**.
+- Status/testing wording for third-party CAD evidence is unified: one user-run AutoCAD core-engine round-trip; no repeatable third-party matrix.
+
+### Verified
+
+- MultiPolygon with 2 parts + 1 hole round-trips as 3 entities with audit 0/0.
+- Symbol-table linetype case is semantically equal.
+- Missing XDATA returns a structured issue.
+- LWPOLYLINE elevation is detected.
+- All remaining known gaps are strict xfails with accurate issue links; no silent acceptance.
+
 ## 0.4.0 — 2026-10-27
 
 ### Added
