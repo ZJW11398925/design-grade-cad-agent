@@ -40,17 +40,19 @@ Input: human-confirmed Trace/Intent fixture. Output: canonical Building/Road obj
 
 **Exit:** E2E-001 runs in CI with no external engine and no archive imports. Evidence: `docs/e2e/living-pipeline-001.md`.
 
-## Milestone 2b — E2E-002 dependency and mutation (next)
+## Milestone 2b — E2E-002 dependency and mutation (complete)
 
-- [ ] Change `B-001` height and prove massing goes stale while footprint-dependent artifacts stay current.
-- [ ] Move `RN-003` and prove node/edges/corridors + surface/DXF handling.
-- [ ] Change north bearing and prove shadow + dependent delivery artifacts stale.
-- [ ] Rebuild only affected artifacts; produce a new DXF and manifest.
-- [ ] Compare old/new manifests by object ID and revision, not just file hash.
+- [x] Change `B-001` height and prove massing goes stale while footprint-dependent artifacts stay current.
+- [x] Move `RN-003` and prove node/edges/corridors + CAD-IR/DXF handling.
+- [x] Change north bearing and prove shadow + dependent delivery artifacts stale.
+- [x] Rebuild only affected artifacts; produce a new DXF and manifest.
+- [x] Compare old/new manifests by object ID and revision, not just file hash.
+- [x] Use the Runtime claim/complete path and a deterministic rebuild executor that recomputes, writes and validates.
+- [x] Explicitly defer road surface geometry; do not claim `SURFACE-R-002` is generated.
 
-**Exit:** mutation → scoped stale → rebuild → new delivery artifact is reproducible, with no global regeneration.
+**Exit:** mutation → scoped stale → rebuild → new delivery artifact is reproducible, with no global regeneration. Evidence: `docs/e2e/dependency-mutation-002.md`.
 
-## Milestone 2c — E2E-003 adversarial delivery regression
+## Milestone 2c — E2E-003 adversarial delivery regression (next)
 
 - [ ] Port non-zero Z, style override, unexpected layer, entity-type substitution and symbol-table case tests into living CI.
 - [ ] Add MultiPolygon 2-part + 1-hole fixture.

@@ -2,6 +2,9 @@ from __future__ import annotations
 
 from typing import Any
 
+from shapely.geometry import MultiLineString
+from shapely.ops import linemerge
+
 from dgcad_foundation import (
     AtomicChangeSet,
     AuthorityState,
@@ -15,7 +18,13 @@ from dgcad_foundation import (
 )
 
 from .building import building_candidate
-from .common import ParameterValue, finite_number, geometry_to_geojson, polygon_from_geojson
+from .common import (
+    ParameterValue,
+    finite_number,
+    geometry_to_geojson,
+    parse_geometry,
+    polygon_from_geojson,
+)
 from .road import road_corridor_candidate
 from .trace import ConfirmedTraceScene
 
@@ -74,6 +83,7 @@ def _proposal(
     reason: str,
     confirm: bool,
     source_world: World = World.CANONICAL_CURRENT,
+    required_authority: RequiredAuthority = RequiredAuthority.HUMAN_CONFIRM,
 ) -> ChangeProposal:
     return ChangeProposal(
         proposal_id=proposal_id,
@@ -81,7 +91,7 @@ def _proposal(
         before_revisions=obj.revisions,
         changes=changes,
         bump=frozenset(bump),
-        required_authority=RequiredAuthority.HUMAN_CONFIRM,
+        required_authority=required_authority,
         reason=reason,
         source_world=source_world,
         confirmed=confirm,
@@ -272,6 +282,46 @@ def height_change_proposal(
         bump={"parameter"},
         reason="confirmed building height change",
         confirm=confirm,
+    )
+
+
+def rebuild_road_corridor_proposal(
+    scene: SceneState,
+    corridor_id: str,
+    *,
+    proposal_id: str,
+    confirm: bool = False,
+    required_authority: RequiredAuthority = RequiredAuthority.DETERMINISTIC_AUTO,
+) -> ChangeProposal:
+    """Rebuild a corridor centerline from the latest canonical edge geometry.
+
+    This function deliberately reads only canonical ``road_edge`` objects. It never
+    reads the original trace fixture, so a committed node move cannot be overwritten
+    by stale source geometry.
+    """
+    obj = scene.objects[corridor_id]
+    edges = [
+        edge
+        for edge in scene.objects.values()
+        if edge.object_class == "road_edge"
+        and edge.values.get("corridor_id") == corridor_id
+    ]
+    if not edges:
+        raise ValueError(f"ROAD_CORRIDOR_HAS_NO_EDGES: {corridor_id}")
+    lines = [parse_geometry(edge.values["centerline"]) for edge in edges]
+    centerline = lines[0] if len(lines) == 1 else linemerge(MultiLineString(lines))
+    changes = {
+        "centerline": geometry_to_geojson(centerline),
+        "centerline_state": "confirmed",
+    }
+    return _proposal(
+        obj,
+        proposal_id=proposal_id,
+        changes=changes,
+        bump={"geometry"},
+        reason="deterministic corridor centerline rebuild from latest canonical edges",
+        confirm=confirm,
+        required_authority=required_authority,
     )
 
 

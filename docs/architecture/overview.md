@@ -187,7 +187,25 @@ Implemented behavior:
 
 Still not implemented: third-party CAD round-trip, IFC, real sketch input, real road engineering, standards profile, independent shadow engine and UI. Known `DEV-CAD-003` gaps are strict xfails.
 
-## 11. Open architecture questions
+## 11. Implemented E2E-002 mutation/rebuild (v0.4.0)
+
+`src/dgcad_e2e/living_project.py` adds:
+
+- a canonical `PROJECT-CONTEXT-001` object that versions north bearing with a source;
+- a deterministic rebuild worker using Runtime claim/complete jobs;
+- mutation paths for building height, T-junction node move and north bearing;
+- a corridor centerline rebuild that reads only latest canonical edge geometry.
+
+Verified behavior:
+
+- Height change stales massing/shadow/CAD-IR/DXF; `PLAN-B-001` and `MASS-B-003` stay current.
+- Node move is one atomic changeset; corridor centerline becomes `[0,11] → [21,12] → [40,11]` from canonical edges.
+- North bearing change stales shadow/delivery but not building geometry.
+- Rebuild worker recomputes, writes, validates and completes only with a content hash.
+- Delivery comparison uses object IDs, revisions, dependency fingerprints, readback verdict and audit result.
+- Road surface geometry is explicitly deferred; `SURFACE-R-002` is not registered or claimed as generated.
+
+## 12. Open architecture questions
 
 - Final road alignment algorithm and Chinese profile source.
 - Shapely vs CGAL boundary.
