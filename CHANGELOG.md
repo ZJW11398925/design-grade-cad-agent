@@ -2,6 +2,18 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## Unreleased
+
+### Added
+
+- `docs/research-to-product-map.md`: promotion status for every research artifact.
+- `docs/architecture/authority.md`: living authority and lock model.
+- `contracts/canonical-site-ir-v0.4.yaml`: promoted Canonical Site IR (no semantic change from v0.3).
+- `contracts/evidence-gate-register-v0.2.yaml`: promoted R1 evidence gate register.
+- `contracts/domain-contract-v0.1.yaml`: minimal living Building/Road domain contract.
+- Branch protection on `main` with the four CI matrix checks and PR requirement.
+- GitHub issues `DEV-CAD-001..008` for accepted DXF/validator defects (implementation deferred).
+
 ## 0.1.0 — 2026-10-27
 
 ### Added

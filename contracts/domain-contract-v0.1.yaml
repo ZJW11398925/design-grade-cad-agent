@@ -1,0 +1,211 @@
+schema_id: design-grade-cad-agent.domain-contract.v0.1
+status: living_contract
+scope: domain_slice_001
+promotion_date: 2026-10-27
+basis:
+  - research/archive/r0-v0.19/working/sketch-trace/trace-object-schema-v0.1.yaml
+  - research/archive/r0-v0.19/working/road-profile/road-profile-schema-v0.1.yaml
+  - research/archive/r0-v0.19/working/building-massing/building-object-schema-v0.1.yaml
+  - research/archive/r0-v0.19/working/building-massing/regularization-gate-v0.1.md
+  - research/archive/r0-v0.19/working/architecture/canonical-site-ir-v0.3.yaml
+change_summary: "Minimal promoted domain contract for human-confirmed trace to building/road canonical objects."
+implementation: src/dgcad_domain
+tests: tests/test_domain_contracts.py
+
+principles:
+  source_and_trace_are_immutable: true
+  professionalization_creates_new_revision: true
+  unknown_is_a_valid_state: true
+  no_numeric_default_without_source: true
+  agent_proposes_human_confirms: true
+  derived_artifacts_carry_dependency_keys: true
+  validation_is_layered_and_scoped: true
+  synthetic_fixture_is_not_real_world_evidence: true
+
+trace_scene:
+  required:
+    - fixture_id
+    - scene_id
+    - synthetic_only
+    - human_confirmed_trace
+    - coordinate_frame
+    - units
+    - site_boundary_ref
+    - trace_objects
+  invariants:
+    - "human_confirmed_trace must be true for domain slice 001"
+    - "synthetic_only must be declared explicitly"
+    - "trace geometry is never overwritten by a professional proposal"
+  trace_object:
+    required: [trace_id, semantic_role, geometry, review_state, locked]
+    semantic_role_enum: [site_boundary, building, road, green, unknown]
+    review_state_enum: [confirmed]
+    geometry_format: geojson
+    locked_default: true
+
+canonical_binding:
+  evidence_object:
+    object_class_prefix: trace_
+    authority_state: evidence_only
+    lifecycle_state: current
+    values_required: [semantic_role, geometry, review_state, locked]
+    mutable_by_professional_proposal: false
+  design_object:
+    authority_state_initial: candidate
+    values_required: [trace_ref]
+    commit_requires_human_confirmation: true
+    trace_reference_must_exist: true
+  worlds:
+    canonical_current: confirmed_design_truth
+    proposal_preview: non_committed_candidate
+    external: round_trip_evidence_only
+
+building:
+  object_class: building
+  required_fields:
+    - object_id
+    - trace_ref
+    - trace_footprint
+    - professional_footprint
+    - regularization_state
+    - height
+    - base_elevation
+    - semantic_revision
+    - geometry_revision
+    - parameter_revision
+    - provenance
+  regularization_state_enum:
+    - not_run
+    - preserve_trace
+    - regularized_candidate
+    - needs_review
+    - confirmed
+  regularization_rules:
+    - "preserve_trace is the default"
+    - "a regularized candidate never auto-confirms"
+    - "an intentional rotation may not be silently axis-aligned"
+    - "diff metrics must accompany every regularized candidate"
+    - "no universal metric threshold is frozen in this contract"
+  diff_metrics:
+    required: [area_change_ratio, hausdorff_distance_m, centroid_shift_m, orientation_change_deg, iou]
+  parameter_value:
+    required: [value, unit, state, source_ref]
+    state_enum: [unknown, estimated, proposed, confirmed]
+    invariants:
+      - "state=unknown implies value is null"
+      - "state=confirmed/estimated/proposed implies a finite numeric value"
+      - "boolean values are not valid numbers"
+      - "unknown height remains unknown through proposal, preview and commit"
+  massing:
+    requires: [professional_footprint, height.state=confirmed]
+    blocked_code: MASSING_BLOCKED_UNKNOWN_HEIGHT
+    dependency_keys:
+      - "{object_id}.geometry"
+      - "{object_id}.parameter"
+
+road:
+  objects:
+    road_node:
+      required: [node_id, x, y]
+    road_edge:
+      required: [edge_id, corridor_id, node_a, node_b, centerline]
+    road_corridor:
+      required: [corridor_id, edge_refs, classification, cross_section]
+  classification:
+    layers:
+      - classification_scheme
+      - network_hierarchy
+      - primary_function
+      - permitted_modes
+      - special_designations
+      - physical_cross_section
+      - design_profile
+    state_enum: [unknown, proposed, confirmed, needs_review, disputed]
+    invariants:
+      - "road hierarchy, function, access and physical cross-section are separate facts"
+      - "a trace line does not imply a legal road class"
+      - "an unknown class may not produce a derived numeric width"
+  profile_resolution:
+    outcomes: [resolved, blocked, needs_review]
+    blocked_codes:
+      - ROAD_CLASS_UNCONFIRMED
+      - NO_PROFILE_FOR_CLASS
+    invariants:
+      - "blocked resolution returns no widths"
+      - "user_specified widths are allowed but remain explicit"
+      - "derived widths require a confirmed class and an authorized profile"
+  cross_section_component:
+    required: [component_type, width, width_status, source_ref]
+    component_type_enum:
+      - traffic_lane
+      - sidewalk
+      - cycle_lane
+      - parking_lane
+      - bus_lane
+      - median
+      - buffer
+      - planting_strip
+      - verge
+      - other
+    width_status_enum: [sourced, user_specified, derived, proposed, unknown]
+  road_surface:
+    requires: [confirmed_centerline, resolved_or_explicit_profile]
+    blocked_codes:
+      - ROAD_CENTERLINE_NOT_CONFIRMED
+      - ROAD_PROFILE_BLOCKED
+    dependency_keys:
+      - "{edge_id}.geometry"
+      - "{corridor_id}.parameter"
+
+topology:
+  t_junction:
+    minimum_shared_node_edges: 3
+    node_move_requires_atomic_changeset: true
+    affected_objects: [node, incident_edges, affected_corridors]
+  invariants:
+    - "an atomic change set commits all members or none"
+    - "a stale member rejects the whole set"
+
+validation:
+  verdict_enum: [pass, conditional, blocked, fail]
+  issue_required: [code, severity, object_id, message]
+  severity_enum: [error, warning, review_required, blocked]
+  codes:
+    TRACE_GEOMETRY_INVALID: error
+    TRACE_NOT_CONFIRMED: blocked
+    BUILDING_GEOMETRY_MISSING: conditional
+    BUILDING_PROFESSIONAL_FOOTPRINT_MISSING: conditional
+    INVALID_FOOTPRINT: error
+    FOOTPRINT_OUTSIDE_SITE: error
+    MISSING_REGULARIZATION_DIFF: error
+    REGULARIZATION_REQUIRES_REVIEW: review_required
+    UNKNOWN_HEIGHT_BLOCKS_MASSING: conditional
+    MASSING_BLOCKED_UNKNOWN_HEIGHT: blocked
+    ROAD_CLASS_UNCONFIRMED: blocked
+    NO_PROFILE_FOR_CLASS: blocked
+    ROAD_CENTERLINE_NOT_CONFIRMED: blocked
+    ROAD_PROFILE_BLOCKED: blocked
+    DERIVED_WIDTH_WITHOUT_CLASS: error
+    ROAD_GEOMETRY_INVALID: error
+    T_JUNCTION_TOPOLOGY_INVALID: error
+    TRACE_EVIDENCE_MODIFIED: error
+    EXTERNAL_GEOMETRY_REQUIRES_RECONCILE: blocked
+
+dependencies:
+  massing: ["{building_id}.geometry", "{building_id}.parameter"]
+  road_surface: ["{edge_id}.geometry", "{corridor_id}.parameter"]
+  rules:
+    - "a height-only change stales massing but not footprint-dependent artifacts"
+    - "a road geometry change stales road surface"
+    - "dependency invalidation is transitive and scoped"
+
+non_goals:
+  - automatic raster recognition
+  - SAM/VLM segmentation
+  - complex alignment or clothoid fitting
+  - Chinese standard numeric defaults
+  - IFC generation
+  - AutoCAD/FreeCAD host integration
+  - full DXF delivery profile
+  - daylight compliance
+  - UI

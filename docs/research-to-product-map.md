@@ -1,0 +1,121 @@
+# Research → Product Promotion Map
+
+Status: **living control document**
+Version: 1.0
+Updated: 2026-10-27
+
+## Purpose
+
+The research archive contains many candidate schemas, contracts and conclusions produced under different evidence levels. A document existing in `research/archive/` does **not** mean the current code must obey it.
+
+This map is the single index of which research artifacts have been promoted into living contracts, which remain research evidence, and which are deliberately deferred or blocked. Every promotion changes the target path and adds a test or contract reference. Nothing is promoted merely because it is well written.
+
+## Status vocabulary
+
+| Status | Meaning |
+|---|---|
+| `promoted` | Now a living contract/docs artifact and binding on current code/tests |
+| `research_only` | Preserved as evidence; not binding on current code |
+| `deferred` | Intentionally postponed to a named milestone |
+| `blocked_by_evidence` | Cannot be promoted until a named evidence gap closes |
+| `superseded` | Replaced by a later artifact; historical only |
+
+## Promotion decisions
+
+### Architecture and governance
+
+| Research artifact | Status | Living target | Notes |
+|---|---|---|---|
+| Canonical Site IR v0.3 | **promoted** | `contracts/canonical-site-ir-v0.4.yaml` | Promotion metadata only; no semantic change from v0.3 |
+| Agent Authority Matrix v0.1 | **promoted** | `docs/architecture/authority.md` | Narrative living authority model |
+| Module Contracts M01–M11 v0.1 | **promoted** | `docs/architecture/overview.md` | Already summarized; archive remains source evidence |
+| Architecture Challenge Report v0.1 | **promoted** | `docs/architecture/overview.md` + ADR-0001 | The 5 amendments are now baseline requirements |
+| R1 Evidence Gate Register v0.1 | **promoted** | `contracts/evidence-gate-register-v0.2.yaml` | Packages remain `planned`; gates are binding on claims |
+| Provisional Decision Register v0.1 | `research_only` | — | Decisions already reflected in living architecture docs |
+| Research Gap Matrix v0.2 | `research_only` | — | Operational planning input; not a contract |
+| R1 Development Research Charter Candidate v0.2 | **promoted** | `docs/roadmap.md` | Milestone structure and scope-freeze rule |
+| MVP Boundary v0.1 | **promoted** | `docs/roadmap.md` | Narrowed further for domain slice 001 |
+
+### Domain schemas
+
+| Research artifact | Status | Living target | Notes |
+|---|---|---|---|
+| Trace Object Schema v0.1 | **partially promoted** | `contracts/domain-contract-v0.1.yaml` | Only the minimal confirmed-trace fields needed by domain slice 001; multi-revision trace and ambiguity regions deferred |
+| Road Profile Schema v0.1 | **partially promoted** | `contracts/domain-contract-v0.1.yaml` | Multi-axis classification state and the "unknown class blocks derived width" rule promoted; numeric standard profiles deferred |
+| Road Classification and Design Profile research line | **partially promoted** | `contracts/domain-contract-v0.1.yaml` + `src/dgcad_domain/road.py` | Promotes separation of network role / function / access / special use / physical cross-section; no Chinese numeric defaults |
+| Building Object Schema v0.1 | **partially promoted** | `contracts/domain-contract-v0.1.yaml` | Promotes trace/professional footprint split, height state/source, revision axes, locks; typology grammar and real thresholds deferred |
+| Regularization Gate v0.1 | **partially promoted** | `contracts/domain-contract-v0.1.yaml` | Promotes states and "candidate requires review"; real tolerances remain uncalibrated |
+| Site Topology Contract v0.1 | `deferred` | — | Needed for multi-building shared-edge/overlap slices; not required by domain slice 001 |
+| Environment Analysis Dependency Contract v0.1 | `deferred` | — | Requires an analysis slice and independent engine evidence |
+| Environment Result Schema v0.1 | `deferred` | — | Same |
+| CAD-IR Contract v0.1 | `deferred` | — | Milestone 3 (DXF validator hardening / delivery slice) |
+| DXF Semantic Equivalence Policy v0.1 | **promoted** | `docs/status.md` (known defects) + Milestone 3 | Policy accepted; implementation deferred |
+| IFC Round-trip Contract v0.1 | `blocked_by_evidence` | — | IfcOpenShell execution and a real host are unavailable |
+| Benchmark Case Schema v0.1 | `deferred` | — | Milestone 2 integration suite |
+| Real Benchmark Data Contract v0.1 | `blocked_by_evidence` | — | No Tier B/C paired site-sketch data |
+
+### Standards and profiles
+
+| Research artifact | Status | Living target | Notes |
+|---|---|---|---|
+| DB11/T 1948-2021 subset | `research_only` | — | Beijing local standard excerpt; **not** a project default and not a national profile |
+| Profile Rule Contract v0.1 | **partially promoted** | `contracts/domain-contract-v0.1.yaml` | `normative_status` / `value_state` / failure policy concepts retained; full rule engine deferred |
+| Chinese road standard source map | `research_only` | — | Unverified standard status and missing full text |
+| Synthetic DXF Profile v0.3 | `research_only` | — | Synthetic fixture; not a design-office profile |
+
+### Benchmarks, E2E and evidence
+
+| Research artifact | Status | Living target | Notes |
+|---|---|---|---|
+| LOCAL-SKETCH-001 | `research_only` | — | Synthetic method calibration, not real accuracy |
+| LOCAL-BLDG-001/002 | `research_only` | — | Synthetic identity/refusal probes |
+| LOCAL-CAD-003/004 | `research_only` | — | Synthetic and DB11 subset probes |
+| LOCAL-ENV-001 | `research_only` | — | NOAA baseline; independent engine missing |
+| E2E-FIXTURE-001 v0.1–v0.3 | `deferred` | Milestone 2 | Port into `tests/e2e/` with fixtures and mutation cases |
+| DEV-CAD-001..008 | `deferred` | GitHub issues, Milestone 3 | Issues created; implementation explicitly postponed |
+| R0 acquisition batches (BATCH-001..005) | `research_only` | — | Unclosed evidence; gate claims remain blocked |
+
+### Code prototypes
+
+| Prototype | Status | Living target | Notes |
+|---|---|---|---|
+| Foundation v0.1/v0.2 | **promoted** | `src/dgcad_foundation/` + `tests/test_foundation_contracts.py` | 21 contract tests |
+| Stateful Runtime v0.1 | **promoted** | `src/dgcad_runtime/` + `tests/test_runtime_contracts.py` | 22 contract tests |
+| Deployment Boundary v0.1 | **promoted** | `src/dgcad_deployment/` + `tests/test_deployment_contracts.py` | 8 contract tests |
+| Deployment Lifecycle v0.2 | **promoted** | `src/dgcad_deployment/` + `tests/test_lifecycle_contracts.py` | 14 contract tests |
+| Duplicate prototype copies inside R0 archive | `superseded` | — | Historical only; canonical code is root `src/` |
+
+## Promotion rules
+
+1. A research artifact is promoted only when current code or current governance depends on it.
+2. A promoted artifact gets a living path under `contracts/` or `docs/` and a version distinct from its archive version.
+3. Promotion must not silently change semantics. If semantics change, the change is recorded in the living artifact and in `CHANGELOG.md`.
+4. Deferred artifacts keep their archive path and are not duplicated into the root tree.
+5. A promoted claim is still scope-limited. Promotion is not a capability promotion.
+6. If new evidence invalidates a promoted decision, add a new version and mark the old one `superseded`; never edit archived evidence.
+
+## Current living contracts
+
+```text
+contracts/
+├── canonical-site-ir-v0.4.yaml
+├── domain-contract-v0.1.yaml
+├── evidence-gate-register-v0.2.yaml
+├── runtime-state-contract-v0.1.yaml
+├── runtime-agent-surface-v0.1.yaml
+├── deployment-boundary-contract-v0.2.yaml
+├── sidecar-lifecycle-contract-v0.1.yaml
+├── local-auth-capability-contract-v0.1.yaml
+├── cad-bridge-contract-v0.1.yaml
+├── cad-bridge-lifecycle-contract-v0.2.yaml
+└── mcp-binding-v0.3.yaml
+```
+
+## Next promotion review
+
+Re-run this map before each milestone exit. The next expected promotions are:
+
+- Site Topology Contract → when multi-building shared-boundary/overlap validation starts.
+- CAD-IR + semantic equivalence → Milestone 3.
+- E2E fixtures → Milestone 2.
+- Environment dependency/result schemas → when an analysis slice starts and `EP-R1-ENV-001` has evidence.

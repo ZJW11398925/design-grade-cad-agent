@@ -1,0 +1,76 @@
+schema_id: design-grade-cad-agent.r1-evidence-gate-register.v0.2
+status: living_contract
+promoted_from: research/archive/r0-v0.19/working/architecture/r1-evidence-gate-register-v0.1.yaml
+change_summary: "Promotion to living gate register; package statuses remain planned."
+promotion_date: 2026-10-27
+verdict_enum:
+  - pass_for_scope
+  - conditional
+  - fail
+  - insufficient_evidence
+principles:
+  no_scope_leakage: true
+  raw_evidence_required: true
+  reproducibility_required: true
+  unknown_is_valid: true
+  numeric_thresholds_require_baseline_or_authoritative_source: true
+packages:
+  - package_id: EP-R1-SKETCH-001
+    stage: R1.1
+    gates: [R1-G04, R1-G07]
+    status: planned
+    blocks_claims:
+      - real_sketch_automatic_trace_reliability
+      - low_review_workload_claim
+  - package_id: EP-R1-ROAD-001
+    stage: R1.3
+    gates: [R1-G03, R1-G04]
+    status: planned
+    blocks_claims:
+      - engineering_road_alignment_generalization
+      - china_road_compliance
+  - package_id: EP-R1-IFC-001
+    stage: R1.6
+    gates: [R1-G01, R1-G08]
+    status: planned
+    blocks_claims:
+      - bim_roundtrip_validated
+  - package_id: EP-R1-ENV-001
+    stage: R1.5-R1.6
+    gates: [R1-G03, R1-G08]
+    status: planned
+    blocks_claims:
+      - production_shadow_accuracy
+      - daylight_compliance
+  - package_id: EP-R1-PROFILE-001
+    stage: R1.4-R1.6
+    gates: [R1-G05, R1-G08]
+    status: planned
+    blocks_claims:
+      - real_design_office_delivery_profile_support
+      - broad_cad_compliance
+foundation_gates:
+  R1-G01:
+    title: Identity
+    requirement: stable object identity across canonical and derived/external representations
+  R1-G02:
+    title: Authority
+    requirement: proposal-confirm-lock boundaries survive adversarial tests
+  R1-G03:
+    title: Dependency
+    requirement: upstream changes stale only affected downstream artifacts and support local rebuild
+  R1-G04:
+    title: Geometry
+    requirement: representative topology and geometry failure cases fail closed
+  R1-G05:
+    title: Delivery
+    requirement: third-party semantic round-trip plus real profile subset
+  R1-G06:
+    title: Preview
+    requirement: proposal previews cannot mutate canonical current state
+  R1-G07:
+    title: Real Case
+    requirement: at least one non-pure-synthetic site sketch traverses the main vertical slice
+  R1-G08:
+    title: Architecture Spikes
+    requirement: IFC, independent environment engine, and real project profile have bounded successful spikes
