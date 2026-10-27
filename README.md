@@ -4,7 +4,7 @@
 
 **A traceable research-and-development workspace for turning hand-drawn site sketches into professional, verifiable site models and editable CAD/BIM output.**
 
-> **Status: research prototype (v0.2.0).** This is not production CAD software, not a compliance certification, and not a validated AutoCAD/FreeCAD integration. Claims are scoped to the tests and evidence recorded in this repository.
+> **Status: research prototype (v0.3.0).** This is not production CAD software, not a compliance certification, and not a validated AutoCAD/FreeCAD integration. Claims are scoped to the tests and evidence recorded in this repository.
 
 ---
 
@@ -65,10 +65,11 @@ The provisional architecture defines 11 modules (M01 Source & Calibration throug
 | Deployment boundary | implemented, 8 tests | SQLite/WAL spike, content-addressed artifact store, CLI/service parity |
 | Local sidecar lifecycle | implemented, 14 tests | token-free discovery, role-bound pairing, sessions, loopback HTTP, project lease, CAD bridge registry, child-process probe |
 | Domain slice 001 | implemented, 26 tests | confirmed trace → Building/Road canonical objects; proposal/preview/commit; T-junction atomic change set; stale massing/surface; structured validators |
+| E2E-001 living pipeline | implemented, 8 tests + 9 CAD tests | Domain → massing → shadow → CAD-IR → DXF → readback, using living packages only; known DEV-CAD gaps recorded as xfail |
 | R0 research | archived | 5 acquisition batches, synthetic benchmarks, adversarial reviews, architecture challenge |
 | Real-world evidence | **not yet obtained** | real site sketches, real design-office profile, IFC round-trip, independent solar engine, AutoCAD/FreeCAD host exchange, MCP wire conformance |
 
-**Verified test baseline: 91/91 passing** (`python -m pytest -q`): 65 governance/lifecycle contracts + 26 domain contracts.
+**Verified test baseline: 113 passed + 2 expected xfails (115 collected)** (`python -m pytest -q`).
 
 ### Explicit non-claims
 
@@ -77,6 +78,7 @@ The provisional architecture defines 11 modules (M01 Source & Calibration throug
 - No production database decision: SQLite/WAL is a local-sidecar candidate only.
 - No production security approval: session authority is in-memory; Windows ACL/DPAPI, installer trust and same-user malware resistance are out of scope.
 - No Chinese road/building daylight compliance claim: standard clauses were not fully obtained and no numeric design defaults were frozen.
+- No third-party CAD round-trip in E2E-001: DXF is validated only by the living readback path; `DEV-CAD-003` bulge/constant-width gaps are strict xfails.
 
 ## 4. Repository layout
 
@@ -86,10 +88,13 @@ The provisional architecture defines 11 modules (M01 Source & Calibration throug
 │   ├── dgcad_foundation/      Canonical IR, authority, dependency, audit, gateway
 │   ├── dgcad_runtime/         Stateful runtime, proposals, jobs, idempotency, human control plane
 │   ├── dgcad_deployment/      SQLite/artifact spike, lifecycle, discovery, pairing, local HTTP
-│   └── dgcad_domain/          Confirmed trace → Building/Road adapters and validators
-├── tests/                     Executable contract suites (91 tests)
-├── contracts/                 Machine-readable IR, domain, lifecycle/auth/MCP/CAD bridge contracts
-├── fixtures/                  Typed synthetic fixtures (scene, authority, dependency, domain)
+│   ├── dgcad_domain/          Confirmed trace → Building/Road adapters and validators
+│   ├── dgcad_analysis/        Synthetic solar/shadow baseline with dependency fingerprint
+│   ├── dgcad_cad/             CAD-IR, DXF compiler, readback validator
+│   └── dgcad_e2e/             Living end-to-end pipeline orchestration
+├── tests/                     Executable contract suites (115 collected)
+├── contracts/                 Machine-readable IR, domain, E2E, lifecycle/auth/MCP/CAD bridge contracts
+├── fixtures/                  Typed synthetic fixtures (scene, authority, dependency, domain, E2E)
 ├── spikes/                    Executed process probe and MCP install-attempt evidence
 ├── docs/
 │   ├── architecture/          Provisional architecture and module boundaries
@@ -129,7 +134,7 @@ python -m pytest -q
 Expected:
 
 ```text
-91 passed
+113 passed, 2 xfailed
 ```
 
 With coverage:
@@ -147,7 +152,10 @@ python -m pytest -q --cov --cov-report=term-missing
 | Deployment | `tests/test_deployment_contracts.py` | 8 | SQLite WAL/CAS, artifact dedup/tamper, service parity, MCP-unverified marking |
 | Lifecycle | `tests/test_lifecycle_contracts.py` | 14 | discovery, pairing, roles, sessions, loopback security, lease, bridge expiry |
 | Domain | `tests/test_domain_contracts.py` | 26 | confirmed trace, building footprint/height, road class/profile, T-junction, stale, runtime integration |
-| **Total** | | **91** | |
+| Analysis | `tests/test_analysis_contracts.py` | 7 | solar position, confirmed/unknown blockers, context completeness, dependency fingerprint |
+| CAD delivery | `tests/test_cad_delivery_contracts.py` | 9 (2 xfail) | CAD-IR mapping, DXF compile/readback, mutation detection, known DEV-CAD-003 gaps |
+| E2E | `tests/e2e/test_living_pipeline.py` | 8 | full living pipeline, evidence files, declared unknowns, living-package-only check |
+| **Total** | | **115 (113 passed + 2 xfail)** | |
 
 Read [docs/development/testing.md](docs/development/testing.md) for what these tests prove, what they do **not** prove, and how new test layers are added.
 
@@ -164,6 +172,8 @@ Read [docs/development/testing.md](docs/development/testing.md) for what these t
 | `contracts/cad-bridge-lifecycle-contract-v0.2.yaml` | Bridge registration, heartbeat, expiry; host execution blockers |
 | `contracts/canonical-site-ir-v0.4.yaml` | Living Canonical Site IR promoted from R0 v0.3 |
 | `contracts/domain-contract-v0.1.yaml` | Living Building/Road domain contract for domain slice 001 |
+| `contracts/cad-ir-v0.1.yaml` | Minimal living CAD-IR for the E2E delivery slice |
+| `contracts/e2e-pipeline-v0.1.yaml` | Living E2E-001 stage and invariant contract |
 | `contracts/evidence-gate-register-v0.2.yaml` | Living R1 evidence gate register; packages remain planned |
 | `contracts/mcp-binding-v0.3.yaml` | MCP binding candidate; wire-level status remains unexecuted |
 
@@ -171,7 +181,7 @@ The promotion status of every research artifact is tracked in [docs/research-to-
 
 ## 8. Next milestone
 
-**Milestone 2 — E2E integration suite.** Domain slice 001 is implemented: confirmed trace → Building/Road canonical objects, proposal/preview/commit, T-junction atomic change sets, stale artifacts and structured validators. The next step is to port the R0 synthetic pipeline into `tests/e2e/` so fixture → analysis → CAD-IR → DXF → readback runs in CI. Real AutoCAD bridge work remains a separate Windows/AutoCAD gate.
+**Milestone 2 — E2E-002 dependency and mutation.** E2E-001 is implemented: DOMAIN-SLICE-001 → canonical objects → massing → synthetic shadow → CAD-IR → DXF → readback, all through living packages and CI. The next step is to mutate building height, road geometry, and north bearing, then prove only the correct artifacts become stale and rebuild into a new DXF/manifest. E2E-003 will port the adversarial delivery regressions.
 
 See [docs/roadmap.md](docs/roadmap.md) for the milestone plan and exit criteria.
 
@@ -202,8 +212,8 @@ Apache-2.0. See [LICENSE](LICENSE).
 
 **Design-Grade CAD Agent（DGCAD）** 是一个以研究为先导的开源工作区，目标是建立一条可追溯的 **草图 → 专业场地模型 → CAD/BIM** 转换链。
 
-当前仓库整合了 R0 v0.19 研究证据、R1 部署生命周期原型与第一个领域切片：根目录 `src/`、`tests/` 是可执行的正式代码，`research/archive/` 保存历史研究快照。当前 91 个契约测试全部通过（Foundation 21、Runtime 22、Deployment 8、Lifecycle 14、Domain 26）。
+当前仓库整合了 R0 v0.19 研究证据、R1 部署生命周期原型、Domain Slice 001 与 E2E-001 纵向链路：根目录 `src/`、`tests/` 是可执行的正式代码，`research/archive/` 保存历史研究快照。当前 115 个测试中 113 通过、2 个为带 issue 引用的预期 xfail。
 
 项目坚持四条底线：原始 Source/Trace 不可覆盖；Agent 只能提议、不能写入 confirmed 设计真值；DXF/IFC 只是派生表示；未知状态必须显式保留。真实草图、真实设计院 Profile、IFC round-trip、独立日照引擎与真实 AutoCAD/FreeCAD 宿主接入仍是明确的证据缺口，仓库不会把合成测试包装成生产能力。
 
-Domain Slice 001 已打通：人工确认 Trace → Building/Road 规范对象 → Proposal/Preview/Human Approval/Commit → stale artifact → rebuild job，并覆盖 T 型路口原子变更与未知高度/未知道路等级的结构化阻断。下一步是 Milestone 2：把合成 E2E 管线迁入 CI，再进入 DXF validator 硬化。
+E2E-001 已打通：DOMAIN-SLICE-001 → Runtime canonical → massing → 合成 shadow → CAD-IR → DXF → readback manifest，全部通过 living packages，不调用 archive 脚本。已知 DEV-CAD-003 bulge/width 缺口以 xfail 记录。下一步是 E2E-002：修改高度/道路几何/北向，验证 stale 只传播到正确 artifact 并重建。

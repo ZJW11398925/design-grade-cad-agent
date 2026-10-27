@@ -158,9 +158,36 @@ Implemented behavior:
 - T-junction node moves are atomic across node, edges and corridors;
 - external geometry enters only through a reconcile proposal.
 
-Not implemented: real sketch extraction, professional alignment/junction geometry, standard profiles, road surface geometry, DXF/IFC, analysis, UI.
+Not implemented within the domain slice: real sketch extraction, professional alignment/junction geometry, standard profiles and road surface geometry.
 
-## 10. Open architecture questions
+## 10. Implemented E2E-001 living pipeline (v0.3.0)
+
+`src/dgcad_e2e/` connects the domain slice to delivery using only living packages:
+
+```text
+DOMAIN-SLICE-001-r2
+  -> StatefulRuntime commits (human approval grants)
+  -> massing artifacts + dependency stale
+  -> synthetic shadow baseline (dgcad_analysis)
+  -> CAD-IR (dgcad_cad)
+  -> DXF R2010 + XDATA
+  -> readback validator + manifest
+  -> domain / CAD-IR / DXF validation
+```
+
+Implemented behavior:
+
+- 5 commits (B-001, B-002, B-003, R-001, R-002); canonical revision 6.
+- massing for confirmed heights; unknown height blocked with a structured code.
+- rebuild jobs queued in dependency-safe order for stale massing and road surface.
+- 4 shadow samples: 2 sunlit, 1 confirmed shaded, 1 unknown-height.
+- 11 CAD-IR objects / 15 DXF entities; audit 0 errors, 0 fixes; readback `pass`.
+- DXF identity/revision/hash/role survive through XDATA.
+- No import or invocation of archived R0 scripts.
+
+Still not implemented: third-party CAD round-trip, IFC, real sketch input, real road engineering, standards profile, independent shadow engine and UI. Known `DEV-CAD-003` gaps are strict xfails.
+
+## 11. Open architecture questions
 
 - Final road alignment algorithm and Chinese profile source.
 - Shapely vs CGAL boundary.

@@ -11,6 +11,9 @@ python -m pytest -q
 | `test_deployment_contracts.py` | 8 | SQLite WAL/CAS, artifact dedup/tamper/reopen, service parity, MCP-unverified marking |
 | `test_lifecycle_contracts.py` | 14 | Discovery, pairing, sessions, roles, loopback HTTP security, lease, CAD bridge registration/expiry |
 | `test_domain_contracts.py` | 26 | Confirmed trace, building footprint/height, road class/profile, T-junction atomic change set, stale artifacts, validators, runtime integration |
+| `test_analysis_contracts.py` | 7 | Solar position, confirmed/unknown blockers, context completeness, dependency fingerprint |
+| `test_cad_delivery_contracts.py` | 9 (2 xfail) | CAD-IR mapping, DXF compile/readback, mutation detection, known DEV-CAD-003 gaps |
+| `e2e/test_living_pipeline.py` | 8 | Full living pipeline, evidence files, declared unknowns, living-package-only check |
 
 ## Rules
 

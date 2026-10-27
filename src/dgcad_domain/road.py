@@ -216,6 +216,7 @@ class RoadGraph:
 @dataclass(frozen=True)
 class RoadCorridorIntent:
     corridor_id: str
+    trace_refs: tuple[str, ...]
     edge_refs: tuple[str, ...]
     hierarchy: str | None
     hierarchy_state: str
@@ -225,6 +226,8 @@ class RoadCorridorIntent:
     cross_section: CrossSectionProfile | None
 
     def __post_init__(self) -> None:
+        if not self.trace_refs:
+            raise ValueError(f"corridor {self.corridor_id} has no trace refs")
         if not self.edge_refs:
             raise ValueError(f"corridor {self.corridor_id} has no edges")
         if self.hierarchy_state not in CLASSIFICATION_STATES:
@@ -234,6 +237,7 @@ class RoadCorridorIntent:
     def from_dict(cls, data: dict[str, Any]) -> "RoadCorridorIntent":
         return cls(
             corridor_id=str(data["corridor_id"]),
+            trace_refs=tuple(str(item) for item in data.get("trace_refs", [])),
             edge_refs=tuple(str(item) for item in data.get("edge_refs", [])),
             hierarchy=data.get("hierarchy"),
             hierarchy_state=str(data.get("hierarchy_state", "unknown")),

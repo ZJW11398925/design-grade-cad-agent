@@ -20,7 +20,7 @@ The roadmap is organized so that every milestone has an executable exit criterio
 Input: human-confirmed Trace/Intent fixture. Output: canonical Building/Road objects, proposal → preview → dependency → validator flow.
 
 - [x] Define `dgcad_domain` package boundary and typed domain objects (Building, RoadCorridor).
-- [x] Define a minimal confirmed Trace/Intent fixture and its authority rules (`fixtures/domain/domain-slice-001.yaml`).
+- [x] Define a minimal confirmed Trace/Intent fixture and its authority rules (`fixtures/domain/domain-slice-001-r2.yaml`).
 - [x] Implement Building adapter: trace footprint → professional candidate → canonical proposal.
 - [x] Implement Road adapter: centerline + simple cross-section → canonical proposal.
 - [x] Register derived artifacts and stale propagation for both domains.
@@ -29,15 +29,35 @@ Input: human-confirmed Trace/Intent fixture. Output: canonical Building/Road obj
 
 **Exit:** one confirmed synthetic site can produce canonical building and road objects through the runtime, with preview isolation and correct staleness. Real sketch input remains blocked by `EP-R1-SKETCH-001`; real road engineering remains blocked by `EP-R1-ROAD-001`.
 
-## Milestone 2 — E2E integration suite (next)
+## Milestone 2a — E2E-001 living pipeline (complete)
 
-- [ ] Port the R0 synthetic E2E pipeline into `tests/e2e/` as pytest fixtures.
-- [ ] Cover: fixture → solar/shadow → CAD-IR → DXF → readback manifest.
-- [ ] Run the pipeline in CI on Ubuntu and Windows.
-- [ ] Freeze expected object IDs, entity counts, hashes and audit results.
-- [ ] Add mutation tests for: height revision, north bearing, non-zero Z, style override, unexpected layer, entity-type substitution.
+- [x] Build the pipeline only from living `src/` packages; archived R0 scripts are reference only.
+- [x] Cover: DOMAIN-SLICE-001 → Runtime canonical → massing → shadow → CAD-IR → DXF → readback manifest.
+- [x] Run the pipeline in CI on Ubuntu and Windows.
+- [x] Freeze expected object IDs (11), entity count (15), audit result (0/0) and dependency fingerprints.
+- [x] Add mutation tests for vertex mutation, unexpected layer and entity-type substitution.
+- [x] Record bulge/constant-width gaps as strict xfail referencing `DEV-CAD-003` / issue #3.
 
-**Exit:** E2E suite runs in CI with no external engine; known DXF defects either fixed or explicitly xfailed with issue links.
+**Exit:** E2E-001 runs in CI with no external engine and no archive imports. Evidence: `docs/e2e/living-pipeline-001.md`.
+
+## Milestone 2b — E2E-002 dependency and mutation (next)
+
+- [ ] Change `B-001` height and prove massing goes stale while footprint-dependent artifacts stay current.
+- [ ] Move `RN-003` and prove node/edges/corridors + surface/DXF handling.
+- [ ] Change north bearing and prove shadow + dependent delivery artifacts stale.
+- [ ] Rebuild only affected artifacts; produce a new DXF and manifest.
+- [ ] Compare old/new manifests by object ID and revision, not just file hash.
+
+**Exit:** mutation → scoped stale → rebuild → new delivery artifact is reproducible, with no global regeneration.
+
+## Milestone 2c — E2E-003 adversarial delivery regression
+
+- [ ] Port non-zero Z, style override, unexpected layer, entity-type substitution and symbol-table case tests into living CI.
+- [ ] Add MultiPolygon 2-part + 1-hole fixture.
+- [ ] Add bulge/constant-width/start-end-width mutation cases.
+- [ ] Keep each known gap linked to a `DEV-CAD` issue.
+
+**Exit:** every adversarial delivery case is either detected or explicitly xfailed with an issue link; no silent acceptance.
 
 ## Milestone 3 — CAD validator hardening
 

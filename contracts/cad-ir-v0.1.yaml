@@ -1,0 +1,117 @@
+schema_id: design-grade-cad-agent.cad-ir.v0.1
+status: living_contract
+scope: e2e_001_minimal
+promotion_date: 2026-10-27
+basis:
+  - research/archive/r0-v0.19/working/cad-bim-validator/cad-ir-contract-v0.1.yaml
+  - contracts/canonical-site-ir-v0.4.yaml
+  - contracts/domain-contract-v0.1.yaml
+change_summary: "Minimal living CAD-IR promoted for the E2E-001 delivery slice."
+implementation: src/dgcad_cad
+
+principles:
+  cad_ir_is_not_a_cad_file: true
+  canonical_site_model_is_upstream_truth: true
+  object_identity_survives_export: true
+  unknown_values_must_not_be_promoted: true
+  delivery_artifacts_are_derived: true
+
+project:
+  required:
+    - project_id
+    - units
+    - coordinate_frame_ref
+    - coordinate_state
+    - profile_ref
+    - profile_version
+  units_enum: [metre, millimetre]
+  coordinate_state_enum:
+    - image_space
+    - local_metric_scaled
+    - project_aligned
+    - georeferenced
+  profile_ref: synthetic_or_project_profile_id
+  profile_version: required
+
+object:
+  required:
+    - object_id
+    - object_class
+    - geometry
+    - geometry_revision
+    - layer_key
+    - representation_kind
+    - source_world
+    - provenance
+  object_class_enum:
+    - site_boundary
+    - green_space
+    - building_footprint
+    - road_centerline
+    - environment_sensor
+    - annotation
+  representation_kind_enum:
+    - polygon_ring
+    - centerline
+    - point_marker
+  geometry_format: geojson
+  source_world_enum: [canonical_current, proposal_preview, external, analysis]
+  provenance:
+    required: [source_trace_ref, canonical_object_id, canonical_revisions]
+    canonical_revisions:
+      required: [semantic, geometry, parameter]
+    dependency_refs: []
+  massing:
+    required_if_object_class: building_footprint
+    fields: [height_m, height_state, base_elevation_m, height_source]
+    invariant: "unknown height is exported as metadata, never as a numeric default"
+
+validation:
+  verdict_enum: [pass, pass_with_scope_limits, fail, blocked]
+  issue_required: [code, severity, object_id, message]
+  severity_enum: [error, warning, blocked]
+  codes:
+    DUPLICATE_OBJECT_ID: error
+    INVALID_GEOMETRY: error
+    UNKNOWN_LAYER: error
+    MISSING_PROFESSIONAL_FOOTPRINT: warning
+    UNKNOWN_HEIGHT_ALLOWED: warning
+    ROAD_CENTERLINE_MISSING: blocked
+    DEPENDENCY_FINGERPRINT_MISSING: error
+    PROVENANCE_INCOMPLETE: error
+  coverage_limits:
+    - "synthetic E2E fixture only"
+    - "no standards or design-office profile compliance"
+    - "no IFC"
+    - "no third-party CAD round-trip in E2E-001"
+
+dxf_export:
+  required: [version, units, profile_ref, layers]
+  version_enum: [R2010]
+  units_policy: "INSUNITS=6 for metre"
+  xdata_appid: DESIGN_GRADE
+  xdata_fields:
+    - object_id
+    - object_class
+    - geometry_revision
+    - source_hash
+    - rep_hash
+    - entity_role
+    - part_index
+    - ring_index
+    - ring_role
+  invariants:
+    - "every modelspace entity carries the XDATA field set"
+    - "every polygon ring is a separate closed LWPOLYLINE with outer/hole role"
+    - "centerlines are open LWPOLYLINE entities"
+    - "point markers are CIRCLE + TEXT"
+    - "Z=0 plan output in E2E-001"
+  known_deferred:
+    - DEV-CAD-001
+    - DEV-CAD-002
+    - DEV-CAD-003
+    - DEV-CAD-004
+    - DEV-CAD-005
+    - DEV-CAD-006
+    - DEV-CAD-007
+    - DEV-CAD-008

@@ -51,7 +51,7 @@ FIXTURE = (
     Path(__file__).resolve().parents[1]
     / "fixtures"
     / "domain"
-    / "domain-slice-001.yaml"
+    / "domain-slice-001-r2.yaml"
 )
 AGENT = ActorContext("agent-1")
 HUMAN = ActorContext("designer-1", is_human=True, can_unlock=True)

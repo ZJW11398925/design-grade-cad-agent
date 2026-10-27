@@ -1,0 +1,64 @@
+schema_id: dgcad.e2e.fixture.living-pipeline.v0.1
+fixture_id: E2E-LIVING-001
+domain_fixture: ../domain/domain-slice-001-r2.yaml
+synthetic_only: true
+
+analysis:
+  latitude_deg: -33.87
+  longitude_deg: 151.22
+  local_datetime: "2025-11-15T11:00:00+10:00"
+  project_y_axis_true_north_bearing_deg: 0.0
+  sensor_height_m: 1.5
+  context_complete: true
+  sample_points:
+    - sample_id: SAMPLE-01
+      x: 35.0
+      y: 5.0
+      expected_status: confirmed_sunlit_given_declared_context
+    - sample_id: SAMPLE-02
+      x: 11.5
+      y: 13.5
+      expected_status: confirmed_shaded
+    - sample_id: SAMPLE-03
+      x: 3.0
+      y: 14.0
+      expected_status: unknown_obstruction_height
+    - sample_id: SAMPLE-04
+      x: 1.0
+      y: 1.0
+      expected_status: confirmed_sunlit_given_declared_context
+
+delivery:
+  profile_id: SYNTHETIC-E2E-PROFILE-001
+  profile_version: 0.1.0
+  dxf_version: R2010
+  units: metre
+  coordinate_state: local_metric_scaled
+  coordinate_frame_ref: LOCAL-ENU-XY-ZUP
+  layers:
+    A-SITE-BOUNDARY:
+      color: 1
+      linetype: CONTINUOUS
+      lineweight: 50
+    A-BUILDING-OUTLINE:
+      color: 7
+      linetype: CONTINUOUS
+      lineweight: 35
+    C-ROAD-CENTER:
+      color: 3
+      linetype: CONTINUOUS
+      lineweight: 18
+    L-GREEN:
+      color: 94
+      linetype: CONTINUOUS
+      lineweight: 18
+    A-ENV-SENSOR:
+      color: 2
+      linetype: CONTINUOUS
+      lineweight: 18
+    ANNO-DIM:
+      color: 7
+      linetype: CONTINUOUS
+      lineweight: 18
+  entity_style_policy: BYLAYER
+  layer_set_policy: exact_allowlist
