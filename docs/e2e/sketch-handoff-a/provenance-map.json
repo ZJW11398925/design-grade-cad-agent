@@ -1,0 +1,220 @@
+{
+  "handoff_id": "CASE-SKETCH-001-HANDOFF-A",
+  "mapping": [
+    {
+      "source_id": "SK-BND-001",
+      "trace_id": "SK-BND-001",
+      "canonical_id": "SITE-001",
+      "semantic_role": "site_boundary",
+      "canonical_object_found": true,
+      "canonical_class": "site_boundary",
+      "cad_ir_object_found": true,
+      "source_trace_ref_in_cad_ir": "SK-BND-001",
+      "edge_exported_as_corridor": null,
+      "readback_entity_count": 1,
+      "xdata_object_ids": [
+        "SITE-001"
+      ]
+    },
+    {
+      "source_id": "SK-BLD-0007",
+      "trace_id": "SK-BLD-0007",
+      "canonical_id": "B-SKETCH-0007",
+      "semantic_role": "building",
+      "canonical_object_found": true,
+      "canonical_class": "building",
+      "cad_ir_object_found": true,
+      "source_trace_ref_in_cad_ir": "SK-BLD-0007",
+      "edge_exported_as_corridor": null,
+      "readback_entity_count": 1,
+      "xdata_object_ids": [
+        "B-SKETCH-0007"
+      ]
+    },
+    {
+      "source_id": "SK-BLD-MRG-0001",
+      "trace_id": "SK-BLD-MRG-0001",
+      "canonical_id": "B-SKETCH-MRG-0001",
+      "semantic_role": "building",
+      "canonical_object_found": true,
+      "canonical_class": "building",
+      "cad_ir_object_found": true,
+      "source_trace_ref_in_cad_ir": "SK-BLD-MRG-0001",
+      "edge_exported_as_corridor": null,
+      "readback_entity_count": 5,
+      "xdata_object_ids": [
+        "B-SKETCH-MRG-0001"
+      ]
+    },
+    {
+      "source_id": "SK-GRN-0001",
+      "trace_id": "SK-GRN-0001",
+      "canonical_id": "G-001",
+      "semantic_role": "green",
+      "canonical_object_found": true,
+      "canonical_class": "green_space",
+      "cad_ir_object_found": true,
+      "source_trace_ref_in_cad_ir": "SK-GRN-0001",
+      "edge_exported_as_corridor": null,
+      "readback_entity_count": 1,
+      "xdata_object_ids": [
+        "G-001"
+      ]
+    },
+    {
+      "source_id": "SK-RDC-U-0008",
+      "trace_id": "TRACE-SK-RDC-U-0008",
+      "canonical_id": "SK-RDC-U-0008",
+      "semantic_role": "road",
+      "canonical_object_found": true,
+      "canonical_class": "road_edge",
+      "cad_ir_object_found": false,
+      "source_trace_ref_in_cad_ir": null,
+      "edge_exported_as_corridor": "R-SK-MAIN-001",
+      "readback_entity_count": 2,
+      "xdata_object_ids": [
+        "R-SK-MAIN-001"
+      ]
+    },
+    {
+      "source_id": "SK-RDC-U-0010",
+      "trace_id": "TRACE-SK-RDC-U-0010",
+      "canonical_id": "SK-RDC-U-0010",
+      "semantic_role": "road",
+      "canonical_object_found": true,
+      "canonical_class": "road_edge",
+      "cad_ir_object_found": false,
+      "source_trace_ref_in_cad_ir": null,
+      "edge_exported_as_corridor": "R-SK-MAIN-001",
+      "readback_entity_count": 2,
+      "xdata_object_ids": [
+        "R-SK-MAIN-001"
+      ]
+    },
+    {
+      "source_id": "SK-RDC-U-0017",
+      "trace_id": "TRACE-SK-RDC-U-0017",
+      "canonical_id": "SK-RDC-U-0017",
+      "semantic_role": "road",
+      "canonical_object_found": true,
+      "canonical_class": "road_edge",
+      "cad_ir_object_found": false,
+      "source_trace_ref_in_cad_ir": null,
+      "edge_exported_as_corridor": "R-SK-BRANCH-001",
+      "readback_entity_count": 1,
+      "xdata_object_ids": [
+        "R-SK-BRANCH-001"
+      ]
+    }
+  ],
+  "selected_objects": [
+    {
+      "source_id": "SK-BND-001",
+      "trace_id": "SK-BND-001",
+      "canonical_id": "SITE-001",
+      "semantic_role": "site_boundary"
+    },
+    {
+      "source_id": "SK-BLD-0007",
+      "trace_id": "SK-BLD-0007",
+      "canonical_id": "B-SKETCH-0007",
+      "semantic_role": "building"
+    },
+    {
+      "source_id": "SK-BLD-MRG-0001",
+      "trace_id": "SK-BLD-MRG-0001",
+      "canonical_id": "B-SKETCH-MRG-0001",
+      "semantic_role": "building"
+    },
+    {
+      "source_id": "SK-GRN-0001",
+      "trace_id": "SK-GRN-0001",
+      "canonical_id": "G-001",
+      "semantic_role": "green"
+    },
+    {
+      "source_id": "SK-RDC-U-0008",
+      "trace_id": "TRACE-SK-RDC-U-0008",
+      "canonical_id": "SK-RDC-U-0008",
+      "semantic_role": "road"
+    },
+    {
+      "source_id": "SK-RDC-U-0010",
+      "trace_id": "TRACE-SK-RDC-U-0010",
+      "canonical_id": "SK-RDC-U-0010",
+      "semantic_role": "road"
+    },
+    {
+      "source_id": "SK-RDC-U-0017",
+      "trace_id": "TRACE-SK-RDC-U-0017",
+      "canonical_id": "SK-RDC-U-0017",
+      "semantic_role": "road"
+    }
+  ],
+  "corridors": [
+    {
+      "corridor_id": "R-SK-MAIN-001",
+      "trace_refs": [
+        "TRACE-SK-RDC-U-0008",
+        "TRACE-SK-RDC-U-0010"
+      ],
+      "edge_refs": [
+        "SK-RDC-U-0008",
+        "SK-RDC-U-0010"
+      ],
+      "source_edge_ids": [
+        "SK-RDC-U-0008",
+        "SK-RDC-U-0010"
+      ],
+      "canonical_object_found": true,
+      "canonical_centerline_state": "confirmed",
+      "cad_ir_object_found": true,
+      "source_trace_ref_in_cad_ir": "TRACE-SK-RDC-U-0008",
+      "readback_entity_count": 2
+    },
+    {
+      "corridor_id": "R-SK-BRANCH-001",
+      "trace_refs": [
+        "TRACE-SK-RDC-U-0017"
+      ],
+      "edge_refs": [
+        "SK-RDC-U-0017"
+      ],
+      "source_edge_ids": [
+        "SK-RDC-U-0017"
+      ],
+      "canonical_object_found": true,
+      "canonical_centerline_state": "confirmed",
+      "cad_ir_object_found": true,
+      "source_trace_ref_in_cad_ir": "TRACE-SK-RDC-U-0017",
+      "readback_entity_count": 1
+    }
+  ],
+  "road_nodes": [
+    {
+      "node_id": "SK-RDN-0209",
+      "canonical_object_found": true,
+      "exported_to_dxf": false,
+      "reason": "road graph node; exported through corridor edges"
+    },
+    {
+      "node_id": "SK-RDN-0126",
+      "canonical_object_found": true,
+      "exported_to_dxf": false,
+      "reason": "road graph node; exported through corridor edges"
+    },
+    {
+      "node_id": "SK-RDN-0067",
+      "canonical_object_found": true,
+      "exported_to_dxf": false,
+      "reason": "road graph node; exported through corridor edges"
+    },
+    {
+      "node_id": "SK-RDN-0125",
+      "canonical_object_found": true,
+      "exported_to_dxf": false,
+      "reason": "road graph node; exported through corridor edges"
+    }
+  ],
+  "handoff_audit_object": "HANDOFF-CASE-SKETCH-001-HANDOFF-A"
+}

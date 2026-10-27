@@ -4,7 +4,7 @@
 
 **A traceable research-and-development workspace for turning hand-drawn site sketches into professional, verifiable site models and editable CAD/BIM output.**
 
-> **Status: research prototype (v0.11.0).** This is not production CAD software, not a compliance certification, and not a validated AutoCAD/FreeCAD integration. Claims are scoped to the tests and evidence recorded in this repository.
+> **Status: research prototype (v0.12.0).** This is not production CAD software, not a compliance certification, and not a validated AutoCAD/FreeCAD integration. Claims are scoped to the tests and evidence recorded in this repository.
 
 ---
 
@@ -71,11 +71,12 @@ The provisional architecture defines 11 modules (M01 Source & Calibration throug
 | E2E-003b semantic/dependency | implemented, 11 tests | fingerprint consistency, symbol-table case, stable ring keys, raw/canonical manifest |
 | E2E-003c third-party CAD | **partial**, 2 evidence tests | AutoCAD 2024 Core Console round-trip: 15 entities/XDATA preserved, R2010→R2018 + linetype case; LibreCAD/FreeCAD/GUI not run |
 | EP-R1-SKETCH-001 intake | **in progress**, 11 evidence tests | [CASE-SKETCH-001](docs/e2e/sketch-001/README.md): designer sketch, 55 buildings (5 designer-confirmed merges), unit counts 16/21/17 + 1 facility, 11 floors provisional, public image-space trace and rough centerlines; private DWG/redline; no fidelity metrics or unit-type library yet |
+| Real sketch → canonical handoff | **pilot implemented**, 2 E2E tests | [CASE-SKETCH-001-HANDOFF-A](docs/e2e/sketch-handoff-a/README.md): selected site/building/merged/green/2 road corridors/T-junction → human-reviewed handoff → Canonical → CAD-IR → DXF readback (11/11); local metric approximate; unknowns preserved |
 | Road network topology | **connected_by_unified_road_mask**, 3 tests | 1 connected design network: 309 nodes / 333 edges / 121 junction candidates; colour is a class attribute; no width/profile/alignment |
 | R0 research | archived | 5 acquisition batches, synthetic benchmarks, adversarial reviews, architecture challenge |
 | Real-world evidence | **partially obtained** | one designer sketch intake (CASE-SKETCH-001); still missing a field-paired case, real design-office profile, IFC round-trip, independent solar engine, AutoCAD/FreeCAD host exchange, MCP wire conformance |
 
-**Verified test baseline: 168 passed (168 collected)** (`python -m pytest -q`).
+**Verified test baseline: 184 passed (184 collected)** (`python -m pytest -q`).
 
 ### Explicit non-claims
 
@@ -92,6 +93,8 @@ The provisional architecture defines 11 modules (M01 Source & Calibration throug
 - The unit-type library is pending, so all building footprints are sketch-era placeholders. 11 floors is provisional; no floor height, massing, FAR or unit-mix is derived.
 - The sketch case publishes the sketch and image-space geometry only; the DWG/DXF, redline/project coordinates and metric scale remain private.
 - Road connectivity is derived from the unified brown+blue mask (5 px closing): 1 component, 309 nodes, 333 edges and 121 junction candidates. The separate-colour 9-component result and the eight nearest-node connectors are rejected; no width/profile/alignment is derived.
+- CASE-SKETCH-001-HANDOFF-A is a selected pilot subset: `confirmed_for_pilot` is not a full-case or survey-grade geometry confirmation, and `EP-R1-SKETCH-001` remains in progress.
+- The pilot DXF is local metric only; no DWG/redline/project coordinates are published, and unknown building height and road hierarchy remain unknown.
 
 ## 4. Repository layout
 
@@ -105,7 +108,7 @@ The provisional architecture defines 11 modules (M01 Source & Calibration throug
 │   ├── dgcad_analysis/        Synthetic solar/shadow baseline with dependency fingerprint
 │   ├── dgcad_cad/             CAD-IR, DXF compiler, readback validator
 │   └── dgcad_e2e/             Living end-to-end pipeline orchestration
-├── tests/                     Executable contract suites (168 collected)
+├── tests/                     Executable contract suites (184 collected)
 ├── contracts/                 Machine-readable IR, domain, E2E, lifecycle/auth/MCP/CAD bridge contracts
 ├── fixtures/                  Typed synthetic fixtures (scene, authority, dependency, domain, E2E)
 ├── spikes/                    Executed process probe and MCP install-attempt evidence
@@ -147,7 +150,7 @@ python -m pytest -q
 Expected:
 
 ```text
-168 passed
+184 passed
 ```
 
 With coverage:
@@ -174,7 +177,9 @@ python -m pytest -q --cov --cov-report=term-missing
 | Third-party evidence | `tests/e2e/test_e2e_003c_third_party.py` | 2 | AutoCAD 2024 Core Console round-trip evidence and scope integrity |
 | Sketch evidence | `tests/test_sketch_evidence.py` | 11 | image-space trace, sketch-only privacy, designer semantics, five building merges, unit inference/conflicts, 11-floor provisional state, rough centerlines, leak checks |
 | Road topology | `tests/test_road_topology.py` | 3 | unified-mask connectivity, 121 junction candidates, rejected nearest-node connectors, node/contract checks |
-| **Total** | | **168 (all passing)** | |
+| Sketch handoff gate | `tests/test_sketch_handoff.py` | 14 | human review gate, source/trace/canonical mapping, coordinate handoff, unknown height/road class, provenance and privacy |
+| Sketch handoff A | `tests/e2e/test_sketch_handoff_a.py` | 2 | real pilot subset → Canonical → CAD-IR → DXF readback, provenance, pilot-scope evidence |
+| **Total** | | **184 (all passing)** | |
 
 Read [docs/development/testing.md](docs/development/testing.md) for what these tests prove, what they do **not** prove, and how new test layers are added.
 
@@ -204,7 +209,7 @@ The promotion status of every research artifact is tracked in [docs/research-to-
 
 ## 8. Next milestone
 
-**Milestone 3c is partial; Milestone 4 has started.** AutoCAD 2024 Core Console round-trip evidence is captured and `DEV-CAD-001..005/007..011` are closed. LibreCAD/FreeCAD/GUI visual QA remain open under #6. The first Milestone 4 package, `EP-R1-SKETCH-001`, is in progress with CASE-SKETCH-001: a designer sketch is public, its image-space trace (55 buildings after five designer-confirmed merges), rough road centerlines and a unified-mask road topology (1 component; 309 nodes, 333 edges, 121 junction candidates) are available, unit counts are 16/21/17 plus one facility, floors are provisionally 11, and the DWG/redline reference remains private. Remaining: the unit-type library replacement, review of six length-vs-area unit-count conflicts, review of 121 junction candidates and the 5 px closing kernel, a human-confirmed trace and fidelity metrics, road width/profile/alignment, 支路/入户路 separation, then the other evidence packages. `EP-R1-ROAD-001` is in progress with the unified topology; junction review is pending.
+**Milestone 3c is partial; Milestone 4 is in progress.** AutoCAD 2024 Core Console round-trip evidence is captured and `DEV-CAD-001..005/007..011` are closed. LibreCAD/FreeCAD/GUI visual QA remain open under #6. `EP-R1-SKETCH-001` remains in progress with CASE-SKETCH-001, and **Milestone 4b** now proves `CASE-SKETCH-001-HANDOFF-A`: a selected real subset passes a human pilot-scope review, enters the existing Domain Slice, becomes Canonical, and reaches a readback DXF (11/11) with source/trace/canonical provenance. Unknown heights and road hierarchy remain explicit. Remaining: full-case review and fidelity metrics, the unit-type library, six unit-count conflicts, 121 junction review and the 5 px closing kernel, road width/profile/alignment, 支路/入户路 separation, then the other evidence packages. `EP-R1-ROAD-001` remains in progress with connectivity/junction review pending.
 
 See [docs/roadmap.md](docs/roadmap.md) for the milestone plan and exit criteria.
 

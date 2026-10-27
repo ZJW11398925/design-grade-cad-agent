@@ -250,9 +250,18 @@ source raster (public)
 - Calibration to a private reference is a reviewed, approximate homography; it is not survey-grade and does not make the sketch project-coordinate truth.
 - Road centerlines are skeleton-derived `proposed_rough` candidates. They are not professional alignment, width, cross-section, junction or surface design.
 - Road topology is derived from the unified brown+blue mask: 1 component, 309 nodes, 333 edges and 121 proposed junction candidates. Colour is a class attribute; the separate-colour 9-component result and the eight nearest-node connectors are rejected. No width/profile/alignment is derived.
-- No sketch object is written to canonical yet; the human-confirmed reference trace and fidelity metrics remain the gate.
+- A selected pilot subset has entered canonical through a pilot-scope human gate; full-case confirmation and fidelity metrics remain open.
 
-## 16. Open architecture questions
+## 16. CASE-SKETCH-001-HANDOFF-A (v0.12.0)
+
+- An explicit handoff contract maps selected source evidence → trace → canonical, with a human review record and a declared local metric transform.
+- Pilot subset: site boundary, one ordinary building, one merged building, one green, two main-road edges, one branch edge and one T-junction.
+- Pipeline: `ConfirmedTraceScene` → `build_initial_scene` → runtime proposal/approval/commit → Canonical → CAD-IR → DXF → readback.
+- The human gate is `pilot_subset`; `confirmed_for_pilot` is not full-case or survey-grade.
+- Unknown building height/base elevation and road hierarchy/cross-section remain unknown; massing and road profiles are blocked; no width is derived.
+- The handoff audit object and provenance map preserve source → trace → canonical → CAD-IR/readback links. `EP-R1-SKETCH-001` remains in progress.
+
+## 17. Open architecture questions
 
 - Final road alignment algorithm and Chinese profile source.
 - Shapely vs CGAL boundary.

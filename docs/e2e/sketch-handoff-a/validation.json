@@ -1,0 +1,1133 @@
+{
+  "cad_ir": {
+    "verdict": "pass_with_scope_limits",
+    "issues": [
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SKETCH-0007",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SKETCH-MRG-0001",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      }
+    ],
+    "coverage_limits": [
+      "current delivery profile and entity set only (LWPOLYLINE/CIRCLE/TEXT)",
+      "no standards or design-office profile compliance",
+      "no IFC",
+      "no third-party CAD round-trip in this pipeline",
+      "no arcs/splines; modelspace only"
+    ]
+  },
+  "dxf_readback": {
+    "verdict": "pass",
+    "issues": [],
+    "manifest": {
+      "file": "pilot.dxf",
+      "dxf_sha256": "489cf2f8e07c4279b2ba63846e19a6822f3414a061e9b4773e8296d846bf0319",
+      "dxf_version": "AC1024",
+      "insunits": 6,
+      "layer_names": [
+        "0",
+        "A-BUILDING-OUTLINE",
+        "A-ENV-SENSOR",
+        "A-SITE-BOUNDARY",
+        "ANNO-DIM",
+        "C-ROAD-CENTER",
+        "Defpoints",
+        "L-GREEN"
+      ],
+      "entity_count": 11,
+      "expected_entity_count": 11,
+      "object_ids": [
+        "B-SKETCH-0007",
+        "B-SKETCH-MRG-0001",
+        "G-001",
+        "R-SK-BRANCH-001",
+        "R-SK-MAIN-001",
+        "SITE-001"
+      ],
+      "entities": [
+        {
+          "object_id": "B-SKETCH-0007",
+          "object_class": "building_footprint",
+          "entity_role": "polygon_ring",
+          "part_index": 0,
+          "ring_index": 0,
+          "ring_role": "outer",
+          "ring_key": "0a75cca78543bff00be29d5438e3484273679762c1443337f20f415a53fdd7d7",
+          "dxftype": "LWPOLYLINE",
+          "layer": "A-BUILDING-OUTLINE",
+          "canonical_target": {
+            "coords": [
+              [
+                187.448728466,
+                413.863822806
+              ],
+              [
+                187.448728466,
+                401.968826907
+              ],
+              [
+                235.028712059,
+                401.968826907
+              ],
+              [
+                235.028712059,
+                413.863822806
+              ]
+            ],
+            "closed": true
+          },
+          "raw_dxf_semantics": {
+            "closed": true,
+            "elevation": 0.0,
+            "bulge": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "start_width": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "end_width": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "const_width": 0.0,
+            "thickness": 0.0,
+            "extrusion": [
+              0.0,
+              0.0,
+              1.0
+            ]
+          }
+        },
+        {
+          "object_id": "B-SKETCH-MRG-0001",
+          "object_class": "building_footprint",
+          "entity_role": "polygon_ring",
+          "part_index": 0,
+          "ring_index": 0,
+          "ring_role": "outer",
+          "ring_key": "b07317f444643b3b544d55cb14440ff75b3c8c705e4294e90c5fea0cc7bbded4",
+          "dxftype": "LWPOLYLINE",
+          "layer": "A-BUILDING-OUTLINE",
+          "canonical_target": {
+            "coords": [
+              [
+                38.966365874,
+                328.137817884
+              ],
+              [
+                38.966365874,
+                340.853158326
+              ],
+              [
+                17.227235439,
+                340.853158326
+              ],
+              [
+                17.227235439,
+                328.137817884
+              ]
+            ],
+            "closed": true
+          },
+          "raw_dxf_semantics": {
+            "closed": true,
+            "elevation": 0.0,
+            "bulge": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "start_width": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "end_width": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "const_width": 0.0,
+            "thickness": 0.0,
+            "extrusion": [
+              0.0,
+              0.0,
+              1.0
+            ]
+          }
+        },
+        {
+          "object_id": "B-SKETCH-MRG-0001",
+          "object_class": "building_footprint",
+          "entity_role": "polygon_ring",
+          "part_index": 1,
+          "ring_index": 1,
+          "ring_role": "outer",
+          "ring_key": "c3f4a0302859abbe1276a39a1ea9fafa0539dcfe2597fc55f6ceb72932266e12",
+          "dxftype": "LWPOLYLINE",
+          "layer": "A-BUILDING-OUTLINE",
+          "canonical_target": {
+            "coords": [
+              [
+                50.041017227,
+                329.778506973
+              ],
+              [
+                51.271534044,
+                327.727645611
+              ],
+              [
+                72.600492207,
+                328.137817884
+              ],
+              [
+                72.600492207,
+                340.853158326
+              ],
+              [
+                50.861361772,
+                340.853158326
+              ],
+              [
+                51.271534044,
+                330.598851518
+              ]
+            ],
+            "closed": true
+          },
+          "raw_dxf_semantics": {
+            "closed": true,
+            "elevation": 0.0,
+            "bulge": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "start_width": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "end_width": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "const_width": 0.0,
+            "thickness": 0.0,
+            "extrusion": [
+              0.0,
+              0.0,
+              1.0
+            ]
+          }
+        },
+        {
+          "object_id": "B-SKETCH-MRG-0001",
+          "object_class": "building_footprint",
+          "entity_role": "polygon_ring",
+          "part_index": 2,
+          "ring_index": 2,
+          "ring_role": "outer",
+          "ring_key": "be11d95a55bb4e8faf8003c4a835c359fc8092fe01fc5dcc09ef7acaad85e44f",
+          "dxftype": "LWPOLYLINE",
+          "layer": "A-BUILDING-OUTLINE",
+          "canonical_target": {
+            "coords": [
+              [
+                48.81050041,
+                327.727645611
+              ],
+              [
+                49.220672683,
+                338.802296965
+              ],
+              [
+                41.427399508,
+                338.802296965
+              ],
+              [
+                41.017227235,
+                327.727645611
+              ]
+            ],
+            "closed": true
+          },
+          "raw_dxf_semantics": {
+            "closed": true,
+            "elevation": 0.0,
+            "bulge": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "start_width": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "end_width": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "const_width": 0.0,
+            "thickness": 0.0,
+            "extrusion": [
+              0.0,
+              0.0,
+              1.0
+            ]
+          }
+        },
+        {
+          "object_id": "B-SKETCH-MRG-0001",
+          "object_class": "building_footprint",
+          "entity_role": "polygon_ring",
+          "part_index": 3,
+          "ring_index": 3,
+          "ring_role": "outer",
+          "ring_key": "e4da42415f0571cf831e80e10a874bdbb5633c1e3824e0ed608ed210426ea917",
+          "dxftype": "LWPOLYLINE",
+          "layer": "A-BUILDING-OUTLINE",
+          "canonical_target": {
+            "coords": [
+              [
+                39.786710418,
+                323.215750615
+              ],
+              [
+                40.607054963,
+                321.164889253
+              ],
+              [
+                42.247744053,
+                320.754716981
+              ],
+              [
+                50.041017227,
+                321.164889253
+              ],
+              [
+                50.4511895,
+                324.446267432
+              ],
+              [
+                48.81050041,
+                325.266611977
+              ],
+              [
+                51.681706317,
+                325.676784249
+              ],
+              [
+                51.681706317,
+                326.907301066
+              ],
+              [
+                38.146021329,
+                326.497128794
+              ],
+              [
+                38.146021329,
+                323.215750615
+              ]
+            ],
+            "closed": true
+          },
+          "raw_dxf_semantics": {
+            "closed": true,
+            "elevation": 0.0,
+            "bulge": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "start_width": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "end_width": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "const_width": 0.0,
+            "thickness": 0.0,
+            "extrusion": [
+              0.0,
+              0.0,
+              1.0
+            ]
+          }
+        },
+        {
+          "object_id": "B-SKETCH-MRG-0001",
+          "object_class": "building_footprint",
+          "entity_role": "polygon_ring",
+          "part_index": 4,
+          "ring_index": 4,
+          "ring_role": "outer",
+          "ring_key": "b01de25628189953ef7cbd1abe5bad531a59b3da2dd675e7ffece6f4e3ff0ead",
+          "dxftype": "LWPOLYLINE",
+          "layer": "A-BUILDING-OUTLINE",
+          "canonical_target": {
+            "coords": [
+              [
+                34.044298605,
+                309.269893355
+              ],
+              [
+                56.193601313,
+                309.680065628
+              ],
+              [
+                55.78342904,
+                317.06316653
+              ],
+              [
+                54.552912223,
+                317.883511075
+              ],
+              [
+                55.78342904,
+                318.293683347
+              ],
+              [
+                55.78342904,
+                319.934372436
+              ],
+              [
+                34.044298605,
+                320.344544709
+              ],
+              [
+                35.274815422,
+                316.652994258
+              ],
+              [
+                35.274815422,
+                310.910582445
+              ]
+            ],
+            "closed": true
+          },
+          "raw_dxf_semantics": {
+            "closed": true,
+            "elevation": 0.0,
+            "bulge": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "start_width": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "end_width": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "const_width": 0.0,
+            "thickness": 0.0,
+            "extrusion": [
+              0.0,
+              0.0,
+              1.0
+            ]
+          }
+        },
+        {
+          "object_id": "G-001",
+          "object_class": "green_space",
+          "entity_role": "polygon_ring",
+          "part_index": 0,
+          "ring_index": 0,
+          "ring_role": "outer",
+          "ring_key": "8247e4b78af4960a1080be1ceaee1ed0b06304b02dcb46ebb0e59a33123fb23d",
+          "dxftype": "LWPOLYLINE",
+          "layer": "L-GREEN",
+          "canonical_target": {
+            "coords": [
+              [
+                225.594749795,
+                365.053322395
+              ],
+              [
+                221.493027071,
+                367.51435603
+              ],
+              [
+                209.187858901,
+                368.334700574
+              ],
+              [
+                178.014766202,
+                365.87366694
+              ],
+              [
+                175.553732568,
+                360.5414274
+              ],
+              [
+                176.374077112,
+                336.751435603
+              ],
+              [
+                177.604593929,
+                332.649712879
+              ],
+              [
+                180.475799836,
+                329.778506973
+              ],
+              [
+                185.808039377,
+                328.547990156
+              ],
+              [
+                199.343724364,
+                331.00902379
+              ],
+              [
+                207.957342084,
+                334.700574241
+              ],
+              [
+                218.211648893,
+                341.673502871
+              ],
+              [
+                226.004922067,
+                351.107465135
+              ],
+              [
+                227.645611157,
+                355.209187859
+              ],
+              [
+                227.645611157,
+                360.5414274
+              ]
+            ],
+            "closed": true
+          },
+          "raw_dxf_semantics": {
+            "closed": true,
+            "elevation": 0.0,
+            "bulge": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "start_width": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "end_width": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "const_width": 0.0,
+            "thickness": 0.0,
+            "extrusion": [
+              0.0,
+              0.0,
+              1.0
+            ]
+          }
+        },
+        {
+          "object_id": "R-SK-BRANCH-001",
+          "object_class": "road_centerline",
+          "entity_role": "centerline",
+          "part_index": 0,
+          "ring_index": 0,
+          "ring_role": "none",
+          "ring_key": "",
+          "dxftype": "LWPOLYLINE",
+          "layer": "C-ROAD-CENTER",
+          "canonical_target": {
+            "coords": [
+              [
+                168.170631665,
+                375.307629204
+              ],
+              [
+                167.760459393,
+                324.03609516
+              ]
+            ],
+            "closed": false
+          },
+          "raw_dxf_semantics": {
+            "closed": false,
+            "elevation": 0.0,
+            "bulge": [
+              0.0,
+              0.0
+            ],
+            "start_width": [
+              0.0,
+              0.0
+            ],
+            "end_width": [
+              0.0,
+              0.0
+            ],
+            "const_width": 0.0,
+            "thickness": 0.0,
+            "extrusion": [
+              0.0,
+              0.0,
+              1.0
+            ]
+          }
+        },
+        {
+          "object_id": "R-SK-MAIN-001",
+          "object_class": "road_centerline",
+          "entity_role": "centerline",
+          "part_index": 0,
+          "ring_index": 0,
+          "ring_role": "none",
+          "ring_key": "",
+          "dxftype": "LWPOLYLINE",
+          "layer": "C-ROAD-CENTER",
+          "canonical_target": {
+            "coords": [
+              [
+                103.363412633,
+                374.48728466
+              ],
+              [
+                114.027891715,
+                377.358490566
+              ],
+              [
+                163.658736669,
+                377.358490566
+              ],
+              [
+                168.170631665,
+                375.717801477
+              ]
+            ],
+            "closed": false
+          },
+          "raw_dxf_semantics": {
+            "closed": false,
+            "elevation": 0.0,
+            "bulge": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "start_width": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "end_width": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "const_width": 0.0,
+            "thickness": 0.0,
+            "extrusion": [
+              0.0,
+              0.0,
+              1.0
+            ]
+          }
+        },
+        {
+          "object_id": "R-SK-MAIN-001",
+          "object_class": "road_centerline",
+          "entity_role": "centerline",
+          "part_index": 1,
+          "ring_index": 0,
+          "ring_role": "none",
+          "ring_key": "",
+          "dxftype": "LWPOLYLINE",
+          "layer": "C-ROAD-CENTER",
+          "canonical_target": {
+            "coords": [
+              [
+                239.950779327,
+                376.538146021
+              ],
+              [
+                185.808039377,
+                377.358490566
+              ],
+              [
+                168.580803938,
+                375.717801477
+              ]
+            ],
+            "closed": false
+          },
+          "raw_dxf_semantics": {
+            "closed": false,
+            "elevation": 0.0,
+            "bulge": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "start_width": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "end_width": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "const_width": 0.0,
+            "thickness": 0.0,
+            "extrusion": [
+              0.0,
+              0.0,
+              1.0
+            ]
+          }
+        },
+        {
+          "object_id": "SITE-001",
+          "object_class": "site_boundary",
+          "entity_role": "polygon_ring",
+          "part_index": 0,
+          "ring_index": 0,
+          "ring_role": "outer",
+          "ring_key": "20a0c678b12fb2368871a653e31cf1c64e979808d9c7dcf789228c7a36fd97d4",
+          "dxftype": "LWPOLYLINE",
+          "layer": "A-SITE-BOUNDARY",
+          "canonical_target": {
+            "coords": [
+              [
+                113.617719442,
+                630.024610336
+              ],
+              [
+                107.875307629,
+                616.488925349
+              ],
+              [
+                40.196882691,
+                494.667760459
+              ],
+              [
+                10.254306809,
+                433.552091879
+              ],
+              [
+                6.562756358,
+                430.2707137
+              ],
+              [
+                1.640689089,
+                429.860541427
+              ],
+              [
+                5.742411813,
+                425.348646432
+              ],
+              [
+                3.281378179,
+                372.026251025
+              ],
+              [
+                0.0,
+                191.550451189
+              ],
+              [
+                6.152584085,
+                116.899097621
+              ],
+              [
+                9.023789992,
+                16.817063167
+              ],
+              [
+                202.214930271,
+                13.535684988
+              ],
+              [
+                210.008203445,
+                9.023789992
+              ],
+              [
+                212.46923708,
+                0.0
+              ],
+              [
+                216.160787531,
+                0.0
+              ],
+              [
+                218.621821165,
+                9.023789992
+              ],
+              [
+                226.004922067,
+                13.125512715
+              ],
+              [
+                384.331419196,
+                10.254306809
+              ],
+              [
+                383.921246924,
+                73.831009024
+              ],
+              [
+                387.202625103,
+                107.465135357
+              ],
+              [
+                388.022969647,
+                372.84659557
+              ],
+              [
+                366.694011485,
+                417.555373257
+              ],
+              [
+                357.670221493,
+                442.57588187
+              ],
+              [
+                355.209187859,
+                458.982772765
+              ],
+              [
+                354.388843314,
+                517.637407711
+              ],
+              [
+                251.025430681,
+                518.867924528
+              ],
+              [
+                245.283018868,
+                526.251025431
+              ],
+              [
+                242.001640689,
+                536.50533224
+              ],
+              [
+                242.411812961,
+                541.427399508
+              ],
+              [
+                246.103363413,
+                545.939294504
+              ],
+              [
+                250.615258409,
+                547.169811321
+              ],
+              [
+                258.408531583,
+                542.657916325
+              ],
+              [
+                263.330598852,
+                551.681706317
+              ],
+              [
+                253.076292043,
+                551.681706317
+              ],
+              [
+                249.794913864,
+                547.990155865
+              ],
+              [
+                245.283018868,
+                546.759639048
+              ],
+              [
+                237.899917966,
+                550.861361772
+              ],
+              [
+                212.46923708,
+                630.024610336
+              ]
+            ],
+            "closed": true
+          },
+          "raw_dxf_semantics": {
+            "closed": true,
+            "elevation": 0.0,
+            "bulge": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "start_width": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "end_width": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "const_width": 0.0,
+            "thickness": 0.0,
+            "extrusion": [
+              0.0,
+              0.0,
+              1.0
+            ]
+          }
+        }
+      ],
+      "audit_errors": 0,
+      "audit_fixes": 0,
+      "cad_ir_dependency_fingerprint": "4718833ff344fcf8bc32da11f31d1b54f715062c30d3c4fa328b11215e64366f",
+      "profile_id": "SYNTHETIC-E2E-PROFILE-001",
+      "profile_version": "0.1.0"
+    },
+    "coverage_limits": [
+      "modelspace-only output",
+      "no third-party CAD round-trip",
+      "no IFC",
+      "full LWPOLYLINE semantics currently expect compiler defaults (zero bulge/width/thickness, +Z extrusion)"
+    ]
+  },
+  "verdicts": {
+    "cad_ir": "pass_with_scope_limits",
+    "dxf_readback": "pass"
+  }
+}

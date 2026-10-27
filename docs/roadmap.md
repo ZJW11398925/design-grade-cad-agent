@@ -63,7 +63,7 @@ Input: human-confirmed Trace/Intent fixture. Output: canonical Building/Road obj
 
 **Exit (at E2E-003 close):** every adversarial delivery case was either detected or explicitly xfailed with an issue link. All xfails were converted to positive checks in Milestone 3a. Evidence: `docs/e2e/adversarial-delivery-003.md`.
 
-## Milestone 3 — CAD validator hardening (3c partial; Milestone 4 next)
+## Milestone 3 — CAD validator hardening (3c partial; parallel evidence lane)
 
 Milestones 3a and 3b are complete. 3c adds the third-party CAD round-trip matrix. Scope explicitly includes `DEV-CAD-001..011`; #2 is closed, #6 remains.
 
@@ -110,10 +110,11 @@ After Milestone 3, prioritize the real sketch/trace and road evidence packages b
 | `EP-R1-IFC-001` | IFC identity round-trip |
 | `EP-R1-ENV-001` | independent shadow engine |
 | `EP-R1-PROFILE-001` | real project/design-office profile |
+| `CASE-SKETCH-001-HANDOFF-A` | **pilot complete**: selected real subset → human gate → Canonical → CAD-IR → DXF readback |
 
 Each package has its own decision question, raw evidence, metrics, failure policy and scope-leakage prohibition. No package is a checklist for production release.
 
-### EP-R1-SKETCH-001 — in progress (0.9.0)
+### EP-R1-SKETCH-001 — in progress (0.12.0)
 
 - [x] Intake a designer sketch with a private site reference; publish the sketch and image-space geometry only.
 - [x] Record designer-confirmed semantics: metre, red buildings, magenta garage entrances, brown main roads, blue branch/access roads, green cluster spaces, existing buildings removed, top crop road-only.
@@ -125,9 +126,10 @@ Each package has its own decision question, raw evidence, metrics, failure polic
 - [ ] Human-confirmed trace and fidelity metrics (Hausdorff/IoU/topology).
 - [ ] Review the six length-vs-area unit-count conflicts (`0009`, `0010`, `0011`, `0013`, `0015`, `0018`) and the kindergarten facility classification.
 - [ ] 支路 vs 入户路 separation.
-- [ ] Canonical Building/Road handoff from this sketch.
+- [x] Handoff pilot on a selected real subset (`CASE-SKETCH-001-HANDOFF-A`) reaches Canonical → CAD-IR → DXF readback.
+- [ ] Full-case Canonical Building/Road handoff; the pilot subset is not the full sketch.
 
-**Exit (not met):** a designer-confirmed semantic trace, a human-confirmed geometry reference, fidelity metrics within a declared scope, and a canonical handoff. Until then R1-G07 remains partial.
+**Exit (not met):** a designer-confirmed semantic trace, a human-confirmed **full-case** geometry reference, fidelity metrics within a declared scope, and a **full-case** canonical handoff. A selected pilot subset has reached canonical/DXF; R1-G07 remains partial.
 
 ### EP-R1-ROAD-001 — in progress (0.11.0)
 
@@ -141,6 +143,22 @@ Each package has its own decision question, raw evidence, metrics, failure polic
 
 **Exit (not met):** a reviewed unified-mask road graph with accepted junctions, explicit width/profile/alignment inputs where required, and a canonical handoff. Until then road topology remains `proposed_unified_mask`.
 
+### Milestone 4b — CASE-SKETCH-001-HANDOFF-A (pilot complete)
+
+- [x] Add an explicit `contracts/sketch-domain-handoff-v0.1.yaml` and `src/dgcad_domain/sketch_handoff.py`.
+- [x] Select a representative real subset: site boundary, one ordinary building, one merged building, one green, two main-road edges, one branch edge, one T-junction.
+- [x] Require a designer review record with `pilot_subset` scope; the Agent cannot confirm the handoff.
+- [x] Map image-space evidence to a declared local metric frame (2.438 px/m; no project coordinates).
+- [x] Run `ConfirmedTraceScene → build_initial_scene → runtime proposal/approval/commit → Canonical → CAD-IR → DXF → readback`.
+- [x] Preserve unknown height/base elevation, unknown road hierarchy/cross-section, no massing and no width.
+- [x] Prove provenance from source ID to trace ID to canonical ID to CAD-IR/readback.
+- [x] Add fail-closed tests for proposed geometry, missing/agent review, project-coordinate claims, broken provenance, unknown height and unknown road class.
+- [ ] Full-case human geometry review and fidelity metrics.
+- [ ] Unit-type library and professional building geometry.
+- [ ] 121 junction review and road width/profile/alignment.
+
+**Pilot exit (met):** a selected real subset passes the handoff gate and reaches a readback DXF with provenance, while unknowns remain explicit. This does **not** complete `EP-R1-SKETCH-001` or `R1-G07`.
+
 ## Milestone 5 — Production hardening (not started)
 
 - Durable store integration (SQLite or chosen alternative) into runtime save/load.
@@ -152,3 +170,5 @@ Each package has its own decision question, raw evidence, metrics, failure polic
 ## Ordering rule
 
 Do not start a later milestone merely because an earlier one has code. The exit criteria are the gate. Evidence packages block capability claims independently of code progress.
+
+Host-blocked evidence lanes (for example 3c LibreCAD/FreeCAD/GUI) may run in parallel and do not block Milestone 4. They still block capability claims in their own scope; `#6` remains open.

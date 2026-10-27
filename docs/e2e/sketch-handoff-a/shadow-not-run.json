@@ -1,0 +1,10 @@
+{
+  "analysis_id": "SHADOW-HANDOFF-A-NOT-RUN",
+  "status": "not_run",
+  "dependency_fingerprint": "543d5a65823b46c162b268f0c7a1952e1662f281e44b1fd05c49de9282581222",
+  "samples": 0,
+  "note": "environment analysis intentionally not run; no site location/time",
+  "non_claims": [
+    "no solar/daylight result is computed or claimed"
+  ]
+}

@@ -8,6 +8,7 @@ from .living_project import (
     ROAD_SURFACE_STATUS,
 )
 from .pipeline import PipelineResult, run_living_pipeline
+from .sketch_handoff_project import SketchHandoffProject
 
 __all__ = [
     "LivingProject",
@@ -16,5 +17,6 @@ __all__ = [
     "RebuildError",
     "RebuildOutput",
     "RebuildReport",
+    "SketchHandoffProject",
     "run_living_pipeline",
 ]

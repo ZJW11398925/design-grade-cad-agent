@@ -17,7 +17,7 @@ DXF_VERSION_MAP = {"R2010": "AC1024", "R2013": "AC1027", "R2018": "AC1032"}
 TOLERANCE = 1e-9
 SYSTEM_LAYERS = frozenset({"0", "Defpoints"})
 COVERAGE_LIMITS = (
-    "modelspace-only synthetic E2E output",
+    "modelspace-only output",
     "no third-party CAD round-trip",
     "no IFC",
     "full LWPOLYLINE semantics currently expect compiler defaults (zero bulge/width/thickness, +Z extrusion)",

@@ -36,6 +36,7 @@ trace_scene:
     - "human_confirmed_trace must be true for domain slice 001"
     - "synthetic_only must be declared explicitly"
     - "trace geometry is never overwritten by a professional proposal"
+    - "a real handoff (synthetic_only: false) must satisfy contracts/sketch-domain-handoff-v0.1.yaml"
   trace_object:
     required: [trace_id, semantic_role, geometry, review_state, locked]
     semantic_role_enum: [site_boundary, building, road, green, unknown]
