@@ -125,12 +125,12 @@ Still deferred: third-party CAD round-trip, IFC, real sketch input, standards pr
 
 ## E2E-003 implementation (0.5.0)
 
-Promoted and implemented with 19 scenarios (6 positive, 13 strict xfail):
+Promoted and implemented with 20 scenarios (7 positive, 13 strict xfail):
 
-- LWPOLYLINE elevation, MultiPolygon 2-part+hole, symbol-table case and missing XDATA handled;
+- LWPOLYLINE elevation, MultiPolygon 2-part+hole, one layer linetype case and missing XDATA handled;
 - CIRCLE/TEXT 3D, TEXT placement, entity style overrides and LWPOLYLINE full semantics remain xfail with issues #17/#18/#3;
 - structured `VALIDATOR_ERROR` remains xfail with #7;
-- issue categories and `delivery-comparison.json` make classification and comparison explicit;
+- issue categories and `delivery-comparison.json` make classification and comparison explicit, with DXF/manifest hashes verified against files;
 - same-library ezdxf only; third-party CAD remains out of scope (#6);
 - CAD-IR fingerprint/dependency-key consistency tracked as #16 / DEV-CAD-011.
 

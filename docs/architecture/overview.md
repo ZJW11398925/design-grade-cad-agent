@@ -210,8 +210,8 @@ Verified behavior:
 `tests/e2e/test_e2e_003_adversarial.py` and `contracts/e2e-adversarial-v0.1.yaml` add:
 
 - issue categories: `cad_format_semantics`, `interoperability`, `profile_violation`, `serialization_difference`, `validator_error`;
-- a `delivery-comparison.json` artifact combining object IDs, canonical revisions, CAD-IR fingerprint, readback verdict, audit and profile identity;
-- positive checks for LWPOLYLINE elevation, MultiPolygon 2-part+hole, symbol-table case and missing XDATA;
+- a `delivery-comparison.json` artifact combining object IDs, canonical revisions, CAD-IR fingerprint, readback verdict, audit, profile identity, `dxf_sha256` and `readback_manifest_sha256`;
+- positive checks for LWPOLYLINE elevation, MultiPolygon 2-part+hole, one layer linetype case and missing XDATA;
 - strict xfails for CIRCLE/TEXT 3D, text placement, entity style overrides, LWPOLYLINE full semantics and structured validator errors.
 
 Boundaries: same-library `ezdxf` only, modelspace only, no systematic DEV-CAD fix, no third-party CAD evidence, road surface still deferred. CAD-IR fingerprint/dependency-key consistency is tracked as #16 / DEV-CAD-011.

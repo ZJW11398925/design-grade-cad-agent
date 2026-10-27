@@ -4,7 +4,7 @@
 
 **A traceable research-and-development workspace for turning hand-drawn site sketches into professional, verifiable site models and editable CAD/BIM output.**
 
-> **Status: research prototype (v0.5.0).** This is not production CAD software, not a compliance certification, and not a validated AutoCAD/FreeCAD integration. Claims are scoped to the tests and evidence recorded in this repository.
+> **Status: research prototype (v0.5.1).** This is not production CAD software, not a compliance certification, and not a validated AutoCAD/FreeCAD integration. Claims are scoped to the tests and evidence recorded in this repository.
 
 ---
 
@@ -67,11 +67,11 @@ The provisional architecture defines 11 modules (M01 Source & Calibration throug
 | Domain slice 001 | implemented, 26 tests | confirmed trace → Building/Road canonical objects; proposal/preview/commit; T-junction atomic change set; stale massing/surface; structured validators |
 | E2E-001 living pipeline | implemented, 8 tests + 9 CAD tests | Domain → massing → shadow → CAD-IR → DXF → readback, using living packages only; known DEV-CAD gaps recorded as xfail |
 | E2E-002 mutation/rebuild | implemented, 6 tests | height change, T-junction move, north bearing, real rebuild worker, manifest comparison; road surface deferred |
-| E2E-003 adversarial delivery | implemented, 19 tests (6 pass, 13 strict xfail) | geometry, style, identity, serialization and validator-error gaps mapped to issues; same-library only |
+| E2E-003 adversarial delivery | implemented, 20 tests (7 pass, 13 strict xfail) | geometry, style, identity, serialization and validator-error gaps mapped to issues; same-library only |
 | R0 research | archived | 5 acquisition batches, synthetic benchmarks, adversarial reviews, architecture challenge |
 | Real-world evidence | **not yet obtained** | real site sketches, real design-office profile, IFC round-trip, independent solar engine, AutoCAD/FreeCAD host exchange, MCP wire conformance |
 
-**Verified test baseline: 125 passed + 15 expected xfails (140 collected)** (`python -m pytest -q`).
+**Verified test baseline: 126 passed + 15 expected xfails (141 collected)** (`python -m pytest -q`).
 
 ### Explicit non-claims
 
@@ -95,7 +95,7 @@ The provisional architecture defines 11 modules (M01 Source & Calibration throug
 │   ├── dgcad_analysis/        Synthetic solar/shadow baseline with dependency fingerprint
 │   ├── dgcad_cad/             CAD-IR, DXF compiler, readback validator
 │   └── dgcad_e2e/             Living end-to-end pipeline orchestration
-├── tests/                     Executable contract suites (140 collected)
+├── tests/                     Executable contract suites (141 collected)
 ├── contracts/                 Machine-readable IR, domain, E2E, lifecycle/auth/MCP/CAD bridge contracts
 ├── fixtures/                  Typed synthetic fixtures (scene, authority, dependency, domain, E2E)
 ├── spikes/                    Executed process probe and MCP install-attempt evidence
@@ -137,7 +137,7 @@ python -m pytest -q
 Expected:
 
 ```text
-125 passed, 15 xfailed
+126 passed, 15 xfailed
 ```
 
 With coverage:
@@ -159,8 +159,8 @@ python -m pytest -q --cov --cov-report=term-missing
 | CAD delivery | `tests/test_cad_delivery_contracts.py` | 9 (2 xfail) | CAD-IR mapping, DXF compile/readback, mutation detection, known DEV-CAD-003 gaps |
 | E2E-001 | `tests/e2e/test_living_pipeline.py` | 8 | full living pipeline, evidence files, declared unknowns, living-package-only check |
 | E2E-002 | `tests/e2e/test_e2e_002_mutations.py` | 6 | height change, node move, north bearing, rebuild worker, manifest comparison, road-surface deferral |
-| E2E-003 | `tests/e2e/test_e2e_003_adversarial.py` | 19 (13 xfail) | geometry, style, identity, serialization, validator-error gaps; strict xfails per issue |
-| **Total** | | **140 (125 passed + 15 xfail)** | |
+| E2E-003 | `tests/e2e/test_e2e_003_adversarial.py` | 20 (13 xfail) | geometry, style, identity, serialization, validator-error gaps; strict xfails per issue |
+| **Total** | | **141 (126 passed + 15 xfail)** | |
 
 Read [docs/development/testing.md](docs/development/testing.md) for what these tests prove, what they do **not** prove, and how new test layers are added.
 
@@ -219,8 +219,8 @@ Apache-2.0. See [LICENSE](LICENSE).
 
 **Design-Grade CAD Agent（DGCAD）** 是一个以研究为先导的开源工作区，目标是建立一条可追溯的 **草图 → 专业场地模型 → CAD/BIM** 转换链。
 
-当前仓库整合了 R0 v0.19 研究证据、R1 部署生命周期原型、Domain Slice 001、E2E-001 纵向链路、E2E-002 mutation/rebuild 与 E2E-003 对抗性交付回归：根目录 `src/`、`tests/` 是可执行的正式代码，`research/archive/` 保存历史研究快照。当前 140 个测试中 125 通过、15 个为带 issue 引用的严格预期失败。
+当前仓库整合了 R0 v0.19 研究证据、R1 部署生命周期原型、Domain Slice 001、E2E-001 纵向链路、E2E-002 mutation/rebuild 与 E2E-003 对抗性交付回归：根目录 `src/`、`tests/` 是可执行的正式代码，`research/archive/` 保存历史研究快照。当前 141 个测试中 126 通过、15 个为带 issue 引用的严格预期失败。
 
 项目坚持四条底线：原始 Source/Trace 不可覆盖；Agent 只能提议、不能写入 confirmed 设计真值；DXF/IFC 只是派生表示；未知状态必须显式保留。真实草图、真实设计院 Profile、IFC round-trip、独立日照引擎与真实 AutoCAD/FreeCAD 宿主接入仍是明确的证据缺口，仓库不会把合成测试包装成生产能力。
 
-E2E-001/002/003 已打通：DOMAIN-SLICE-001 → Runtime canonical → massing → 合成 shadow → CAD-IR → DXF → readback manifest，验证了高度/节点/北向的 scoped stale 与真实 rebuild，并把已知交付缺陷转成 6 个正向检查和 13 个带 issue 的严格 xfail。多部件带孔 MultiPolygon、符号表大小写和缺失 XDATA 已能正确处理；CIRCLE/TEXT 3D、样式覆盖、LWPOLYLINE 全语义和 validator_error 仍待 Milestone 3。道路面几何明确延期。下一步是 DEV-CAD-001..011 的系统性修复与第三方 CAD round-trip。
+E2E-001/002/003 已打通：DOMAIN-SLICE-001 → Runtime canonical → massing → 合成 shadow → CAD-IR → DXF → readback manifest，验证了高度/节点/北向的 scoped stale 与真实 rebuild，并把已知交付缺陷转成 6 个正向检查和 13 个带 issue 的严格 xfail。多部件带孔 MultiPolygon、一种线型引用大小写和缺失 XDATA 已能正确处理；CIRCLE/TEXT 3D、样式覆盖、LWPOLYLINE 全语义和 validator_error 仍待 Milestone 3。道路面几何明确延期。下一步是 DEV-CAD-001..011 的系统性修复与第三方 CAD round-trip。

@@ -100,6 +100,8 @@ dxf_export:
     - part_index
     - ring_index
     - ring_role
+  ring_index_semantics: "global within the CAD object: parts in order, then rings within each part"
+  ring_identity_stability: "not guaranteed across revisions; Milestone 3 decision"
   invariants:
     - "every modelspace entity carries the XDATA field set"
     - "every polygon ring is a separate closed LWPOLYLINE with outer/hole role"

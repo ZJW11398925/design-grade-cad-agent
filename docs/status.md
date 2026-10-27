@@ -1,21 +1,21 @@
 # Project Status
 
 Updated: 2026-10-27
-Version: `0.5.0` (domain slice + E2E-001/002/003)
+Version: `0.5.1` (domain slice + E2E-001/002/003)
 Research basis: R0 v0.19 + R1 deployment-entry v0.2
 
 ## 1. One-line status
 
-The project has a working **governance/runtime contract layer**, a **synthetic Building/Road domain slice**, and **living E2E-001/002 pipelines** from confirmed trace to DXF readback with scoped mutation/rebuild. It does **not** yet have real sketch input, real road engineering, third-party CAD interoperability, IFC, or real-world validated behavior.
+The project has a working **governance/runtime contract layer**, a **synthetic Building/Road domain slice**, and **living E2E-001/002/003 pipelines** from confirmed trace to DXF readback with scoped mutation/rebuild and adversarial delivery checks. It does **not** yet have real sketch input, real road engineering, third-party CAD interoperability, IFC, or real-world validated behavior.
 
 ## 2. Test baseline
 
 ```text
 python -m pytest -q
-125 passed, 15 xfailed
+126 passed, 15 xfailed
 ```
 
-140 tests collected: 125 passing, 15 strict xfails linked to issues.
+141 tests collected: 126 passing, 15 strict xfails linked to issues.
 
 | Suite | Tests | Status |
 |---|---|---|
@@ -28,7 +28,7 @@ python -m pytest -q
 | CAD delivery | 9 | 7 passing, 2 xfail |
 | E2E-001 | 8 | passing |
 | E2E-002 | 6 | passing |
-| E2E-003 | 19 | 6 passing, 13 strict xfail |
+| E2E-003 | 20 | 7 passing, 13 strict xfail |
 
 ## 3. Capability status
 
@@ -57,7 +57,7 @@ python -m pytest -q
 | Real design-office profile | **not validated** | synthetic and DB11 subset only |
 | IFC round-trip | **blocked** | IfcOpenShell unavailable |
 | Independent solar engine | **not validated** | synthetic NOAA baseline only |
-| Third-party CAD round-trip | **partial** | one AutoCAD 2022 core-engine user review; defects deferred to development |
+
 
 ## 4. Living contracts
 
@@ -92,7 +92,7 @@ Promotion status of all research artifacts: [research-to-product-map.md](researc
 
 ## 6. Known defects carried forward
 
-These were reproduced after the v0.3 synthetic hardening and are accepted as **development acceptance items**, not research tasks:
+These were reproduced after the v0.3 synthetic hardening and are accepted as **development acceptance items**, not research tasks. Unless stated otherwise, the list describes the archived v0.3 validator; the living E2E validator may already cover a subset:
 
 - `DEV-CAD-001` MultiPolygon expected-entity contract raises `KeyError`.
 - `DEV-CAD-002` entity-type mismatch raises unhandled `AttributeError`.
@@ -103,7 +103,7 @@ These were reproduced after the v0.3 synthetic hardening and are accepted as **d
 - `DEV-CAD-007` some validator failures are not structured issues.
 - `DEV-CAD-008` CAD serialization differences vs project profile rules are not fully separated.
 
-E2E-003 maps the remaining gaps: `DEV-CAD-003` bulge/width (#3), `DEV-CAD-007` structured validator_error (#7), `DEV-CAD-009` entity style overrides (#17), `DEV-CAD-010` CIRCLE/TEXT semantics (#18). The living validator already handles MultiPolygon 2-part+hole, symbol-table case and entity-type substitution; the archived v0.3 validator and the full matrix remain Milestone 3 work.
+E2E-003 maps the remaining gaps: `DEV-CAD-003` bulge/width (#3), `DEV-CAD-007` structured validator_error (#7), `DEV-CAD-009` entity style overrides (#17), `DEV-CAD-010` CIRCLE/TEXT semantics (#18). The living validator handles MultiPolygon 2-part+hole, one layer linetype case and safe entity-type substitution. Full symbol-table equivalence remains #5. The archived v0.3 validator and the full matrix remain Milestone 3 work.
 
 See `research/archive/r0-v0.19/working/cad-bim-validator/development-acceptance-contract-v0.1.md`.
 
@@ -183,11 +183,11 @@ Implemented in `tests/e2e/test_e2e_003_adversarial.py` and `contracts/e2e-advers
 Positive coverage:
 
 - LWPOLYLINE non-zero elevation → `NONZERO_Z`.
-- MultiPolygon 2 parts + 1 hole → 3 entities, audit 0/0, readback pass.
-- Symbol-table linetype case → semantic pass.
+- MultiPolygon 2 parts + 1 hole → 3 entities, audit 0/0, readback pass; `ring_index` is global within the object (part order, then ring order).
+- One layer linetype case (`Continuous`) → semantic pass; full symbol-table equivalence remains #5.
 - Missing XDATA → `MISSING_XDATA`, category `interoperability`.
-- `delivery-comparison.json` contains object IDs, canonical revisions, CAD-IR fingerprint, readback verdict, audit and profile identity.
-- Issue categories distinguish `profile_violation` from `cad_format_semantics`.
+- `delivery-comparison.json` contains object IDs, canonical revisions, CAD-IR fingerprint, readback verdict, audit, profile identity, `dxf_sha256` and `readback_manifest_sha256`; both hashes are verified against the actual files.
+- Issue categories distinguish `profile_violation` from `cad_format_semantics`; unknown codes default to `unclassified`, and a contract-sync test enforces the mapping.
 
 Strict xfails with issue links:
 

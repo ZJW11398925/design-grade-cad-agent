@@ -2,6 +2,32 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.5.1 — 2026-10-27
+
+### Fixed
+
+- `delivery-comparison.json`: renamed `manifest_sha256` (which actually stored the DXF hash) to `dxf_sha256`; added `readback_manifest_sha256` computed from the written manifest file.
+- DXF readback manifest: renamed its own `sha256` field to `dxf_sha256` to remove ambiguity.
+- Issue-category default changed from `cad_format_semantics` to `unclassified`; unknown future codes are now visible instead of silently misclassified.
+- Added a contract-sync test ensuring every `DxfIssue` code has an explicit category and unknown codes remain `unclassified`.
+
+### Changed
+
+- `contracts/e2e-mutation-v0.1.yaml`: comparison fields updated to `dxf_sha256` and `readback_manifest_sha256`.
+- `contracts/e2e-adversarial-v0.1.yaml`: added `unclassified` category and removed the non-DXF `MASSING_BLOCKED_INVALID_FOOTPRINT` code.
+- `contracts/cad-ir-v0.1.yaml`: documented that `ring_index` is global within a CAD object (part order, then ring order); ring identity stability across revisions remains a Milestone 3 decision.
+- Status one-line now includes E2E-003; duplicate third-party round-trip row removed.
+- Symbol-table scope wording narrowed to one layer linetype reference case; full symbol-table equivalence remains #5.
+- Issue #2 narrowed to safe entity dispatch and closed after evidence; structured `validator_error` stays with #7.
+- Milestone 3 scope now explicitly includes DEV-CAD-009, 010 and 011.
+- Test suite: **141 collected / 126 passed / 15 xfailed**.
+
+### Verified
+
+- `dxf_sha256` matches the actual DXF file; `readback_manifest_sha256` matches the actual manifest file.
+- Category contract and implementation are synchronized; unknown codes are `unclassified`.
+- E2E-003 remains 7 positive / 13 strict xfail.
+
 ## 0.5.0 — 2026-10-27
 
 ### Added

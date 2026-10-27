@@ -609,6 +609,19 @@ class LivingProject:
                     "DXF_READBACK_FAILED", str(readback.codes)
                 )
             self.latest_manifest = readback.manifest
+            manifest_path = self.output_dir / "readback-manifest-002.json"
+            manifest_path.write_text(
+                json.dumps(
+                    readback.manifest,
+                    indent=2,
+                    sort_keys=True,
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            readback_manifest_sha256 = hashlib.sha256(
+                manifest_path.read_bytes()
+            ).hexdigest()
             comparison = {
                 "schema_id": "dgcad.e2e.delivery-comparison.v0.1",
                 "object_ids": sorted(
@@ -626,8 +639,11 @@ class LivingProject:
                 "dxf_readback_verdict": readback.verdict,
                 "audit_errors": readback.manifest["audit_errors"],
                 "audit_fixes": readback.manifest["audit_fixes"],
-                "manifest_sha256": readback.manifest["sha256"],
-                "manifest_ref": "readback-manifest-002.json",
+                "dxf_sha256": readback.manifest["dxf_sha256"],
+                "readback_manifest_sha256": readback_manifest_sha256,
+                "manifest_ref": manifest_path.relative_to(
+                    self.output_dir
+                ).as_posix(),
                 "profile_id": self.profile.profile_id,
                 "profile_version": self.profile.profile_version,
             }
@@ -636,16 +652,6 @@ class LivingProject:
             comparison_path.write_text(
                 json.dumps(
                     comparison,
-                    indent=2,
-                    sort_keys=True,
-                    ensure_ascii=False,
-                ),
-                encoding="utf-8",
-            )
-            manifest_path = self.output_dir / "readback-manifest-002.json"
-            manifest_path.write_text(
-                json.dumps(
-                    readback.manifest,
                     indent=2,
                     sort_keys=True,
                     ensure_ascii=False,

@@ -102,7 +102,7 @@ def test_height_change_scopes_stale_and_rebuilds_delivery(project):
     )
     assert cad_b003.massing["height_m"] == 12.0
     assert project.latest_manifest["audit_errors"] == 0
-    assert project.latest_manifest["sha256"] != old_manifest["sha256"]
+    assert project.latest_manifest["dxf_sha256"] != old_manifest["dxf_sha256"]
 
 
 def test_node_move_rebuilds_corridor_from_latest_canonical_edges(project):
@@ -258,7 +258,7 @@ def test_manifest_comparison_uses_ids_revisions_and_fingerprints(project):
     assert set(new_manifest["object_ids"]) == set(new_objects)
     assert old_manifest["entity_count"] == new_manifest["entity_count"] == 15
     assert old_manifest["audit_errors"] == new_manifest["audit_errors"] == 0
-    assert old_manifest["sha256"] != new_manifest["sha256"]
+    assert old_manifest["dxf_sha256"] != new_manifest["dxf_sha256"]
     assert (
         old_manifest["cad_ir_dependency_fingerprint"]
         != new_manifest["cad_ir_dependency_fingerprint"]
