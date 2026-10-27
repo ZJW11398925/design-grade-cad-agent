@@ -171,6 +171,29 @@ road_centerlines:
     - "subtype separation (支路 vs 入户路) must be explicit when the source colour does not distinguish them"
     - "a noisy skeleton must be reported as rough, not silently promoted"
 
+road_topology:
+  states:
+    - as_drawn
+    - connected_with_inferred_connectors
+    - reviewed
+    - confirmed
+  required:
+    - state
+    - node_count
+    - edge_count
+    - component_count
+    - inferred_connectors
+  connector_states:
+    - inferred_nearest_endpoint
+    - reviewed
+    - confirmed
+  rules:
+    - "as-drawn components are reported separately from the connected graph"
+    - "every inferred connector is marked and measured"
+    - "inferred connectors are not designed roads and require human review"
+    - "topology is not road design"
+    - "no width, cross-section, alignment or surface is inferred from topology"
+
 metrics:
   calibration:
     - residual_mean_px

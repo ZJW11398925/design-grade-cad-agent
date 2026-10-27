@@ -167,6 +167,14 @@ Still open: LibreCAD/FreeCAD/GUI third-party matrix (#6), arcs/splines outside t
 - No human-confirmed trace or fidelity metrics; all 10 close pairs are resolved; six unit-count conflicts and the kindergarten facility remain for review; 支路/入户路 unseparated; no canonical handoff.
 - Contract: `contracts/sketch-evidence-v0.1.yaml`; tests: `tests/test_sketch_evidence.py` (8).
 
+## EP-R1-ROAD-001 topology start (0.10.0)
+
+- 312 rough centerlines: 41 main-road and 271 branch/access edges.
+- As-drawn graph: 306 nodes, 312 edges, 9 components, 129 endpoints, 99 junctions, 15 cycles.
+- Connected with eight inferred nearest-node connectors: 320 edges, 1 component; every connector is marked `inferred_nearest_endpoint`, `proposed`, and is not a designed road link.
+- No road width, cross-section, profile, alignment, junction turn geometry or surface; 支路/入户路 remain combined.
+- Contract: `contracts/sketch-evidence-v0.1.yaml` (`road_topology`); tests: `tests/test_road_topology.py` (3).
+
 ## E2E-002 implementation (0.4.0)
 
 Promoted and implemented with 6 E2E tests:
@@ -206,7 +214,7 @@ contracts/
 Re-run this map before each milestone exit. The next expected promotions are:
 
 - Sketch evidence → human-confirmed trace and fidelity metrics when the designer supplies or approves the geometry reference.
-- Road topology/profile → after sketch geometry review and 支路/入户路 separation.
+- Road width/profile/alignment → after review of the eight inferred connectors and 支路/入户路 separation.
 - Site Topology Contract → when multi-building shared-boundary/overlap validation starts.
 - Environment dependency/result schemas → when an analysis slice starts and `EP-R1-ENV-001` has evidence.
 - CAD-IR + semantic equivalence → completed in Milestones 3a/3b; third-party matrix remains partial (#6).

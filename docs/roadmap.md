@@ -106,7 +106,7 @@ After Milestone 3, prioritize the real sketch/trace and road evidence packages b
 | Package | Capability unlocked |
 |---|---|
 | `EP-R1-SKETCH-001` | **in progress**: real sketch → trace reliability |
-| `EP-R1-ROAD-001` | road topology/alignment/profile |
+| `EP-R1-ROAD-001` | **in progress**: road topology; width/profile/alignment pending |
 | `EP-R1-IFC-001` | IFC identity round-trip |
 | `EP-R1-ENV-001` | independent shadow engine |
 | `EP-R1-PROFILE-001` | real project/design-office profile |
@@ -128,6 +128,18 @@ Each package has its own decision question, raw evidence, metrics, failure polic
 - [ ] Canonical Building/Road handoff from this sketch.
 
 **Exit (not met):** a designer-confirmed semantic trace, a human-confirmed geometry reference, fidelity metrics within a declared scope, and a canonical handoff. Until then R1-G07 remains partial.
+
+### EP-R1-ROAD-001 — in progress (0.10.0)
+
+- [x] Extract 312 rough centerlines (41 main-road edges, 271 branch/access edges).
+- [x] Build the as-drawn graph: 306 nodes, 312 edges, 9 components, 129 endpoints, 99 junctions, 15 cycles.
+- [x] Add eight inferred nearest-node connectors; connected graph 320 edges, 1 component; every connector marked `inferred_nearest_endpoint`, `proposed`, not a designed road link.
+- [ ] Review the eight inferred connectors.
+- [ ] Road width, cross-section, profile and alignment.
+- [ ] Separate 支路 from 入户路.
+- [ ] Canonical road graph handoff.
+
+**Exit (not met):** a reviewed connected road graph with accepted connectors, explicit width/profile/alignment inputs where required, and a canonical handoff. Until then road topology remains `proposed_rough`.
 
 ## Milestone 5 — Production hardening (not started)
 

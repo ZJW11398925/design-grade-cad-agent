@@ -2,6 +2,27 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.10.0 — 2026-10-27
+
+### Added
+
+- Proposed road network topology from the 312 sketch centerlines:
+  - as-drawn: 306 nodes, 312 edges, 9 components, 129 endpoints, 99 junctions, 15 cycles; 41 main-road and 271 branch/access edges;
+  - connected with **8 inferred nearest-node connectors**: 320 edges, 1 component, 120 endpoints, 103 junctions, 15 cycles; 41 main-road and 279 branch/access edges.
+- `docs/e2e/sketch-001/road-network-proposed.geojson`, `road-nodes-proposed.geojson`, `road-topology-summary.json`, `road-network-overlay.png`.
+- `contracts/sketch-evidence-v0.1.yaml` adds `road_topology`.
+- `tests/test_road_topology.py`: 3 tests. Total **168 passed**.
+- `pyproject.toml` version corrected from `0.9.1` to `0.10.0`.
+
+### Scope
+
+- Every inferred connector is marked `inferred_nearest_endpoint`, `review_state: proposed`, and is **not** a designed road link; gaps span 15.62–76.06 px.
+- No road width, cross-section, profile, alignment, junction turn geometry or surface is derived.
+- Blue still combines 支路 and 入户路; no subtype separation.
+- Image-space topology only; no project coordinates or metric lengths.
+- Version `0.10.0`.
+
+
 ## 0.9.2 — 2026-10-27
 
 ### Changed

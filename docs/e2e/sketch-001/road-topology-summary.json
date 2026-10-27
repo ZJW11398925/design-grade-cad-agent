@@ -1,0 +1,771 @@
+{
+  "schema_id": "dgcad.sketch.road-topology.proposed.v0.1",
+  "status": "proposed_rough",
+  "topology_state": "connected_with_inferred_connectors",
+  "as_drawn": {
+    "node_count": 306,
+    "edge_count": 312,
+    "component_count": 9,
+    "endpoints": 129,
+    "junctions": 99,
+    "cyclomatic_number": 15,
+    "road_class_edge_counts": {
+      "main_road": 41,
+      "branch_or_access_road": 271
+    }
+  },
+  "connected": {
+    "node_count": 306,
+    "edge_count": 320,
+    "component_count": 1,
+    "endpoints": 120,
+    "junctions": 103,
+    "cyclomatic_number": 15,
+    "road_class_edge_counts": {
+      "main_road": 41,
+      "branch_or_access_road": 279
+    }
+  },
+  "inferred_connector_count": 8,
+  "inferred_connectors": [
+    {
+      "trace_id": "SK-RDC-CONN-001",
+      "from_component": "RC-01",
+      "to_component": "RC-05",
+      "gap_px": 15.62,
+      "length_px": 15.62,
+      "from_node": [
+        574.0,
+        106.0
+      ],
+      "to_node": [
+        562.0,
+        116.0
+      ]
+    },
+    {
+      "trace_id": "SK-RDC-CONN-002",
+      "from_component": "RC-01",
+      "to_component": "RC-03",
+      "gap_px": 23.77,
+      "length_px": 23.77,
+      "from_node": [
+        620.0,
+        1233.0
+      ],
+      "to_node": [
+        629.0,
+        1211.0
+      ]
+    },
+    {
+      "trace_id": "SK-RDC-CONN-003",
+      "from_component": "RC-01",
+      "to_component": "RC-06",
+      "gap_px": 33.24,
+      "length_px": 33.24,
+      "from_node": [
+        773.0,
+        1225.0
+      ],
+      "to_node": [
+        769.0,
+        1258.0
+      ]
+    },
+    {
+      "trace_id": "SK-RDC-CONN-004",
+      "from_component": "RC-01",
+      "to_component": "RC-04",
+      "gap_px": 34.21,
+      "length_px": 34.21,
+      "from_node": [
+        779.0,
+        627.0
+      ],
+      "to_node": [
+        788.0,
+        594.0
+      ]
+    },
+    {
+      "trace_id": "SK-RDC-CONN-005",
+      "from_component": "RC-06",
+      "to_component": "RC-07",
+      "gap_px": 37.22,
+      "length_px": 37.22,
+      "from_node": [
+        638.0,
+        1330.0
+      ],
+      "to_node": [
+        601.0,
+        1334.0
+      ]
+    },
+    {
+      "trace_id": "SK-RDC-CONN-006",
+      "from_component": "RC-02",
+      "to_component": "RC-03",
+      "gap_px": 43.01,
+      "length_px": 43.01,
+      "from_node": [
+        273.0,
+        896.0
+      ],
+      "to_node": [
+        316.0,
+        897.0
+      ]
+    },
+    {
+      "trace_id": "SK-RDC-CONN-007",
+      "from_component": "RC-01",
+      "to_component": "RC-09",
+      "gap_px": 46.75,
+      "length_px": 46.75,
+      "from_node": [
+        795.0,
+        702.0
+      ],
+      "to_node": [
+        830.0,
+        733.0
+      ]
+    },
+    {
+      "trace_id": "SK-RDC-CONN-008",
+      "from_component": "RC-03",
+      "to_component": "RC-08",
+      "gap_px": 76.06,
+      "length_px": 76.06,
+      "from_node": [
+        765.0,
+        1018.0
+      ],
+      "to_node": [
+        801.0,
+        1085.0
+      ]
+    }
+  ],
+  "components": [
+    {
+      "component_id": "RC-01",
+      "node_count": 40,
+      "edge_count": 41,
+      "road_class_edge_counts": {
+        "main_road": 41
+      },
+      "endpoints": 4,
+      "bbox_px": [
+        86.0,
+        5.0,
+        891.0,
+        1489.0
+      ]
+    },
+    {
+      "component_id": "RC-02",
+      "node_count": 19,
+      "edge_count": 19,
+      "road_class_edge_counts": {
+        "branch_or_access_road": 19
+      },
+      "endpoints": 10,
+      "bbox_px": [
+        92.0,
+        787.0,
+        185.0,
+        341.0
+      ]
+    },
+    {
+      "component_id": "RC-03",
+      "node_count": 63,
+      "edge_count": 69,
+      "road_class_edge_counts": {
+        "branch_or_access_road": 69
+      },
+      "endpoints": 25,
+      "bbox_px": [
+        316.0,
+        631.0,
+        453.0,
+        585.0
+      ]
+    },
+    {
+      "component_id": "RC-04",
+      "node_count": 15,
+      "edge_count": 14,
+      "road_class_edge_counts": {
+        "branch_or_access_road": 14
+      },
+      "endpoints": 9,
+      "bbox_px": [
+        674.0,
+        364.0,
+        194.0,
+        230.0
+      ]
+    },
+    {
+      "component_id": "RC-05",
+      "node_count": 62,
+      "edge_count": 62,
+      "road_class_edge_counts": {
+        "branch_or_access_road": 62
+      },
+      "endpoints": 27,
+      "bbox_px": [
+        165.0,
+        62.0,
+        466.0,
+        530.0
+      ]
+    },
+    {
+      "component_id": "RC-06",
+      "node_count": 31,
+      "edge_count": 31,
+      "road_class_edge_counts": {
+        "branch_or_access_road": 31
+      },
+      "endpoints": 17,
+      "bbox_px": [
+        636.0,
+        1258.0,
+        318.0,
+        180.0
+      ]
+    },
+    {
+      "component_id": "RC-07",
+      "node_count": 47,
+      "edge_count": 48,
+      "road_class_edge_counts": {
+        "branch_or_access_road": 48
+      },
+      "endpoints": 24,
+      "bbox_px": [
+        96.0,
+        1256.0,
+        505.0,
+        177.0
+      ]
+    },
+    {
+      "component_id": "RC-08",
+      "node_count": 25,
+      "edge_count": 24,
+      "road_class_edge_counts": {
+        "branch_or_access_road": 24
+      },
+      "endpoints": 13,
+      "bbox_px": [
+        801.0,
+        972.0,
+        143.0,
+        226.0
+      ]
+    },
+    {
+      "component_id": "RC-09",
+      "node_count": 4,
+      "edge_count": 4,
+      "road_class_edge_counts": {
+        "branch_or_access_road": 4
+      },
+      "endpoints": 0,
+      "bbox_px": [
+        824.0,
+        726.0,
+        69.0,
+        63.0
+      ]
+    }
+  ],
+  "nearest_component_pairs": [
+    {
+      "distance_px": 119.55,
+      "component_a": 1,
+      "component_b": 2,
+      "node_a": [
+        313.0,
+        1214.0
+      ],
+      "node_b": [
+        277.0,
+        1100.0
+      ]
+    },
+    {
+      "distance_px": 23.77,
+      "component_a": 1,
+      "component_b": 3,
+      "node_a": [
+        620.0,
+        1233.0
+      ],
+      "node_b": [
+        629.0,
+        1211.0
+      ]
+    },
+    {
+      "distance_px": 34.21,
+      "component_a": 1,
+      "component_b": 4,
+      "node_a": [
+        779.0,
+        627.0
+      ],
+      "node_b": [
+        788.0,
+        594.0
+      ]
+    },
+    {
+      "distance_px": 15.62,
+      "component_a": 1,
+      "component_b": 5,
+      "node_a": [
+        574.0,
+        106.0
+      ],
+      "node_b": [
+        562.0,
+        116.0
+      ]
+    },
+    {
+      "distance_px": 33.24,
+      "component_a": 1,
+      "component_b": 6,
+      "node_a": [
+        773.0,
+        1225.0
+      ],
+      "node_b": [
+        769.0,
+        1258.0
+      ]
+    },
+    {
+      "distance_px": 79.06,
+      "component_a": 1,
+      "component_b": 7,
+      "node_a": [
+        313.0,
+        1214.0
+      ],
+      "node_b": [
+        310.0,
+        1293.0
+      ]
+    },
+    {
+      "distance_px": 89.11,
+      "component_a": 1,
+      "component_b": 8,
+      "node_a": [
+        773.0,
+        1225.0
+      ],
+      "node_b": [
+        835.0,
+        1161.0
+      ]
+    },
+    {
+      "distance_px": 46.75,
+      "component_a": 1,
+      "component_b": 9,
+      "node_a": [
+        795.0,
+        702.0
+      ],
+      "node_b": [
+        830.0,
+        733.0
+      ]
+    },
+    {
+      "distance_px": 43.01,
+      "component_a": 2,
+      "component_b": 3,
+      "node_a": [
+        273.0,
+        896.0
+      ],
+      "node_b": [
+        316.0,
+        897.0
+      ]
+    },
+    {
+      "distance_px": 559.17,
+      "component_a": 2,
+      "component_b": 4,
+      "node_a": [
+        212.0,
+        815.0
+      ],
+      "node_b": [
+        674.0,
+        500.0
+      ]
+    },
+    {
+      "distance_px": 321.86,
+      "component_a": 2,
+      "component_b": 5,
+      "node_a": [
+        155.0,
+        787.0
+      ],
+      "node_b": [
+        269.0,
+        486.0
+      ]
+    },
+    {
+      "distance_px": 428.04,
+      "component_a": 2,
+      "component_b": 6,
+      "node_a": [
+        277.0,
+        1100.0
+      ],
+      "node_b": [
+        638.0,
+        1330.0
+      ]
+    },
+    {
+      "distance_px": 163.01,
+      "component_a": 2,
+      "component_b": 7,
+      "node_a": [
+        134.0,
+        1127.0
+      ],
+      "node_b": [
+        132.0,
+        1290.0
+      ]
+    },
+    {
+      "distance_px": 524.21,
+      "component_a": 2,
+      "component_b": 8,
+      "node_a": [
+        277.0,
+        1100.0
+      ],
+      "node_b": [
+        801.0,
+        1085.0
+      ]
+    },
+    {
+      "distance_px": 561.29,
+      "component_a": 2,
+      "component_b": 9,
+      "node_a": [
+        273.0,
+        896.0
+      ],
+      "node_b": [
+        824.0,
+        789.0
+      ]
+    },
+    {
+      "distance_px": 81.12,
+      "component_a": 3,
+      "component_b": 4,
+      "node_a": [
+        718.0,
+        635.0
+      ],
+      "node_b": [
+        788.0,
+        594.0
+      ]
+    },
+    {
+      "distance_px": 47.85,
+      "component_a": 3,
+      "component_b": 5,
+      "node_a": [
+        449.0,
+        635.0
+      ],
+      "node_b": [
+        470.0,
+        592.0
+      ]
+    },
+    {
+      "distance_px": 91.42,
+      "component_a": 3,
+      "component_b": 6,
+      "node_a": [
+        647.0,
+        1216.0
+      ],
+      "node_b": [
+        678.0,
+        1302.0
+      ]
+    },
+    {
+      "distance_px": 49.09,
+      "component_a": 3,
+      "component_b": 7,
+      "node_a": [
+        437.0,
+        1207.0
+      ],
+      "node_b": [
+        434.0,
+        1256.0
+      ]
+    },
+    {
+      "distance_px": 76.06,
+      "component_a": 3,
+      "component_b": 8,
+      "node_a": [
+        765.0,
+        1018.0
+      ],
+      "node_b": [
+        801.0,
+        1085.0
+      ]
+    },
+    {
+      "distance_px": 55.33,
+      "component_a": 3,
+      "component_b": 9,
+      "node_a": [
+        769.0,
+        795.0
+      ],
+      "node_b": [
+        824.0,
+        789.0
+      ]
+    },
+    {
+      "distance_px": 43.01,
+      "component_a": 4,
+      "component_b": 5,
+      "node_a": [
+        674.0,
+        500.0
+      ],
+      "node_b": [
+        631.0,
+        499.0
+      ]
+    },
+    {
+      "distance_px": 664.27,
+      "component_a": 4,
+      "component_b": 6,
+      "node_a": [
+        788.0,
+        594.0
+      ],
+      "node_b": [
+        769.0,
+        1258.0
+      ]
+    },
+    {
+      "distance_px": 741.57,
+      "component_a": 4,
+      "component_b": 7,
+      "node_a": [
+        788.0,
+        594.0
+      ],
+      "node_b": [
+        558.0,
+        1299.0
+      ]
+    },
+    {
+      "distance_px": 384.98,
+      "component_a": 4,
+      "component_b": 8,
+      "node_a": [
+        788.0,
+        594.0
+      ],
+      "node_b": [
+        861.0,
+        972.0
+      ]
+    },
+    {
+      "distance_px": 145.21,
+      "component_a": 4,
+      "component_b": 9,
+      "node_a": [
+        788.0,
+        594.0
+      ],
+      "node_b": [
+        830.0,
+        733.0
+      ]
+    },
+    {
+      "distance_px": 730.04,
+      "component_a": 5,
+      "component_b": 6,
+      "node_a": [
+        470.0,
+        592.0
+      ],
+      "node_b": [
+        769.0,
+        1258.0
+      ]
+    },
+    {
+      "distance_px": 664.98,
+      "component_a": 5,
+      "component_b": 7,
+      "node_a": [
+        470.0,
+        592.0
+      ],
+      "node_b": [
+        434.0,
+        1256.0
+      ]
+    },
+    {
+      "distance_px": 525.96,
+      "component_a": 5,
+      "component_b": 8,
+      "node_a": [
+        631.0,
+        499.0
+      ],
+      "node_b": [
+        861.0,
+        972.0
+      ]
+    },
+    {
+      "distance_px": 307.18,
+      "component_a": 5,
+      "component_b": 9,
+      "node_a": [
+        631.0,
+        499.0
+      ],
+      "node_b": [
+        830.0,
+        733.0
+      ]
+    },
+    {
+      "distance_px": 37.22,
+      "component_a": 6,
+      "component_b": 7,
+      "node_a": [
+        638.0,
+        1330.0
+      ],
+      "node_b": [
+        601.0,
+        1334.0
+      ]
+    },
+    {
+      "distance_px": 104.0,
+      "component_a": 6,
+      "component_b": 8,
+      "node_a": [
+        863.0,
+        1302.0
+      ],
+      "node_b": [
+        862.0,
+        1198.0
+      ]
+    },
+    {
+      "distance_px": 472.21,
+      "component_a": 6,
+      "component_b": 9,
+      "node_a": [
+        769.0,
+        1258.0
+      ],
+      "node_b": [
+        824.0,
+        789.0
+      ]
+    },
+    {
+      "distance_px": 291.01,
+      "component_a": 7,
+      "component_b": 8,
+      "node_a": [
+        601.0,
+        1334.0
+      ],
+      "node_b": [
+        835.0,
+        1161.0
+      ]
+    },
+    {
+      "distance_px": 575.2,
+      "component_a": 7,
+      "component_b": 9,
+      "node_a": [
+        558.0,
+        1299.0
+      ],
+      "node_b": [
+        824.0,
+        789.0
+      ]
+    },
+    {
+      "distance_px": 186.7,
+      "component_a": 8,
+      "component_b": 9,
+      "node_a": [
+        861.0,
+        972.0
+      ],
+      "node_b": [
+        824.0,
+        789.0
+      ]
+    }
+  ],
+  "method": "component nearest-node gaps + minimum spanning tree connectors",
+  "rules": [
+    "as-drawn components are reported separately from the connected graph",
+    "every inferred connector is marked and measured",
+    "topology is not road design"
+  ],
+  "non_claims": [
+    "inferred connectors are not designed roads; they need human review",
+    "no road width, cross-section, alignment, junction turn geometry or surface",
+    "image-space topology only; no project coordinates or metric lengths",
+    "blue combines 支路 and 入户路; subtypes are not separated"
+  ]
+}

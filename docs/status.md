@@ -1,21 +1,21 @@
 # Project Status
 
 Updated: 2026-10-27
-Version: `0.9.2` (Milestone 4a sketch intake with building merges and unit inference; Milestone 3c partial third-party evidence)
+Version: `0.10.0` (Milestone 4a sketch intake and road topology start; Milestone 3c partial third-party evidence)
 Research basis: R0 v0.19 + R1 deployment-entry v0.2
 
 ## 1. One-line status
 
-The project has a working **governance/runtime contract layer**, a **synthetic Building/Road domain slice**, **living E2E-001/002/003/003b pipelines** from confirmed trace to DXF readback with scoped mutation/rebuild, adversarial delivery checks, semantic/dependency closure, **one real AutoCAD 2024 Core Console round-trip**, and a first **Tier B designer-sketch intake** with designer-confirmed semantics and a proposed image-space trace. It does **not** yet have a human-confirmed sketch trace with fidelity metrics, real road engineering, general third-party CAD interoperability, IFC, or real-world validated behavior.
+The project has a working **governance/runtime contract layer**, a **synthetic Building/Road domain slice**, **living E2E-001/002/003/003b pipelines** from confirmed trace to DXF readback with scoped mutation/rebuild, adversarial delivery checks, semantic/dependency closure, **one real AutoCAD 2024 Core Console round-trip**, a first **Tier B designer-sketch intake** with designer-confirmed semantics and a proposed image-space trace, and a proposed **road network topology** with marked inferred connectors. It does **not** yet have a human-confirmed sketch trace with fidelity metrics, real road engineering, general third-party CAD interoperability, IFC, or real-world validated behavior.
 
 ## 2. Test baseline
 
 ```text
 python -m pytest -q
-165 passed
+168 passed
 ```
 
-165 tests collected, all passing. No long-lived strict xfails.
+168 tests collected, all passing. No long-lived strict xfails.
 
 | Suite | Tests | Status |
 |---|---|---|
@@ -32,6 +32,7 @@ python -m pytest -q
 | E2E-003b | 11 | passing |
 | Third-party evidence | 2 | passing |
 | Sketch evidence | 11 | passing |
+| Road topology | 3 | passing |
 
 ## 3. Capability status
 
@@ -63,6 +64,7 @@ python -m pytest -q
 | Third-party CAD round-trip | **partial evidence only** | AutoCAD 2024 Core Console: semantic pass with serialization differences; LibreCAD/FreeCAD/GUI not run; issue #6 |
 | Real sketch → trace | **partial (designer sketch)** | CASE-SKETCH-001: 55 buildings (5 designer-confirmed merges), unit counts 16/21/17 plus 1 facility, 11 floors provisional, image-space geometry proposed; no fidelity metrics or unit-type library yet |
 | Road centerline extraction | **proposed_rough** | skeleton-derived from colour masks; no professional alignment, width or junction design |
+| Road network topology | **proposed_rough** | 9 as-drawn components connected by 8 marked inferred connectors; no width, profile or alignment |
 | Real design-office profile | **not validated** | synthetic and DB11 subset only |
 | IFC round-trip | **blocked** | IfcOpenShell unavailable |
 | Independent solar engine | **not validated** | synthetic NOAA baseline only |
@@ -303,7 +305,15 @@ What is not done:
 
 Evidence: `docs/e2e/sketch-001/README.md`, `docs/e2e/sketch-001/case-summary.json`, `contracts/sketch-evidence-v0.1.yaml`, `tests/test_sketch_evidence.py`.
 
-## 14. Current non-claims
+## 14. Road network topology (EP-R1-ROAD-001 start)
+
+- As-drawn: 306 nodes, 312 edges, 9 components, 129 endpoints, 99 junctions, 15 independent cycles; 41 main-road edges and 271 branch/access edges.
+- Connected: 320 edges, 1 component, 8 inferred nearest-node connectors; 120 endpoints, 103 junctions, 15 cycles; 41 main-road edges and 279 branch/access edges.
+- Connector gaps span 15.62–76.06 px; every connector is marked `inferred_nearest_endpoint`, `review_state: proposed`, and is not a designed road link.
+- No width, cross-section, profile, alignment, junction turn geometry or surface is derived. The blue class still combines 支路 and 入户路.
+- Evidence: `docs/e2e/sketch-001/road-network-proposed.geojson`, `road-nodes-proposed.geojson`, `road-topology-summary.json`, `road-network-overlay.png`; `tests/test_road_topology.py` (3 tests).
+
+## 15. Current non-claims
 
 - `research_complete = false`
 - `release_authorized = false`
@@ -314,3 +324,5 @@ Evidence: `docs/e2e/sketch-001/README.md`, `docs/e2e/sketch-001/case-summary.jso
 - CASE-SKETCH-001 semantic labels, five building merges, the 1/2/3-unit type set and the 11-floor assumption are designer-confirmed; geometry and road centerlines are proposed, and no fidelity metrics exist.
 - 11 floors is provisional; no floor height, massing, FAR or unit-mix is derived. Building footprints are placeholders pending the unit-type library; unit counts are inferred except M-001/M-002, the kindergarten M-003 is excluded as a facility, and six length-vs-area conflicts remain for review.
 - CASE-SKETCH-001 publishes the sketch and image-space geometry only; the DWG/DXF, redline/project coordinates and metric scale are private.
+- The road network is connected by eight inferred connectors; they are topology hypotheses, not designed links.
+- No road width, cross-section, profile, alignment or surface is designed.
