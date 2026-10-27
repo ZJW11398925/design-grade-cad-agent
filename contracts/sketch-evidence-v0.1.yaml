@@ -173,8 +173,8 @@ road_centerlines:
 
 road_topology:
   states:
-    - as_drawn
-    - connected_with_inferred_connectors
+    - as_drawn_unresolved
+    - connected_confirmed
     - reviewed
     - confirmed
   required:
@@ -182,15 +182,16 @@ road_topology:
     - node_count
     - edge_count
     - component_count
-    - inferred_connectors
+    - rejected_connectors
   connector_states:
     - inferred_nearest_endpoint
-    - reviewed
+    - rejected
     - confirmed
   rules:
-    - "as-drawn components are reported separately from the connected graph"
-    - "every inferred connector is marked and measured"
-    - "inferred connectors are not designed roads and require human review"
+    - "as-drawn components are the only road connectivity evidence"
+    - "nearest-node straight-line inference is rejected as connectivity evidence"
+    - "gaps remain open until confirmed from actual road geometry"
+    - "rejected connectors are retained as negative evidence"
     - "topology is not road design"
     - "no width, cross-section, alignment or surface is inferred from topology"
 

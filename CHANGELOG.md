@@ -2,6 +2,18 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.10.1 — 2026-10-27
+
+### Changed
+
+- **Withdrew inferred road connectivity.** The eight nearest-node connectors are rejected by designer review and retained in `road-connectors-rejected.geojson` as negative evidence.
+- Road topology state is `as_drawn_unresolved`: 306 nodes, 312 edges, 9 components, 129 endpoints, 99 junctions, 15 cycles; gaps 15.62–76.06 px remain open.
+- Removed the 320-edge/one-component connected claim; no connected graph is claimed.
+- `contracts/sketch-evidence-v0.1.yaml` updates `road_topology` states, required fields and rules.
+- `tests/test_road_topology.py` updated; **168 passed**.
+- Version `0.10.1`.
+
+
 ## 0.10.0 — 2026-10-27
 
 ### Added
@@ -20,6 +32,7 @@ All notable changes to the formal repository are recorded here. Research snapsho
 - No road width, cross-section, profile, alignment, junction turn geometry or surface is derived.
 - Blue still combines 支路 and 入户路; no subtype separation.
 - Image-space topology only; no project coordinates or metric lengths.
+- **Superseded in 0.10.1:** inferred connectivity withdrawn; only the as-drawn topology is claimed.
 - Version `0.10.0`.
 
 

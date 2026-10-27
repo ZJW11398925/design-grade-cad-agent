@@ -249,7 +249,7 @@ source raster (public)
 - Semantic label state and geometry state are separate: a designer can confirm that red means building while the extracted footprint remains `proposed`.
 - Calibration to a private reference is a reviewed, approximate homography; it is not survey-grade and does not make the sketch project-coordinate truth.
 - Road centerlines are skeleton-derived `proposed_rough` candidates. They are not professional alignment, width, cross-section, junction or surface design.
-- Road topology is also proposed: 9 as-drawn components are connected with 8 marked inferred connectors. The connectors are topology hypotheses, not designed links; no width/profile/alignment is derived.
+- Road topology is unresolved: 9 as-drawn components; eight nearest-node connectors were rejected. No connected graph is claimed, and no width/profile/alignment is derived.
 - No sketch object is written to canonical yet; the human-confirmed reference trace and fidelity metrics remain the gate.
 
 ## 16. Open architecture questions

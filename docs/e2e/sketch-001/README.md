@@ -124,20 +124,21 @@ installable package; the public artifact is the evidence, not a benchmark harnes
 
 The as-drawn centerline graph has **306 nodes, 312 edges and 9 connected
 components** (129 endpoints, 99 junctions, 15 independent cycles; 41 main-road
-edges and 271 branch/access edges).
+and 271 branch/access edges).
 
-To obtain a connected network, eight **inferred nearest-node connectors** were
-added between the as-drawn components using a minimum spanning tree:
+Eight **nearest-node connectors** were attempted to connect the components, but
+they were **rejected by designer review**. Lying on road-coloured pixels does
+not prove a road link; straight nearest-node lines can cut across junctions and
+create false topology. They are retained in `road-connectors-rejected.geojson`
+as negative evidence.
 
-- connected graph: **320 edges, 1 component**, 120 endpoints, 103 junctions,
-  15 independent cycles; 41 main-road edges and 279 branch/access edges;
-- connectors span **15.62–76.06 px**;
-- every connector is marked `inferred_nearest_endpoint`, `network_state:
-  inferred_connector`, `review_state: proposed`, and is explicitly **not a
-  designed road link**.
-
-No road width, cross-section, alignment, junction turn geometry, profile or
-surface is derived. The blue class still combines 支路 and 入户路.
+- **No connected graph is claimed.** The nine as-drawn components remain
+  separate.
+- Component gaps span **15.62–76.06 px** and are **open/unresolved**.
+- Every rejected connector is `review_state: rejected`,
+  `rejection_state: rejected`, with an explicit reason.
+- No road width, cross-section, alignment, junction turn geometry, profile or
+  surface is derived. The blue class still combines 支路 and 入户路.
 
 ## Open items
 
@@ -148,8 +149,8 @@ surface is derived. The blue class still combines 支路 and 入户路.
 - A human-confirmed trace and fidelity metrics (Hausdorff, IoU, topology) have
   not been produced. No accuracy claim is made.
 - 支路 vs 入户路 separation.
-- Review the eight inferred road connectors; they are topology hypotheses, not
-  designed links.
+- Resolve road connectivity from actual road geometry; the eight nearest-node
+  connectors were rejected and the component gaps remain open.
 - Road width, cross-section, profile and alignment are not designed.
 - Canonical Building/Road handoff from this sketch.
 
@@ -166,8 +167,8 @@ surface is derived. The blue class still combines 支路 and 入户路.
 - Calibration is approximate and not survey-grade.
 - Road centerlines are not professional road design.
 - No claim that building footprints, counts or topology match the design record.
-- Road topology uses eight inferred connectors; they are topology hypotheses,
-  not designed roads.
+- Road connectivity is unresolved: nine as-drawn components; eight nearest-node
+  connectors were rejected by designer review.
 - No road width, cross-section, profile, alignment or surface is designed.
 - No OCR; the visible 幼儿园 label was observed visually, not machine-read.
 
@@ -180,8 +181,9 @@ surface is derived. The blue class still combines 支路 and 入户路.
 - `merge-review-left-cluster.png` — pre-merge left cluster; `merge-applied-left-cluster.png` — M-001 after merge.
 - `road-centerlines-proposed.geojson` — rough image-space centerlines.
 - `road-network-proposed.geojson`, `road-nodes-proposed.geojson`,
-  `road-topology-summary.json` — proposed topology with marked inferred connectors.
-- `road-network-overlay.png` — topology review overlay.
+  `road-topology-summary.json` — as-drawn topology; connectivity unresolved.
+- `road-connectors-rejected.geojson` — eight rejected nearest-node connectors.
+- `road-network-overlay.png` — as-drawn roads with rejected connectors crossed out.
 - `ambiguities.geojson` — image-space ambiguity regions.
 - `trace-overlay.png`, `road-centerlines-overlay.png` — visual review.
 - `case-summary.json` — machine-readable public summary.
