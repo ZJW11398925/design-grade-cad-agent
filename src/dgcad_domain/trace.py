@@ -139,16 +139,22 @@ def load_confirmed_trace_fixture(path: str | Path) -> ConfirmedTraceScene:
     }
     road_graph = RoadGraph.from_dict(data.get("road_graph", {}))
     for intent in roads.values():
+        for trace_ref in intent.trace_refs:
+            trace = trace_objects.get(trace_ref)
+            if trace is None:
+                raise ValueError(
+                    f"road {intent.corridor_id} references unknown trace {trace_ref}"
+                )
+            if trace.semantic_role != "road":
+                raise ValueError(
+                    f"road {intent.corridor_id} trace {trace_ref} has role {trace.semantic_role}"
+                )
         for edge_id in intent.edge_refs:
             edge = road_graph.edge(edge_id)
             if edge.corridor_id != intent.corridor_id:
                 raise ValueError(
                     f"edge {edge_id} belongs to {edge.corridor_id}, not {intent.corridor_id}"
                 )
-        if not any(
-            trace.semantic_role == "road" for trace in trace_objects.values()
-        ):
-            raise ValueError("road corridor requires at least one road trace")
 
     return ConfirmedTraceScene(
         fixture_id=str(data["fixture_id"]),

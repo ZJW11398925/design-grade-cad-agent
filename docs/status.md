@@ -1,19 +1,21 @@
 # Project Status
 
 Updated: 2026-10-27
-Version: `0.2.0` (domain slice 001)
+Version: `0.3.0` (domain slice + E2E-001)
 Research basis: R0 v0.19 + R1 deployment-entry v0.2
 
 ## 1. One-line status
 
-The project has a working **governance/runtime contract layer** and a **minimal synthetic Building/Road domain slice** that turns a human-confirmed trace into canonical objects through proposal, preview, human approval, commit, stale propagation and rebuild scheduling. It does **not** yet have real sketch input, real road engineering, DXF delivery, IFC, or real-world validated behavior.
+The project has a working **governance/runtime contract layer**, a **synthetic Building/Road domain slice**, and a **living E2E-001 pipeline** from confirmed trace to DXF readback. It does **not** yet have real sketch input, real road engineering, third-party CAD interoperability, IFC, or real-world validated behavior.
 
 ## 2. Test baseline
 
 ```text
 python -m pytest -q
-91 passed
+113 passed, 2 xfailed
 ```
+
+115 tests collected: 113 passing, 2 expected xfails (`DEV-CAD-003`).
 
 | Suite | Tests | Status |
 |---|---|---|
@@ -22,6 +24,9 @@ python -m pytest -q
 | Deployment | 8 | passing |
 | Lifecycle | 14 | passing |
 | Domain | 26 | passing |
+| Analysis | 7 | passing |
+| CAD delivery | 9 | 7 passing, 2 xfail |
+| E2E | 8 | passing |
 
 ## 3. Capability status
 
@@ -40,6 +45,9 @@ python -m pytest -q
 | Real AutoCAD / FreeCAD bridge | **blocked** | no host environment |
 | Building/Road domain adapters | **implemented (synthetic)** | confirmed trace → canonical building/road; unknown states preserved |
 | Real professional road geometry | **not validated** | only centerline + explicit cross-section; no alignment/clothoid/surface |
+| E2E-001 living pipeline | **implemented (synthetic)** | Domain → massing → shadow → CAD-IR → DXF → readback, living packages only |
+| DXF delivery | **minimal synthetic** | R2010, 15 entities, audit 0/0; known DEV-CAD gaps deferred |
+| Third-party CAD round-trip | **not validated** | issue #6 |
 | Real sketch → trace | **not validated** | no Tier B/C data |
 | Real design-office profile | **not validated** | synthetic and DB11 subset only |
 | IFC round-trip | **blocked** | IfcOpenShell unavailable |
@@ -52,6 +60,8 @@ python -m pytest -q
 |---|---|
 | `contracts/canonical-site-ir-v0.4.yaml` | Canonical identity, revisions, authority, dependency, worlds |
 | `contracts/domain-contract-v0.1.yaml` | Confirmed trace → Building/Road domain slice |
+| `contracts/cad-ir-v0.1.yaml` | Minimal CAD-IR for the E2E delivery slice |
+| `contracts/e2e-pipeline-v0.1.yaml` | E2E-001 stages, invariants and known gaps |
 | `contracts/evidence-gate-register-v0.2.yaml` | R1-G01..G08 and evidence packages |
 | `contracts/runtime-state-contract-v0.1.yaml` | Runtime state envelope and registries |
 | `contracts/sidecar-lifecycle-contract-v0.1.yaml` | Sidecar lifecycle |
@@ -86,6 +96,8 @@ These were reproduced after the v0.3 synthetic hardening and are accepted as **d
 - `DEV-CAD-007` some validator failures are not structured issues.
 - `DEV-CAD-008` CAD serialization differences vs project profile rules are not fully separated.
 
+E2E-001 records `DEV-CAD-003` bulge/constant-width as strict xfail with issue #3. The old archived validator and the full DEV-CAD matrix remain Milestone 3 work.
+
 See `research/archive/r0-v0.19/working/cad-bim-validator/development-acceptance-contract-v0.1.md`.
 
 ## 7. Domain slice 001
@@ -112,7 +124,32 @@ What it does **not** prove:
 - That DXF/IFC output is valid or interoperable.
 - That the synthetic fixture represents real design practice.
 
-## 8. Current non-claims
+## 8. E2E-001 living pipeline
+
+Implemented in `src/dgcad_analysis/`, `src/dgcad_cad/`, `src/dgcad_e2e/` and `tests/e2e/`.
+
+What it proves:
+
+- DOMAIN-SLICE-001 → Runtime canonical → massing → shadow → CAD-IR → DXF → readback works in one chain using only living packages.
+- Five domain proposals commit through human approval grants; scene revision reaches 6.
+- Massing is produced for confirmed heights and blocked for the unknown-height building.
+- Rebuild scheduling queues the three stale artifacts in dependency-safe order.
+- Unknown height and unknown road class remain explicit through analysis, CAD-IR and DXF metadata.
+- DXF XDATA preserves object ID, class, geometry revision, source/representation hashes, entity role and ring role.
+- Readback detects vertex mutation, unexpected layers and entity-type substitution without crashing.
+- The pipeline does not import or call archived R0 scripts.
+
+What it does **not** prove:
+
+- Real sketch → trace or real professional geometry.
+- Third-party CAD compatibility or a design-office DXF profile.
+- IFC/BIM interoperability.
+- Standards or daylight compliance.
+- That the synthetic shadow baseline matches an independent engine.
+
+Known gap: `DEV-CAD-003` (bulge/constant width) is recorded as two strict xfails referencing issue #3.
+
+## 9. Current non-claims
 
 - `research_complete = false`
 - `release_authorized = false`

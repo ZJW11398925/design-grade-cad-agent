@@ -1,0 +1,64 @@
+schema_id: dgcad.e2e.pipeline.v0.1
+status: living_contract
+scope: e2e_001_living_pipeline_port
+promotion_date: 2026-10-27
+purpose: "First end-to-end path built only from living src packages, not archived scripts."
+
+stages:
+  - id: domain_fixture
+    input: fixtures/domain/domain-slice-001-r2.yaml
+    output: ConfirmedTraceScene
+    package: dgcad_domain
+  - id: canonical_scene
+    input: ConfirmedTraceScene
+    output: SceneState with evidence and candidate objects
+    package: dgcad_domain
+  - id: runtime_commit
+    input: domain proposals
+    output: canonical professional footprints and road centerlines
+    package: dgcad_runtime
+    requires: [preview, human_approval, commit, stale_propagation]
+  - id: massing
+    input: canonical building heights and footprints
+    output: massing DerivedArtifact records
+    package: dgcad_domain
+  - id: shadow_baseline
+    input: canonical building blockers + sample points + location/time/north
+    output: ShadowAnalysisResult with dependency fingerprint
+    package: dgcad_analysis
+  - id: cad_ir
+    input: canonical scene + analysis sample points + delivery profile
+    output: CadIR with object IDs, revisions, worlds, provenance
+    package: dgcad_cad
+  - id: dxf
+    input: CadIR + DXF profile
+    output: DXF file + compiler manifest
+    package: dgcad_cad
+  - id: readback
+    input: DXF file + CadIR + profile
+    output: validation result + readback manifest
+    package: dgcad_cad
+
+invariants:
+  living_packages_only: true
+  archived_pipeline_is_reference_only: true
+  canonical_is_upstream_truth: true
+  object_identity_survives_every_stage: true
+  every_stage_records_method_and_version: true
+  every_derived_artifact_has_dependency_refs: true
+  unknown_height_is_never_promoted_to_a_numeric_default: true
+  known_dev_cad_gaps_are_xfail_with_issue_refs: true
+
+outputs:
+  required:
+    - canonical_scene
+    - massing_artifacts
+    - shadow_result
+    - cad_ir
+    - dxf_path
+    - readback_manifest
+    - validation_results
+
+known_deferred:
+  issues: ["#1", "#2", "#3", "#4", "#5", "#6", "#7", "#8"]
+  note: "DEV-CAD-001..008 remain Milestone 3 work; E2E-001 records them as xfail/known gaps."

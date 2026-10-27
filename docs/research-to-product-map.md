@@ -48,7 +48,7 @@ This map is the single index of which research artifacts have been promoted into
 | Site Topology Contract v0.1 | `deferred` | — | Needed for multi-building shared-edge/overlap slices; not required by domain slice 001 |
 | Environment Analysis Dependency Contract v0.1 | `deferred` | — | Requires an analysis slice and independent engine evidence |
 | Environment Result Schema v0.1 | `deferred` | — | Same |
-| CAD-IR Contract v0.1 | `deferred` | — | Milestone 3 (DXF validator hardening / delivery slice) |
+| CAD-IR Contract v0.1 | **promoted (minimal)** | `contracts/cad-ir-v0.1.yaml` + `src/dgcad_cad/ir.py` | Minimal E2E delivery subset; full CAD-IR semantics and Profile enforcement deferred |
 | DXF Semantic Equivalence Policy v0.1 | **promoted** | `docs/status.md` (known defects) + Milestone 3 | Policy accepted; implementation deferred |
 | IFC Round-trip Contract v0.1 | `blocked_by_evidence` | — | IfcOpenShell execution and a real host are unavailable |
 | Benchmark Case Schema v0.1 | `deferred` | — | Milestone 2 integration suite |
@@ -71,7 +71,8 @@ This map is the single index of which research artifacts have been promoted into
 | LOCAL-BLDG-001/002 | `research_only` | — | Synthetic identity/refusal probes |
 | LOCAL-CAD-003/004 | `research_only` | — | Synthetic and DB11 subset probes |
 | LOCAL-ENV-001 | `research_only` | — | NOAA baseline; independent engine missing |
-| E2E-FIXTURE-001 v0.1–v0.3 | `deferred` | Milestone 2 | Port into `tests/e2e/` with fixtures and mutation cases |
+| E2E-FIXTURE-001 v0.1–v0.3 | `research_only` | — | Superseded as the active pipeline by E2E-001; retained as historical evidence |
+| E2E-001 living pipeline | **promoted** | `contracts/e2e-pipeline-v0.1.yaml` + `src/dgcad_e2e/` + `tests/e2e/` | Domain → massing → shadow → CAD-IR → DXF → readback, using living packages only |
 | DEV-CAD-001..008 | `deferred` | GitHub issues, Milestone 3 | Issues created; implementation explicitly postponed |
 | R0 acquisition batches (BATCH-001..005) | `research_only` | — | Unclosed evidence; gate claims remain blocked |
 
@@ -96,7 +97,7 @@ This map is the single index of which research artifacts have been promoted into
 
 ## Domain slice 001 implementation (0.2.0)
 
-Promoted and implemented with 22 tests:
+Promoted and implemented with 26 tests:
 
 - confirmed trace fixture and immutability;
 - Building intent, footprint preservation/regularization candidate, height state/source;
@@ -106,7 +107,19 @@ Promoted and implemented with 22 tests:
 - structured domain validators;
 - StatefulRuntime integration (propose → preview → human approval → commit → stale → rebuild job).
 
-Still deferred: real sketch input, real alignment/junction geometry, standard profiles, DXF/IFC, analysis and UI.
+Still deferred: real sketch input, real alignment/junction geometry, standard profiles and UI.
+
+## E2E-001 implementation (0.3.0)
+
+Promoted and implemented with 8 E2E tests, 7 analysis tests and 9 CAD delivery tests (2 xfail):
+
+- synthetic shadow baseline with explicit unknown states;
+- minimal CAD-IR with identity/revision/provenance;
+- DXF R2010 compiler and independent readback validator/manifest;
+- living pipeline from DOMAIN-SLICE-001 to DXF readback;
+- `DEV-CAD-003` gaps recorded as strict xfail.
+
+Still deferred: third-party CAD round-trip, IFC, real sketch input, standards profile and independent shadow engine.
 
 ## Current living contracts
 
@@ -114,6 +127,8 @@ Still deferred: real sketch input, real alignment/junction geometry, standard pr
 contracts/
 ├── canonical-site-ir-v0.4.yaml
 ├── domain-contract-v0.1.yaml
+├── cad-ir-v0.1.yaml
+├── e2e-pipeline-v0.1.yaml
 ├── evidence-gate-register-v0.2.yaml
 ├── runtime-state-contract-v0.1.yaml
 ├── runtime-agent-surface-v0.1.yaml

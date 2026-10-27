@@ -5,6 +5,7 @@
 | [status.md](status.md) | Current implementation, gate and evidence status |
 | [roadmap.md](roadmap.md) | Milestones, exit criteria and next actions |
 | [research-to-product-map.md](research-to-product-map.md) | Which research artifacts are promoted, deferred or blocked |
+| [e2e/living-pipeline-001.md](e2e/living-pipeline-001.md) | Executed E2E-001 pipeline result, scope and known gaps |
 | [architecture/overview.md](architecture/overview.md) | Provisional architecture, module boundaries, Canonical IR |
 | [architecture/authority.md](architecture/authority.md) | Living authority, role and lock model |
 | [development/testing.md](development/testing.md) | Test layers, current coverage scope, what tests do and do not prove |

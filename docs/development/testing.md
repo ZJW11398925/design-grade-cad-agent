@@ -8,7 +8,7 @@ Testing is the primary engineering control in this project. Research claims are 
 |---|---|---|
 | L0 Contract / conformance | Prove governance invariants: identity, revision, authority, dependency, idempotency, lifecycle | **65 tests passing** |
 | L1 Domain contract | Prove building/road domain objects, unknown-state preservation, atomic topology changes and validators | **26 tests passing** |
-| L2 Integration | Prove the synthetic E2E pipeline: fixture → analysis → CAD-IR → DXF → readback | archived scripts, not yet in CI |
+| L2 Integration | Prove the synthetic E2E pipeline: fixture → analysis → CAD-IR → DXF → readback | **8 tests passing; 2 known CAD gaps strict xfail** |
 | L3 Third-party | Prove semantic round-trip through independent CAD/BIM applications | partial; one user-run AutoCAD core-engine review |
 | L4 Security / lifecycle | Prove loopback, roles, pairing, lease, bridge expiry, stale writers | 14 lifecycle tests |
 
@@ -23,6 +23,9 @@ A passing lower layer never promotes a higher-layer claim automatically.
 | Deployment | `tests/test_deployment_contracts.py` | 8 |
 | Lifecycle | `tests/test_lifecycle_contracts.py` | 14 |
 | Domain | `tests/test_domain_contracts.py` | 26 |
+| Analysis | `tests/test_analysis_contracts.py` | 7 |
+| CAD delivery | `tests/test_cad_delivery_contracts.py` | 9 (2 xfail) |
+| E2E | `tests/e2e/test_living_pipeline.py` | 8 |
 
 Run all:
 
@@ -72,6 +75,12 @@ python -m pytest -q --cov --cov-report=term-missing
 - Height changes stale massing but not footprint-only artifacts; road geometry changes stale road surfaces.
 - External geometry enters only through reconcile proposals.
 - The domain flow works through `StatefulRuntime`: propose → preview → human approval → commit → stale artifact → rebuild job.
+- A synthetic E2E pipeline runs from confirmed trace to DXF readback without importing archived scripts.
+- Massing is produced for confirmed heights and blocked for unknown height; stale artifacts are queued in dependency-safe order.
+- Shadow analysis preserves unknown blocker height and binds results to a dependency fingerprint.
+- DXF XDATA preserves identity, revision, source/representation hashes and ring roles.
+- DXF readback detects vertex mutation, unexpected layers and entity-type substitution without crashing.
+- Known bulge/constant-width gaps are recorded as strict xfails referencing `DEV-CAD-003` / issue #3.
 
 ## 4. What the current tests do **not** prove
 
@@ -82,6 +91,8 @@ python -m pytest -q --cov --cov-report=term-missing
 - That real sketch recognition, geometry construction, road design or building regularization works.
 - That the domain slice's simplified regularization (axis-aligned envelope) or road centerline merge is professionally correct.
 - That DXF output is compliant with any real project/design-office profile.
+- That a third-party CAD application can open/save/read the DXF with semantic equivalence.
+- That the E2E DXF profile matches any real design-office profile.
 - That IFC round-trip preserves identity.
 - That shadow analysis matches an independent engine.
 - That any Chinese regulatory threshold is satisfied.

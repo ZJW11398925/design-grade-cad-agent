@@ -170,6 +170,8 @@ def build_initial_scene(trace_scene: ConfirmedTraceScene) -> SceneState:
             revisions=RevisionStamp(0, 0, 0),
             authority_state=AuthorityState.CANDIDATE,
             values={
+                "trace_ref": intent.trace_refs[0],
+                "trace_refs": list(intent.trace_refs),
                 "edge_refs": list(intent.edge_refs),
                 "hierarchy": intent.hierarchy,
                 "hierarchy_state": intent.hierarchy_state,

@@ -23,3 +23,10 @@ These cases exist to prove that unknown values survive from trace to canonical s
 ## Immutability
 
 Do not edit this fixture in place once it is used as evidence. Add a new revision (`domain-slice-002.yaml`) and keep this file for regression comparison.
+
+## Revisions
+
+- `domain-slice-001.yaml` — original fixture revision 1. It does not carry explicit `trace_refs` on road corridors and is retained as historical evidence.
+- `domain-slice-001-r2.yaml` — current fixture revision 2. Adds explicit road `trace_refs` so every design object can carry a `trace_ref` through validation.
+
+New work uses revision 2. Revision 1 is not edited in place.
