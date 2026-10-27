@@ -110,7 +110,7 @@ road:
     road_edge:
       required: [edge_id, corridor_id, node_a, node_b, centerline]
     road_corridor:
-      required: [corridor_id, edge_refs, classification, cross_section]
+      required: [corridor_id, trace_refs, edge_refs, classification, cross_section]
   classification:
     layers:
       - classification_scheme
