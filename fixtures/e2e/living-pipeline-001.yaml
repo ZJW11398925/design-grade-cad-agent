@@ -62,3 +62,8 @@ delivery:
       lineweight: 18
   entity_style_policy: BYLAYER
   layer_set_policy: exact_allowlist
+  text_style_policy:
+    rotation: 0.0
+    width_factor: 1.0
+    halign: 0
+    valign: 0

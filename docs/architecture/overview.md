@@ -185,7 +185,7 @@ Implemented behavior:
 - DXF identity/revision/hash/role survive through XDATA.
 - No import or invocation of archived R0 scripts.
 
-Still not implemented: third-party CAD round-trip, IFC, real sketch input, real road engineering, standards profile, independent shadow engine and UI. Known `DEV-CAD-003` gaps are strict xfails.
+Still not implemented: third-party CAD round-trip, IFC, real sketch input, real road engineering, standards profile, independent shadow engine and UI. Milestone 3a closes DEV-CAD-003/007/009/010; 3b/3c remain for symbol-table, dependency/ring identity and third-party evidence.
 
 ## 11. Implemented E2E-002 mutation/rebuild (v0.4.0)
 
@@ -212,7 +212,7 @@ Verified behavior:
 - issue categories: `cad_format_semantics`, `interoperability`, `profile_violation`, `serialization_difference`, `validator_error`;
 - a `delivery-comparison.json` artifact combining object IDs, canonical revisions, CAD-IR fingerprint, readback verdict, audit, profile identity, `dxf_sha256` and `readback_manifest_sha256`;
 - positive checks for LWPOLYLINE elevation, MultiPolygon 2-part+hole, one layer linetype case and missing XDATA;
-- strict xfails for CIRCLE/TEXT 3D, text placement, entity style overrides, LWPOLYLINE full semantics and structured validator errors.
+- positive checks for CIRCLE/TEXT 3D, text placement, entity style overrides, LWPOLYLINE full semantics and structured validator errors.
 
 Boundaries: same-library `ezdxf` only, modelspace only, no systematic DEV-CAD fix, no third-party CAD evidence, road surface still deferred. CAD-IR fingerprint/dependency-key consistency is tracked as #16 / DEV-CAD-011.
 

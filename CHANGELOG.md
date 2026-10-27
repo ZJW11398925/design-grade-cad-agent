@@ -2,6 +2,33 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.6.0 — 2026-10-27
+
+### Fixed
+
+- Milestone 3a validator hardening: all 15 strict xfails are now positive checks.
+- Structured `VALIDATOR_ERROR`: malformed DXF and validator-internal exceptions return a structured failure, never a pass or uncaught exception.
+- Entity-level style overrides: color, linetype, lineweight, true color and transparency are checked against the BYLAYER policy.
+- CIRCLE center Z and TEXT insertion Z are checked.
+- TEXT rotation, width factor, horizontal and vertical alignment are checked against the delivery profile.
+- LWPOLYLINE full semantics: bulge, start/end width, constant width, thickness, extrusion, elevation and closed flag.
+- `DeliveryProfile.text_style_policy` and compiler support for explicit TEXT rotation/width/alignment.
+
+### Changed
+
+- `contracts/e2e-adversarial-v0.1.yaml`: all scenarios are now detected or pass; no strict xfail remains in Milestone 3a.
+- Issue-category mapping expanded for the new checks; contract-sync test still enforces exact coverage.
+- `tests/test_cad_delivery_contracts.py`: bulge and constant-width tests are now positive.
+- Test suite: **141 collected / 141 passed / 0 xfailed**.
+- Version `0.6.0`.
+
+### Scope
+
+- Closed #3 (LWPOLYLINE validation), #7 (structured validator errors), #17 (entity style overrides) and #18 (CIRCLE/TEXT semantics).
+- `DEV-CAD-004` remains open for raw/canonical geometry preservation.
+- `DEV-CAD-001/005/006/008/011` remain open for Milestone 3b/3c.
+- No third-party CAD round-trip, paper-space validation, IFC, real sketch or road surface geometry.
+
 ## 0.5.1 — 2026-10-27
 
 ### Fixed

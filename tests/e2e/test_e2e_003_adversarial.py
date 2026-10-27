@@ -233,14 +233,10 @@ def test_issue_categories_distinguish_failure_domains(project, tmp_path):
 
 
 # ---------------------------------------------------------------------------
-# Strict xfails: known gaps with accurate issue mapping
+# Hardened checks: Milestone 3a (previously strict xfails)
 # ---------------------------------------------------------------------------
 
 
-@pytest.mark.xfail(
-    reason="DEV-CAD-010 / issue #18: CIRCLE center Z is not validated",
-    strict=True,
-)
 def test_circle_nonzero_z_is_detected(project, tmp_path):
     def mutate(doc):
         entity = _entity(doc.modelspace(), "SAMPLE-01", "point_marker")
@@ -248,12 +244,12 @@ def test_circle_nonzero_z_is_detected(project, tmp_path):
 
     result = _mutate(project, tmp_path, "circle_z", mutate)
     assert result.verdict == "fail"
+    issue = next(
+        issue for issue in result.issues if issue.code == "CIRCLE_NONZERO_Z"
+    )
+    assert issue.category == "cad_format_semantics"
 
 
-@pytest.mark.xfail(
-    reason="DEV-CAD-010 / issue #18: TEXT insertion Z is not validated",
-    strict=True,
-)
 def test_text_nonzero_z_is_detected(project, tmp_path):
     def mutate(doc):
         entity = _entity(
@@ -263,12 +259,12 @@ def test_text_nonzero_z_is_detected(project, tmp_path):
 
     result = _mutate(project, tmp_path, "text_z", mutate)
     assert result.verdict == "fail"
+    issue = next(
+        issue for issue in result.issues if issue.code == "TEXT_NONZERO_Z"
+    )
+    assert issue.category == "cad_format_semantics"
 
 
-@pytest.mark.xfail(
-    reason="DEV-CAD-010 / issue #18: TEXT rotation is not validated",
-    strict=True,
-)
 def test_text_rotation_is_detected(project, tmp_path):
     def mutate(doc):
         entity = _entity(
@@ -278,12 +274,14 @@ def test_text_rotation_is_detected(project, tmp_path):
 
     result = _mutate(project, tmp_path, "text_rotation", mutate)
     assert result.verdict == "fail"
+    issue = next(
+        issue
+        for issue in result.issues
+        if issue.code == "TEXT_ROTATION_MISMATCH"
+    )
+    assert issue.category == "profile_violation"
 
 
-@pytest.mark.xfail(
-    reason="DEV-CAD-010 / issue #18: TEXT width/alignment is not validated",
-    strict=True,
-)
 def test_text_width_and_alignment_are_detected(project, tmp_path):
     def mutate(doc):
         entity = _entity(
@@ -295,55 +293,61 @@ def test_text_width_and_alignment_are_detected(project, tmp_path):
 
     result = _mutate(project, tmp_path, "text_alignment", mutate)
     assert result.verdict == "fail"
+    assert "TEXT_WIDTH_MISMATCH" in result.codes
+    assert "TEXT_ALIGNMENT_MISMATCH" in result.codes
+    for code in ("TEXT_WIDTH_MISMATCH", "TEXT_ALIGNMENT_MISMATCH"):
+        issue = next(issue for issue in result.issues if issue.code == code)
+        assert issue.category == "profile_violation"
 
 
 STYLE_MUTATIONS = (
     pytest.param(
         "color",
         lambda entity: setattr(entity.dxf, "color", 1),
+        "ENTITY_COLOR_OVERRIDE",
         id="color",
     ),
     pytest.param(
         "linetype",
         lambda entity: setattr(entity.dxf, "linetype", "DASHED"),
+        "ENTITY_LINETYPE_OVERRIDE",
         id="linetype",
     ),
     pytest.param(
         "lineweight",
         lambda entity: setattr(entity.dxf, "lineweight", 211),
+        "ENTITY_LINEWEIGHT_OVERRIDE",
         id="lineweight",
     ),
     pytest.param(
         "true_color",
         lambda entity: setattr(entity.dxf, "true_color", 0xFF0000),
+        "ENTITY_TRUE_COLOR_OVERRIDE",
         id="true_color",
     ),
     pytest.param(
         "transparency",
         lambda entity: setattr(entity.dxf, "transparency", 0x020000FF),
+        "ENTITY_TRANSPARENCY_OVERRIDE",
         id="transparency",
     ),
 )
 
 
-@pytest.mark.parametrize("name,mutation", STYLE_MUTATIONS)
-@pytest.mark.xfail(
-    reason="DEV-CAD-009 / issue #17: entity style overrides are not validated",
-    strict=True,
-)
-def test_entity_style_override_is_detected(project, tmp_path, name, mutation):
+@pytest.mark.parametrize("name,mutation,code", STYLE_MUTATIONS)
+def test_entity_style_override_is_detected(
+    project, tmp_path, name, mutation, code
+):
     def mutate(doc):
         entity = _entity(doc.modelspace(), "B-001", "polygon_ring")
         mutation(entity)
 
     result = _mutate(project, tmp_path, f"style_{name}", mutate)
     assert result.verdict == "fail"
+    issue = next(issue for issue in result.issues if issue.code == code)
+    assert issue.category == "profile_violation"
 
 
-@pytest.mark.xfail(
-    reason="DEV-CAD-003 / issue #3: LWPOLYLINE start/end width is not validated",
-    strict=True,
-)
 def test_lwpolyline_start_end_width_is_detected(project, tmp_path):
     def mutate(doc):
         entity = _entity(doc.modelspace(), "B-001", "polygon_ring")
@@ -353,12 +357,14 @@ def test_lwpolyline_start_end_width_is_detected(project, tmp_path):
 
     result = _mutate(project, tmp_path, "start_end_width", mutate)
     assert result.verdict == "fail"
+    issue = next(
+        issue
+        for issue in result.issues
+        if issue.code == "VERTEX_WIDTH_MISMATCH"
+    )
+    assert issue.category == "cad_format_semantics"
 
 
-@pytest.mark.xfail(
-    reason="DEV-CAD-003 / issue #3: LWPOLYLINE thickness is not validated",
-    strict=True,
-)
 def test_lwpolyline_thickness_is_detected(project, tmp_path):
     def mutate(doc):
         entity = _entity(doc.modelspace(), "B-001", "polygon_ring")
@@ -366,12 +372,12 @@ def test_lwpolyline_thickness_is_detected(project, tmp_path):
 
     result = _mutate(project, tmp_path, "thickness", mutate)
     assert result.verdict == "fail"
+    issue = next(
+        issue for issue in result.issues if issue.code == "THICKNESS_MISMATCH"
+    )
+    assert issue.category == "cad_format_semantics"
 
 
-@pytest.mark.xfail(
-    reason="DEV-CAD-003 / issue #3: LWPOLYLINE extrusion is not validated",
-    strict=True,
-)
 def test_lwpolyline_extrusion_is_detected(project, tmp_path):
     def mutate(doc):
         entity = _entity(doc.modelspace(), "B-001", "polygon_ring")
@@ -379,17 +385,18 @@ def test_lwpolyline_extrusion_is_detected(project, tmp_path):
 
     result = _mutate(project, tmp_path, "extrusion", mutate)
     assert result.verdict == "fail"
+    issue = next(
+        issue for issue in result.issues if issue.code == "EXTRUSION_MISMATCH"
+    )
+    assert issue.category == "cad_format_semantics"
 
 
-@pytest.mark.xfail(
-    reason="DEV-CAD-007 / issue #7: validator errors are not structured",
-    strict=True,
-)
 def test_validator_error_is_structured(project, tmp_path):
     bad = tmp_path / "malformed.dxf"
     bad.write_text("not a dxf file", encoding="utf-8")
-    result = validate_dxf(
-        bad, project.latest_cad_ir, project.profile
-    )
+    result = validate_dxf(bad, project.latest_cad_ir, project.profile)
     assert result.verdict == "fail"
-    assert any(issue.code == "VALIDATOR_ERROR" for issue in result.issues)
+    issue = next(
+        issue for issue in result.issues if issue.code == "VALIDATOR_ERROR"
+    )
+    assert issue.category == "validator_error"

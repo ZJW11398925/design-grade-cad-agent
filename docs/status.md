@@ -1,7 +1,7 @@
 # Project Status
 
 Updated: 2026-10-27
-Version: `0.5.1` (domain slice + E2E-001/002/003)
+Version: `0.6.0` (Milestone 3a validator hardening)
 Research basis: R0 v0.19 + R1 deployment-entry v0.2
 
 ## 1. One-line status
@@ -12,10 +12,10 @@ The project has a working **governance/runtime contract layer**, a **synthetic B
 
 ```text
 python -m pytest -q
-126 passed, 15 xfailed
+141 passed
 ```
 
-141 tests collected: 126 passing, 15 strict xfails linked to issues.
+141 tests collected, all passing. No long-lived strict xfails.
 
 | Suite | Tests | Status |
 |---|---|---|
@@ -25,10 +25,10 @@ python -m pytest -q
 | Lifecycle | 14 | passing |
 | Domain | 26 | passing |
 | Analysis | 7 | passing |
-| CAD delivery | 9 | 7 passing, 2 xfail |
+| CAD delivery | 9 | passing |
 | E2E-001 | 8 | passing |
 | E2E-002 | 6 | passing |
-| E2E-003 | 20 | 7 passing, 13 strict xfail |
+| E2E-003 | 20 | passing |
 
 ## 3. Capability status
 
@@ -49,7 +49,7 @@ python -m pytest -q
 | Real professional road geometry | **not validated** | only centerline + explicit cross-section; no alignment/clothoid/surface |
 | E2E-001 living pipeline | **implemented (synthetic)** | Domain → massing → shadow → CAD-IR → DXF → readback, living packages only |
 | E2E-002 mutation/rebuild | **implemented (synthetic)** | scoped stale + deterministic rebuild worker; height, node, north bearing verified |
-| E2E-003 adversarial delivery | **implemented (same-library)** | 6 positive checks, 13 strict xfails; categories and issue mapping |
+| E2E-003 adversarial delivery | **implemented (same-library)** | 20/20 positive checks; no permanent xfails; categories and issue mapping |
 | Road surface geometry | **deferred** | no `SURFACE-R-002` artifact is generated or claimed |
 | DXF delivery | **minimal synthetic** | R2010, 15 entities, audit 0/0; known DEV-CAD gaps deferred |
 | Third-party CAD round-trip | **partial evidence only** | one user-run AutoCAD 2022 core-engine round-trip; no repeatable third-party matrix; issue #6 |
@@ -94,16 +94,22 @@ Promotion status of all research artifacts: [research-to-product-map.md](researc
 
 These were reproduced after the v0.3 synthetic hardening and are accepted as **development acceptance items**, not research tasks. Unless stated otherwise, the list describes the archived v0.3 validator; the living E2E validator may already cover a subset:
 
-- `DEV-CAD-001` MultiPolygon expected-entity contract raises `KeyError`.
-- `DEV-CAD-002` entity-type mismatch raises unhandled `AttributeError`.
-- `DEV-CAD-003` LWPOLYLINE bulge / constant width mutations are falsely accepted.
-- `DEV-CAD-004` raw DXF semantics and canonical geometry are not both validated.
-- `DEV-CAD-005` symbol-table name comparison is case-sensitive; AutoCAD normalizes `CONTINUOUS` to `Continuous`.
-- `DEV-CAD-006` third-party round-trip matrix not implemented.
-- `DEV-CAD-007` some validator failures are not structured issues.
-- `DEV-CAD-008` CAD serialization differences vs project profile rules are not fully separated.
+Resolved in the living validator (0.6.0):
 
-E2E-003 maps the remaining gaps: `DEV-CAD-003` bulge/width (#3), `DEV-CAD-007` structured validator_error (#7), `DEV-CAD-009` entity style overrides (#17), `DEV-CAD-010` CIRCLE/TEXT semantics (#18). The living validator handles MultiPolygon 2-part+hole, one layer linetype case and safe entity-type substitution. Full symbol-table equivalence remains #5. The archived v0.3 validator and the full matrix remain Milestone 3 work.
+- `DEV-CAD-002` safe entity dispatch and `ENTITY_TYPE_MISMATCH` — issue #2 closed.
+- `DEV-CAD-003` LWPOLYLINE bulge, width, thickness and extrusion — issue #3 closed.
+- `DEV-CAD-007` structured `validator_error` — issue #7 closed.
+- `DEV-CAD-009` entity-level style overrides — issue #17 closed.
+- `DEV-CAD-010` CIRCLE/TEXT 3D and text placement — issue #18 closed.
+
+Still open (Milestone 3b/3c):
+
+- `DEV-CAD-001` / #1: MultiPolygon/ring contract for the archived v0.3 path; ring identity stability.
+- `DEV-CAD-004` / #4: raw DXF semantics and canonical/sampled geometry both preserved.
+- `DEV-CAD-005` / #5: full symbol-table case semantics; only one linetype case is covered.
+- `DEV-CAD-006` / #6: repeatable third-party CAD round-trip matrix.
+- `DEV-CAD-008` / #8: CAD serialization differences vs project profile rules.
+- `DEV-CAD-011` / #16: CAD-IR fingerprint and registered dependency-key consistency.
 
 See `research/archive/r0-v0.19/working/cad-bim-validator/development-acceptance-contract-v0.1.md`.
 
@@ -154,7 +160,7 @@ What it does **not** prove:
 - Standards or daylight compliance.
 - That the synthetic shadow baseline matches an independent engine.
 
-Known gap: `DEV-CAD-003` (bulge/constant width) is recorded as two strict xfails referencing issue #3.
+`DEV-CAD-003` (bulge/constant width) was resolved in Milestone 3a; issue #3 is closed.
 
 ## 9. E2E-002 mutation and rebuild
 
@@ -189,12 +195,12 @@ Positive coverage:
 - `delivery-comparison.json` contains object IDs, canonical revisions, CAD-IR fingerprint, readback verdict, audit, profile identity, `dxf_sha256` and `readback_manifest_sha256`; both hashes are verified against the actual files.
 - Issue categories distinguish `profile_violation` from `cad_format_semantics`; unknown codes default to `unclassified`, and a contract-sync test enforces the mapping.
 
-Strict xfails with issue links:
+Hardened in Milestone 3a (previously strict xfails):
 
-- CIRCLE/TEXT Z, TEXT rotation/width/alignment → #18 / DEV-CAD-010.
-- Entity color/linetype/lineweight/true-color/transparency overrides → #17 / DEV-CAD-009.
-- LWPOLYLINE start/end width, thickness, extrusion → #3 / DEV-CAD-003.
-- Structured `VALIDATOR_ERROR` → #7 / DEV-CAD-007.
+- CIRCLE/TEXT Z, TEXT rotation/width/alignment → `CIRCLE_NONZERO_Z`, `TEXT_NONZERO_Z`, `TEXT_ROTATION_MISMATCH`, `TEXT_WIDTH_MISMATCH`, `TEXT_ALIGNMENT_MISMATCH`.
+- Entity color/linetype/lineweight/true-color/transparency overrides → `ENTITY_*_OVERRIDE`.
+- LWPOLYLINE start/end width, thickness, extrusion → `VERTEX_WIDTH_MISMATCH`, `THICKNESS_MISMATCH`, `EXTRUSION_MISMATCH`; bulge/constant width also detected.
+- Structured `VALIDATOR_ERROR` for malformed DXF or validator-internal exceptions.
 
 Existing coverage reused: vertex mutation, unexpected layer, entity-type substitution, bulge and constant width.
 
@@ -202,7 +208,7 @@ Boundaries:
 
 - Same-library `ezdxf` compile/readback only; not third-party CAD evidence.
 - Modelspace only; paper space out of scope.
-- No systematic DEV-CAD fix in this round.
+- Milestone 3a hardened the living validator; 3b/3c remain open for symbol-table, dependency/ring identity and third-party evidence.
 - Road surface geometry remains deferred.
 - CAD-IR fingerprint/dependency-key consistency is tracked as #16 / DEV-CAD-011.
 

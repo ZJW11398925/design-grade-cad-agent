@@ -20,7 +20,7 @@ COVERAGE_LIMITS = (
     "modelspace-only synthetic E2E output",
     "no third-party CAD round-trip",
     "no IFC",
-    "bulge, width and full LWPOLYLINE semantics deferred to DEV-CAD-003",
+    "full LWPOLYLINE semantics currently expect compiler defaults (zero bulge/width/thickness, +Z extrusion)",
 )
 
 
@@ -43,6 +43,21 @@ ISSUE_CATEGORIES = {
     "COORDINATE_MISMATCH": "cad_format_semantics",
     "CLOSED_MISMATCH": "cad_format_semantics",
     "NONZERO_Z": "cad_format_semantics",
+    "CIRCLE_NONZERO_Z": "cad_format_semantics",
+    "TEXT_NONZERO_Z": "cad_format_semantics",
+    "TEXT_ROTATION_MISMATCH": "profile_violation",
+    "TEXT_WIDTH_MISMATCH": "profile_violation",
+    "TEXT_ALIGNMENT_MISMATCH": "profile_violation",
+    "ENTITY_COLOR_OVERRIDE": "profile_violation",
+    "ENTITY_LINETYPE_OVERRIDE": "profile_violation",
+    "ENTITY_LINEWEIGHT_OVERRIDE": "profile_violation",
+    "ENTITY_TRUE_COLOR_OVERRIDE": "profile_violation",
+    "ENTITY_TRANSPARENCY_OVERRIDE": "profile_violation",
+    "BULGE_MISMATCH": "cad_format_semantics",
+    "VERTEX_WIDTH_MISMATCH": "cad_format_semantics",
+    "CONST_WIDTH_MISMATCH": "cad_format_semantics",
+    "THICKNESS_MISMATCH": "cad_format_semantics",
+    "EXTRUSION_MISMATCH": "cad_format_semantics",
     "CIRCLE_MISMATCH": "cad_format_semantics",
     "TEXT_MISMATCH": "cad_format_semantics",
     "AUDIT_ERROR": "cad_format_semantics",
@@ -205,7 +220,68 @@ def _coords_equal(actual, expected) -> bool:
     )
 
 
-def validate_dxf(
+def _style_issues(entity, object_id: str) -> list[DxfIssue]:
+    issues: list[DxfIssue] = []
+    if int(getattr(entity.dxf, "color", 256)) != 256:
+        issues.append(
+            DxfIssue(
+                "ENTITY_COLOR_OVERRIDE",
+                "error",
+                object_id,
+                "entity color override is not allowed (BYLAYER policy)",
+                256,
+                entity.dxf.color,
+            )
+        )
+    linetype = str(getattr(entity.dxf, "linetype", "BYLAYER"))
+    if linetype.upper() != "BYLAYER":
+        issues.append(
+            DxfIssue(
+                "ENTITY_LINETYPE_OVERRIDE",
+                "error",
+                object_id,
+                "entity linetype override is not allowed (BYLAYER policy)",
+                "BYLAYER",
+                linetype,
+            )
+        )
+    if int(getattr(entity.dxf, "lineweight", -1)) != -1:
+        issues.append(
+            DxfIssue(
+                "ENTITY_LINEWEIGHT_OVERRIDE",
+                "error",
+                object_id,
+                "entity lineweight override is not allowed (BYLAYER policy)",
+                -1,
+                entity.dxf.lineweight,
+            )
+        )
+    if entity.dxf.hasattr("true_color"):
+        issues.append(
+            DxfIssue(
+                "ENTITY_TRUE_COLOR_OVERRIDE",
+                "error",
+                object_id,
+                "entity true color override is not allowed (BYLAYER policy)",
+                None,
+                entity.dxf.true_color,
+            )
+        )
+    if entity.dxf.hasattr("transparency"):
+        issues.append(
+            DxfIssue(
+                "ENTITY_TRANSPARENCY_OVERRIDE",
+                "error",
+                object_id,
+                "entity transparency override is not allowed (BYLAYER policy)",
+                None,
+                entity.dxf.transparency,
+            )
+        )
+    return issues
+
+
+def _validate_dxf_impl(
     dxf_path: str | Path, cad_ir: CadIR, profile: DeliveryProfile
 ) -> DxfReadbackResult:
     dxf_path = Path(dxf_path)
@@ -355,6 +431,7 @@ def validate_dxf(
                     entity.dxf.layer,
                 )
             )
+        issues.extend(_style_issues(entity, xdata["object_id"]))
         if xdata["object_class"] != spec["object_class"]:
             issues.append(
                 DxfIssue(
@@ -445,6 +522,71 @@ def validate_dxf(
                         entity.dxf.elevation,
                     )
                 )
+            points = list(entity.get_points("xyseb"))
+            if any(abs(float(point[4])) > TOLERANCE for point in points):
+                issues.append(
+                    DxfIssue(
+                        "BULGE_MISMATCH",
+                        "error",
+                        xdata["object_id"],
+                        "LWPOLYLINE bulge is not zero",
+                        0.0,
+                        [point[4] for point in points],
+                    )
+                )
+            if any(
+                abs(float(point[2])) > TOLERANCE
+                or abs(float(point[3])) > TOLERANCE
+                for point in points
+            ):
+                issues.append(
+                    DxfIssue(
+                        "VERTEX_WIDTH_MISMATCH",
+                        "error",
+                        xdata["object_id"],
+                        "LWPOLYLINE start/end width is not zero",
+                        0.0,
+                        [(point[2], point[3]) for point in points],
+                    )
+                )
+            if abs(float(getattr(entity.dxf, "const_width", 0.0))) > TOLERANCE:
+                issues.append(
+                    DxfIssue(
+                        "CONST_WIDTH_MISMATCH",
+                        "error",
+                        xdata["object_id"],
+                        "LWPOLYLINE constant width is not zero",
+                        0.0,
+                        entity.dxf.const_width,
+                    )
+                )
+            if abs(float(getattr(entity.dxf, "thickness", 0.0))) > TOLERANCE:
+                issues.append(
+                    DxfIssue(
+                        "THICKNESS_MISMATCH",
+                        "error",
+                        xdata["object_id"],
+                        "LWPOLYLINE thickness is not zero",
+                        0.0,
+                        entity.dxf.thickness,
+                    )
+                )
+            extrusion = entity.dxf.extrusion
+            if (
+                abs(float(extrusion.x)) > TOLERANCE
+                or abs(float(extrusion.y)) > TOLERANCE
+                or abs(float(extrusion.z) - 1.0) > TOLERANCE
+            ):
+                issues.append(
+                    DxfIssue(
+                        "EXTRUSION_MISMATCH",
+                        "error",
+                        xdata["object_id"],
+                        "LWPOLYLINE extrusion is not +Z",
+                        (0.0, 0.0, 1.0),
+                        (extrusion.x, extrusion.y, extrusion.z),
+                    )
+                )
         elif entity.dxftype() == "CIRCLE":
             center = (float(entity.dxf.center.x), float(entity.dxf.center.y))
             if not _coords_equal([center], [spec["center"]]):
@@ -456,6 +598,17 @@ def validate_dxf(
                         "CIRCLE center does not match CAD-IR",
                         spec["center"],
                         center,
+                    )
+                )
+            if abs(float(entity.dxf.center.z)) > TOLERANCE:
+                issues.append(
+                    DxfIssue(
+                        "CIRCLE_NONZERO_Z",
+                        "error",
+                        xdata["object_id"],
+                        "CIRCLE center Z is not zero",
+                        0.0,
+                        entity.dxf.center.z,
                     )
                 )
             if abs(float(entity.dxf.radius) - float(spec["radius"])) > TOLERANCE:
@@ -490,6 +643,59 @@ def validate_dxf(
                         "TEXT height does not match CAD-IR",
                         spec["height"],
                         entity.dxf.height,
+                    )
+                )
+            if abs(float(entity.dxf.insert.z)) > TOLERANCE:
+                issues.append(
+                    DxfIssue(
+                        "TEXT_NONZERO_Z",
+                        "error",
+                        xdata["object_id"],
+                        "TEXT insertion Z is not zero",
+                        0.0,
+                        entity.dxf.insert.z,
+                    )
+                )
+            text_policy = profile.text_style_policy
+            if abs(
+                float(entity.dxf.rotation)
+                - float(text_policy["rotation"])
+            ) > TOLERANCE:
+                issues.append(
+                    DxfIssue(
+                        "TEXT_ROTATION_MISMATCH",
+                        "error",
+                        xdata["object_id"],
+                        "TEXT rotation does not match the delivery profile",
+                        text_policy["rotation"],
+                        entity.dxf.rotation,
+                    )
+                )
+            if abs(
+                float(entity.dxf.width)
+                - float(text_policy["width_factor"])
+            ) > TOLERANCE:
+                issues.append(
+                    DxfIssue(
+                        "TEXT_WIDTH_MISMATCH",
+                        "error",
+                        xdata["object_id"],
+                        "TEXT width factor does not match the delivery profile",
+                        text_policy["width_factor"],
+                        entity.dxf.width,
+                    )
+                )
+            if int(entity.dxf.halign) != int(
+                text_policy["halign"]
+            ) or int(entity.dxf.valign) != int(text_policy["valign"]):
+                issues.append(
+                    DxfIssue(
+                        "TEXT_ALIGNMENT_MISMATCH",
+                        "error",
+                        xdata["object_id"],
+                        "TEXT alignment does not match the delivery profile",
+                        (text_policy["halign"], text_policy["valign"]),
+                        (entity.dxf.halign, entity.dxf.valign),
                     )
                 )
 
@@ -573,3 +779,30 @@ def validate_dxf(
         issues=tuple(issues),
         manifest=manifest,
     )
+
+
+def validate_dxf(
+    dxf_path: str | Path, cad_ir: CadIR, profile: DeliveryProfile
+) -> DxfReadbackResult:
+    """Validate a DXF; validator-internal errors are structured, never a pass."""
+    try:
+        return _validate_dxf_impl(dxf_path, cad_ir, profile)
+    except Exception as exc:  # noqa: BLE001 - validator boundary
+        path = Path(dxf_path)
+        message = f"{type(exc).__name__}: {exc}"
+        return DxfReadbackResult(
+            verdict="fail",
+            issues=(
+                DxfIssue(
+                    "VALIDATOR_ERROR",
+                    "error",
+                    None,
+                    message,
+                ),
+            ),
+            manifest={
+                "file": path.name,
+                "validator_error": message,
+            },
+            coverage_limits=COVERAGE_LIMITS,
+        )

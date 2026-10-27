@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any
 
 from shapely.geometry import Point
@@ -28,12 +28,23 @@ class DeliveryProfile:
     layers: dict[str, dict[str, Any]]
     entity_style_policy: str
     layer_set_policy: str
+    text_style_policy: dict[str, Any] = field(
+        default_factory=lambda: {
+            "rotation": 0.0,
+            "width_factor": 1.0,
+            "halign": 0,
+            "valign": 0,
+        }
+    )
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "DeliveryProfile":
         layers = data.get("layers")
         if not isinstance(layers, dict) or not layers:
             raise ValueError("delivery.layers must be a non-empty mapping")
+        text_policy = data.get("text_style_policy", {})
+        if not isinstance(text_policy, dict):
+            raise ValueError("delivery.text_style_policy must be a mapping")
         return cls(
             profile_id=str(data["profile_id"]),
             profile_version=str(data["profile_version"]),
@@ -46,6 +57,12 @@ class DeliveryProfile:
             layers={str(name): dict(spec) for name, spec in layers.items()},
             entity_style_policy=str(data.get("entity_style_policy", "BYLAYER")),
             layer_set_policy=str(data.get("layer_set_policy", "exact_allowlist")),
+            text_style_policy={
+                "rotation": float(text_policy.get("rotation", 0.0)),
+                "width_factor": float(text_policy.get("width_factor", 1.0)),
+                "halign": int(text_policy.get("halign", 0)),
+                "valign": int(text_policy.get("valign", 0)),
+            },
         )
 
 
