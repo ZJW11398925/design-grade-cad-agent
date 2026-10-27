@@ -10,6 +10,7 @@
 | [e2e/adversarial-delivery-003.md](e2e/adversarial-delivery-003.md) | Executed E2E-003 audit, detected checks and boundaries |
 | [e2e/semantic-dependency-003b.md](e2e/semantic-dependency-003b.md) | Executed E2E-003b fingerprint, symbol-table, ring and raw/canonical closure |
 | [e2e/third-party-003c.md](e2e/third-party-003c.md) | Executed AutoCAD 2024 Core Console round-trip evidence and partial-matrix scope |
+| [e2e/sketch-001/README.md](e2e/sketch-001/README.md) | CASE-SKETCH-001: designer sketch, image-space trace, rough centerlines, privacy boundary |
 | [architecture/overview.md](architecture/overview.md) | Provisional architecture, module boundaries, Canonical IR |
 | [architecture/authority.md](architecture/authority.md) | Living authority, role and lock model |
 | [development/testing.md](development/testing.md) | Test layers, current coverage scope, what tests do and do not prove |

@@ -1,0 +1,244 @@
+{
+  "schema_id": "dgcad.sketch.case-summary.v0.1",
+  "case_id": "CASE-SKETCH-001",
+  "tier": "B_human_known_base",
+  "status": "proposed_not_human_confirmed",
+  "source": {
+    "published_asset": "source/sketch.png",
+    "sha256": "07714b66f6405d7d4dacde91716eb7b4c8c6b4c32072ea91641a9725a295c0be",
+    "width": 1023,
+    "height": 1537,
+    "source_kind": "exported_raster_colour_site_plan",
+    "crop": "top edge intentional; only a road segment is clipped (designer-confirmed)"
+  },
+  "privacy": {
+    "published": [
+      "sketch raster",
+      "image-space trace geometry",
+      "image-space road centerlines",
+      "image-space overlays"
+    ],
+    "private": [
+      "DWG",
+      "DXF",
+      "redline and project coordinates",
+      "calibration matrix",
+      "project-space trace",
+      "metric lengths and areas"
+    ],
+    "note": "The private site reference is not published. Public files contain image-space geometry only; no DWG/DXF path, project coordinate or metric scale is included.",
+    "source_authorization": "designer authorized publication of the sketch only"
+  },
+  "designer_confirmations": {
+    "unit": "metre",
+    "existing_buildings": "remove_all; unrelated to the sketch design",
+    "red": "building",
+    "magenta": "underground garage entrance, not building",
+    "brown": "main road",
+    "blue": "branch road and access road; subtypes not separated by colour",
+    "green": "cluster green space",
+    "top_crop": "only a road segment is clipped; no missing site-boundary content",
+    "boundary_registration": "accepted; hand-drawn deviation is large",
+    "publication": "sketch_only"
+  },
+  "calibration": {
+    "transform_type": "homography",
+    "review_state": "reviewed",
+    "accuracy_state": "conceptual_approximate",
+    "residual_mean_px": 24.51,
+    "residual_max_px": 43.42,
+    "reference_published": false,
+    "note": "Designer accepts the boundary registration. The sketch is hand-modified; the residual is large and the result is not survey-grade. The reference frame and matrix are private."
+  },
+  "counts": {
+    "building_candidates": 63,
+    "garage_entrance_candidates": 3,
+    "cluster_green_space_candidates": 12,
+    "road_area_candidates": 9,
+    "road_centerline_candidates": 312,
+    "site_boundary_candidates": 1,
+    "ambiguity_regions": 7
+  },
+  "road_centerlines": {
+    "status": "proposed_rough",
+    "method": "colour_mask -> component area filter -> thinning -> pixel graph -> junction clustering -> spur pruning -> degree-2 chain contraction -> shapely simplify",
+    "parameters": {
+      "spur_prune_threshold_px": 14.0,
+      "junction_cluster_radius_px": 10.0,
+      "simplify_tolerance_px": 3.0
+    },
+    "main_road": {
+      "kept_components": 1,
+      "node_count": 40,
+      "edge_count": 41,
+      "endpoints": 4,
+      "junctions": 6,
+      "cyclomatic_number": 2,
+      "total_length_px": 3860.77
+    },
+    "branch_or_access_road": {
+      "kept_components": 8,
+      "node_count": 266,
+      "edge_count": 271,
+      "endpoints": 125,
+      "junctions": 93,
+      "cyclomatic_number": 13,
+      "total_length_px": 10708.66
+    },
+    "subtype_note": "blue combines 支路 and 入户路; colour does not separate the two",
+    "non_claims": [
+      "rough hand-sketch centerlines, not professional road alignment",
+      "no road width inference, cross-section, junction turn geometry or surface",
+      "blue combines 支路 and 入户路; subtypes are not separated",
+      "topology is proposed_rough; junction merging and connectivity need human review"
+    ]
+  },
+  "ambiguities": [
+    {
+      "ambiguity_id": "SK-AMB-CLIPPED-ROAD",
+      "kind": "clipped_road_only",
+      "bbox_px": [
+        40,
+        0,
+        960,
+        24
+      ],
+      "description": "designer confirms the top edge is intentional; only a road segment is clipped; no missing site-boundary content",
+      "review_state": "reviewed"
+    },
+    {
+      "ambiguity_id": "SK-AMB-NORTH-ARROW",
+      "kind": "annotation_occlusion",
+      "bbox_px": [
+        380,
+        0,
+        100,
+        95
+      ],
+      "description": "north arrow interrupts the dashed boundary",
+      "review_state": "proposed"
+    },
+    {
+      "ambiguity_id": "SK-AMB-SOUTH-ARROW",
+      "kind": "annotation_occlusion",
+      "bbox_px": [
+        380,
+        1460,
+        100,
+        77
+      ],
+      "description": "south arrow interrupts the dashed boundary",
+      "review_state": "proposed"
+    },
+    {
+      "ambiguity_id": "SK-AMB-NOTCH",
+      "kind": "boundary_shape_mismatch",
+      "bbox_px": [
+        620,
+        170,
+        320,
+        140
+      ],
+      "description": "designer accepts the boundary registration; the sketch notch still differs from the redline notch by a larger residual",
+      "review_state": "reviewed"
+    },
+    {
+      "ambiguity_id": "SK-AMB-BLUE-SUBTYPE",
+      "kind": "semantic_subtype_unseparated",
+      "bbox_px": null,
+      "description": "blue combines 支路 and 入户路; colour does not separate the two subtypes",
+      "review_state": "proposed"
+    },
+    {
+      "ambiguity_id": "SK-AMB-MERGE-SPLIT",
+      "kind": "building_merge_split",
+      "bbox_px": [
+        80,
+        680,
+        220,
+        220
+      ],
+      "description": "10 close red-component pairs (<=4 px); the algorithm keeps each component separate; designer clarification pending",
+      "review_state": "proposed"
+    },
+    {
+      "ambiguity_id": "SK-AMB-HAND-DRAWN",
+      "kind": "hand_drawn_boundary",
+      "bbox_px": null,
+      "description": "sketch is hand-modified; boundary deviation is accepted by the designer; not survey-grade",
+      "review_state": "reviewed"
+    }
+  ],
+  "open_items": [
+    "Building merge/split: the 10 close red-component pairs are kept separate by default.",
+    "Human-confirmed trace and fidelity metrics are not yet available.",
+    "支路 and 入户路 are not separated within the blue class.",
+    "Road centerline topology is rough; junction merging and connectivity need human review."
+  ],
+  "non_claims": [
+    "one conceptual hand-modified sketch; not a validated sketch-recognition benchmark",
+    "semantic labels are designer-confirmed; geometry is still proposed",
+    "calibration is a reviewed approximate homography with ~24.5 px mean residual; not survey-grade",
+    "no OCR was executed; the visible 幼儿园 label is a visual observation",
+    "road centerlines are rough skeleton-derived candidates; no professional alignment, width or junction design",
+    "no claim that building footprints, areas or counts match the designed building record",
+    "no claim of professional geometry, code compliance or construction accuracy"
+  ],
+  "merge_review": {
+    "schema_id": "dgcad.sketch.merge-review.v0.1",
+    "state": "default_separate",
+    "note": "Each red connected component is one building. Merge if a pair is one building with an attached wing; split if one component contains two buildings. No merge/split has been applied.",
+    "pairs": [
+      {
+        "gap_px": 0.0,
+        "a": "SK-BLD-0001",
+        "b": "SK-BLD-0037"
+      },
+      {
+        "gap_px": 0.0,
+        "a": "SK-BLD-0060",
+        "b": "SK-BLD-0063"
+      },
+      {
+        "gap_px": 1.0,
+        "a": "SK-BLD-0019",
+        "b": "SK-BLD-0058"
+      },
+      {
+        "gap_px": 1.0,
+        "a": "SK-BLD-0046",
+        "b": "SK-BLD-0063"
+      },
+      {
+        "gap_px": 1.0,
+        "a": "SK-BLD-0047",
+        "b": "SK-BLD-0062"
+      },
+      {
+        "gap_px": 1.0,
+        "a": "SK-BLD-0047",
+        "b": "SK-BLD-0063"
+      },
+      {
+        "gap_px": 1.0,
+        "a": "SK-BLD-0062",
+        "b": "SK-BLD-0063"
+      },
+      {
+        "gap_px": 2.0,
+        "a": "SK-BLD-0027",
+        "b": "SK-BLD-0059"
+      },
+      {
+        "gap_px": 4.0,
+        "a": "SK-BLD-0030",
+        "b": "SK-BLD-0053"
+      },
+      {
+        "gap_px": 4.0,
+        "a": "SK-BLD-0046",
+        "b": "SK-BLD-0062"
+      }
+    ]
+  }
+}

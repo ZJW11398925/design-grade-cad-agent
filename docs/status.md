@@ -1,21 +1,21 @@
 # Project Status
 
 Updated: 2026-10-27
-Version: `0.8.0` (Milestone 3c partial third-party evidence)
+Version: `0.9.0` (Milestone 4a sketch intake; Milestone 3c partial third-party evidence)
 Research basis: R0 v0.19 + R1 deployment-entry v0.2
 
 ## 1. One-line status
 
-The project has a working **governance/runtime contract layer**, a **synthetic Building/Road domain slice**, and **living E2E-001/002/003/003b pipelines** from confirmed trace to DXF readback with scoped mutation/rebuild, adversarial delivery checks, semantic/dependency closure and one real AutoCAD 2024 Core Console round-trip. It does **not** yet have real sketch input, real road engineering, third-party CAD interoperability, IFC, or real-world validated behavior.
+The project has a working **governance/runtime contract layer**, a **synthetic Building/Road domain slice**, **living E2E-001/002/003/003b pipelines** from confirmed trace to DXF readback with scoped mutation/rebuild, adversarial delivery checks, semantic/dependency closure, **one real AutoCAD 2024 Core Console round-trip**, and a first **Tier B designer-sketch intake** with designer-confirmed semantics and a proposed image-space trace. It does **not** yet have a human-confirmed sketch trace with fidelity metrics, real road engineering, general third-party CAD interoperability, IFC, or real-world validated behavior.
 
 ## 2. Test baseline
 
 ```text
 python -m pytest -q
-154 passed
+162 passed
 ```
 
-154 tests collected, all passing. No long-lived strict xfails.
+162 tests collected, all passing. No long-lived strict xfails.
 
 | Suite | Tests | Status |
 |---|---|---|
@@ -31,6 +31,7 @@ python -m pytest -q
 | E2E-003 | 20 | passing |
 | E2E-003b | 11 | passing |
 | Third-party evidence | 2 | passing |
+| Sketch evidence | 8 | passing |
 
 ## 3. Capability status
 
@@ -46,7 +47,7 @@ python -m pytest -q
 | Local sidecar lifecycle | implemented (prototype) | discovery, pairing, sessions, lease, bridge registry |
 | SQLite/WAL persistence | spike | not wired into `StatefulRuntime` save/load |
 | MCP wire protocol | **blocked** | official SDK unavailable |
-| Real AutoCAD / FreeCAD bridge | **blocked** | no host environment |
+| AutoCAD/FreeCAD runtime bridge | **blocked** | no host message exchange; the AutoCAD Core Console file round-trip is separate (3c) |
 | Building/Road domain adapters | **implemented (synthetic)** | confirmed trace → canonical building/road; unknown states preserved |
 | Real professional road geometry | **not validated** | only centerline + explicit cross-section; no alignment/clothoid/surface |
 | E2E-001 living pipeline | **implemented (synthetic)** | Domain → massing → shadow → CAD-IR → DXF → readback, living packages only |
@@ -60,7 +61,8 @@ python -m pytest -q
 | Ring identity | **implemented** | content-derived `ring_key` stable across part insertion |
 | Raw/canonical readback | **implemented** | manifest carries `canonical_target` + `raw_dxf_semantics`; tolerance 1e-9 |
 | Third-party CAD round-trip | **partial evidence only** | AutoCAD 2024 Core Console: semantic pass with serialization differences; LibreCAD/FreeCAD/GUI not run; issue #6 |
-| Real sketch → trace | **not validated** | no Tier B/C data |
+| Real sketch → trace | **partial (designer sketch)** | CASE-SKETCH-001: designer-confirmed semantics, image-space geometry proposed, no human-confirmed trace or fidelity metrics |
+| Road centerline extraction | **proposed_rough** | skeleton-derived from colour masks; no professional alignment, width or junction design |
 | Real design-office profile | **not validated** | synthetic and DB11 subset only |
 | IFC round-trip | **blocked** | IfcOpenShell unavailable |
 | Independent solar engine | **not validated** | synthetic NOAA baseline only |
@@ -76,6 +78,7 @@ python -m pytest -q
 | `contracts/e2e-pipeline-v0.1.yaml` | E2E-001 stages, invariants and known gaps |
 | `contracts/e2e-mutation-v0.1.yaml` | E2E-002 mutation, rebuild and manifest comparison |
 | `contracts/e2e-adversarial-v0.1.yaml` | E2E-003 adversarial scenarios, categories and issue mapping |
+| `contracts/sketch-evidence-v0.1.yaml` | Sketch-to-trace evidence, review states and publication boundary |
 | `contracts/evidence-gate-register-v0.2.yaml` | R1-G01..G08 and evidence packages |
 | `contracts/runtime-state-contract-v0.1.yaml` | Runtime state envelope and registries |
 | `contracts/sidecar-lifecycle-contract-v0.1.yaml` | Sidecar lifecycle |
@@ -91,15 +94,15 @@ Promotion status of all research artifacts: [research-to-product-map.md](researc
 | R1-G01 Identity | stable identity across canonical/3D/DXF/IFC | partial (no IFC execution) |
 | R1-G02 Authority | no bypass path | pass for prototype scope |
 | R1-G03 Dependency | correct stale/local rebuild | pass for contract scope |
-| R1-G04 Geometry | representative failure cases fail closed | partial (DXF defects deferred) |
-| R1-G05 Delivery | third-party semantic round-trip + real profile | not started |
+| R1-G04 Geometry | representative failure cases fail closed | partial (real geometry, entity range and project validation not exercised) |
+| R1-G05 Delivery | third-party semantic round-trip + real profile | partial (AutoCAD Core Console executed; real profile subset missing) |
 | R1-G06 Preview | no canonical pollution | pass for prototype scope |
-| R1-G07 Real Case | one non-synthetic site sketch | not started |
+| R1-G07 Real Case | one non-synthetic site sketch | partial (one designer sketch ingested; not human-confirmed; not through canonical) |
 | R1-G08 Spikes | IFC + independent ENV + real profile | not started |
 
 ## 6. Known defects carried forward
 
-These were reproduced after the v0.3 synthetic hardening and are accepted as **development acceptance items**, not research tasks. Unless stated otherwise, the list describes the archived v0.3 validator; the living E2E validator may already cover a subset:
+These were reproduced after the v0.3 synthetic hardening and are accepted as **development acceptance items**, not research tasks. The living validator now covers the resolved items; only `DEV-CAD-006` remains open.
 
 Resolved in the living validator (0.6.0):
 
@@ -200,7 +203,7 @@ Positive coverage:
 
 - LWPOLYLINE non-zero elevation → `NONZERO_Z`.
 - MultiPolygon 2 parts + 1 hole → 3 entities, audit 0/0, readback pass; `ring_index` is global within the object (part order, then ring order).
-- One layer linetype case (`Continuous`) → semantic pass; full symbol-table equivalence remains #5.
+- One layer linetype case (`Continuous`) → semantic pass; full symbol-table equivalence was completed in 3b (#5 closed).
 - Missing XDATA → `MISSING_XDATA`, category `interoperability`.
 - `delivery-comparison.json` contains object IDs, canonical revisions, CAD-IR fingerprint, readback verdict, audit, profile identity, `dxf_sha256` and `readback_manifest_sha256`; both hashes are verified against the actual files.
 - Issue categories distinguish `profile_violation` from `cad_format_semantics`; unknown codes default to `unclassified`, and a contract-sync test enforces the mapping.
@@ -218,9 +221,9 @@ Boundaries:
 
 - Same-library `ezdxf` compile/readback only; not third-party CAD evidence.
 - Modelspace only; paper space out of scope.
-- Milestone 3a hardened the living validator; 3b/3c remain open for symbol-table, dependency/ring identity and third-party evidence.
+- Milestone 3a hardened the living validator; 3b closed symbol-table, dependency and ring identity; 3c provides one-host third-party evidence.
 - Road surface geometry remains deferred.
-- CAD-IR fingerprint/dependency-key consistency is tracked as #16 / DEV-CAD-011.
+- CAD-IR fingerprint/dependency-key consistency was closed in 3b (#16 / DEV-CAD-011).
 
 ## 11. E2E-003b semantic and dependency closure
 
@@ -265,11 +268,43 @@ Not verified:
 
 Evidence: `docs/e2e/third-party-003c.md` and `docs/e2e/third-party-003c/`. Issue #6 remains open for the remaining matrix.
 
-## 13. Current non-claims
+## 13. CASE-SKETCH-001 intake (Milestone 4a, proposed)
+
+Implemented as a private-reference, public-sketch evidence package in `docs/e2e/sketch-001/` and `contracts/sketch-evidence-v0.1.yaml`.
+
+What is confirmed:
+
+- The private redline is the site boundary; the sketch is hand-modified with a large deviation.
+- Unit is metre; the DWG header `$INSUNITS=4` is a metadata defect.
+- Existing survey buildings are to be removed and are unrelated to the sketch design.
+- Red = building; magenta = underground garage entrance; brown = main road; blue = branch/access road; green = cluster green space.
+- The top edge is intentional; only a road segment is clipped.
+- Publication is sketch-only; DWG/DXF, redline/project coordinates and metric scale remain private.
+
+What is proposed:
+
+- 63 red building components, 3 garage entrances, 12 cluster green spaces, 9 road areas and 1 site boundary in image space.
+- 312 rough centerline candidates: main road 1 component / 40 nodes / 41 edges / 4 endpoints / 6 junctions / 2 loops; blue network 8 components / 266 nodes / 271 edges / 125 endpoints / 93 junctions / 13 loops.
+- Semantic labels are confirmed; all geometry and centerline topology remain proposed.
+- Calibration to the private reference is a reviewed approximate homography (mean 24.51 px, max 43.42 px); not survey-grade.
+
+What is not done:
+
+- No human-confirmed trace or fidelity metrics (Hausdorff/IoU/topology).
+- No building merge/split decision; 10 close pairs are listed for review.
+- No 支路/入户路 separation.
+- No canonical Building/Road handoff from this sketch yet.
+- Road centerlines are not professional alignment or junction design.
+
+Evidence: `docs/e2e/sketch-001/README.md`, `docs/e2e/sketch-001/case-summary.json`, `contracts/sketch-evidence-v0.1.yaml`, `tests/test_sketch_evidence.py`.
+
+## 14. Current non-claims
 
 - `research_complete = false`
 - `release_authorized = false`
 - No production security approval.
 - No production database decision.
 - No Chinese road/building daylight compliance conclusion.
-- No claim that MCP, AutoCAD, FreeCAD or IFC have been executed.
+- No claim that MCP wire protocol, FreeCAD or IFC have been executed; AutoCAD 2024 Core Console was executed as a file round-trip, not a runtime bridge or GUI/print QA.
+- CASE-SKETCH-001 semantic labels are designer-confirmed; geometry and road centerlines are proposed, and no fidelity metrics exist.
+- CASE-SKETCH-001 publishes the sketch and image-space geometry only; the DWG/DXF, redline/project coordinates and metric scale are private.

@@ -101,17 +101,30 @@ Milestones 3a and 3b are complete. 3c adds the third-party CAD round-trip matrix
 
 After Milestone 3, prioritize the real sketch/trace and road evidence packages before broadening to IFC and independent environment engines.
 
-## Milestone 4 — Evidence packages
+## Milestone 4 — Evidence packages (in progress)
 
 | Package | Capability unlocked |
 |---|---|
-| `EP-R1-SKETCH-001` | real sketch → trace reliability |
+| `EP-R1-SKETCH-001` | **in progress**: real sketch → trace reliability |
 | `EP-R1-ROAD-001` | road topology/alignment/profile |
 | `EP-R1-IFC-001` | IFC identity round-trip |
 | `EP-R1-ENV-001` | independent shadow engine |
 | `EP-R1-PROFILE-001` | real project/design-office profile |
 
 Each package has its own decision question, raw evidence, metrics, failure policy and scope-leakage prohibition. No package is a checklist for production release.
+
+### EP-R1-SKETCH-001 — in progress (0.9.0)
+
+- [x] Intake a designer sketch with a private site reference; publish the sketch and image-space geometry only.
+- [x] Record designer-confirmed semantics: metre, red buildings, magenta garage entrances, brown main roads, blue branch/access roads, green cluster spaces, existing buildings removed, top crop road-only.
+- [x] Produce an image-space proposed trace (63 buildings, 3 garage entrances, 12 green spaces, 9 road areas, 1 boundary) with explicit ambiguities.
+- [x] Produce rough road centerlines (312 candidates; main road 1 component, blue network 8 components) as `proposed_rough`.
+- [ ] Human-confirmed trace and fidelity metrics (Hausdorff/IoU/topology).
+- [ ] Building merge/split review (10 close pairs, default separate).
+- [ ] 支路 vs 入户路 separation.
+- [ ] Canonical Building/Road handoff from this sketch.
+
+**Exit (not met):** a designer-confirmed semantic trace, a human-confirmed geometry reference, fidelity metrics within a declared scope, and a canonical handoff. Until then R1-G07 remains partial.
 
 ## Milestone 5 — Production hardening (not started)
 
