@@ -2,6 +2,32 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.4.0 — 2026-10-27
+
+### Added
+
+- `src/dgcad_e2e/living_project.py`: mutation/rebuild project with canonical project context, deterministic rebuild worker and scoped artifact registry.
+- `contracts/e2e-mutation-v0.1.yaml`: mutation, rebuild, manifest-comparison and road-surface-deferral contract.
+- `docs/e2e/dependency-mutation-002.md`: executed E2E-002 result.
+- 6 E2E-002 tests: height change, T-junction move, north bearing, real rebuild execution, manifest comparison, road-surface deferral.
+- `rebuild_road_corridor_proposal`: rebuilds a corridor centerline from latest canonical edge geometry, never from the trace fixture.
+- Project context `PROJECT-CONTEXT-001` versions north bearing with an explicit source.
+- DXF source hash now includes CAD-IR provenance, so analysis-derived sensor metadata changes when the shadow fingerprint changes.
+
+### Changed
+
+- `pyproject.toml`: version `0.4.0`.
+- Test suite: **121 collected / 119 passed / 2 xfailed**.
+- Road surface geometry is explicitly deferred: no `SURFACE-R-002` artifact is registered or claimed as generated.
+
+### Verified
+
+- Height change stales massing, shadow, CAD-IR and DXF; footprint-only artifacts stay current.
+- Node move is one atomic changeset; corridor centerline is rebuilt from current canonical edges.
+- North bearing change stales shadow and delivery but not building footprint geometry.
+- Rebuild worker recomputes, writes, validates and completes jobs with content hashes.
+- Manifest comparison uses object IDs, revisions, dependency fingerprints and readback verdict.
+
 ## 0.3.0 — 2026-10-27
 
 ### Added

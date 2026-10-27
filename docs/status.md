@@ -1,21 +1,21 @@
 # Project Status
 
 Updated: 2026-10-27
-Version: `0.3.0` (domain slice + E2E-001)
+Version: `0.4.0` (domain slice + E2E-001/002)
 Research basis: R0 v0.19 + R1 deployment-entry v0.2
 
 ## 1. One-line status
 
-The project has a working **governance/runtime contract layer**, a **synthetic Building/Road domain slice**, and a **living E2E-001 pipeline** from confirmed trace to DXF readback. It does **not** yet have real sketch input, real road engineering, third-party CAD interoperability, IFC, or real-world validated behavior.
+The project has a working **governance/runtime contract layer**, a **synthetic Building/Road domain slice**, and **living E2E-001/002 pipelines** from confirmed trace to DXF readback with scoped mutation/rebuild. It does **not** yet have real sketch input, real road engineering, third-party CAD interoperability, IFC, or real-world validated behavior.
 
 ## 2. Test baseline
 
 ```text
 python -m pytest -q
-113 passed, 2 xfailed
+119 passed, 2 xfailed
 ```
 
-115 tests collected: 113 passing, 2 expected xfails (`DEV-CAD-003`).
+121 tests collected: 119 passing, 2 expected xfails (`DEV-CAD-003`).
 
 | Suite | Tests | Status |
 |---|---|---|
@@ -26,7 +26,8 @@ python -m pytest -q
 | Domain | 26 | passing |
 | Analysis | 7 | passing |
 | CAD delivery | 9 | 7 passing, 2 xfail |
-| E2E | 8 | passing |
+| E2E-001 | 8 | passing |
+| E2E-002 | 6 | passing |
 
 ## 3. Capability status
 
@@ -46,6 +47,8 @@ python -m pytest -q
 | Building/Road domain adapters | **implemented (synthetic)** | confirmed trace → canonical building/road; unknown states preserved |
 | Real professional road geometry | **not validated** | only centerline + explicit cross-section; no alignment/clothoid/surface |
 | E2E-001 living pipeline | **implemented (synthetic)** | Domain → massing → shadow → CAD-IR → DXF → readback, living packages only |
+| E2E-002 mutation/rebuild | **implemented (synthetic)** | scoped stale + deterministic rebuild worker; height, node, north bearing verified |
+| Road surface geometry | **deferred** | no `SURFACE-R-002` artifact is generated or claimed |
 | DXF delivery | **minimal synthetic** | R2010, 15 entities, audit 0/0; known DEV-CAD gaps deferred |
 | Third-party CAD round-trip | **not validated** | issue #6 |
 | Real sketch → trace | **not validated** | no Tier B/C data |
@@ -62,6 +65,7 @@ python -m pytest -q
 | `contracts/domain-contract-v0.1.yaml` | Confirmed trace → Building/Road domain slice |
 | `contracts/cad-ir-v0.1.yaml` | Minimal CAD-IR for the E2E delivery slice |
 | `contracts/e2e-pipeline-v0.1.yaml` | E2E-001 stages, invariants and known gaps |
+| `contracts/e2e-mutation-v0.1.yaml` | E2E-002 mutation, rebuild and manifest comparison |
 | `contracts/evidence-gate-register-v0.2.yaml` | R1-G01..G08 and evidence packages |
 | `contracts/runtime-state-contract-v0.1.yaml` | Runtime state envelope and registries |
 | `contracts/sidecar-lifecycle-contract-v0.1.yaml` | Sidecar lifecycle |
@@ -149,7 +153,27 @@ What it does **not** prove:
 
 Known gap: `DEV-CAD-003` (bulge/constant width) is recorded as two strict xfails referencing issue #3.
 
-## 9. Current non-claims
+## 9. E2E-002 mutation and rebuild
+
+Implemented in `src/dgcad_e2e/living_project.py` and `tests/e2e/test_e2e_002_mutations.py`.
+
+What it proves:
+
+- A height change bumps only the parameter revision, stales massing/shadow/CAD-IR/DXF, and leaves footprint-only artifacts current.
+- A T-junction move is one atomic changeset; corridor centerlines are rebuilt from latest canonical edge geometry, never from the fixture.
+- North bearing is versioned and sourced in `PROJECT-CONTEXT-001`; changing it stales shadow and delivery but not building footprint geometry.
+- The rebuild worker claims jobs, recomputes, writes, validates and completes only with a content hash.
+- Old/new delivery is compared by object IDs, canonical revisions, dependency fingerprints, readback verdict and audit result.
+- Road surface geometry is explicitly deferred; no `SURFACE-R-002` artifact is registered.
+
+What it does **not** prove:
+
+- Professional road surface construction.
+- Real sketch input or real road engineering.
+- Third-party CAD compatibility, IFC or standards compliance.
+- Independent shadow-engine accuracy.
+
+## 10. Current non-claims
 
 - `research_complete = false`
 - `release_authorized = false`

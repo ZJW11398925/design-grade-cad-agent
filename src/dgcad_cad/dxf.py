@@ -51,6 +51,7 @@ def _source_hash(obj: CadObject) -> str:
             "source_world": obj.source_world,
             "source_trace_ref": obj.provenance.get("source_trace_ref"),
             "geometry_revision": obj.geometry_revision,
+            "provenance": obj.provenance,
         }
     )
 

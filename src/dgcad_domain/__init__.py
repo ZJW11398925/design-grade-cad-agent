@@ -8,6 +8,7 @@ from .adapters import (
     height_change_proposal,
     move_road_node_changeset,
     road_corridor_proposal,
+    rebuild_road_corridor_proposal,
     scene_fingerprint,
 )
 from .building import (
@@ -86,6 +87,7 @@ __all__ = [
     "move_road_node_changeset",
     "parse_geometry",
     "polygon_from_geojson",
+    "rebuild_road_corridor_proposal",
     "resolve_profile_for_class",
     "road_corridor_candidate",
     "road_corridor_proposal",

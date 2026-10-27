@@ -1,0 +1,77 @@
+schema_id: dgcad.e2e.mutation.v0.1
+status: living_contract
+scope: e2e_002
+promotion_date: 2026-10-27
+purpose: "Verify scoped staleness, real rebuild execution and delivery comparison under design mutations."
+
+mutations:
+  building_height:
+    input: [building_id, new_height_m]
+    path: human_confirm proposal -> preview -> human approval -> commit
+    expected_stale:
+      - "MASS-{building_id}"
+      - SHADOW-E2E-002
+      - CAD-IR-E2E-002
+      - DXF-E2E-002
+    expected_current:
+      - PLAN-B-001
+      - MASS-B-003
+    invariants:
+      - "height change bumps parameter revision only"
+      - "professional footprint and plan coordinates do not change"
+
+  road_node_move:
+    input: [node_id, x, y]
+    path: atomic changeset for node + edges + corridors, then deterministic corridor refresh
+    expected_stale:
+      - CAD-IR-E2E-002
+      - DXF-E2E-002
+    expected_current:
+      - SHADOW-E2E-002
+      - PLAN-B-001
+      - MASS-B-001
+      - MASS-B-003
+    invariants:
+      - "the node move is one atomic changeset"
+      - "corridor centerline is rebuilt from latest canonical edge geometry"
+      - "the original trace fixture is never re-read to overwrite a committed move"
+
+  north_bearing:
+    input: [new_bearing_deg]
+    canonical_object: PROJECT-CONTEXT-001
+    fields: [north_bearing_deg, north_bearing_source]
+    expected_stale:
+      - SHADOW-E2E-002
+      - CAD-IR-E2E-002
+      - DXF-E2E-002
+    expected_current:
+      - PLAN-B-001
+      - MASS-B-001
+      - MASS-B-003
+    invariants:
+      - "north bearing is versioned by the project context parameter revision"
+      - "north bearing has an explicit source"
+      - "building footprint geometry is not staled by a north bearing change"
+
+rebuild:
+  executor: deterministic_worker
+  steps: [claim, recompute, write, validate, complete]
+  success_requires_content_hash: true
+  validation_before_success: true
+  failure_marks_job_failed: true
+
+manifest_comparison:
+  required:
+    - object_ids
+    - canonical_revisions
+    - cad_ir_dependency_fingerprint
+    - dxf_readback_verdict
+    - audit_errors
+  forbidden:
+    - "file_hash_only_conclusion"
+
+road_surface:
+  status: deferred
+  reason: "No authorized road surface generator is implemented in E2E-002."
+  invariant: "SURFACE-R-002 dependency metadata is not a generated road surface."
+  deferred_artifacts: [SURFACE-R-002]

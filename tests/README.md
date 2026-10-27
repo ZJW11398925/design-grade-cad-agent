@@ -14,6 +14,7 @@ python -m pytest -q
 | `test_analysis_contracts.py` | 7 | Solar position, confirmed/unknown blockers, context completeness, dependency fingerprint |
 | `test_cad_delivery_contracts.py` | 9 (2 xfail) | CAD-IR mapping, DXF compile/readback, mutation detection, known DEV-CAD-003 gaps |
 | `e2e/test_living_pipeline.py` | 8 | Full living pipeline, evidence files, declared unknowns, living-package-only check |
+| `e2e/test_e2e_002_mutations.py` | 6 | Height change, node move, north bearing, rebuild worker, manifest comparison, road-surface deferral |
 
 ## Rules
 

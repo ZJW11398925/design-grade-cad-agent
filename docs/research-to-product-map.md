@@ -73,6 +73,7 @@ This map is the single index of which research artifacts have been promoted into
 | LOCAL-ENV-001 | `research_only` | — | NOAA baseline; independent engine missing |
 | E2E-FIXTURE-001 v0.1–v0.3 | `research_only` | — | Superseded as the active pipeline by E2E-001; retained as historical evidence |
 | E2E-001 living pipeline | **promoted** | `contracts/e2e-pipeline-v0.1.yaml` + `src/dgcad_e2e/` + `tests/e2e/` | Domain → massing → shadow → CAD-IR → DXF → readback, using living packages only |
+| E2E-002 mutation/rebuild | **promoted** | `contracts/e2e-mutation-v0.1.yaml` + `src/dgcad_e2e/living_project.py` + `tests/e2e/` | Scoped stale, deterministic rebuild worker, manifest comparison; road surface deferred |
 | DEV-CAD-001..008 | `deferred` | GitHub issues, Milestone 3 | Issues created; implementation explicitly postponed |
 | R0 acquisition batches (BATCH-001..005) | `research_only` | — | Unclosed evidence; gate claims remain blocked |
 
@@ -121,6 +122,17 @@ Promoted and implemented with 8 E2E tests, 7 analysis tests and 9 CAD delivery t
 
 Still deferred: third-party CAD round-trip, IFC, real sketch input, standards profile and independent shadow engine.
 
+## E2E-002 implementation (0.4.0)
+
+Promoted and implemented with 6 E2E tests:
+
+- scoped staleness for height, T-junction node and north-bearing mutations;
+- canonical project context with versioned/sourced north bearing;
+- deterministic corridor centerline rebuild from latest canonical edges;
+- Runtime claim/recompute/write/validate/complete rebuild worker;
+- manifest comparison by object IDs, revisions, dependency fingerprint and readback verdict;
+- road surface geometry explicitly deferred (no `SURFACE-R-002` artifact).
+
 ## Current living contracts
 
 ```text
@@ -129,6 +141,7 @@ contracts/
 ├── domain-contract-v0.1.yaml
 ├── cad-ir-v0.1.yaml
 ├── e2e-pipeline-v0.1.yaml
+├── e2e-mutation-v0.1.yaml
 ├── evidence-gate-register-v0.2.yaml
 ├── runtime-state-contract-v0.1.yaml
 ├── runtime-agent-surface-v0.1.yaml
