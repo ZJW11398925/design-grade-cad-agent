@@ -160,10 +160,11 @@ Still open: LibreCAD/FreeCAD/GUI third-party matrix (#6), arcs/splines outside t
 
 - First Tier B designer-sketch intake; the sketch is published, while the DWG/DXF, redline/project coordinates and metric scale remain private.
 - Designer-confirmed semantics: metre; red buildings; magenta underground garage entrances; brown main roads; blue branch/access roads; green cluster spaces; existing survey buildings removed; top crop clips only a road segment.
-- Image-space proposed trace: 58 buildings (56 standalone + 2 designer-confirmed merges), 63 original red components preserved for provenance, 3 garage entrances, 12 green spaces, 9 road areas and 1 site boundary.
-- Designer building merges: M-001 = 0046+0047+0060 (3 units) plus connectors 0062+0063; M-002 = 0030 (2 units) + 0053 (1 unit). All buildings record 11 floors as provisional; the unit-type library is pending.
+- Image-space proposed trace: 55 buildings (50 standalone + 5 designer-confirmed merges), 63 original red components preserved for provenance (13 merged), 3 garage entrances, 12 green spaces, 9 road areas and 1 site boundary.
+- Designer building merges: M-001 = 0046+0047+0060 (3 units) plus connectors 0062+0063; M-002 = 0030 (2 units) + 0053 (1 unit); M-003 = 0001+0037 (kindergarten/facility); M-004 = 0019+0058; M-005 = 0027+0059. All buildings record 11 floors as provisional; the unit-type library is pending.
+- Unit counts: 16 one-unit, 21 two-unit, 17 three-unit; 52 inferred from sketch dimensions, 2 confirmed, 1 facility excluded; six length-vs-area conflicts are flagged.
 - 312 rough road centerlines (`proposed_rough`): main road 1 component, blue network 8 components.
-- No human-confirmed trace or fidelity metrics; remaining close pairs 0001/0037, 0019/0058, 0027/0059 stay separate; 支路/入户路 unseparated; no canonical handoff.
+- No human-confirmed trace or fidelity metrics; all 10 close pairs are resolved; six unit-count conflicts and the kindergarten facility remain for review; 支路/入户路 unseparated; no canonical handoff.
 - Contract: `contracts/sketch-evidence-v0.1.yaml`; tests: `tests/test_sketch_evidence.py` (8).
 
 ## E2E-002 implementation (0.4.0)

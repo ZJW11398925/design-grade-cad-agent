@@ -57,9 +57,23 @@ def test_contract_defines_sketch_semantics_and_review_rules():
     ]
     assert design["unit_count_states"] == [
         "unknown",
+        "inferred",
         "confirmed",
         "not_applicable",
     ]
+    assert design["unit_types"] == ["1_unit", "2_unit", "3_unit"]
+    inference = contract["unit_inference"]
+    assert inference["states"] == [
+        "unknown",
+        "inferred",
+        "confirmed",
+        "not_applicable",
+    ]
+    assert inference["unit_types"] == ["1_unit", "2_unit", "3_unit"]
+    assert any(
+        "not forced into residential" in rule
+        for rule in inference["rules"]
+    )
     assert design["floor_count_states"] == [
         "unknown",
         "proposed_initial",
@@ -87,13 +101,21 @@ def test_public_case_declares_sketch_only_privacy():
     assert summary["calibration"]["reference_published"] is False
     assert summary["calibration"]["review_state"] == "reviewed"
     assert summary["calibration"]["accuracy_state"] == "conceptual_approximate"
-    assert summary["merge_review"]["state"] == "partially_resolved"
+    assert summary["merge_review"]["state"] == "resolved"
     assert len(summary["merge_review"]["pairs"]) == 10
     assert sum(
         1
         for pair in summary["merge_review"]["pairs"]
         if pair["resolution"] == "merged"
-    ) == 7
+    ) == 10
+    assert summary["unit_inference"]["distribution"] == {
+        "1_unit": 16,
+        "2_unit": 21,
+        "3_unit": 17,
+        "confirmed": 2,
+        "inferred": 52,
+        "facility_excluded": 1,
+    }
 
 
 def test_public_trace_is_image_space_and_proposed():
@@ -182,7 +204,24 @@ def test_merged_buildings_follow_designer_unit_decisions():
     assert second["properties"]["merge_state"] == "confirmed"
     assert second["geometry"]["type"] == "MultiPolygon"
 
+    third = buildings["SK-BLD-MRG-0003"]
+    assert third["properties"]["building_use_candidate"] == "kindergarten"
+    assert third["properties"]["unit_count"] is None
+    assert third["properties"]["unit_count_state"] == "not_applicable"
+    fourth = buildings["SK-BLD-MRG-0004"]
+    fifth = buildings["SK-BLD-MRG-0005"]
+    assert fourth["properties"]["unit_count"] == 3
+    assert fourth["properties"]["unit_count_state"] == "inferred"
+    assert fifth["properties"]["unit_count"] == 3
+    assert fifth["properties"]["unit_count_state"] == "inferred"
+
     for merged_component in (
+        "SK-BLD-0001",
+        "SK-BLD-0037",
+        "SK-BLD-0019",
+        "SK-BLD-0058",
+        "SK-BLD-0027",
+        "SK-BLD-0059",
         "SK-BLD-0030",
         "SK-BLD-0046",
         "SK-BLD-0047",
@@ -200,7 +239,7 @@ def test_merged_buildings_follow_designer_unit_decisions():
         for feature in components
         if feature["properties"]["merged_into"] is not None
     ]
-    assert len(merged) == 7
+    assert len(merged) == 13
     by_id = {
         feature["properties"]["trace_id"]: feature["properties"]
         for feature in components
@@ -209,15 +248,17 @@ def test_merged_buildings_follow_designer_unit_decisions():
     assert by_id["SK-BLD-0053"]["unit_count"] == 1
     assert by_id["SK-BLD-0062"]["component_role"] == "connector"
     assert by_id["SK-BLD-0062"]["unit_count_state"] == "not_applicable"
+    assert by_id["SK-BLD-0001"]["component_role"] == "facility_component"
+    assert by_id["SK-BLD-0001"]["merged_into"] == "SK-BLD-MRG-0003"
 
     pairs = load_json("merge-review-pairs.json")
-    assert pairs["state"] == "partially_resolved"
+    assert pairs["state"] == "resolved"
     assert sum(
         1 for pair in pairs["pairs"] if pair["resolution"] == "merged"
-    ) == 7
+    ) == 10
     assert sum(
         1 for pair in pairs["pairs"] if pair["resolution"] == "pending"
-    ) == 3
+    ) == 0
 
 
 def test_floor_count_is_provisional_and_unit_type_library_is_pending():
@@ -228,7 +269,7 @@ def test_floor_count_is_provisional_and_unit_type_library_is_pending():
         for feature in trace["features"]
         if feature["properties"]["semantic_role"] == "building_candidate"
     ]
-    assert len(buildings) == summary["counts"]["building_candidates"] == 58
+    assert len(buildings) == summary["counts"]["building_candidates"] == 55
     for feature in buildings:
         properties = feature["properties"]
         assert properties["floor_count"] == 11
@@ -252,6 +293,67 @@ def test_floor_count_is_provisional_and_unit_type_library_is_pending():
     assert any(
         "no floor height" in item for item in summary["non_claims"]
     )
+
+
+def test_unit_counts_are_inferred_from_sketch_dimensions():
+    summary = load_json("case-summary.json")
+    trace = load_json("trace-raw.geojson")
+    buildings = {
+        feature["properties"]["trace_id"]: feature
+        for feature in trace["features"]
+        if feature["properties"]["semantic_role"] == "building_candidate"
+    }
+    inference = summary["unit_inference"]
+    assert inference["status"] == "inferred_not_confirmed"
+    assert inference["unit_types"] == ["1_unit", "2_unit", "3_unit"]
+    assert inference["distribution"] == {
+        "1_unit": 16,
+        "2_unit": 21,
+        "3_unit": 17,
+        "confirmed": 2,
+        "inferred": 52,
+        "facility_excluded": 1,
+    }
+    assert set(inference["area_vs_length_conflicts"]) == {
+        "SK-BLD-0009",
+        "SK-BLD-0010",
+        "SK-BLD-0011",
+        "SK-BLD-0013",
+        "SK-BLD-0015",
+        "SK-BLD-0018",
+    }
+    assert buildings["SK-BLD-MRG-0001"]["properties"]["unit_count_state"] == (
+        "confirmed"
+    )
+    assert buildings["SK-BLD-MRG-0002"]["properties"]["unit_count_state"] == (
+        "confirmed"
+    )
+    assert buildings["SK-BLD-MRG-0004"]["properties"]["unit_count"] == 3
+    assert buildings["SK-BLD-MRG-0004"]["properties"]["unit_count_state"] == (
+        "inferred"
+    )
+    assert buildings["SK-BLD-MRG-0005"]["properties"]["unit_count"] == 3
+
+    for feature in buildings.values():
+        properties = feature["properties"]
+        if properties.get("building_use_candidate") == "residential":
+            assert properties["unit_count"] in {1, 2, 3}
+            assert properties["unit_type_candidate"] == (
+                f"{properties['unit_count']}_unit"
+            )
+            assert properties["unit_count_state"] in {
+                "confirmed",
+                "inferred",
+            }
+        else:
+            assert properties["unit_count"] is None
+            assert properties["unit_count_state"] == "not_applicable"
+
+    for trace_id in inference["area_vs_length_conflicts"]:
+        basis = buildings[trace_id]["properties"]["unit_count_basis"]
+        assert basis["conflict"] is True
+        assert basis["units_by_long_side"] == 3
+        assert basis["units_by_area"] == 2
 
 
 def test_road_centerlines_are_rough_and_do_not_infer_width():

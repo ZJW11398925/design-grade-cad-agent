@@ -93,8 +93,13 @@ building_design_state:
     - final
   unit_count_states:
     - unknown
+    - inferred
     - confirmed
     - not_applicable
+  unit_types:
+    - 1_unit
+    - 2_unit
+    - 3_unit
   floor_count_states:
     - unknown
     - proposed_initial
@@ -117,6 +122,33 @@ building_design_state:
       - "unit count and floor count are design intent, not measured geometry"
       - "a sketch placeholder must not be promoted to final building geometry before the unit-type library is applied"
       - "floor count does not imply height without a floor-to-floor height and section"
+      - "merged unit counts can be confirmed or inferred; the state must be recorded"
+
+unit_inference:
+  states:
+    - unknown
+    - inferred
+    - confirmed
+    - not_applicable
+  unit_types:
+    - 1_unit
+    - 2_unit
+    - 3_unit
+  methods:
+    - designer_confirmed
+    - long_side_primary_with_area_cross_check
+    - not_applicable_facility
+  required:
+    - unit_count
+    - unit_count_state
+    - unit_type_candidate
+    - unit_count_method
+    - unit_count_source
+  rules:
+    - "inferred unit counts are not confirmed"
+    - "long-side vs area conflicts must be recorded"
+    - "facility buildings are not forced into residential unit types"
+    - "the unit type set is limited to 1/2/3 units for this case"
 
 road_centerlines:
   required:

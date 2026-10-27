@@ -9,7 +9,7 @@ Testing is the primary engineering control in this project. Research claims are 
 | L0 Contract / conformance | Prove governance invariants: identity, revision, authority, dependency, idempotency, lifecycle | **65 tests passing** |
 | L1 Domain contract | Prove building/road domain objects, unknown-state preservation, atomic topology changes and validators | **26 tests passing** |
 | L2 Integration | Prove the synthetic E2E pipeline, scoped mutation/rebuild, adversarial delivery and semantic/dependency closure | **45 tests (8 E2E-001 + 6 E2E-002 + 20 E2E-003 + 11 E2E-003b), all passing** |
-| L2 Sketch evidence | Prove the sketch case's privacy boundary, designer-confirmed semantics, building merges/unit states and image-space-only trace/centerlines | **10 tests passing** |
+| L2 Sketch evidence | Prove the sketch case's privacy boundary, designer-confirmed semantics, building merges/unit states and image-space-only trace/centerlines | **11 tests passing** |
 | L3 Third-party | Prove semantic round-trip through independent CAD/BIM applications | partial evidence: AutoCAD 2024 Core Console semantic pass with serialization differences; no LibreCAD/FreeCAD/GUI matrix |
 | L4 Security / lifecycle | Prove loopback, roles, pairing, lease, bridge expiry, stale writers | 14 lifecycle tests |
 
@@ -31,7 +31,7 @@ A passing lower layer never promotes a higher-layer claim automatically.
 | E2E-003 | `tests/e2e/test_e2e_003_adversarial.py` | 20 |
 | E2E-003b | `tests/e2e/test_e2e_003b_semantics.py` | 11 |
 | Third-party evidence | `tests/e2e/test_e2e_003c_third_party.py` | 2 |
-| Sketch evidence | `tests/test_sketch_evidence.py` | 10 |
+| Sketch evidence | `tests/test_sketch_evidence.py` | 11 |
 
 Run all:
 
@@ -107,7 +107,8 @@ python -m pytest -q --cov --cov-report=term-missing
 - CASE-SKETCH-001 publishes the sketch and image-space geometry only; the public package contains no DWG/DXF path, project coordinates or metric scale.
 - Designer-confirmed semantic labels are recorded separately from geometry: labels are `confirmed`, while all trace and centerline geometry remains `proposed`.
 - Road centerlines are `proposed_rough` and carry an explicit no-width-inference/no-alignment scope.
-- Two designer-confirmed merged buildings preserve unit counts, connectors and all 63 original component IDs; 7 of 10 close pairs are resolved and 3 remain pending.
+- Five designer-confirmed merged buildings preserve unit counts, connectors and all 63 original component IDs; all 10 close pairs are resolved.
+- Unit counts are inferred from sketch dimensions (16 one-unit, 21 two-unit, 17 three-unit, plus one facility); 52 are inferred and 2 confirmed; six length-vs-area conflicts are flagged; the kindergarten is not forced into a unit type.
 - Every building carries a provisional 11-floor state with no floor height, massing or FAR; the unit-type library and human-confirmed geometry remain pending.
 
 ## 4. What the current tests do **not** prove

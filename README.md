@@ -4,7 +4,7 @@
 
 **A traceable research-and-development workspace for turning hand-drawn site sketches into professional, verifiable site models and editable CAD/BIM output.**
 
-> **Status: research prototype (v0.9.1).** This is not production CAD software, not a compliance certification, and not a validated AutoCAD/FreeCAD integration. Claims are scoped to the tests and evidence recorded in this repository.
+> **Status: research prototype (v0.9.2).** This is not production CAD software, not a compliance certification, and not a validated AutoCAD/FreeCAD integration. Claims are scoped to the tests and evidence recorded in this repository.
 
 ---
 
@@ -70,11 +70,11 @@ The provisional architecture defines 11 modules (M01 Source & Calibration throug
 | E2E-003 adversarial delivery | implemented, 20 tests (all pass) | geometry, style, identity, serialization and validator-error checks; same-library only |
 | E2E-003b semantic/dependency | implemented, 11 tests | fingerprint consistency, symbol-table case, stable ring keys, raw/canonical manifest |
 | E2E-003c third-party CAD | **partial**, 2 evidence tests | AutoCAD 2024 Core Console round-trip: 15 entities/XDATA preserved, R2010→R2018 + linetype case; LibreCAD/FreeCAD/GUI not run |
-| EP-R1-SKETCH-001 intake | **in progress**, 10 evidence tests | [CASE-SKETCH-001](docs/e2e/sketch-001/README.md): designer sketch, 58 buildings (2 designer-confirmed merges), 11 floors provisional, public image-space trace and rough centerlines; private DWG/redline; no fidelity metrics or unit-type library yet |
+| EP-R1-SKETCH-001 intake | **in progress**, 11 evidence tests | [CASE-SKETCH-001](docs/e2e/sketch-001/README.md): designer sketch, 55 buildings (5 designer-confirmed merges), unit counts 16/21/17 + 1 facility, 11 floors provisional, public image-space trace and rough centerlines; private DWG/redline; no fidelity metrics or unit-type library yet |
 | R0 research | archived | 5 acquisition batches, synthetic benchmarks, adversarial reviews, architecture challenge |
 | Real-world evidence | **partially obtained** | one designer sketch intake (CASE-SKETCH-001); still missing a field-paired case, real design-office profile, IFC round-trip, independent solar engine, AutoCAD/FreeCAD host exchange, MCP wire conformance |
 
-**Verified test baseline: 164 passed (164 collected)** (`python -m pytest -q`).
+**Verified test baseline: 165 passed (165 collected)** (`python -m pytest -q`).
 
 ### Explicit non-claims
 
@@ -86,9 +86,9 @@ The provisional architecture defines 11 modules (M01 Source & Calibration throug
 - E2E-001/002/003 remain same-library ezdxf. E2E-003c adds one real AutoCAD 2024 Core Console round-trip, but the LibreCAD/FreeCAD/GUI matrix is still incomplete (#6).
 - Third-party evidence is **partial**: AutoCAD 2024 Core Console executed with `semantic_pass_with_serialization_differences`; LibreCAD, FreeCAD and AutoCAD GUI visual QA are not executed. `DEV-CAD-006` / #6 remains open. Arcs/splines are outside the current delivery entity set.
 - Road surface geometry is deferred in E2E-002: no `SURFACE-R-002` artifact is registered or presented as generated road surface.
-- CASE-SKETCH-001 is one hand-modified designer sketch: semantic labels, two building merges and 11-floor assumption are designer-confirmed, but building geometry, heights and road centerlines are proposed/unknown, and no fidelity metrics exist against a human-confirmed trace.
-- The two merged buildings have confirmed unit counts (3 each); other building unit counts remain unknown. The unit-type library is pending, so all building footprints are sketch-era placeholders.
-- 11 floors is a provisional assumption; no floor height, massing, FAR or unit-mix is derived.
+- CASE-SKETCH-001 is one hand-modified designer sketch: semantic labels, five building merges, the 1/2/3-unit type set and the 11-floor assumption are designer-confirmed; building geometry, inferred unit counts, heights and road centerlines are proposed/inferred/unknown, and no fidelity metrics exist against a human-confirmed trace.
+- Unit counts: 16 one-unit, 21 two-unit, 17 three-unit; 52 are inferred and 2 confirmed. The kindergarten M-003 is a facility and excluded. Six long bars conflict between length and area and are flagged for review.
+- The unit-type library is pending, so all building footprints are sketch-era placeholders. 11 floors is provisional; no floor height, massing, FAR or unit-mix is derived.
 - The sketch case publishes the sketch and image-space geometry only; the DWG/DXF, redline/project coordinates and metric scale remain private.
 
 ## 4. Repository layout
@@ -103,7 +103,7 @@ The provisional architecture defines 11 modules (M01 Source & Calibration throug
 │   ├── dgcad_analysis/        Synthetic solar/shadow baseline with dependency fingerprint
 │   ├── dgcad_cad/             CAD-IR, DXF compiler, readback validator
 │   └── dgcad_e2e/             Living end-to-end pipeline orchestration
-├── tests/                     Executable contract suites (164 collected)
+├── tests/                     Executable contract suites (165 collected)
 ├── contracts/                 Machine-readable IR, domain, E2E, lifecycle/auth/MCP/CAD bridge contracts
 ├── fixtures/                  Typed synthetic fixtures (scene, authority, dependency, domain, E2E)
 ├── spikes/                    Executed process probe and MCP install-attempt evidence
@@ -145,7 +145,7 @@ python -m pytest -q
 Expected:
 
 ```text
-164 passed
+165 passed
 ```
 
 With coverage:
@@ -170,8 +170,8 @@ python -m pytest -q --cov --cov-report=term-missing
 | E2E-003 | `tests/e2e/test_e2e_003_adversarial.py` | 20 | geometry, style, identity, serialization, validator-error checks |
 | E2E-003b | `tests/e2e/test_e2e_003b_semantics.py` | 11 | fingerprint consistency, symbol-table case, ring keys, raw/canonical manifest |
 | Third-party evidence | `tests/e2e/test_e2e_003c_third_party.py` | 2 | AutoCAD 2024 Core Console round-trip evidence and scope integrity |
-| Sketch evidence | `tests/test_sketch_evidence.py` | 10 | image-space trace, sketch-only privacy, designer semantics, building merges/unit states, 11-floor provisional state, rough centerlines, leak checks |
-| **Total** | | **164 (all passing)** | |
+| Sketch evidence | `tests/test_sketch_evidence.py` | 11 | image-space trace, sketch-only privacy, designer semantics, five building merges, unit inference/conflicts, 11-floor provisional state, rough centerlines, leak checks |
+| **Total** | | **165 (all passing)** | |
 
 Read [docs/development/testing.md](docs/development/testing.md) for what these tests prove, what they do **not** prove, and how new test layers are added.
 
@@ -201,7 +201,7 @@ The promotion status of every research artifact is tracked in [docs/research-to-
 
 ## 8. Next milestone
 
-**Milestone 3c is partial; Milestone 4 has started.** AutoCAD 2024 Core Console round-trip evidence is captured and `DEV-CAD-001..005/007..011` are closed. LibreCAD/FreeCAD/GUI visual QA remain open under #6. The first Milestone 4 package, `EP-R1-SKETCH-001`, is in progress with CASE-SKETCH-001: a designer sketch is public, its image-space trace (58 buildings after two designer-confirmed merges) and rough road centerlines are proposed, floors are provisionally 11, and the DWG/redline reference remains private. Remaining: the unit-type library replacement, remaining merge pairs, a human-confirmed trace and fidelity metrics, 支路/入户路 separation, then road topology/profile and the other evidence packages.
+**Milestone 3c is partial; Milestone 4 has started.** AutoCAD 2024 Core Console round-trip evidence is captured and `DEV-CAD-001..005/007..011` are closed. LibreCAD/FreeCAD/GUI visual QA remain open under #6. The first Milestone 4 package, `EP-R1-SKETCH-001`, is in progress with CASE-SKETCH-001: a designer sketch is public, its image-space trace (55 buildings after five designer-confirmed merges) and rough road centerlines are proposed, unit counts are 16/21/17 plus one facility, floors are provisionally 11, and the DWG/redline reference remains private. Remaining: the unit-type library replacement, review of six length-vs-area unit-count conflicts, a human-confirmed trace and fidelity metrics, 支路/入户路 separation, then road topology/profile and the other evidence packages.
 
 See [docs/roadmap.md](docs/roadmap.md) for the milestone plan and exit criteria.
 
