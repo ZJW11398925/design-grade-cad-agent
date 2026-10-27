@@ -1,12 +1,12 @@
 # Project Status
 
 Updated: 2026-10-27
-Version: `0.10.1` (Milestone 4a sketch intake and as-drawn road topology; Milestone 3c partial third-party evidence)
+Version: `0.11.0` (Milestone 4a sketch intake and unified-mask road topology; Milestone 3c partial third-party evidence)
 Research basis: R0 v0.19 + R1 deployment-entry v0.2
 
 ## 1. One-line status
 
-The project has a working **governance/runtime contract layer**, a **synthetic Building/Road domain slice**, **living E2E-001/002/003/003b pipelines** from confirmed trace to DXF readback with scoped mutation/rebuild, adversarial delivery checks, semantic/dependency closure, **one real AutoCAD 2024 Core Console round-trip**, a first **Tier B designer-sketch intake** with designer-confirmed semantics and a proposed image-space trace, and an **as-drawn road topology** whose nearest-node connectors were rejected. It does **not** yet have a human-confirmed sketch trace with fidelity metrics, real road engineering, general third-party CAD interoperability, IFC, or real-world validated behavior.
+The project has a working **governance/runtime contract layer**, a **synthetic Building/Road domain slice**, **living E2E-001/002/003/003b pipelines** from confirmed trace to DXF readback with scoped mutation/rebuild, adversarial delivery checks, semantic/dependency closure, **one real AutoCAD 2024 Core Console round-trip**, a first **Tier B designer-sketch intake** with designer-confirmed semantics and a proposed image-space trace, and a **unified-mask road topology** with 121 junction candidates. It does **not** yet have a human-confirmed sketch trace with fidelity metrics, real road engineering, general third-party CAD interoperability, IFC, or real-world validated behavior.
 
 ## 2. Test baseline
 
@@ -64,7 +64,7 @@ python -m pytest -q
 | Third-party CAD round-trip | **partial evidence only** | AutoCAD 2024 Core Console: semantic pass with serialization differences; LibreCAD/FreeCAD/GUI not run; issue #6 |
 | Real sketch → trace | **partial (designer sketch)** | CASE-SKETCH-001: 55 buildings (5 designer-confirmed merges), unit counts 16/21/17 plus 1 facility, 11 floors provisional, image-space geometry proposed; no fidelity metrics or unit-type library yet |
 | Road centerline extraction | **proposed_rough** | skeleton-derived from colour masks; no professional alignment, width or junction design |
-| Road network topology | **as_drawn_unresolved** | 9 as-drawn components; 8 nearest-node connectors rejected; no connected-graph claim; no width, profile or alignment |
+| Road network topology | **connected_by_unified_road_mask** | 1 component: 309 nodes, 333 edges, 121 junction candidates; colour is a class attribute; no width, profile or alignment |
 | Real design-office profile | **not validated** | synthetic and DB11 subset only |
 | IFC round-trip | **blocked** | IfcOpenShell unavailable |
 | Independent solar engine | **not validated** | synthetic NOAA baseline only |
@@ -290,7 +290,7 @@ What is proposed:
 - Unit counts: 16 one-unit, 21 two-unit, 17 three-unit; 52 inferred from sketch dimensions and 2 confirmed (M-001/M-002). The kindergarten M-003 is excluded as a facility. Six long bars conflict between length and area and are flagged.
 - All buildings record 11 floors as `proposed_initial`; no floor height, massing, FAR or unit-mix is derived.
 - Building footprints are sketch placeholders pending the unit-type library; unit counts are inferred, not confirmed, except M-001/M-002.
-- 312 rough centerline candidates: main road 1 component / 40 nodes / 41 edges / 4 endpoints / 6 junctions / 2 loops; blue network 8 components / 266 nodes / 271 edges / 125 endpoints / 93 junctions / 13 loops.
+- Road centerlines: the separate-colour 312-centerline result is superseded; the unified brown+blue network in section 14 has 333 edges and 121 junction candidates.
 - Semantic labels, merge decisions and 11-floor assumption are confirmed; all geometry and centerline topology remain proposed.
 - Calibration to the private reference is a reviewed approximate homography (mean 24.51 px, max 43.42 px); not survey-grade.
 
@@ -305,14 +305,16 @@ What is not done:
 
 Evidence: `docs/e2e/sketch-001/README.md`, `docs/e2e/sketch-001/case-summary.json`, `contracts/sketch-evidence-v0.1.yaml`, `tests/test_sketch_evidence.py`.
 
-## 14. Road network topology (EP-R1-ROAD-001 start)
+## 14. Road network topology (EP-R1-ROAD-001)
 
-- As-drawn: 306 nodes, 312 edges, 9 components, 129 endpoints, 99 junctions, 15 cycles; 41 main-road edges and 271 branch/access edges.
-- Eight nearest-node connectors were attempted and **rejected by designer review**: a straight nearest-node line is not evidence of a road connection and can create false topology.
-- No connected graph is claimed; the nine as-drawn components remain separate; component gaps 15.62–76.06 px remain open.
-- Rejected connectors are retained in `road-connectors-rejected.geojson` as negative evidence (`review_state: rejected`).
+**The design's road network is one system.** The earlier separate-colour skeleton was the wrong process: it cut the network at brown/blue boundaries and produced nine artificial components.
+
+- Corrected mask: brown OR blue, ≥300 px components, 5 px ellipse closing. 4 px leaves five components; 5 px is the smallest tested kernel that restores one component.
+- Unified graph: 309 nodes, 333 edges, 1 component, 111 endpoints, 121 junction candidates, 25 cycles; 65 main-road and 268 branch/access edges.
+- Colour is a road-class attribute, not a topology separator; junctions are skeleton graph nodes, not inferred connectors. All 121 junction candidates are `proposed` and need review.
+- The eight nearest-node connectors are rejected and retained in `road-connectors-rejected.geojson` as negative evidence; they are not used.
 - No width, cross-section, profile, alignment, junction turn geometry or surface is derived. The blue class still combines 支路 and 入户路.
-- Evidence: `docs/e2e/sketch-001/road-network-proposed.geojson` (as-drawn), `road-nodes-proposed.geojson`, `road-connectors-rejected.geojson`, `road-topology-summary.json`, `road-network-overlay.png`; `tests/test_road_topology.py` (3 tests).
+- Evidence: `road-network-proposed.geojson` (unified), `road-nodes-proposed.geojson`, `road-junctions-proposed.geojson`, `road-topology-summary.json`, `road-network-overlay.png`; the separate-colour centerlines are superseded; `tests/test_road_topology.py` (3 tests).
 
 ## 15. Current non-claims
 
@@ -325,5 +327,5 @@ Evidence: `docs/e2e/sketch-001/README.md`, `docs/e2e/sketch-001/case-summary.jso
 - CASE-SKETCH-001 semantic labels, five building merges, the 1/2/3-unit type set and the 11-floor assumption are designer-confirmed; geometry and road centerlines are proposed, and no fidelity metrics exist.
 - 11 floors is provisional; no floor height, massing, FAR or unit-mix is derived. Building footprints are placeholders pending the unit-type library; unit counts are inferred except M-001/M-002, the kindergarten M-003 is excluded as a facility, and six length-vs-area conflicts remain for review.
 - CASE-SKETCH-001 publishes the sketch and image-space geometry only; the DWG/DXF, redline/project coordinates and metric scale are private.
-- Road connectivity is unresolved: nine as-drawn components; eight nearest-node connectors were rejected.
+- Road connectivity is derived from the unified brown+blue mask: one component, 121 proposed junction candidates. The separate-colour 9-component result and the eight nearest-node connectors are rejected.
 - No road width, cross-section, profile, alignment or surface is designed.

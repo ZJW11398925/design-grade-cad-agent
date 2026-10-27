@@ -4,7 +4,7 @@
 
 **A traceable research-and-development workspace for turning hand-drawn site sketches into professional, verifiable site models and editable CAD/BIM output.**
 
-> **Status: research prototype (v0.10.1).** This is not production CAD software, not a compliance certification, and not a validated AutoCAD/FreeCAD integration. Claims are scoped to the tests and evidence recorded in this repository.
+> **Status: research prototype (v0.11.0).** This is not production CAD software, not a compliance certification, and not a validated AutoCAD/FreeCAD integration. Claims are scoped to the tests and evidence recorded in this repository.
 
 ---
 
@@ -71,7 +71,7 @@ The provisional architecture defines 11 modules (M01 Source & Calibration throug
 | E2E-003b semantic/dependency | implemented, 11 tests | fingerprint consistency, symbol-table case, stable ring keys, raw/canonical manifest |
 | E2E-003c third-party CAD | **partial**, 2 evidence tests | AutoCAD 2024 Core Console round-trip: 15 entities/XDATA preserved, R2010→R2018 + linetype case; LibreCAD/FreeCAD/GUI not run |
 | EP-R1-SKETCH-001 intake | **in progress**, 11 evidence tests | [CASE-SKETCH-001](docs/e2e/sketch-001/README.md): designer sketch, 55 buildings (5 designer-confirmed merges), unit counts 16/21/17 + 1 facility, 11 floors provisional, public image-space trace and rough centerlines; private DWG/redline; no fidelity metrics or unit-type library yet |
-| Road network topology | **as_drawn_unresolved**, 3 tests | 9 as-drawn road components; 8 nearest-node connectors rejected; no connected-graph claim; no width, profile or alignment |
+| Road network topology | **connected_by_unified_road_mask**, 3 tests | 1 connected design network: 309 nodes / 333 edges / 121 junction candidates; colour is a class attribute; no width/profile/alignment |
 | R0 research | archived | 5 acquisition batches, synthetic benchmarks, adversarial reviews, architecture challenge |
 | Real-world evidence | **partially obtained** | one designer sketch intake (CASE-SKETCH-001); still missing a field-paired case, real design-office profile, IFC round-trip, independent solar engine, AutoCAD/FreeCAD host exchange, MCP wire conformance |
 
@@ -91,7 +91,7 @@ The provisional architecture defines 11 modules (M01 Source & Calibration throug
 - Unit counts: 16 one-unit, 21 two-unit, 17 three-unit; 52 are inferred and 2 confirmed. The kindergarten M-003 is a facility and excluded. Six long bars conflict between length and area and are flagged for review.
 - The unit-type library is pending, so all building footprints are sketch-era placeholders. 11 floors is provisional; no floor height, massing, FAR or unit-mix is derived.
 - The sketch case publishes the sketch and image-space geometry only; the DWG/DXF, redline/project coordinates and metric scale remain private.
-- Road connectivity is unresolved: nine as-drawn components; eight nearest-node connectors were rejected; no connected-graph claim and no width/profile/alignment is derived.
+- Road connectivity is derived from the unified brown+blue mask (5 px closing): 1 component, 309 nodes, 333 edges and 121 junction candidates. The separate-colour 9-component result and the eight nearest-node connectors are rejected; no width/profile/alignment is derived.
 
 ## 4. Repository layout
 
@@ -173,7 +173,7 @@ python -m pytest -q --cov --cov-report=term-missing
 | E2E-003b | `tests/e2e/test_e2e_003b_semantics.py` | 11 | fingerprint consistency, symbol-table case, ring keys, raw/canonical manifest |
 | Third-party evidence | `tests/e2e/test_e2e_003c_third_party.py` | 2 | AutoCAD 2024 Core Console round-trip evidence and scope integrity |
 | Sketch evidence | `tests/test_sketch_evidence.py` | 11 | image-space trace, sketch-only privacy, designer semantics, five building merges, unit inference/conflicts, 11-floor provisional state, rough centerlines, leak checks |
-| Road topology | `tests/test_road_topology.py` | 3 | as-drawn graph, rejected nearest-node connectors, node/contract checks |
+| Road topology | `tests/test_road_topology.py` | 3 | unified-mask connectivity, 121 junction candidates, rejected nearest-node connectors, node/contract checks |
 | **Total** | | **168 (all passing)** | |
 
 Read [docs/development/testing.md](docs/development/testing.md) for what these tests prove, what they do **not** prove, and how new test layers are added.
@@ -204,7 +204,7 @@ The promotion status of every research artifact is tracked in [docs/research-to-
 
 ## 8. Next milestone
 
-**Milestone 3c is partial; Milestone 4 has started.** AutoCAD 2024 Core Console round-trip evidence is captured and `DEV-CAD-001..005/007..011` are closed. LibreCAD/FreeCAD/GUI visual QA remain open under #6. The first Milestone 4 package, `EP-R1-SKETCH-001`, is in progress with CASE-SKETCH-001: a designer sketch is public, its image-space trace (55 buildings after five designer-confirmed merges), rough road centerlines and an as-drawn road topology (9 components; 8 nearest-node connectors rejected) are available, unit counts are 16/21/17 plus one facility, floors are provisionally 11, and the DWG/redline reference remains private. Remaining: the unit-type library replacement, review of six length-vs-area unit-count conflicts, resolution of road connectivity from actual road geometry, a human-confirmed trace and fidelity metrics, road width/profile/alignment, 支路/入户路 separation, then road profile/alignment and the other evidence packages. `EP-R1-ROAD-001` is in progress with the proposed topology.
+**Milestone 3c is partial; Milestone 4 has started.** AutoCAD 2024 Core Console round-trip evidence is captured and `DEV-CAD-001..005/007..011` are closed. LibreCAD/FreeCAD/GUI visual QA remain open under #6. The first Milestone 4 package, `EP-R1-SKETCH-001`, is in progress with CASE-SKETCH-001: a designer sketch is public, its image-space trace (55 buildings after five designer-confirmed merges), rough road centerlines and a unified-mask road topology (1 component; 309 nodes, 333 edges, 121 junction candidates) are available, unit counts are 16/21/17 plus one facility, floors are provisionally 11, and the DWG/redline reference remains private. Remaining: the unit-type library replacement, review of six length-vs-area unit-count conflicts, review of 121 junction candidates and the 5 px closing kernel, a human-confirmed trace and fidelity metrics, road width/profile/alignment, 支路/入户路 separation, then the other evidence packages. `EP-R1-ROAD-001` is in progress with the unified topology; junction review is pending.
 
 See [docs/roadmap.md](docs/roadmap.md) for the milestone plan and exit criteria.
 

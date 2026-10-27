@@ -173,8 +173,7 @@ road_centerlines:
 
 road_topology:
   states:
-    - as_drawn_unresolved
-    - connected_confirmed
+    - proposed_unified_mask
     - reviewed
     - confirmed
   required:
@@ -182,16 +181,24 @@ road_topology:
     - node_count
     - edge_count
     - component_count
-    - rejected_connectors
+    - junction_count
+    - method
+    - mask
+  mask_required:
+    - min_area_px
+    - closing_kernel_px
+    - components_before_close
+    - components_after_close
   connector_states:
     - inferred_nearest_endpoint
     - rejected
     - confirmed
   rules:
-    - "as-drawn components are the only road connectivity evidence"
-    - "nearest-node straight-line inference is rejected as connectivity evidence"
-    - "gaps remain open until confirmed from actual road geometry"
-    - "rejected connectors are retained as negative evidence"
+    - "road connectivity is derived from the unified road mask, not separate colour masks"
+    - "colour is a road-class attribute, not a topology separator"
+    - "the closing kernel and component filtering must be recorded"
+    - "junctions are skeleton graph nodes, not inferred connectors"
+    - "rejected nearest-node connectors are retained as negative evidence"
     - "topology is not road design"
     - "no width, cross-section, alignment or surface is inferred from topology"
 

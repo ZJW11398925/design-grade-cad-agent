@@ -104,41 +104,38 @@ homography. Residual: **mean 24.51 px, max 43.42 px**. The designer accepts the
 boundary registration, but the sketch is hand-drawn and the result is
 **conceptual**, not survey-grade. The reference frame and matrix are private.
 
-## Road centerlines
+## Road centerlines and topology (EP-R1-ROAD-001)
 
-Skeleton-derived from the brown and blue masks:
+**The design's road network is one system.** The earlier process skeletonised
+brown and blue masks separately, which cut the design at colour boundaries and
+produced nine artificial components. That result is superseded.
 
-- Main road: 1 connected component, 40 nodes, 41 edges, 4 endpoints, 6 junctions, 2 loops, 3860.77 px.
-- Branch/access: 8 components, 266 nodes, 271 edges, 125 endpoints, 93 junctions, 13 loops, 10708.66 px.
+Corrected process:
 
-These are **rough candidates**: no professional alignment, width inference,
-cross-section, junction turn geometry, surface or road-engineering validation.
-The blue class combines 支路 and 入户路; the colour does not separate them.
+1. union brown (main) and blue (branch/access) into one road mask;
+2. filter components below 300 px;
+3. apply a **5 px ellipse closing** — 4 px leaves five components; 5 px is the
+   smallest tested kernel that restores one connected design network;
+4. skeletonise, build the pixel graph, cluster junctions, prune short spurs and
+   contract degree-2 chains.
 
-Extraction used private intake tooling (colour masks → thinning → pixel graph →
-junction clustering → spur pruning → degree-2 chain contraction → simplification).
-The method and parameters are recorded here, but the tooling is not part of the
-installable package; the public artifact is the evidence, not a benchmark harness.
+Unified network:
 
-### Road network topology (EP-R1-ROAD-001 start)
+- **1 connected component**, 309 nodes, 333 edges, 111 endpoints,
+  **121 junction candidates**, 25 independent cycles;
+- road class from brown/blue pixel majority: **65 main-road** and
+  **268 branch/access** edges; colour is a class attribute, not a topology
+  separator;
+- junctions are skeleton graph nodes (red dots in the overlay), not inferred
+  connectors; all 121 are `proposed` and need review.
 
-The as-drawn centerline graph has **306 nodes, 312 edges and 9 connected
-components** (129 endpoints, 99 junctions, 15 independent cycles; 41 main-road
-and 271 branch/access edges).
+The eight nearest-node connectors from the failed process remain in
+`road-connectors-rejected.geojson` as negative evidence; they are not used.
 
-Eight **nearest-node connectors** were attempted to connect the components, but
-they were **rejected by designer review**. Lying on road-coloured pixels does
-not prove a road link; straight nearest-node lines can cut across junctions and
-create false topology. They are retained in `road-connectors-rejected.geojson`
-as negative evidence.
-
-- **No connected graph is claimed.** The nine as-drawn components remain
-  separate.
-- Component gaps span **15.62–76.06 px** and are **open/unresolved**.
-- Every rejected connector is `review_state: rejected`,
-  `rejection_state: rejected`, with an explicit reason.
-- No road width, cross-section, alignment, junction turn geometry, profile or
-  surface is derived. The blue class still combines 支路 and 入户路.
+No road width, cross-section, alignment, junction turn geometry, profile or
+surface is derived. The blue class still combines 支路 and 入户路. The old
+separate-colour centerline file is retained as
+`road-centerlines-separate-colour-superseded.geojson`.
 
 ## Open items
 
@@ -149,8 +146,8 @@ as negative evidence.
 - A human-confirmed trace and fidelity metrics (Hausdorff, IoU, topology) have
   not been produced. No accuracy claim is made.
 - 支路 vs 入户路 separation.
-- Resolve road connectivity from actual road geometry; the eight nearest-node
-  connectors were rejected and the component gaps remain open.
+- Review the 121 junction candidates and the 5 px closing kernel; the unified
+  mask restores one connected design network.
 - Road width, cross-section, profile and alignment are not designed.
 - Canonical Building/Road handoff from this sketch.
 
@@ -167,8 +164,9 @@ as negative evidence.
 - Calibration is approximate and not survey-grade.
 - Road centerlines are not professional road design.
 - No claim that building footprints, counts or topology match the design record.
-- Road connectivity is unresolved: nine as-drawn components; eight nearest-node
-  connectors were rejected by designer review.
+- Road connectivity comes from the unified brown+blue road mask (5 px closing);
+  121 junction candidates are proposed for review. The separate-colour
+  9-component result and the 8 nearest-node connectors are rejected.
 - No road width, cross-section, profile, alignment or surface is designed.
 - No OCR; the visible 幼儿园 label was observed visually, not machine-read.
 
@@ -179,11 +177,14 @@ as negative evidence.
 - `building-components.geojson` — all 63 original red components and merge provenance.
 - `merge-review-pairs.json` — close pairs; all ten resolved.
 - `merge-review-left-cluster.png` — pre-merge left cluster; `merge-applied-left-cluster.png` — M-001 after merge.
-- `road-centerlines-proposed.geojson` — rough image-space centerlines.
+- `road-centerlines-separate-colour-superseded.geojson` — superseded separate-colour skeleton.
 - `road-network-proposed.geojson`, `road-nodes-proposed.geojson`,
-  `road-topology-summary.json` — as-drawn topology; connectivity unresolved.
-- `road-connectors-rejected.geojson` — eight rejected nearest-node connectors.
-- `road-network-overlay.png` — as-drawn roads with rejected connectors crossed out.
+  `road-junctions-proposed.geojson`, `road-topology-summary.json` — unified
+  design network (1 component; 121 junction candidates).
+- `road-connectors-rejected.geojson` — eight rejected nearest-node connectors
+  (negative evidence).
+- `road-network-overlay.png` — unified centerlines and junctions;
+  `road-centerlines-separate-colour-superseded.png` — superseded overlay.
 - `ambiguities.geojson` — image-space ambiguity regions.
-- `trace-overlay.png`, `road-centerlines-overlay.png` — visual review.
+- `trace-overlay.png`, `road-network-overlay.png` — visual review.
 - `case-summary.json` — machine-readable public summary.

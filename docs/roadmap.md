@@ -106,7 +106,7 @@ After Milestone 3, prioritize the real sketch/trace and road evidence packages b
 | Package | Capability unlocked |
 |---|---|
 | `EP-R1-SKETCH-001` | **in progress**: real sketch → trace reliability |
-| `EP-R1-ROAD-001` | **in progress**: as-drawn topology; connectivity unresolved; width/profile/alignment pending |
+| `EP-R1-ROAD-001` | **in progress**: unified-mask topology; junction review and width/profile/alignment pending |
 | `EP-R1-IFC-001` | IFC identity round-trip |
 | `EP-R1-ENV-001` | independent shadow engine |
 | `EP-R1-PROFILE-001` | real project/design-office profile |
@@ -129,17 +129,17 @@ Each package has its own decision question, raw evidence, metrics, failure polic
 
 **Exit (not met):** a designer-confirmed semantic trace, a human-confirmed geometry reference, fidelity metrics within a declared scope, and a canonical handoff. Until then R1-G07 remains partial.
 
-### EP-R1-ROAD-001 — in progress (0.10.1)
+### EP-R1-ROAD-001 — in progress (0.11.0)
 
-- [x] Extract 312 rough centerlines (41 main-road edges, 271 branch/access edges).
-- [x] Build the as-drawn graph: 306 nodes, 312 edges, 9 components, 129 endpoints, 99 junctions, 15 cycles.
-- [x] Attempt nearest-node connectors; **rejected by designer review** (8 rejected, gaps 15.62–76.06 px open).
-- [ ] Resolve connectivity from actual road geometry; do not use nearest-node straight lines.
+- [x] Extract rough centerlines; the separate-colour skeleton produced 306 nodes, 312 edges and 9 components — **wrong process**, superseded.
+- [x] Union brown+blue into one road mask; 5 px closing (4 px leaves 5 components) -> 1 connected component.
+- [x] Unified network: 309 nodes, 333 edges, 111 endpoints, 121 junction candidates, 25 cycles; 65 main and 268 branch/access edges.
+- [ ] Review the 121 junction candidates and the 5 px closing kernel.
 - [ ] Road width, cross-section, profile and alignment.
 - [ ] Separate 支路 from 入户路.
 - [ ] Canonical road graph handoff.
 
-**Exit (not met):** a reviewed road graph whose connectivity is confirmed from actual road geometry, explicit width/profile/alignment inputs where required, and a canonical handoff. Until then road topology remains `as_drawn_unresolved`.
+**Exit (not met):** a reviewed unified-mask road graph with accepted junctions, explicit width/profile/alignment inputs where required, and a canonical handoff. Until then road topology remains `proposed_unified_mask`.
 
 ## Milestone 5 — Production hardening (not started)
 

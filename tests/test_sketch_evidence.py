@@ -358,30 +358,28 @@ def test_unit_counts_are_inferred_from_sketch_dimensions():
 
 def test_road_centerlines_are_rough_and_do_not_infer_width():
     summary = load_json("case-summary.json")
-    centerlines = load_json("road-centerlines-proposed.geojson")
-    features = centerlines["features"]
-    assert len(features) == summary["counts"][
-        "road_centerline_candidates"
-    ]
+    network = load_json("road-network-proposed.geojson")
+    features = network["features"]
+    assert len(features) == summary["road_topology"]["network"][
+        "edge_count"
+    ] == 333
     classes = Counter(
         feature["properties"]["road_class_candidate"] for feature in features
     )
-    assert classes["main_road"] == summary["road_centerlines"]["main_road"][
-        "edge_count"
-    ]
-    assert classes["branch_or_access_road"] == summary["road_centerlines"][
-        "branch_or_access_road"
-    ]["edge_count"]
+    assert classes["main_road"] == 65
+    assert classes["branch_or_access_road"] == 268
     for feature in features:
         properties = feature["properties"]
         assert properties["semantic_role"] == "road_centerline_candidate"
         assert properties["review_state"] == "proposed"
-        assert properties["topology_state"] == "proposed_rough"
+        assert properties["topology_state"] == "proposed_unified_mask"
+        assert properties["network_state"] == "unified_road_mask"
         assert properties["length_px"] > 0
         assert "length_m_proposed" not in properties
-        assert "no professional alignment" in properties["note"]
-    assert "width inference" in centerlines["note"] or any(
-        "width" in item for item in summary["road_centerlines"]["non_claims"]
+        assert "unified brown+blue" in properties["note"]
+    assert any(
+        "no road width" in item
+        for item in summary["road_topology"]["non_claims"]
     )
 
 
