@@ -1,6 +1,6 @@
 # CASE-SKETCH-001 — real designer sketch intake
 
-Status: **proposed geometry; designer-confirmed semantics and building merges**.
+Status: **proposed geometry; designer-confirmed semantics, merges and unit types; unit counts inferred**.
 Tier: **B — designer sketch on a known base**.
 Public scope: **sketch raster and image-space derived geometry only**.
 
@@ -16,9 +16,11 @@ published. Public files contain image-space pixels only. The sketch is published
 with the designer's authorization; no separate licence is asserted for the
 drawing, which remains the designer's work.
 
-The current building footprints are **sketch-era placeholders**. The designer
-will supply a unit-type library (户型库) to replace them; unit counts and floor
-counts are the stable design inputs for now.
+Only **1-unit, 2-unit and 3-unit** residential types are designed. Unit counts
+for buildings without a designer-confirmed count are inferred from the sketch's
+approximate dimensions. The current building footprints are **sketch-era
+placeholders**; the designer will supply a unit-type library (户型库) to replace
+them.
 
 ## Designer confirmations (2026-10-27)
 
@@ -32,9 +34,15 @@ counts are the stable design inputs for now.
 - The top edge is intentional; only a road segment is clipped.
 - Building merges:
   - **M-001**: 0046, 0047 and 0060 are three units; 0062 and 0063 are the
-    connecting parts. They form one 3-unit building.
-  - **M-002**: 0030 contains two units; 0053 contains one unit. They form one
-    3-unit building.
+    connecting parts. One 3-unit building.
+  - **M-002**: 0030 contains two units; 0053 contains one unit. One 3-unit
+    building.
+  - **M-003**: 0001 and 0037 are one building; the visible 幼儿园 label makes it
+    a kindergarten/facility, so it is not forced into a residential unit type.
+  - **M-004**: 0019 and 0058 are one building, inferred as 3 units.
+  - **M-005**: 0027 and 0059 are one building, inferred as 3 units.
+- **Only 1/2/3-unit residential types**. Unit counts for the remaining
+  residential buildings are inferred from sketch dimensions.
 - **Floors**: 11 floors is the provisional assumption for **all** buildings.
 - **Unit-type library**: pending; sketch-era footprints are placeholders.
 - Publication: **sketch only**.
@@ -43,9 +51,10 @@ counts are the stable design inputs for now.
 
 | Class | Count | State |
 |---|---|---|
-| Buildings (56 standalone + 2 merged) | 58 | semantic label and merge confirmed; geometry proposed |
+| Buildings (50 standalone + 5 merged) | 55 | semantic label and merge confirmed; geometry proposed |
 | Original red components | 63 | preserved for provenance in `building-components.geojson` |
-| Merged buildings | 2 | M-001 3 units; M-002 3 units |
+| Merged buildings | 5 | M-001 3U; M-002 3U; M-003 kindergarten; M-004 3U inferred; M-005 3U inferred |
+| Unit distribution (residential) | 16 one-unit, 21 two-unit, 17 three-unit | 2 confirmed, 52 inferred; 1 facility excluded |
 | Garage entrance candidates (magenta) | 3 | semantic label confirmed; geometry proposed |
 | Cluster green spaces | 12 | semantic label confirmed; geometry proposed |
 | Road area candidates | 9 | label confirmed; area not validated |
@@ -54,25 +63,35 @@ counts are the stable design inputs for now.
 
 The trace is a deterministic colour segmentation. It does **not** orthogonalise
 buildings, smooth roads, or complete occluded boundaries. Building geometry
-remains `proposed`; only the semantic labels and merge decisions are confirmed.
+remains `proposed`; semantic labels, merges and unit types are confirmed or
+explicitly inferred.
 
-### Building merges and the left cluster
+### Building merges, unit inference and floors
 
-A merged building is the union of its confirmed components, **without artificial
+Merged buildings are unions of their confirmed components, **without artificial
 bridging**:
 
-- **M-001** (`SK-BLD-MRG-0001`) is a MultiPolygon of five parts: three units
-  (0046, 0047, 0060) and two connectors (0062, 0063). Unit count: 3.
-- **M-002** (`SK-BLD-MRG-0002`) is a MultiPolygon of two parts: 0030 (2 units)
-  and 0053 (1 unit). Unit count: 3.
-- The other 56 red components remain one building each. Their unit counts are
-  **unknown** and are not inferred.
-- Seven of the ten close pairs are resolved into M-001/M-002; the remaining pairs
-  `0001/0037`, `0019/0058` and `0027/0059` stay separate pending review.
+- **M-001** (`SK-BLD-MRG-0001`) — 0046 + 0047 + 0060 (3 units) plus connectors
+  0062 + 0063; MultiPolygon of five parts; 3 units confirmed.
+- **M-002** (`SK-BLD-MRG-0002`) — 0030 (2 units) + 0053 (1 unit);
+  MultiPolygon of two parts; 3 units confirmed.
+- **M-003** (`SK-BLD-MRG-0003`) — 0001 + 0037; kindergarten/facility;
+  `unit_count: null`, `unit_count_state: not_applicable`.
+- **M-004** (`SK-BLD-MRG-0004`) — 0019 + 0058; inferred 3 units.
+- **M-005** (`SK-BLD-MRG-0005`) — 0027 + 0059; inferred 3 units.
+- All ten close pairs are resolved into these five merged buildings.
 - All 63 original red components are preserved in `building-components.geojson`
   with `merged_into`, `component_role` and `unit_count`.
-- `merge-review-left-cluster.png` shows the pre-merge components;
-  `merge-applied-left-cluster.png` shows M-001 after the merge.
+
+Unit-count inference for the 52 residential buildings without a designer count:
+
+- primary rule: **long side** `<75 px` = 1 unit, `75–114 px` = 2 units,
+  `>=115 px` = 3 units;
+- cross-check: **area** `<2,000 px²` = 1 unit, `2,000–3,199 px²` = 2 units,
+  `>=3,200 px²` = 3 units;
+- distribution: **16 one-unit, 21 two-unit, 17 three-unit**, plus one facility;
+- six long bars (`0009`, `0010`, `0011`, `0013`, `0015`, `0018`) are 3-unit by
+  length but 2-unit by area; these conflicts are recorded for designer review.
 
 Every building records `floor_count: 11`, `floor_state: proposed_initial`, and
 `floor_height_m: null`. No height, massing, FAR or unit-mix is derived from the
@@ -103,8 +122,10 @@ installable package; the public artifact is the evidence, not a benchmark harnes
 
 ## Open items
 
+- Review the six length-vs-area unit-count conflicts: `0009`, `0010`, `0011`,
+  `0013`, `0015`, `0018`.
+- Confirm the kindergarten M-003 as a facility, not a residential 1/2/3-unit type.
 - Provide the unit-type library and replace the sketch-era building footprints.
-- Confirm the remaining close pairs `0001/0037`, `0019/0058`, `0027/0059`.
 - A human-confirmed trace and fidelity metrics (Hausdorff, IoU, topology) have
   not been produced. No accuracy claim is made.
 - 支路 vs 入户路 separation.
@@ -115,10 +136,12 @@ installable package; the public artifact is the evidence, not a benchmark harnes
 
 - One hand-modified concept sketch is not a sketch-recognition benchmark.
 - Semantic confirmation and merge decisions do not confirm geometry.
+- Unit counts are inferred from sketch dimensions, not confirmed, except M-001
+  and M-002; the kindergarten M-003 is excluded as a facility.
+- Six long bars are 3-unit by length but 2-unit by area; the conflict is unresolved.
 - 11 floors is a provisional design assumption; no floor height, massing, FAR
   or unit-mix is derived.
 - Every building footprint is a sketch placeholder pending the unit-type library.
-- Unit counts are confirmed only for M-001 and M-002; other buildings remain unknown.
 - Calibration is approximate and not survey-grade.
 - Road centerlines are not professional road design.
 - No claim that building footprints, counts or topology match the design record.
@@ -127,9 +150,9 @@ installable package; the public artifact is the evidence, not a benchmark harnes
 ## Files
 
 - `source/sketch.png` — published sketch (designer authorisation: sketch only).
-- `trace-raw.geojson` — image-space buildings/garage/green/roads/boundary with labels and review states.
+- `trace-raw.geojson` — image-space buildings/garage/green/roads/boundary with labels, units and review states.
 - `building-components.geojson` — all 63 original red components and merge provenance.
-- `merge-review-pairs.json` — close pairs and their merge resolutions.
+- `merge-review-pairs.json` — close pairs; all ten resolved.
 - `merge-review-left-cluster.png` — pre-merge left cluster; `merge-applied-left-cluster.png` — M-001 after merge.
 - `road-centerlines-proposed.geojson` — rough image-space centerlines.
 - `ambiguities.geojson` — image-space ambiguity regions.

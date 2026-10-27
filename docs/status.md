@@ -1,7 +1,7 @@
 # Project Status
 
 Updated: 2026-10-27
-Version: `0.9.1` (Milestone 4a sketch intake with building merges; Milestone 3c partial third-party evidence)
+Version: `0.9.2` (Milestone 4a sketch intake with building merges and unit inference; Milestone 3c partial third-party evidence)
 Research basis: R0 v0.19 + R1 deployment-entry v0.2
 
 ## 1. One-line status
@@ -12,10 +12,10 @@ The project has a working **governance/runtime contract layer**, a **synthetic B
 
 ```text
 python -m pytest -q
-164 passed
+165 passed
 ```
 
-164 tests collected, all passing. No long-lived strict xfails.
+165 tests collected, all passing. No long-lived strict xfails.
 
 | Suite | Tests | Status |
 |---|---|---|
@@ -31,7 +31,7 @@ python -m pytest -q
 | E2E-003 | 20 | passing |
 | E2E-003b | 11 | passing |
 | Third-party evidence | 2 | passing |
-| Sketch evidence | 10 | passing |
+| Sketch evidence | 11 | passing |
 
 ## 3. Capability status
 
@@ -61,7 +61,7 @@ python -m pytest -q
 | Ring identity | **implemented** | content-derived `ring_key` stable across part insertion |
 | Raw/canonical readback | **implemented** | manifest carries `canonical_target` + `raw_dxf_semantics`; tolerance 1e-9 |
 | Third-party CAD round-trip | **partial evidence only** | AutoCAD 2024 Core Console: semantic pass with serialization differences; LibreCAD/FreeCAD/GUI not run; issue #6 |
-| Real sketch → trace | **partial (designer sketch)** | CASE-SKETCH-001: 58 buildings (2 designer-confirmed merges), 11 floors provisional, image-space geometry proposed; no fidelity metrics or unit-type library yet |
+| Real sketch → trace | **partial (designer sketch)** | CASE-SKETCH-001: 55 buildings (5 designer-confirmed merges), unit counts 16/21/17 plus 1 facility, 11 floors provisional, image-space geometry proposed; no fidelity metrics or unit-type library yet |
 | Road centerline extraction | **proposed_rough** | skeleton-derived from colour masks; no professional alignment, width or junction design |
 | Real design-office profile | **not validated** | synthetic and DB11 subset only |
 | IFC round-trip | **blocked** | IfcOpenShell unavailable |
@@ -283,10 +283,11 @@ What is confirmed:
 
 What is proposed:
 
-- 58 buildings (56 standalone + 2 designer-confirmed merges), 63 original red components preserved for provenance, 3 garage entrances, 12 cluster green spaces, 9 road areas and 1 site boundary in image space.
-- M-001: 0046 + 0047 + 0060 (3 units) with connectors 0062 + 0063. M-002: 0030 (2 units) + 0053 (1 unit). Merged geometry is a union of components without artificial bridging.
+- 55 buildings (50 standalone + 5 designer-confirmed merges), 63 original red components preserved for provenance, 3 garage entrances, 12 cluster green spaces, 9 road areas and 1 site boundary in image space.
+- M-001: 0046 + 0047 + 0060 (3 units) with connectors 0062 + 0063. M-002: 0030 (2 units) + 0053 (1 unit). M-003: 0001 + 0037 (kindergarten/facility). M-004: 0019 + 0058 (3 units inferred). M-005: 0027 + 0059 (3 units inferred). Merged geometry is a union of components without artificial bridging.
+- Unit counts: 16 one-unit, 21 two-unit, 17 three-unit; 52 inferred from sketch dimensions and 2 confirmed (M-001/M-002). The kindergarten M-003 is excluded as a facility. Six long bars conflict between length and area and are flagged.
 - All buildings record 11 floors as `proposed_initial`; no floor height, massing, FAR or unit-mix is derived.
-- Building footprints are sketch placeholders pending the unit-type library; unit counts are confirmed only for the two merged buildings.
+- Building footprints are sketch placeholders pending the unit-type library; unit counts are inferred, not confirmed, except M-001/M-002.
 - 312 rough centerline candidates: main road 1 component / 40 nodes / 41 edges / 4 endpoints / 6 junctions / 2 loops; blue network 8 components / 266 nodes / 271 edges / 125 endpoints / 93 junctions / 13 loops.
 - Semantic labels, merge decisions and 11-floor assumption are confirmed; all geometry and centerline topology remain proposed.
 - Calibration to the private reference is a reviewed approximate homography (mean 24.51 px, max 43.42 px); not survey-grade.
@@ -295,7 +296,7 @@ What is not done:
 
 - No human-confirmed trace or fidelity metrics (Hausdorff/IoU/topology).
 - No unit-type library replacement; sketch-era building footprints remain placeholders.
-- Remaining close pairs 0001/0037, 0019/0058 and 0027/0059 are pending; 7 of 10 pairs resolved into the two merged buildings.
+- All 10 close pairs are resolved into five merged buildings; six unit-count conflicts and the kindergarten facility remain for review.
 - No 支路/入户路 separation.
 - No canonical Building/Road handoff from this sketch yet.
 - Road centerlines are not professional alignment or junction design.
@@ -310,6 +311,6 @@ Evidence: `docs/e2e/sketch-001/README.md`, `docs/e2e/sketch-001/case-summary.jso
 - No production database decision.
 - No Chinese road/building daylight compliance conclusion.
 - No claim that MCP wire protocol, FreeCAD or IFC have been executed; AutoCAD 2024 Core Console was executed as a file round-trip, not a runtime bridge or GUI/print QA.
-- CASE-SKETCH-001 semantic labels, two building merges and the 11-floor assumption are designer-confirmed; geometry and road centerlines are proposed, and no fidelity metrics exist.
-- 11 floors is provisional; no floor height, massing, FAR or unit-mix is derived. Building footprints are placeholders pending the unit-type library, and unit counts are confirmed only for the two merged buildings.
+- CASE-SKETCH-001 semantic labels, five building merges, the 1/2/3-unit type set and the 11-floor assumption are designer-confirmed; geometry and road centerlines are proposed, and no fidelity metrics exist.
+- 11 floors is provisional; no floor height, massing, FAR or unit-mix is derived. Building footprints are placeholders pending the unit-type library; unit counts are inferred except M-001/M-002, the kindergarten M-003 is excluded as a facility, and six length-vs-area conflicts remain for review.
 - CASE-SKETCH-001 publishes the sketch and image-space geometry only; the DWG/DXF, redline/project coordinates and metric scale are private.

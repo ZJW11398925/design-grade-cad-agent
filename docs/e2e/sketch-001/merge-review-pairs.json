@@ -1,14 +1,14 @@
 {
   "schema_id": "dgcad.sketch.merge-review.v0.1",
-  "state": "partially_resolved",
-  "note": "Two designer-confirmed merged buildings replace seven components. Remaining close pairs stay separate pending review.",
+  "state": "resolved",
+  "note": "All ten close pairs are resolved into five merged buildings. The kindergarten M-003 is treated as a facility; M-004 and M-005 are inferred as 3-unit residential buildings.",
   "pairs": [
     {
       "gap_px": 0.0,
       "a": "SK-BLD-0001",
       "b": "SK-BLD-0037",
-      "resolution": "pending",
-      "merged_into": null
+      "resolution": "merged",
+      "merged_into": "SK-BLD-MRG-0003"
     },
     {
       "gap_px": 0.0,
@@ -21,8 +21,8 @@
       "gap_px": 1.0,
       "a": "SK-BLD-0019",
       "b": "SK-BLD-0058",
-      "resolution": "pending",
-      "merged_into": null
+      "resolution": "merged",
+      "merged_into": "SK-BLD-MRG-0004"
     },
     {
       "gap_px": 1.0,
@@ -56,8 +56,8 @@
       "gap_px": 2.0,
       "a": "SK-BLD-0027",
       "b": "SK-BLD-0059",
-      "resolution": "pending",
-      "merged_into": null
+      "resolution": "merged",
+      "merged_into": "SK-BLD-MRG-0005"
     },
     {
       "gap_px": 4.0,
@@ -106,6 +106,36 @@
           "units": 1
         }
       ]
+    },
+    {
+      "new_id": "SK-BLD-MRG-0003",
+      "components": [
+        "SK-BLD-0001",
+        "SK-BLD-0037"
+      ],
+      "connectors": [],
+      "unit_count": null,
+      "facility": true
+    },
+    {
+      "new_id": "SK-BLD-MRG-0004",
+      "components": [
+        "SK-BLD-0019",
+        "SK-BLD-0058"
+      ],
+      "connectors": [],
+      "unit_count": 3,
+      "facility": false
+    },
+    {
+      "new_id": "SK-BLD-MRG-0005",
+      "components": [
+        "SK-BLD-0027",
+        "SK-BLD-0059"
+      ],
+      "connectors": [],
+      "unit_count": 3,
+      "facility": false
     }
   ]
 }

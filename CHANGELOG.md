@@ -2,6 +2,28 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.9.2 — 2026-10-27
+
+### Changed
+
+- Applied the three remaining designer-confirmed merges:
+  - `SK-BLD-MRG-0003`: 0001 + 0037 (kindergarten/facility).
+  - `SK-BLD-MRG-0004`: 0019 + 0058.
+  - `SK-BLD-MRG-0005`: 0027 + 0059.
+- Buildings change from 58 to **55** (50 standalone + 5 merged); all **63 original red components** remain preserved, with **13** merged components.
+- Inferred **1/2/3-unit** counts for the 52 residential buildings without a confirmed count: **16 one-unit, 21 two-unit, 17 three-unit**. Two are confirmed (M-001/M-002); the kindergarten M-003 is excluded as a facility.
+- Six long bars (`0009`, `0010`, `0011`, `0013`, `0015`, `0018`) are 3-unit by length but 2-unit by area; the conflict is recorded for review.
+- `contracts/sketch-evidence-v0.1.yaml` adds `unit_inference` and `inferred` unit-count state.
+- Sketch suite: **11 tests**; total **165 passed**.
+
+### Scope
+
+- Unit counts are inferred from sketch dimensions, not confirmed, except M-001/M-002.
+- No height, massing, FAR or unit-mix is derived; footprints remain sketch placeholders pending the unit-type library.
+- No human-confirmed trace, fidelity metrics or canonical handoff yet.
+- Version `0.9.2`.
+
+
 ## 0.9.1 — 2026-10-27
 
 ### Changed
