@@ -7,7 +7,7 @@ Testing is the primary engineering control in this project. Research claims are 
 | Layer | Purpose | Current state |
 |---|---|---|
 | L0 Contract / conformance | Prove governance invariants: identity, revision, authority, dependency, idempotency, lifecycle | **65 tests passing** |
-| L1 Domain contract | Prove building/road/analysis domain objects and adapters | not started |
+| L1 Domain contract | Prove building/road domain objects, unknown-state preservation, atomic topology changes and validators | **26 tests passing** |
 | L2 Integration | Prove the synthetic E2E pipeline: fixture → analysis → CAD-IR → DXF → readback | archived scripts, not yet in CI |
 | L3 Third-party | Prove semantic round-trip through independent CAD/BIM applications | partial; one user-run AutoCAD core-engine review |
 | L4 Security / lifecycle | Prove loopback, roles, pairing, lease, bridge expiry, stale writers | 14 lifecycle tests |
@@ -22,6 +22,7 @@ A passing lower layer never promotes a higher-layer claim automatically.
 | Runtime | `tests/test_runtime_contracts.py` | 22 |
 | Deployment | `tests/test_deployment_contracts.py` | 8 |
 | Lifecycle | `tests/test_lifecycle_contracts.py` | 14 |
+| Domain | `tests/test_domain_contracts.py` | 26 |
 
 Run all:
 
@@ -63,6 +64,14 @@ python -m pytest -q --cov --cov-report=term-missing
 - Loopback HTTP rejects non-loopback bind and DNS-rebinding-style Host/Origin.
 - Project lease prevents split-brain; expired takeover increments generation.
 - CAD bridge registration requires a bridge role and expires without heartbeat.
+- A confirmed trace is canonicalized as immutable evidence and is not overwritten by professional geometry.
+- Unknown building height survives commit and blocks massing with a structured code.
+- Regularization requires human confirmation; intentional rotation is not silently axis-aligned.
+- Unknown road class blocks profile-derived widths; explicit user-specified widths remain explicit.
+- A T-junction node move is atomic across node, edges and corridors; a stale member rolls back the whole set.
+- Height changes stale massing but not footprint-only artifacts; road geometry changes stale road surfaces.
+- External geometry enters only through reconcile proposals.
+- The domain flow works through `StatefulRuntime`: propose → preview → human approval → commit → stale artifact → rebuild job.
 
 ## 4. What the current tests do **not** prove
 
@@ -71,6 +80,7 @@ python -m pytest -q --cov --cov-report=term-missing
 - That the runtime is production-safe, crash-safe on power loss, or multi-host.
 - That SQLite is integrated into the runtime save/load path (it is a separate spike).
 - That real sketch recognition, geometry construction, road design or building regularization works.
+- That the domain slice's simplified regularization (axis-aligned envelope) or road centerline merge is professionally correct.
 - That DXF output is compliant with any real project/design-office profile.
 - That IFC round-trip preserves identity.
 - That shadow analysis matches an independent engine.

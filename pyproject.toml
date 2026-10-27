@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dgcad"
-version = "0.1.0"
+version = "0.2.0"
 description = "Research-first workspace for a traceable sketch -> professional site model -> CAD/BIM agent"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -23,7 +23,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: GIS",
     "Topic :: Software Development :: Libraries",
 ]
-dependencies = ["PyYAML>=6.0"]
+dependencies = ["PyYAML>=6.0", "shapely>=2.0"]
 
 [project.optional-dependencies]
 dev = [

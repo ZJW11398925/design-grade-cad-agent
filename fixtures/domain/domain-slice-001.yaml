@@ -1,0 +1,188 @@
+schema_id: dgcad.domain.fixture.confirmed-trace.v0.1
+fixture_id: DOMAIN-SLICE-001
+scene_id: scene-domain-001
+synthetic_only: true
+human_confirmed_trace: true
+coordinate_frame: LOCAL-ENU-XY-ZUP
+units: metre
+site_boundary_ref: TRACE-SITE-001
+
+trace_objects:
+  - trace_id: TRACE-SITE-001
+    semantic_role: site_boundary
+    review_state: confirmed
+    locked: true
+    geometry:
+      type: Polygon
+      coordinates:
+        - [[0.0, 0.0], [40.0, 0.0], [40.0, 30.0], [0.0, 30.0], [0.0, 0.0]]
+
+  - trace_id: TRACE-B-001
+    semantic_role: building
+    review_state: confirmed
+    locked: true
+    geometry:
+      type: Polygon
+      coordinates:
+        - [[12.0, 14.0], [16.0, 14.0], [16.0, 18.0], [12.0, 18.0], [12.0, 14.0]]
+
+  - trace_id: TRACE-B-002
+    semantic_role: building
+    review_state: confirmed
+    locked: true
+    geometry:
+      type: Polygon
+      coordinates:
+        - [[4.5, 15.0], [8.0, 15.3], [8.2, 20.0], [4.4, 19.7], [4.5, 15.0]]
+
+  - trace_id: TRACE-B-003
+    semantic_role: building
+    review_state: confirmed
+    locked: true
+    geometry:
+      type: Polygon
+      coordinates:
+        - [[27.2842, 20.7897], [28.4537, 16.9645], [22.7158, 15.2103], [21.5463, 19.0355], [27.2842, 20.7897]]
+
+  - trace_id: TRACE-G-001
+    semantic_role: green
+    review_state: confirmed
+    locked: true
+    geometry:
+      type: Polygon
+      coordinates:
+        - [[1.0, 1.0], [9.0, 1.0], [9.0, 7.0], [1.0, 7.0], [1.0, 1.0]]
+
+  - trace_id: TRACE-R-001
+    semantic_role: road
+    review_state: confirmed
+    locked: true
+    geometry:
+      type: LineString
+      coordinates: [[0.0, 11.0], [20.0, 11.0], [40.0, 11.0]]
+
+  - trace_id: TRACE-R-002
+    semantic_role: road
+    review_state: confirmed
+    locked: true
+    geometry:
+      type: LineString
+      coordinates: [[20.0, 11.0], [20.0, 25.0]]
+
+buildings:
+  - object_id: B-001
+    trace_ref: TRACE-B-001
+    regularization_request: preserve_trace
+    height:
+      value: 18.0
+      unit: metre
+      state: confirmed
+      source_ref: design_brief
+    base_elevation:
+      value: 0.0
+      unit: metre
+      state: confirmed
+      source_ref: design_brief
+    typology: rectangle
+    typology_state: proposed
+  - object_id: B-002
+    trace_ref: TRACE-B-002
+    regularization_request: preserve_trace
+    height:
+      value: null
+      unit: metre
+      state: unknown
+      source_ref: null
+    base_elevation:
+      value: 0.0
+      unit: metre
+      state: confirmed
+      source_ref: design_brief
+    typology: null
+    typology_state: unknown
+  - object_id: B-003
+    trace_ref: TRACE-B-003
+    regularization_request: preserve_trace
+    height:
+      value: 12.0
+      unit: metre
+      state: confirmed
+      source_ref: design_brief
+    base_elevation:
+      value: 0.0
+      unit: metre
+      state: confirmed
+      source_ref: design_brief
+    typology: rectangle
+    typology_state: proposed
+
+roads:
+  - corridor_id: R-001
+    edge_refs: [RE-001, RE-002]
+    hierarchy: null
+    hierarchy_state: unknown
+    primary_function: access
+    permitted_modes: [motor_vehicle, pedestrian]
+    special_designations: []
+    cross_section: null
+  - corridor_id: R-002
+    edge_refs: [RE-003]
+    hierarchy: site_secondary
+    hierarchy_state: confirmed
+    primary_function: access
+    permitted_modes: [motor_vehicle, pedestrian]
+    special_designations: []
+    cross_section:
+      profile_id: XS-R-002
+      status: needs_review
+      components:
+        - component_type: traffic_lane
+          width_m: 4.0
+          width_status: user_specified
+          source_ref: design_brief
+        - component_type: sidewalk
+          width_m: 2.0
+          width_status: user_specified
+          source_ref: design_brief
+      total_width_m: 6.0
+
+road_graph:
+  nodes:
+    - node_id: RN-001
+      x: 0.0
+      y: 11.0
+      junction: false
+    - node_id: RN-002
+      x: 40.0
+      y: 11.0
+      junction: false
+    - node_id: RN-003
+      x: 20.0
+      y: 11.0
+      junction: true
+    - node_id: RN-004
+      x: 20.0
+      y: 25.0
+      junction: false
+  edges:
+    - edge_id: RE-001
+      corridor_id: R-001
+      node_a: RN-001
+      node_b: RN-003
+      centerline:
+        type: LineString
+        coordinates: [[0.0, 11.0], [20.0, 11.0]]
+    - edge_id: RE-002
+      corridor_id: R-001
+      node_a: RN-003
+      node_b: RN-002
+      centerline:
+        type: LineString
+        coordinates: [[20.0, 11.0], [40.0, 11.0]]
+    - edge_id: RE-003
+      corridor_id: R-002
+      node_a: RN-003
+      node_b: RN-004
+      centerline:
+        type: LineString
+        coordinates: [[20.0, 11.0], [20.0, 25.0]]

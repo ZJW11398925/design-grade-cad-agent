@@ -2,7 +2,7 @@
 
 The roadmap is organized so that every milestone has an executable exit criterion. A milestone is not "done" because a demo looks plausible; it is done when the named tests or evidence packages pass within a declared scope.
 
-## Milestone 0 — Formal workspace and CI (current)
+## Milestone 0 — Formal workspace and CI (complete)
 
 - [x] Consolidate Foundation, Runtime and Deployment into a single `src/` tree.
 - [x] Preserve R0 v0.19 and R1 deployment-entry v0.2 under `research/archive/`.
@@ -15,21 +15,21 @@ The roadmap is organized so that every milestone has an executable exit criterio
 
 **Exit:** green CI on the default branch; repository structure documented; promotion map current.
 
-## Milestone 1 — Domain slice entry (`NEXT-R1-MVP-001`)
+## Milestone 1 — Domain slice entry (`NEXT-R1-MVP-001`) — complete for synthetic scope
 
 Input: human-confirmed Trace/Intent fixture. Output: canonical Building/Road objects, proposal → preview → dependency → validator flow.
 
-- [ ] Define `dgcad_domain` package boundary and typed domain objects (Building, RoadCorridor).
-- [ ] Define a minimal confirmed Trace/Intent fixture and its authority rules.
-- [ ] Implement Building adapter: trace footprint → professional candidate → canonical proposal.
-- [ ] Implement Road adapter: centerline + simple cross-section → canonical proposal.
-- [ ] Register derived artifacts and stale propagation for both domains.
-- [ ] Add a domain-level validator contract with structured issues.
-- [ ] Tests: at least 20 new domain contract tests.
+- [x] Define `dgcad_domain` package boundary and typed domain objects (Building, RoadCorridor).
+- [x] Define a minimal confirmed Trace/Intent fixture and its authority rules (`fixtures/domain/domain-slice-001.yaml`).
+- [x] Implement Building adapter: trace footprint → professional candidate → canonical proposal.
+- [x] Implement Road adapter: centerline + simple cross-section → canonical proposal.
+- [x] Register derived artifacts and stale propagation for both domains.
+- [x] Add a domain-level validator contract with structured issues.
+- [x] Tests: 26 domain contract tests, including a StatefulRuntime integration test.
 
-**Exit:** one confirmed synthetic site can produce canonical building and road objects through the runtime, with preview isolation and correct staleness.
+**Exit:** one confirmed synthetic site can produce canonical building and road objects through the runtime, with preview isolation and correct staleness. Real sketch input remains blocked by `EP-R1-SKETCH-001`; real road engineering remains blocked by `EP-R1-ROAD-001`.
 
-## Milestone 2 — E2E integration suite
+## Milestone 2 — E2E integration suite (next)
 
 - [ ] Port the R0 synthetic E2E pipeline into `tests/e2e/` as pytest fixtures.
 - [ ] Cover: fixture → solar/shadow → CAD-IR → DXF → readback manifest.

@@ -1,18 +1,18 @@
 # Project Status
 
 Updated: 2026-10-27
-Version: `0.1.0` (formal workspace)
+Version: `0.2.0` (domain slice 001)
 Research basis: R0 v0.19 + R1 deployment-entry v0.2
 
 ## 1. One-line status
 
-The project has a working, tested **governance and runtime contract layer**; it does **not** yet have a domain slice that turns a confirmed sketch/trace into building/road geometry, DXF output, or real-world validated behavior.
+The project has a working **governance/runtime contract layer** and a **minimal synthetic Building/Road domain slice** that turns a human-confirmed trace into canonical objects through proposal, preview, human approval, commit, stale propagation and rebuild scheduling. It does **not** yet have real sketch input, real road engineering, DXF delivery, IFC, or real-world validated behavior.
 
 ## 2. Test baseline
 
 ```text
 python -m pytest -q
-65 passed
+91 passed
 ```
 
 | Suite | Tests | Status |
@@ -21,6 +21,7 @@ python -m pytest -q
 | Runtime | 22 | passing |
 | Deployment | 8 | passing |
 | Lifecycle | 14 | passing |
+| Domain | 26 | passing |
 
 ## 3. Capability status
 
@@ -37,7 +38,8 @@ python -m pytest -q
 | SQLite/WAL persistence | spike | not wired into `StatefulRuntime` save/load |
 | MCP wire protocol | **blocked** | official SDK unavailable |
 | Real AutoCAD / FreeCAD bridge | **blocked** | no host environment |
-| Building/Road domain geometry | **not started** | next milestone |
+| Building/Road domain adapters | **implemented (synthetic)** | confirmed trace → canonical building/road; unknown states preserved |
+| Real professional road geometry | **not validated** | only centerline + explicit cross-section; no alignment/clothoid/surface |
 | Real sketch → trace | **not validated** | no Tier B/C data |
 | Real design-office profile | **not validated** | synthetic and DB11 subset only |
 | IFC round-trip | **blocked** | IfcOpenShell unavailable |
@@ -71,7 +73,7 @@ Promotion status of all research artifacts: [research-to-product-map.md](researc
 | R1-G07 Real Case | one non-synthetic site sketch | not started |
 | R1-G08 Spikes | IFC + independent ENV + real profile | not started |
 
-## 5. Known defects carried forward
+## 6. Known defects carried forward
 
 These were reproduced after the v0.3 synthetic hardening and are accepted as **development acceptance items**, not research tasks:
 
@@ -86,7 +88,31 @@ These were reproduced after the v0.3 synthetic hardening and are accepted as **d
 
 See `research/archive/r0-v0.19/working/cad-bim-validator/development-acceptance-contract-v0.1.md`.
 
-## 6. Current non-claims
+## 7. Domain slice 001
+
+Implemented in `src/dgcad_domain/` and tested by `tests/test_domain_contracts.py`.
+
+What it proves:
+
+- A confirmed trace is canonicalized as immutable `evidence_only` objects and is not overwritten by professional proposals.
+- Buildings preserve trace/professional footprint separation and explicit height state/source.
+- Unknown height survives proposal, preview and commit; massing is blocked with `MASSING_BLOCKED_UNKNOWN_HEIGHT`.
+- Regularization is a candidate requiring human confirmation; intentional rotation is not silently axis-aligned.
+- Road class, function, access and cross-section are separate facts; unknown class blocks derived widths.
+- A T-junction node move is an atomic multi-object change set; a stale member rejects the whole set.
+- Height changes stale massing but not footprint-dependent artifacts; road geometry changes stale road surfaces.
+- External geometry cannot write canonically; it enters through a reconcile proposal.
+- The same flow works through `StatefulRuntime`: agent proposal → preview → human approval → commit → stale artifact → rebuild job.
+
+What it does **not** prove:
+
+- That a real sketch can be converted into the confirmed trace.
+- That professional road alignment, junction turn geometry or a real cross-section profile is correct.
+- That any Chinese standard or design-office profile is satisfied.
+- That DXF/IFC output is valid or interoperable.
+- That the synthetic fixture represents real design practice.
+
+## 8. Current non-claims
 
 - `research_complete = false`
 - `release_authorized = false`

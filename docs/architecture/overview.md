@@ -130,7 +130,37 @@ Local Sidecar Runtime (canonical authority)
 
 Canonical identity, revision, authority and dependency remain in-house. No third-party library owns canonical truth.
 
-## 9. Open architecture questions
+## 9. Implemented domain slice 001 (v0.2.0)
+
+`src/dgcad_domain/` is the first implementation that puts real Building/Road objects through the Foundation/Runtime contracts.
+
+```text
+ConfirmedTraceScene (fixture, human_confirmed_trace=true)
+  -> evidence objects: authority=evidence_only, locked, immutable
+  -> design objects: authority=candidate
+  -> BuildingCandidate / RoadCandidate
+  -> ChangeProposal (required_authority=human_confirm)
+  -> Preview (proposal_preview world)
+  -> Human approval grant
+  -> Canonical commit (canonical_current)
+  -> stale propagation (massing / road surface)
+  -> rebuild job
+  -> structured domain validation
+```
+
+Implemented behavior:
+
+- trace/professional footprint separation; trace evidence is never overwritten;
+- unknown height remains unknown and blocks massing;
+- regularization candidate requires review; intentional rotation is reported, not silently axis-aligned;
+- road class, function, access and physical cross-section remain separate;
+- unknown road class blocks derived width; explicit user-specified widths remain explicit;
+- T-junction node moves are atomic across node, edges and corridors;
+- external geometry enters only through a reconcile proposal.
+
+Not implemented: real sketch extraction, professional alignment/junction geometry, standard profiles, road surface geometry, DXF/IFC, analysis, UI.
+
+## 10. Open architecture questions
 
 - Final road alignment algorithm and Chinese profile source.
 - Shapely vs CGAL boundary.
