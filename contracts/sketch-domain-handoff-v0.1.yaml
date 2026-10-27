@@ -1,0 +1,111 @@
+schema_id: dgcad.sketch-domain-handoff.v0.1
+status: living_contract
+scope: CASE-SKETCH-001-HANDOFF-A
+purpose: "Define the explicit gate that turns selected CASE-SKETCH-001 evidence into a human-reviewed ConfirmedTraceScene."
+
+source:
+  required:
+    - case_id
+    - source_sketch_sha256
+    - synthetic_only
+  rules:
+    - "synthetic_only must be false for a real sketch handoff"
+    - "source evidence is immutable and is never overwritten by professional geometry"
+    - "the handoff keeps the original source IDs"
+
+coordinate_handoff:
+  required:
+    - source_frame
+    - target_frame
+    - coordinate_state
+    - scale_px_per_m
+    - scale_range_px_per_m
+    - origin_px
+    - y_axis
+    - project_coordinates
+    - calibration_ref
+    - review_state
+    - accuracy
+    - not_survey_grade
+  source_frames: [image_space_unscaled]
+  target_frames: [LOCAL-ENU-XY-ZUP]
+  coordinate_states: [local_metric_scaled]
+  y_axis: flipped
+  rules:
+    - "image-space pixels may not be treated as metres without this handoff"
+    - "project_coordinates must be false for the pilot"
+    - "a project or georeferenced target requires a CRS or project calibration and separate human review"
+    - "the scale range and accuracy are recorded; the pilot is not survey-grade"
+    - "the handoff origin is arbitrary and is not a project/site coordinate"
+
+review:
+  required:
+    - handoff_id
+    - reviewer
+    - reviewer_role
+    - review_scope
+    - human_confirmed_trace
+    - reviewed_at
+    - basis
+    - decisions
+  reviewer_roles: [designer, human_reviewer]
+  review_scopes: [pilot_subset, full_case]
+  decision_fields: [source_id, semantic, geometry, coordinate]
+  semantic_states: [confirmed]
+  geometry_states: [confirmed_for_pilot, confirmed]
+  coordinate_states: [local_metric_approximate, reviewed]
+  rules:
+    - "the Agent cannot confirm the handoff"
+    - "every selected object needs an explicit human decision"
+    - "confirmed_for_pilot is not a full-case or survey-grade confirmation"
+    - "semantic confirmation and geometry confirmation remain separate"
+    - "missing or proposed geometry cannot enter ConfirmedTraceScene"
+
+objects:
+  required:
+    - source_id
+    - trace_id
+    - canonical_id
+    - semantic_role
+    - geometry
+    - semantic_state
+    - geometry_state
+    - provenance
+  semantic_roles: [site_boundary, building, green, road]
+  semantic_states: [confirmed]
+  geometry_states: [confirmed_for_pilot, confirmed]
+  rules:
+    - "source_id -> trace_id -> canonical_id mapping is unique and stable"
+    - "provenance must reference the CASE-SKETCH-001 source object"
+    - "rejected or ambiguous objects are excluded, not silently confirmed"
+
+buildings:
+  height_state_enum: [unknown, estimated, proposed, confirmed]
+  rules:
+    - "unknown height remains unknown through handoff and canonical"
+    - "no height or massing is derived from floor count alone"
+    - "a building footprint remains a sketch placeholder until a unit-type library is applied"
+
+roads:
+  hierarchy_state_enum: [unknown, proposed, confirmed, needs_review, disputed]
+  rules:
+    - "a sketch road class candidate is not a confirmed legal road class"
+    - "unknown hierarchy blocks derived width"
+    - "no cross-section, alignment or surface is derived by this handoff"
+
+forbidden:
+  - "proposed geometry presented as confirmed trace"
+  - "image-space geometry presented as metric/project truth without the handoff"
+  - "unknown height presented as a numeric height"
+  - "unknown road class used to derive width"
+  - "professional geometry overwriting sketch trace evidence"
+  - "broken source/trace/canonical provenance"
+  - "Agent-confirmed handoff"
+  - "private DWG/redline/project coordinates in public evidence"
+
+non_claims:
+  - "the pilot is a selected subset, not the full CASE-SKETCH-001 site"
+  - "the local metric frame is approximate and not survey-grade"
+  - "unknown building height, base elevation, road hierarchy and cross-section remain unknown"
+  - "a successful DXF readback is not a design-office compliance claim"
+  - "EP-R1-SKETCH-001 is not complete"

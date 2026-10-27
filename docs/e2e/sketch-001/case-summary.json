@@ -185,7 +185,7 @@
     "Human-confirmed trace and fidelity metrics are not yet available.",
     "支路 and 入户路 are not separated within the blue class.",
     "No road width, cross-section, alignment, junction turn geometry or surface yet.",
-    "No canonical Building/Road handoff from this sketch yet."
+    "No full-case canonical Building/Road handoff; a selected pilot subset has reached canonical/DXF (CASE-SKETCH-001-HANDOFF-A)."
   ],
   "non_claims": [
     "one conceptual hand-modified sketch; not a validated sketch-recognition benchmark",

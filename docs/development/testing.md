@@ -34,6 +34,8 @@ A passing lower layer never promotes a higher-layer claim automatically.
 | Third-party evidence | `tests/e2e/test_e2e_003c_third_party.py` | 2 |
 | Sketch evidence | `tests/test_sketch_evidence.py` | 11 |
 | Road topology | `tests/test_road_topology.py` | 3 |
+| Sketch handoff gate | `tests/test_sketch_handoff.py` | 14 |
+| Sketch handoff A | `tests/e2e/test_sketch_handoff_a.py` | 2 |
 
 Run all:
 
@@ -114,6 +116,8 @@ python -m pytest -q --cov --cov-report=term-missing
 - Every building carries a provisional 11-floor state with no floor height, massing or FAR; the unit-type library and human-confirmed geometry remain pending.
 - The separate-colour skeleton produced 9 components (superseded). The unified brown+blue mask with a 5 px closing gives **1 component, 309 nodes, 333 edges and 121 junction candidates**; the eight nearest-node connectors are rejected negative evidence.
 - Road topology carries no width, cross-section, profile, alignment or surface fields.
+- The handoff gate rejects proposed geometry, missing or agent review, project-coordinate claims and broken provenance.
+- CASE-SKETCH-001-HANDOFF-A reaches 11 DXF entities and an 11/11 readback with source→trace→canonical provenance; unknown height and road hierarchy remain explicit.
 
 ## 4. What the current tests do **not** prove
 
@@ -125,6 +129,8 @@ python -m pytest -q --cov --cov-report=term-missing
 - That CASE-SKETCH-001's trace is human-confirmed or accurate: semantic labels are designer-confirmed, but geometry is proposed and no Hausdorff/IoU metrics against a human reference exist yet.
 - That building merge/split, 支路/入户路 separation or the canonical Building/Road handoff are resolved.
 - That the unified-mask road topology is professionally correct; its 121 junctions are proposed candidates, not designed intersections.
+- That the full CASE-SKETCH-001 sketch is human-confirmed or that the pilot is survey-grade; only a selected pilot subset is confirmed_for_pilot.
+- That the pilot DXF is third-party CAD evidence or design-office compliant; readback is same-library ezdxf.
 - That the colour-based road class is confirmed; it is inferred from brown/blue pixel majority.
 - That road width, cross-section, profile or alignment has been designed; none is derived.
 - That the domain slice's simplified regularization (axis-aligned envelope) or road centerline merge is professionally correct.

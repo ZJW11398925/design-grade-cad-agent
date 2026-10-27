@@ -77,6 +77,7 @@ This map is the single index of which research artifacts have been promoted into
 | E2E-003 adversarial delivery | **promoted** | `contracts/e2e-adversarial-v0.1.yaml` + `tests/e2e/test_e2e_003_adversarial.py` | Adversarial scenarios, categories and issue mapping; same-library only |
 | E2E-003b semantic/dependency | **promoted** | `src/dgcad_cad/` + `tests/e2e/test_e2e_003b_semantics.py` | Fingerprint consistency, symbol tables, ring keys, raw/canonical manifest; same-library only |
 | E2E-003c third-party CAD | **partially promoted** | `contracts/third-party-roundtrip-v0.1.yaml` + `scripts/third_party/autocad_core_roundtrip.py` | AutoCAD 2024 Core Console evidence captured; LibreCAD/FreeCAD/GUI matrix still open (#6) |
+| CASE-SKETCH-001-HANDOFF-A | **promoted (pilot)** | `contracts/sketch-domain-handoff-v0.1.yaml` + `src/dgcad_domain/sketch_handoff.py` + `docs/e2e/sketch-handoff-a/` | Selected real subset → human gate → Canonical → CAD-IR → DXF; pilot scope only |
 | DEV-CAD-001..008 | **partially promoted** | Issues #1/#4/#5/#6/#8 + closed #2/#3/#7 | Milestone 3a fixed 002/003/007; 009/010 added and fixed; 001/004/005/006/008/011 remain for 3b/3c |
 | R0 acquisition batches (BATCH-001..005) | `research_only` | — | Unclosed evidence; gate claims remain blocked |
 
@@ -164,8 +165,20 @@ Still open: LibreCAD/FreeCAD/GUI third-party matrix (#6), arcs/splines outside t
 - Designer building merges: M-001 = 0046+0047+0060 (3 units) plus connectors 0062+0063; M-002 = 0030 (2 units) + 0053 (1 unit); M-003 = 0001+0037 (kindergarten/facility); M-004 = 0019+0058; M-005 = 0027+0059. All buildings record 11 floors as provisional; the unit-type library is pending.
 - Unit counts: 16 one-unit, 21 two-unit, 17 three-unit; 52 inferred from sketch dimensions, 2 confirmed, 1 facility excluded; six length-vs-area conflicts are flagged.
 - 312 rough road centerlines (`proposed_rough`): main road 1 component, blue network 8 components.
-- No human-confirmed trace or fidelity metrics; all 10 close pairs are resolved; six unit-count conflicts and the kindergarten facility remain for review; 支路/入户路 unseparated; no canonical handoff.
+- No full-case human-confirmed trace or fidelity metrics; all 10 close pairs are resolved; six unit-count conflicts and the kindergarten facility remain for review; 支路/入户路 unseparated; a selected pilot subset has reached canonical/DXF.
 - Contract: `contracts/sketch-evidence-v0.1.yaml`; tests: `tests/test_sketch_evidence.py` (11).
+
+## CASE-SKETCH-001-HANDOFF-A (0.12.0)
+
+- Explicit handoff contract and model: `contracts/sketch-domain-handoff-v0.1.yaml` + `src/dgcad_domain/sketch_handoff.py`.
+- Selected real subset: site boundary, one ordinary building, one merged building, one green, two main-road edges, one branch edge, one T-junction.
+- Human gate: designer, `pilot_subset`, `human_confirmed_trace: true`; seven objects `confirmed_for_pilot`; not full-case/survey-grade.
+- Coordinate handoff: image-space → `LOCAL-ENU-XY-ZUP`, local metric 2.438 px/m (range 2.25–2.89), no project coordinates.
+- Existing Domain Slice: `ConfirmedTraceScene` → `build_initial_scene` → runtime proposal/approval/commit → Canonical → CAD-IR → DXF → readback.
+- DXF 11 entities, audit 0/0, readback 11/11 pass; CAD-IR `pass_with_scope_limits` for unknown height.
+- Unknown height/base, road hierarchy/cross-section and massing/width remain explicit; no third-party evidence.
+- Tests: `tests/test_sketch_handoff.py` (14) and `tests/e2e/test_sketch_handoff_a.py` (2).
+
 
 ## EP-R1-ROAD-001 unified-mask topology (0.11.0)
 
@@ -199,6 +212,7 @@ contracts/
 ├── e2e-adversarial-v0.1.yaml
 ├── third-party-roundtrip-v0.1.yaml
 ├── sketch-evidence-v0.1.yaml
+├── sketch-domain-handoff-v0.1.yaml
 ├── evidence-gate-register-v0.2.yaml
 ├── runtime-state-contract-v0.1.yaml
 ├── runtime-agent-surface-v0.1.yaml

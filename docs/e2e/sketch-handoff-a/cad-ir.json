@@ -1,0 +1,624 @@
+{
+  "schema_id": "design-grade-cad-agent.cad-ir.v0.1",
+  "project": {
+    "project_id": "scene-CASE-SKETCH-001-HANDOFF-A",
+    "built_from_scene_revision": 5,
+    "units": "metre",
+    "coordinate_frame_ref": "LOCAL-ENU-XY-ZUP",
+    "coordinate_state": "local_metric_scaled",
+    "profile_ref": "SYNTHETIC-E2E-PROFILE-001",
+    "profile_version": "0.1.0"
+  },
+  "objects": [
+    {
+      "object_id": "B-SKETCH-0007",
+      "object_class": "building_footprint",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              187.448728466,
+              413.863822806
+            ],
+            [
+              187.448728466,
+              401.968826907
+            ],
+            [
+              235.028712059,
+              401.968826907
+            ],
+            [
+              235.028712059,
+              413.863822806
+            ],
+            [
+              187.448728466,
+              413.863822806
+            ]
+          ]
+        ]
+      },
+      "geometry_revision": 1,
+      "layer_key": "A-BUILDING-OUTLINE",
+      "representation_kind": "polygon_ring",
+      "source_world": "canonical_current",
+      "provenance": {
+        "source_trace_ref": "SK-BLD-0007",
+        "canonical_object_id": "B-SKETCH-0007",
+        "canonical_revisions": {
+          "semantic": 0,
+          "geometry": 1,
+          "parameter": 0
+        }
+      },
+      "massing": {
+        "height_m": null,
+        "height_state": "unknown",
+        "base_elevation_m": null,
+        "height_source": "designer: 11 floors provisional; floor height unknown"
+      }
+    },
+    {
+      "object_id": "B-SKETCH-MRG-0001",
+      "object_class": "building_footprint",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                38.966365874,
+                328.137817884
+              ],
+              [
+                38.966365874,
+                340.853158326
+              ],
+              [
+                17.227235439,
+                340.853158326
+              ],
+              [
+                17.227235439,
+                328.137817884
+              ],
+              [
+                38.966365874,
+                328.137817884
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                50.041017227,
+                329.778506973
+              ],
+              [
+                51.271534044,
+                327.727645611
+              ],
+              [
+                72.600492207,
+                328.137817884
+              ],
+              [
+                72.600492207,
+                340.853158326
+              ],
+              [
+                50.861361772,
+                340.853158326
+              ],
+              [
+                51.271534044,
+                330.598851518
+              ],
+              [
+                50.041017227,
+                329.778506973
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                48.81050041,
+                327.727645611
+              ],
+              [
+                49.220672683,
+                338.802296965
+              ],
+              [
+                41.427399508,
+                338.802296965
+              ],
+              [
+                41.017227235,
+                327.727645611
+              ],
+              [
+                48.81050041,
+                327.727645611
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                39.786710418,
+                323.215750615
+              ],
+              [
+                40.607054963,
+                321.164889253
+              ],
+              [
+                42.247744053,
+                320.754716981
+              ],
+              [
+                50.041017227,
+                321.164889253
+              ],
+              [
+                50.4511895,
+                324.446267432
+              ],
+              [
+                48.81050041,
+                325.266611977
+              ],
+              [
+                51.681706317,
+                325.676784249
+              ],
+              [
+                51.681706317,
+                326.907301066
+              ],
+              [
+                38.146021329,
+                326.497128794
+              ],
+              [
+                38.146021329,
+                323.215750615
+              ],
+              [
+                39.786710418,
+                323.215750615
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                34.044298605,
+                309.269893355
+              ],
+              [
+                56.193601313,
+                309.680065628
+              ],
+              [
+                55.78342904,
+                317.06316653
+              ],
+              [
+                54.552912223,
+                317.883511075
+              ],
+              [
+                55.78342904,
+                318.293683347
+              ],
+              [
+                55.78342904,
+                319.934372436
+              ],
+              [
+                34.044298605,
+                320.344544709
+              ],
+              [
+                35.274815422,
+                316.652994258
+              ],
+              [
+                35.274815422,
+                310.910582445
+              ],
+              [
+                34.044298605,
+                309.269893355
+              ]
+            ]
+          ]
+        ]
+      },
+      "geometry_revision": 1,
+      "layer_key": "A-BUILDING-OUTLINE",
+      "representation_kind": "polygon_ring",
+      "source_world": "canonical_current",
+      "provenance": {
+        "source_trace_ref": "SK-BLD-MRG-0001",
+        "canonical_object_id": "B-SKETCH-MRG-0001",
+        "canonical_revisions": {
+          "semantic": 0,
+          "geometry": 1,
+          "parameter": 0
+        }
+      },
+      "massing": {
+        "height_m": null,
+        "height_state": "unknown",
+        "base_elevation_m": null,
+        "height_source": "designer: 11 floors provisional; floor height unknown"
+      }
+    },
+    {
+      "object_id": "G-001",
+      "object_class": "green_space",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              225.594749795,
+              365.053322395
+            ],
+            [
+              221.493027071,
+              367.51435603
+            ],
+            [
+              209.187858901,
+              368.334700574
+            ],
+            [
+              178.014766202,
+              365.87366694
+            ],
+            [
+              175.553732568,
+              360.5414274
+            ],
+            [
+              176.374077112,
+              336.751435603
+            ],
+            [
+              177.604593929,
+              332.649712879
+            ],
+            [
+              180.475799836,
+              329.778506973
+            ],
+            [
+              185.808039377,
+              328.547990156
+            ],
+            [
+              199.343724364,
+              331.00902379
+            ],
+            [
+              207.957342084,
+              334.700574241
+            ],
+            [
+              218.211648893,
+              341.673502871
+            ],
+            [
+              226.004922067,
+              351.107465135
+            ],
+            [
+              227.645611157,
+              355.209187859
+            ],
+            [
+              227.645611157,
+              360.5414274
+            ],
+            [
+              225.594749795,
+              365.053322395
+            ]
+          ]
+        ]
+      },
+      "geometry_revision": 1,
+      "layer_key": "L-GREEN",
+      "representation_kind": "polygon_ring",
+      "source_world": "canonical_current",
+      "provenance": {
+        "source_trace_ref": "SK-GRN-0001",
+        "canonical_object_id": "G-001",
+        "canonical_revisions": {
+          "semantic": 1,
+          "geometry": 1,
+          "parameter": 0
+        }
+      }
+    },
+    {
+      "object_id": "R-SK-BRANCH-001",
+      "object_class": "road_centerline",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            168.170631665,
+            375.307629204
+          ],
+          [
+            167.760459393,
+            324.03609516
+          ]
+        ]
+      },
+      "geometry_revision": 1,
+      "layer_key": "C-ROAD-CENTER",
+      "representation_kind": "centerline",
+      "source_world": "canonical_current",
+      "provenance": {
+        "source_trace_ref": "TRACE-SK-RDC-U-0017",
+        "canonical_object_id": "R-SK-BRANCH-001",
+        "canonical_revisions": {
+          "semantic": 0,
+          "geometry": 1,
+          "parameter": 1
+        },
+        "edge_refs": [
+          "SK-RDC-U-0017"
+        ]
+      }
+    },
+    {
+      "object_id": "R-SK-MAIN-001",
+      "object_class": "road_centerline",
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              103.363412633,
+              374.48728466
+            ],
+            [
+              114.027891715,
+              377.358490566
+            ],
+            [
+              163.658736669,
+              377.358490566
+            ],
+            [
+              168.170631665,
+              375.717801477
+            ]
+          ],
+          [
+            [
+              239.950779327,
+              376.538146021
+            ],
+            [
+              185.808039377,
+              377.358490566
+            ],
+            [
+              168.580803938,
+              375.717801477
+            ]
+          ]
+        ]
+      },
+      "geometry_revision": 1,
+      "layer_key": "C-ROAD-CENTER",
+      "representation_kind": "centerline",
+      "source_world": "canonical_current",
+      "provenance": {
+        "source_trace_ref": "TRACE-SK-RDC-U-0008",
+        "canonical_object_id": "R-SK-MAIN-001",
+        "canonical_revisions": {
+          "semantic": 0,
+          "geometry": 1,
+          "parameter": 1
+        },
+        "edge_refs": [
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010"
+        ]
+      }
+    },
+    {
+      "object_id": "SITE-001",
+      "object_class": "site_boundary",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              113.617719442,
+              630.024610336
+            ],
+            [
+              107.875307629,
+              616.488925349
+            ],
+            [
+              40.196882691,
+              494.667760459
+            ],
+            [
+              10.254306809,
+              433.552091879
+            ],
+            [
+              6.562756358,
+              430.2707137
+            ],
+            [
+              1.640689089,
+              429.860541427
+            ],
+            [
+              5.742411813,
+              425.348646432
+            ],
+            [
+              3.281378179,
+              372.026251025
+            ],
+            [
+              0.0,
+              191.550451189
+            ],
+            [
+              6.152584085,
+              116.899097621
+            ],
+            [
+              9.023789992,
+              16.817063167
+            ],
+            [
+              202.214930271,
+              13.535684988
+            ],
+            [
+              210.008203445,
+              9.023789992
+            ],
+            [
+              212.46923708,
+              0.0
+            ],
+            [
+              216.160787531,
+              0.0
+            ],
+            [
+              218.621821165,
+              9.023789992
+            ],
+            [
+              226.004922067,
+              13.125512715
+            ],
+            [
+              384.331419196,
+              10.254306809
+            ],
+            [
+              383.921246924,
+              73.831009024
+            ],
+            [
+              387.202625103,
+              107.465135357
+            ],
+            [
+              388.022969647,
+              372.84659557
+            ],
+            [
+              366.694011485,
+              417.555373257
+            ],
+            [
+              357.670221493,
+              442.57588187
+            ],
+            [
+              355.209187859,
+              458.982772765
+            ],
+            [
+              354.388843314,
+              517.637407711
+            ],
+            [
+              251.025430681,
+              518.867924528
+            ],
+            [
+              245.283018868,
+              526.251025431
+            ],
+            [
+              242.001640689,
+              536.50533224
+            ],
+            [
+              242.411812961,
+              541.427399508
+            ],
+            [
+              246.103363413,
+              545.939294504
+            ],
+            [
+              250.615258409,
+              547.169811321
+            ],
+            [
+              258.408531583,
+              542.657916325
+            ],
+            [
+              263.330598852,
+              551.681706317
+            ],
+            [
+              253.076292043,
+              551.681706317
+            ],
+            [
+              249.794913864,
+              547.990155865
+            ],
+            [
+              245.283018868,
+              546.759639048
+            ],
+            [
+              237.899917966,
+              550.861361772
+            ],
+            [
+              212.46923708,
+              630.024610336
+            ],
+            [
+              113.617719442,
+              630.024610336
+            ]
+          ]
+        ]
+      },
+      "geometry_revision": 1,
+      "layer_key": "A-SITE-BOUNDARY",
+      "representation_kind": "polygon_ring",
+      "source_world": "canonical_current",
+      "provenance": {
+        "source_trace_ref": "SK-BND-001",
+        "canonical_object_id": "SITE-001",
+        "canonical_revisions": {
+          "semantic": 1,
+          "geometry": 1,
+          "parameter": 0
+        }
+      }
+    }
+  ],
+  "dependency_fingerprint": "4718833ff344fcf8bc32da11f31d1b54f715062c30d3c4fa328b11215e64366f"
+}

@@ -1,0 +1,463 @@
+schema_id: dgcad.sketch-domain-handoff.v0.1
+handoff_id: CASE-SKETCH-001-HANDOFF-A
+case_id: CASE-SKETCH-001
+source_sketch_sha256: 07714b66f6405d7d4dacde91716eb7b4c8c6b4c32072ea91641a9725a295c0be
+synthetic_only: false
+review_ref: review.yaml
+coordinate_handoff:
+  source_frame: image_space_unscaled
+  target_frame: LOCAL-ENU-XY-ZUP
+  coordinate_state: local_metric_scaled
+  scale_px_per_m: 2.438
+  scale_range_px_per_m:
+  - 2.25
+  - 2.89
+  origin_px:
+  - 45.0
+  - 1536.0
+  y_axis: flipped
+  project_coordinates: false
+  calibration_ref: private site reference (not published)
+  review_state: reviewed
+  accuracy: approximate
+  not_survey_grade: true
+objects:
+- source_id: SK-BND-001
+  trace_id: SK-BND-001
+  canonical_id: SITE-001
+  semantic_role: site_boundary
+  semantic_state: confirmed
+  geometry_state: confirmed_for_pilot
+  geometry:
+    type: Polygon
+    coordinates:
+    - - - 322.0
+        - 0.0
+      - - 308.0
+        - 33.0
+      - - 143.0
+        - 330.0
+      - - 70.0
+        - 479.0
+      - - 61.0
+        - 487.0
+      - - 49.0
+        - 488.0
+      - - 59.0
+        - 499.0
+      - - 53.0
+        - 629.0
+      - - 45.0
+        - 1069.0
+      - - 60.0
+        - 1251.0
+      - - 67.0
+        - 1495.0
+      - - 538.0
+        - 1503.0
+      - - 557.0
+        - 1514.0
+      - - 563.0
+        - 1536.0
+      - - 572.0
+        - 1536.0
+      - - 578.0
+        - 1514.0
+      - - 596.0
+        - 1504.0
+      - - 982.0
+        - 1511.0
+      - - 981.0
+        - 1356.0
+      - - 989.0
+        - 1274.0
+      - - 991.0
+        - 627.0
+      - - 939.0
+        - 518.0
+      - - 917.0
+        - 457.0
+      - - 911.0
+        - 417.0
+      - - 909.0
+        - 274.0
+      - - 657.0
+        - 271.0
+      - - 643.0
+        - 253.0
+      - - 635.0
+        - 228.0
+      - - 636.0
+        - 216.0
+      - - 645.0
+        - 205.0
+      - - 656.0
+        - 202.0
+      - - 675.0
+        - 213.0
+      - - 687.0
+        - 191.0
+      - - 662.0
+        - 191.0
+      - - 654.0
+        - 200.0
+      - - 643.0
+        - 203.0
+      - - 625.0
+        - 193.0
+      - - 563.0
+        - 0.0
+      - - 322.0
+        - 0.0
+  provenance:
+    source_ref: docs/e2e/sketch-001/trace-raw.geojson#SK-BND-001
+    source_hash: e574b7b0b8246c0c78bb29f2f21fd1db7ed0278ecd7e33ba6f57570fcbe57ddc
+    source_kind: CASE-SKETCH-001
+  attributes:
+    authoritative_reference: private site reference (not published)
+- source_id: SK-BLD-0007
+  trace_id: SK-BLD-0007
+  canonical_id: B-SKETCH-0007
+  semantic_role: building
+  semantic_state: confirmed
+  geometry_state: confirmed_for_pilot
+  geometry:
+    type: Polygon
+    coordinates:
+    - - - 502.0
+        - 527.0
+      - - 502.0
+        - 556.0
+      - - 618.0
+        - 556.0
+      - - 618.0
+        - 527.0
+      - - 502.0
+        - 527.0
+  provenance:
+    source_ref: docs/e2e/sketch-001/trace-raw.geojson#SK-BLD-0007
+    source_hash: e574b7b0b8246c0c78bb29f2f21fd1db7ed0278ecd7e33ba6f57570fcbe57ddc
+    source_kind: CASE-SKETCH-001
+  attributes:
+    unit_count: 3
+    unit_count_state: inferred
+    floor_count: 11
+    floor_state: proposed_initial
+    design_state: sketch_placeholder_pending_unit_type_library
+    replacement_pending: unit_type_library
+    merge_state: none
+    geometry_part_count: null
+- source_id: SK-BLD-MRG-0001
+  trace_id: SK-BLD-MRG-0001
+  canonical_id: B-SKETCH-MRG-0001
+  semantic_role: building
+  semantic_state: confirmed
+  geometry_state: confirmed_for_pilot
+  geometry:
+    type: MultiPolygon
+    coordinates:
+    - - - - 140.0
+          - 736.0
+        - - 140.0
+          - 705.0
+        - - 87.0
+          - 705.0
+        - - 87.0
+          - 736.0
+        - - 140.0
+          - 736.0
+    - - - - 167.0
+          - 732.0
+        - - 170.0
+          - 737.0
+        - - 222.0
+          - 736.0
+        - - 222.0
+          - 705.0
+        - - 169.0
+          - 705.0
+        - - 170.0
+          - 730.0
+        - - 167.0
+          - 732.0
+    - - - - 164.0
+          - 737.0
+        - - 165.0
+          - 710.0
+        - - 146.0
+          - 710.0
+        - - 145.0
+          - 737.0
+        - - 164.0
+          - 737.0
+    - - - - 142.0
+          - 748.0
+        - - 144.0
+          - 753.0
+        - - 148.0
+          - 754.0
+        - - 167.0
+          - 753.0
+        - - 168.0
+          - 745.0
+        - - 164.0
+          - 743.0
+        - - 171.0
+          - 742.0
+        - - 171.0
+          - 739.0
+        - - 138.0
+          - 740.0
+        - - 138.0
+          - 748.0
+        - - 142.0
+          - 748.0
+    - - - - 128.0
+          - 782.0
+        - - 182.0
+          - 781.0
+        - - 181.0
+          - 763.0
+        - - 178.0
+          - 761.0
+        - - 181.0
+          - 760.0
+        - - 181.0
+          - 756.0
+        - - 128.0
+          - 755.0
+        - - 131.0
+          - 764.0
+        - - 131.0
+          - 778.0
+        - - 128.0
+          - 782.0
+  provenance:
+    source_ref: docs/e2e/sketch-001/trace-raw.geojson#SK-BLD-MRG-0001
+    source_hash: e574b7b0b8246c0c78bb29f2f21fd1db7ed0278ecd7e33ba6f57570fcbe57ddc
+    source_kind: CASE-SKETCH-001
+  attributes:
+    unit_count: 3
+    unit_count_state: confirmed
+    floor_count: 11
+    floor_state: proposed_initial
+    design_state: sketch_placeholder_pending_unit_type_library
+    replacement_pending: unit_type_library
+    merge_state: confirmed
+    geometry_part_count: 5
+- source_id: SK-GRN-0001
+  trace_id: SK-GRN-0001
+  canonical_id: G-001
+  semantic_role: green
+  semantic_state: confirmed
+  geometry_state: confirmed_for_pilot
+  geometry:
+    type: Polygon
+    coordinates:
+    - - - 595.0
+        - 646.0
+      - - 585.0
+        - 640.0
+      - - 555.0
+        - 638.0
+      - - 479.0
+        - 644.0
+      - - 473.0
+        - 657.0
+      - - 475.0
+        - 715.0
+      - - 478.0
+        - 725.0
+      - - 485.0
+        - 732.0
+      - - 498.0
+        - 735.0
+      - - 531.0
+        - 729.0
+      - - 552.0
+        - 720.0
+      - - 577.0
+        - 703.0
+      - - 596.0
+        - 680.0
+      - - 600.0
+        - 670.0
+      - - 600.0
+        - 657.0
+      - - 595.0
+        - 646.0
+  provenance:
+    source_ref: docs/e2e/sketch-001/trace-raw.geojson#SK-GRN-0001
+    source_hash: e574b7b0b8246c0c78bb29f2f21fd1db7ed0278ecd7e33ba6f57570fcbe57ddc
+    source_kind: CASE-SKETCH-001
+  attributes:
+    semantic_role: cluster_green_space
+- source_id: SK-RDC-U-0008
+  trace_id: TRACE-SK-RDC-U-0008
+  canonical_id: SK-RDC-U-0008
+  semantic_role: road
+  semantic_state: confirmed
+  geometry_state: confirmed_for_pilot
+  geometry: &id001
+    type: LineString
+    coordinates:
+    - - 630.0
+      - 618.0
+    - - 498.0
+      - 616.0
+    - - 456.0
+      - 620.0
+  provenance:
+    source_ref: docs/e2e/sketch-001/road-network-proposed.geojson#SK-RDC-U-0008
+    source_hash: f6d8a547f4f3393e14c33c5946143e4ef73ffdd5ea5ec6ccf57180f442afecf9
+    source_kind: CASE-SKETCH-001
+  attributes:
+    sketch_class_candidate: main_road
+    class_state: inferred_from_colour_majority
+    source_edge_id: SK-RDC-U-0008
+- source_id: SK-RDC-U-0010
+  trace_id: TRACE-SK-RDC-U-0010
+  canonical_id: SK-RDC-U-0010
+  semantic_role: road
+  semantic_state: confirmed
+  geometry_state: confirmed_for_pilot
+  geometry: &id002
+    type: LineString
+    coordinates:
+    - - 297.0
+      - 623.0
+    - - 323.0
+      - 616.0
+    - - 444.0
+      - 616.0
+    - - 455.0
+      - 620.0
+  provenance:
+    source_ref: docs/e2e/sketch-001/road-network-proposed.geojson#SK-RDC-U-0010
+    source_hash: f6d8a547f4f3393e14c33c5946143e4ef73ffdd5ea5ec6ccf57180f442afecf9
+    source_kind: CASE-SKETCH-001
+  attributes:
+    sketch_class_candidate: main_road
+    class_state: inferred_from_colour_majority
+    source_edge_id: SK-RDC-U-0010
+- source_id: SK-RDC-U-0017
+  trace_id: TRACE-SK-RDC-U-0017
+  canonical_id: SK-RDC-U-0017
+  semantic_role: road
+  semantic_state: confirmed
+  geometry_state: confirmed_for_pilot
+  geometry: &id003
+    type: LineString
+    coordinates:
+    - - 455.0
+      - 621.0
+    - - 454.0
+      - 746.0
+  provenance:
+    source_ref: docs/e2e/sketch-001/road-network-proposed.geojson#SK-RDC-U-0017
+    source_hash: f6d8a547f4f3393e14c33c5946143e4ef73ffdd5ea5ec6ccf57180f442afecf9
+    source_kind: CASE-SKETCH-001
+  attributes:
+    sketch_class_candidate: branch_or_access_road
+    class_state: inferred_from_colour_majority
+    source_edge_id: SK-RDC-U-0017
+buildings:
+- object_id: B-SKETCH-0007
+  trace_ref: SK-BLD-0007
+  height:
+    value: null
+    unit: metre
+    state: unknown
+    source_ref: 'designer: 11 floors provisional; floor height unknown'
+  base_elevation:
+    value: null
+    unit: metre
+    state: unknown
+    source_ref: null
+  typology: null
+  typology_state: unknown
+  regularization_request: preserve_trace
+- object_id: B-SKETCH-MRG-0001
+  trace_ref: SK-BLD-MRG-0001
+  height:
+    value: null
+    unit: metre
+    state: unknown
+    source_ref: 'designer: 11 floors provisional; floor height unknown'
+  base_elevation:
+    value: null
+    unit: metre
+    state: unknown
+    source_ref: null
+  typology: null
+  typology_state: unknown
+  regularization_request: preserve_trace
+roads:
+- corridor_id: R-SK-MAIN-001
+  trace_refs:
+  - TRACE-SK-RDC-U-0008
+  - TRACE-SK-RDC-U-0010
+  edge_refs:
+  - SK-RDC-U-0008
+  - SK-RDC-U-0010
+  source_edge_ids:
+  - SK-RDC-U-0008
+  - SK-RDC-U-0010
+  hierarchy: null
+  hierarchy_state: unknown
+  primary_function: unknown
+  permitted_modes: []
+  special_designations: []
+  cross_section: null
+- corridor_id: R-SK-BRANCH-001
+  trace_refs:
+  - TRACE-SK-RDC-U-0017
+  edge_refs:
+  - SK-RDC-U-0017
+  source_edge_ids:
+  - SK-RDC-U-0017
+  hierarchy: null
+  hierarchy_state: unknown
+  primary_function: unknown
+  permitted_modes: []
+  special_designations: []
+  cross_section: null
+road_graph:
+  nodes:
+  - node_id: SK-RDN-0209
+    x: 632.0
+    y: 621.0
+    junction: false
+  - node_id: SK-RDN-0126
+    x: 455.0
+    y: 620.0
+    junction: true
+  - node_id: SK-RDN-0067
+    x: 297.0
+    y: 623.0
+    junction: false
+  - node_id: SK-RDN-0125
+    x: 452.0
+    y: 747.0
+    junction: false
+  edges:
+  - edge_id: SK-RDC-U-0008
+    corridor_id: R-SK-MAIN-001
+    node_a: SK-RDN-0209
+    node_b: SK-RDN-0126
+    centerline: *id001
+  - edge_id: SK-RDC-U-0010
+    corridor_id: R-SK-MAIN-001
+    node_a: SK-RDN-0126
+    node_b: SK-RDN-0067
+    centerline: *id002
+  - edge_id: SK-RDC-U-0017
+    corridor_id: R-SK-BRANCH-001
+    node_a: SK-RDN-0125
+    node_b: SK-RDN-0126
+    centerline: *id003
+non_claims:
+- pilot subset only; not the full CASE-SKETCH-001 site
+- local metric frame is approximate and not survey-grade
+- building height, base elevation, road hierarchy and cross-section remain unknown
+- a successful DXF readback is not a design-office compliance claim

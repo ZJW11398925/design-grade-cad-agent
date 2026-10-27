@@ -1,21 +1,21 @@
 # Project Status
 
 Updated: 2026-10-27
-Version: `0.11.0` (Milestone 4a sketch intake and unified-mask road topology; Milestone 3c partial third-party evidence)
+Version: `0.12.0` (Milestone 4b real-sketch handoff pilot; Milestone 4a sketch/road evidence; Milestone 3c partial third-party evidence)
 Research basis: R0 v0.19 + R1 deployment-entry v0.2
 
 ## 1. One-line status
 
-The project has a working **governance/runtime contract layer**, a **synthetic Building/Road domain slice**, **living E2E-001/002/003/003b pipelines** from confirmed trace to DXF readback with scoped mutation/rebuild, adversarial delivery checks, semantic/dependency closure, **one real AutoCAD 2024 Core Console round-trip**, a first **Tier B designer-sketch intake** with designer-confirmed semantics and a proposed image-space trace, and a **unified-mask road topology** with 121 junction candidates. It does **not** yet have a human-confirmed sketch trace with fidelity metrics, real road engineering, general third-party CAD interoperability, IFC, or real-world validated behavior.
+The project has a working **governance/runtime contract layer**, a **synthetic Building/Road domain slice**, **living E2E-001/002/003/003b pipelines** from confirmed trace to DXF readback with scoped mutation/rebuild, adversarial delivery checks, semantic/dependency closure, **one real AutoCAD 2024 Core Console round-trip**, a first **Tier B designer-sketch intake** with designer-confirmed semantics and a proposed image-space trace, a **unified-mask road topology** with 121 junction candidates, and a **pilot real-sketch handoff** into Canonical/DXF. It does **not** yet have a human-confirmed sketch trace with fidelity metrics, real road engineering, general third-party CAD interoperability, IFC, or real-world validated behavior.
 
 ## 2. Test baseline
 
 ```text
 python -m pytest -q
-168 passed
+184 passed
 ```
 
-168 tests collected, all passing. No long-lived strict xfails.
+184 tests collected, all passing. No long-lived strict xfails.
 
 | Suite | Tests | Status |
 |---|---|---|
@@ -33,6 +33,8 @@ python -m pytest -q
 | Third-party evidence | 2 | passing |
 | Sketch evidence | 11 | passing |
 | Road topology | 3 | passing |
+| Sketch handoff gate | 14 | passing |
+| Sketch handoff A | 2 | passing |
 
 ## 3. Capability status
 
@@ -63,6 +65,7 @@ python -m pytest -q
 | Raw/canonical readback | **implemented** | manifest carries `canonical_target` + `raw_dxf_semantics`; tolerance 1e-9 |
 | Third-party CAD round-trip | **partial evidence only** | AutoCAD 2024 Core Console: semantic pass with serialization differences; LibreCAD/FreeCAD/GUI not run; issue #6 |
 | Real sketch → trace | **partial (designer sketch)** | CASE-SKETCH-001: 55 buildings (5 designer-confirmed merges), unit counts 16/21/17 plus 1 facility, 11 floors provisional, image-space geometry proposed; no fidelity metrics or unit-type library yet |
+| Real sketch → canonical handoff | **pilot implemented (selected subset)** | CASE-SKETCH-001-HANDOFF-A: 7 selected objects → human-reviewed handoff → Canonical → CAD-IR → DXF readback 11/11; local metric approximate; unknowns preserved |
 | Road centerline extraction | **proposed_rough** | skeleton-derived from colour masks; no professional alignment, width or junction design |
 | Road network topology | **connected_by_unified_road_mask** | 1 component: 309 nodes, 333 edges, 121 junction candidates; colour is a class attribute; no width, profile or alignment |
 | Real design-office profile | **not validated** | synthetic and DB11 subset only |
@@ -99,7 +102,7 @@ Promotion status of all research artifacts: [research-to-product-map.md](researc
 | R1-G04 Geometry | representative failure cases fail closed | partial (real geometry, entity range and project validation not exercised) |
 | R1-G05 Delivery | third-party semantic round-trip + real profile | partial (AutoCAD Core Console executed; real profile subset missing) |
 | R1-G06 Preview | no canonical pollution | pass for prototype scope |
-| R1-G07 Real Case | one non-synthetic site sketch | partial (one designer sketch ingested; not human-confirmed; not through canonical) |
+| R1-G07 Real Case | one non-synthetic site sketch | partial (a selected real subset reaches canonical/DXF through a pilot-scope human gate; the full sketch is not human-confirmed) |
 | R1-G08 Spikes | IFC + independent ENV + real profile | not started |
 
 ## 6. Known defects carried forward
@@ -300,7 +303,7 @@ What is not done:
 - No unit-type library replacement; sketch-era building footprints remain placeholders.
 - All 10 close pairs are resolved into five merged buildings; six unit-count conflicts and the kindergarten facility remain for review.
 - No 支路/入户路 separation.
-- No canonical Building/Road handoff from this sketch yet.
+- No full-case canonical Building/Road handoff; a selected pilot subset has reached canonical/DXF (`CASE-SKETCH-001-HANDOFF-A`).
 - Road centerlines are not professional alignment or junction design.
 
 Evidence: `docs/e2e/sketch-001/README.md`, `docs/e2e/sketch-001/case-summary.json`, `contracts/sketch-evidence-v0.1.yaml`, `tests/test_sketch_evidence.py`.
@@ -316,7 +319,20 @@ Evidence: `docs/e2e/sketch-001/README.md`, `docs/e2e/sketch-001/case-summary.jso
 - No width, cross-section, profile, alignment, junction turn geometry or surface is derived. The blue class still combines 支路 and 入户路.
 - Evidence: `road-network-proposed.geojson` (unified), `road-nodes-proposed.geojson`, `road-junctions-proposed.geojson`, `road-topology-summary.json`, `road-network-overlay.png`; the separate-colour centerlines are superseded; `tests/test_road_topology.py` (3 tests).
 
-## 15. Current non-claims
+## 15. CASE-SKETCH-001-HANDOFF-A (Milestone 4b)
+
+- Explicit handoff contract: `contracts/sketch-domain-handoff-v0.1.yaml`; model/validation: `src/dgcad_domain/sketch_handoff.py`.
+- Selected real subset: site boundary, one ordinary building, one merged building, one green, two main-road edges, one branch edge, one T-junction.
+- Human gate: designer, `pilot_subset`, `human_confirmed_trace: true`; all seven selected objects are `confirmed_for_pilot`; this is not full-case or survey-grade.
+- Coordinate handoff: `image_space_unscaled` → `LOCAL-ENU-XY-ZUP`, `local_metric_scaled`, 2.438 px/m (declared range 2.25–2.89), `project_coordinates: false`.
+- Pipeline: `ConfirmedTraceScene` → `build_initial_scene()` → runtime proposal/preview/human approval/commit → Canonical → CAD-IR → DXF → readback.
+- DXF: 11 entities, audit 0/0, readback 11/11 pass; CAD-IR `pass_with_scope_limits` with two `UNKNOWN_HEIGHT_ALLOWED` warnings.
+- Unknowns preserved: building height/base elevation unknown (massing blocked); road hierarchy/cross-section unknown (profile blocked; no width); shadow analysis not run.
+- Provenance: seven source→trace→canonical mappings, corridor/edge source IDs, canonical snapshot, readback manifest and handoff audit object.
+- Evidence: `docs/e2e/sketch-handoff-a/`; tests: `tests/test_sketch_handoff.py` (14) and `tests/e2e/test_sketch_handoff_a.py` (2).
+- `EP-R1-SKETCH-001` remains in progress; `R1-G07` remains partial.
+
+## 16. Current non-claims
 
 - `research_complete = false`
 - `release_authorized = false`
@@ -328,4 +344,6 @@ Evidence: `docs/e2e/sketch-001/README.md`, `docs/e2e/sketch-001/case-summary.jso
 - 11 floors is provisional; no floor height, massing, FAR or unit-mix is derived. Building footprints are placeholders pending the unit-type library; unit counts are inferred except M-001/M-002, the kindergarten M-003 is excluded as a facility, and six length-vs-area conflicts remain for review.
 - CASE-SKETCH-001 publishes the sketch and image-space geometry only; the DWG/DXF, redline/project coordinates and metric scale are private.
 - Road connectivity is derived from the unified brown+blue mask: one component, 121 proposed junction candidates. The separate-colour 9-component result and the eight nearest-node connectors are rejected.
+- CASE-SKETCH-001-HANDOFF-A is a pilot subset; `confirmed_for_pilot` is not a full-case or survey-grade confirmation, and `EP-R1-SKETCH-001` is not complete.
+- The pilot DXF is local metric only; no project coordinates/DWG are published. Same-library `ezdxf` readback is not third-party evidence.
 - No road width, cross-section, profile, alignment or surface is designed.

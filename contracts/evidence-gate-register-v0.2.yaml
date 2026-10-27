@@ -20,6 +20,7 @@ packages:
     gates: [R1-G04, R1-G07]
     status: in_progress
     living_evidence: docs/e2e/sketch-001/README.md
+    pilot_evidence: docs/e2e/sketch-handoff-a/README.md
     blocks_claims:
       - real_sketch_automatic_trace_reliability
       - low_review_workload_claim

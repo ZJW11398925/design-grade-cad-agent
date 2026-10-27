@@ -172,11 +172,11 @@ class CadValidationResult:
 
 
 CAD_COVERAGE_LIMITS = (
-    "synthetic E2E fixture only",
+    "current delivery profile and entity set only (LWPOLYLINE/CIRCLE/TEXT)",
     "no standards or design-office profile compliance",
     "no IFC",
-    "no third-party CAD round-trip in E2E-001",
-    "known DEV-CAD-001..008 hardening deferred to Milestone 3",
+    "no third-party CAD round-trip in this pipeline",
+    "no arcs/splines; modelspace only",
 )
 
 

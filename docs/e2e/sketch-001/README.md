@@ -149,7 +149,7 @@ separate-colour centerline file is retained as
 - Review the 121 junction candidates and the 5 px closing kernel; the unified
   mask restores one connected design network.
 - Road width, cross-section, profile and alignment are not designed.
-- Canonical Building/Road handoff from this sketch.
+- Full-case Canonical Building/Road handoff; a selected pilot subset has reached canonical/DXF (`CASE-SKETCH-001-HANDOFF-A`).
 
 ## Non-claims
 

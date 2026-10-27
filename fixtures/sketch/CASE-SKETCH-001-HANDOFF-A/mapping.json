@@ -1,0 +1,109 @@
+{
+  "handoff_id": "CASE-SKETCH-001-HANDOFF-A",
+  "mapping": [
+    {
+      "source_id": "SK-BND-001",
+      "trace_id": "SK-BND-001",
+      "canonical_id": "SITE-001",
+      "semantic_role": "site_boundary"
+    },
+    {
+      "source_id": "SK-BLD-0007",
+      "trace_id": "SK-BLD-0007",
+      "canonical_id": "B-SKETCH-0007",
+      "semantic_role": "building"
+    },
+    {
+      "source_id": "SK-BLD-MRG-0001",
+      "trace_id": "SK-BLD-MRG-0001",
+      "canonical_id": "B-SKETCH-MRG-0001",
+      "semantic_role": "building"
+    },
+    {
+      "source_id": "SK-GRN-0001",
+      "trace_id": "SK-GRN-0001",
+      "canonical_id": "G-001",
+      "semantic_role": "green"
+    },
+    {
+      "source_id": "SK-RDC-U-0008",
+      "trace_id": "TRACE-SK-RDC-U-0008",
+      "canonical_id": "SK-RDC-U-0008",
+      "semantic_role": "road"
+    },
+    {
+      "source_id": "SK-RDC-U-0010",
+      "trace_id": "TRACE-SK-RDC-U-0010",
+      "canonical_id": "SK-RDC-U-0010",
+      "semantic_role": "road"
+    },
+    {
+      "source_id": "SK-RDC-U-0017",
+      "trace_id": "TRACE-SK-RDC-U-0017",
+      "canonical_id": "SK-RDC-U-0017",
+      "semantic_role": "road"
+    }
+  ],
+  "corridors": [
+    {
+      "corridor_id": "R-SK-MAIN-001",
+      "trace_refs": [
+        "TRACE-SK-RDC-U-0008",
+        "TRACE-SK-RDC-U-0010"
+      ],
+      "edge_refs": [
+        "SK-RDC-U-0008",
+        "SK-RDC-U-0010"
+      ],
+      "source_edge_ids": [
+        "SK-RDC-U-0008",
+        "SK-RDC-U-0010"
+      ]
+    },
+    {
+      "corridor_id": "R-SK-BRANCH-001",
+      "trace_refs": [
+        "TRACE-SK-RDC-U-0017"
+      ],
+      "edge_refs": [
+        "SK-RDC-U-0017"
+      ],
+      "source_edge_ids": [
+        "SK-RDC-U-0017"
+      ]
+    }
+  ],
+  "road_nodes": [
+    {
+      "node_id": "SK-RDN-0209",
+      "x": 632.0,
+      "y": 621.0,
+      "junction": false
+    },
+    {
+      "node_id": "SK-RDN-0126",
+      "x": 455.0,
+      "y": 620.0,
+      "junction": true
+    },
+    {
+      "node_id": "SK-RDN-0067",
+      "x": 297.0,
+      "y": 623.0,
+      "junction": false
+    },
+    {
+      "node_id": "SK-RDN-0125",
+      "x": 452.0,
+      "y": 747.0,
+      "junction": false
+    }
+  ],
+  "review_scope": "pilot_subset",
+  "non_claims": [
+    "pilot subset only; not the full CASE-SKETCH-001 site",
+    "local metric frame is approximate and not survey-grade",
+    "building height, base elevation, road hierarchy and cross-section remain unknown",
+    "a successful DXF readback is not a design-office compliance claim"
+  ]
+}

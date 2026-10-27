@@ -2,6 +2,36 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.12.0 — 2026-10-28
+
+### Added
+
+- **CASE-SKETCH-001-HANDOFF-A**: a selected real sketch subset passes an explicit human pilot-scope geometry gate, enters the existing Domain Slice, and reaches Canonical → CAD-IR → DXF → readback.
+- `contracts/sketch-domain-handoff-v0.1.yaml`.
+- `src/dgcad_domain/sketch_handoff.py`: source→trace→canonical mapping, coordinate handoff, human review gate, domain fixture generation.
+- `src/dgcad_e2e/sketch_handoff_project.py`: `ConfirmedTraceScene` → `build_initial_scene` → runtime proposal/approval/commit → CAD-IR → DXF readback.
+- `fixtures/sketch/CASE-SKETCH-001-HANDOFF-A/`: handoff, human review record, domain fixture and mapping.
+- `docs/e2e/sketch-handoff-a/`: handoff summary, canonical snapshot, CAD-IR, DXF, readback manifest, validation and provenance map.
+- `scripts/sketch_intake/build_handoff_a.py` and `scripts/e2e/run_sketch_handoff_a.py`.
+- `tests/test_sketch_handoff.py` (14) and `tests/e2e/test_sketch_handoff_a.py` (2).
+
+### Verified
+
+- 7 selected real objects: site boundary, ordinary building, merged building, green, two main-road edges, one branch edge and one T-junction.
+- DXF: 11 entities, audit 0/0; readback 11/11 pass; CAD-IR `pass_with_scope_limits` with two `UNKNOWN_HEIGHT_ALLOWED` warnings.
+- Trace evidence unchanged after all commits; massing blocked for unknown height; road profiles blocked with `ROAD_CLASS_UNCONFIRMED`; no width derived.
+- Local metric handoff: 2.438 px/m, declared range 2.25–2.89; `project_coordinates: false`; no DWG/project coordinates published.
+- **184 passed**.
+
+### Scope
+
+- Pilot subset only; `confirmed_for_pilot` is not full-case or survey-grade.
+- `EP-R1-SKETCH-001` remains in progress; `R1-G07` remains partial.
+- Same-library `ezdxf` readback; not third-party CAD evidence.
+- Shadow analysis not run; no environmental result.
+- Version `0.12.0`.
+
+
 ## 0.11.0 — 2026-10-28
 
 ### Fixed
