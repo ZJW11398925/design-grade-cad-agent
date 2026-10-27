@@ -1,0 +1,215 @@
+{
+  "schema_id": "dgcad.third_party.roundtrip.comparison.v0.1",
+  "verdict": "semantic_pass_with_serialization_differences",
+  "tool": "AutoCAD Core Console",
+  "environment_ref": "environment.json",
+  "input": {
+    "file": "input.dxf",
+    "sha256": "0a3fc80e5afa0ae3e2c2945d4041ad0fa9b6b514327f05879275ac760c366330",
+    "state": {
+      "dxf_version": "AC1024",
+      "insunits": 6,
+      "entity_count": 15,
+      "entity_types": {
+        "CIRCLE": 4,
+        "LWPOLYLINE": 7,
+        "TEXT": 4
+      },
+      "layers": {
+        "0": {
+          "color": 7,
+          "linetype": "Continuous",
+          "lineweight": -3
+        },
+        "Defpoints": {
+          "color": 7,
+          "linetype": "Continuous",
+          "lineweight": -3
+        },
+        "A-SITE-BOUNDARY": {
+          "color": 1,
+          "linetype": "CONTINUOUS",
+          "lineweight": 50
+        },
+        "A-BUILDING-OUTLINE": {
+          "color": 7,
+          "linetype": "CONTINUOUS",
+          "lineweight": 35
+        },
+        "C-ROAD-CENTER": {
+          "color": 3,
+          "linetype": "CONTINUOUS",
+          "lineweight": 18
+        },
+        "L-GREEN": {
+          "color": 94,
+          "linetype": "CONTINUOUS",
+          "lineweight": 18
+        },
+        "A-ENV-SENSOR": {
+          "color": 2,
+          "linetype": "CONTINUOUS",
+          "lineweight": 18
+        },
+        "ANNO-DIM": {
+          "color": 7,
+          "linetype": "CONTINUOUS",
+          "lineweight": 18
+        }
+      },
+      "blocks": [
+        "*Model_Space",
+        "*Paper_Space"
+      ],
+      "dimstyles": [
+        "Standard"
+      ],
+      "text_styles": [
+        "Standard"
+      ],
+      "xdata_count": 15,
+      "audit_errors": 0,
+      "audit_fixes": 0
+    }
+  },
+  "roundtrip": {
+    "file": "roundtrip.dxf",
+    "sha256": "25230c7ee5304b45b41f9722d2011c4f099b5de03a6007f6a15092a759b47811",
+    "state": {
+      "dxf_version": "AC1032",
+      "insunits": 6,
+      "entity_count": 15,
+      "entity_types": {
+        "CIRCLE": 4,
+        "LWPOLYLINE": 7,
+        "TEXT": 4
+      },
+      "layers": {
+        "0": {
+          "color": 7,
+          "linetype": "Continuous",
+          "lineweight": -3
+        },
+        "Defpoints": {
+          "color": 7,
+          "linetype": "Continuous",
+          "lineweight": -3
+        },
+        "A-SITE-BOUNDARY": {
+          "color": 1,
+          "linetype": "Continuous",
+          "lineweight": 50
+        },
+        "A-BUILDING-OUTLINE": {
+          "color": 7,
+          "linetype": "Continuous",
+          "lineweight": 35
+        },
+        "C-ROAD-CENTER": {
+          "color": 3,
+          "linetype": "Continuous",
+          "lineweight": 18
+        },
+        "L-GREEN": {
+          "color": 94,
+          "linetype": "Continuous",
+          "lineweight": 18
+        },
+        "A-ENV-SENSOR": {
+          "color": 2,
+          "linetype": "Continuous",
+          "lineweight": 18
+        },
+        "ANNO-DIM": {
+          "color": 7,
+          "linetype": "Continuous",
+          "lineweight": 18
+        }
+      },
+      "blocks": [
+        "*Model_Space",
+        "*Paper_Space"
+      ],
+      "dimstyles": [
+        "Standard"
+      ],
+      "text_styles": [
+        "Standard"
+      ],
+      "xdata_count": 15,
+      "audit_errors": 0,
+      "audit_fixes": 0
+    }
+  },
+  "scope": {
+    "matrix_status": "partial",
+    "apps_executed": [
+      "AutoCAD 2024 Core Console"
+    ],
+    "apps_not_executed": [
+      "LibreCAD",
+      "FreeCAD",
+      "AutoCAD GUI visual QA"
+    ]
+  },
+  "validator": {
+    "profile_version": "R2018",
+    "verdict": "pass",
+    "codes": []
+  },
+  "differences": [
+    {
+      "kind": "dxf_version",
+      "input": "AC1024",
+      "roundtrip": "AC1032"
+    },
+    {
+      "kind": "symbol_name_case",
+      "table": "linetype",
+      "layer": "A-SITE-BOUNDARY",
+      "input": "CONTINUOUS",
+      "roundtrip": "Continuous"
+    },
+    {
+      "kind": "symbol_name_case",
+      "table": "linetype",
+      "layer": "A-BUILDING-OUTLINE",
+      "input": "CONTINUOUS",
+      "roundtrip": "Continuous"
+    },
+    {
+      "kind": "symbol_name_case",
+      "table": "linetype",
+      "layer": "C-ROAD-CENTER",
+      "input": "CONTINUOUS",
+      "roundtrip": "Continuous"
+    },
+    {
+      "kind": "symbol_name_case",
+      "table": "linetype",
+      "layer": "L-GREEN",
+      "input": "CONTINUOUS",
+      "roundtrip": "Continuous"
+    },
+    {
+      "kind": "symbol_name_case",
+      "table": "linetype",
+      "layer": "A-ENV-SENSOR",
+      "input": "CONTINUOUS",
+      "roundtrip": "Continuous"
+    },
+    {
+      "kind": "symbol_name_case",
+      "table": "linetype",
+      "layer": "ANNO-DIM",
+      "input": "CONTINUOUS",
+      "roundtrip": "Continuous"
+    }
+  ],
+  "non_claims": [
+    "Single AutoCAD 2024 Core Console host; no LibreCAD/FreeCAD/GUI visual QA.",
+    "Synthetic E2E fixture only; no real design-office profile.",
+    "Modelspace-only comparison.",
+    "Same CAD-IR and one fixture; not a general CAD compatibility proof."
+  ]
+}

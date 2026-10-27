@@ -4,7 +4,7 @@
 
 **A traceable research-and-development workspace for turning hand-drawn site sketches into professional, verifiable site models and editable CAD/BIM output.**
 
-> **Status: research prototype (v0.7.0).** This is not production CAD software, not a compliance certification, and not a validated AutoCAD/FreeCAD integration. Claims are scoped to the tests and evidence recorded in this repository.
+> **Status: research prototype (v0.8.0).** This is not production CAD software, not a compliance certification, and not a validated AutoCAD/FreeCAD integration. Claims are scoped to the tests and evidence recorded in this repository.
 
 ---
 
@@ -69,10 +69,11 @@ The provisional architecture defines 11 modules (M01 Source & Calibration throug
 | E2E-002 mutation/rebuild | implemented, 6 tests | height change, T-junction move, north bearing, real rebuild worker, manifest comparison; road surface deferred |
 | E2E-003 adversarial delivery | implemented, 20 tests (all pass) | geometry, style, identity, serialization and validator-error checks; same-library only |
 | E2E-003b semantic/dependency | implemented, 11 tests | fingerprint consistency, symbol-table case, stable ring keys, raw/canonical manifest |
+| E2E-003c third-party CAD | **partial**, 2 evidence tests | AutoCAD 2024 Core Console round-trip: 15 entities/XDATA preserved, R2010→R2018 + linetype case; LibreCAD/FreeCAD/GUI not run |
 | R0 research | archived | 5 acquisition batches, synthetic benchmarks, adversarial reviews, architecture challenge |
 | Real-world evidence | **not yet obtained** | real site sketches, real design-office profile, IFC round-trip, independent solar engine, AutoCAD/FreeCAD host exchange, MCP wire conformance |
 
-**Verified test baseline: 152 passed (152 collected)** (`python -m pytest -q`).
+**Verified test baseline: 154 passed (154 collected)** (`python -m pytest -q`).
 
 ### Explicit non-claims
 
@@ -81,8 +82,8 @@ The provisional architecture defines 11 modules (M01 Source & Calibration throug
 - No production database decision: SQLite/WAL is a local-sidecar candidate only.
 - No production security approval: session authority is in-memory; Windows ACL/DPAPI, installer trust and same-user malware resistance are out of scope.
 - No Chinese road/building daylight compliance claim: standard clauses were not fully obtained and no numeric design defaults were frozen.
-- No third-party CAD round-trip in E2E-001/002/003: both compile and readback use ezdxf, so this is same-library evidence only; DEV-CAD-006 remains open.
-- Remaining open gap: `DEV-CAD-006` / #6 third-party CAD round-trip. Arcs/splines are outside the current delivery entity set. No permanent xfails remain.
+- E2E-001/002/003 remain same-library ezdxf. E2E-003c adds one real AutoCAD 2024 Core Console round-trip, but the LibreCAD/FreeCAD/GUI matrix is still incomplete (#6).
+- Third-party evidence is **partial**: AutoCAD 2024 Core Console executed with `semantic_pass_with_serialization_differences`; LibreCAD, FreeCAD and AutoCAD GUI visual QA are not executed. `DEV-CAD-006` / #6 remains open. Arcs/splines are outside the current delivery entity set.
 - Road surface geometry is deferred in E2E-002: no `SURFACE-R-002` artifact is registered or presented as generated road surface.
 
 ## 4. Repository layout
@@ -97,7 +98,7 @@ The provisional architecture defines 11 modules (M01 Source & Calibration throug
 │   ├── dgcad_analysis/        Synthetic solar/shadow baseline with dependency fingerprint
 │   ├── dgcad_cad/             CAD-IR, DXF compiler, readback validator
 │   └── dgcad_e2e/             Living end-to-end pipeline orchestration
-├── tests/                     Executable contract suites (152 collected)
+├── tests/                     Executable contract suites (154 collected)
 ├── contracts/                 Machine-readable IR, domain, E2E, lifecycle/auth/MCP/CAD bridge contracts
 ├── fixtures/                  Typed synthetic fixtures (scene, authority, dependency, domain, E2E)
 ├── spikes/                    Executed process probe and MCP install-attempt evidence
@@ -139,7 +140,7 @@ python -m pytest -q
 Expected:
 
 ```text
-152 passed
+154 passed
 ```
 
 With coverage:
@@ -163,7 +164,8 @@ python -m pytest -q --cov --cov-report=term-missing
 | E2E-002 | `tests/e2e/test_e2e_002_mutations.py` | 6 | height change, node move, north bearing, rebuild worker, manifest comparison, road-surface deferral |
 | E2E-003 | `tests/e2e/test_e2e_003_adversarial.py` | 20 | geometry, style, identity, serialization, validator-error checks |
 | E2E-003b | `tests/e2e/test_e2e_003b_semantics.py` | 11 | fingerprint consistency, symbol-table case, ring keys, raw/canonical manifest |
-| **Total** | | **152 (all passing)** | |
+| Third-party evidence | `tests/e2e/test_e2e_003c_third_party.py` | 2 | AutoCAD 2024 Core Console round-trip evidence and scope integrity |
+| **Total** | | **154 (all passing)** | |
 
 Read [docs/development/testing.md](docs/development/testing.md) for what these tests prove, what they do **not** prove, and how new test layers are added.
 
@@ -184,6 +186,7 @@ Read [docs/development/testing.md](docs/development/testing.md) for what these t
 | `contracts/e2e-pipeline-v0.1.yaml` | Living E2E-001 stage and invariant contract |
 | `contracts/e2e-mutation-v0.1.yaml` | E2E-002 mutation, rebuild and manifest-comparison contract |
 | `contracts/e2e-adversarial-v0.1.yaml` | E2E-003 adversarial scenario, category and issue-mapping contract |
+| `contracts/third-party-roundtrip-v0.1.yaml` | Third-party CAD evidence and verdict contract |
 | `contracts/evidence-gate-register-v0.2.yaml` | Living R1 evidence gate register; packages remain planned |
 | `contracts/mcp-binding-v0.3.yaml` | MCP binding candidate; wire-level status remains unexecuted |
 
@@ -191,7 +194,7 @@ The promotion status of every research artifact is tracked in [docs/research-to-
 
 ## 8. Next milestone
 
-**Milestone 3 — CAD validator hardening.** Milestones 0/1/2a/2b/2c are complete: the workspace, domain slice, living pipeline, scoped mutation/rebuild and adversarial delivery regression all have CI evidence. The next step is to implement `DEV-CAD-001..011` and add a repeatable third-party CAD round-trip matrix. Real sketch, road engineering, IFC and standards compliance remain separate evidence packages.
+**Milestone 3c is partial; Milestone 4 is next.** AutoCAD 2024 Core Console round-trip evidence is captured and `DEV-CAD-001..005/008/011` are closed. LibreCAD/FreeCAD/GUI visual QA remain open under #6. The next mainline work is Milestone 4 real evidence packages: sketch/trace first, then road topology/profile, then IFC and independent environment engines.
 
 See [docs/roadmap.md](docs/roadmap.md) for the milestone plan and exit criteria.
 
@@ -222,8 +225,8 @@ Apache-2.0. See [LICENSE](LICENSE).
 
 **Design-Grade CAD Agent（DGCAD）** 是一个以研究为先导的开源工作区，目标是建立一条可追溯的 **草图 → 专业场地模型 → CAD/BIM** 转换链。
 
-当前仓库整合了 R0 v0.19 研究证据、R1 部署生命周期原型、Domain Slice 001、E2E-001 纵向链路、E2E-002 mutation/rebuild 与 E2E-003 对抗性交付回归：根目录 `src/`、`tests/` 是可执行的正式代码，`research/archive/` 保存历史研究快照。当前 152 个测试全部通过，无长期 xfail。
+当前仓库整合了 R0 v0.19 研究证据、R1 部署生命周期原型、Domain Slice 001、E2E-001 纵向链路、E2E-002 mutation/rebuild 与 E2E-003 对抗性交付回归：根目录 `src/`、`tests/` 是可执行的正式代码，`research/archive/` 保存历史研究快照。当前 154 个测试全部通过，无长期 xfail。
 
 项目坚持四条底线：原始 Source/Trace 不可覆盖；Agent 只能提议、不能写入 confirmed 设计真值；DXF/IFC 只是派生表示；未知状态必须显式保留。真实草图、真实设计院 Profile、IFC round-trip、独立日照引擎与真实 AutoCAD/FreeCAD 宿主接入仍是明确的证据缺口，仓库不会把合成测试包装成生产能力。
 
-E2E-001/002/003 已打通：DOMAIN-SLICE-001 → Runtime canonical → massing → 合成 shadow → CAD-IR → DXF → readback manifest，验证了高度/节点/北向的 scoped stale 与真实 rebuild。Milestone 3a 把 15 个 strict xfail 全部转为正向检查；3b 进一步完成 CAD-IR 指纹/依赖键一致性、符号表大小写、稳定环身份、raw/canonical 回读证据与序列化差异分类。下一步是 3c 的第三方 CAD round-trip；真实草图、道路面几何、IFC 和规范合规仍是独立证据缺口。
+E2E-001/002/003 已打通：DOMAIN-SLICE-001 → Runtime canonical → massing → 合成 shadow → CAD-IR → DXF → readback manifest，验证了高度/节点/北向的 scoped stale 与真实 rebuild。Milestone 3a 把 15 个 strict xfail 全部转为正向检查；3b 完成指纹/依赖键一致性、符号表大小写、稳定环身份、raw/canonical 回读证据；3c 已用 AutoCAD 2024 Core Console 完成真实第三方 round-trip，判定 semantic_pass_with_serialization_differences。LibreCAD/FreeCAD/GUI QA 仍未执行。下一步是 Milestone 4 的真实草图/Trace 与道路证据包。

@@ -1,21 +1,21 @@
 # Project Status
 
 Updated: 2026-10-27
-Version: `0.7.0` (Milestone 3b semantic/dependency closure)
+Version: `0.8.0` (Milestone 3c partial third-party evidence)
 Research basis: R0 v0.19 + R1 deployment-entry v0.2
 
 ## 1. One-line status
 
-The project has a working **governance/runtime contract layer**, a **synthetic Building/Road domain slice**, and **living E2E-001/002/003/003b pipelines** from confirmed trace to DXF readback with scoped mutation/rebuild, adversarial delivery checks and semantic/dependency closure. It does **not** yet have real sketch input, real road engineering, third-party CAD interoperability, IFC, or real-world validated behavior.
+The project has a working **governance/runtime contract layer**, a **synthetic Building/Road domain slice**, and **living E2E-001/002/003/003b pipelines** from confirmed trace to DXF readback with scoped mutation/rebuild, adversarial delivery checks, semantic/dependency closure and one real AutoCAD 2024 Core Console round-trip. It does **not** yet have real sketch input, real road engineering, third-party CAD interoperability, IFC, or real-world validated behavior.
 
 ## 2. Test baseline
 
 ```text
 python -m pytest -q
-152 passed
+154 passed
 ```
 
-152 tests collected, all passing. No long-lived strict xfails.
+154 tests collected, all passing. No long-lived strict xfails.
 
 | Suite | Tests | Status |
 |---|---|---|
@@ -30,6 +30,7 @@ python -m pytest -q
 | E2E-002 | 6 | passing |
 | E2E-003 | 20 | passing |
 | E2E-003b | 11 | passing |
+| Third-party evidence | 2 | passing |
 
 ## 3. Capability status
 
@@ -58,7 +59,7 @@ python -m pytest -q
 | CAD-IR dependency consistency | **implemented** | global scene revision is metadata; per-object revisions registered |
 | Ring identity | **implemented** | content-derived `ring_key` stable across part insertion |
 | Raw/canonical readback | **implemented** | manifest carries `canonical_target` + `raw_dxf_semantics`; tolerance 1e-9 |
-| Third-party CAD round-trip | **partial evidence only** | one user-run AutoCAD 2022 core-engine round-trip; no repeatable third-party matrix; issue #6 |
+| Third-party CAD round-trip | **partial evidence only** | AutoCAD 2024 Core Console: semantic pass with serialization differences; LibreCAD/FreeCAD/GUI not run; issue #6 |
 | Real sketch → trace | **not validated** | no Tier B/C data |
 | Real design-office profile | **not validated** | synthetic and DB11 subset only |
 | IFC round-trip | **blocked** | IfcOpenShell unavailable |
@@ -242,7 +243,29 @@ Boundaries:
 - Arcs/splines are outside the current delivery entity set.
 - No road surface geometry, real sketch, IFC or standards compliance.
 
-## 12. Current non-claims
+## 12. E2E-003c third-party CAD evidence
+
+Executed with **AutoCAD 2024 Core Console** in an isolated profile.
+
+What was verified:
+
+- 15 input entities and 15 XDATA records survive the round-trip.
+- Layers, colors, lineweights, blocks, dimstyles, text styles, units and geometry are preserved.
+- Audit errors/fixes remain 0/0.
+- The living validator passes with an R2018 semantic-equivalence profile.
+- Recorded serialization differences: `AC1024 → AC1032` (R2010 → R2018) and `CONTINUOUS → Continuous` on six layers.
+- Verdict: `semantic_pass_with_serialization_differences`.
+
+Not verified:
+
+- LibreCAD and FreeCAD round-trips.
+- AutoCAD GUI visual/print QA.
+- A real design-office profile.
+- General CAD compatibility beyond this synthetic fixture and host version.
+
+Evidence: `docs/e2e/third-party-003c.md` and `docs/e2e/third-party-003c/`. Issue #6 remains open for the remaining matrix.
+
+## 13. Current non-claims
 
 - `research_complete = false`
 - `release_authorized = false`

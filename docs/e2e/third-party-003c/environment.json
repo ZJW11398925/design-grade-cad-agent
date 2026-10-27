@@ -1,0 +1,22 @@
+{
+  "schema_id": "dgcad.third_party.roundtrip.environment.v0.1",
+  "platform": "Windows-11-10.0.26100-SP0",
+  "python": "3.13.2 (tags/v3.13.2:4f8bb39, Feb  4 2025, 15:23:48) [MSC v.1942 64 bit (AMD64)]",
+  "autocad_executable": "D:\\软件\\cad\\2024\\2024\\AutoCAD 2024\\accoreconsole.exe",
+  "autocad_file_version": "24.3.61.0.0",
+  "generated_at_utc": "2026-10-27T13:07:10.084890+00:00",
+  "timeout_seconds": 120,
+  "isolated_profile": "DGCAD",
+  "command": [
+    "D:\\软件\\cad\\2024\\2024\\AutoCAD 2024\\accoreconsole.exe",
+    "/i",
+    "D:\\agent-cad\\docs\\e2e\\third-party-003c\\input.dxf",
+    "/s",
+    "D:\\agent-cad\\docs\\e2e\\third-party-003c\\save.scr",
+    "/isolate",
+    "DGCAD",
+    "D:\\agent-cad\\docs\\e2e\\third-party-003c\\isolated"
+  ],
+  "returncode": 0,
+  "timed_out": false
+}

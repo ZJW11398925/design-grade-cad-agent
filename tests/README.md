@@ -17,6 +17,7 @@ python -m pytest -q
 | `e2e/test_e2e_002_mutations.py` | 6 | Height change, node move, north bearing, rebuild worker, manifest comparison, road-surface deferral |
 | `e2e/test_e2e_003_adversarial.py` | 20 | Geometry, style, identity, serialization and validator-error adversarial cases |
 | `e2e/test_e2e_003b_semantics.py` | 11 | Fingerprint consistency, symbol-table case, ring keys, raw/canonical manifest |
+| `e2e/test_e2e_003c_third_party.py` | 2 | AutoCAD 2024 Core Console evidence integrity and partial-matrix scope |
 
 ## Rules
 

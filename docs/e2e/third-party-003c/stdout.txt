@@ -1,0 +1,43 @@
+Redirect stdout (file: C:\Users\Administrator\AppData\Local\Temp\accc506362).
+AcCoreConsole: StdOutConsoleMode: processed-output: disabled,auto
+AutoCAD Core Engine Console - Copyright 2023 Autodesk, Inc.  All rights reserved. (U.61.0.0)
+
+Execution Path:
+D:\软件\cad\2024\2024\AutoCAD 2024\accoreconsole.exe
+Current Directory: D:\agent-cad
+Isolating to regkey=DGCAD, userDataFolder=D:\agent-cad\docs\e2e\third-party-003c\isolated.
+
+Version Number: U.61.0.0 (UNICODE)
+LogFilePath has been set to the working folder.
+CoreHeartBeat
+正在重生成模型。
+
+**** 系统变量更改 ****
+已从首选值更改 2 个监视系统变量。使用 SYSVARMONITOR 命令以查看更改。
+
+
+AutoCAD 菜单实用工具 已加载。
+命令:
+命令:
+
+命令:
+命令: (princ "DGCAD_SAVE\n")
+DGCAD_SAVE
+"DGCAD_SAVE\n"
+
+命令: (command "_.SAVEAS" "DXF" "16" "D:/agent-cad/docs/e2e/third-party-003c/roundtrip.dxf")
+_.SAVEAS
+当前文件格式: AutoCAD 2018 图形
+输入文件格式 [R14(LT98&LT97)/2000(LT2000)/2004(LT2004)/2007(LT2007)/2010(LT2010)/2013(LT2013)/2018(LT2018)/标准(S)/dxf(DXF)/样板(T)] <2018>: DXF
+当前 DXF 设置: 精度= 16 格式= ASCII 预览= 否 版本= 2018
+
+输入精度的小数位数 (0 到 16) 或 [二进制(B)/选择对象(O)/预览(P)/版本(V)] <16>: 16 图形另存为 <D:\agent-cad\docs\e2e\third-party-003c\input.dxf>: D:/agent-cad/docs/e2e/third-party-003c/roundtrip.dxf
+命令: nil
+
+命令: (princ "DGCAD_SAVED\n")
+DGCAD_SAVED
+"DGCAD_SAVED\n"
+
+命令: (command "_.QUIT" "_Y")
+_.QUIT
+命令: ; 错误: 函数已取消

@@ -226,7 +226,14 @@ Boundaries: same-library `ezdxf` only, modelspace only, no systematic DEV-CAD fi
 
 Boundaries: same-library, modelspace only, current entity set LWPOLYLINE/CIRCLE/TEXT, no third-party CAD (#6), road surface deferred.
 
-## 14. Open architecture questions
+## 14. Implemented E2E-003c third-party evidence (v0.8.0)
+
+- Real AutoCAD 2024 Core Console round-trip in an isolated profile.
+- Input and round-trip DXF, environment, comparison, save script and console output are preserved under `docs/e2e/third-party-003c/`.
+- Verdict: `semantic_pass_with_serialization_differences`; only DXF-version upgrade and linetype-case normalization differ.
+- Matrix status: partial. LibreCAD, FreeCAD and GUI visual/print QA are not executed; #6 remains open.
+
+## 15. Open architecture questions
 
 - Final road alignment algorithm and Chinese profile source.
 - Shapely vs CGAL boundary.

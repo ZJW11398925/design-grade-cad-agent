@@ -1,0 +1,72 @@
+schema_id: dgcad.third_party.roundtrip.v0.1
+status: living_contract
+scope: e2e_003c
+promotion_date: 2026-10-27
+purpose: "Record evidence from an independent CAD application opening, saving and reading back a DGCAD DXF."
+
+required_evidence:
+  - input.dxf
+  - roundtrip.dxf
+  - environment.json
+  - comparison.json
+  - save.scr
+  - stdout.txt
+evidence_directory: docs/e2e/third-party-003c
+
+environment_required:
+  - platform
+  - python
+  - autocad_executable
+  - autocad_file_version
+  - command
+  - returncode
+  - timed_out
+  - generated_at_utc
+  - isolated_profile
+
+comparison:
+  verdict_enum:
+    - semantic_pass
+    - semantic_pass_with_serialization_differences
+    - conditional
+    - fail
+    - blocked
+  required:
+    - tool
+    - input
+    - roundtrip
+    - validator
+    - differences
+    - scope
+    - non_claims
+  difference_kinds:
+    - dxf_version
+    - symbol_name_case
+    - linetype_semantics
+    - entity_count
+    - entity_types
+    - xdata_count
+    - xdata_values
+    - insunits
+  rules:
+    - "semantic_pass_with_serialization_differences is not a design failure"
+    - "dxf_version upgrade and symbol-name case normalization are serialization differences when semantics are preserved"
+    - "same-library ezdxf readback is not third-party evidence"
+    - "a blocked host must be recorded as blocked, never as a pass"
+
+scope:
+  matrix_status: partial
+  apps_executed:
+    - AutoCAD 2024 Core Console
+  apps_not_executed:
+    - LibreCAD
+    - FreeCAD
+    - AutoCAD GUI visual QA
+  modelspace_only: true
+  synthetic_fixture_only: true
+
+non_claims:
+  - "Single AutoCAD 2024 Core Console host; no LibreCAD/FreeCAD/GUI visual QA."
+  - "Synthetic E2E fixture only; no real design-office profile."
+  - "Modelspace-only comparison."
+  - "Same CAD-IR and one fixture; not a general CAD compatibility proof."

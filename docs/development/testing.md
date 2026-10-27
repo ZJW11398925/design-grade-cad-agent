@@ -9,7 +9,7 @@ Testing is the primary engineering control in this project. Research claims are 
 | L0 Contract / conformance | Prove governance invariants: identity, revision, authority, dependency, idempotency, lifecycle | **65 tests passing** |
 | L1 Domain contract | Prove building/road domain objects, unknown-state preservation, atomic topology changes and validators | **26 tests passing** |
 | L2 Integration | Prove the synthetic E2E pipeline, scoped mutation/rebuild, adversarial delivery and semantic/dependency closure | **45 tests (8 E2E-001 + 6 E2E-002 + 20 E2E-003 + 11 E2E-003b), all passing** |
-| L3 Third-party | Prove semantic round-trip through independent CAD/BIM applications | partial evidence: one user-run AutoCAD 2022 core-engine round-trip; no repeatable third-party matrix |
+| L3 Third-party | Prove semantic round-trip through independent CAD/BIM applications | partial evidence: AutoCAD 2024 Core Console semantic pass with serialization differences; no LibreCAD/FreeCAD/GUI matrix |
 | L4 Security / lifecycle | Prove loopback, roles, pairing, lease, bridge expiry, stale writers | 14 lifecycle tests |
 
 A passing lower layer never promotes a higher-layer claim automatically.
@@ -29,6 +29,7 @@ A passing lower layer never promotes a higher-layer claim automatically.
 | E2E-002 | `tests/e2e/test_e2e_002_mutations.py` | 6 |
 | E2E-003 | `tests/e2e/test_e2e_003_adversarial.py` | 20 |
 | E2E-003b | `tests/e2e/test_e2e_003b_semantics.py` | 11 |
+| Third-party evidence | `tests/e2e/test_e2e_003c_third_party.py` | 2 |
 
 Run all:
 
@@ -94,6 +95,8 @@ python -m pytest -q --cov --cov-report=term-missing
 - Ring keys are content-derived and stable when a sibling MultiPolygon part shifts indices.
 - Readback manifests preserve both canonical targets and raw DXF semantics with tolerance 1e-9.
 - Serialization differences are categorized separately from profile violations.
+- A real AutoCAD 2024 Core Console round-trip preserves 15 entities/XDATA and passes semantic validation with only DXF-version and linetype-case differences.
+- The third-party evidence file records scope as partial: LibreCAD/FreeCAD/GUI QA are not executed.
 - LWPOLYLINE elevation, MultiPolygon 2-part+hole, layer/linetype/text style/block/dimstyle case and missing XDATA are handled by the living validator.
 - Entity categories distinguish profile violations, CAD semantics, interoperability and serialization differences.
 - CIRCLE/TEXT Z, text placement, entity style overrides, LWPOLYLINE full semantics and structured validator errors are now detected by positive tests.
@@ -110,7 +113,7 @@ python -m pytest -q --cov --cov-report=term-missing
 - That the domain slice's simplified regularization (axis-aligned envelope) or road centerline merge is professionally correct.
 - That DXF output is compliant with any real project/design-office profile.
 - That a third-party CAD application can open/save/read the DXF with semantic equivalence.
-- That third-party CAD interoperability is complete (Milestone 3c).
+- That third-party CAD interoperability is complete: only one AutoCAD 2024 Core Console host was executed; LibreCAD, FreeCAD and GUI visual QA remain.
 - That arcs/splines are covered; the current delivery entity set is LWPOLYLINE, CIRCLE and TEXT.
 - That a road surface geometry is generated or professionally designed (deferred in E2E-002).
 - That paper-space content is validated (explicitly out of scope).
