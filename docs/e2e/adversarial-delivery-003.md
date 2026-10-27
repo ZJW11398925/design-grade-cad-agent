@@ -1,7 +1,7 @@
 # E2E-003 — Adversarial Delivery Regression
 
 Status: implemented (same-library, synthetic scope)
-Version: 0.5.0
+Version: 0.5.1
 Date: 2026-10-27
 
 ## Purpose
@@ -27,11 +27,11 @@ These were already covered before E2E-003 and were not duplicated:
 | Scenario | Result |
 |---|---|
 | LWPOLYLINE non-zero elevation | detected (`NONZERO_Z`), category `cad_format_semantics` |
-| MultiPolygon, 2 parts + 1 hole | 3 entities, audit 0/0, readback `pass`; ring roles outer/outer/hole |
-| Symbol-table linetype case (`Continuous`) | readback `pass`; no `LAYER_PROPERTY_MISMATCH` |
+| MultiPolygon, 2 parts + 1 hole | 3 entities, audit 0/0, readback `pass`; ring roles outer/outer/hole. `ring_index` is global within the object (part order, then ring order); stable ring identity across revisions remains a Milestone 3 decision. |
+| One layer linetype case (`Continuous`) | readback `pass`; no `LAYER_PROPERTY_MISMATCH`. Full symbol-table equivalence remains #5. |
 | Missing XDATA | detected (`MISSING_XDATA`), category `interoperability` |
-| Delivery comparison artifact | `delivery-comparison.json` contains object IDs, canonical revisions, CAD-IR fingerprint, readback verdict, audit and profile fields |
-| Issue categories | `UNEXPECTED_LAYER` → `profile_violation`; `COORDINATE_MISMATCH` → `cad_format_semantics` |
+| Delivery comparison artifact | `delivery-comparison.json` contains object IDs, canonical revisions, CAD-IR fingerprint, readback verdict, audit, profile fields, `dxf_sha256` and `readback_manifest_sha256`; both hashes are verified against the actual files |
+| Issue categories | `UNEXPECTED_LAYER` → `profile_violation`; `COORDINATE_MISMATCH` → `cad_format_semantics`; unknown future codes → `unclassified`; contract-sync test enforces the mapping |
 
 ## New strict xfails
 
@@ -77,9 +77,19 @@ The living validator now exposes a category per issue:
 ## Test result
 
 ```text
-tests/e2e/test_e2e_003_adversarial.py: 6 passed, 13 xfailed
-full suite: 125 passed, 15 xfailed (140 collected)
+tests/e2e/test_e2e_003_adversarial.py: 7 passed, 13 xfailed
+full suite: 126 passed, 15 xfailed (141 collected)
 ```
+
+## Correction (0.5.1)
+
+- `delivery-comparison.json` previously named the DXF hash `manifest_sha256`. It is now `dxf_sha256`; a separate `readback_manifest_sha256` covers the written manifest file. The test now recomputes both hashes from the files.
+- The readback manifest itself now names its DXF hash `dxf_sha256`.
+- Unknown issue codes now default to `unclassified`; a contract-sync test asserts every code has an explicit category.
+- Symbol-table wording is narrowed to one layer linetype reference case; #5 remains open for full symbol-table equivalence.
+- MultiPolygon `ring_index` semantics are documented as global within the object; ring identity stability is a Milestone 3 decision.
+- Issue #2 is narrowed to safe entity dispatch and closed with evidence; structured `validator_error` remains #7.
+- Status and testing docs now include E2E-003 and no longer duplicate the third-party round-trip status.
 
 ## Reproduce
 

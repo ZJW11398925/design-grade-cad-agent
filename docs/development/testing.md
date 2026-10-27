@@ -8,7 +8,7 @@ Testing is the primary engineering control in this project. Research claims are 
 |---|---|---|
 | L0 Contract / conformance | Prove governance invariants: identity, revision, authority, dependency, idempotency, lifecycle | **65 tests passing** |
 | L1 Domain contract | Prove building/road domain objects, unknown-state preservation, atomic topology changes and validators | **26 tests passing** |
-| L2 Integration | Prove the synthetic E2E pipeline, scoped mutation/rebuild and adversarial delivery | **33 tests (8 E2E-001 + 6 E2E-002 + 19 E2E-003); 15 strict xfails linked to issues** |
+| L2 Integration | Prove the synthetic E2E pipeline, scoped mutation/rebuild and adversarial delivery | **34 tests (8 E2E-001 + 6 E2E-002 + 20 E2E-003); 15 strict xfails linked to issues** |
 | L3 Third-party | Prove semantic round-trip through independent CAD/BIM applications | partial evidence: one user-run AutoCAD 2022 core-engine round-trip; no repeatable third-party matrix |
 | L4 Security / lifecycle | Prove loopback, roles, pairing, lease, bridge expiry, stale writers | 14 lifecycle tests |
 
@@ -27,7 +27,7 @@ A passing lower layer never promotes a higher-layer claim automatically.
 | CAD delivery | `tests/test_cad_delivery_contracts.py` | 9 (2 xfail) |
 | E2E-001 | `tests/e2e/test_living_pipeline.py` | 8 |
 | E2E-002 | `tests/e2e/test_e2e_002_mutations.py` | 6 |
-| E2E-003 | `tests/e2e/test_e2e_003_adversarial.py` | 19 (13 xfail) |
+| E2E-003 | `tests/e2e/test_e2e_003_adversarial.py` | 20 (13 xfail) |
 
 Run all:
 
@@ -91,6 +91,8 @@ python -m pytest -q --cov --cov-report=term-missing
 - LWPOLYLINE elevation, MultiPolygon 2-part+hole, symbol-table case and missing XDATA are handled by the living validator.
 - Entity categories distinguish profile violations, CAD semantics, interoperability and serialization differences.
 - Remaining adversarial gaps (CIRCLE/TEXT Z, text placement, entity style overrides, LWPOLYLINE full semantics, validator_error) are strict xfails with issue links.
+- `delivery-comparison.json` hashes are verified against the actual DXF and manifest files.
+- Category mapping is contract-synchronized; unknown future codes are `unclassified`, not silently treated as CAD semantics.
 
 ## 4. What the current tests do **not** prove
 

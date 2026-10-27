@@ -74,7 +74,8 @@ manifest_comparison:
     - dxf_readback_verdict
     - audit_errors
     - audit_fixes
-    - manifest_sha256
+    - dxf_sha256
+    - readback_manifest_sha256
     - profile_id
     - profile_version
   forbidden:

@@ -1,18 +1,22 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
 import ezdxf
 import pytest
+import yaml
 from shapely.geometry import MultiPolygon, Polygon
 
 from dgcad_cad import (
     CadIR,
     CadObject,
+    DxfIssue,
     compile_to_dxf,
     validate_dxf,
 )
+from dgcad_cad.validator import DEFAULT_CATEGORY, ISSUE_CATEGORIES
 from dgcad_domain import geometry_to_geojson
 from dgcad_e2e import LivingProject
 
@@ -170,6 +174,35 @@ def test_delivery_comparison_artifact_has_required_fields(project):
     assert comparison["manifest_ref"] == "readback-manifest-002.json"
     assert comparison["profile_id"] == project.profile.profile_id
     assert comparison["canonical_revisions"]["B-001"]["geometry"] == 1
+    dxf_path = project.output_dir / "living-mutations-002.dxf"
+    manifest_path = project.output_dir / comparison["manifest_ref"]
+    assert comparison["dxf_sha256"] == hashlib.sha256(
+        dxf_path.read_bytes()
+    ).hexdigest()
+    assert comparison["dxf_sha256"] == project.latest_manifest["dxf_sha256"]
+    assert comparison["readback_manifest_sha256"] == hashlib.sha256(
+        manifest_path.read_bytes()
+    ).hexdigest()
+
+
+def test_issue_categories_are_complete_and_contract_synced():
+    contract_path = (
+        Path(__file__).resolve().parents[2]
+        / "contracts"
+        / "e2e-adversarial-v0.1.yaml"
+    )
+    contract = yaml.safe_load(contract_path.read_text(encoding="utf-8"))
+    declared = {
+        code
+        for group in contract["issue_categories"].values()
+        for code in group.get("codes", [])
+    }
+    assert set(ISSUE_CATEGORIES) == declared
+    assert DEFAULT_CATEGORY == "unclassified"
+    assert (
+        DxfIssue("UNKNOWN_FUTURE_CODE", "error", None, "future").category
+        == "unclassified"
+    )
 
 
 def test_issue_categories_distinguish_failure_domains(project, tmp_path):

@@ -17,7 +17,6 @@ issue_categories:
       - CIRCLE_MISMATCH
       - TEXT_MISMATCH
       - AUDIT_ERROR
-      - MASSING_BLOCKED_INVALID_FOOTPRINT
   interoperability:
     description: "Identity/provenance mismatch between CAD-IR and the written DXF."
     codes:
@@ -44,6 +43,9 @@ issue_categories:
     description: "The validator itself could not complete; never a design pass or fail conclusion."
     codes:
       - VALIDATOR_ERROR
+  unclassified:
+    description: "A new code not yet added to the classification contract. Visible by design; must be resolved."
+    codes: []
 
 scenarios:
   - id: LWPOLYLINE_ELEVATION
@@ -118,6 +120,7 @@ scenarios:
     expected: pass
     test: test_multipolygon_two_parts_and_hole_roundtrip
     issue: null
+    notes: "ring_index is global within the object (part order, then ring order); stable ring identity across revisions is a Milestone 3 decision."
   - id: SYMBOL_TABLE_CASE
     group: serialization
     expected: pass

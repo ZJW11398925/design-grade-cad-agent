@@ -54,7 +54,7 @@ Input: human-confirmed Trace/Intent fixture. Output: canonical Building/Road obj
 
 ## Milestone 2c — E2E-003 adversarial delivery regression (complete)
 
-- [x] Port non-zero Z, style override, unexpected layer, entity-type substitution and symbol-table case tests into living CI.
+- [x] Port non-zero Z, style override, unexpected layer, entity-type substitution and one layer linetype case into living CI. Full symbol-table equivalence remains Milestone 3.
 - [x] Add MultiPolygon 2-part + 1-hole coverage (passes: 3 entities, audit 0/0).
 - [x] Add bulge/constant-width/start-end-width/thickness/extrusion mutation cases.
 - [x] Keep each known gap linked to a `DEV-CAD` issue (#3, #7, #17, #18).
@@ -65,16 +65,30 @@ Input: human-confirmed Trace/Intent fixture. Output: canonical Building/Road obj
 
 ## Milestone 3 — CAD validator hardening (next)
 
-Implement `DEV-CAD-001..008` and add third-party round-trip gates.
+Close the 15 strict xfails and the remaining interoperability gaps. Scope explicitly includes `DEV-CAD-001..011`.
 
-- [ ] MultiPolygon/part/ring contract (living validator already covers 2-part+hole; confirm archived validator).
-- [ ] Safe entity dispatch and `ENTITY_TYPE_MISMATCH` (living validator covers; align structured errors).
-- [ ] Full LWPOLYLINE semantics (bulge, width, elevation, thickness, extrusion).
-- [ ] Symbol-table case-insensitive equivalence with preserved spelling.
-- [ ] Structured validator issue schema on every failure path.
-- [ ] AutoCAD/LibreCAD/FreeCAD round-trip matrix (manual or CI-hosted).
+### 3a — Fix existing strict xfails
 
-**Exit:** real third-party round-trip produces `semantic_pass` or `semantic_pass_with_serialization_differences` per policy.
+- [ ] `DEV-CAD-003` / #3: LWPOLYLINE bulge, start/end width, constant width, thickness and extrusion.
+- [ ] `DEV-CAD-007` / #7: structured `validator_error`; validator-internal exceptions never become design failures or passes.
+- [ ] `DEV-CAD-009` / #17: entity-level color, linetype, lineweight, true color and transparency.
+- [ ] `DEV-CAD-010` / #18: CIRCLE center Z, TEXT insertion Z, rotation, width and alignment.
+
+### 3b — Semantic equivalence and dependency closure
+
+- [ ] `DEV-CAD-005` / #5: full symbol-table case semantics (layer, linetype, text style, block, dimstyle) with original spelling retained.
+- [ ] `DEV-CAD-011` / #16: align CAD-IR fingerprint inputs with registered dependency keys; add an unrelated-object negative test.
+- [ ] `DEV-CAD-001` / #1: MultiPolygon/part/ring contract; confirm archived validator and define ring identity stability across revisions.
+- [ ] `DEV-CAD-002` / #2: archived v0.3 safe-dispatch path; decide retirement vs fix.
+- [ ] Keep the `delivery-comparison.json` hash/file correspondence as a regression check.
+
+### 3c — Third-party CAD evidence
+
+- [ ] `DEV-CAD-006` / #6: repeatable AutoCAD/LibreCAD/FreeCAD open/save/readback matrix with original and round-trip files, semantic diff report and environment metadata.
+
+**Exit:** every strict xfail either becomes a positive test or is explicitly re-scoped with evidence; validator errors are structured and categorised; third-party round-trip produces `semantic_pass` or `semantic_pass_with_serialization_differences` per policy; CI remains green.
+
+After Milestone 3, prioritize the real sketch/trace and road evidence packages before broadening to IFC and independent environment engines.
 
 ## Milestone 4 — Evidence packages
 

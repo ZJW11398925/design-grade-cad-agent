@@ -49,7 +49,7 @@ ISSUE_CATEGORIES = {
     "AUDIT_FIX": "serialization_difference",
     "VALIDATOR_ERROR": "validator_error",
 }
-DEFAULT_CATEGORY = "cad_format_semantics"
+DEFAULT_CATEGORY = "unclassified"
 
 
 @dataclass(frozen=True)
@@ -546,7 +546,7 @@ def validate_dxf(
 
     manifest = {
         "file": dxf_path.name,
-        "sha256": hashlib.sha256(dxf_path.read_bytes()).hexdigest(),
+        "dxf_sha256": hashlib.sha256(dxf_path.read_bytes()).hexdigest(),
         "dxf_version": doc.dxfversion,
         "insunits": doc.header.get("$INSUNITS"),
         "layer_names": sorted(layer_names),
