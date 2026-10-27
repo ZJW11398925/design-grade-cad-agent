@@ -44,7 +44,21 @@ python -m pytest -q
 | Independent solar engine | **not validated** | synthetic NOAA baseline only |
 | Third-party CAD round-trip | **partial** | one AutoCAD 2022 core-engine user review; defects deferred to development |
 
-## 4. Evidence gates
+## 4. Living contracts
+
+| Contract | Scope |
+|---|---|
+| `contracts/canonical-site-ir-v0.4.yaml` | Canonical identity, revisions, authority, dependency, worlds |
+| `contracts/domain-contract-v0.1.yaml` | Confirmed trace → Building/Road domain slice |
+| `contracts/evidence-gate-register-v0.2.yaml` | R1-G01..G08 and evidence packages |
+| `contracts/runtime-state-contract-v0.1.yaml` | Runtime state envelope and registries |
+| `contracts/sidecar-lifecycle-contract-v0.1.yaml` | Sidecar lifecycle |
+| `contracts/local-auth-capability-contract-v0.1.yaml` | Roles and capabilities |
+| `contracts/mcp-binding-v0.3.yaml` | MCP binding candidate (unexecuted) |
+
+Promotion status of all research artifacts: [research-to-product-map.md](research-to-product-map.md).
+
+## 5. Evidence gates
 
 | Gate | Requirement | Status |
 |---|---|---|

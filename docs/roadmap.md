@@ -9,9 +9,11 @@ The roadmap is organized so that every milestone has an executable exit criterio
 - [x] Establish 65-test contract baseline.
 - [x] Add CI matrix (Ubuntu/Windows, Python 3.11/3.13).
 - [x] Publish public repository.
-- [ ] Enable branch protection and require the CI check on `main`.
+- [x] Enable branch protection and require the CI checks on `main`.
+- [x] Promote living Canonical Site IR, evidence gates and the minimal domain contract.
+- [x] Create `DEV-CAD-001..008` as tracked issues (implementation deferred to Milestone 3).
 
-**Exit:** green CI on the default branch; repository structure documented.
+**Exit:** green CI on the default branch; repository structure documented; promotion map current.
 
 ## Milestone 1 — Domain slice entry (`NEXT-R1-MVP-001`)
 

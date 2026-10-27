@@ -4,7 +4,9 @@
 |---|---|
 | [status.md](status.md) | Current implementation, gate and evidence status |
 | [roadmap.md](roadmap.md) | Milestones, exit criteria and next actions |
-| [architecture/overview.md](architecture/overview.md) | Provisional architecture, module boundaries, Canonical IR, authority model |
+| [research-to-product-map.md](research-to-product-map.md) | Which research artifacts are promoted, deferred or blocked |
+| [architecture/overview.md](architecture/overview.md) | Provisional architecture, module boundaries, Canonical IR |
+| [architecture/authority.md](architecture/authority.md) | Living authority, role and lock model |
 | [development/testing.md](development/testing.md) | Test layers, current coverage scope, what tests do and do not prove |
 | [development/workflow.md](development/workflow.md) | Branching, commits, contract changes, research intake |
 | [adr/0001-repository-consolidation.md](adr/0001-repository-consolidation.md) | Why the workspace was consolidated into this repository |

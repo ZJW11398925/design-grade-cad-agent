@@ -159,7 +159,12 @@ Read [docs/development/testing.md](docs/development/testing.md) for what these t
 | `contracts/local-auth-capability-contract-v0.1.yaml` | Role/capability model for Agent, Human Review, CAD Bridge |
 | `contracts/cad-bridge-contract-v0.1.yaml` | External CAD representation authority |
 | `contracts/cad-bridge-lifecycle-contract-v0.2.yaml` | Bridge registration, heartbeat, expiry; host execution blockers |
+| `contracts/canonical-site-ir-v0.4.yaml` | Living Canonical Site IR promoted from R0 v0.3 |
+| `contracts/domain-contract-v0.1.yaml` | Living Building/Road domain contract for domain slice 001 |
+| `contracts/evidence-gate-register-v0.2.yaml` | Living R1 evidence gate register; packages remain planned |
 | `contracts/mcp-binding-v0.3.yaml` | MCP binding candidate; wire-level status remains unexecuted |
+
+The promotion status of every research artifact is tracked in [docs/research-to-product-map.md](docs/research-to-product-map.md). Archive documents are not living contracts.
 
 ## 8. Next milestone
 
