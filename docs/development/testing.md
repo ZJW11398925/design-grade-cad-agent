@@ -9,6 +9,7 @@ Testing is the primary engineering control in this project. Research claims are 
 | L0 Contract / conformance | Prove governance invariants: identity, revision, authority, dependency, idempotency, lifecycle | **65 tests passing** |
 | L1 Domain contract | Prove building/road domain objects, unknown-state preservation, atomic topology changes and validators | **26 tests passing** |
 | L2 Integration | Prove the synthetic E2E pipeline, scoped mutation/rebuild, adversarial delivery and semantic/dependency closure | **45 tests (8 E2E-001 + 6 E2E-002 + 20 E2E-003 + 11 E2E-003b), all passing** |
+| L2 Sketch evidence | Prove the sketch case's privacy boundary, designer-confirmed semantics and image-space-only trace/centerlines | **8 tests passing** |
 | L3 Third-party | Prove semantic round-trip through independent CAD/BIM applications | partial evidence: AutoCAD 2024 Core Console semantic pass with serialization differences; no LibreCAD/FreeCAD/GUI matrix |
 | L4 Security / lifecycle | Prove loopback, roles, pairing, lease, bridge expiry, stale writers | 14 lifecycle tests |
 
@@ -30,6 +31,7 @@ A passing lower layer never promotes a higher-layer claim automatically.
 | E2E-003 | `tests/e2e/test_e2e_003_adversarial.py` | 20 |
 | E2E-003b | `tests/e2e/test_e2e_003b_semantics.py` | 11 |
 | Third-party evidence | `tests/e2e/test_e2e_003c_third_party.py` | 2 |
+| Sketch evidence | `tests/test_sketch_evidence.py` | 8 |
 
 Run all:
 
@@ -102,6 +104,9 @@ python -m pytest -q --cov --cov-report=term-missing
 - CIRCLE/TEXT Z, text placement, entity style overrides, LWPOLYLINE full semantics and structured validator errors are now detected by positive tests.
 - `delivery-comparison.json` hashes are verified against the actual DXF and manifest files.
 - Category mapping is contract-synchronized; unknown future codes are `unclassified`, not silently treated as CAD semantics.
+- CASE-SKETCH-001 publishes the sketch and image-space geometry only; the public package contains no DWG/DXF path, project coordinates or metric scale.
+- Designer-confirmed semantic labels are recorded separately from geometry: labels are `confirmed`, while all trace and centerline geometry remains `proposed`.
+- Road centerlines are `proposed_rough` and carry an explicit no-width-inference/no-alignment scope.
 
 ## 4. What the current tests do **not** prove
 
@@ -110,6 +115,9 @@ python -m pytest -q --cov --cov-report=term-missing
 - That the runtime is production-safe, crash-safe on power loss, or multi-host.
 - That SQLite is integrated into the runtime save/load path (it is a separate spike).
 - That real sketch recognition, geometry construction, road design or building regularization works.
+- That CASE-SKETCH-001's trace is human-confirmed or accurate: semantic labels are designer-confirmed, but geometry is proposed and no Hausdorff/IoU metrics against a human reference exist yet.
+- That building merge/split, 支路/入户路 separation or the canonical Building/Road handoff are resolved.
+- That the sketch road centerline topology is professionally correct; it is `proposed_rough`.
 - That the domain slice's simplified regularization (axis-aligned envelope) or road centerline merge is professionally correct.
 - That DXF output is compliant with any real project/design-office profile.
 - That a third-party CAD application can open/save/read the DXF with semantic equivalence.

@@ -233,7 +233,25 @@ Boundaries: same-library, modelspace only, current entity set LWPOLYLINE/CIRCLE/
 - Verdict: `semantic_pass_with_serialization_differences`; only DXF-version upgrade and linetype-case normalization differ.
 - Matrix status: partial. LibreCAD, FreeCAD and GUI visual/print QA are not executed; #6 remains open.
 
-## 15. Open architecture questions
+## 15. CASE-SKETCH-001 sketch intake (v0.9.0)
+
+The first Tier B sketch intake adds an evidence layer before the existing domain slice:
+
+```text
+source raster (public)
+  -> image-space trace (proposed)
+    -> designer-confirmed semantic labels
+      -> [future] human-confirmed reference geometry
+        -> canonical Building/Road handoff
+```
+
+- The sketch and image-space geometry are public; the DWG/DXF, redline/project coordinates, calibration matrix and metric scale are private.
+- Semantic label state and geometry state are separate: a designer can confirm that red means building while the extracted footprint remains `proposed`.
+- Calibration to a private reference is a reviewed, approximate homography; it is not survey-grade and does not make the sketch project-coordinate truth.
+- Road centerlines are skeleton-derived `proposed_rough` candidates. They are not professional alignment, width, cross-section, junction or surface design.
+- No sketch object is written to canonical yet; the human-confirmed reference trace and fidelity metrics remain the gate.
+
+## 16. Open architecture questions
 
 - Final road alignment algorithm and Chinese profile source.
 - Shapely vs CGAL boundary.

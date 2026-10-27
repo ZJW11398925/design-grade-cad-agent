@@ -1,0 +1,57 @@
+{
+  "schema_id": "dgcad.sketch.merge-review.v0.1",
+  "state": "default_separate",
+  "note": "Each red connected component is one building. Merge if a pair is one building with an attached wing; split if one component contains two buildings. No merge/split has been applied.",
+  "pairs": [
+    {
+      "gap_px": 0.0,
+      "a": "SK-BLD-0001",
+      "b": "SK-BLD-0037"
+    },
+    {
+      "gap_px": 0.0,
+      "a": "SK-BLD-0060",
+      "b": "SK-BLD-0063"
+    },
+    {
+      "gap_px": 1.0,
+      "a": "SK-BLD-0019",
+      "b": "SK-BLD-0058"
+    },
+    {
+      "gap_px": 1.0,
+      "a": "SK-BLD-0046",
+      "b": "SK-BLD-0063"
+    },
+    {
+      "gap_px": 1.0,
+      "a": "SK-BLD-0047",
+      "b": "SK-BLD-0062"
+    },
+    {
+      "gap_px": 1.0,
+      "a": "SK-BLD-0047",
+      "b": "SK-BLD-0063"
+    },
+    {
+      "gap_px": 1.0,
+      "a": "SK-BLD-0062",
+      "b": "SK-BLD-0063"
+    },
+    {
+      "gap_px": 2.0,
+      "a": "SK-BLD-0027",
+      "b": "SK-BLD-0059"
+    },
+    {
+      "gap_px": 4.0,
+      "a": "SK-BLD-0030",
+      "b": "SK-BLD-0053"
+    },
+    {
+      "gap_px": 4.0,
+      "a": "SK-BLD-0046",
+      "b": "SK-BLD-0062"
+    }
+  ]
+}

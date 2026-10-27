@@ -1,0 +1,149 @@
+schema_id: dgcad.sketch-evidence.v0.1
+status: living_contract
+scope: EP-R1-SKETCH-001
+purpose: "Define the minimum evidence and review semantics for a sketch-to-trace case, including private-reference publication boundaries."
+
+case_tiers:
+  - A_controlled
+  - B_human_known_base
+  - C_field_paired
+
+coordinate_states:
+  - image_space_unscaled
+  - local_metric_scaled
+  - project_aligned
+  - georeferenced
+
+reference_frame:
+  required:
+    - frame_id
+    - coordinate_state
+    - transform_type
+    - review_state
+    - unit_state
+  transform_types:
+    - identity
+    - scale_only
+    - similarity
+    - affine
+    - homography
+    - gcp_warp
+  review_states:
+    - proposed
+    - reviewed
+    - confirmed
+    - rejected
+  unit_states:
+    - proposed
+    - reviewed
+    - confirmed
+  rules:
+    - "one known dimension establishes scale only; it does not establish a project or geographic CRS"
+    - "no CRS means no georeferenced state"
+    - "hand-drawn deviation must be reported; project_aligned is approximate unless reviewed against control points"
+    - "a reviewed boundary registration is not a survey-grade metric guarantee"
+    - "a drawing-header unit that contradicts geometry is a metadata defect, not evidence of scale"
+
+trace_object:
+  required:
+    - trace_id
+    - source_id
+    - semantic_role
+    - geometry
+    - coordinate_frame_id
+    - producer
+    - review_state
+    - provenance
+  semantic_roles:
+    - building_candidate
+    - garage_entrance_candidate
+    - cluster_green_space_candidate
+    - main_road_candidate
+    - branch_or_access_road_candidate
+    - road_area_candidate
+    - road_centerline_candidate
+    - site_boundary_candidate
+    - annotation_text_or_symbol
+    - unknown
+  label_states:
+    - candidate
+    - reviewed
+    - confirmed
+    - disputed
+  geometry_states:
+    - proposed
+    - reviewed
+    - confirmed
+  rules:
+    - "semantic label confirmation does not confirm geometry"
+    - "algorithmic extraction defaults to proposed"
+    - "no orthogonalization, smoothing or occlusion completion without explicit review"
+    - "each trace object keeps its source and producer provenance"
+
+road_centerlines:
+  required:
+    - trace_id
+    - road_class_candidate
+    - geometry
+    - review_state
+    - topology_state
+    - producer
+  classes:
+    - main_road
+    - branch_or_access_road
+  topology_states:
+    - proposed_rough
+    - reviewed
+    - confirmed
+  rules:
+    - "no width inference from a centerline"
+    - "no professional alignment, cross-section, junction turn geometry or surface from this stage"
+    - "subtype separation (支路 vs 入户路) must be explicit when the source colour does not distinguish them"
+    - "a noisy skeleton must be reported as rough, not silently promoted"
+
+metrics:
+  calibration:
+    - residual_mean_px
+    - residual_max_px
+    - scale_estimates
+  trace:
+    - hausdorff
+    - percentile_distance
+    - iou_secondary
+    - vertex_displacement
+    - component_count
+    - hole_count
+    - topology_change
+    - split_merge_errors
+  human_review:
+    - objects_requiring_review
+    - objects_modified
+    - modification_types
+  rules:
+    - "single IoU is not a pass criterion"
+    - "no numeric threshold before a baseline distribution exists"
+    - "trace fidelity metrics require a human-confirmed reference trace"
+
+publication:
+  rules:
+    - "source publication requires explicit authorization"
+    - "a private reference frame must not leak coordinates, matrices or metric scale"
+    - "image-space trace may be published separately from private project data"
+    - "public derived geometry must declare image-space-only when project data is private"
+    - "the sketch, the DWG/DXF and derived project geometry are separate authorization units"
+
+review:
+  required:
+    - designer_confirmations
+    - open_items
+    - non_claims
+  rules:
+    - "designer semantic confirmation is recorded separately from geometry review"
+    - "open items are not silently promoted"
+
+non_claims:
+  - "one sketch case is not a sketch-recognition benchmark"
+  - "semantic confirmation is not geometric accuracy"
+  - "a reviewed boundary registration is not a survey"
+  - "a centerline is not a road design"
+  - "unknown or disputed objects remain explicit"

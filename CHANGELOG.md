@@ -2,6 +2,34 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.9.0 — 2026-10-27
+
+### Added
+
+- **CASE-SKETCH-001**: first Tier B designer-sketch intake.
+- Public package `docs/e2e/sketch-001/`: sketch raster, image-space trace, rough road centerlines, overlays, ambiguity regions and case summary.
+- `contracts/sketch-evidence-v0.1.yaml`.
+- `tests/test_sketch_evidence.py`: 8 tests for privacy/leak boundaries, image-space-only geometry, designer-confirmed semantics and rough-centerline scope.
+- Designer-confirmed semantics: metre; red buildings; magenta underground garage entrances; brown main roads; blue branch/access roads; green cluster spaces; existing buildings removed; top crop clips only a road segment.
+- Proposed trace: 63 building candidates, 3 garage entrances, 12 green spaces, 9 road areas, 1 site boundary; 312 rough centerline candidates (main road 1 component, blue network 8 components).
+
+### Verified
+
+- **162 passed**.
+- All trace and centerline geometry is image-space (`SKETCH-IMG-001`) and `review_state: proposed`; semantic labels are separately `confirmed`.
+- The public package contains no DWG/DXF path, project coordinates or metric scale.
+- Calibration is a reviewed approximate homography: mean 24.51 px, max 43.42 px; not survey-grade.
+
+### Scope
+
+- No human-confirmed trace or fidelity metrics (Hausdorff/IoU/topology).
+- No building merge/split decision; 10 close pairs are listed for review.
+- 支路 and 入户路 are not separated within the blue class.
+- Road centerlines are `proposed_rough`; no alignment, width, cross-section, junction turn geometry or surface.
+- No canonical Building/Road handoff from this sketch yet.
+- DWG/DXF, redline/project coordinates and metric scale remain private.
+- Version `0.9.0`.
+
 ## 0.8.0 — 2026-10-27
 
 ### Added

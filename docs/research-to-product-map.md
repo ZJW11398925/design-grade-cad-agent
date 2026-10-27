@@ -51,8 +51,8 @@ This map is the single index of which research artifacts have been promoted into
 | CAD-IR Contract v0.1 | **promoted (minimal)** | `contracts/cad-ir-v0.1.yaml` + `src/dgcad_cad/ir.py` | Minimal E2E delivery subset; full CAD-IR semantics and Profile enforcement deferred |
 | DXF Semantic Equivalence Policy v0.1 | **promoted** | `docs/status.md` (known defects) + Milestone 3 | Policy accepted; implementation deferred |
 | IFC Round-trip Contract v0.1 | `blocked_by_evidence` | — | IfcOpenShell execution and a real host are unavailable |
-| Benchmark Case Schema v0.1 | `deferred` | — | Milestone 2 integration suite |
-| Real Benchmark Data Contract v0.1 | `blocked_by_evidence` | — | No Tier B/C paired site-sketch data |
+| Benchmark Case Schema v0.1 | **partially promoted** | `contracts/sketch-evidence-v0.1.yaml` + `docs/e2e/sketch-001/` | Case/trace/review states implemented; a full benchmark suite is not built |
+| Real Benchmark Data Contract v0.1 | **partially promoted** | `docs/e2e/sketch-001/README.md` | One Tier B designer sketch with designer-confirmed semantics; no human-confirmed reference trace or fidelity metrics |
 
 ### Standards and profiles
 
@@ -156,6 +156,15 @@ Still open: LibreCAD/FreeCAD/GUI third-party matrix (#6), arcs/splines outside t
 - Verdict `semantic_pass_with_serialization_differences`: R2010→R2018 and `CONTINUOUS`→`Continuous` only.
 - LibreCAD, FreeCAD and GUI visual/print QA were not executed; #6 remains open.
 
+## CASE-SKETCH-001 intake (0.9.0)
+
+- First Tier B designer-sketch intake; the sketch is published, while the DWG/DXF, redline/project coordinates and metric scale remain private.
+- Designer-confirmed semantics: metre; red buildings; magenta underground garage entrances; brown main roads; blue branch/access roads; green cluster spaces; existing survey buildings removed; top crop clips only a road segment.
+- Image-space proposed trace: 63 building candidates, 3 garage entrances, 12 green spaces, 9 road areas and 1 site boundary.
+- 312 rough road centerlines (`proposed_rough`): main road 1 component, blue network 8 components.
+- No human-confirmed trace or fidelity metrics; no merge/split decision; 支路/入户路 unseparated; no canonical handoff.
+- Contract: `contracts/sketch-evidence-v0.1.yaml`; tests: `tests/test_sketch_evidence.py` (8).
+
 ## E2E-002 implementation (0.4.0)
 
 Promoted and implemented with 6 E2E tests:
@@ -178,6 +187,7 @@ contracts/
 ├── e2e-mutation-v0.1.yaml
 ├── e2e-adversarial-v0.1.yaml
 ├── third-party-roundtrip-v0.1.yaml
+├── sketch-evidence-v0.1.yaml
 ├── evidence-gate-register-v0.2.yaml
 ├── runtime-state-contract-v0.1.yaml
 ├── runtime-agent-surface-v0.1.yaml
@@ -193,7 +203,8 @@ contracts/
 
 Re-run this map before each milestone exit. The next expected promotions are:
 
+- Sketch evidence → human-confirmed trace and fidelity metrics when the designer supplies or approves the geometry reference.
+- Road topology/profile → after sketch geometry review and 支路/入户路 separation.
 - Site Topology Contract → when multi-building shared-boundary/overlap validation starts.
-- CAD-IR + semantic equivalence → Milestone 3.
-- E2E fixtures → Milestone 2.
 - Environment dependency/result schemas → when an analysis slice starts and `EP-R1-ENV-001` has evidence.
+- CAD-IR + semantic equivalence → completed in Milestones 3a/3b; third-party matrix remains partial (#6).
