@@ -1,0 +1,96 @@
+{
+  "ok": true,
+  "errors": [],
+  "source_sketch_sha256": "07714b66f6405d7d4dacde91716eb7b4c8c6b4c32072ea91641a9725a295c0be",
+  "files": [
+    {
+      "path": "docs/e2e/sketch-001/source/sketch.png",
+      "role": "sketch_raster",
+      "declared_sha256": "07714b66f6405d7d4dacde91716eb7b4c8c6b4c32072ea91641a9725a295c0be",
+      "exists": true,
+      "actual_sha256": "07714b66f6405d7d4dacde91716eb7b4c8c6b4c32072ea91641a9725a295c0be",
+      "hash_matches": true
+    },
+    {
+      "path": "docs/e2e/sketch-001/trace-raw.geojson",
+      "role": "trace_geojson",
+      "declared_sha256": "e574b7b0b8246c0c78bb29f2f21fd1db7ed0278ecd7e33ba6f57570fcbe57ddc",
+      "exists": true,
+      "actual_sha256": "e574b7b0b8246c0c78bb29f2f21fd1db7ed0278ecd7e33ba6f57570fcbe57ddc",
+      "hash_matches": true
+    },
+    {
+      "path": "docs/e2e/sketch-001/road-network-proposed.geojson",
+      "role": "road_network_geojson",
+      "declared_sha256": "f6d8a547f4f3393e14c33c5946143e4ef73ffdd5ea5ec6ccf57180f442afecf9",
+      "exists": true,
+      "actual_sha256": "f6d8a547f4f3393e14c33c5946143e4ef73ffdd5ea5ec6ccf57180f442afecf9",
+      "hash_matches": true
+    }
+  ],
+  "objects": [
+    {
+      "source_id": "SK-BND-001",
+      "source_file": "docs/e2e/sketch-001/trace-raw.geojson",
+      "source_object_id": "SK-BND-001",
+      "declared_geometry_sha256": "d0faccdc67c07f793ea1bb0d1b8c6e14ab0acb51133f110c72207af83fb7b276",
+      "actual_geometry_sha256": "d0faccdc67c07f793ea1bb0d1b8c6e14ab0acb51133f110c72207af83fb7b276",
+      "geometry_hash_matches": true,
+      "handoff_geometry_matches": true
+    },
+    {
+      "source_id": "SK-BLD-0007",
+      "source_file": "docs/e2e/sketch-001/trace-raw.geojson",
+      "source_object_id": "SK-BLD-0007",
+      "declared_geometry_sha256": "61038e554958a90c36973e11aadb8b1eb501dbbf93507c2042f8746357390982",
+      "actual_geometry_sha256": "61038e554958a90c36973e11aadb8b1eb501dbbf93507c2042f8746357390982",
+      "geometry_hash_matches": true,
+      "handoff_geometry_matches": true
+    },
+    {
+      "source_id": "SK-BLD-MRG-0001",
+      "source_file": "docs/e2e/sketch-001/trace-raw.geojson",
+      "source_object_id": "SK-BLD-MRG-0001",
+      "declared_geometry_sha256": "1a6c196afb9b9767fc63b0f6f28a45bcfe4cfc62656d536c9e4a1514b15039cd",
+      "actual_geometry_sha256": "1a6c196afb9b9767fc63b0f6f28a45bcfe4cfc62656d536c9e4a1514b15039cd",
+      "geometry_hash_matches": true,
+      "handoff_geometry_matches": true
+    },
+    {
+      "source_id": "SK-GRN-0001",
+      "source_file": "docs/e2e/sketch-001/trace-raw.geojson",
+      "source_object_id": "SK-GRN-0001",
+      "declared_geometry_sha256": "e77193d610701d8bb3879fcee7c3864cc2d6620ea99297ac1dfdf9ea67b8e86a",
+      "actual_geometry_sha256": "e77193d610701d8bb3879fcee7c3864cc2d6620ea99297ac1dfdf9ea67b8e86a",
+      "geometry_hash_matches": true,
+      "handoff_geometry_matches": true
+    },
+    {
+      "source_id": "SK-RDC-U-0008",
+      "source_file": "docs/e2e/sketch-001/road-network-proposed.geojson",
+      "source_object_id": "SK-RDC-U-0008",
+      "declared_geometry_sha256": "71cb5bef1679a204be2673dd65f95547d558c3e1e7796a066919ef690b491a6e",
+      "actual_geometry_sha256": "71cb5bef1679a204be2673dd65f95547d558c3e1e7796a066919ef690b491a6e",
+      "geometry_hash_matches": true,
+      "handoff_geometry_matches": true
+    },
+    {
+      "source_id": "SK-RDC-U-0010",
+      "source_file": "docs/e2e/sketch-001/road-network-proposed.geojson",
+      "source_object_id": "SK-RDC-U-0010",
+      "declared_geometry_sha256": "e721377736a3aa61ec5bce5234418d4abccf3c42edb2075fd72f3d98320f3ce5",
+      "actual_geometry_sha256": "e721377736a3aa61ec5bce5234418d4abccf3c42edb2075fd72f3d98320f3ce5",
+      "geometry_hash_matches": true,
+      "handoff_geometry_matches": true
+    },
+    {
+      "source_id": "SK-RDC-U-0017",
+      "source_file": "docs/e2e/sketch-001/road-network-proposed.geojson",
+      "source_object_id": "SK-RDC-U-0017",
+      "declared_geometry_sha256": "c750eb39238d609c5ecf2a01216ad7e262e5ac68f4cef954288e33c116c50670",
+      "actual_geometry_sha256": "c750eb39238d609c5ecf2a01216ad7e262e5ac68f4cef954288e33c116c50670",
+      "geometry_hash_matches": true,
+      "handoff_geometry_matches": true
+    }
+  ]
+}

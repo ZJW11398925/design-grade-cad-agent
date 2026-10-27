@@ -228,7 +228,9 @@ metrics:
 publication:
   rules:
     - "source publication requires explicit authorization"
-    - "a private reference frame must not leak coordinates, matrices or metric scale"
+    - "a private reference frame must not leak project coordinates, the calibration matrix or the project metric scale"
+    - "a pilot-local approximate scale may be published only when the handoff declares publication.classification: pilot_local_metric, authorized: true, and an explicit private-asset exclusion list"
+    - "even an authorized pilot-local scale is not a project coordinate or survey-grade dimension"
     - "image-space trace may be published separately from private project data"
     - "public derived geometry must declare image-space-only when project data is private"
     - "the sketch, the DWG/DXF and derived project geometry are separate authorization units"

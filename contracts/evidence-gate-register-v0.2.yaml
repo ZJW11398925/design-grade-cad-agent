@@ -21,8 +21,11 @@ packages:
     status: in_progress
     living_evidence: docs/e2e/sketch-001/README.md
     pilot_evidence: docs/e2e/sketch-handoff-a/README.md
+    pilot_status: blocked_human_object_review_required
+    pilot_review_record: designer_authorized_pilot
     blocks_claims:
       - real_sketch_automatic_trace_reliability
+      - human_confirmed_sketch_geometry
       - low_review_workload_claim
   - package_id: EP-R1-ROAD-001
     stage: R1.3

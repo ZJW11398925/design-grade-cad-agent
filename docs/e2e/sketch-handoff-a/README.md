@@ -1,28 +1,48 @@
 # CASE-SKETCH-001-HANDOFF-A — real sketch → canonical handoff pilot
 
-Status: **pilot subset only**; `EP-R1-SKETCH-001` is **not complete**.
+Status: **blocked at the human review gate**; `EP-R1-SKETCH-001` is **not
+complete**. The 0.12.0 executed pilot is preserved under
+`history-0.12.0/` and is superseded.
 
-This is the first end-to-end proof that selected real CASE-SKETCH-001 evidence
-can pass an explicit human geometry gate, enter the existing Domain Slice,
-produce canonical objects, and reach a readback DXF through CAD-IR.
+This package now records what is actually true: the designer authorized a
+representative pilot on a selected subset, but no object-level geometry or
+coordinate review has been recorded. The pipeline therefore stops before
+`ConfirmedTraceScene` and produces no canonical model, CAD-IR or DXF.
+
+## What stalled the pipeline
+
+`blocked.json` records `HUMAN_OBJECT_REVIEW_REQUIRED`. The review record in
+`handoff.yaml` / `review-record.yaml` has:
+
+- `review_kind: designer_authorized_pilot`
+- `object_geometry_review: false`
+- `human_confirmed_trace: false`
+- every object decision `geometry: not_reviewed`,
+  `coordinate: not_reviewed`
+
+The design semantics were confirmed earlier (red = building, brown = main
+road, blue = branch/access, green = cluster green, magenta = garage entrance,
+underground existing survey buildings removed). Semantics are not geometry.
 
 ## Pipeline
 
 ```text
 CASE-SKETCH-001 selected evidence
-  -> human-reviewed handoff (pilot subset)
-    -> ConfirmedTraceScene
-      -> build_initial_scene()
-        -> runtime proposal / preview / human approval / commit
-          -> Canonical Site Model
-            -> CAD-IR -> pilot.dxf -> ezdxf readback
+  -> handoff inspection + source integrity + road topology
+    -> review packet (image-space and local-metric overlays)
+      -> [blocked] human review record
+        -> ConfirmedTraceScene -> Canonical -> CAD-IR -> DXF -> readback
 ```
+
+The downstream half is implemented and is exercised by a test double in
+`tests/e2e/test_sketch_handoff_a.py::test_human_reviewed_pilot_reaches_dxf_with_scope`.
+The test double is never published as evidence.
 
 ## Selected subset
 
 | Source | Trace | Canonical | Role |
 |---|---|---|---|
-| `SK-BND-001` | `SK-BND-001` | `SITE-001` | site boundary |
+| `SK-BND-001` | `SK-BND-001` | `SITE-SKETCH-001` | sketch site boundary |
 | `SK-BLD-0007` | `SK-BLD-0007` | `B-SKETCH-0007` | ordinary building |
 | `SK-BLD-MRG-0001` | `SK-BLD-MRG-0001` | `B-SKETCH-MRG-0001` | merged multi-unit building |
 | `SK-GRN-0001` | `SK-GRN-0001` | `G-001` | cluster green space |
@@ -30,69 +50,95 @@ CASE-SKETCH-001 selected evidence
 | `SK-RDC-U-0010` | `TRACE-SK-RDC-U-0010` | `SK-RDC-U-0010` | main-road edge |
 | `SK-RDC-U-0017` | `TRACE-SK-RDC-U-0017` | `SK-RDC-U-0017` | branch/access edge |
 
-The selected road edges form a real T-junction (`SK-RDN-0126`) with two main
-edges and one branch edge. The main corridor `R-SK-MAIN-001` references both main
-edges; `R-SK-BRANCH-001` references the branch edge.
+The site boundary is the **published sketch boundary**, not the private
+redline. The redline is the authoritative site reference, but its geometry is
+not used or published here. For that reason the boundary maps to
+`SITE-SKETCH-001` with **candidate** authority, never to authoritative
+`SITE-001`.
 
-The site-boundary geometry is the published sketch boundary (`SK-BND-001`). The
-private redline remains the authoritative site reference, but its geometry is
-neither used nor published in this pilot; the local metric scale is approximate.
+## Human review required
 
-## Human geometry gate
+`review-packet.html` shows every selected object on the sketch and in local
+metric space, with the declared scale range and per-object sensitivity.
+`review-request.yaml` lists the questions. `review-confirmation-template.yaml`
+is an **unsigned template**; it is not a confirmation and the loader rejects it.
 
-`review-record.yaml` is an **input**, not an agent output:
+To unblock the pipeline the designer must:
 
-- reviewer role: `designer`;
-- scope: `pilot_subset`;
-- `human_confirmed_trace: true`;
-- every selected object has `semantic: confirmed`, `geometry:
-  confirmed_for_pilot`, `coordinate: local_metric_approximate`;
-- basis: designer instruction 2026-10-28 to run a representative pilot;
-- limitations: **not a full-case geometry review and not survey-grade**.
+1. inspect every object overlay;
+2. fill `geometry` and `coordinate` decisions per object;
+3. set `human_confirmed_trace: true` and `object_geometry_review: true`;
+4. record `reviewed_at`, `basis`, evidence refs and the packet hash;
+5. keep the scope `pilot_subset` (a full-case review requires `confirmed`
+   geometry, not `confirmed_for_pilot`).
 
-The handoff loader rejects proposed geometry, missing decisions, agent review
-roles, broken provenance, duplicate mappings and project-coordinate claims.
+The Agent cannot sign this record.
+
+## Scope and authority propagation
+
+The v0.1 defect is closed in the code path and tested with the test double:
+
+- trace objects carry `confirmation_scope=pilot_subset`,
+  `geometry_quality=confirmed_for_pilot`, `review_kind`;
+- canonical objects carry the same fields;
+- CAD-IR provenance carries the fields;
+- DXF XDATA carries `confirmation_scope`;
+- the readback manifest records each entity's scope and the top-level
+  `confirmation_scopes`;
+- a full-case review rejects `confirmed_for_pilot`;
+- a published sketch boundary cannot claim `canonical_site_identity` or
+  `SITE-001`.
 
 ## Coordinate handoff
 
-- source: `image_space_unscaled`; target: `LOCAL-ENU-XY-ZUP`;
-- state: `local_metric_scaled` (approximate, not survey-grade);
-- scale: `2.438 px/m`; declared range `2.25–2.89 px/m`;
-- origin: arbitrary local sketch origin `[45, 1536] px`; y axis flipped;
-- `project_coordinates: false`; private calibration reference is not published.
+- source: `image_space_unscaled`; target: **`LOCAL-XY-ZUP`**;
+- transform: `uniform_scale_translation_yflip` — translation, y-flip and a
+  single scale; **not** the six-point homography;
+- `homography_applied: false`; `shape_correction: none`;
+- `axis_orientation: unknown` — the sketch does not establish east or north;
+- scale `2.438 px/m`, declared range `2.25–2.89 px/m`; the scale source is the
+  private homography reduced to a uniform scale; the matrix is not published;
+- origin is the published sketch boundary's bounding-box corner;
+- per-object area/perimeter/centroid sensitivity is in
+  `coordinate-sensitivity.json`.
 
-No DWG, redline or project coordinate is included in this evidence package.
+## Source integrity
 
-## Result
+`integrity.json` verifies, for all seven objects:
 
-- Canonical scene: site boundary `SITE-001`, two building candidates, one green
-  space `G-001`, two road corridors, three road edges and four road nodes.
-- Building heights and base elevations remain `unknown`; both massing attempts
-  are blocked with `MASSING_BLOCKED_UNKNOWN_HEIGHT`.
-- Road hierarchy and cross-section remain `unknown`; both profiles are blocked
-  with `ROAD_CLASS_UNCONFIRMED`; no width is derived.
-- Trace evidence is unchanged after all proposals and commits
-  (`trace_immutable` is true for all seven trace objects).
-- CAD-IR: `pass_with_scope_limits`; the only issues are
-  `UNKNOWN_HEIGHT_ALLOWED` warnings for the two buildings.
-- DXF: **11 entities**, audit **0 errors / 0 fixes**; readback **11/11 pass**.
-  Breakdown: site boundary 1, ordinary building 1, merged building 5,
-  green 1, main corridor 2 parts, branch corridor 1.
-- Road edges are exported through their corridor centerlines; edge IDs remain
-  in CAD-IR provenance and `provenance-map.json`, not as separate DXF entities.
-- Shadow/environment analysis is **not run** (`shadow-not-run.json`); no
-  environmental result is claimed.
+- the sketch, trace GeoJSON and road-network GeoJSON file hashes;
+- that each named source object exists;
+- that its geometry hash matches the handoff `source_geometry_sha256`;
+- that the handoff geometry equals the source object geometry.
 
-## Provenance
+A changed source file or object with a stale hash fails closed. Tests cover
+file-hash mismatch, object-geometry mismatch, source-object removal and a
+handoff geometry that diverges from its source.
 
-`provenance-map.json` records:
+## Road topology
 
-- source ID → trace ID → canonical ID for all seven selected objects;
-- canonical object presence and CAD-IR object presence;
-- readback entity counts;
-- corridor → edge refs → source edge IDs;
-- road-node provenance (graph-only; exported through corridor edges);
-- the `HANDOFF-CASE-SKETCH-001-HANDOFF-A` canonical audit object.
+`road-topology.json` records:
+
+- 4 nodes, 3 edges, 1 connected component;
+- one T-junction `SK-RDN-0126` with degree 3;
+- endpoints `SK-RDN-0067`, `SK-RDN-0125`, `SK-RDN-0209`;
+- maximum endpoint offset **3.606 px** against a declared **4.0 px**
+  extraction tolerance;
+- edge direction normalization: `SK-RDC-U-0010` and `SK-RDC-U-0017` were
+  stored `to_node → from_node` in the source network and are normalized to
+  `node_a → node_b`;
+- each corridor's `edge_refs` and `source_edge_ids` match.
+
+The 3.606 px offset is a real extraction artifact, not a clean T-junction; it
+is inside the declared tolerance and visible in the packet for review. A
+10 px endpoint mutation is rejected with `ROAD_EDGE_ENDPOINT_MISMATCH`.
+
+## Publication
+
+`publication` declares `pilot_local_metric` with an explicit exclusion list:
+DWG, redline, project coordinates and the calibration matrix. The DXF produced
+in the test-double run passes a structured privacy scan over TEXT, layer names,
+XDATA and raw bytes. The private calibration matrix is not published.
 
 ## Reproduce
 
@@ -102,25 +148,29 @@ python scripts/e2e/run_sketch_handoff_a.py
 python -m pytest -q tests/test_sketch_handoff.py tests/e2e/test_sketch_handoff_a.py
 ```
 
+`build_handoff_a.py` reads `review.yaml`; it never writes a review decision.
+`run_sketch_handoff_a.py` writes the review packet and, when the review is
+only an authorization, the blocked evidence.
+
 ## Evidence files
 
-- `handoff.yaml`, `review-record.yaml`, `domain-fixture.yaml`
-- `handoff-summary.json`
-- `canonical-snapshot.json`
-- `cad-ir.json`
-- `pilot.dxf`
-- `readback-manifest.json`
-- `validation.json`
+- `handoff.yaml`, `review-record.yaml`
+- `review-packet.json`, `review-packet.html`
+- `review-request.yaml`, `review-confirmation-template.yaml`
+- `handoff-summary.json`, `blocked.json`
+- `integrity.json`, `road-topology.json`, `coordinate-sensitivity.json`
 - `provenance-map.json`
-- `shadow-not-run.json`
+- `history-0.12.0/` — superseded executed pilot; not current evidence
+
+No `pilot.dxf`, `canonical-snapshot.json`, `cad-ir.json` or
+`domain-fixture.yaml` exists in this directory: the pipeline did not run.
 
 ## Non-claims
 
 - This is a selected pilot subset, not the full CASE-SKETCH-001 site.
-- `confirmed_for_pilot` is not a full-case or survey-grade geometry confirmation.
-- 11 floors is provisional; no building height, base elevation, massing, FAR or
-  unit-mix is derived.
-- Road hierarchy, cross-section, alignment, width and surface are not designed.
-- Same-library `ezdxf` readback is not third-party CAD evidence.
-- A successful DXF readback is not a design-office compliance conclusion.
-- `EP-R1-SKETCH-001` remains in progress; `R1-G07` remains partial.
+- Authorization to run a pilot is not an object-level geometry review.
+- `confirmed_for_pilot` is not a full-case or survey-grade confirmation.
+- The uniform-scale transform does not correct local sketch distortion.
+- The local metric frame is approximate and not survey-grade.
+- Road hierarchy, cross-section, width and alignment remain unknown.
+- `EP-R1-SKETCH-001` is not complete.

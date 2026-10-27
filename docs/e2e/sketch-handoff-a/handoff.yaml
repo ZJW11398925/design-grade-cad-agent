@@ -1,33 +1,62 @@
-schema_id: dgcad.sketch-domain-handoff.v0.1
+schema_id: dgcad.sketch-domain-handoff.v0.2
 handoff_id: CASE-SKETCH-001-HANDOFF-A
 case_id: CASE-SKETCH-001
 source_sketch_sha256: 07714b66f6405d7d4dacde91716eb7b4c8c6b4c32072ea91641a9725a295c0be
+source_files:
+- path: docs/e2e/sketch-001/source/sketch.png
+  sha256: 07714b66f6405d7d4dacde91716eb7b4c8c6b4c32072ea91641a9725a295c0be
+  role: sketch_raster
+- path: docs/e2e/sketch-001/trace-raw.geojson
+  sha256: e574b7b0b8246c0c78bb29f2f21fd1db7ed0278ecd7e33ba6f57570fcbe57ddc
+  role: trace_geojson
+- path: docs/e2e/sketch-001/road-network-proposed.geojson
+  sha256: f6d8a547f4f3393e14c33c5946143e4ef73ffdd5ea5ec6ccf57180f442afecf9
+  role: road_network_geojson
 synthetic_only: false
+publication:
+  classification: pilot_local_metric
+  authorized: true
+  basis: 4b pilot evidence package; DWG, redline, project coordinates and the calibration
+    matrix are excluded
+  excluded:
+  - dwg
+  - redline
+  - project_coordinates
+  - calibration_matrix
+site_boundary_authority: published_sketch_boundary
 review_ref: review.yaml
 coordinate_handoff:
   source_frame: image_space_unscaled
-  target_frame: LOCAL-ENU-XY-ZUP
+  target_frame: LOCAL-XY-ZUP
   coordinate_state: local_metric_scaled
+  transform_kind: uniform_scale_translation_yflip
+  homography_applied: false
+  shape_correction: none
+  axis_orientation: unknown
   scale_px_per_m: 2.438
   scale_range_px_per_m:
   - 2.25
   - 2.89
+  scale_source: private six-point homography reduced to a uniform scale for the pilot;
+    the matrix is not published
   origin_px:
   - 45.0
   - 1536.0
+  origin_source: published sketch site-boundary bounding box (min x, max y)
   y_axis: flipped
   project_coordinates: false
   calibration_ref: private site reference (not published)
   review_state: reviewed
   accuracy: approximate
   not_survey_grade: true
+  uncertainty_method: scale_range_sensitivity
 objects:
 - source_id: SK-BND-001
   trace_id: SK-BND-001
-  canonical_id: SITE-001
+  canonical_id: SITE-SKETCH-001
   semantic_role: site_boundary
   semantic_state: confirmed
-  geometry_state: confirmed_for_pilot
+  geometry_state: proposed
   geometry:
     type: Polygon
     coordinates:
@@ -110,17 +139,23 @@ objects:
       - - 322.0
         - 0.0
   provenance:
+    source_file: docs/e2e/sketch-001/trace-raw.geojson
+    source_file_sha256: e574b7b0b8246c0c78bb29f2f21fd1db7ed0278ecd7e33ba6f57570fcbe57ddc
+    source_object_id: SK-BND-001
+    source_geometry_sha256: d0faccdc67c07f793ea1bb0d1b8c6e14ab0acb51133f110c72207af83fb7b276
+    source_geometry_algorithm: canonical_geojson_sha256_round9
     source_ref: docs/e2e/sketch-001/trace-raw.geojson#SK-BND-001
-    source_hash: e574b7b0b8246c0c78bb29f2f21fd1db7ed0278ecd7e33ba6f57570fcbe57ddc
     source_kind: CASE-SKETCH-001
   attributes:
-    authoritative_reference: private site reference (not published)
+    authoritative_reference: none; published sketch boundary only
+    canonical_site_identity: false
+    private_reference_used: false
 - source_id: SK-BLD-0007
   trace_id: SK-BLD-0007
   canonical_id: B-SKETCH-0007
   semantic_role: building
   semantic_state: confirmed
-  geometry_state: confirmed_for_pilot
+  geometry_state: proposed
   geometry:
     type: Polygon
     coordinates:
@@ -135,8 +170,12 @@ objects:
       - - 502.0
         - 527.0
   provenance:
+    source_file: docs/e2e/sketch-001/trace-raw.geojson
+    source_file_sha256: e574b7b0b8246c0c78bb29f2f21fd1db7ed0278ecd7e33ba6f57570fcbe57ddc
+    source_object_id: SK-BLD-0007
+    source_geometry_sha256: 61038e554958a90c36973e11aadb8b1eb501dbbf93507c2042f8746357390982
+    source_geometry_algorithm: canonical_geojson_sha256_round9
     source_ref: docs/e2e/sketch-001/trace-raw.geojson#SK-BLD-0007
-    source_hash: e574b7b0b8246c0c78bb29f2f21fd1db7ed0278ecd7e33ba6f57570fcbe57ddc
     source_kind: CASE-SKETCH-001
   attributes:
     unit_count: 3
@@ -152,7 +191,7 @@ objects:
   canonical_id: B-SKETCH-MRG-0001
   semantic_role: building
   semantic_state: confirmed
-  geometry_state: confirmed_for_pilot
+  geometry_state: proposed
   geometry:
     type: MultiPolygon
     coordinates:
@@ -233,8 +272,12 @@ objects:
         - - 128.0
           - 782.0
   provenance:
+    source_file: docs/e2e/sketch-001/trace-raw.geojson
+    source_file_sha256: e574b7b0b8246c0c78bb29f2f21fd1db7ed0278ecd7e33ba6f57570fcbe57ddc
+    source_object_id: SK-BLD-MRG-0001
+    source_geometry_sha256: 1a6c196afb9b9767fc63b0f6f28a45bcfe4cfc62656d536c9e4a1514b15039cd
+    source_geometry_algorithm: canonical_geojson_sha256_round9
     source_ref: docs/e2e/sketch-001/trace-raw.geojson#SK-BLD-MRG-0001
-    source_hash: e574b7b0b8246c0c78bb29f2f21fd1db7ed0278ecd7e33ba6f57570fcbe57ddc
     source_kind: CASE-SKETCH-001
   attributes:
     unit_count: 3
@@ -250,7 +293,7 @@ objects:
   canonical_id: G-001
   semantic_role: green
   semantic_state: confirmed
-  geometry_state: confirmed_for_pilot
+  geometry_state: proposed
   geometry:
     type: Polygon
     coordinates:
@@ -287,8 +330,12 @@ objects:
       - - 595.0
         - 646.0
   provenance:
+    source_file: docs/e2e/sketch-001/trace-raw.geojson
+    source_file_sha256: e574b7b0b8246c0c78bb29f2f21fd1db7ed0278ecd7e33ba6f57570fcbe57ddc
+    source_object_id: SK-GRN-0001
+    source_geometry_sha256: e77193d610701d8bb3879fcee7c3864cc2d6620ea99297ac1dfdf9ea67b8e86a
+    source_geometry_algorithm: canonical_geojson_sha256_round9
     source_ref: docs/e2e/sketch-001/trace-raw.geojson#SK-GRN-0001
-    source_hash: e574b7b0b8246c0c78bb29f2f21fd1db7ed0278ecd7e33ba6f57570fcbe57ddc
     source_kind: CASE-SKETCH-001
   attributes:
     semantic_role: cluster_green_space
@@ -297,7 +344,7 @@ objects:
   canonical_id: SK-RDC-U-0008
   semantic_role: road
   semantic_state: confirmed
-  geometry_state: confirmed_for_pilot
+  geometry_state: proposed
   geometry: &id001
     type: LineString
     coordinates:
@@ -308,8 +355,12 @@ objects:
     - - 456.0
       - 620.0
   provenance:
+    source_file: docs/e2e/sketch-001/road-network-proposed.geojson
+    source_file_sha256: f6d8a547f4f3393e14c33c5946143e4ef73ffdd5ea5ec6ccf57180f442afecf9
+    source_object_id: SK-RDC-U-0008
+    source_geometry_sha256: 71cb5bef1679a204be2673dd65f95547d558c3e1e7796a066919ef690b491a6e
+    source_geometry_algorithm: canonical_geojson_sha256_round9
     source_ref: docs/e2e/sketch-001/road-network-proposed.geojson#SK-RDC-U-0008
-    source_hash: f6d8a547f4f3393e14c33c5946143e4ef73ffdd5ea5ec6ccf57180f442afecf9
     source_kind: CASE-SKETCH-001
   attributes:
     sketch_class_candidate: main_road
@@ -320,21 +371,29 @@ objects:
   canonical_id: SK-RDC-U-0010
   semantic_role: road
   semantic_state: confirmed
-  geometry_state: confirmed_for_pilot
-  geometry: &id002
+  geometry_state: proposed
+  geometry:
     type: LineString
     coordinates:
-    - - 297.0
+    - &id005
+      - 297.0
       - 623.0
-    - - 323.0
+    - &id004
+      - 323.0
       - 616.0
-    - - 444.0
+    - &id003
+      - 444.0
       - 616.0
-    - - 455.0
+    - &id002
+      - 455.0
       - 620.0
   provenance:
+    source_file: docs/e2e/sketch-001/road-network-proposed.geojson
+    source_file_sha256: f6d8a547f4f3393e14c33c5946143e4ef73ffdd5ea5ec6ccf57180f442afecf9
+    source_object_id: SK-RDC-U-0010
+    source_geometry_sha256: e721377736a3aa61ec5bce5234418d4abccf3c42edb2075fd72f3d98320f3ce5
+    source_geometry_algorithm: canonical_geojson_sha256_round9
     source_ref: docs/e2e/sketch-001/road-network-proposed.geojson#SK-RDC-U-0010
-    source_hash: f6d8a547f4f3393e14c33c5946143e4ef73ffdd5ea5ec6ccf57180f442afecf9
     source_kind: CASE-SKETCH-001
   attributes:
     sketch_class_candidate: main_road
@@ -345,17 +404,23 @@ objects:
   canonical_id: SK-RDC-U-0017
   semantic_role: road
   semantic_state: confirmed
-  geometry_state: confirmed_for_pilot
-  geometry: &id003
+  geometry_state: proposed
+  geometry:
     type: LineString
     coordinates:
-    - - 455.0
+    - &id007
+      - 455.0
       - 621.0
-    - - 454.0
+    - &id006
+      - 454.0
       - 746.0
   provenance:
+    source_file: docs/e2e/sketch-001/road-network-proposed.geojson
+    source_file_sha256: f6d8a547f4f3393e14c33c5946143e4ef73ffdd5ea5ec6ccf57180f442afecf9
+    source_object_id: SK-RDC-U-0017
+    source_geometry_sha256: c750eb39238d609c5ecf2a01216ad7e262e5ac68f4cef954288e33c116c50670
+    source_geometry_algorithm: canonical_geojson_sha256_round9
     source_ref: docs/e2e/sketch-001/road-network-proposed.geojson#SK-RDC-U-0017
-    source_hash: f6d8a547f4f3393e14c33c5946143e4ef73ffdd5ea5ec6ccf57180f442afecf9
     source_kind: CASE-SKETCH-001
   attributes:
     sketch_class_candidate: branch_or_access_road
@@ -450,14 +515,51 @@ road_graph:
     corridor_id: R-SK-MAIN-001
     node_a: SK-RDN-0126
     node_b: SK-RDN-0067
-    centerline: *id002
+    centerline:
+      type: LineString
+      coordinates:
+      - *id002
+      - *id003
+      - *id004
+      - *id005
   - edge_id: SK-RDC-U-0017
     corridor_id: R-SK-BRANCH-001
     node_a: SK-RDN-0125
     node_b: SK-RDN-0126
-    centerline: *id003
+    centerline:
+      type: LineString
+      coordinates:
+      - *id006
+      - *id007
+road_topology:
+  expected_component_count: 1
+  expected_node_count: 4
+  expected_edge_count: 3
+  expected_junction_node_ids:
+  - SK-RDN-0126
+  expected_endpoint_node_ids:
+  - SK-RDN-0067
+  - SK-RDN-0125
+  - SK-RDN-0209
+  endpoint_tolerance_px: 4.0
+topology_normalization:
+  edge_direction: normalized_to_node_a_to_node_b
+  edges:
+  - edge_id: SK-RDC-U-0008
+    source_direction: from_node_to_to_node
+    normalized_to: node_a_to_node_b
+    reversed: false
+  - edge_id: SK-RDC-U-0010
+    source_direction: to_node_to_from_node
+    normalized_to: node_a_to_node_b
+    reversed: true
+  - edge_id: SK-RDC-U-0017
+    source_direction: to_node_to_from_node
+    normalized_to: node_a_to_node_b
+    reversed: true
 non_claims:
 - pilot subset only; not the full CASE-SKETCH-001 site
 - local metric frame is approximate and not survey-grade
+- the uniform-scale transform does not correct local sketch distortion
 - building height, base elevation, road hierarchy and cross-section remain unknown
 - a successful DXF readback is not a design-office compliance claim

@@ -1,7 +1,8 @@
 schema_id: dgcad.sketch-domain-handoff.v0.1
-status: living_contract
+status: superseded
+superseded_by: dgcad.sketch-domain-handoff.v0.2
 scope: CASE-SKETCH-001-HANDOFF-A
-purpose: "Define the explicit gate that turns selected CASE-SKETCH-001 evidence into a human-reviewed ConfirmedTraceScene."
+purpose: "Define the explicit gate that turns selected CASE-SKETCH-001 evidence into a human-reviewed ConfirmedTraceScene. Superseded in 0.13.0: v0.1 lost review scope after the gate and let a sketch boundary become SITE-001."
 
 source:
   required:

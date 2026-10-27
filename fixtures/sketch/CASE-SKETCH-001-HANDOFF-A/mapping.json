@@ -1,47 +1,276 @@
 {
   "handoff_id": "CASE-SKETCH-001-HANDOFF-A",
+  "schema_id": "dgcad.sketch-domain-handoff.v0.2",
+  "review_kind": "designer_authorized_pilot",
+  "object_geometry_review": false,
+  "review_scope": "pilot_subset",
+  "confirmation_scope": "pilot_subset",
+  "site_boundary_authority": "published_sketch_boundary",
+  "source_files": [
+    {
+      "path": "docs/e2e/sketch-001/source/sketch.png",
+      "sha256": "07714b66f6405d7d4dacde91716eb7b4c8c6b4c32072ea91641a9725a295c0be",
+      "role": "sketch_raster"
+    },
+    {
+      "path": "docs/e2e/sketch-001/trace-raw.geojson",
+      "sha256": "e574b7b0b8246c0c78bb29f2f21fd1db7ed0278ecd7e33ba6f57570fcbe57ddc",
+      "role": "trace_geojson"
+    },
+    {
+      "path": "docs/e2e/sketch-001/road-network-proposed.geojson",
+      "sha256": "f6d8a547f4f3393e14c33c5946143e4ef73ffdd5ea5ec6ccf57180f442afecf9",
+      "role": "road_network_geojson"
+    }
+  ],
   "mapping": [
     {
       "source_id": "SK-BND-001",
       "trace_id": "SK-BND-001",
-      "canonical_id": "SITE-001",
-      "semantic_role": "site_boundary"
+      "canonical_id": "SITE-SKETCH-001",
+      "semantic_role": "site_boundary",
+      "source_file": "docs/e2e/sketch-001/trace-raw.geojson",
+      "source_object_id": "SK-BND-001",
+      "source_geometry_sha256": "d0faccdc67c07f793ea1bb0d1b8c6e14ab0acb51133f110c72207af83fb7b276"
     },
     {
       "source_id": "SK-BLD-0007",
       "trace_id": "SK-BLD-0007",
       "canonical_id": "B-SKETCH-0007",
-      "semantic_role": "building"
+      "semantic_role": "building",
+      "source_file": "docs/e2e/sketch-001/trace-raw.geojson",
+      "source_object_id": "SK-BLD-0007",
+      "source_geometry_sha256": "61038e554958a90c36973e11aadb8b1eb501dbbf93507c2042f8746357390982"
     },
     {
       "source_id": "SK-BLD-MRG-0001",
       "trace_id": "SK-BLD-MRG-0001",
       "canonical_id": "B-SKETCH-MRG-0001",
-      "semantic_role": "building"
+      "semantic_role": "building",
+      "source_file": "docs/e2e/sketch-001/trace-raw.geojson",
+      "source_object_id": "SK-BLD-MRG-0001",
+      "source_geometry_sha256": "1a6c196afb9b9767fc63b0f6f28a45bcfe4cfc62656d536c9e4a1514b15039cd"
     },
     {
       "source_id": "SK-GRN-0001",
       "trace_id": "SK-GRN-0001",
       "canonical_id": "G-001",
-      "semantic_role": "green"
+      "semantic_role": "green",
+      "source_file": "docs/e2e/sketch-001/trace-raw.geojson",
+      "source_object_id": "SK-GRN-0001",
+      "source_geometry_sha256": "e77193d610701d8bb3879fcee7c3864cc2d6620ea99297ac1dfdf9ea67b8e86a"
     },
     {
       "source_id": "SK-RDC-U-0008",
       "trace_id": "TRACE-SK-RDC-U-0008",
       "canonical_id": "SK-RDC-U-0008",
-      "semantic_role": "road"
+      "semantic_role": "road",
+      "source_file": "docs/e2e/sketch-001/road-network-proposed.geojson",
+      "source_object_id": "SK-RDC-U-0008",
+      "source_geometry_sha256": "71cb5bef1679a204be2673dd65f95547d558c3e1e7796a066919ef690b491a6e"
     },
     {
       "source_id": "SK-RDC-U-0010",
       "trace_id": "TRACE-SK-RDC-U-0010",
       "canonical_id": "SK-RDC-U-0010",
-      "semantic_role": "road"
+      "semantic_role": "road",
+      "source_file": "docs/e2e/sketch-001/road-network-proposed.geojson",
+      "source_object_id": "SK-RDC-U-0010",
+      "source_geometry_sha256": "e721377736a3aa61ec5bce5234418d4abccf3c42edb2075fd72f3d98320f3ce5"
     },
     {
       "source_id": "SK-RDC-U-0017",
       "trace_id": "TRACE-SK-RDC-U-0017",
       "canonical_id": "SK-RDC-U-0017",
-      "semantic_role": "road"
+      "semantic_role": "road",
+      "source_file": "docs/e2e/sketch-001/road-network-proposed.geojson",
+      "source_object_id": "SK-RDC-U-0017",
+      "source_geometry_sha256": "c750eb39238d609c5ecf2a01216ad7e262e5ac68f4cef954288e33c116c50670"
+    }
+  ],
+  "integrity": {
+    "ok": true,
+    "errors": [],
+    "source_sketch_sha256": "07714b66f6405d7d4dacde91716eb7b4c8c6b4c32072ea91641a9725a295c0be",
+    "files": [
+      {
+        "path": "docs/e2e/sketch-001/source/sketch.png",
+        "role": "sketch_raster",
+        "declared_sha256": "07714b66f6405d7d4dacde91716eb7b4c8c6b4c32072ea91641a9725a295c0be",
+        "exists": true,
+        "actual_sha256": "07714b66f6405d7d4dacde91716eb7b4c8c6b4c32072ea91641a9725a295c0be",
+        "hash_matches": true
+      },
+      {
+        "path": "docs/e2e/sketch-001/trace-raw.geojson",
+        "role": "trace_geojson",
+        "declared_sha256": "e574b7b0b8246c0c78bb29f2f21fd1db7ed0278ecd7e33ba6f57570fcbe57ddc",
+        "exists": true,
+        "actual_sha256": "e574b7b0b8246c0c78bb29f2f21fd1db7ed0278ecd7e33ba6f57570fcbe57ddc",
+        "hash_matches": true
+      },
+      {
+        "path": "docs/e2e/sketch-001/road-network-proposed.geojson",
+        "role": "road_network_geojson",
+        "declared_sha256": "f6d8a547f4f3393e14c33c5946143e4ef73ffdd5ea5ec6ccf57180f442afecf9",
+        "exists": true,
+        "actual_sha256": "f6d8a547f4f3393e14c33c5946143e4ef73ffdd5ea5ec6ccf57180f442afecf9",
+        "hash_matches": true
+      }
+    ],
+    "objects": [
+      {
+        "source_id": "SK-BND-001",
+        "source_file": "docs/e2e/sketch-001/trace-raw.geojson",
+        "source_object_id": "SK-BND-001",
+        "declared_geometry_sha256": "d0faccdc67c07f793ea1bb0d1b8c6e14ab0acb51133f110c72207af83fb7b276",
+        "actual_geometry_sha256": "d0faccdc67c07f793ea1bb0d1b8c6e14ab0acb51133f110c72207af83fb7b276",
+        "geometry_hash_matches": true,
+        "handoff_geometry_matches": true
+      },
+      {
+        "source_id": "SK-BLD-0007",
+        "source_file": "docs/e2e/sketch-001/trace-raw.geojson",
+        "source_object_id": "SK-BLD-0007",
+        "declared_geometry_sha256": "61038e554958a90c36973e11aadb8b1eb501dbbf93507c2042f8746357390982",
+        "actual_geometry_sha256": "61038e554958a90c36973e11aadb8b1eb501dbbf93507c2042f8746357390982",
+        "geometry_hash_matches": true,
+        "handoff_geometry_matches": true
+      },
+      {
+        "source_id": "SK-BLD-MRG-0001",
+        "source_file": "docs/e2e/sketch-001/trace-raw.geojson",
+        "source_object_id": "SK-BLD-MRG-0001",
+        "declared_geometry_sha256": "1a6c196afb9b9767fc63b0f6f28a45bcfe4cfc62656d536c9e4a1514b15039cd",
+        "actual_geometry_sha256": "1a6c196afb9b9767fc63b0f6f28a45bcfe4cfc62656d536c9e4a1514b15039cd",
+        "geometry_hash_matches": true,
+        "handoff_geometry_matches": true
+      },
+      {
+        "source_id": "SK-GRN-0001",
+        "source_file": "docs/e2e/sketch-001/trace-raw.geojson",
+        "source_object_id": "SK-GRN-0001",
+        "declared_geometry_sha256": "e77193d610701d8bb3879fcee7c3864cc2d6620ea99297ac1dfdf9ea67b8e86a",
+        "actual_geometry_sha256": "e77193d610701d8bb3879fcee7c3864cc2d6620ea99297ac1dfdf9ea67b8e86a",
+        "geometry_hash_matches": true,
+        "handoff_geometry_matches": true
+      },
+      {
+        "source_id": "SK-RDC-U-0008",
+        "source_file": "docs/e2e/sketch-001/road-network-proposed.geojson",
+        "source_object_id": "SK-RDC-U-0008",
+        "declared_geometry_sha256": "71cb5bef1679a204be2673dd65f95547d558c3e1e7796a066919ef690b491a6e",
+        "actual_geometry_sha256": "71cb5bef1679a204be2673dd65f95547d558c3e1e7796a066919ef690b491a6e",
+        "geometry_hash_matches": true,
+        "handoff_geometry_matches": true
+      },
+      {
+        "source_id": "SK-RDC-U-0010",
+        "source_file": "docs/e2e/sketch-001/road-network-proposed.geojson",
+        "source_object_id": "SK-RDC-U-0010",
+        "declared_geometry_sha256": "e721377736a3aa61ec5bce5234418d4abccf3c42edb2075fd72f3d98320f3ce5",
+        "actual_geometry_sha256": "e721377736a3aa61ec5bce5234418d4abccf3c42edb2075fd72f3d98320f3ce5",
+        "geometry_hash_matches": true,
+        "handoff_geometry_matches": true
+      },
+      {
+        "source_id": "SK-RDC-U-0017",
+        "source_file": "docs/e2e/sketch-001/road-network-proposed.geojson",
+        "source_object_id": "SK-RDC-U-0017",
+        "declared_geometry_sha256": "c750eb39238d609c5ecf2a01216ad7e262e5ac68f4cef954288e33c116c50670",
+        "actual_geometry_sha256": "c750eb39238d609c5ecf2a01216ad7e262e5ac68f4cef954288e33c116c50670",
+        "geometry_hash_matches": true,
+        "handoff_geometry_matches": true
+      }
+    ]
+  },
+  "road_topology": {
+    "ok": true,
+    "errors": [],
+    "component_count": 1,
+    "node_count": 4,
+    "edge_count": 3,
+    "junction_node_ids": [
+      "SK-RDN-0126"
+    ],
+    "endpoint_node_ids": [
+      "SK-RDN-0067",
+      "SK-RDN-0125",
+      "SK-RDN-0209"
+    ],
+    "endpoint_tolerance_px": 4.0,
+    "max_endpoint_offset_px": 3.605551275463989,
+    "edge_offsets": [
+      {
+        "edge_id": "SK-RDC-U-0008",
+        "start_node": "SK-RDN-0209",
+        "end_node": "SK-RDN-0126",
+        "start_offset_px": 3.605551275463989,
+        "end_offset_px": 1.0
+      },
+      {
+        "edge_id": "SK-RDC-U-0010",
+        "start_node": "SK-RDN-0126",
+        "end_node": "SK-RDN-0067",
+        "start_offset_px": 0.0,
+        "end_offset_px": 0.0
+      },
+      {
+        "edge_id": "SK-RDC-U-0017",
+        "start_node": "SK-RDN-0125",
+        "end_node": "SK-RDN-0126",
+        "start_offset_px": 2.23606797749979,
+        "end_offset_px": 1.0
+      }
+    ],
+    "degrees": {
+      "SK-RDN-0067": 1,
+      "SK-RDN-0125": 1,
+      "SK-RDN-0126": 3,
+      "SK-RDN-0209": 1
+    },
+    "corridors": {
+      "R-SK-MAIN-001": [
+        "SK-RDC-U-0008",
+        "SK-RDC-U-0010"
+      ],
+      "R-SK-BRANCH-001": [
+        "SK-RDC-U-0017"
+      ]
+    },
+    "expected": {
+      "expected_component_count": 1,
+      "expected_node_count": 4,
+      "expected_edge_count": 3,
+      "expected_junction_node_ids": [
+        "SK-RDN-0126"
+      ],
+      "expected_endpoint_node_ids": [
+        "SK-RDN-0067",
+        "SK-RDN-0125",
+        "SK-RDN-0209"
+      ],
+      "endpoint_tolerance_px": 4.0
+    }
+  },
+  "topology_normalization": [
+    {
+      "edge_id": "SK-RDC-U-0008",
+      "source_direction": "from_node_to_to_node",
+      "normalized_to": "node_a_to_node_b",
+      "reversed": false
+    },
+    {
+      "edge_id": "SK-RDC-U-0010",
+      "source_direction": "to_node_to_from_node",
+      "normalized_to": "node_a_to_node_b",
+      "reversed": true
+    },
+    {
+      "edge_id": "SK-RDC-U-0017",
+      "source_direction": "to_node_to_from_node",
+      "normalized_to": "node_a_to_node_b",
+      "reversed": true
     }
   ],
   "corridors": [
@@ -99,10 +328,10 @@
       "junction": false
     }
   ],
-  "review_scope": "pilot_subset",
   "non_claims": [
     "pilot subset only; not the full CASE-SKETCH-001 site",
     "local metric frame is approximate and not survey-grade",
+    "the uniform-scale transform does not correct local sketch distortion",
     "building height, base elevation, road hierarchy and cross-section remain unknown",
     "a successful DXF readback is not a design-office compliance claim"
   ]

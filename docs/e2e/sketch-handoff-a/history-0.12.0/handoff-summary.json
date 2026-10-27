@@ -1,0 +1,402 @@
+{
+  "schema_id": "dgcad.e2e.sketch-handoff-a.v0.1",
+  "handoff_id": "CASE-SKETCH-001-HANDOFF-A",
+  "case_id": "CASE-SKETCH-001",
+  "synthetic_only": false,
+  "pilot_scope": true,
+  "ep_r1_sketch_complete": false,
+  "review_scope": "pilot_subset",
+  "reviewer_role": "designer",
+  "review_basis": "Designer instruction 2026-10-28 to run a representative CASE-SKETCH-001 handoff pilot. The selected subset is confirmed for pilot-scope geometry only; this is not a full-case geometry review and not survey-grade.",
+  "source_sketch_sha256": "07714b66f6405d7d4dacde91716eb7b4c8c6b4c32072ea91641a9725a295c0be",
+  "selected_objects": [
+    {
+      "source_id": "SK-BND-001",
+      "trace_id": "SK-BND-001",
+      "canonical_id": "SITE-001",
+      "semantic_role": "site_boundary"
+    },
+    {
+      "source_id": "SK-BLD-0007",
+      "trace_id": "SK-BLD-0007",
+      "canonical_id": "B-SKETCH-0007",
+      "semantic_role": "building"
+    },
+    {
+      "source_id": "SK-BLD-MRG-0001",
+      "trace_id": "SK-BLD-MRG-0001",
+      "canonical_id": "B-SKETCH-MRG-0001",
+      "semantic_role": "building"
+    },
+    {
+      "source_id": "SK-GRN-0001",
+      "trace_id": "SK-GRN-0001",
+      "canonical_id": "G-001",
+      "semantic_role": "green"
+    },
+    {
+      "source_id": "SK-RDC-U-0008",
+      "trace_id": "TRACE-SK-RDC-U-0008",
+      "canonical_id": "SK-RDC-U-0008",
+      "semantic_role": "road"
+    },
+    {
+      "source_id": "SK-RDC-U-0010",
+      "trace_id": "TRACE-SK-RDC-U-0010",
+      "canonical_id": "SK-RDC-U-0010",
+      "semantic_role": "road"
+    },
+    {
+      "source_id": "SK-RDC-U-0017",
+      "trace_id": "TRACE-SK-RDC-U-0017",
+      "canonical_id": "SK-RDC-U-0017",
+      "semantic_role": "road"
+    }
+  ],
+  "coordinate_handoff": {
+    "source_frame": "image_space_unscaled",
+    "target_frame": "LOCAL-ENU-XY-ZUP",
+    "coordinate_state": "local_metric_scaled",
+    "scale_px_per_m": 2.438,
+    "scale_range_px_per_m": [
+      2.25,
+      2.89
+    ],
+    "origin_px": [
+      45.0,
+      1536.0
+    ],
+    "project_coordinates": false,
+    "accuracy": "approximate",
+    "not_survey_grade": true
+  },
+  "buildings": [
+    {
+      "object_id": "B-SKETCH-0007",
+      "trace_ref": "SK-BLD-0007",
+      "height": {
+        "value": null,
+        "unit": "metre",
+        "state": "unknown",
+        "source_ref": "designer: 11 floors provisional; floor height unknown"
+      },
+      "base_elevation": {
+        "value": null,
+        "unit": "metre",
+        "state": "unknown",
+        "source_ref": null
+      },
+      "massing": {
+        "state": "blocked",
+        "code": "MASSING_BLOCKED_UNKNOWN_HEIGHT"
+      }
+    },
+    {
+      "object_id": "B-SKETCH-MRG-0001",
+      "trace_ref": "SK-BLD-MRG-0001",
+      "height": {
+        "value": null,
+        "unit": "metre",
+        "state": "unknown",
+        "source_ref": "designer: 11 floors provisional; floor height unknown"
+      },
+      "base_elevation": {
+        "value": null,
+        "unit": "metre",
+        "state": "unknown",
+        "source_ref": null
+      },
+      "massing": {
+        "state": "blocked",
+        "code": "MASSING_BLOCKED_UNKNOWN_HEIGHT"
+      }
+    }
+  ],
+  "roads": [
+    {
+      "corridor_id": "R-SK-MAIN-001",
+      "hierarchy": null,
+      "hierarchy_state": "unknown",
+      "cross_section": null,
+      "profile": {
+        "centerline_state": "confirmed",
+        "hierarchy": null,
+        "hierarchy_state": "unknown",
+        "cross_section": null,
+        "profile_resolution": {
+          "outcome": "blocked",
+          "code": "ROAD_CLASS_UNCONFIRMED",
+          "hierarchy": null,
+          "components": [],
+          "message": "road hierarchy is unknown or unconfirmed"
+        },
+        "width_claim": "none"
+      }
+    },
+    {
+      "corridor_id": "R-SK-BRANCH-001",
+      "hierarchy": null,
+      "hierarchy_state": "unknown",
+      "cross_section": null,
+      "profile": {
+        "centerline_state": "confirmed",
+        "hierarchy": null,
+        "hierarchy_state": "unknown",
+        "cross_section": null,
+        "profile_resolution": {
+          "outcome": "blocked",
+          "code": "ROAD_CLASS_UNCONFIRMED",
+          "hierarchy": null,
+          "components": [],
+          "message": "road hierarchy is unknown or unconfirmed"
+        },
+        "width_claim": "none"
+      }
+    }
+  ],
+  "trace_immutable": {
+    "SK-BND-001": true,
+    "SK-BLD-0007": true,
+    "SK-BLD-MRG-0001": true,
+    "SK-GRN-0001": true,
+    "TRACE-SK-RDC-U-0008": true,
+    "TRACE-SK-RDC-U-0010": true,
+    "TRACE-SK-RDC-U-0017": true
+  },
+  "handoff_audit_object": "HANDOFF-CASE-SKETCH-001-HANDOFF-A",
+  "canonical_scene_revision": 5,
+  "cad_ir_dependency_fingerprint": "4718833ff344fcf8bc32da11f31d1b54f715062c30d3c4fa328b11215e64366f",
+  "cad_ir_validation": {
+    "verdict": "pass_with_scope_limits",
+    "issues": [
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SKETCH-0007",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SKETCH-MRG-0001",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      }
+    ],
+    "coverage_limits": [
+      "current delivery profile and entity set only (LWPOLYLINE/CIRCLE/TEXT)",
+      "no standards or design-office profile compliance",
+      "no IFC",
+      "no third-party CAD round-trip in this pipeline",
+      "no arcs/splines; modelspace only"
+    ]
+  },
+  "dxf": {
+    "path": "pilot.dxf",
+    "sha256": "489cf2f8e07c4279b2ba63846e19a6822f3414a061e9b4773e8296d846bf0319",
+    "entity_count": 11,
+    "audit_errors": 0,
+    "audit_fixes": 0
+  },
+  "readback": {
+    "verdict": "pass",
+    "codes": [],
+    "entity_count": 11,
+    "expected_entity_count": 11,
+    "manifest_sha256": "834a44edcd0c4820910b18b909091eb33626914dc3e24ef58e7173f062cbc147"
+  },
+  "provenance": [
+    {
+      "source_id": "SK-BND-001",
+      "trace_id": "SK-BND-001",
+      "canonical_id": "SITE-001",
+      "semantic_role": "site_boundary",
+      "canonical_object_found": true,
+      "canonical_class": "site_boundary",
+      "cad_ir_object_found": true,
+      "source_trace_ref_in_cad_ir": "SK-BND-001",
+      "edge_exported_as_corridor": null,
+      "readback_entity_count": 1,
+      "xdata_object_ids": [
+        "SITE-001"
+      ]
+    },
+    {
+      "source_id": "SK-BLD-0007",
+      "trace_id": "SK-BLD-0007",
+      "canonical_id": "B-SKETCH-0007",
+      "semantic_role": "building",
+      "canonical_object_found": true,
+      "canonical_class": "building",
+      "cad_ir_object_found": true,
+      "source_trace_ref_in_cad_ir": "SK-BLD-0007",
+      "edge_exported_as_corridor": null,
+      "readback_entity_count": 1,
+      "xdata_object_ids": [
+        "B-SKETCH-0007"
+      ]
+    },
+    {
+      "source_id": "SK-BLD-MRG-0001",
+      "trace_id": "SK-BLD-MRG-0001",
+      "canonical_id": "B-SKETCH-MRG-0001",
+      "semantic_role": "building",
+      "canonical_object_found": true,
+      "canonical_class": "building",
+      "cad_ir_object_found": true,
+      "source_trace_ref_in_cad_ir": "SK-BLD-MRG-0001",
+      "edge_exported_as_corridor": null,
+      "readback_entity_count": 5,
+      "xdata_object_ids": [
+        "B-SKETCH-MRG-0001"
+      ]
+    },
+    {
+      "source_id": "SK-GRN-0001",
+      "trace_id": "SK-GRN-0001",
+      "canonical_id": "G-001",
+      "semantic_role": "green",
+      "canonical_object_found": true,
+      "canonical_class": "green_space",
+      "cad_ir_object_found": true,
+      "source_trace_ref_in_cad_ir": "SK-GRN-0001",
+      "edge_exported_as_corridor": null,
+      "readback_entity_count": 1,
+      "xdata_object_ids": [
+        "G-001"
+      ]
+    },
+    {
+      "source_id": "SK-RDC-U-0008",
+      "trace_id": "TRACE-SK-RDC-U-0008",
+      "canonical_id": "SK-RDC-U-0008",
+      "semantic_role": "road",
+      "canonical_object_found": true,
+      "canonical_class": "road_edge",
+      "cad_ir_object_found": false,
+      "source_trace_ref_in_cad_ir": null,
+      "edge_exported_as_corridor": "R-SK-MAIN-001",
+      "readback_entity_count": 2,
+      "xdata_object_ids": [
+        "R-SK-MAIN-001"
+      ]
+    },
+    {
+      "source_id": "SK-RDC-U-0010",
+      "trace_id": "TRACE-SK-RDC-U-0010",
+      "canonical_id": "SK-RDC-U-0010",
+      "semantic_role": "road",
+      "canonical_object_found": true,
+      "canonical_class": "road_edge",
+      "cad_ir_object_found": false,
+      "source_trace_ref_in_cad_ir": null,
+      "edge_exported_as_corridor": "R-SK-MAIN-001",
+      "readback_entity_count": 2,
+      "xdata_object_ids": [
+        "R-SK-MAIN-001"
+      ]
+    },
+    {
+      "source_id": "SK-RDC-U-0017",
+      "trace_id": "TRACE-SK-RDC-U-0017",
+      "canonical_id": "SK-RDC-U-0017",
+      "semantic_role": "road",
+      "canonical_object_found": true,
+      "canonical_class": "road_edge",
+      "cad_ir_object_found": false,
+      "source_trace_ref_in_cad_ir": null,
+      "edge_exported_as_corridor": "R-SK-BRANCH-001",
+      "readback_entity_count": 1,
+      "xdata_object_ids": [
+        "R-SK-BRANCH-001"
+      ]
+    }
+  ],
+  "corridor_provenance": [
+    {
+      "corridor_id": "R-SK-MAIN-001",
+      "trace_refs": [
+        "TRACE-SK-RDC-U-0008",
+        "TRACE-SK-RDC-U-0010"
+      ],
+      "edge_refs": [
+        "SK-RDC-U-0008",
+        "SK-RDC-U-0010"
+      ],
+      "source_edge_ids": [
+        "SK-RDC-U-0008",
+        "SK-RDC-U-0010"
+      ],
+      "canonical_object_found": true,
+      "canonical_centerline_state": "confirmed",
+      "cad_ir_object_found": true,
+      "source_trace_ref_in_cad_ir": "TRACE-SK-RDC-U-0008",
+      "readback_entity_count": 2
+    },
+    {
+      "corridor_id": "R-SK-BRANCH-001",
+      "trace_refs": [
+        "TRACE-SK-RDC-U-0017"
+      ],
+      "edge_refs": [
+        "SK-RDC-U-0017"
+      ],
+      "source_edge_ids": [
+        "SK-RDC-U-0017"
+      ],
+      "canonical_object_found": true,
+      "canonical_centerline_state": "confirmed",
+      "cad_ir_object_found": true,
+      "source_trace_ref_in_cad_ir": "TRACE-SK-RDC-U-0017",
+      "readback_entity_count": 1
+    }
+  ],
+  "road_node_provenance": [
+    {
+      "node_id": "SK-RDN-0209",
+      "canonical_object_found": true,
+      "exported_to_dxf": false,
+      "reason": "road graph node; exported through corridor edges"
+    },
+    {
+      "node_id": "SK-RDN-0126",
+      "canonical_object_found": true,
+      "exported_to_dxf": false,
+      "reason": "road graph node; exported through corridor edges"
+    },
+    {
+      "node_id": "SK-RDN-0067",
+      "canonical_object_found": true,
+      "exported_to_dxf": false,
+      "reason": "road graph node; exported through corridor edges"
+    },
+    {
+      "node_id": "SK-RDN-0125",
+      "canonical_object_found": true,
+      "exported_to_dxf": false,
+      "reason": "road graph node; exported through corridor edges"
+    }
+  ],
+  "shadow_analysis": {
+    "status": "not_run",
+    "samples": 0,
+    "note": "environment analysis intentionally not run; no site location/time"
+  },
+  "delivery_profile": {
+    "profile_id": "SYNTHETIC-E2E-PROFILE-001",
+    "profile_version": "0.1.0",
+    "state": "synthetic_e2e_profile_not_design_office"
+  },
+  "non_claims": [
+    "pilot subset only; not the full CASE-SKETCH-001 site",
+    "local metric frame is approximate and not survey-grade",
+    "building height, base elevation, road hierarchy and cross-section remain unknown",
+    "a successful DXF readback is not a design-office compliance claim",
+    "same-library ezdxf readback; not third-party CAD evidence",
+    "pilot subset only; EP-R1-SKETCH-001 is not complete",
+    "unknown height, base elevation, road hierarchy and cross-section remain unknown"
+  ]
+}

@@ -110,11 +110,11 @@ After Milestone 3, prioritize the real sketch/trace and road evidence packages b
 | `EP-R1-IFC-001` | IFC identity round-trip |
 | `EP-R1-ENV-001` | independent shadow engine |
 | `EP-R1-PROFILE-001` | real project/design-office profile |
-| `CASE-SKETCH-001-HANDOFF-A` | **pilot complete**: selected real subset → human gate → Canonical → CAD-IR → DXF readback |
+| `CASE-SKETCH-001-HANDOFF-A` | **gate implemented; pilot blocked**: selected real subset passes source/topology checks, then requires an object-level human geometry review. Downstream Canonical → CAD-IR → DXF is proven with a test double only. |
 
 Each package has its own decision question, raw evidence, metrics, failure policy and scope-leakage prohibition. No package is a checklist for production release.
 
-### EP-R1-SKETCH-001 — in progress (0.12.0)
+### EP-R1-SKETCH-001 — in progress (0.13.0)
 
 - [x] Intake a designer sketch with a private site reference; publish the sketch and image-space geometry only.
 - [x] Record designer-confirmed semantics: metre, red buildings, magenta garage entrances, brown main roads, blue branch/access roads, green cluster spaces, existing buildings removed, top crop road-only.
@@ -126,10 +126,11 @@ Each package has its own decision question, raw evidence, metrics, failure polic
 - [ ] Human-confirmed trace and fidelity metrics (Hausdorff/IoU/topology).
 - [ ] Review the six length-vs-area unit-count conflicts (`0009`, `0010`, `0011`, `0013`, `0015`, `0018`) and the kindergarten facility classification.
 - [ ] 支路 vs 入户路 separation.
-- [x] Handoff pilot on a selected real subset (`CASE-SKETCH-001-HANDOFF-A`) reaches Canonical → CAD-IR → DXF readback.
+- [x] Handoff gate on a selected real subset (`CASE-SKETCH-001-HANDOFF-A`): source integrity, road topology, authorization-vs-review semantics, review packet and blocked evidence.
+- [ ] Object-level human geometry/coordinate review of the selected subset.
 - [ ] Full-case Canonical Building/Road handoff; the pilot subset is not the full sketch.
 
-**Exit (not met):** a designer-confirmed semantic trace, a human-confirmed **full-case** geometry reference, fidelity metrics within a declared scope, and a **full-case** canonical handoff. A selected pilot subset has reached canonical/DXF; R1-G07 remains partial.
+**Exit (not met):** a designer-confirmed semantic trace, a human-confirmed **full-case** geometry reference, fidelity metrics within a declared scope, and a **full-case** canonical handoff. The selected pilot subset is currently blocked at the object-level review gate; R1-G07 remains partial.
 
 ### EP-R1-ROAD-001 — in progress (0.11.0)
 
@@ -143,21 +144,54 @@ Each package has its own decision question, raw evidence, metrics, failure polic
 
 **Exit (not met):** a reviewed unified-mask road graph with accepted junctions, explicit width/profile/alignment inputs where required, and a canonical handoff. Until then road topology remains `proposed_unified_mask`.
 
-### Milestone 4b — CASE-SKETCH-001-HANDOFF-A (pilot complete)
+### Milestone 4b — CASE-SKETCH-001-HANDOFF-A (pilot executed; review claim superseded)
 
-- [x] Add an explicit `contracts/sketch-domain-handoff-v0.1.yaml` and `src/dgcad_domain/sketch_handoff.py`.
+- [x] Add `contracts/sketch-domain-handoff-v0.1.yaml` and `src/dgcad_domain/sketch_handoff.py` (superseded by v0.2 in 4b.1).
 - [x] Select a representative real subset: site boundary, one ordinary building, one merged building, one green, two main-road edges, one branch edge, one T-junction.
-- [x] Require a designer review record with `pilot_subset` scope; the Agent cannot confirm the handoff.
+- [x] Record a designer authorization for a pilot subset; the Agent cannot confirm the handoff.
 - [x] Map image-space evidence to a declared local metric frame (2.438 px/m; no project coordinates).
-- [x] Run `ConfirmedTraceScene → build_initial_scene → runtime proposal/approval/commit → Canonical → CAD-IR → DXF → readback`.
+- [x] Run `ConfirmedTraceScene → build_initial_scene → runtime proposal/approval/commit → Canonical → CAD-IR → DXF → readback` with the then-current review record.
 - [x] Preserve unknown height/base elevation, unknown road hierarchy/cross-section, no massing and no width.
 - [x] Prove provenance from source ID to trace ID to canonical ID to CAD-IR/readback.
 - [x] Add fail-closed tests for proposed geometry, missing/agent review, project-coordinate claims, broken provenance, unknown height and unknown road class.
-- [ ] Full-case human geometry review and fidelity metrics.
-- [ ] Unit-type library and professional building geometry.
-- [ ] 121 junction review and road width/profile/alignment.
 
-**Pilot exit (met):** a selected real subset passes the handoff gate and reaches a readback DXF with provenance, while unknowns remain explicit. This does **not** complete `EP-R1-SKETCH-001` or `R1-G07`.
+**4b result:** the 0.12.0 executed artifacts are preserved under `docs/e2e/sketch-handoff-a/history-0.12.0/`. Its review record treated a designer authorization as object-level geometry confirmation; that claim is withdrawn.
+
+### Milestone 4b.1 — Scope-Aware Handoff Integrity (code/evidence complete; real review still required)
+
+Task A — boundary and confirmation scope:
+
+- [x] Add `contracts/sketch-domain-handoff-v0.2.yaml`; mark v0.1 superseded.
+- [x] Carry `confirmation_scope`, `geometry_quality` and `review_kind` through trace, canonical, CAD-IR provenance, DXF XDATA and the readback manifest.
+- [x] A `full_case` review rejects `confirmed_for_pilot`; a pilot review requires it.
+- [x] A published sketch boundary maps to `SITE-SKETCH-001` with candidate authority; it cannot become `SITE-001` or claim canonical site identity.
+- [x] Keep sketch evidence immutable and separate from professional candidates.
+
+Task B — real review evidence chain:
+
+- [x] Generate `review-packet.html` / `.json` with every selected object on the sketch and in local metric space.
+- [x] Generate `review-request.yaml` and an unsigned `review-confirmation-template.yaml`.
+- [x] Record semantic, geometry and coordinate decisions separately per object.
+- [x] Distinguish `human_object_review`, `designer_authorized_pilot` and `test_double`; the Agent cannot sign.
+- [x] Reclassify the 0.12.0 record as `designer_authorized_pilot`; the pipeline blocks with `HUMAN_OBJECT_REVIEW_REQUIRED`.
+- [ ] The designer completes the object-level review and signs the record.
+
+Task C — coordinate and source integrity:
+
+- [x] Declare `uniform_scale_translation_yflip`, `homography_applied: false`, `shape_correction: none`, `LOCAL-XY-ZUP`, `axis_orientation: unknown`, scale/origin sources and per-object sensitivity.
+- [x] Verify source file SHA-256, source object ID and source geometry hash; a stale hash or changed geometry fails closed.
+- [x] Verify road nodes, edge endpoints, corridor coverage, one component and the T-junction degree; record the 3.606 px max offset against the 4.0 px tolerance.
+- [x] Add a structured DXF privacy scan over TEXT/MTEXT, layer/linetype/style/block names, XDATA and raw bytes.
+- [x] Regenerate the pilot evidence to match the new contract (blocked state + review packet + superseded history).
+
+**4b.1 exit (met for code/evidence):** scope cannot silently become global confirmation; a sketch boundary cannot become `SITE-001`; a source-geometry mutation with a stale hash fails; a road-topology mismatch fails closed; the synthetic E2E and CAD delivery remain green; 206 tests pass. The real pilot remains blocked until the designer signs the object-level review.
+
+### Next research main line
+
+1. **Close the handoff integrity loop** — the designer's object-level review, then a real (not test-double) Canonical/DXF run for the selected subset.
+2. **Measure real-sketch fidelity** — human-confirmed reference geometry, Hausdorff/percentile boundary distance, IoU as secondary, topology/junction precision/recall, modification workload; expand gradually, never batch-promote all 55 buildings.
+3. **Professional building and road design** — apply the unit-type library, resolve six unit-count conflicts and the kindergarten classification; separate 支路/入户路, then review junctions, road class and cross-sections.
+4. **Agent ↔ real CAD loop** — hand the confirmed model to the CAD bridge; verify host read/edit/readback/diff/local rebuild; keep LibreCAD, FreeCAD and AutoCAD GUI as independent evidence lanes.
 
 ## Milestone 5 — Production hardening (not started)
 

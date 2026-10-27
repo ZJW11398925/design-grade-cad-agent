@@ -2,6 +2,42 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.13.0 — 2026-10-27
+
+### Fixed
+
+- **Withdraw the 0.12.0 human-review claim.** The committed CASE-SKETCH-001-HANDOFF-A review record was a designer **authorization to run a pilot**, not an object-level geometry or coordinate review. It is reclassified as `designer_authorized_pilot`; the pilot blocks with `HUMAN_OBJECT_REVIEW_REQUIRED`.
+- **Preserve confirmation scope.** `confirmation_scope`, `geometry_quality` and `review_kind` now propagate through trace objects, canonical objects, CAD-IR provenance, DXF XDATA and the readback manifest. A `full_case` review rejects `confirmed_for_pilot`.
+- **Stop the sketch boundary becoming `SITE-001`.** A published sketch boundary maps to `SITE-SKETCH-001` with candidate authority; only an authoritative private site reference may create `SITE-001`.
+- **Correct the coordinate claim.** The transform is `uniform_scale_translation_yflip` in `LOCAL-XY-ZUP`, not a homography; `homography_applied: false`, `shape_correction: none`, `axis_orientation: unknown`; per-object area/perimeter/centroid sensitivity recorded.
+- **Verify source integrity.** Source file SHA-256, source object ID and canonical source-geometry hash are checked; a stale hash, changed geometry or missing object fails closed.
+- **Verify road topology.** Edge endpoints must match declared nodes within a 4.0 px tolerance, the selected graph must be one component with consistent junction degrees and corridor coverage. The selected data's max offset is 3.606 px; two edges were stored in reverse direction and are normalized and recorded.
+- **Add a structured DXF privacy scan** over TEXT/MTEXT, layer/linetype/style/block names, XDATA and raw bytes.
+
+### Added
+
+- `contracts/sketch-domain-handoff-v0.2.yaml`; v0.1 is marked superseded.
+- Trace/canonical review metadata, boundary authority and site canonical identity.
+- `review-packet.html` / `review-packet.json`, `review-request.yaml` and an unsigned `review-confirmation-template.yaml` for the designer.
+- `src/dgcad_e2e/sketch_review.py` and `src/dgcad_e2e/privacy.py`.
+- Blocked evidence: `blocked.json`, `integrity.json`, `road-topology.json`, `coordinate-sensitivity.json`, `provenance-map.json`.
+- `docs/e2e/sketch-handoff-a/history-0.12.0/` preserves the superseded executed pilot.
+- `tests/test_sketch_handoff.py` grows to 32 tests; `tests/e2e/test_sketch_handoff_a.py` to 6.
+
+### Verified
+
+- **206 passed**.
+- The committed handoff is blocked: no canonical model, CAD-IR or DXF is published; source integrity (3 files, 7 objects) and road topology pass.
+- A test-double run still reaches 11 DXF entities, audit 0/0 and 11/11 readback, with `confirmation_scope=pilot_subset` in trace, canonical, CAD-IR, XDATA and the manifest, and `SITE-SKETCH-001` at candidate authority.
+- Synthetic E2E-001/002/003/003b and CAD delivery remain green.
+
+### Scope
+
+- The selected real subset still needs a designer object-level review; the test double is not published as human confirmation.
+- `EP-R1-SKETCH-001` remains in progress; `R1-G07` remains partial.
+- Same-library `ezdxf` readback is not third-party evidence.
+- The pilot-local approximate scale is published under the handoff publication block; the private calibration matrix, DWG, redline and project coordinates are not.
+
 ## 0.12.0 — 2026-10-28
 
 ### Added

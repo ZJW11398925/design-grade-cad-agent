@@ -1,0 +1,16 @@
+{
+  "status": "blocked",
+  "code": "HUMAN_OBJECT_REVIEW_REQUIRED",
+  "message": "the designer authorized a pilot but no object-level geometry review is recorded",
+  "handoff_id": "CASE-SKETCH-001-HANDOFF-A",
+  "review_kind": "designer_authorized_pilot",
+  "object_geometry_review": false,
+  "human_confirmation_claimed": false,
+  "required_actions": [
+    "inspect review-packet.html and every object overlay",
+    "fill review-confirmation-template.yaml with per-object geometry and coordinate decisions",
+    "set human_confirmed_trace: true only after the inspection",
+    "record the review packet hash and reviewed_at date",
+    "re-run the pilot after the review record is signed"
+  ]
+}

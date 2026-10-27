@@ -41,6 +41,7 @@ ISSUE_CATEGORIES = {
     "REP_HASH_MISMATCH": "interoperability",
     "RING_ROLE_MISMATCH": "interoperability",
     "RING_KEY_MISMATCH": "interoperability",
+    "CONFIRMATION_SCOPE_MISMATCH": "interoperability",
     "COORDINATE_MISMATCH": "cad_format_semantics",
     "CLOSED_MISMATCH": "cad_format_semantics",
     "NONZERO_Z": "cad_format_semantics",
@@ -131,6 +132,11 @@ def _expected_entities(
     expected: dict[tuple[str, str, int, int], dict[str, Any]] = {}
     for obj in cad_ir.objects:
         geometry = parse_geometry(obj.geometry)
+        metadata = {
+            "confirmation_scope": obj.provenance.get(
+                "confirmation_scope", "synthetic"
+            )
+        }
         if obj.representation_kind == "polygon_ring":
             ring_index = 0
             for part_index, ring_role, ring in _polygon_rings(geometry):
@@ -149,6 +155,7 @@ def _expected_entities(
                     "geometry_revision": obj.geometry_revision,
                     "source_hash": _source_hash(obj),
                     "rep_hash": _rep_hash(obj),
+                    **metadata,
                 }
                 ring_index += 1
         elif obj.representation_kind == "centerline":
@@ -172,6 +179,7 @@ def _expected_entities(
                     "geometry_revision": obj.geometry_revision,
                     "source_hash": _source_hash(obj),
                     "rep_hash": _rep_hash(obj),
+                    **metadata,
                 }
         elif obj.representation_kind == "point_marker":
             if geometry.geom_type != "Point":
@@ -189,6 +197,7 @@ def _expected_entities(
                 "geometry_revision": obj.geometry_revision,
                 "source_hash": _source_hash(obj),
                 "rep_hash": _rep_hash(obj),
+                **metadata,
             }
             expected[(obj.object_id, "point_marker_label", 0, 0)] = {
                 "object_id": obj.object_id,
@@ -203,6 +212,7 @@ def _expected_entities(
                 "geometry_revision": obj.geometry_revision,
                 "source_hash": _source_hash(obj),
                 "rep_hash": _rep_hash(obj),
+                **metadata,
             }
     return expected
 
@@ -211,7 +221,7 @@ def _read_xdata(entity) -> tuple[dict[str, Any] | None, str | None]:
     if not entity.has_xdata(XDATA_APPID):
         return None, "MISSING_XDATA"
     values = list(entity.get_xdata(XDATA_APPID))
-    if len(values) != 10:
+    if len(values) != 11:
         return None, "MISSING_XDATA"
     try:
         return (
@@ -226,6 +236,7 @@ def _read_xdata(entity) -> tuple[dict[str, Any] | None, str | None]:
                 "ring_index": int(values[7][1]),
                 "ring_role": str(values[8][1]),
                 "ring_key": str(values[9][1]),
+                "confirmation_scope": str(values[10][1]),
             },
             None,
         )
@@ -587,6 +598,19 @@ def _validate_dxf_impl(
                     xdata["ring_key"],
                 )
             )
+        if xdata["confirmation_scope"] != spec.get(
+            "confirmation_scope", "synthetic"
+        ):
+            issues.append(
+                DxfIssue(
+                    "CONFIRMATION_SCOPE_MISMATCH",
+                    "error",
+                    xdata["object_id"],
+                    "XDATA confirmation scope does not match CAD-IR",
+                    spec.get("confirmation_scope", "synthetic"),
+                    xdata["confirmation_scope"],
+                )
+            )
 
         if entity.dxftype() == "LWPOLYLINE":
             actual_coords = [
@@ -886,6 +910,7 @@ def _validate_dxf_impl(
                 "ring_index": xdata["ring_index"],
                 "ring_role": xdata["ring_role"],
                 "ring_key": xdata["ring_key"],
+                "confirmation_scope": xdata["confirmation_scope"],
                 "dxftype": entity.dxftype(),
                 "layer": entity.dxf.layer,
                 "canonical_target": canonical_target,
@@ -940,6 +965,12 @@ def _validate_dxf_impl(
         "entity_count": len(msp),
         "expected_entity_count": len(expected),
         "object_ids": sorted({obj.object_id for obj in cad_ir.objects}),
+        "confirmation_scopes": sorted(
+            {
+                entity["confirmation_scope"]
+                for entity in entities_manifest
+            }
+        ),
         "entities": sorted(
             entities_manifest,
             key=lambda item: (

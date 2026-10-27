@@ -46,7 +46,11 @@ def test_contract_defines_sketch_semantics_and_review_rules():
     assert any("defaults to proposed" in rule for rule in rules)
     assert any("no orthogonalization" in rule for rule in rules)
     assert any(
-        "must not leak coordinates" in rule
+        "must not leak project coordinates" in rule
+        for rule in contract["publication"]["rules"]
+    )
+    assert any(
+        "pilot-local approximate scale" in rule
         for rule in contract["publication"]["rules"]
     )
     design = contract["building_design_state"]

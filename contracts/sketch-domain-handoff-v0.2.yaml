@@ -1,0 +1,199 @@
+schema_id: dgcad.sketch-domain-handoff.v0.2
+status: living_contract
+supersedes: dgcad.sketch-domain-handoff.v0.1
+scope: CASE-SKETCH-001-HANDOFF-A
+purpose: >-
+  Define the explicit gate that turns selected real CASE-SKETCH-001 evidence
+  into a confirmed trace. Version 0.2 fixes three v0.1 defects: the review
+  scope was lost after the gate, the sketch boundary could become the
+  authoritative SITE-001, and a designer authorization was recorded as if it
+  were an object-level geometry review.
+
+source:
+  required:
+    - case_id
+    - source_sketch_sha256
+    - source_files
+    - synthetic_only
+  source_files_required: [path, sha256, role]
+  source_file_roles: [sketch_raster, trace_geojson, road_network_geojson]
+  rules:
+    - "synthetic_only must be false for a real sketch handoff"
+    - "source_sketch_sha256 and every source_files[].sha256 must be 64 lowercase hex characters"
+    - "the loader verifies each source file hash against the working tree before confirmation"
+    - "source evidence is immutable and is never overwritten by professional geometry"
+    - "the handoff keeps the original source object IDs"
+
+publication:
+  required: [classification, authorized, excluded]
+  classifications: [pilot_local_metric, image_space_only]
+  rules:
+    - "DWG, redline geometry, project coordinates and the calibration matrix are never public"
+    - "pilot_local_metric may be public only when authorized is true and the excluded list names every private asset class"
+    - "a public metric artifact must pass the structured DXF privacy scan"
+
+coordinate_handoff:
+  required:
+    - source_frame
+    - target_frame
+    - coordinate_state
+    - transform_kind
+    - homography_applied
+    - shape_correction
+    - axis_orientation
+    - scale_px_per_m
+    - scale_range_px_per_m
+    - scale_source
+    - origin_px
+    - origin_source
+    - y_axis
+    - project_coordinates
+    - calibration_ref
+    - review_state
+    - accuracy
+    - not_survey_grade
+    - uncertainty_method
+  source_frames: [image_space_unscaled]
+  target_frames: [LOCAL-XY-ZUP]
+  coordinate_states: [local_metric_scaled]
+  transform_kinds: [uniform_scale_translation_yflip]
+  homography_applied: false
+  shape_corrections: [none]
+  axis_orientations: [unknown, east_north_defined]
+  y_axis: flipped
+  uncertainty_methods: [scale_range_sensitivity]
+  rules:
+    - "image-space pixels may not be treated as metres without this handoff"
+    - "project_coordinates must be false for the pilot"
+    - "a project or georeferenced target requires a CRS or project calibration and separate human review"
+    - "the pilot transform is uniform scale, translation and y-flip; it is not a homography and corrects no local distortion"
+    - "LOCAL-XY-ZUP is used because the sketch does not establish east or north; do not claim LOCAL-ENU-XY-ZUP"
+    - "the scale range and accuracy are recorded; the pilot is not survey-grade"
+    - "every object records scale-range sensitivity for area, perimeter and centroid"
+    - "the handoff origin is arbitrary and is not a project/site coordinate"
+
+review:
+  required:
+    - handoff_id
+    - review_kind
+    - object_geometry_review
+    - reviewer
+    - reviewer_role
+    - review_scope
+    - human_confirmed_trace
+    - basis
+    - decisions
+  review_kinds: [human_object_review, designer_authorized_pilot, test_double]
+  reviewer_roles: [designer, human_reviewer]
+  review_scopes: [pilot_subset, full_case]
+  decision_fields: [source_id, semantic, geometry, coordinate, evidence_ref]
+  semantic_states: [confirmed]
+  geometry_states: [not_reviewed, proposed, confirmed_for_pilot, confirmed]
+  coordinate_states: [not_reviewed, local_metric_approximate, reviewed]
+  rules:
+    - "the Agent cannot confirm the handoff"
+    - "designer_authorized_pilot authorizes a pilot; it does not confirm object geometry or coordinates"
+    - "designer_authorized_pilot requires object_geometry_review: false, human_confirmed_trace: false and every geometry/coordinate decision not_reviewed"
+    - "human_object_review requires object_geometry_review: true, human_confirmed_trace: true, reviewed_at, non-empty evidence_refs and a review_packet_sha256"
+    - "test_double is accepted only when the caller explicitly allows it; it is a test fixture, never public evidence"
+    - "every selected object needs an explicit human decision"
+    - "confirmed_for_pilot is not a full-case or survey-grade confirmation"
+    - "a full_case review rejects any object that is only confirmed_for_pilot"
+    - "semantic confirmation and geometry confirmation remain separate"
+    - "missing or proposed geometry cannot enter ConfirmedTraceScene"
+
+site_boundary:
+  required: [site_boundary_authority]
+  authorities: [authoritative_site_reference, published_sketch_boundary]
+  rules:
+    - "authoritative_site_reference is the private redline and may create canonical SITE-001"
+    - "published_sketch_boundary may not create canonical SITE-001 and may not claim canonical_site_identity"
+    - "a published sketch boundary enters canonical as SITE-SKETCH-001 with candidate authority"
+    - "the boundary authority is independent of the geometry review scope"
+
+objects:
+  required:
+    - source_id
+    - trace_id
+    - canonical_id
+    - semantic_role
+    - geometry
+    - semantic_state
+    - geometry_state
+    - provenance
+  semantic_roles: [site_boundary, building, green, road]
+  semantic_states: [confirmed]
+  geometry_states: [proposed, not_reviewed, confirmed_for_pilot, confirmed]
+  provenance_required:
+    - source_file
+    - source_file_sha256
+    - source_object_id
+    - source_geometry_sha256
+    - source_geometry_algorithm
+  source_geometry_algorithms: [canonical_geojson_sha256_round9]
+  rules:
+    - "source_id -> trace_id -> canonical_id mapping is unique and stable"
+    - "source_file_sha256 must match the file and source_geometry_sha256 must match the named object"
+    - "the handoff geometry must equal the source object geometry after canonical normalization"
+    - "a changed source object with a stale hash fails the integrity check"
+    - "rejected or ambiguous objects are excluded, not silently confirmed"
+
+buildings:
+  height_state_enum: [unknown, estimated, proposed, confirmed]
+  rules:
+    - "unknown height remains unknown through handoff and canonical"
+    - "no height or massing is derived from floor count alone"
+    - "a building footprint remains a sketch placeholder until a unit-type library is applied"
+
+roads:
+  hierarchy_state_enum: [unknown, proposed, confirmed, needs_review, disputed]
+  rules:
+    - "a sketch road class candidate is not a confirmed legal road class"
+    - "unknown hierarchy blocks derived width"
+    - "no cross-section, alignment or surface is derived by this handoff"
+
+road_topology:
+  required:
+    - expected_component_count
+    - expected_node_count
+    - expected_edge_count
+    - expected_junction_node_ids
+    - expected_endpoint_node_ids
+  rules:
+    - "every edge endpoint must equal its node coordinates within 1e-6"
+    - "the selected subgraph must be connected and have no isolated nodes"
+    - "a node is a junction only when its degree is at least three"
+    - "the junction flag and computed degree must agree"
+    - "each corridor edge_refs covers exactly the edges assigned to that corridor"
+    - "source_edge_ids_by_corridor must match corridor edge_refs"
+    - "a topology mismatch fails closed before ConfirmedTraceScene"
+
+integrity:
+  rules:
+    - "the review packet hash, when declared, must match the packet file"
+    - "a source file hash mismatch fails closed"
+    - "a source object geometry mismatch fails closed"
+    - "a missing source object fails closed"
+    - "a full_case review with confirmed_for_pilot geometry fails closed"
+
+forbidden:
+  - "proposed geometry presented as confirmed trace"
+  - "image-space geometry presented as metric/project truth without the handoff"
+  - "unknown height presented as a numeric height"
+  - "unknown road class used to derive width"
+  - "professional geometry overwriting sketch trace evidence"
+  - "broken source/trace/canonical provenance"
+  - "Agent-confirmed handoff"
+  - "private DWG/redline/project coordinates in public evidence"
+  - "a designer authorization presented as an object-level geometry review"
+  - "confirmed_for_pilot losing its scope downstream"
+  - "a published sketch boundary becoming authoritative SITE-001"
+  - "a homography claim for a uniform-scale transform"
+
+non_claims:
+  - "the pilot is a selected subset, not the full CASE-SKETCH-001 site"
+  - "the local metric frame is approximate and not survey-grade"
+  - "the uniform-scale transform does not correct local sketch distortion"
+  - "unknown building height, base elevation, road hierarchy and cross-section remain unknown"
+  - "a successful DXF readback is not a design-office compliance claim"
+  - "EP-R1-SKETCH-001 is not complete"

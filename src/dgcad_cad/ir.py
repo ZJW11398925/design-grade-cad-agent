@@ -188,12 +188,26 @@ def _revisions(obj) -> dict[str, int]:
     }
 
 
+CONFIRMATION_PROVENANCE_KEYS = (
+    "confirmation_scope",
+    "geometry_quality",
+    "review_kind",
+    "site_boundary_authority",
+    "canonical_site_identity",
+)
+
+
 def _canonical_provenance(obj, trace_ref: str | None) -> dict[str, Any]:
-    return {
+    provenance = {
         "source_trace_ref": trace_ref,
         "canonical_object_id": obj.object_id,
         "canonical_revisions": _revisions(obj),
+        "confirmation_scope": obj.values.get("confirmation_scope", "synthetic"),
     }
+    for key in CONFIRMATION_PROVENANCE_KEYS:
+        if key in obj.values:
+            provenance[key] = obj.values[key]
+    return provenance
 
 
 def _building_massing(obj) -> dict[str, Any]:
@@ -290,6 +304,15 @@ def build_cad_ir(
                         "source_trace_ref": obj.values.get("trace_ref"),
                         "canonical_object_id": obj.object_id,
                         "canonical_revisions": _revisions(obj),
+                        "confirmation_scope": obj.values.get(
+                            "confirmation_scope", "synthetic"
+                        ),
+                        **{
+                            key: obj.values[key]
+                            for key in CONFIRMATION_PROVENANCE_KEYS
+                            if key in obj.values
+                            and key != "confirmation_scope"
+                        },
                         "edge_refs": list(obj.values.get("edge_refs", [])),
                     },
                 )
@@ -433,6 +456,52 @@ def validate_cad_ir(cad_ir: CadIR, profile: DeliveryProfile) -> CadValidationRes
                         f"provenance missing {key}",
                     )
                 )
+        review_kind = obj.provenance.get("review_kind")
+        if review_kind is not None:
+            for key in ("confirmation_scope", "geometry_quality"):
+                if key not in obj.provenance:
+                    issues.append(
+                        CadIssue(
+                            "PROVENANCE_INCOMPLETE",
+                            "error",
+                            obj.object_id,
+                            f"review provenance missing {key}",
+                        )
+                    )
+            scope = obj.provenance.get("confirmation_scope")
+            quality = obj.provenance.get("geometry_quality")
+            if scope == "pilot_subset" and quality != "confirmed_for_pilot":
+                issues.append(
+                    CadIssue(
+                        "SCOPE_QUALITY_MISMATCH",
+                        "error",
+                        obj.object_id,
+                        "pilot_subset requires confirmed_for_pilot geometry",
+                    )
+                )
+            if scope == "full_case" and quality != "confirmed":
+                issues.append(
+                    CadIssue(
+                        "SCOPE_QUALITY_MISMATCH",
+                        "error",
+                        obj.object_id,
+                        "full_case requires confirmed geometry",
+                    )
+                )
+        if (
+            obj.provenance.get("site_boundary_authority")
+            == "published_sketch_boundary"
+            and obj.provenance.get("canonical_site_identity") is True
+        ):
+            issues.append(
+                CadIssue(
+                    "SITE_AUTHORITY_CONFLICT",
+                    "error",
+                    obj.object_id,
+                    "a published sketch boundary cannot claim canonical site "
+                    "identity",
+                )
+            )
         if obj.object_class == "building_footprint":
             massing = obj.massing or {}
             if massing.get("height_state") != "confirmed":

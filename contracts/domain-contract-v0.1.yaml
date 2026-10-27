@@ -32,15 +32,26 @@ trace_scene:
     - units
     - site_boundary_ref
     - trace_objects
+  review_metadata:
+    real_required:
+      - confirmation_scope
+      - review_kind
+      - geometry_quality
+      - site_boundary_authority
+      - site_canonical_id
+      - review_packet_sha256
   invariants:
     - "human_confirmed_trace must be true for domain slice 001"
     - "synthetic_only must be declared explicitly"
     - "trace geometry is never overwritten by a professional proposal"
-    - "a real handoff (synthetic_only: false) must satisfy contracts/sketch-domain-handoff-v0.1.yaml"
+    - "a real handoff (synthetic_only: false) must satisfy contracts/sketch-domain-handoff-v0.2.yaml"
+    - "a real trace carries confirmation_scope and geometry_quality; pilot scope uses confirmed_for_pilot"
+    - "a published sketch boundary maps to SITE-SKETCH-001 with candidate authority, never SITE-001"
   trace_object:
     required: [trace_id, semantic_role, geometry, review_state, locked]
     semantic_role_enum: [site_boundary, building, road, green, unknown]
-    review_state_enum: [confirmed]
+    review_state_enum: [confirmed, confirmed_for_pilot]
+    real_required: [confirmation_scope, geometry_quality, review_kind]
     geometry_format: geojson
     locked_default: true
 

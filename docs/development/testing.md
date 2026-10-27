@@ -34,8 +34,8 @@ A passing lower layer never promotes a higher-layer claim automatically.
 | Third-party evidence | `tests/e2e/test_e2e_003c_third_party.py` | 2 |
 | Sketch evidence | `tests/test_sketch_evidence.py` | 11 |
 | Road topology | `tests/test_road_topology.py` | 3 |
-| Sketch handoff gate | `tests/test_sketch_handoff.py` | 14 |
-| Sketch handoff A | `tests/e2e/test_sketch_handoff_a.py` | 2 |
+| Sketch handoff gate | `tests/test_sketch_handoff.py` | 32 |
+| Sketch handoff A | `tests/e2e/test_sketch_handoff_a.py` | 6 |
 
 Run all:
 
@@ -108,7 +108,7 @@ python -m pytest -q --cov --cov-report=term-missing
 - CIRCLE/TEXT Z, text placement, entity style overrides, LWPOLYLINE full semantics and structured validator errors are now detected by positive tests.
 - `delivery-comparison.json` hashes are verified against the actual DXF and manifest files.
 - Category mapping is contract-synchronized; unknown future codes are `unclassified`, not silently treated as CAD semantics.
-- CASE-SKETCH-001 publishes the sketch and image-space geometry only; the public package contains no DWG/DXF path, project coordinates or metric scale.
+- CASE-SKETCH-001 publishes the sketch and image-space geometry; the project metric scale, calibration matrix, DWG/DXF and redline/project coordinates remain private. The pilot-local approximate scale is published only inside the handoff publication block.
 - Designer-confirmed semantic labels are recorded separately from geometry: labels are `confirmed`, while all trace and centerline geometry remains `proposed`.
 - Road centerlines are `proposed_rough` and carry an explicit no-width-inference/no-alignment scope.
 - Five designer-confirmed merged buildings preserve unit counts, connectors and all 63 original component IDs; all 10 close pairs are resolved.
@@ -117,7 +117,13 @@ python -m pytest -q --cov --cov-report=term-missing
 - The separate-colour skeleton produced 9 components (superseded). The unified brown+blue mask with a 5 px closing gives **1 component, 309 nodes, 333 edges and 121 junction candidates**; the eight nearest-node connectors are rejected negative evidence.
 - Road topology carries no width, cross-section, profile, alignment or surface fields.
 - The handoff gate rejects proposed geometry, missing or agent review, project-coordinate claims and broken provenance.
-- CASE-SKETCH-001-HANDOFF-A reaches 11 DXF entities and an 11/11 readback with source→trace→canonical provenance; unknown height and road hierarchy remain explicit.
+- `designer_authorized_pilot` is not a geometry review: the gate blocks it with `HUMAN_OBJECT_REVIEW_REQUIRED` and publishes a review packet instead of canonical/DXF.
+- Source file hashes, source object IDs and source geometry hashes are verified; a stale hash, changed geometry or missing object fails closed.
+- Road edges must share their declared nodes within a 4 px extraction tolerance, form one component, and have matching corridor coverage; a 10 px endpoint mutation fails.
+- The published sketch boundary maps to `SITE-SKETCH-001` with candidate authority; `SITE-001` is not created.
+- When a confirmed handoff exists (test double), scope and geometry quality propagate through trace, canonical, CAD-IR, DXF XDATA and the readback manifest; the audit object is not `human_confirmed` for a test double.
+- Structured DXF privacy scanning covers TEXT/MTEXT, layer/linetype/style/block names, XDATA and raw bytes.
+- CASE-SKETCH-001-HANDOFF-A is blocked: the committed evidence contains no DXF, canonical snapshot or CAD-IR. The downstream 11-entity / 11/11 path is exercised only by an explicitly marked test double.
 
 ## 4. What the current tests do **not** prove
 
@@ -129,8 +135,8 @@ python -m pytest -q --cov --cov-report=term-missing
 - That CASE-SKETCH-001's trace is human-confirmed or accurate: semantic labels are designer-confirmed, but geometry is proposed and no Hausdorff/IoU metrics against a human reference exist yet.
 - That building merge/split, 支路/入户路 separation or the canonical Building/Road handoff are resolved.
 - That the unified-mask road topology is professionally correct; its 121 junctions are proposed candidates, not designed intersections.
-- That the full CASE-SKETCH-001 sketch is human-confirmed or that the pilot is survey-grade; only a selected pilot subset is confirmed_for_pilot.
-- That the pilot DXF is third-party CAD evidence or design-office compliant; readback is same-library ezdxf.
+- That the full CASE-SKETCH-001 sketch is human-confirmed, or that the selected pilot subset has been object-level reviewed; no real object is `confirmed_for_pilot` yet.
+- That a DXF produced by the test double is third-party CAD evidence or design-office compliant; readback is same-library ezdxf.
 - That the colour-based road class is confirmed; it is inferred from brown/blue pixel majority.
 - That road width, cross-section, profile or alignment has been designed; none is derived.
 - That the domain slice's simplified regularization (axis-aligned envelope) or road centerline merge is professionally correct.

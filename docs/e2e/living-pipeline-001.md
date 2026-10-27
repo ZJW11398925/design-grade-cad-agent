@@ -47,7 +47,7 @@ The domain verdict is intentionally **blocked**: the fixture contains a building
 - The living Domain/Runtime contracts survive contact with Building and Road objects in one chain.
 - Human approval, canonical commit, dependency invalidation and rebuild scheduling work end to end.
 - Unknown height and unknown road class survive into analysis, CAD-IR and DXF metadata rather than being defaulted.
-- DXF output carries object identity, revisions, source/representation hashes and entity roles through XDATA.
+- DXF output carries object identity, revisions, source/representation hashes, entity roles and `confirmation_scope` through XDATA. Synthetic objects carry `confirmation_scope: synthetic`; the 0.13.0 field is the 11th XDATA value.
 - The readback validator detects vertex mutation, unexpected layers and entity-type substitution without crashing.
 - The pipeline contains no import or invocation of archived research scripts.
 

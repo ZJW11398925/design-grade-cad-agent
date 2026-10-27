@@ -1,0 +1,136 @@
+schema_id: dgcad.sketch-review-request.v0.1
+handoff_id: CASE-SKETCH-001-HANDOFF-A
+status: review_required
+template_not_signed: true
+human_confirmation_claimed: false
+instructions: Inspect review-packet.html. Record per-object semantic, geometry and
+  coordinate decisions. Do not mark geometry confirmed unless you actually inspected
+  the object.
+review_packet_sha256: bb964f3e18abec4d86bd886199a6d784cf7f3d34de775776b1bfc5079ebbbf3c
+objects:
+- source_id: SK-BND-001
+  semantic_role: site_boundary
+  geometry_state: proposed
+  questions:
+    semantic: Is this object's semantic role correct?
+    geometry: Does the outline match the drawn object at pilot-subset scope?
+    coordinate: Is the local metric placement acceptable given the approximate uniform
+      scale and no distortion correction?
+  evidence:
+    overlay: review-packet.html#object-SK-BND-001
+    source_geometry_sha256: d0faccdc67c07f793ea1bb0d1b8c6e14ab0acb51133f110c72207af83fb7b276
+    source_file: docs/e2e/sketch-001/trace-raw.geojson
+  decision:
+    semantic: ''
+    geometry: ''
+    coordinate: ''
+    evidence_ref: ''
+    note: ''
+- source_id: SK-BLD-0007
+  semantic_role: building
+  geometry_state: proposed
+  questions:
+    semantic: Is this object's semantic role correct?
+    geometry: Does the outline match the drawn object at pilot-subset scope?
+    coordinate: Is the local metric placement acceptable given the approximate uniform
+      scale and no distortion correction?
+  evidence:
+    overlay: review-packet.html#object-SK-BLD-0007
+    source_geometry_sha256: 61038e554958a90c36973e11aadb8b1eb501dbbf93507c2042f8746357390982
+    source_file: docs/e2e/sketch-001/trace-raw.geojson
+  decision:
+    semantic: ''
+    geometry: ''
+    coordinate: ''
+    evidence_ref: ''
+    note: ''
+- source_id: SK-BLD-MRG-0001
+  semantic_role: building
+  geometry_state: proposed
+  questions:
+    semantic: Is this object's semantic role correct?
+    geometry: Does the outline match the drawn object at pilot-subset scope?
+    coordinate: Is the local metric placement acceptable given the approximate uniform
+      scale and no distortion correction?
+  evidence:
+    overlay: review-packet.html#object-SK-BLD-MRG-0001
+    source_geometry_sha256: 1a6c196afb9b9767fc63b0f6f28a45bcfe4cfc62656d536c9e4a1514b15039cd
+    source_file: docs/e2e/sketch-001/trace-raw.geojson
+  decision:
+    semantic: ''
+    geometry: ''
+    coordinate: ''
+    evidence_ref: ''
+    note: ''
+- source_id: SK-GRN-0001
+  semantic_role: green
+  geometry_state: proposed
+  questions:
+    semantic: Is this object's semantic role correct?
+    geometry: Does the outline match the drawn object at pilot-subset scope?
+    coordinate: Is the local metric placement acceptable given the approximate uniform
+      scale and no distortion correction?
+  evidence:
+    overlay: review-packet.html#object-SK-GRN-0001
+    source_geometry_sha256: e77193d610701d8bb3879fcee7c3864cc2d6620ea99297ac1dfdf9ea67b8e86a
+    source_file: docs/e2e/sketch-001/trace-raw.geojson
+  decision:
+    semantic: ''
+    geometry: ''
+    coordinate: ''
+    evidence_ref: ''
+    note: ''
+- source_id: SK-RDC-U-0008
+  semantic_role: road
+  geometry_state: proposed
+  questions:
+    semantic: Is this object's semantic role correct?
+    geometry: Does the outline match the drawn object at pilot-subset scope?
+    coordinate: Is the local metric placement acceptable given the approximate uniform
+      scale and no distortion correction?
+  evidence:
+    overlay: review-packet.html#object-SK-RDC-U-0008
+    source_geometry_sha256: 71cb5bef1679a204be2673dd65f95547d558c3e1e7796a066919ef690b491a6e
+    source_file: docs/e2e/sketch-001/road-network-proposed.geojson
+  decision:
+    semantic: ''
+    geometry: ''
+    coordinate: ''
+    evidence_ref: ''
+    note: ''
+- source_id: SK-RDC-U-0010
+  semantic_role: road
+  geometry_state: proposed
+  questions:
+    semantic: Is this object's semantic role correct?
+    geometry: Does the outline match the drawn object at pilot-subset scope?
+    coordinate: Is the local metric placement acceptable given the approximate uniform
+      scale and no distortion correction?
+  evidence:
+    overlay: review-packet.html#object-SK-RDC-U-0010
+    source_geometry_sha256: e721377736a3aa61ec5bce5234418d4abccf3c42edb2075fd72f3d98320f3ce5
+    source_file: docs/e2e/sketch-001/road-network-proposed.geojson
+  decision:
+    semantic: ''
+    geometry: ''
+    coordinate: ''
+    evidence_ref: ''
+    note: ''
+- source_id: SK-RDC-U-0017
+  semantic_role: road
+  geometry_state: proposed
+  questions:
+    semantic: Is this object's semantic role correct?
+    geometry: Does the outline match the drawn object at pilot-subset scope?
+    coordinate: Is the local metric placement acceptable given the approximate uniform
+      scale and no distortion correction?
+  evidence:
+    overlay: review-packet.html#object-SK-RDC-U-0017
+    source_geometry_sha256: c750eb39238d609c5ecf2a01216ad7e262e5ac68f4cef954288e33c116c50670
+    source_file: docs/e2e/sketch-001/road-network-proposed.geojson
+  decision:
+    semantic: ''
+    geometry: ''
+    coordinate: ''
+    evidence_ref: ''
+    note: ''

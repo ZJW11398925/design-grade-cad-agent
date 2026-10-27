@@ -36,6 +36,7 @@ issue_categories:
       - REP_HASH_MISMATCH
       - RING_ROLE_MISMATCH
       - RING_KEY_MISMATCH
+      - CONFIRMATION_SCOPE_MISMATCH
   profile_violation:
     description: "Violation of the declared delivery profile, layer or entity-style policy."
     codes:
