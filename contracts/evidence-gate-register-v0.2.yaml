@@ -26,7 +26,8 @@ packages:
   - package_id: EP-R1-ROAD-001
     stage: R1.3
     gates: [R1-G03, R1-G04]
-    status: planned
+    status: in_progress
+    living_evidence: docs/e2e/sketch-001/README.md
     blocks_claims:
       - engineering_road_alignment_generalization
       - china_road_compliance

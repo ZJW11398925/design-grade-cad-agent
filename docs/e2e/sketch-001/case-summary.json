@@ -179,9 +179,10 @@
     "Review the six length-vs-area unit-count conflicts: 0009, 0010, 0011, 0013, 0015, 0018.",
     "Confirm the kindergarten M-003 as a facility, not a residential 1/2/3-unit type.",
     "Provide the unit-type library; sketch-era building footprints are placeholders.",
+    "Review the eight inferred road connectors; they are topology hypotheses, not designed links.",
     "Human-confirmed trace and fidelity metrics are not yet available.",
     "支路 and 入户路 are not separated within the blue class.",
-    "Road centerline topology is rough; junction merging and connectivity need human review.",
+    "No road width, cross-section, alignment, junction turn geometry or surface yet.",
     "No canonical Building/Road handoff from this sketch yet."
   ],
   "non_claims": [
@@ -472,5 +473,305 @@
       }
     ],
     "note": "Unit counts are inferred from sketch dimensions, not confirmed. Long side is primary; area is a cross-check. Six long bars are classified as 3-unit by length even though their area falls in the 2-unit band; these are flagged as conflicts for designer review."
+  },
+  "road_topology": {
+    "status": "proposed_rough",
+    "topology_state": "connected_with_inferred_connectors",
+    "as_drawn": {
+      "node_count": 306,
+      "edge_count": 312,
+      "component_count": 9,
+      "endpoints": 129,
+      "junctions": 99,
+      "cyclomatic_number": 15,
+      "road_class_edge_counts": {
+        "main_road": 41,
+        "branch_or_access_road": 271
+      }
+    },
+    "connected": {
+      "node_count": 306,
+      "edge_count": 320,
+      "component_count": 1,
+      "endpoints": 120,
+      "junctions": 103,
+      "cyclomatic_number": 15,
+      "road_class_edge_counts": {
+        "main_road": 41,
+        "branch_or_access_road": 279
+      }
+    },
+    "inferred_connector_count": 8,
+    "inferred_connectors": [
+      {
+        "trace_id": "SK-RDC-CONN-001",
+        "from_component": "RC-01",
+        "to_component": "RC-05",
+        "gap_px": 15.62,
+        "length_px": 15.62,
+        "from_node": [
+          574.0,
+          106.0
+        ],
+        "to_node": [
+          562.0,
+          116.0
+        ]
+      },
+      {
+        "trace_id": "SK-RDC-CONN-002",
+        "from_component": "RC-01",
+        "to_component": "RC-03",
+        "gap_px": 23.77,
+        "length_px": 23.77,
+        "from_node": [
+          620.0,
+          1233.0
+        ],
+        "to_node": [
+          629.0,
+          1211.0
+        ]
+      },
+      {
+        "trace_id": "SK-RDC-CONN-003",
+        "from_component": "RC-01",
+        "to_component": "RC-06",
+        "gap_px": 33.24,
+        "length_px": 33.24,
+        "from_node": [
+          773.0,
+          1225.0
+        ],
+        "to_node": [
+          769.0,
+          1258.0
+        ]
+      },
+      {
+        "trace_id": "SK-RDC-CONN-004",
+        "from_component": "RC-01",
+        "to_component": "RC-04",
+        "gap_px": 34.21,
+        "length_px": 34.21,
+        "from_node": [
+          779.0,
+          627.0
+        ],
+        "to_node": [
+          788.0,
+          594.0
+        ]
+      },
+      {
+        "trace_id": "SK-RDC-CONN-005",
+        "from_component": "RC-06",
+        "to_component": "RC-07",
+        "gap_px": 37.22,
+        "length_px": 37.22,
+        "from_node": [
+          638.0,
+          1330.0
+        ],
+        "to_node": [
+          601.0,
+          1334.0
+        ]
+      },
+      {
+        "trace_id": "SK-RDC-CONN-006",
+        "from_component": "RC-02",
+        "to_component": "RC-03",
+        "gap_px": 43.01,
+        "length_px": 43.01,
+        "from_node": [
+          273.0,
+          896.0
+        ],
+        "to_node": [
+          316.0,
+          897.0
+        ]
+      },
+      {
+        "trace_id": "SK-RDC-CONN-007",
+        "from_component": "RC-01",
+        "to_component": "RC-09",
+        "gap_px": 46.75,
+        "length_px": 46.75,
+        "from_node": [
+          795.0,
+          702.0
+        ],
+        "to_node": [
+          830.0,
+          733.0
+        ]
+      },
+      {
+        "trace_id": "SK-RDC-CONN-008",
+        "from_component": "RC-03",
+        "to_component": "RC-08",
+        "gap_px": 76.06,
+        "length_px": 76.06,
+        "from_node": [
+          765.0,
+          1018.0
+        ],
+        "to_node": [
+          801.0,
+          1085.0
+        ]
+      }
+    ],
+    "components": [
+      {
+        "component_id": "RC-01",
+        "node_count": 40,
+        "edge_count": 41,
+        "road_class_edge_counts": {
+          "main_road": 41
+        },
+        "endpoints": 4,
+        "bbox_px": [
+          86.0,
+          5.0,
+          891.0,
+          1489.0
+        ]
+      },
+      {
+        "component_id": "RC-02",
+        "node_count": 19,
+        "edge_count": 19,
+        "road_class_edge_counts": {
+          "branch_or_access_road": 19
+        },
+        "endpoints": 10,
+        "bbox_px": [
+          92.0,
+          787.0,
+          185.0,
+          341.0
+        ]
+      },
+      {
+        "component_id": "RC-03",
+        "node_count": 63,
+        "edge_count": 69,
+        "road_class_edge_counts": {
+          "branch_or_access_road": 69
+        },
+        "endpoints": 25,
+        "bbox_px": [
+          316.0,
+          631.0,
+          453.0,
+          585.0
+        ]
+      },
+      {
+        "component_id": "RC-04",
+        "node_count": 15,
+        "edge_count": 14,
+        "road_class_edge_counts": {
+          "branch_or_access_road": 14
+        },
+        "endpoints": 9,
+        "bbox_px": [
+          674.0,
+          364.0,
+          194.0,
+          230.0
+        ]
+      },
+      {
+        "component_id": "RC-05",
+        "node_count": 62,
+        "edge_count": 62,
+        "road_class_edge_counts": {
+          "branch_or_access_road": 62
+        },
+        "endpoints": 27,
+        "bbox_px": [
+          165.0,
+          62.0,
+          466.0,
+          530.0
+        ]
+      },
+      {
+        "component_id": "RC-06",
+        "node_count": 31,
+        "edge_count": 31,
+        "road_class_edge_counts": {
+          "branch_or_access_road": 31
+        },
+        "endpoints": 17,
+        "bbox_px": [
+          636.0,
+          1258.0,
+          318.0,
+          180.0
+        ]
+      },
+      {
+        "component_id": "RC-07",
+        "node_count": 47,
+        "edge_count": 48,
+        "road_class_edge_counts": {
+          "branch_or_access_road": 48
+        },
+        "endpoints": 24,
+        "bbox_px": [
+          96.0,
+          1256.0,
+          505.0,
+          177.0
+        ]
+      },
+      {
+        "component_id": "RC-08",
+        "node_count": 25,
+        "edge_count": 24,
+        "road_class_edge_counts": {
+          "branch_or_access_road": 24
+        },
+        "endpoints": 13,
+        "bbox_px": [
+          801.0,
+          972.0,
+          143.0,
+          226.0
+        ]
+      },
+      {
+        "component_id": "RC-09",
+        "node_count": 4,
+        "edge_count": 4,
+        "road_class_edge_counts": {
+          "branch_or_access_road": 4
+        },
+        "endpoints": 0,
+        "bbox_px": [
+          824.0,
+          726.0,
+          69.0,
+          63.0
+        ]
+      }
+    ],
+    "method": "component nearest-node gaps + minimum spanning tree connectors",
+    "rules": [
+      "as-drawn components are reported separately from the connected graph",
+      "every inferred connector is marked and measured",
+      "topology is not road design"
+    ],
+    "non_claims": [
+      "inferred connectors are not designed roads; they need human review",
+      "no road width, cross-section, alignment, junction turn geometry or surface",
+      "image-space topology only; no project coordinates or metric lengths",
+      "blue combines 支路 and 入户路; subtypes are not separated"
+    ]
   }
 }
