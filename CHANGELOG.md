@@ -2,6 +2,25 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.11.0 — 2026-10-28
+
+### Fixed
+
+- **Corrected the road-topology process.** The design's road network is one system; the earlier separate brown/blue skeletons cut it at colour boundaries and produced nine artificial components. That result is superseded.
+- Unified brown+blue road mask, ≥300 px component filter, **5 px ellipse closing** (4 px leaves five components; 5 px is the smallest tested kernel restoring one component).
+- Unified network: **1 connected component**, 309 nodes, 333 edges, 111 endpoints, **121 junction candidates**, 25 cycles; 65 main-road and 268 branch/access edges.
+- Colour is a road-class attribute, not a topology separator; junctions are skeleton graph nodes, not inferred connectors.
+- The eight nearest-node connectors remain rejected in `road-connectors-rejected.geojson` as negative evidence; they are not used.
+- Contract, tests, README and status updated; **168 passed**.
+- Version `0.11.0`.
+
+### Scope
+
+- The 121 junctions are proposed candidates and need review.
+- No road width, cross-section, profile, alignment or surface.
+- Blue still combines 支路 and 入户路; image-space only; DWG/redline/project coordinates remain private.
+
+
 ## 0.10.1 — 2026-10-27
 
 ### Changed

@@ -167,12 +167,13 @@ Still open: LibreCAD/FreeCAD/GUI third-party matrix (#6), arcs/splines outside t
 - No human-confirmed trace or fidelity metrics; all 10 close pairs are resolved; six unit-count conflicts and the kindergarten facility remain for review; 支路/入户路 unseparated; no canonical handoff.
 - Contract: `contracts/sketch-evidence-v0.1.yaml`; tests: `tests/test_sketch_evidence.py` (11).
 
-## EP-R1-ROAD-001 as-drawn topology (0.10.1)
+## EP-R1-ROAD-001 unified-mask topology (0.11.0)
 
-- 312 rough centerlines: 41 main-road and 271 branch/access edges.
-- As-drawn graph: 306 nodes, 312 edges, 9 components, 129 endpoints, 99 junctions, 15 cycles.
-- Eight nearest-node connectors were attempted and **rejected by designer review**; no connected graph is claimed; gaps 15.62–76.06 px remain open. Rejected connectors are retained as negative evidence.
-- No road width, cross-section, profile, alignment, junction turn geometry or surface; 支路/入户路 remain combined.
+- The separate-colour skeleton produced 9 artificial components; that result is superseded.
+- Unified brown+blue mask with a 5 px closing restores 1 connected component: 309 nodes, 333 edges, 111 endpoints, 121 junction candidates, 25 cycles; 65 main-road and 268 branch/access edges.
+- Colour is a road-class attribute, not a topology separator; junctions are skeleton graph nodes, not inferred connectors.
+- The eight nearest-node connectors are rejected and retained as negative evidence.
+- No width, cross-section, profile, alignment, junction turn geometry or surface; 支路/入户路 remain combined.
 - Contract: `contracts/sketch-evidence-v0.1.yaml` (`road_topology`); tests: `tests/test_road_topology.py` (3).
 
 ## E2E-002 implementation (0.4.0)
