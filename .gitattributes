@@ -4,9 +4,10 @@
 *.bat text eol=crlf
 *.cmd text eol=crlf
 
-# Preserve exact bytes of CAD interchange and evidence artifacts
+# Preserve exact bytes of CAD interchange and hash-pinned evidence artifacts
 *.dxf -text
 *.dwg -text
+*.geojson -text
 *.zip binary
 *.png binary
 *.pdf binary

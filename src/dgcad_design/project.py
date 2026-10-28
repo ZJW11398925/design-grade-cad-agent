@@ -444,6 +444,7 @@ def run_design_synthesis(
             ensure_ascii=False,
         ),
         encoding="utf-8",
+        newline="\n",
     )
     roads_sha256 = hashlib.sha256(roads_path.read_bytes()).hexdigest()
 

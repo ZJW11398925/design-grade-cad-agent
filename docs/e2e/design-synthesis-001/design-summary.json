@@ -1281,7 +1281,7 @@
   "design_roads": {
     "path": "design-roads.geojson",
     "road_count": 41,
-    "sha256": "e34ff2795085e8cc50c710ccd48e837472a2fd1b5a2d4617f699a71b0fb07f33"
+    "sha256": "37fd143967cf3010d71d1776e37660097823677e9a370d474e3c0f6b32161b94"
   },
   "diff": {
     "schema_id": "dgcad.design-diff.v0.1",
@@ -1609,7 +1609,7 @@
   "scene_object_count": 203,
   "dxf": {
     "path": "design-proposal.dxf",
-    "sha256": "7a2a54b6c44744dabcc490cc56695b7d1a1bfd1cb986d421ab014606d9b9bc29",
+    "sha256": "2722191f92612a13afd7d6e13e7939c2f20fae86a0d3492361902abc0b6a0aa2",
     "entity_count": 208,
     "audit_errors": 0,
     "audit_fixes": 0
@@ -1622,7 +1622,7 @@
     "confirmation_scopes": [
       "design_draft"
     ],
-    "manifest_sha256": "d455984fda89e92290377d95a5ba86318412b2d064495c52cd3f9b1fe2304d3e"
+    "manifest_sha256": "0ca47badd84fdd1aafde59373ff01a4726468e6ac9379d298f2a0e7af33e0923"
   },
   "cad_ir_validation": {
     "verdict": "pass_with_scope_limits",
