@@ -21,7 +21,7 @@ geometry. "Access is a declared geometric relation, not a proximity guess."
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, fields, is_dataclass
 from typing import Any
 
 from shapely.geometry import Point
@@ -160,6 +160,8 @@ class DeadEndRecord:
     distance_m: float | None
     classification: str
     justified: bool
+    resolution: str | None = None
+    resolved: bool = False
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -171,6 +173,8 @@ class DeadEndRecord:
             "distance_m": self.distance_m,
             "classification": self.classification,
             "justified": self.justified,
+            "resolution": self.resolution,
+            "resolved": self.resolved,
         }
 
 
@@ -181,6 +185,8 @@ class RoadAccessLayout:
     dead_ends: tuple[DeadEndRecord, ...]
     main_road_overlap: dict[str, Any] = field(default_factory=dict)
     orphan_declarations: tuple[dict[str, Any], ...] = ()
+    main_alignment_records: tuple[Any, ...] = ()
+    dead_end_resolutions: tuple[Any, ...] = ()
 
     @property
     def groups_total(self) -> int:
@@ -222,7 +228,19 @@ class RoadAccessLayout:
 
     @property
     def dead_ends_unresolved(self) -> int:
-        return sum(1 for item in self.dead_ends if not item.justified)
+        return sum(
+            1
+            for item in self.dead_ends
+            if not item.resolved and not item.justified
+        )
+
+    @property
+    def dead_ends_resolved(self) -> int:
+        return sum(1 for item in self.dead_ends if item.resolved)
+
+    @property
+    def road_alignment_count(self) -> int:
+        return len(self.main_alignment_records)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -235,10 +253,18 @@ class RoadAccessLayout:
             "orphan_declared_group_ids": [
                 item["group_id"] for item in self.orphan_declarations
             ],
+            "road_alignment_count": self.road_alignment_count,
             "dead_ends_justified": self.dead_ends_justified,
             "dead_ends_unfinished": self.dead_ends_unfinished,
             "dead_ends_unresolved": self.dead_ends_unresolved,
+            "dead_ends_resolved": self.dead_ends_resolved,
             "main_road_overlap": dict(self.main_road_overlap),
+            "main_alignment_records": [
+                _record_to_dict(item) for item in self.main_alignment_records
+            ],
+            "dead_end_resolutions": [
+                _record_to_dict(item) for item in self.dead_end_resolutions
+            ],
             "groups": [group.to_dict() for group in self.groups],
             "entrances": [item.to_dict() for item in self.entrances],
             "dead_ends": [item.to_dict() for item in self.dead_ends],
@@ -404,8 +430,8 @@ def main_road_building_overlap(
 ) -> dict[str, Any]:
     """Read-only area overlap between main-road corridors and building footprints.
 
-    Publishes the known unresolved conflict instead of hiding it: every
-    main-road/building pair with more than 0.01 m2 intersection is listed.
+    Publishes the overlap instead of hiding it; after the M4c-2 main-road
+    alignment the expected area is zero and the status becomes ``resolved``.
     """
     conflicts: list[dict[str, Any]] = []
     total = 0.0
@@ -428,8 +454,57 @@ def main_road_building_overlap(
     return {
         "area_m2": total,
         "conflicts": conflicts,
-        "status": MAIN_ROAD_OVERLAP_STATUS,
+        "status": "resolved" if total <= 0.01 else MAIN_ROAD_OVERLAP_STATUS,
     }
+
+
+def _record_to_dict(item: Any) -> dict[str, Any]:
+    """Normalise a records entry (dict, dataclass or object) to a plain dict."""
+    if isinstance(item, dict):
+        return dict(item)
+    to_dict = getattr(item, "to_dict", None)
+    if callable(to_dict):
+        return dict(to_dict())
+    if is_dataclass(item):
+        return {field_item.name: getattr(item, field_item.name) for field_item in fields(item)}
+    return {key: value for key, value in vars(item).items() if not key.startswith("_")}
+
+
+def _dead_end_resolution_map(road_layout: RoadLayout) -> dict[Any, str]:
+    """Map dead-end resolution strategy by node id and (fallback) coordinate."""
+    mapping: dict[Any, str] = {}
+    for item in getattr(road_layout, "dead_end_resolutions", ()) or ():
+        if isinstance(item, dict):
+            node_id = item.get("node_id")
+            strategy = item.get("resolution") or item.get("strategy") or item.get("kind")
+            candidates = [
+                item.get("coordinate"),
+                item.get("original_xy"),
+                item.get("adjusted_xy"),
+                (item.get("x"), item.get("y")),
+            ]
+        else:
+            node_id = getattr(item, "node_id", None)
+            strategy = (
+                getattr(item, "resolution", None)
+                or getattr(item, "strategy", None)
+                or getattr(item, "kind", None)
+            )
+            candidates = [
+                getattr(item, "coordinate", None),
+                getattr(item, "original_xy", None),
+                getattr(item, "adjusted_xy", None),
+            ]
+        if not strategy:
+            continue
+        if node_id:
+            mapping[("id", str(node_id))] = str(strategy)
+        for coordinate in candidates:
+            if coordinate is None:
+                continue
+            if len(coordinate) == 2 and None not in coordinate:
+                mapping[("xy", (round(float(coordinate[0]), 6), round(float(coordinate[1]), 6)))] = str(strategy)
+    return mapping
 
 
 def _entrance_access(
@@ -511,6 +586,7 @@ def _touched_by_other_road(
 def _dead_ends(
     road_layout: RoadLayout, building_layout: BuildingLayout, clearance_m: float
 ) -> tuple[DeadEndRecord, ...]:
+    resolution_map = _dead_end_resolution_map(road_layout)
     counts: dict[tuple[float, float], int] = {}
     owner: dict[tuple[float, float], tuple[Any, tuple[float, float]]] = {}
     for road in road_layout.roads:
@@ -550,9 +626,15 @@ def _dead_ends(
             classification = "main_stub_unfinished"
         else:
             classification = "unclassified"
+        node_id = f"DE-{index:02d}"
+        resolution = resolution_map.get(("id", node_id))
+        if resolution is None:
+            resolution = resolution_map.get(
+                ("xy", (round(coordinate[0], 6), round(coordinate[1], 6)))
+            )
         records.append(
             DeadEndRecord(
-                node_id=f"DE-{index:02d}",
+                node_id=node_id,
                 coordinate=coordinate,
                 road_id=road.edge_id,
                 road_class=road.class_name,
@@ -560,6 +642,8 @@ def _dead_ends(
                 distance_m=distance,
                 classification=classification,
                 justified=classification == "group_terminal_justified",
+                resolution=resolution,
+                resolved=resolution is not None,
             )
         )
     return tuple(records)
@@ -644,4 +728,10 @@ def build_road_access(
         ),
         main_road_overlap=main_road_building_overlap(building_layout, road_layout),
         orphan_declarations=orphan_declarations,
+        main_alignment_records=tuple(
+            getattr(road_layout, "main_alignment_records", ()) or ()
+        ),
+        dead_end_resolutions=tuple(
+            getattr(road_layout, "dead_end_resolutions", ()) or ()
+        ),
     )

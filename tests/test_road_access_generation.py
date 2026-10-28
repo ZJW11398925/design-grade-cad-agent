@@ -327,29 +327,39 @@ def test_new_access_corridors_stay_within_overlap_budget():
 
 
 def test_main_road_overlap_is_recorded_as_known_baseline():
-    """MAIN corridors are source alignment vs coarse context; not fixed here."""
+    """MAIN corridors are now realigned; the old conflict is kept as history.
+
+    ``road_building_overlap_m2_main`` preserves the historical source-alignment
+    conflict (before M4c-2), while ``road_building_overlap_m2_main_after`` is the
+    repaired residual, which is zero.
+    """
     layout = _layout()
     main_roads = [
         road for road in layout.roads if road.class_name == "main"
     ]
-    computed = unary_union(
-        [road.corridor for road in main_roads]
-    ).intersection(unary_union(_all_footprints())).area
-    assert layout.road_building_overlap_m2_main == pytest.approx(
-        computed, rel=1e-12
-    )
-    assert layout.road_building_overlap_m2_main == pytest.approx(
+    footprint_union = unary_union(_all_footprints())
+    before_field = layout.road_building_overlap_m2_main
+    after_field = layout.road_building_overlap_m2_main_after
+    assert before_field == pytest.approx(
         MAIN_OVERLAP_KNOWN_BASELINE_M2, rel=1e-6
     )
     low, high = MAIN_OVERLAP_BASELINE_RANGE_M2
-    assert low <= layout.road_building_overlap_m2_main <= high
-    # the honest total is the union, not the sum; it must include the baseline
-    assert layout.road_building_overlap_m2_total >= (
-        layout.road_building_overlap_m2_main - 1e-9
+    assert low <= before_field <= high
+    computed_after = unary_union(
+        [road.corridor for road in main_roads]
+    ).intersection(footprint_union).area
+    assert after_field == pytest.approx(computed_after, abs=1e-9)
+    assert after_field <= 0.01
+    assert layout.main_overlap_resolved is True
+    assert layout.road_building_overlap_m2_total == pytest.approx(
+        layout.corridor_union.intersection(footprint_union).area,
+        rel=1e-12,
     )
+    assert layout.road_building_overlap_m2_total < before_field
+    assert layout.simplification["main_overlap_resolved"] is True
     assert layout.simplification[
-        "road_building_overlap_m2_main"
-    ] == pytest.approx(layout.road_building_overlap_m2_main, rel=1e-12)
+        "road_building_overlap_m2_main_after"
+    ] == pytest.approx(after_field, rel=1e-12)
 
 
 # --------------------------------------------------------------- topology

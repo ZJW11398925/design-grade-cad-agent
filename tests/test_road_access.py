@@ -355,6 +355,74 @@ def test_main_road_building_overlap_empty_when_clear():
     )
     assert overlap["area_m2"] == 0.0
     assert overlap["conflicts"] == []
+    assert overlap["status"] == "resolved"
+
+
+# ----------------------------------------------------------------- M4c-2 alignment / resolutions
+def test_dead_end_resolutions_are_passed_through_and_count_as_resolved():
+    roads = [
+        _road("MAIN-U", "main", [(500.0, 500.0), (540.0, 500.0)]),
+        _road("BR-J", "branch", [(-2.0, 5.0), (-40.0, 5.0)]),
+    ]
+    building = _building("B-NEAR", 0.0, 0.0)
+    resolutions = [
+        {"node_id": "DE-01", "strategy": "bridged"},
+        {"node_id": "DE-02", "resolution": "site_edge_terminus"},
+    ]
+    layout = build_road_access(
+        SimpleNamespace(buildings=(building,)),
+        SimpleNamespace(
+            roads=tuple(roads),
+            dead_end_resolutions=tuple(resolutions),
+            main_alignment_records=(
+                {"road_id": "MAIN-19", "max_displacement_m": 4.2,
+                 "overlap_before_m2": 38.19, "overlap_after_m2": 0.0},
+            ),
+        ),
+        SimpleNamespace(groups=()),
+        SimpleNamespace(entrances=()),
+        _basis(),
+    )
+    by_node = {record.node_id: record for record in layout.dead_ends}
+    assert by_node["DE-01"].resolution == "bridged"
+    assert by_node["DE-01"].resolved is True
+    assert by_node["DE-02"].resolution == "site_edge_terminus"
+    # the two far MAIN-U stubs have no resolution and are not justified
+    assert layout.dead_ends_unresolved == 2
+    assert layout.dead_ends_resolved == 2
+    assert {record.node_id for record in layout.dead_ends if record.resolved} == {"DE-01", "DE-02"}
+    payload = layout.to_dict()
+    assert payload["road_alignment_count"] == 1
+    assert payload["dead_ends_resolved"] == 2
+    assert payload["main_alignment_records"][0]["road_id"] == "MAIN-19"
+
+
+def test_unresolved_dead_ends_count_only_without_resolution_and_justification():
+    roads = [
+        _road("MAIN-U", "main", [(500.0, 500.0), (540.0, 500.0)]),  # two unresolved stubs
+        _road("BR-J", "branch", [(-2.0, 5.0), (-40.0, 5.0)]),  # near end justified
+    ]
+    layout = _access(
+        roads,
+        [_building("B-NEAR", 0.0, 0.0)],
+        [],
+    )
+    assert layout.dead_ends_justified == 1
+    # 2 unfinished MAIN-U stubs + the far BR-J end, none of them resolved
+    assert layout.dead_ends_unresolved == 3
+
+
+def test_missing_dead_end_resolution_fields_are_backwards_compatible():
+    layout = _access(
+        [_road("MAIN-U", "main", [(500.0, 500.0), (540.0, 500.0)])],
+        [_building("B-NEAR", 0.0, 0.0)],
+        [],
+    )
+    assert layout.main_alignment_records == ()
+    assert layout.dead_end_resolutions == ()
+    assert all(record.resolution is None for record in layout.dead_ends)
+    assert layout.dead_ends_unresolved == len(layout.dead_ends)
+
 
 
 # ----------------------------------------------------------------- serialisation / coverage
@@ -472,12 +540,44 @@ def test_r1_dead_ends_match_noded_topology_and_are_classified():
             "main_stub_unfinished",
             "unclassified",
         )
-    assert access.dead_ends_justified + access.dead_ends_unresolved == len(access.dead_ends)
+    assert access.dead_ends_justified + access.dead_ends_unresolved <= len(access.dead_ends)
+    if hasattr(road_layout, "dead_end_resolutions"):
+        assert access.dead_ends_unresolved == 0, (
+            "unresolved dead ends: "
+            + ", ".join(
+                record.node_id for record in access.dead_ends
+                if not record.resolved and not record.justified
+            )
+        )
+        assert all(record.resolution for record in access.dead_ends if not record.justified)
 
 
-def test_r1_main_road_overlap_is_reported_not_hidden():
+def test_r1_main_road_overlap_is_resolved_not_hidden():
     _, building_layout, road_layout, _, access = _r1_models()
+    if not hasattr(road_layout, "main_alignment_records"):
+        raise AssertionError(
+            "waiting for roads alignment fields (main_alignment_records / "
+            "dead_end_resolutions) from M4c-2 step 1"
+        )
     overlap = access.main_road_overlap
-    assert overlap["status"] == "known_unresolved"
-    assert overlap["conflicts"], "the main-road/building overlap must be listed"
-    assert overlap["area_m2"] > 0.0
+    assert overlap["area_m2"] <= 0.01, (
+        f"main-road/building overlap still {overlap['area_m2']} m2 after alignment"
+    )
+    assert overlap["status"] == "resolved"
+    assert overlap["conflicts"] == []
+
+
+def test_r1_main_alignment_evidence_is_recorded():
+    _, _, road_layout, _, access = _r1_models()
+    if not hasattr(road_layout, "main_alignment_records"):
+        raise AssertionError(
+            "waiting for roads alignment fields (main_alignment_records / "
+            "dead_end_resolutions) from M4c-2 step 1"
+        )
+    assert access.main_alignment_records
+    records = [record for record in access.to_dict()["main_alignment_records"]]
+    for record in records:
+        assert record["road_id"]
+        assert "max_displacement_m" in record or "displacement_m" in record
+    assert road_layout.main_overlap_resolved is True
+    assert access.dead_end_resolutions

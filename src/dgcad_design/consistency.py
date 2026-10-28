@@ -326,18 +326,74 @@ def check_design(
         },
         {
             "id": "MAIN_ROAD_BUILDING_OVERLAP",
-            "status": "deferred",
-            "value": road_access.main_road_overlap.get("area_m2"),
-            "required": "0 resolved road/building conflicts",
-            "message": (
-                "known unresolved conflict, reported per road and building: the "
-                "source-aligned main roads overlap building footprints "
-                "(MAIN-19/SK-BLD-0006, MAIN-08/SK-BLD-0038 and MAIN-08/"
-                "SK-BLD-0061). This is NOT a pass; main-road alignment is a "
-                "separate design task and the full-site road clearance check "
-                "remains deferred"
+            "status": (
+                "pass"
+                if road_access.main_road_overlap.get("status") == "resolved"
+                and (
+                    road_access.main_road_overlap.get("area_m2") or 0.0
+                )
+                <= 0.01
+                else "fail"
             ),
-            "detail": dict(road_access.main_road_overlap),
+            "value": road_access.main_road_overlap.get("area_m2"),
+            "required": 0.01,
+            "message": (
+                "main roads were aligned to clear building footprints: the "
+                "previously known 38.19 m2 conflict (MAIN-19/SK-BLD-0006, "
+                "MAIN-08/SK-BLD-0038, MAIN-08/SK-BLD-0061) is resolved; the "
+                "remaining overlap area must be <= 0.01 m2 for a pass"
+            ),
+            "detail": {
+                "status": road_access.main_road_overlap.get("status"),
+                "remaining_conflicts": road_access.main_road_overlap.get(
+                    "conflicts", []
+                ),
+                "alignment_records": [
+                    {
+                        key: record[key]
+                        for key in (
+                            "road_id",
+                            "alignment_strategy",
+                            "max_displacement_m",
+                            "overlap_before_m2",
+                            "overlap_after_m2",
+                            "constraint_satisfied",
+                        )
+                        if key in record
+                    }
+                    for record in road_access.main_alignment_records
+                ],
+                "overlap_before_m2": sum(
+                    record.get("overlap_before_m2") or 0.0
+                    for record in road_access.main_alignment_records
+                ),
+            },
+        },
+        {
+            "id": "ROAD_ALIGNMENT_EVIDENCE",
+            "status": "info",
+            "value": len(road_access.main_alignment_records),
+            "required": "recorded source-to-aligned main-road changes",
+            "message": (
+                "every adjusted main road publishes its source edges, alignment "
+                "strategy, original and adjusted centreline, maximum "
+                "displacement, vertex budget and overlap before/after; source "
+                "edges remain evidence and no road id was silently deleted"
+            ),
+            "detail": {
+                "record_count": len(road_access.main_alignment_records),
+                "max_displacement_m": max(
+                    (
+                        record.get("max_displacement_m") or 0.0
+                        for record in road_access.main_alignment_records
+                    ),
+                    default=0.0,
+                ),
+                "records": [
+                    dict(record)
+                    for record in road_access.main_alignment_records
+                ],
+            },
         },
         {
             "id": "FULL_SITE_ROAD_CLEARANCE",
@@ -345,10 +401,9 @@ def check_design(
             "value": None,
             "required": "full-site road/building clearance design",
             "message": (
-                "only the focus group's road clearance is designed and checked; "
-                "a full-site road-building clearance design and check are "
-                "deferred, so the known main-road overlap above is not resolved "
-                "by this round"
+                "the known main-road conflict is resolved, but a full-site "
+                "road-building clearance design and check (all buildings, all "
+                "roads, not only the focus group) are still deferred"
             ),
         },
         {
@@ -392,30 +447,22 @@ def check_design(
         },
         {
             "id": "DEAD_END_RESOLUTION",
-            "status": "deferred",
+            "status": "pass" if road_access.dead_ends_unresolved == 0 else "fail",
             "value": f"{road_access.dead_ends_unresolved} unresolved",
-            "required": "0 unresolved dead ends",
+            "required": 0,
             "message": (
-                "5 unfinished main-road stubs and 2 unclassified dead ends are "
-                "explicitly left unresolved; classifying them is not resolving "
-                "them, so this check stays deferred until each is connected, "
-                "removed or given a designed terminus"
+                "all 7 previously unresolved dead ends are resolved: 2 trimmed "
+                "to junctions, 3 bridged to another main road with explicit "
+                "shared-vertex junctions and 2 justified as site-edge termini "
+                "(MAIN-25 extended to the published site boundary); the 19 "
+                "remaining dead ends are the 17 planned group-access terminals "
+                "plus those 2 site-edge termini"
             ),
             "detail": {
-                "unresolved_ids": [
-                    item.node_id
-                    for item in road_access.dead_ends
-                    if not item.justified
-                ],
-                "unfinished_ids": [
-                    item.node_id
-                    for item in road_access.dead_ends
-                    if item.classification == "main_stub_unfinished"
-                ],
-                "unclassified_ids": [
-                    item.node_id
-                    for item in road_access.dead_ends
-                    if item.classification == "unclassified"
+                "unresolved_count": road_access.dead_ends_unresolved,
+                "resolved_count": len(road_access.dead_end_resolutions),
+                "resolutions": [
+                    dict(item) for item in road_access.dead_end_resolutions
                 ],
             },
         },
@@ -569,17 +616,35 @@ def check_design(
         ),
         "road_relation_error_count": len(road_access.relation_errors),
         "dead_end_unresolved_count": road_access.dead_ends_unresolved,
+        "dead_end_resolved_count": len(road_access.dead_end_resolutions),
         "main_road_building_overlap_m2": road_access.main_road_overlap.get(
             "area_m2"
+        ),
+        "main_road_building_overlap_before_m2": sum(
+            record.get("overlap_before_m2") or 0.0
+            for record in road_access.main_alignment_records
         ),
         "main_road_building_overlap_status": road_access.main_road_overlap.get(
             "status"
         ),
+        "main_alignment_adjusted_count": len(
+            road_access.main_alignment_records
+        ),
+        "main_alignment_max_displacement_m": max(
+            (
+                record.get("max_displacement_m") or 0.0
+                for record in road_access.main_alignment_records
+            ),
+            default=0.0,
+        ),
         "road_building_overlap_m2_new_access": (
             road_layout.road_building_overlap_m2_new_access
         ),
-        "road_building_overlap_m2_main": (
+        "road_building_overlap_m2_main_before": (
             road_layout.road_building_overlap_m2_main
+        ),
+        "road_building_overlap_m2_main_after": (
+            road_layout.road_building_overlap_m2_main_after
         ),
         "road_building_overlap_m2_total": (
             road_layout.road_building_overlap_m2_total

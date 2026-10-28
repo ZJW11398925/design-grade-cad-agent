@@ -2,6 +2,63 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.21.0 — 2026-10-28
+
+### Changed
+
+- **M4c-2 — main-road alignment and dead-end resolution.** Real design-geometry
+  change: the known main-road/building conflicts are removed by recorded
+  alignments, and the 7 unresolved dead ends are resolved. Tests 334 →
+  **347**.
+
+  - **MAIN-19 / SK-BLD-0006 (34.42 m²)**: a local detour is provably
+    infeasible (the gap between SK-BLD-0006 and SK-BLD-0029 is 11.565 m, less
+    than the 12 m corridor), so the road is diverted around the combined
+    clearance envelope: 0.0 m² overlap after, **66.235 m** maximum displacement,
+    `alignment_strategy: diversion`, `local_detour_infeasible: true`, with the
+    gap proof recorded.
+  - **MAIN-08 / SK-BLD-0038 + SK-BLD-0061 (3.77 m²)**: cleared by a local
+    detour (4.907 m displacement, +16 vertices), 0.0 m² after.
+  - `MAIN_ROAD_BUILDING_OVERLAP` is now a **pass** (38.1907 m² before → **0.0**
+    after, `resolved`); the new `ROAD_ALIGNMENT_EVIDENCE` (info) publishes each
+    adjusted road's source edges, original/adjusted centreline, strategy,
+    maximum displacement, vertex budget and overlap before/after. `+45 / −0`
+    vertices; road ids preserved; `FULL_SITE_ROAD_CLEARANCE` stays deferred.
+  - **7 dead ends resolved** (recorded per node with strategy and displacement):
+    MAIN-03/MAIN-05 trimmed back to junctions; MAIN-09/MAIN-20/MAIN-22 bridged
+    to another main road with explicit shared-vertex junctions;
+    MAIN-18/MAIN-25 justified as site-edge termini (MAIN-25 extended 5.643 m to
+    the published site boundary). `DEAD_END_RESOLUTION` is now a **pass**
+    (0 unresolved). The 19 remaining dead ends are the 17 planned group-access
+    terminals plus the 2 justified site-edge termini.
+  - **Topology**: 1 component; 57 nodes / 66 edges / cyclomatic 10;
+    19 dead ends; 35 junctions (24 explicit); 3 closed rings; max endpoint gap
+    0.0; main length 2126.393 m; road area 27,369.82 m²; sidewalk 9,889.90 m²;
+    44 roads (25 main / 17 branch / 2 access) with unchanged ids and widths.
+  - **Access preserved**: the 17 declared group-access relations, `G-08 →
+    BR-G-08`, `G-13 → BR-G-13`, the [3.4, 3.5] m terminal band and
+    `relation_errors: 0` are unchanged; terminals are frozen and re-attached to
+    the adjusted mains with shared vertices. New-access overlap drops to
+    **0.5485 m²** (was 1.3365); total road/building overlap = 0.5485 m².
+  - **Checks: 26 design checks = 8 pass + 11 info + 7 deferred** (plus 3 DXF
+    checks in the contract). Contract `design-synthesis-v0.7.yaml` (v0.6
+    superseded; gate-register pointer re-pointed).
+  - **Geometry/evidence change**: DXF content changes (206 → **211 entities**,
+    audit 0/0, readback 211/211, XDATA 11, privacy pass; byte hash varies per
+    save); `design-roads.geojson` publishes `main_alignment_records` and
+    `dead_end_resolution_records`; open-space metrics shift to candidate
+    62.07 % (126,691 m²), unbuilt 64.45 % (131,560 m²), designed green 6.54 %
+    (13,347 m², deferred).
+
+### Verified
+
+- **347 passed** (`python -m pytest -q`; 334 → 347: main-alignment tests,
+  contract v0.7 and re-baselined topology/green/synthesis assertions for the
+  intended geometry change; no test removed).
+- Independent reviews: `arch-core` contract/implementation PASS;
+  `cad-pipeline` evidence-chain/content PASS; `adversary` adversarial PASS
+  (main overlap recomputed to 0, 7/7 resolutions, access unchanged).
+
 ## 0.20.0 — 2026-10-28
 
 ### Changed

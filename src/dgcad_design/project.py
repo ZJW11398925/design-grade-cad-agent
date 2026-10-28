@@ -420,6 +420,14 @@ def _design_roads_geojson(
         payload["main_road_building_overlap"] = dict(
             road_access.main_road_overlap
         )
+        payload["main_alignment_records"] = [
+            dict(record)
+            for record in road_access.main_alignment_records
+        ]
+        payload["dead_end_resolution_records"] = [
+            dict(record)
+            for record in road_access.dead_end_resolutions
+        ]
         payload["group_access"] = [
             item.to_dict() for item in road_access.groups
         ]
@@ -559,14 +567,34 @@ def run_design_synthesis(
         "intent": intent.to_dict(),
         "road_topology": road_layout.noded_topology.to_dict(),
         "road_access": road_access.to_dict(),
+        "road_alignment": {
+            "records": [
+                dict(record)
+                for record in road_access.main_alignment_records
+            ],
+            "dead_end_resolutions": [
+                dict(record)
+                for record in road_access.dead_end_resolutions
+            ],
+            "main_overlap_before_m2": sum(
+                record.get("overlap_before_m2") or 0.0
+                for record in road_access.main_alignment_records
+            ),
+            "main_overlap_after_m2": (
+                road_access.main_road_overlap.get("area_m2")
+            ),
+            "main_overlap_status": (
+                road_access.main_road_overlap.get("status")
+            ),
+        },
         "main_road_building_overlap": dict(road_access.main_road_overlap),
         "full_site_road_clearance": {
             "status": "deferred",
             "value": None,
             "required": "full-site road/building clearance design",
             "message": (
-                "only the focus group's road clearance is designed and checked; "
-                "the known main-road overlap is not resolved by this round"
+                "the known main-road overlap is resolved, but a full-site "
+                "road-building clearance design and check are still deferred"
             ),
         },
         "design_roads": {
