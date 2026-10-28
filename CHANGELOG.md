@@ -2,6 +2,210 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.17.0 — 2026-10-28
+
+### Changed
+
+- **M4c-1c — honest design-check semantics.** No design geometry, CAD output or
+  road topology changes: this release changes what the checks are allowed to
+  claim. The previous 13-check set marked several basis-derived or unverified
+  quantities as `pass`; the new 16-check set uses explicit `pass` / `info` /
+  `deferred` semantics (a deferred check is never a pass).
+
+  - **Green** — `GREEN_RATIO` (which passed at 63.0 %) is replaced by
+    `OPEN_SPACE_RATIO` (`info`; 63.04 % of the site is free of buildings and
+    roads) and `DESIGNED_GREEN_RATIO` (`deferred`; classified cluster/strip
+    green is only 6.59 % / 13,446 m² of the site — 89.55 % of the reported
+    "green" was residual space, so the declared 30 % target is **not** met under
+    this definition yet).
+  - **Parking** — `PARKING_MIN_ONE_PER_HOUSEHOLD` and `PARKING_ENTRANCES` are
+    replaced by `PARKING_REQUIREMENT_ARITHMETIC` (`info`; requirement is
+    households × declared ratio), `PARKING_ENTRANCE_COUNT` (`pass`; 5 entrances,
+    count only), `PARKING_CAPACITY` (`deferred`; recorded entrance capacity is
+    1,000 spaces versus 2,398 required) and `PARKING_LAYOUT` (`deferred`; garage
+    layout is not designed).
+  - **FAR / unit count / road widths** — now explicitly labelled
+    `derived_from: design_basis_arithmetic` / `design_basis_assignment`; they are
+    basis arithmetic or declared-assignment results, not spatial design results.
+    `UNIT_COUNT_PRESERVED` now states that the 55 buildings / 109 units still
+    include the 2 buildings (3 units) dropped from the detailed focus layout.
+  - **Design basis provenance** — `design-basis-001.yaml` is now
+    `design-assumption-v0.2` with a machine-readable `parameter_sources` block
+    covering all 21 design parameters (`source`, `authority`, `confirmed`):
+    5 `declared_requirement`, 2 `designer_stated`, 3 `inferred_from_sketch`,
+    11 `agent_assumption`; every parameter is `confirmed: false`. Validation
+    rejects a missing/incomplete provenance block and **rejects
+    `agent_assumption` marked as confirmed** — the Agent cannot self-confirm.
+  - **Contract** — `contracts/design-synthesis-v0.3.yaml` (v0.2 marked
+    superseded; evidence-gate register re-pointed) adds
+    `basis.parameter_sources`, `basis.parameter_authorities`, the honest
+    verification list and rules ("deferred is not pass", "open-space ratio is
+    not designed green", "entrance count is not parking capacity",
+    "FAR/GFA are basis arithmetic"). A contract test binds the YAML to the live
+    module.
+
+- Evidence regenerated in one run: **16 checks = 9 pass + 3 info + 4 deferred**;
+  DXF still 208 entities, audit 0/0, readback 208/208, XDATA arity 11, privacy
+  pass; road topology unchanged (41 roads, 1 component, 51 nodes / 55 edges,
+  max endpoint gap 0.0 m, `design-roads.geojson` SHA-256 unchanged).
+
+### Verified
+
+- **283 passed** (`python -m pytest -q`), including new
+  `tests/test_green_parking_semantics.py` (7), `tests/test_design_basis.py` (14)
+  and an expanded `tests/test_design_contract.py` (10).
+
+### Docs
+
+- README / status / design-synthesis README / roadmap / testing guide updated to
+  the honest metrics: the misleading "green ratio achieved 63.0 %" is removed;
+  parking capacity and garage layout are shown as deferred; FAR is described as
+  design-basis arithmetic. The continuation dossier and handoff keep the
+  corrected narrative.
+
+## 0.16.0 — 2026-10-28
+
+### Added
+
+- **M4c-1a — noded road-topology truth and explicit design junctions**
+  (`src/dgcad_design/topology.py`, `src/dgcad_design/roads.py`): exact-coordinate
+  MultiGraph topology (no rounding, buffering, tolerance or snapping),
+  fail-closed violation codes, and explicit shared-vertex junctions replacing the
+  `nearest_points`-as-junction connectors. `RoadLayout` now exposes
+  `corridor_union_pieces`, `noded_topology` and `explicit_junctions`;
+  `RoadDesign` carries `start_junction_id` / `end_junction_id`.
+- `design-roads.geojson` in `docs/e2e/design-synthesis-001/` (41 centre lines
+  with class, width, junction ids and a recorded SHA-256), so the design road
+  topology can be recomputed from committed evidence. Before this, only the 10
+  focus-area centre lines reached the DXF and the defect was not checkable from
+  the evidence package.
+- `contracts/design-synthesis-v0.2.yaml` with a `road_design.topology` block
+  (required fields, connector states, fail-closed conditions and rules);
+  `design-synthesis-v0.1.yaml` marked superseded;
+  `contracts/evidence-gate-register-v0.2.yaml` re-pointed.
+- Tests: `tests/test_design_topology.py` (14), `tests/test_privacy_scan.py` (20),
+  and an evidence test that recomputes the noded topology from
+  `design-roads.geojson` (`tests/test_design_synthesis.py`).
+
+### Fixed
+
+- **The 4c "5-component road network" defect is a floating-point noding
+  artefact, not a design disconnection.** Four connector endpoints were
+  1.5e-15 … 2.1e-14 m off the main alignment, so exact GEOS noding never merged
+  them, while the corridor-union check still passed (it merges centreline gaps up
+  to 8.98 m). Explicit shared-vertex junctions reduce the noded graph to **one
+  component with 0.0 m geometry displacement**; the documented claim that the main
+  roads were not connected to each other was wrong (all 25 main roads were always
+  in one exact component).
+- `ROAD_CONNECTIVITY` now reads the **noded centreline component count** and fails
+  closed on component > 1, endpoint gap > 1e-9 m, crossing-without-shared-vertex
+  and undeclared closed rings. The corridor-union piece count became the
+  non-gating `ROAD_CORRIDOR_COVERAGE` (`info`).
+- DXF privacy scan no longer reports spurious numeric-token matches inside
+  64-hex digests/GUIDs (the ~6.3 % per-run false-positive source); real numeric
+  privacy findings are still detected.
+- **Hash-pinned evidence is byte-stable across platforms**: `design-roads.geojson`
+  is written with explicit LF newlines and `*.geojson` is marked `-text` in
+  `.gitattributes`, so the recorded `design_roads.sha256` matches the committed
+  blob on Linux and Windows. (CI caught the CRLF-normalisation mismatch before
+  merge; the first CI run of M4c-1a failed on all four jobs and was fixed in the
+  follow-up commit without changing any evidence value.)
+
+### Verified
+
+- 41 design roads: **1 noded component**, 51 nodes / 55 edges / cyclomatic 5,
+  21 dead ends, 27 junctions, 16 explicit junctions, 3 design-level closed rings,
+  max endpoint gap **0.0 m**.
+- Design metrics unchanged: FAR 1.5654107291796402, 2,398 households, 2,398
+  parking spaces, 5 entrances, focus G-01 7 buildings / 16 units / 352 households
+  at 20.0 m north-south spacing, green ratio 0.6303863597090935.
+- `design-proposal.dxf`: 208 entities, audit 0/0, readback 208/208, XDATA arity
+  11, 7 `UNKNOWN_HEIGHT_ALLOWED` warnings, privacy pass. All design objects stay
+  `rule_derived` / `proposal_preview` / `design_draft`; no `human_confirmed`
+  object and no compliance claim.
+- **259 passed** (`python -m pytest -q`).
+
+### Docs
+
+- The 4c defect narrative is corrected in `docs/e2e/design-synthesis-001/README.md`,
+  `docs/status.md` §16–18, `docs/roadmap.md`, `docs/e2e/open-source-reuse-001/`
+  and `docs/research-to-product-map.md`; stale counts (206 / 214 / 65 / 154 /
+  210 entities / 22 layers / 28 files) are corrected and the contract references
+  point at `design-synthesis-v0.2`.
+- `docs/development/session-handoff.md` carries the updated HEAD and file counts.
+
+### Scope
+
+- OSMnx is **not** required for this fix and remains an optional source-skeleton
+  preprocessor; design connectivity is now proven by exact shared vertices, not
+  by tolerance snapping.
+- DXF byte reproducibility (`write_fixed_meta_data_for_testing`) remains a
+  separate evidence-migration decision.
+- No road width/profile/alignment, junction design, full-site layout or
+  code-compliance claim is added.
+
+## 0.15.0 — 2026-10-27
+
+### Added
+
+- **M4c-0 — open-source design capability reuse sprint**: `docs/e2e/open-source-reuse-001/` and `experiments/m4c0/`.
+- Reuse matrix with tested versions, licenses, hosts, APIs, metrics, verdicts and rejected uses: `reuse-matrix.yaml`.
+- Experiment A: Building Regulariser 0.2.5 on 9 focus footprints.
+- Experiment B: OSMnx 2.1.1 simplify/consolidate, PyGeoOps 0.6.0 centerlines, PyClothoids 0.2.0 G1 fit.
+- Experiment C: uncorrected vs corrected collaborative layout, momepy 1.0 evaluation, comparison image and editable DXF.
+- `tests/test_open_source_reuse.py` (3 tests).
+
+### Verified
+
+- **217 passed**.
+- Building Regulariser: 63→61 vertices, area −2.0%, mean Hausdorff 1.07 m, max 4.87 m, IoU 0.959, ERI 0.972→0.984; limited gain, no unit/typology generation.
+- OSMnx: 309/333 → 257/281 (simplify) → 117/141 (consolidate 8 m), 1 component, length 6,090 m (−10.7%); with design widths it still leaves no 120×90 m buildable focus rectangle.
+- PyGeoOps: 11 centerlines for 11 road areas, 78% coverage, 10/11 multi-component.
+- PyClothoids: single G1 fit on MAIN-08 shortened the road by 78 m and deviated by 356 m Hausdorff; not a usable alignment.
+- momepy: building morphology and network-ratio metrics for candidate evaluation only.
+- **Found a 4c defect**: the design corridor union is one polygon, but the noded road centerline graph has 5 components (51 nodes / 50 edges, cyclomatic 0). The corridor-only `ROAD_CONNECTIVITY` check is too weak; the 4c candidate is partial.
+- Uncorrected layout had 1 road-clearance conflict (`SK-BLD-0038`); the corrected layout has 7 buildings / 16 units, 20.0 m N-S and dropped 0038/0061; all current checks pass except deferred full-site spacing.
+- No new core dependencies: `pyproject.toml` still lists only PyYAML, Shapely/GEOS and ezdxf.
+
+### Scope
+
+- Open-source tools were tested as optional experiment dependencies, not production/core dependencies.
+- No open-source algorithm or foreign design default is claimed as Chinese code compliance.
+- UrbGEN is a Rhino/Grasshopper plugin (host-blocked); Street Generator/rue-lib is not on PyPI and uses foreign widths; Clothoids, IfcOpenShell and Ladybug are deferred.
+- The 4c candidate remains a partial schematic proposal; the road topology must be rebuilt on the connected OSMnx-consolidated base.
+
+## 0.14.0 — 2026-10-27
+
+### Added
+
+- **Milestone 4c — first autonomous standardized design draft** from the real CASE-SKETCH-001 sketch: `docs/e2e/design-synthesis-001/`.
+- `contracts/design-synthesis-v0.1.yaml`: autonomous draft state, design basis, constraints, drawing standard and authority rules.
+- `src/dgcad_design/`: design basis, full-site input, intent model, building standardization/row layout, road hierarchy, green allocation, parking, consistency checks, drawing and CAD export.
+- `fixtures/design/design-basis-001.yaml` and `design-profile-001.yaml`.
+- `scripts/design/run_design_synthesis_001.py`.
+- `tests/test_design_synthesis.py` (8 tests).
+- `docs/e2e/design-synthesis-001/README.md`, `design-proposal.dxf`, `design-preview.png`, `design-basis.yaml`, `design-intent.json`, `design-summary.json`, `design-consistency.json`, `design-diff.json`, `draft-manifest.json`, `scene-snapshot.json`, `cad-ir.json`, `readback-manifest.json`, `validation.json`, `privacy.json`.
+
+### Verified
+
+- **214 passed**.
+- Full-site context: 55 buildings, 109 staircase units, 2,398 households, 319,536 m² GFA, **FAR 1.565** (required 1.55–1.60), 2,398 parking spaces (≥1/household) and 5 garage entrances.
+- Focus block G-01: 7 buildings / 16 units in rows with **20.0 m north-south spacing**, unit division lines, green strips and an access loop; 2 buildings recorded as dropped.
+- Road hierarchy: merged main roads, one branch per group and a focus access loop; widths 12/7/4 m; the 333-edge skeleton mesh is retained as evidence and is not the design network.
+- Green ratio 63.0%; all declared hard checks pass except full-site north-south spacing, which is recorded as deferred.
+- DXF: 208 entities, audit 0/0, readback 208/208 pass; CAD-IR `pass_with_scope_limits` with seven `UNKNOWN_HEIGHT_ALLOWED` warnings for the declared design heights; 23 design layers including main/branch/access roads, unit lines, dimensions, title, legend, north, scale and key plan.
+- Authority: every design object is `rule_derived` in `proposal_preview`; XDATA and the readback manifest carry `confirmation_scope: design_draft`; no `human_confirmed` claim.
+- The design is generated without a human review gate; the designer reviews the product, not the sketch.
+
+### Scope
+
+- Schematic design proposal, not construction or permit drawing; no code-compliance claim.
+- The unit module is provisional; the designer's unit-type library is still pending.
+- Road corridors are schematic; the 121-junction review is not continued.
+- The garage layout is not designed; only the entrance requirement is checked.
+- The full-site north-south spacing is deferred until each group is designed.
+- `EP-R1-SKETCH-001` remains in progress.
+
 ## 0.13.0 — 2026-10-27
 
 ### Fixed

@@ -1,0 +1,113 @@
+{
+  "experiment": "B-road-reuse",
+  "projects": {
+    "osmnx": {
+      "version": "2.1.1",
+      "license": "MIT",
+      "url": "https://github.com/gboeing/osmnx"
+    },
+    "pygeoops": {
+      "version": "0.6.0",
+      "license": "BSD-3-Clause",
+      "url": "https://github.com/pygeoops/pygeoops"
+    },
+    "pyclothoids": {
+      "version": "0.2.0",
+      "url": "https://github.com/phillipd94/PyClothoids"
+    }
+  },
+  "source": {
+    "node_count": 309,
+    "edge_count": 333,
+    "total_length_m": 6821.838182496963,
+    "weak_components": 1,
+    "largest_component_nodes": 309
+  },
+  "osmnx_simplified": {
+    "node_count": 257,
+    "edge_count": 281,
+    "total_length_m": 6821.838182496963,
+    "weak_components": 1,
+    "largest_component_nodes": 257
+  },
+  "osmnx_consolidated_8m": {
+    "node_count": 117,
+    "edge_count": 141,
+    "total_length_m": 6090.169862006471,
+    "weak_components": 1,
+    "largest_component_nodes": 117
+  },
+  "osmnx_tolerance_sweep": [
+    {
+      "tolerance_m": 4.0,
+      "node_count": 280,
+      "edge_count": 304,
+      "total_length_m": 6883.322773516479,
+      "weak_components": 1,
+      "largest_component_nodes": 280
+    },
+    {
+      "tolerance_m": 6.0,
+      "node_count": 180,
+      "edge_count": 204,
+      "total_length_m": 6555.226875195316,
+      "weak_components": 1,
+      "largest_component_nodes": 180
+    },
+    {
+      "tolerance_m": 8.0,
+      "node_count": 117,
+      "edge_count": 141,
+      "total_length_m": 6090.169862006471,
+      "weak_components": 1,
+      "largest_component_nodes": 117
+    },
+    {
+      "tolerance_m": 10.0,
+      "node_count": 87,
+      "edge_count": 110,
+      "total_length_m": 6084.788808424683,
+      "weak_components": 1,
+      "largest_component_nodes": 87
+    },
+    {
+      "tolerance_m": 15.0,
+      "node_count": 24,
+      "edge_count": 37,
+      "total_length_m": 4530.977301455868,
+      "weak_components": 1,
+      "largest_component_nodes": 24
+    }
+  ],
+  "reduction": {
+    "simplify_node_ratio": 0.16828478964401294,
+    "simplify_edge_ratio": 0.1561561561561562,
+    "consolidate_node_ratio": 0.6213592233009708,
+    "consolidate_edge_ratio": 0.5765765765765766
+  },
+  "pygeoops_centerlines": {
+    "road_area_count": 11,
+    "centerline_count": 11,
+    "failure_count": 0,
+    "failures": [],
+    "total_length_m": 7082.3519898692275,
+    "mean_coverage_2m_buffer": 0.7843780033389595,
+    "multi_component_count": 10
+  },
+  "clothoid": {
+    "status": "ok",
+    "road_id": "MAIN-08",
+    "source_length_m": 324.29632566501857,
+    "clothoid_length_m": 246.50334964199075,
+    "length_delta_m": -77.79297602302782,
+    "hausdorff_m": 356.2197246204467,
+    "centroid_shift_m": 258.4966261209616,
+    "source_vertex_count": 14,
+    "clothoid_sample_count": 2,
+    "curvature_parameters": "(248.974569319114, 422.4774405250205, 1.5798869854599566, -0.0026906210002779502, 6.965067818546963e-05, 315.9963239284551)",
+    "runtime_s": 0.0005061998963356018
+  },
+  "design_4c_road_count": 41,
+  "design_4c_road_area_m2": 26170.241651018776,
+  "crs_note": "EPSG:3857 is assigned only for GeoPandas/OSMnx compatibility; the coordinates are the local metric sketch frame, not a real projection."
+}

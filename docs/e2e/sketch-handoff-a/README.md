@@ -4,6 +4,10 @@ Status: **blocked at the human review gate**; `EP-R1-SKETCH-001` is **not
 complete**. The 0.12.0 executed pilot is preserved under
 `history-0.12.0/` and is superseded.
 
+Milestone 4c now uses the public sketch evidence directly for autonomous
+design synthesis (`docs/e2e/design-synthesis-001/`). This handoff gate remains
+as input-integrity infrastructure; it is no longer the main design workflow.
+
 This package now records what is actually true: the designer authorized a
 representative pilot on a selected subset, but no object-level geometry or
 coordinate review has been recorded. The pipeline therefore stops before

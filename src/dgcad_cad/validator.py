@@ -50,6 +50,7 @@ ISSUE_CATEGORIES = {
     "TEXT_ROTATION_MISMATCH": "profile_violation",
     "TEXT_WIDTH_MISMATCH": "profile_violation",
     "TEXT_ALIGNMENT_MISMATCH": "profile_violation",
+    "TEXT_INSERT_MISMATCH": "cad_format_semantics",
     "TEXT_STYLE_MISMATCH": "profile_violation",
     "BLOCK_MISSING": "profile_violation",
     "DIMSTYLE_MISSING": "profile_violation",
@@ -181,6 +182,56 @@ def _expected_entities(
                     "rep_hash": _rep_hash(obj),
                     **metadata,
                 }
+        elif obj.representation_kind == "polyline":
+            if geometry.geom_type == "LineString":
+                coords = [(float(x), float(y)) for x, y in geometry.coords]
+                closed = False
+            elif geometry.geom_type == "Polygon":
+                coords = _ring_coords(geometry.exterior)
+                closed = True
+            else:
+                raise ValueError(f"unsupported polyline: {geometry.geom_type}")
+            expected[(obj.object_id, "polyline", 0, 0)] = {
+                "object_id": obj.object_id,
+                "object_class": obj.object_class,
+                "dxftype": "LWPOLYLINE",
+                "layer": obj.layer_key,
+                "closed": closed,
+                "coords": coords,
+                "ring_role": "none",
+                "ring_key": _ring_key(obj, "polyline", "none", coords),
+                "geometry_revision": obj.geometry_revision,
+                "source_hash": _source_hash(obj),
+                "rep_hash": _rep_hash(obj),
+                **metadata,
+            }
+        elif obj.representation_kind == "text":
+            if geometry.geom_type != "Point":
+                raise ValueError(f"unsupported text: {geometry.geom_type}")
+            x, y = float(geometry.x), float(geometry.y)
+            expected[(obj.object_id, "text", 0, 0)] = {
+                "object_id": obj.object_id,
+                "object_class": obj.object_class,
+                "dxftype": "TEXT",
+                "layer": obj.layer_key,
+                "text": obj.text or obj.object_id,
+                "height": obj.text_height or 2.5,
+                "style": obj.text_style
+                or profile.text_style_policy["style"],
+                "insert": (x, y),
+                "rotation": float(obj.rotation),
+                "width_factor": float(
+                    profile.text_style_policy["width_factor"]
+                ),
+                "halign": int(profile.text_style_policy["halign"]),
+                "valign": int(profile.text_style_policy["valign"]),
+                "ring_role": "none",
+                "ring_key": "",
+                "geometry_revision": obj.geometry_revision,
+                "source_hash": _source_hash(obj),
+                "rep_hash": _rep_hash(obj),
+                **metadata,
+            }
         elif obj.representation_kind == "point_marker":
             if geometry.geom_type != "Point":
                 raise ValueError(f"unsupported point marker: {geometry.geom_type}")
@@ -207,6 +258,13 @@ def _expected_entities(
                 "text": obj.object_id,
                 "height": 0.35,
                 "style": profile.text_style_policy["style"],
+                "insert": (x + 0.3, y + 0.3),
+                "rotation": float(profile.text_style_policy["rotation"]),
+                "width_factor": float(
+                    profile.text_style_policy["width_factor"]
+                ),
+                "halign": int(profile.text_style_policy["halign"]),
+                "valign": int(profile.text_style_policy["valign"]),
                 "ring_role": "none",
                 "ring_key": "",
                 "geometry_revision": obj.geometry_revision,
@@ -786,6 +844,28 @@ def _validate_dxf_impl(
                         entity.dxf.style,
                     )
                 )
+            expected_insert = spec.get("insert")
+            if expected_insert is not None:
+                actual_insert = (
+                    float(entity.dxf.insert.x),
+                    float(entity.dxf.insert.y),
+                )
+                if (
+                    abs(actual_insert[0] - float(expected_insert[0]))
+                    > TOLERANCE
+                    or abs(actual_insert[1] - float(expected_insert[1]))
+                    > TOLERANCE
+                ):
+                    issues.append(
+                        DxfIssue(
+                            "TEXT_INSERT_MISMATCH",
+                            "error",
+                            xdata["object_id"],
+                            "TEXT insertion point does not match CAD-IR",
+                            tuple(float(v) for v in expected_insert),
+                            actual_insert,
+                        )
+                    )
             if abs(float(entity.dxf.insert.z)) > TOLERANCE:
                 issues.append(
                     DxfIssue(
@@ -798,9 +878,11 @@ def _validate_dxf_impl(
                     )
                 )
             text_policy = profile.text_style_policy
+            expected_rotation = float(
+                spec.get("rotation", text_policy["rotation"])
+            )
             if abs(
-                float(entity.dxf.rotation)
-                - float(text_policy["rotation"])
+                float(entity.dxf.rotation) - expected_rotation
             ) > TOLERANCE:
                 issues.append(
                     DxfIssue(
@@ -808,13 +890,15 @@ def _validate_dxf_impl(
                         "error",
                         xdata["object_id"],
                         "TEXT rotation does not match the delivery profile",
-                        text_policy["rotation"],
+                        expected_rotation,
                         entity.dxf.rotation,
                     )
                 )
+            expected_width = float(
+                spec.get("width_factor", text_policy["width_factor"])
+            )
             if abs(
-                float(entity.dxf.width)
-                - float(text_policy["width_factor"])
+                float(entity.dxf.width) - expected_width
             ) > TOLERANCE:
                 issues.append(
                     DxfIssue(
@@ -822,20 +906,26 @@ def _validate_dxf_impl(
                         "error",
                         xdata["object_id"],
                         "TEXT width factor does not match the delivery profile",
-                        text_policy["width_factor"],
+                        expected_width,
                         entity.dxf.width,
                     )
                 )
-            if int(entity.dxf.halign) != int(
-                text_policy["halign"]
-            ) or int(entity.dxf.valign) != int(text_policy["valign"]):
+            expected_halign = int(
+                spec.get("halign", text_policy["halign"])
+            )
+            expected_valign = int(
+                spec.get("valign", text_policy["valign"])
+            )
+            if int(entity.dxf.halign) != expected_halign or int(
+                entity.dxf.valign
+            ) != expected_valign:
                 issues.append(
                     DxfIssue(
                         "TEXT_ALIGNMENT_MISMATCH",
                         "error",
                         xdata["object_id"],
                         "TEXT alignment does not match the delivery profile",
-                        (text_policy["halign"], text_policy["valign"]),
+                        (expected_halign, expected_valign),
                         (entity.dxf.halign, entity.dxf.valign),
                     )
                 )
@@ -896,6 +986,11 @@ def _validate_dxf_impl(
                 "text": spec.get("text"),
                 "height": spec.get("height"),
                 "style": spec.get("style"),
+                "insert": spec.get("insert"),
+                "rotation": spec.get("rotation"),
+                "width": spec.get("width_factor"),
+                "halign": spec.get("halign"),
+                "valign": spec.get("valign"),
             }
         else:
             raw_semantics = {}

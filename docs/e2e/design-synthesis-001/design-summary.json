@@ -1,0 +1,1863 @@
+{
+  "schema_id": "dgcad.design-synthesis.v0.1",
+  "case_id": "CASE-SKETCH-001",
+  "draft_id": "DRAFT-CASE-SKETCH-001-A-R1",
+  "revision": 1,
+  "status": "autonomous_design_draft",
+  "design_authority": "rule_derived",
+  "human_confirmed": false,
+  "design_basis_id": "design-assumption-v0.2",
+  "design_basis": {
+    "basis_id": "design-assumption-v0.2",
+    "version": "0.2.0",
+    "design_authority": "rule_derived",
+    "human_confirmed": false,
+    "parameter_sources": {
+      "households_per_staircase_per_floor": {
+        "source": "derived from the designer's confirmed 1/2/3-unit building types in CASE-SKETCH-001",
+        "authority": "designer_stated",
+        "confirmed": false
+      },
+      "floors": {
+        "source": "11 floors is the designer's provisional note for all buildings; no confirmed section exists",
+        "authority": "designer_stated",
+        "confirmed": false
+      },
+      "floor_height_m": {
+        "source": "3.0 m floor-to-floor assumed by the Agent for height arithmetic; no surveyed or designed section",
+        "authority": "agent_assumption",
+        "confirmed": false
+      },
+      "staircase_width_m": {
+        "source": "24 m staircase module width is an Agent layout assumption, not the designer's unit library",
+        "authority": "agent_assumption",
+        "confirmed": false
+      },
+      "staircase_depth_m": {
+        "source": "11 m staircase module depth is an Agent layout assumption paired with the module width",
+        "authority": "agent_assumption",
+        "confirmed": false
+      },
+      "dwelling_gfa_m2": {
+        "source": "132 m2 gross per household assumed so that two households match the 264 m2 module area",
+        "authority": "agent_assumption",
+        "confirmed": false
+      },
+      "facility_gfa_m2": {
+        "source": "3,000 m2 facility area inferred from the sketch's kindergarten footprint, not from a programme",
+        "authority": "inferred_from_sketch",
+        "confirmed": false
+      },
+      "far_min": {
+        "source": "declared project requirement: FAR lower bound 1.55",
+        "authority": "declared_requirement",
+        "confirmed": false
+      },
+      "far_max": {
+        "source": "declared project requirement: FAR upper bound 1.60",
+        "authority": "declared_requirement",
+        "confirmed": false
+      },
+      "parking_spaces_per_household": {
+        "source": "declared project requirement: at least one parking space per household",
+        "authority": "declared_requirement",
+        "confirmed": false
+      },
+      "spaces_per_entrance": {
+        "source": "500 spaces per garage entrance assumed by the Agent; no project traffic study backs this number",
+        "authority": "agent_assumption",
+        "confirmed": false
+      },
+      "north_south_spacing_m": {
+        "source": "declared project requirement: 20 m north-south building spacing",
+        "authority": "declared_requirement",
+        "confirmed": false
+      },
+      "side_spacing_m": {
+        "source": "13 m side spacing assumed by the Agent; no project or code source",
+        "authority": "agent_assumption",
+        "confirmed": false
+      },
+      "boundary_setback_m": {
+        "source": "5 m boundary setback assumed by the Agent; the private redline is not available",
+        "authority": "agent_assumption",
+        "confirmed": false
+      },
+      "building_road_clearance_m": {
+        "source": "3 m building-to-road clearance assumed by the Agent for the schematic layout",
+        "authority": "agent_assumption",
+        "confirmed": false
+      },
+      "green_ratio_min": {
+        "source": "declared project requirement: at least 30% site green ratio",
+        "authority": "declared_requirement",
+        "confirmed": false
+      },
+      "road_widths": {
+        "source": "12/7/4 m main/branch/access widths assumed from schematic class names, not a Chinese road standard",
+        "authority": "agent_assumption",
+        "confirmed": false
+      },
+      "sidewalk_width_m": {
+        "source": "2 m sidewalk width assumed by the Agent; not a road standard",
+        "authority": "agent_assumption",
+        "confirmed": false
+      },
+      "group_distance_m": {
+        "source": "45 m grouping distance assumed by the Agent for the focus-block search",
+        "authority": "agent_assumption",
+        "confirmed": false
+      },
+      "scale_px_per_m": {
+        "source": "2.438 px/m inferred from the published pilot scale (range 2.25-2.89), not project coordinates",
+        "authority": "inferred_from_sketch",
+        "confirmed": false
+      },
+      "origin_px": {
+        "source": "sketch-local origin [45.0, 1536.0] read from the published pilot image frame",
+        "authority": "inferred_from_sketch",
+        "confirmed": false
+      }
+    },
+    "authority_counts": {
+      "agent_assumption": 11,
+      "declared_requirement": 5,
+      "designer_stated": 2,
+      "inferred_from_sketch": 3
+    }
+  },
+  "drawing_standard": "DGCAD-SCHEMATIC-001",
+  "claim_scope": "schematic_design_proposal_not_code_compliance",
+  "focus_group_id": "G-01",
+  "focus_bbox": [
+    72.621001,
+    376.968827,
+    260.02871200000004,
+    644.360131
+  ],
+  "focus_design_rect": [
+    72.621001,
+    396.968827,
+    222.621001,
+    506.968827
+  ],
+  "source_manifest": {
+    "case_id": "CASE-SKETCH-001",
+    "source_sketch_sha256": "07714b66f6405d7d4dacde91716eb7b4c8c6b4c32072ea91641a9725a295c0be",
+    "files": [
+      {
+        "path": "docs\\e2e\\sketch-001\\trace-raw.geojson",
+        "sha256": "e574b7b0b8246c0c78bb29f2f21fd1db7ed0278ecd7e33ba6f57570fcbe57ddc",
+        "role": "trace_geojson"
+      },
+      {
+        "path": "docs\\e2e\\sketch-001\\road-network-proposed.geojson",
+        "sha256": "f6d8a547f4f3393e14c33c5946143e4ef73ffdd5ea5ec6ccf57180f442afecf9",
+        "role": "road_network_geojson"
+      },
+      {
+        "path": "docs\\e2e\\sketch-001\\road-nodes-proposed.geojson",
+        "sha256": "c74e10da85b8a1b00e3abaf00a59ea9d2f31235674e80c50860ad071d9a172fc",
+        "role": "road_nodes_geojson"
+      },
+      {
+        "path": "docs\\e2e\\sketch-001\\source\\sketch.png",
+        "sha256": "07714b66f6405d7d4dacde91716eb7b4c8c6b4c32072ea91641a9725a295c0be",
+        "role": "sketch_raster"
+      }
+    ]
+  },
+  "coordinate_handoff": {
+    "source_frame": "image_space_unscaled",
+    "target_frame": "LOCAL-XY-ZUP",
+    "coordinate_state": "local_metric_scaled",
+    "scale_px_per_m": 2.438,
+    "origin_px": [
+      45.0,
+      1536.0
+    ],
+    "y_axis": "flipped",
+    "project_coordinates": false,
+    "accuracy": "approximate",
+    "not_survey_grade": true
+  },
+  "metrics": {
+    "site_area_m2": 204122.7864634952,
+    "basis_id": "design-assumption-v0.2",
+    "staircase_count": 109,
+    "facility_count": 1,
+    "households": 2398,
+    "residential_gfa_m2": 316536.0,
+    "facility_gfa_m2": 3000.0,
+    "total_gfa_m2": 319536.0,
+    "far": 1.5654107291796402,
+    "parking_spaces": 2398,
+    "parking_entrances": 5,
+    "parking_entrances_required": 5,
+    "parking_capacity_recorded": 1000,
+    "parking_capacity_required": 2398,
+    "garage_layout": "not_designed",
+    "focus_building_count": 7,
+    "focus_unit_count": 16,
+    "focus_households": 352,
+    "focus_area_m2": 4224.0,
+    "focus_min_ns_gap_m": 20.0,
+    "road_area_m2": 26170.241651018805,
+    "sidewalk_area_m2": 9866.177785935128,
+    "open_space_area_m2": 128676.22029239938,
+    "open_space_ratio": 0.6303863597090935,
+    "designed_green_area_m2": 13446.484393384519,
+    "designed_green_ratio": 0.06587448969490359,
+    "green_target_ratio": 0.3,
+    "road_noded_component_count": 1,
+    "corridor_union_pieces": 1,
+    "road_topology": {
+      "schema_id": "dgcad.design-road-topology.v0.1",
+      "road_count": 41,
+      "noded_segment_count": 55,
+      "node_count": 51,
+      "edge_count": 55,
+      "component_count": 1,
+      "cyclomatic": 5,
+      "degree_histogram": {
+        "1": 21,
+        "2": 3,
+        "3": 25,
+        "4": 2
+      },
+      "dead_end_count": 21,
+      "junction_count": 27,
+      "explicit_junction_count": 16,
+      "max_endpoint_gap_m": 0.0,
+      "closed_ring_count": 3,
+      "components": [
+        {
+          "node_count": 51,
+          "edge_count": 55,
+          "road_ids": [
+            "ACC-FOCUS-01",
+            "BR-FOCUS",
+            "BR-G-02",
+            "BR-G-03",
+            "BR-G-04",
+            "BR-G-06",
+            "BR-G-07",
+            "BR-G-08",
+            "BR-G-09",
+            "BR-G-10",
+            "BR-G-11",
+            "BR-G-13",
+            "BR-G-14",
+            "BR-G-15",
+            "BR-G-16",
+            "BR-G-17",
+            "MAIN-01",
+            "MAIN-02",
+            "MAIN-03",
+            "MAIN-04",
+            "MAIN-05",
+            "MAIN-06",
+            "MAIN-07",
+            "MAIN-08",
+            "MAIN-09",
+            "MAIN-10",
+            "MAIN-11",
+            "MAIN-12",
+            "MAIN-13",
+            "MAIN-14",
+            "MAIN-15",
+            "MAIN-16",
+            "MAIN-17",
+            "MAIN-18",
+            "MAIN-19",
+            "MAIN-20",
+            "MAIN-21",
+            "MAIN-22",
+            "MAIN-23",
+            "MAIN-24",
+            "MAIN-25"
+          ]
+        }
+      ],
+      "connector_states": [
+        {
+          "road_id": "BR-FOCUS",
+          "class_name": "branch",
+          "state": "shared_vertex"
+        },
+        {
+          "road_id": "BR-G-02",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-03",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-04",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-06",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-07",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-08",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-09",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-10",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-11",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-13",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-14",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-15",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-16",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-17",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "ACC-FOCUS-01",
+          "class_name": "access",
+          "state": "shared_vertex"
+        }
+      ]
+    },
+    "road_count": 41,
+    "junction_count": 27,
+    "dead_end_count": 21,
+    "explicit_junction_count": 16,
+    "closed_ring_count": 3,
+    "max_endpoint_gap_m": 0.0,
+    "focus_group_id": "G-01",
+    "focus_subgroups": {
+      "FOCUS-1": [
+        "SK-BLD-0007",
+        "SK-BLD-0015",
+        "SK-BLD-0021"
+      ],
+      "FOCUS-2": [
+        "SK-BLD-0034",
+        "SK-BLD-0035",
+        "SK-BLD-0032",
+        "SK-BLD-0025"
+      ]
+    },
+    "dropped_focus_building_ids": [
+      "SK-BLD-0038",
+      "SK-BLD-0061"
+    ],
+    "focus_design_rect": [
+      72.621001,
+      396.968827,
+      222.621001,
+      506.968827
+    ]
+  },
+  "consistency": {
+    "schema_id": "dgcad.design-consistency.v0.1",
+    "ok": true,
+    "checks": [
+      {
+        "id": "FAR_RANGE",
+        "status": "pass",
+        "value": 1.5654107291796402,
+        "required": [
+          1.55,
+          1.6
+        ],
+        "derived_from": "design_basis_arithmetic",
+        "message": "FAR is design-basis arithmetic (declared staircase/floor/dwelling-area assumptions over the site area), not a spatial design result"
+      },
+      {
+        "id": "PARKING_REQUIREMENT_ARITHMETIC",
+        "status": "info",
+        "value": 1.0,
+        "required": 1.0,
+        "derived_from": "design_basis_arithmetic",
+        "message": "required parking is households x declared ratio; this is an arithmetic requirement, not a parking layout verification"
+      },
+      {
+        "id": "PARKING_ENTRANCE_COUNT",
+        "status": "pass",
+        "value": 5,
+        "required": 5,
+        "message": "entrance COUNT satisfies the declared spaces-per-entrance assumption; this is not a parking capacity check"
+      },
+      {
+        "id": "PARKING_CAPACITY",
+        "status": "deferred",
+        "value": 1000,
+        "required": 2398,
+        "message": "only the recorded entrance capacity is declared; the remaining spaces have no designed garage layout, so capacity is deferred"
+      },
+      {
+        "id": "PARKING_LAYOUT",
+        "status": "deferred",
+        "value": "not_designed",
+        "required": "designed garage layout",
+        "message": "no garage geometry, aisle geometry or parking-space layout is designed; entrance count is not parking provision"
+      },
+      {
+        "id": "UNIT_COUNT_PRESERVED",
+        "status": "pass",
+        "value": 109,
+        "required": 109,
+        "derived_from": "design_basis_arithmetic",
+        "message": "55 buildings / 109 units is a basis count that still includes the 2 buildings (3 units) dropped from the detailed focus layout; it is not a focus-layout preservation result"
+      },
+      {
+        "id": "FOCUS_NS_SPACING",
+        "status": "pass",
+        "value": 20.0,
+        "required": 20.0,
+        "message": "focus-group north-south building gap"
+      },
+      {
+        "id": "FOCUS_BOUNDARY_SETBACK",
+        "status": "pass",
+        "value": [],
+        "required": 5.0,
+        "message": "focus buildings must stay inside the setback"
+      },
+      {
+        "id": "FOCUS_BUILDING_OVERLAP",
+        "status": "pass",
+        "value": [],
+        "required": "none",
+        "message": "focus buildings must not overlap"
+      },
+      {
+        "id": "FOCUS_ROAD_CLEARANCE",
+        "status": "pass",
+        "value": [],
+        "required": 3.0,
+        "message": "focus buildings must clear the schematic road corridor"
+      },
+      {
+        "id": "ROAD_CONNECTIVITY",
+        "status": "pass",
+        "value": 1,
+        "required": 1,
+        "message": "the design road graph must be one connected component with explicit shared-vertex junctions",
+        "detail": {
+          "violations": [],
+          "max_endpoint_gap_m": 0.0,
+          "crossing_only_count": 0
+        }
+      },
+      {
+        "id": "ROAD_CORRIDOR_COVERAGE",
+        "status": "info",
+        "value": 1,
+        "required": "coverage only",
+        "message": "corridor-union piece count is paved coverage, not centreline topology; it is published for continuity and does not gate"
+      },
+      {
+        "id": "ROAD_WIDTHS",
+        "status": "pass",
+        "value": [
+          4.0,
+          7.0,
+          12.0
+        ],
+        "required": [
+          4.0,
+          7.0,
+          12.0
+        ],
+        "derived_from": "design_basis_assignment",
+        "message": "widths are assigned from the declared basis and checked for set membership; they are not an alignment or cross-section design result"
+      },
+      {
+        "id": "OPEN_SPACE_RATIO",
+        "status": "info",
+        "value": 0.6303863597090935,
+        "required": "none",
+        "message": "share of the site left free by buildings and roads; this is NOT a designed-green ratio"
+      },
+      {
+        "id": "DESIGNED_GREEN_RATIO",
+        "status": "deferred",
+        "value": 0.06587448969490359,
+        "required": 0.3,
+        "message": "only classified cluster/strip green counts; usable-area, continuity and green-quality criteria are not defined, so the declared target is not met under this definition yet"
+      },
+      {
+        "id": "FULL_SITE_NS_SPACING",
+        "status": "deferred",
+        "value": null,
+        "required": 20.0,
+        "message": "the full-site layout is a coarse context; the 20 m gap is enforced in the focus group and must be extended group by group"
+      }
+    ],
+    "metrics": {
+      "site_area_m2": 204122.7864634952,
+      "basis_id": "design-assumption-v0.2",
+      "staircase_count": 109,
+      "facility_count": 1,
+      "households": 2398,
+      "residential_gfa_m2": 316536.0,
+      "facility_gfa_m2": 3000.0,
+      "total_gfa_m2": 319536.0,
+      "far": 1.5654107291796402,
+      "parking_spaces": 2398,
+      "parking_entrances": 5,
+      "parking_entrances_required": 5,
+      "parking_capacity_recorded": 1000,
+      "parking_capacity_required": 2398,
+      "garage_layout": "not_designed",
+      "focus_building_count": 7,
+      "focus_unit_count": 16,
+      "focus_households": 352,
+      "focus_area_m2": 4224.0,
+      "focus_min_ns_gap_m": 20.0,
+      "road_area_m2": 26170.241651018805,
+      "sidewalk_area_m2": 9866.177785935128,
+      "open_space_area_m2": 128676.22029239938,
+      "open_space_ratio": 0.6303863597090935,
+      "designed_green_area_m2": 13446.484393384519,
+      "designed_green_ratio": 0.06587448969490359,
+      "green_target_ratio": 0.3,
+      "road_noded_component_count": 1,
+      "corridor_union_pieces": 1,
+      "road_topology": {
+        "schema_id": "dgcad.design-road-topology.v0.1",
+        "road_count": 41,
+        "noded_segment_count": 55,
+        "node_count": 51,
+        "edge_count": 55,
+        "component_count": 1,
+        "cyclomatic": 5,
+        "degree_histogram": {
+          "1": 21,
+          "2": 3,
+          "3": 25,
+          "4": 2
+        },
+        "dead_end_count": 21,
+        "junction_count": 27,
+        "explicit_junction_count": 16,
+        "max_endpoint_gap_m": 0.0,
+        "closed_ring_count": 3,
+        "components": [
+          {
+            "node_count": 51,
+            "edge_count": 55,
+            "road_ids": [
+              "ACC-FOCUS-01",
+              "BR-FOCUS",
+              "BR-G-02",
+              "BR-G-03",
+              "BR-G-04",
+              "BR-G-06",
+              "BR-G-07",
+              "BR-G-08",
+              "BR-G-09",
+              "BR-G-10",
+              "BR-G-11",
+              "BR-G-13",
+              "BR-G-14",
+              "BR-G-15",
+              "BR-G-16",
+              "BR-G-17",
+              "MAIN-01",
+              "MAIN-02",
+              "MAIN-03",
+              "MAIN-04",
+              "MAIN-05",
+              "MAIN-06",
+              "MAIN-07",
+              "MAIN-08",
+              "MAIN-09",
+              "MAIN-10",
+              "MAIN-11",
+              "MAIN-12",
+              "MAIN-13",
+              "MAIN-14",
+              "MAIN-15",
+              "MAIN-16",
+              "MAIN-17",
+              "MAIN-18",
+              "MAIN-19",
+              "MAIN-20",
+              "MAIN-21",
+              "MAIN-22",
+              "MAIN-23",
+              "MAIN-24",
+              "MAIN-25"
+            ]
+          }
+        ],
+        "connector_states": [
+          {
+            "road_id": "BR-FOCUS",
+            "class_name": "branch",
+            "state": "shared_vertex"
+          },
+          {
+            "road_id": "BR-G-02",
+            "class_name": "branch",
+            "state": "dead_end"
+          },
+          {
+            "road_id": "BR-G-03",
+            "class_name": "branch",
+            "state": "dead_end"
+          },
+          {
+            "road_id": "BR-G-04",
+            "class_name": "branch",
+            "state": "dead_end"
+          },
+          {
+            "road_id": "BR-G-06",
+            "class_name": "branch",
+            "state": "dead_end"
+          },
+          {
+            "road_id": "BR-G-07",
+            "class_name": "branch",
+            "state": "dead_end"
+          },
+          {
+            "road_id": "BR-G-08",
+            "class_name": "branch",
+            "state": "dead_end"
+          },
+          {
+            "road_id": "BR-G-09",
+            "class_name": "branch",
+            "state": "dead_end"
+          },
+          {
+            "road_id": "BR-G-10",
+            "class_name": "branch",
+            "state": "dead_end"
+          },
+          {
+            "road_id": "BR-G-11",
+            "class_name": "branch",
+            "state": "dead_end"
+          },
+          {
+            "road_id": "BR-G-13",
+            "class_name": "branch",
+            "state": "dead_end"
+          },
+          {
+            "road_id": "BR-G-14",
+            "class_name": "branch",
+            "state": "dead_end"
+          },
+          {
+            "road_id": "BR-G-15",
+            "class_name": "branch",
+            "state": "dead_end"
+          },
+          {
+            "road_id": "BR-G-16",
+            "class_name": "branch",
+            "state": "dead_end"
+          },
+          {
+            "road_id": "BR-G-17",
+            "class_name": "branch",
+            "state": "dead_end"
+          },
+          {
+            "road_id": "ACC-FOCUS-01",
+            "class_name": "access",
+            "state": "shared_vertex"
+          }
+        ]
+      },
+      "road_count": 41,
+      "junction_count": 27,
+      "dead_end_count": 21,
+      "explicit_junction_count": 16,
+      "closed_ring_count": 3,
+      "max_endpoint_gap_m": 0.0,
+      "focus_group_id": "G-01",
+      "focus_subgroups": {
+        "FOCUS-1": [
+          "SK-BLD-0007",
+          "SK-BLD-0015",
+          "SK-BLD-0021"
+        ],
+        "FOCUS-2": [
+          "SK-BLD-0034",
+          "SK-BLD-0035",
+          "SK-BLD-0032",
+          "SK-BLD-0025"
+        ]
+      },
+      "dropped_focus_building_ids": [
+        "SK-BLD-0038",
+        "SK-BLD-0061"
+      ],
+      "focus_design_rect": [
+        72.621001,
+        396.968827,
+        222.621001,
+        506.968827
+      ]
+    }
+  },
+  "intent": {
+    "schema_id": "dgcad.design-intent.v0.1",
+    "groups": [
+      {
+        "group_id": "G-01",
+        "building_ids": [
+          "SK-BLD-0007",
+          "SK-BLD-0015",
+          "SK-BLD-0021",
+          "SK-BLD-0025",
+          "SK-BLD-0032",
+          "SK-BLD-0034",
+          "SK-BLD-0035",
+          "SK-BLD-0038",
+          "SK-BLD-0061"
+        ],
+        "unit_count": 19,
+        "households": 418,
+        "centroid": [
+          179.0442578489105,
+          527.0979304236495
+        ],
+        "bbox": [
+          97.621001,
+          401.968827,
+          235.028712,
+          619.360131
+        ],
+        "green_ids": [
+          "SK-GRN-0008"
+        ],
+        "main_road_distance_m": 54.31966860564312
+      },
+      {
+        "group_id": "G-02",
+        "building_ids": [
+          "SK-BLD-0009",
+          "SK-BLD-0010",
+          "SK-BLD-0014",
+          "SK-BLD-0016",
+          "SK-BLD-0020",
+          "SK-BLD-0022",
+          "SK-BLD-0024"
+        ],
+        "unit_count": 16,
+        "households": 352,
+        "centroid": [
+          348.92592870917485,
+          134.44101230533235
+        ],
+        "bbox": [
+          320.344545,
+          25.430681,
+          373.256768,
+          244.872847
+        ],
+        "green_ids": [
+          "SK-GRN-0012"
+        ],
+        "main_road_distance_m": 50.103934249633625
+      },
+      {
+        "group_id": "G-03",
+        "building_ids": [
+          "SK-BLD-0049",
+          "SK-BLD-0050",
+          "SK-BLD-0052",
+          "SK-BLD-0054",
+          "SK-BLD-0056",
+          "SK-BLD-0057"
+        ],
+        "unit_count": 6,
+        "households": 132,
+        "centroid": [
+          138.37597413361223,
+          253.38413227491904
+        ],
+        "bbox": [
+          123.872026,
+          153.40443,
+          151.763741,
+          348.236259
+        ],
+        "green_ids": [],
+        "main_road_distance_m": 35.01256150030625
+      },
+      {
+        "group_id": "G-04",
+        "building_ids": [
+          "SK-BLD-0040",
+          "SK-BLD-0041",
+          "SK-BLD-0042",
+          "SK-BLD-0043",
+          "SK-BLD-0044"
+        ],
+        "unit_count": 5,
+        "households": 110,
+        "centroid": [
+          292.08420331913965,
+          457.2331528261586
+        ],
+        "bbox": [
+          262.920427,
+          401.968827,
+          328.137818,
+          495.077933
+        ],
+        "green_ids": [],
+        "main_road_distance_m": 43.42380068608817
+      },
+      {
+        "group_id": "G-05",
+        "building_ids": [
+          "SK-BLD-0002",
+          "SK-BLD-0017",
+          "SK-BLD-0033"
+        ],
+        "unit_count": 7,
+        "households": 154,
+        "centroid": [
+          81.39773195891898,
+          463.1397315146269
+        ],
+        "bbox": [
+          42.657916,
+          408.531583,
+          117.719442,
+          514.35603
+        ],
+        "green_ids": [],
+        "main_road_distance_m": 33.31196999141256
+      },
+      {
+        "group_id": "G-06",
+        "building_ids": [
+          "SK-BLD-0003",
+          "SK-BLD-0005",
+          "SK-BLD-0008"
+        ],
+        "unit_count": 9,
+        "households": 198,
+        "centroid": [
+          202.84886251404518,
+          197.1243624161568
+        ],
+        "bbox": [
+          175.963905,
+          151.763741,
+          228.876128,
+          241.181296
+        ],
+        "green_ids": [],
+        "main_road_distance_m": 71.33140514825037
+      },
+      {
+        "group_id": "G-07",
+        "building_ids": [
+          "SK-BLD-0004",
+          "SK-BLD-0013",
+          "SK-BLD-0018"
+        ],
+        "unit_count": 9,
+        "households": 198,
+        "centroid": [
+          52.29460626472508,
+          73.2983087773414
+        ],
+        "bbox": [
+          25.840853,
+          32.40361,
+          77.112387,
+          115.258409
+        ],
+        "green_ids": [],
+        "main_road_distance_m": 76.85522473580848
+      },
+      {
+        "group_id": "G-08",
+        "building_ids": [
+          "SK-BLD-0006",
+          "SK-BLD-0011",
+          "SK-BLD-0012"
+        ],
+        "unit_count": 8,
+        "households": 176,
+        "centroid": [
+          193.17745610974063,
+          70.22516907412633
+        ],
+        "bbox": [
+          162.42822,
+          29.532404,
+          220.672683,
+          111.97703
+        ],
+        "green_ids": [],
+        "main_road_distance_m": 40.914656787484276
+      },
+      {
+        "group_id": "G-09",
+        "building_ids": [
+          "SK-BLD-0029",
+          "SK-BLD-0031",
+          "SK-BLD-0036"
+        ],
+        "unit_count": 6,
+        "households": 132,
+        "centroid": [
+          269.0367533652521,
+          68.47229158537051
+        ],
+        "bbox": [
+          251.025431,
+          25.840853,
+          286.710418,
+          110.336341
+        ],
+        "green_ids": [],
+        "main_road_distance_m": 30.026980800770406
+      },
+      {
+        "group_id": "G-10",
+        "building_ids": [
+          "SK-BLD-0045",
+          "SK-BLD-0051",
+          "SK-BLD-0055"
+        ],
+        "unit_count": 3,
+        "households": 66,
+        "centroid": [
+          270.618975853599,
+          193.36226873829355
+        ],
+        "bbox": [
+          256.767842,
+          149.302707,
+          285.069729,
+          237.079573
+        ],
+        "green_ids": [],
+        "main_road_distance_m": 31.7945080487767
+      },
+      {
+        "group_id": "G-11",
+        "building_ids": [
+          "SK-BLD-MRG-0002",
+          "SK-BLD-MRG-0004",
+          "SK-BLD-MRG-0005"
+        ],
+        "unit_count": 9,
+        "households": 198,
+        "centroid": [
+          53.60638086136529,
+          202.59331087518228
+        ],
+        "bbox": [
+          22.969647,
+          152.994258,
+          84.495488,
+          251.025431
+        ],
+        "green_ids": [],
+        "main_road_distance_m": 49.757031771940696
+      },
+      {
+        "group_id": "G-12",
+        "building_ids": [
+          "SK-BLD-0023",
+          "SK-BLD-0026"
+        ],
+        "unit_count": 4,
+        "households": 88,
+        "centroid": [
+          142.17605842259087,
+          425.75334223604534
+        ],
+        "bbox": [
+          122.231337,
+          401.968827,
+          161.607875,
+          449.138638
+        ],
+        "green_ids": [],
+        "main_road_distance_m": 48.39485123604533
+      },
+      {
+        "group_id": "G-13",
+        "building_ids": [
+          "SK-BLD-0028"
+        ],
+        "unit_count": 2,
+        "households": 44,
+        "centroid": [
+          115.77367787144706,
+          107.68162197688417
+        ],
+        "bbox": [
+          98.031173,
+          101.312551,
+          133.716161,
+          114.027892
+        ],
+        "green_ids": [],
+        "main_road_distance_m": 20.81074321266004
+      },
+      {
+        "group_id": "G-14",
+        "building_ids": [
+          "SK-BLD-0039"
+        ],
+        "unit_count": 2,
+        "households": 44,
+        "centroid": [
+          115.5733149892067,
+          35.5800187269218
+        ],
+        "bbox": [
+          98.441345,
+          29.942576,
+          132.485644,
+          41.017227
+        ],
+        "green_ids": [],
+        "main_road_distance_m": 90.45497520013049
+      },
+      {
+        "group_id": "G-15",
+        "building_ids": [
+          "SK-BLD-0048"
+        ],
+        "unit_count": 1,
+        "households": 22,
+        "centroid": [
+          331.1802154426545,
+          407.3872779646992
+        ],
+        "bbox": [
+          319.5242,
+          401.558655,
+          342.90402,
+          413.453651
+        ],
+        "green_ids": [],
+        "main_road_distance_m": 41.77454853241653
+      },
+      {
+        "group_id": "G-16",
+        "building_ids": [
+          "SK-BLD-MRG-0001"
+        ],
+        "unit_count": 3,
+        "households": 66,
+        "centroid": [
+          45.06365653809305,
+          328.899530903572
+        ],
+        "bbox": [
+          17.227235,
+          309.269893,
+          72.600492,
+          340.853158
+        ],
+        "green_ids": [],
+        "main_road_distance_m": 58.29975609521293
+      },
+      {
+        "group_id": "G-17",
+        "building_ids": [
+          "SK-BLD-MRG-0003"
+        ],
+        "unit_count": 0,
+        "households": 0,
+        "centroid": [
+          350.77672966470635,
+          297.7801124806519
+        ],
+        "bbox": [
+          318.703856,
+          278.506973,
+          374.077112,
+          327.317473
+        ],
+        "green_ids": [
+          "SK-GRN-0011"
+        ],
+        "main_road_distance_m": 45.558166131265004
+      }
+    ],
+    "road_hierarchy": {
+      "main_edges": 65,
+      "branch_or_access_edges": 268,
+      "node_count": 309,
+      "edge_count": 333,
+      "main_class_state": "inferred_from_colour_majority",
+      "branch_access_combined": true
+    },
+    "principles": [
+      "the main road forms the organization spine; residential groups sit along it",
+      "each building keeps its unit count and building ID; the footprint is standardized to the declared staircase module",
+      "the focus group is reorganized into rows with at least 20 m north-south spacing and internal green strips",
+      "branch/access roads connect the groups to the main road; the blue class still combines branch and access road",
+      "garage entrances are placed on the main road; parking is underground and its layout is not designed"
+    ],
+    "focus_group_id": "G-01",
+    "focus_bbox": [
+      72.621001,
+      376.968827,
+      260.02871200000004,
+      644.360131
+    ],
+    "focus_building_ids": [
+      "SK-BLD-0007",
+      "SK-BLD-0015",
+      "SK-BLD-0021",
+      "SK-BLD-0025",
+      "SK-BLD-0032",
+      "SK-BLD-0034",
+      "SK-BLD-0035",
+      "SK-BLD-0038",
+      "SK-BLD-0061"
+    ],
+    "focus_green_ids": [
+      "SK-GRN-0008"
+    ],
+    "focus_road_ids": [
+      "SK-RDC-U-0006",
+      "SK-RDC-U-0008",
+      "SK-RDC-U-0010",
+      "SK-RDC-U-0022",
+      "SK-RDC-U-0023",
+      "SK-RDC-U-0025",
+      "SK-RDC-U-0034",
+      "SK-RDC-U-0043",
+      "SK-RDC-U-0047",
+      "SK-RDC-U-0063",
+      "SK-RDC-U-0064",
+      "SK-RDC-U-0065",
+      "SK-RDC-U-0072",
+      "SK-RDC-U-0073",
+      "SK-RDC-U-0074",
+      "SK-RDC-U-0081",
+      "SK-RDC-U-0086",
+      "SK-RDC-U-0094",
+      "SK-RDC-U-0098",
+      "SK-RDC-U-0102",
+      "SK-RDC-U-0105",
+      "SK-RDC-U-0107",
+      "SK-RDC-U-0108",
+      "SK-RDC-U-0114",
+      "SK-RDC-U-0117",
+      "SK-RDC-U-0120",
+      "SK-RDC-U-0121",
+      "SK-RDC-U-0124",
+      "SK-RDC-U-0134",
+      "SK-RDC-U-0136",
+      "SK-RDC-U-0142",
+      "SK-RDC-U-0143",
+      "SK-RDC-U-0146",
+      "SK-RDC-U-0154",
+      "SK-RDC-U-0158",
+      "SK-RDC-U-0159",
+      "SK-RDC-U-0162",
+      "SK-RDC-U-0171",
+      "SK-RDC-U-0181",
+      "SK-RDC-U-0182",
+      "SK-RDC-U-0185",
+      "SK-RDC-U-0186",
+      "SK-RDC-U-0188",
+      "SK-RDC-U-0198",
+      "SK-RDC-U-0199",
+      "SK-RDC-U-0204",
+      "SK-RDC-U-0208",
+      "SK-RDC-U-0213",
+      "SK-RDC-U-0226",
+      "SK-RDC-U-0231",
+      "SK-RDC-U-0232",
+      "SK-RDC-U-0237",
+      "SK-RDC-U-0241",
+      "SK-RDC-U-0245",
+      "SK-RDC-U-0247",
+      "SK-RDC-U-0249",
+      "SK-RDC-U-0250",
+      "SK-RDC-U-0252",
+      "SK-RDC-U-0253",
+      "SK-RDC-U-0256",
+      "SK-RDC-U-0259",
+      "SK-RDC-U-0260",
+      "SK-RDC-U-0261",
+      "SK-RDC-U-0265",
+      "SK-RDC-U-0266",
+      "SK-RDC-U-0271",
+      "SK-RDC-U-0274",
+      "SK-RDC-U-0275",
+      "SK-RDC-U-0281",
+      "SK-RDC-U-0285",
+      "SK-RDC-U-0287",
+      "SK-RDC-U-0288",
+      "SK-RDC-U-0292",
+      "SK-RDC-U-0293",
+      "SK-RDC-U-0294",
+      "SK-RDC-U-0297",
+      "SK-RDC-U-0300",
+      "SK-RDC-U-0301",
+      "SK-RDC-U-0302",
+      "SK-RDC-U-0303",
+      "SK-RDC-U-0304",
+      "SK-RDC-U-0306",
+      "SK-RDC-U-0308",
+      "SK-RDC-U-0310",
+      "SK-RDC-U-0312",
+      "SK-RDC-U-0313",
+      "SK-RDC-U-0316",
+      "SK-RDC-U-0317",
+      "SK-RDC-U-0319",
+      "SK-RDC-U-0320",
+      "SK-RDC-U-0324",
+      "SK-RDC-U-0326",
+      "SK-RDC-U-0327",
+      "SK-RDC-U-0328",
+      "SK-RDC-U-0329",
+      "SK-RDC-U-0331"
+    ],
+    "focus_subgroups": {
+      "FOCUS-1": [
+        "SK-BLD-0007",
+        "SK-BLD-0015",
+        "SK-BLD-0021"
+      ],
+      "FOCUS-2": [
+        "SK-BLD-0034",
+        "SK-BLD-0035",
+        "SK-BLD-0032"
+      ],
+      "FOCUS-3": [
+        "SK-BLD-0025",
+        "SK-BLD-0061",
+        "SK-BLD-0038"
+      ]
+    }
+  },
+  "road_topology": {
+    "schema_id": "dgcad.design-road-topology.v0.1",
+    "road_count": 41,
+    "noded_segment_count": 55,
+    "node_count": 51,
+    "edge_count": 55,
+    "component_count": 1,
+    "cyclomatic": 5,
+    "degree_histogram": {
+      "1": 21,
+      "2": 3,
+      "3": 25,
+      "4": 2
+    },
+    "dead_end_count": 21,
+    "junction_count": 27,
+    "explicit_junction_count": 16,
+    "max_endpoint_gap_m": 0.0,
+    "closed_ring_count": 3,
+    "components": [
+      {
+        "node_count": 51,
+        "edge_count": 55,
+        "road_ids": [
+          "ACC-FOCUS-01",
+          "BR-FOCUS",
+          "BR-G-02",
+          "BR-G-03",
+          "BR-G-04",
+          "BR-G-06",
+          "BR-G-07",
+          "BR-G-08",
+          "BR-G-09",
+          "BR-G-10",
+          "BR-G-11",
+          "BR-G-13",
+          "BR-G-14",
+          "BR-G-15",
+          "BR-G-16",
+          "BR-G-17",
+          "MAIN-01",
+          "MAIN-02",
+          "MAIN-03",
+          "MAIN-04",
+          "MAIN-05",
+          "MAIN-06",
+          "MAIN-07",
+          "MAIN-08",
+          "MAIN-09",
+          "MAIN-10",
+          "MAIN-11",
+          "MAIN-12",
+          "MAIN-13",
+          "MAIN-14",
+          "MAIN-15",
+          "MAIN-16",
+          "MAIN-17",
+          "MAIN-18",
+          "MAIN-19",
+          "MAIN-20",
+          "MAIN-21",
+          "MAIN-22",
+          "MAIN-23",
+          "MAIN-24",
+          "MAIN-25"
+        ]
+      }
+    ],
+    "connector_states": [
+      {
+        "road_id": "BR-FOCUS",
+        "class_name": "branch",
+        "state": "shared_vertex"
+      },
+      {
+        "road_id": "BR-G-02",
+        "class_name": "branch",
+        "state": "dead_end"
+      },
+      {
+        "road_id": "BR-G-03",
+        "class_name": "branch",
+        "state": "dead_end"
+      },
+      {
+        "road_id": "BR-G-04",
+        "class_name": "branch",
+        "state": "dead_end"
+      },
+      {
+        "road_id": "BR-G-06",
+        "class_name": "branch",
+        "state": "dead_end"
+      },
+      {
+        "road_id": "BR-G-07",
+        "class_name": "branch",
+        "state": "dead_end"
+      },
+      {
+        "road_id": "BR-G-08",
+        "class_name": "branch",
+        "state": "dead_end"
+      },
+      {
+        "road_id": "BR-G-09",
+        "class_name": "branch",
+        "state": "dead_end"
+      },
+      {
+        "road_id": "BR-G-10",
+        "class_name": "branch",
+        "state": "dead_end"
+      },
+      {
+        "road_id": "BR-G-11",
+        "class_name": "branch",
+        "state": "dead_end"
+      },
+      {
+        "road_id": "BR-G-13",
+        "class_name": "branch",
+        "state": "dead_end"
+      },
+      {
+        "road_id": "BR-G-14",
+        "class_name": "branch",
+        "state": "dead_end"
+      },
+      {
+        "road_id": "BR-G-15",
+        "class_name": "branch",
+        "state": "dead_end"
+      },
+      {
+        "road_id": "BR-G-16",
+        "class_name": "branch",
+        "state": "dead_end"
+      },
+      {
+        "road_id": "BR-G-17",
+        "class_name": "branch",
+        "state": "dead_end"
+      },
+      {
+        "road_id": "ACC-FOCUS-01",
+        "class_name": "access",
+        "state": "shared_vertex"
+      }
+    ]
+  },
+  "design_roads": {
+    "path": "design-roads.geojson",
+    "road_count": 41,
+    "sha256": "37fd143967cf3010d71d1776e37660097823677e9a370d474e3c0f6b32161b94"
+  },
+  "diff": {
+    "schema_id": "dgcad.design-diff.v0.1",
+    "design_basis_id": "design-assumption-v0.2",
+    "focus_group_id": "G-01",
+    "buildings": [
+      {
+        "building_id": "SK-BLD-0007",
+        "subgroup_id": "FOCUS-1",
+        "row": 1,
+        "unit_count": 3,
+        "households": 66,
+        "gfa_m2": 8712.0,
+        "source_area_m2": 565.9637193600666,
+        "design_area_m2": 792.0,
+        "area_change_m2": 226.03628063993335,
+        "source_centroid": [
+          211.23872,
+          407.916325
+        ],
+        "design_centroid": [
+          147.621001,
+          402.468827
+        ],
+        "displacement_m": 63.8505239228541,
+        "source_orientation_deg": 0.0,
+        "design_orientation_deg": 0.0,
+        "design_dimensions_m": [
+          72.0,
+          11.0
+        ],
+        "reason": "standardized to the declared staircase module and placed in a 20 m north-south row layout"
+      },
+      {
+        "building_id": "SK-BLD-0015",
+        "subgroup_id": "FOCUS-1",
+        "row": 2,
+        "unit_count": 3,
+        "households": 66,
+        "gfa_m2": 8712.0,
+        "source_area_m2": 487.89976299109014,
+        "design_area_m2": 792.0,
+        "area_change_m2": 304.10023700890986,
+        "source_centroid": [
+          211.23871999999997,
+          444.0114845
+        ],
+        "design_centroid": [
+          117.121001,
+          433.468827
+        ],
+        "displacement_m": 94.70634961250096,
+        "source_orientation_deg": 0.0,
+        "design_orientation_deg": 0.0,
+        "design_dimensions_m": [
+          72.0,
+          11.0
+        ],
+        "reason": "standardized to the declared staircase module and placed in a 20 m north-south row layout"
+      },
+      {
+        "building_id": "SK-BLD-0021",
+        "subgroup_id": "FOCUS-1",
+        "row": 2,
+        "unit_count": 2,
+        "households": 44,
+        "gfa_m2": 5808.0,
+        "source_area_m2": 449.7089622628057,
+        "design_area_m2": 528.0,
+        "area_change_m2": 78.2910377371943,
+        "source_centroid": [
+          207.3420835,
+          480.92698949999993
+        ],
+        "design_centroid": [
+          190.121001,
+          433.468827
+        ],
+        "displacement_m": 50.48606610093728,
+        "source_orientation_deg": 0.0,
+        "design_orientation_deg": 0.0,
+        "design_dimensions_m": [
+          48.0,
+          11.0
+        ],
+        "reason": "standardized to the declared staircase module and placed in a 20 m north-south row layout"
+      },
+      {
+        "building_id": "SK-BLD-0025",
+        "subgroup_id": "FOCUS-2",
+        "row": 4,
+        "unit_count": 2,
+        "households": 44,
+        "gfa_m2": 5808.0,
+        "source_area_m2": 424.80928068300733,
+        "design_area_m2": 528.0,
+        "area_change_m2": 103.19071931699267,
+        "source_centroid": [
+          133.59584389007526,
+          575.3732567193505
+        ],
+        "design_centroid": [
+          178.121001,
+          495.468827
+        ],
+        "displacement_m": 91.47244122924732,
+        "source_orientation_deg": -26.281411209590317,
+        "design_orientation_deg": 0.0,
+        "design_dimensions_m": [
+          48.0,
+          11.0
+        ],
+        "reason": "standardized to the declared staircase module and placed in a 20 m north-south row layout"
+      },
+      {
+        "building_id": "SK-BLD-0032",
+        "subgroup_id": "FOCUS-2",
+        "row": 4,
+        "unit_count": 2,
+        "households": 44,
+        "gfa_m2": 5808.0,
+        "source_area_m2": 387.12321875002095,
+        "design_area_m2": 528.0,
+        "area_change_m2": 140.87678124997905,
+        "source_centroid": [
+          194.21657076640588,
+          566.4479079704477
+        ],
+        "design_centroid": [
+          117.121001,
+          495.468827
+        ],
+        "displacement_m": 104.79387774586893,
+        "source_orientation_deg": 3.621485885647262,
+        "design_orientation_deg": 0.0,
+        "design_dimensions_m": [
+          48.0,
+          11.0
+        ],
+        "reason": "standardized to the declared staircase module and placed in a 20 m north-south row layout"
+      },
+      {
+        "building_id": "SK-BLD-0034",
+        "subgroup_id": "FOCUS-2",
+        "row": 3,
+        "unit_count": 2,
+        "households": 44,
+        "gfa_m2": 5808.0,
+        "source_area_m2": 381.9077209825837,
+        "design_area_m2": 528.0,
+        "area_change_m2": 146.09227901741627,
+        "source_centroid": [
+          195.47626963993386,
+          523.3236239074212
+        ],
+        "design_centroid": [
+          117.121001,
+          464.468827
+        ],
+        "displacement_m": 97.99711854258776,
+        "source_orientation_deg": 22.93210061285056,
+        "design_orientation_deg": 0.0,
+        "design_dimensions_m": [
+          48.0,
+          11.0
+        ],
+        "reason": "standardized to the declared staircase module and placed in a 20 m north-south row layout"
+      },
+      {
+        "building_id": "SK-BLD-0035",
+        "subgroup_id": "FOCUS-2",
+        "row": 3,
+        "unit_count": 2,
+        "households": 44,
+        "gfa_m2": 5808.0,
+        "source_area_m2": 381.06653122120946,
+        "design_area_m2": 528.0,
+        "area_change_m2": 146.93346877879054,
+        "source_centroid": [
+          116.99474376946986,
+          533.7527715983024
+        ],
+        "design_centroid": [
+          178.121001,
+          464.468827
+        ],
+        "displacement_m": 92.39417894063227,
+        "source_orientation_deg": -29.577839607362744,
+        "design_orientation_deg": 0.0,
+        "design_dimensions_m": [
+          48.0,
+          11.0
+        ],
+        "reason": "standardized to the declared staircase module and placed in a 20 m north-south row layout"
+      }
+    ],
+    "rows": [
+      {
+        "row": 1,
+        "subgroup_id": "FOCUS-1",
+        "y": 396.968827,
+        "building_ids": [
+          "SK-BLD-0007"
+        ],
+        "north_south_gap_m": 20.0
+      },
+      {
+        "row": 2,
+        "subgroup_id": "FOCUS-1",
+        "y": 427.968827,
+        "building_ids": [
+          "SK-BLD-0015",
+          "SK-BLD-0021"
+        ],
+        "north_south_gap_m": 20.0
+      },
+      {
+        "row": 3,
+        "subgroup_id": "FOCUS-2",
+        "y": 458.968827,
+        "building_ids": [
+          "SK-BLD-0034",
+          "SK-BLD-0035"
+        ],
+        "north_south_gap_m": 20.0
+      },
+      {
+        "row": 4,
+        "subgroup_id": "FOCUS-2",
+        "y": 489.968827,
+        "building_ids": [
+          "SK-BLD-0032",
+          "SK-BLD-0025"
+        ],
+        "north_south_gap_m": 20.0
+      }
+    ],
+    "dropped_focus_building_ids": [
+      "SK-BLD-0038",
+      "SK-BLD-0061"
+    ],
+    "dropped": [
+      {
+        "building_id": "SK-BLD-0038",
+        "unit_count": 2,
+        "reason": "does not fit the buildable focus block at the declared north-south spacing, setback and road clearance"
+      },
+      {
+        "building_id": "SK-BLD-0061",
+        "unit_count": 1,
+        "reason": "does not fit the buildable focus block at the declared north-south spacing, setback and road clearance"
+      }
+    ],
+    "roads": {
+      "classes": {
+        "main": {
+          "count": 25,
+          "width_m": 12.0
+        },
+        "branch": {
+          "count": 15,
+          "width_m": 7.0
+        },
+        "access": {
+          "count": 1,
+          "width_m": 4.0
+        }
+      },
+      "corridor_generator": "round_buffer_hierarchy_v0.1",
+      "not_professional_alignment": true,
+      "main_road_count": 65,
+      "branch_or_access_count": 268
+    },
+    "green": {
+      "cluster_area_m2": 10692.841181219279,
+      "strip_area_m2": 2753.6432121652397,
+      "supplementary_area_m2": 115229.73589901485,
+      "open_space_area_m2": 128676.22029239938,
+      "open_space_ratio": 0.6303863597090935,
+      "designed_green_area_m2": 13446.484393384519,
+      "designed_green_ratio": 0.06587448969490359,
+      "green_target_ratio": 0.3,
+      "dropped_cluster_ids": []
+    },
+    "parking": {
+      "households": 2398,
+      "spaces_required": 2398,
+      "entrances_required": 5,
+      "existing_entrances": 3,
+      "proposed_entrances": 2,
+      "recorded_capacity_spaces": 1000,
+      "garage_layout": "not_designed"
+    },
+    "changed": [
+      "building footprints replaced by standardized staircase modules",
+      "focus-group buildings reorganized into rows",
+      "20 m north-south spacing inserted between rows",
+      "green strips inserted between building rows",
+      "road widths assigned from the declared class",
+      "garage entrances added to meet the parking requirement"
+    ],
+    "preserved": [
+      "building IDs and inferred staircase counts",
+      "the focus group's location and its relation to the main road",
+      "the main road as the organization spine",
+      "cluster green spaces that remain clear of buildings and roads"
+    ],
+    "why": [
+      "the declared design basis fixes the unit module, floor count, road widths, FAR range, parking ratio and 20 m north-south gap",
+      "a regular row layout makes the 20 m gap verifiable and gives each group a clear internal green strip",
+      "the schema is a proposal: no human confirmation or code-compliance claim is made"
+    ],
+    "focus_design_rect": [
+      72.621001,
+      396.968827,
+      222.621001,
+      506.968827
+    ]
+  },
+  "non_claims": [
+    "this is a schematic design proposal, not a construction or permit drawing",
+    "no Chinese code, fire-access, daylight or accessibility compliance is claimed",
+    "the unit module is a provisional design assumption, not the designer's unit library",
+    "the published sketch boundary is used; the private redline remains authoritative",
+    "road corridors are schematic offsets, not professional alignment or junction design",
+    "the garage layout is not designed; only the entrance requirement is checked",
+    "the full-site north-south spacing is not yet enforced; the focus group is",
+    "the noded-topology check proves connectivity only; it is not road design, alignment or junction engineering"
+  ],
+  "scene_id": "scene-CASE-SKETCH-001-AUTONOMOUS-DRAFT-R1",
+  "scene_object_count": 203,
+  "dxf": {
+    "path": "design-proposal.dxf",
+    "sha256": "03f6101b4427ad471504214a6c2a1eeb358d08779641de4a17e637b64527ee8f",
+    "entity_count": 208,
+    "audit_errors": 0,
+    "audit_fixes": 0
+  },
+  "readback": {
+    "verdict": "pass",
+    "codes": [],
+    "entity_count": 208,
+    "expected_entity_count": 208,
+    "confirmation_scopes": [
+      "design_draft"
+    ],
+    "manifest_sha256": "dbd28768f77b05df63141c9cb0e648b4106fe4da1f7c84b95d7e79ca78429357"
+  },
+  "cad_ir_validation": {
+    "verdict": "pass_with_scope_limits",
+    "issues": [
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0007",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0015",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0021",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0025",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0032",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0034",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0035",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      }
+    ],
+    "coverage_limits": [
+      "current delivery profile and entity set only (LWPOLYLINE/CIRCLE/TEXT)",
+      "no standards or design-office profile compliance",
+      "no IFC",
+      "no third-party CAD round-trip in this pipeline",
+      "no arcs/splines; modelspace only"
+    ]
+  },
+  "privacy": {
+    "ok": true,
+    "code": "PRIVACY_SCAN_PASS",
+    "file": "design-proposal.dxf",
+    "findings": []
+  }
+}

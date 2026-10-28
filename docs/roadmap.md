@@ -111,6 +111,7 @@ After Milestone 3, prioritize the real sketch/trace and road evidence packages b
 | `EP-R1-ENV-001` | independent shadow engine |
 | `EP-R1-PROFILE-001` | real project/design-office profile |
 | `CASE-SKETCH-001-HANDOFF-A` | **gate implemented; pilot blocked**: selected real subset passes source/topology checks, then requires an object-level human geometry review. Downstream Canonical → CAD-IR → DXF is proven with a test double only. |
+| `EP-R1-DESIGN-001` | **in progress**: autonomous schematic design draft, focus block + full-site metrics; human confirmation not required to generate |
 
 Each package has its own decision question, raw evidence, metrics, failure policy and scope-leakage prohibition. No package is a checklist for production release.
 
@@ -184,14 +185,102 @@ Task C — coordinate and source integrity:
 - [x] Add a structured DXF privacy scan over TEXT/MTEXT, layer/linetype/style/block names, XDATA and raw bytes.
 - [x] Regenerate the pilot evidence to match the new contract (blocked state + review packet + superseded history).
 
-**4b.1 exit (met for code/evidence):** scope cannot silently become global confirmation; a sketch boundary cannot become `SITE-001`; a source-geometry mutation with a stale hash fails; a road-topology mismatch fails closed; the synthetic E2E and CAD delivery remain green; 206 tests pass. The real pilot remains blocked until the designer signs the object-level review.
+**4b.1 exit (met for code/evidence):** scope cannot silently become global confirmation; a sketch boundary cannot become `SITE-001`; a source-geometry mutation with a stale hash fails; a road-topology mismatch fails closed; the synthetic E2E and CAD delivery remain green; 206 tests pass (count true at the 4b.1 exit; the suite is 259 after 4c-1a). The real pilot remains blocked until the designer signs the object-level review.
+
+### Milestone 4c — Autonomous Site Design Synthesis (first round partial; M4c-0 complete)
+
+Goal: the Agent converts the sketch's spatial intent into a self-consistent,
+standardized schematic design without asking the designer to review sketch
+geometry. The designer reviews the product.
+
+First round (`docs/e2e/design-synthesis-001/`):
+
+- [x] Design basis with the required FAR 1.55–1.60, ≥1 parking space/household and ≥20 m north-south spacing, plus explicit assumptions for the unit module, floors, roads, setbacks, green and drawing standard.
+- [x] Full-site context: 55 buildings, 109 staircases, 2,398 households, 319,536 m² GFA, FAR 1.565, 2,398 parking spaces and 5 entrances.
+- [x] Focus block G-01: 7 standardized buildings / 16 units in rows with 20.0 m north-south spacing, unit division lines, green strips and an access loop.
+- [x] Replace the 333-edge skeleton mesh with a design road hierarchy: merged main roads, one branch per group, one focus access loop; widths 12/7/4 m; record the source mesh as evidence.
+- [x] Allocate cluster/ strip/ supplementary green; site green ratio 63.0%.
+- [x] Check FAR, parking, entrances, unit count, spacing, setback, overlap, road clearance, noded connectivity (1 component after 4c-1a; `ROAD_CORRIDOR_COVERAGE` recorded as informational), road widths and green ratio; record full-site north-south spacing as deferred.
+- [x] Produce an editable 208-entity DXF with layers, building/road labels, dimensions, key plan, title block, legend, north arrow and scale bar; audit 0/0; readback 208/208.
+- [x] Mark all design objects `rule_derived` in `proposal_preview`; no `human_confirmed`; title block says Agent-generated and not code-compliant.
+- [x] Record the design diff, dropped buildings and the persistent draft manifest.
+
+Next in 4c (sequence: 4c-1b design-aware coverage → multi-candidate evaluation → full-site expansion):
+
+- **First fix the road topology** — **done in 4c-1a** without OSMnx: explicit shared-coordinate junctions + dependency-free noded check + evidence regeneration (the OSMnx base was rejected as a tolerance-created connectivity proof; OSMnx remains an optional preprocessor, see 4c-1a below).
+- Expand the standardized layout from the focus block to all groups; enforce 20 m north-south spacing site-wide.
+- Improve the design-intent model: group boundaries, road hierarchy, access logic and green relationships.
+- Add design evaluation/search: compare candidate layouts against intent preservation, completeness, consistency, constraint satisfaction and CAD editability.
+- Replace the provisional unit module with the designer's unit-type library.
+- Move to a real CAD host loop after the draft is stable.
+
+### Milestone 4c-1a — Road-Topology Truth Fix (complete, 0.16.0)
+
+- [x] Diagnose the M4c-0 finding: the 5-component noded reading was a sub-ULP floating-point noding artefact (connector endpoints 1.5e-15–2.1e-14 m off the main lines; GEOS exact predicates create no node; all 25 main roads were always in one exact component).
+- [x] Add explicit shared-coordinate junctions (no snap, no rounding, no tolerance): noded centerline graph 1 component — 51 nodes / 55 segments, cyclomatic 5, dead ends 21, junctions 27 (16 explicit shared-vertex), closed rings 3, `max_endpoint_gap_m` 0.0.
+- [x] Replace the corridor-only `ROAD_CONNECTIVITY` with the noded check: noded connectivity fails closed within a 1e-9 m endpoint tolerance; sub-1e-9 endpoint misalignment surfaces first as component count >1. `ROAD_CORRIDOR_COVERAGE` (corridor union, 1 piece) is published as informational, non-gating.
+- [x] Publish `design-roads.geojson` (41 centerlines + 16 explicit junction records) so the topology is checkable from committed evidence.
+- [x] Regenerate the evidence in one run: 208-entity DXF, audit 0/0, readback 208/208, 23 declared design layers, all prior metrics unchanged; contract bumped to `design-synthesis-v0.2.yaml` (v0.1 superseded).
+- [x] Control plane unchanged: foundation/runtime/deployment/CAD/domain untouched; XDATA arity 11; `ISSUE_CATEGORIES` unchanged.
+- [x] Correct the defect narrative across docs (this roadmap, status §16–18, design/reuse READMEs, research-to-product-map); full-site spacing remains deferred (M4c-1b/4c next steps below still open).
+
+### Milestone 4c-1c — Honest Evidence Semantics (complete, 0.17.0)
+
+- [x] Split check statuses into pass / info / deferred — 16 declared checks: **9 pass**, 3 info (PARKING_REQUIREMENT_ARITHMETIC, ROAD_CORRIDOR_COVERAGE, OPEN_SPACE_RATIO), 4 deferred (PARKING_CAPACITY, PARKING_LAYOUT, DESIGNED_GREEN_RATIO, FULL_SITE_NS_SPACING). `info` is not `pass`; `deferred` is not `pass`.
+- [x] Split the green claim: `open_space_ratio` **63.0%** (128,676 m²) is open space, not designed green; `designed_green_ratio` **6.6%** (13,446 m²; supplementary covers 89.6% of open space) — the ≥30% designed-green target is deferred, not achieved.
+- [x] Split the parking claim: entrance count 5 **pass**; recorded capacity **1,000 vs 2,398 required** (PARKING_CAPACITY deferred); parking layout deferred; entrances carry capacities (3 existing × 0, 2 proposed × 500); garage layout `not_designed`.
+- [x] Label derived checks: FAR_RANGE / UNIT_COUNT_PRESERVED = `design_basis_arithmetic`; ROAD_WIDTHS = `design_basis_assignment`.
+- [x] Publish design-basis provenance: 21 parameters with authority states (5 `declared_requirement`, 2 `designer_stated`, 3 `inferred_from_sketch`, 11 `agent_assumption`), **all `confirmed: false`**; the Agent cannot self-confirm them (`design-assumption-v0.2`).
+- [x] Contract `design-synthesis-v0.3.yaml` (v0.2/v0.1 superseded); evidence-gate register v0.3; tests: `test_design_basis` (14), `test_green_parking_semantics` (7), `test_design_contract` 7→10; suite **283 passed**.
+
+### M4c-0 — Open-Source Design Capability Reuse Sprint (complete; partial answer)
+
+Goal: test whether existing open-source geometry, road, morphology and
+CAD-agent projects can perform the professional design work we have been
+rebuilding, using the same CASE-SKETCH-001 focus block.
+
+- [x] Read the R0 project matrix and capability allocation; audit the current
+  core dependencies (PyYAML, Shapely/GEOS, ezdxf only).
+- [x] Experiment A: Building Regulariser 0.2.5 on 9 focus footprints. 63→61
+  vertices, area −2.0%, mean Hausdorff 1.07 m, ERI 0.972→0.984. Limited gain;
+  it is a footprint-cleanup adapter, not a unit/typology generator.
+- [x] Experiment B: OSMnx 2.1.1 simplify/consolidate, PyGeoOps 0.6.0
+  centerlines, PyClothoids 0.2.0 G1. OSMnx 309/333→257/281→117/141 at 8 m,
+  keeping 1 component; PyGeoOps 11 per-area centerlines (10/11
+  multi-component); Clothoids single fit failed quality (356 m Hausdorff).
+- [x] Experiment C: uncorrected vs corrected collaborative layout. Uncorrected
+  had 1 road-clearance conflict (`SK-BLD-0038`); corrected has 7 buildings /
+  16 units, 20.0 m N-S, dropped 0038/0061; all current checks pass except
+  deferred full-site spacing.
+- [x] Reuse matrix with versions, licenses, hosts, tested APIs, metrics,
+  verdicts and rejected uses: `docs/e2e/open-source-reuse-001/reuse-matrix.yaml`.
+- [x] Visual comparison and editable DXF:
+  `docs/e2e/open-source-reuse-001/`.
+- [x] Found a real 4c defect: the corridor union is 1 polygon, but the noded
+  road centerline graph has **5 components**. The corridor-only
+  `ROAD_CONNECTIVITY` check is too weak; the 4c candidate is partial.
+  (Diagnosed in 4c-1a: sub-ULP floating-point noding artefact — not a design
+  disconnection; fixed with explicit shared-coordinate junctions.)
+
+**M4c-0 answer (partial):** OSMnx is the strongest candidate for a topology
+preprocessor; Building Regulariser is a cleanup adapter; PyGeoOps is a
+per-area centerline candidate; momepy is an evaluation adapter; Clothoids,
+UrbGEN and Street Generator are not direct core dependencies. No open-source
+tool produced a complete professional design by itself.
+
+**Next in 4c (superseded by 4c-1a):** the noded topology check landed
+dependency-free with explicit shared-coordinate junctions and the candidate was
+regenerated; the OSMnx-consolidated base was rejected (tolerance-created
+connectivity, source edge ids not preserved). OSMnx remains an optional
+source-skeleton preprocessor.
 
 ### Next research main line
 
-1. **Close the handoff integrity loop** — the designer's object-level review, then a real (not test-double) Canonical/DXF run for the selected subset.
-2. **Measure real-sketch fidelity** — human-confirmed reference geometry, Hausdorff/percentile boundary distance, IoU as secondary, topology/junction precision/recall, modification workload; expand gradually, never batch-promote all 55 buildings.
-3. **Professional building and road design** — apply the unit-type library, resolve six unit-count conflicts and the kindergarten classification; separate 支路/入户路, then review junctions, road class and cross-sections.
-4. **Agent ↔ real CAD loop** — hand the confirmed model to the CAD bridge; verify host read/edit/readback/diff/local rebuild; keep LibreCAD, FreeCAD and AutoCAD GUI as independent evidence lanes.
+1. ~~Repair the design road topology~~ — **done in 4c-1a** (explicit shared-coordinate junctions, dependency-free noded check, evidence regenerated); next: expand to all groups.
+2. **Expand and evaluate autonomous design** — full-site group layout, design-quality metrics, candidate comparison; do not return to sketch-level human review as the gate.
+3. **Measure design quality, not only sketch fidelity** — intent preservation, completeness, internal consistency, verified constraint satisfaction and CAD editability; Hausdorff/IoU remain secondary.
+4. **Professional building and road design** — apply the unit-type library, resolve six unit-count conflicts and the kindergarten classification; separate 支路/入户路, then review road class and cross-sections.
+5. **Agent ↔ real CAD loop** — hand the draft to the CAD bridge; verify host read/edit/readback/diff/local rebuild; keep LibreCAD, FreeCAD and AutoCAD GUI as independent evidence lanes.
 
 ## Milestone 5 — Production hardening (not started)
 

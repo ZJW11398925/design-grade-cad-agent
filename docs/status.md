@@ -1,21 +1,21 @@
 # Project Status
 
-Updated: 2026-10-27
-Version: `0.13.0` (Milestone 4b.1 scope-aware handoff integrity; Milestone 4b real-sketch pilot; Milestone 4a sketch/road evidence; Milestone 3c partial third-party evidence)
+Updated: 2026-10-28
+Version: `0.17.0` (M4c-1c honest evidence semantics — pass/info/deferred check statuses, designed-green vs open-space split, parking capacity vs requirement, design-basis provenance; M4c-1a road-topology truth fix — explicit shared-coordinate junctions, dependency-free noded topology check, evidence regeneration; M4c-0 open-source design reuse sprint; Milestone 4c autonomous design synthesis draft; Milestone 4b.1 scope-aware handoff integrity; Milestone 4a sketch/road evidence; Milestone 3c partial third-party evidence)
 Research basis: R0 v0.19 + R1 deployment-entry v0.2
 
 ## 1. One-line status
 
-The project has a working **governance/runtime contract layer**, a **synthetic Building/Road domain slice**, **living E2E-001/002/003/003b pipelines** from confirmed trace to DXF readback with scoped mutation/rebuild, adversarial delivery checks, semantic/dependency closure, **one real AutoCAD 2024 Core Console round-trip**, a first **Tier B designer-sketch intake** with designer-confirmed semantics and a proposed image-space trace, a **unified-mask road topology** with 121 junction candidates, and a **real-sketch handoff gate that now blocks correctly** until an object-level human geometry review exists. The downstream handoff → Canonical → CAD-IR → DXF path is implemented and tested with a test double, not published as real evidence. It does **not** yet have a human-confirmed sketch trace with fidelity metrics, real road engineering, general third-party CAD interoperability, IFC, or real-world validated behavior.
+The project has a working **governance/runtime contract layer**, a **synthetic Building/Road domain slice**, **living E2E-001/002/003/003b pipelines** from confirmed trace to DXF readback with scoped mutation/rebuild, adversarial delivery checks, semantic/dependency closure, **one real AutoCAD 2024 Core Console round-trip**, a first **Tier B designer-sketch intake** with designer-confirmed semantics and a proposed image-space trace, a **unified-mask road topology** with 121 junction candidates, and a **real-sketch handoff gate that now blocks correctly** until an object-level human geometry review exists, and the first **autonomous standardized design draft** from the real sketch (focus block G-01, FAR 1.565 — design-basis arithmetic, 20 m north-south rows, editable DXF; parking checked as requirement arithmetic — recorded capacity 1,000 of 2,398 required, layout deferred). The handoff → Canonical → CAD-IR → DXF path is implemented and tested with a test double, not published as real evidence; the autonomous draft is a `rule_derived` proposal, not human-confirmed. It does **not** yet have a human-confirmed sketch trace with fidelity metrics, real road engineering, general third-party CAD interoperability, IFC, or real-world validated behavior.
 
 ## 2. Test baseline
 
 ```text
 python -m pytest -q
-206 passed
+283 passed
 ```
 
-206 tests collected, all passing. No long-lived strict xfails.
+283 tests collected, all passing. No long-lived strict xfails.
 
 | Suite | Tests | Status |
 |---|---|---|
@@ -35,6 +35,13 @@ python -m pytest -q
 | Road topology | 3 | passing |
 | Sketch handoff gate | 32 | passing |
 | Sketch handoff A | 6 | passing |
+| Design synthesis | 9 | passing |
+| Design topology | 14 | passing |
+| Design contract | 10 | passing |
+| Design basis | 14 | passing |
+| Green/parking semantics | 7 | passing |
+| Privacy scan | 20 | passing |
+| Open-source reuse | 3 | passing |
 
 ## 3. Capability status
 
@@ -66,6 +73,8 @@ python -m pytest -q
 | Third-party CAD round-trip | **partial evidence only** | AutoCAD 2024 Core Console: semantic pass with serialization differences; LibreCAD/FreeCAD/GUI not run; issue #6 |
 | Real sketch → trace | **partial (designer sketch)** | CASE-SKETCH-001: 55 buildings (5 designer-confirmed merges), unit counts 16/21/17 plus 1 facility, 11 floors provisional, image-space geometry proposed; no fidelity metrics or unit-type library yet |
 | Real sketch → canonical handoff | **gate implemented; pilot blocked** | CASE-SKETCH-001-HANDOFF-A: 7 selected objects pass source-integrity and topology checks but stop at `HUMAN_OBJECT_REVIEW_REQUIRED`; the downstream ConfirmedTraceScene → Canonical → CAD-IR → DXF path is proven only with an explicitly marked test double. Scope, geometry quality and boundary authority propagate when confirmed. |
+| Autonomous design synthesis | **partial draft implemented** | CASE-SKETCH-001 design draft: full-site context (55 buildings/109 staircases/333 road edges) + focus block G-01 (7 standardized buildings/16 units); FAR 1.565; 2,398 households; 2,398 parking spaces and 5 entrances; 20 m north-south rows; 208-entity DXF with title block/key plan/dimensions; `rule_derived` proposal, not human-confirmed. M4c-0's 5-component road reading was diagnosed in M4c-1a as a sub-ULP floating-point noding artefact and fixed: explicit shared-coordinate junctions, noded graph **1 component** (51 nodes / 55 segments, cyclomatic 5, `max_endpoint_gap_m` 0.0), corridor union 1 piece; `design-roads.geojson` published. M4c-1c (0.17.0) made the semantics honest: checks are pass/info/deferred; `open_space_ratio` 63.0% is not designed green (`designed_green_ratio` 6.6%, deferred); parking capacity recorded 1,000 vs 2,398 required (capacity/layout deferred); FAR/unit-count passes are labelled design-basis arithmetic; 21 basis parameters carry provenance, all `confirmed: false`. |
+| Open-source design reuse | **sprint complete; partial answer** | Building Regulariser, OSMnx, PyGeoOps, Clothoids, momepy tested on CASE-SKETCH-001; OSMnx consolidation 309/333→117/141 with 1 component; Building Regulariser limited; PyGeoOps per-area; Clothoids single fit fails; momepy evaluation only; UrbGEN/Street Generator host/reference only |
 | Road centerline extraction | **proposed_rough** | skeleton-derived from colour masks; no professional alignment, width or junction design |
 | Road network topology | **connected_by_unified_road_mask** | 1 component: 309 nodes, 333 edges, 121 junction candidates; colour is a class attribute; no width, profile or alignment |
 | Real design-office profile | **not validated** | synthetic and DB11 subset only |
@@ -85,6 +94,7 @@ python -m pytest -q
 | `contracts/e2e-adversarial-v0.1.yaml` | E2E-003 adversarial scenarios, categories and issue mapping |
 | `contracts/sketch-evidence-v0.1.yaml` | Sketch-to-trace evidence, review states and publication boundary |
 | `contracts/sketch-domain-handoff-v0.2.yaml` | Scope-aware real-sketch handoff, boundary authority, source integrity and road topology |
+| `contracts/design-synthesis-v0.3.yaml` | Autonomous design draft state, basis provenance, honest check semantics, noded road topology, drawing and authority (v0.2/v0.1 superseded) |
 | `contracts/evidence-gate-register-v0.2.yaml` | R1-G01..G08 and evidence packages |
 | `contracts/runtime-state-contract-v0.1.yaml` | Runtime state envelope and registries |
 | `contracts/sidecar-lifecycle-contract-v0.1.yaml` | Sidecar lifecycle |
@@ -103,7 +113,7 @@ Promotion status of all research artifacts: [research-to-product-map.md](researc
 | R1-G04 Geometry | representative failure cases fail closed | partial (real geometry, entity range and project validation not exercised) |
 | R1-G05 Delivery | third-party semantic round-trip + real profile | partial (AutoCAD Core Console executed; real profile subset missing) |
 | R1-G06 Preview | no canonical pollution | pass for prototype scope |
-| R1-G07 Real Case | one non-synthetic site sketch | partial (the selected real subset passes source/topology checks but blocks at the human geometry gate; the downstream path is proven only with a test double) |
+| R1-G07 Real Case | one non-synthetic site sketch | partial (the selected real subset blocks at the human geometry gate; the autonomous design draft is a `rule_derived` proposal, not human-confirmed) |
 | R1-G08 Spikes | IFC + independent ENV + real profile | not started |
 
 ## 6. Known defects carried forward
@@ -335,10 +345,42 @@ Evidence: `docs/e2e/sketch-001/README.md`, `docs/e2e/sketch-001/case-summary.jso
 - Downstream path (test double only): trace, canonical, CAD-IR, DXF XDATA and readback manifest all carry `confirmation_scope: pilot_subset` and `geometry_quality: confirmed_for_pilot`. The test-double run reaches 11 entities, audit 0/0 and readback pass; massing and road profiles remain blocked; no width is derived.
 - Scope, quality and boundary authority propagate through `build_initial_scene()`; a full-case review rejects `confirmed_for_pilot`; a test double is rejected unless the caller explicitly allows it.
 - Structured DXF privacy scan covers TEXT/MTEXT, layer/linetype/style/block names, XDATA and raw bytes.
-- Evidence: `docs/e2e/sketch-handoff-a/`; tests: `tests/test_sketch_handoff.py` (31) and `tests/e2e/test_sketch_handoff_a.py` (6).
+- Evidence: `docs/e2e/sketch-handoff-a/`; tests: `tests/test_sketch_handoff.py` (32) and `tests/e2e/test_sketch_handoff_a.py` (6).
 - `EP-R1-SKETCH-001` remains in progress; `R1-G07` remains partial until an object-level human geometry review exists.
 
-## 16. Current non-claims
+## 16. CASE-SKETCH-001 autonomous design synthesis (Milestone 4c)
+
+- Contract: `contracts/design-synthesis-v0.3.yaml` (v0.2/v0.1 superseded); design package: `src/dgcad_design/`; evidence: `docs/e2e/design-synthesis-001/`.
+- Full-site context: 55 building candidates, 109 staircase units, one kindergarten/facility, 333 source road edges, 12 cluster greens and 3 garage entrances.
+- Design basis: 24×11 m staircase module (2 households/floor), 11 floors, 3.0 m floor height, 132 m² gross per household; FAR 1.55–1.60; ≥1 parking space/household; 20 m north-south spacing; 5 m boundary setback; 3 m building-road clearance; 12/7/4 m main/branch/access roads; ≥30% green (now tracked as `designed_green_ratio`, deferred). Declared as `design-assumption-v0.2` with per-parameter provenance — 21 parameters: 5 `declared_requirement`, 2 `designer_stated`, 3 `inferred_from_sketch`, 11 `agent_assumption`; **all `confirmed: false`**; the Agent cannot self-confirm them.
+- Full-site metrics: 2,398 households; 319,536 m² GFA (316,536 residential + 3,000 facility); **FAR 1.565** (design-basis arithmetic, not a spatial design result); parking requirement 2,398 spaces (basis arithmetic) with **recorded capacity 1,000** (capacity and layout deferred); 5 garage entrances (3 existing, capacity 0 + 2 proposed, capacity 500 each).
+- Focus block G-01: 7 buildings / 16 units / 352 households, placed in rows with 20.0 m north-south spacing, unit division lines, green strips and an access loop; 2 buildings (2U + 1U) are recorded as dropped because they do not fit the buildable block.
+- Road design: the 333-edge skeleton mesh is treated as **source evidence**, not the design network. The design uses merged main roads, one branch per group and a focus access loop; widths are 12/7/4 m. The 121-junction review is not continued as an optimization target.
+- Road topology (corrected in M4c-1a): the design roads carry **explicit shared-coordinate junctions**; the noded centerline graph is **1 component** (51 nodes / 55 segments, cyclomatic 5, dead ends 21, junctions 27, explicit junctions 16, closed rings 3, `max_endpoint_gap_m` 0.0). Noded connectivity fails closed within a 1e-9 m endpoint tolerance; sub-1e-9 endpoint misalignment surfaces first as component count >1. `ROAD_CORRIDOR_COVERAGE` (corridor union, 1 piece) is published as informational, not a gate. Committed evidence: `design-roads.geojson` (41 centerlines + 16 explicit junction records).
+- Green (honest split, M4c-1c): cluster greens are clipped to the free space; green strips are inserted between rows; supplementary green is allocated from the residual open space. `open_space_ratio` **63.0%** (128,676 m²) is open space, **not** designed green; `designed_green_ratio` **6.6%** (13,446 m²; supplementary covers 89.6% of open space) — the ≥30% designed-green target is **deferred**, not achieved.
+- CAD: `design-proposal.dxf`, 208 entities, audit 0/0, readback 208/208 pass; CAD-IR `pass_with_scope_limits` with seven `UNKNOWN_HEIGHT_ALLOWED` warnings for the declared design heights; layers for site/building/unit/main/branch/access/sidewalk/green/dimension/title/legend/north/scale/key plan; title block states Agent-generated, not human-confirmed, not code-compliant.
+- Authority: all design objects are `rule_derived` in `proposal_preview`; DXF XDATA and the readback manifest carry `confirmation_scope: design_draft`; no object is `human_confirmed`. Control plane unchanged in M4c-1a (foundation/runtime/deployment/CAD/domain untouched; XDATA arity 11; `ISSUE_CATEGORIES` unchanged).
+- Checks: 16 declared with explicit status semantics — **9 pass** (FAR_RANGE, PARKING_ENTRANCE_COUNT, UNIT_COUNT_PRESERVED, FOCUS_NS_SPACING, FOCUS_BOUNDARY_SETBACK, FOCUS_BUILDING_OVERLAP, FOCUS_ROAD_CLEARANCE, ROAD_CONNECTIVITY, ROAD_WIDTHS); **3 info** (PARKING_REQUIREMENT_ARITHMETIC, ROAD_CORRIDOR_COVERAGE, OPEN_SPACE_RATIO); **4 deferred** (PARKING_CAPACITY, PARKING_LAYOUT, DESIGNED_GREEN_RATIO, FULL_SITE_NS_SPACING). `info` is not `pass`; `deferred` is not `pass`. `derived_from`: FAR_RANGE and UNIT_COUNT_PRESERVED = `design_basis_arithmetic`; ROAD_WIDTHS = `design_basis_assignment`.
+- Tests: `tests/test_design_synthesis.py` (9); full suite **283 passed**.
+- The autonomous draft is not construction-ready, not code-compliant, not the designer's unit library, and not an adopted or officially issued design.
+- M4c-0's road finding ("corridor union 1 polygon, noded graph 5 components") was diagnosed in M4c-1a as a sub-ULP floating-point noding artefact — not a design disconnection; the fix and corrected narrative are recorded in §17 and the team dossier. The 4c candidate remains partial (full-site spacing deferred).
+
+## 17. M4c-0 open-source design reuse sprint
+
+- Evidence: `docs/e2e/open-source-reuse-001/`; matrix: `reuse-matrix.yaml`; experiments A/B/C with metrics, overlays, GeoJSON and an editable DXF.
+- **Building Regulariser 0.2.5 (MIT)**: 9 focus footprints, 63→61 vertices, area −2.0%, mean Hausdorff 1.07 m, max 4.87 m, IoU 0.959, ERI 0.972→0.984. Limited gain; a cleanup adapter, not a unit/typology generator.
+- **OSMnx 2.1.1 (MIT)**: source 309 nodes/333 edges → simplify 257/281 → consolidate 8 m 117/141, **1 component**, total length 6,090 m (−10.7%). With design widths the consolidated network still leaves no 120×90 m buildable focus rectangle; it is a topology preprocessor, not the design hierarchy.
+- **PyGeoOps 0.6.0 (BSD-3)**: 11 centerlines for 11 road areas, 78% coverage, 10/11 multi-component; per-area candidates, not a connected network.
+- **PyClothoids 0.2.0 (MIT)**: single G1 fit on MAIN-08 shortened the road by 78 m and deviated by 356 m Hausdorff; not a usable alignment generator.
+- **momepy 1.0.0 (BSD-3)**: building morphology and network-ratio metrics; candidate evaluation only, not a compliance verdict.
+- **UrbGEN (MIT)** is a Rhino/Grasshopper `.gha` plugin; **Street Generator/rue-lib (MIT)** is not on PyPI and uses foreign 20/15/10 m widths; both are reference-only. Clothoids, IfcOpenShell and Ladybug are deferred.
+- The 4c candidate's road **corridor union is 1 polygon but its noded centerline graph read 5 components** (51 nodes/50 edges, `cyclomatic: 0`). M4c-1a later diagnosed this as a **sub-ULP floating-point noding artefact** — connector endpoints sat 1.5e-15–2.1e-14 m off the main lines (GEOS exact predicates create no node), the 50-edge count is the simple-graph collapse of the closed access loop, and `cyclomatic: 0` is momepy's connected-graph formula returning 0 on a disconnected graph (true multigraph cycle rank 5). Fixed in M4c-1a with explicit shared-coordinate junctions: the noded graph is **1 component**, and `ROAD_CONNECTIVITY` now checks the noded graph.
+- Next (superseded by M4c-1a): the "optional OSMnx adapter + rebuild on the consolidated network" plan was **not** taken — the fix is dependency-free and the design network was never rebuilt on OSMnx; OSMnx remains an optional source-skeleton preprocessor, not a connectivity proof. Building Regulariser only for noisy input cleanup; momepy for evaluation.
+- No new core dependencies were added; the experiment dependencies are optional only.
+
+## 18. Current non-claims
+
+
 
 - `research_complete = false`
 - `release_authorized = false`
@@ -354,3 +396,9 @@ Evidence: `docs/e2e/sketch-001/README.md`, `docs/e2e/sketch-001/case-summary.jso
 - No DXF or canonical model is published for the current blocked handoff. The test-double DXF is local metric only; no project coordinates/DWG are published. Same-library `ezdxf` readback is not third-party evidence.
 - The pilot transform is uniform scale, translation and y-flip, not the six-point homography; it does not correct local sketch distortion.
 - No road width, cross-section, profile, alignment or surface is designed.
+- The 4c design candidate is partial (full-site north-south spacing deferred). Its earlier 5-component noded reading was a sub-ULP floating-point noding artefact, corrected in M4c-1a with explicit shared-coordinate junctions (noded graph 1 component; corridor union 1 piece). The open-source M4c-0 sprint did not produce a complete professional design; OSMnx remains an optional source-skeleton preprocessor, not a connectivity proof.
+- The open-source libraries tested in M4c-0 are optional experiment dependencies, not production/core dependencies; no code-compliance or construction-readiness claim is made.
+- The reuse experiments assigned EPSG:3857 only for library compatibility; the coordinates are the local metric sketch frame, not a real projection.
+- The autonomous design draft is a schematic proposal, not a construction or permit drawing and not a code-compliance claim; its unit module is provisional, its road corridors are schematic, its garage layout is not designed, and full-site north-south spacing is deferred.
+- Green and parking claims are split honestly (M4c-1c): `open_space_ratio` 63.0% is open space, not designed green (`designed_green_ratio` 6.6%, the ≥30% designed-green target is deferred); parking capacity is recorded at 1,000 against the 2,398-space requirement (capacity and layout deferred); the FAR/unit-count passes are design-basis arithmetic; and all 21 design-basis parameters are unconfirmed assumptions (`confirmed: false`) the Agent cannot self-confirm.
+- The autonomous draft is never `human_confirmed`; it is a `rule_derived` proposal the designer may adopt or edit.

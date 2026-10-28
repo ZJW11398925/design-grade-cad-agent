@@ -1,0 +1,117 @@
+basis_id: design-assumption-v0.2
+version: 0.2.0
+case_id: CASE-SKETCH-001
+households_per_staircase_per_floor: 2
+floors: 11
+floor_height_m: 3.0
+staircase_width_m: 24.0
+staircase_depth_m: 11.0
+dwelling_gfa_m2: 132.0
+facility_gfa_m2: 3000.0
+far_min: 1.55
+far_max: 1.60
+parking_spaces_per_household: 1.0
+spaces_per_entrance: 500
+north_south_spacing_m: 20.0
+side_spacing_m: 13.0
+boundary_setback_m: 5.0
+building_road_clearance_m: 3.0
+green_ratio_min: 0.30
+road_widths:
+  main_road: 12.0
+  branch_road: 7.0
+  access_road: 4.0
+sidewalk_width_m: 2.0
+group_distance_m: 45.0
+scale_px_per_m: 2.438
+origin_px: [45.0, 1536.0]
+target_frame: LOCAL-XY-ZUP
+drawing_standard: DGCAD-SCHEMATIC-001
+claim_scope: schematic_design_proposal_not_code_compliance
+design_authority: rule_derived
+human_confirmed: false
+parameter_sources:
+  households_per_staircase_per_floor:
+    source: "derived from the designer's confirmed 1/2/3-unit building types in CASE-SKETCH-001"
+    authority: designer_stated
+    confirmed: false
+  floors:
+    source: "11 floors is the designer's provisional note for all buildings; no confirmed section exists"
+    authority: designer_stated
+    confirmed: false
+  floor_height_m:
+    source: "3.0 m floor-to-floor assumed by the Agent for height arithmetic; no surveyed or designed section"
+    authority: agent_assumption
+    confirmed: false
+  staircase_width_m:
+    source: "24 m staircase module width is an Agent layout assumption, not the designer's unit library"
+    authority: agent_assumption
+    confirmed: false
+  staircase_depth_m:
+    source: "11 m staircase module depth is an Agent layout assumption paired with the module width"
+    authority: agent_assumption
+    confirmed: false
+  dwelling_gfa_m2:
+    source: "132 m2 gross per household assumed so that two households match the 264 m2 module area"
+    authority: agent_assumption
+    confirmed: false
+  facility_gfa_m2:
+    source: "3,000 m2 facility area inferred from the sketch's kindergarten footprint, not from a programme"
+    authority: inferred_from_sketch
+    confirmed: false
+  far_min:
+    source: "declared project requirement: FAR lower bound 1.55"
+    authority: declared_requirement
+    confirmed: false
+  far_max:
+    source: "declared project requirement: FAR upper bound 1.60"
+    authority: declared_requirement
+    confirmed: false
+  parking_spaces_per_household:
+    source: "declared project requirement: at least one parking space per household"
+    authority: declared_requirement
+    confirmed: false
+  spaces_per_entrance:
+    source: "500 spaces per garage entrance assumed by the Agent; no project traffic study backs this number"
+    authority: agent_assumption
+    confirmed: false
+  north_south_spacing_m:
+    source: "declared project requirement: 20 m north-south building spacing"
+    authority: declared_requirement
+    confirmed: false
+  side_spacing_m:
+    source: "13 m side spacing assumed by the Agent; no project or code source"
+    authority: agent_assumption
+    confirmed: false
+  boundary_setback_m:
+    source: "5 m boundary setback assumed by the Agent; the private redline is not available"
+    authority: agent_assumption
+    confirmed: false
+  building_road_clearance_m:
+    source: "3 m building-to-road clearance assumed by the Agent for the schematic layout"
+    authority: agent_assumption
+    confirmed: false
+  green_ratio_min:
+    source: "declared project requirement: at least 30% site green ratio"
+    authority: declared_requirement
+    confirmed: false
+  road_widths:
+    source: "12/7/4 m main/branch/access widths assumed from schematic class names, not a Chinese road standard"
+    authority: agent_assumption
+    confirmed: false
+  sidewalk_width_m:
+    source: "2 m sidewalk width assumed by the Agent; not a road standard"
+    authority: agent_assumption
+    confirmed: false
+  group_distance_m:
+    source: "45 m grouping distance assumed by the Agent for the focus-block search"
+    authority: agent_assumption
+    confirmed: false
+  scale_px_per_m:
+    source: "2.438 px/m inferred from the published pilot scale (range 2.25-2.89), not project coordinates"
+    authority: inferred_from_sketch
+    confirmed: false
+  origin_px:
+    source: "sketch-local origin [45.0, 1536.0] read from the published pilot image frame"
+    authority: inferred_from_sketch
+    confirmed: false

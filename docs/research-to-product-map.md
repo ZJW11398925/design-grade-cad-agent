@@ -78,6 +78,8 @@ This map is the single index of which research artifacts have been promoted into
 | E2E-003b semantic/dependency | **promoted** | `src/dgcad_cad/` + `tests/e2e/test_e2e_003b_semantics.py` | Fingerprint consistency, symbol tables, ring keys, raw/canonical manifest; same-library only |
 | E2E-003c third-party CAD | **partially promoted** | `contracts/third-party-roundtrip-v0.1.yaml` + `scripts/third_party/autocad_core_roundtrip.py` | AutoCAD 2024 Core Console evidence captured; LibreCAD/FreeCAD/GUI matrix still open (#6) |
 | CASE-SKETCH-001-HANDOFF-A | **promoted (gate; pilot blocked)** | `contracts/sketch-domain-handoff-v0.2.yaml` + `src/dgcad_domain/sketch_handoff.py` + `docs/e2e/sketch-handoff-a/` | Source integrity, road topology, review packet and scope/authority propagation promoted; the real pilot blocks at `HUMAN_OBJECT_REVIEW_REQUIRED` until an object-level review exists |
+| CASE-SKETCH-001-AUTONOMOUS-DESIGN-001 | **promoted (partial draft)** | `contracts/design-synthesis-v0.3.yaml` + `src/dgcad_design/` + `docs/e2e/design-synthesis-001/` | Full-site metrics + focus-block standardized design; `rule_derived` draft, no human review gate; full-site spacing deferred; road topology corrected in 4c-1a; honest semantics in 4c-1c (pass/info/deferred checks, designed-green vs open space, parking capacity vs requirement, basis provenance all `confirmed: false`; v0.2/v0.1 superseded) |
+| CASE-SKETCH-001-OPEN-SOURCE-REUSE-001 | **promoted (research evidence)** | `experiments/m4c0/` + `docs/e2e/open-source-reuse-001/` | Building Regulariser, OSMnx, PyGeoOps, Clothoids, momepy tested; OSMnx useful as an optional source-skeleton preprocessor, not a connectivity proof (see 4c-1a); no new core dependencies |
 | DEV-CAD-001..008 | **partially promoted** | Issues #1/#4/#5/#6/#8 + closed #2/#3/#7 | Milestone 3a fixed 002/003/007; 009/010 added and fixed; 001/004/005/006/008/011 remain for 3b/3c |
 | R0 acquisition batches (BATCH-001..005) | `research_only` | — | Unclosed evidence; gate claims remain blocked |
 
@@ -182,6 +184,29 @@ Still open: LibreCAD/FreeCAD/GUI third-party matrix (#6), arcs/splines outside t
 - Tests: `tests/test_sketch_handoff.py` (32) and `tests/e2e/test_sketch_handoff_a.py` (6).
 
 
+## CASE-SKETCH-001 open-source reuse sprint (0.15.0)
+
+- Evidence: `docs/e2e/open-source-reuse-001/`; code: `experiments/m4c0/`; matrix: `reuse-matrix.yaml`.
+- Building Regulariser 0.2.5 (MIT): 9 focus footprints, 63→61 vertices, area −2%, mean Hausdorff 1.07 m, ERI +0.012; cleanup adapter only.
+- OSMnx 2.1.1 (MIT): 309/333→257/281 simplify→117/141 consolidate at 8 m, 1 component, length −10.7%; topology preprocessor, not a design hierarchy.
+- PyGeoOps 0.6.0 (BSD-3): 11/11 road-area centerlines, 78% coverage, 10/11 multi-component.
+- PyClothoids 0.2.0 (MIT): single G1 fit on MAIN-08 failed quality (356 m Hausdorff, −78 m length).
+- momepy 1.0.0 (BSD-3): morphology/network metrics for candidate comparison only.
+- UrbGEN (MIT, Rhino/Grasshopper) and Street Generator/rue-lib (MIT, not on PyPI, foreign widths) are reference-only; Clothoids/IfcOpenShell/Ladybug deferred.
+- **Found a 4c defect**: the corridor union is one polygon, but the noded road centerline graph has 5 components; the `ROAD_CONNECTIVITY` check based on corridor union is too weak. (4c-1a diagnosis: sub-ULP floating-point noding artefact, not a design disconnection; fixed with explicit shared-coordinate junctions — noded graph 1 component.)
+- No new core dependencies; the experiment deps are optional.
+
+## CASE-SKETCH-001 autonomous design synthesis (0.14.0)
+
+- Contract and package: `contracts/design-synthesis-v0.2.yaml` (v0.1 superseded), `src/dgcad_design/`, `docs/e2e/design-synthesis-001/`.
+- Full-site context: 55 buildings, 109 staircases, 2,398 households, 319,536 m² GFA, FAR 1.565, 2,398 parking spaces, 5 entrances.
+- Focus block G-01: 7 standardized buildings / 16 units in 20 m rows, unit division lines, green strips and an access loop; 2 buildings recorded as dropped.
+- Design changes: standardized staircase modules, row layout, green strips, simplified main/branch/access road hierarchy, two added garage entrances.
+- Authority: `rule_derived` in `proposal_preview`; no `human_confirmed`; draft revision persisted; designer may edit or adopt.
+- Verification: FAR, parking, entrance count, unit count, focus spacing/setback/overlap/road clearance, connectivity, road widths and green ratio pass; full-site spacing deferred.
+- CAD: 208 entities, audit 0/0, readback 208/208, 23 declared design layers (25 table layers minus `0`/`Defpoints`; 20 used by modelspace entities), title block/key plan/dimensions; same-library ezdxf only.
+- Tests: `tests/test_design_synthesis.py` (8).
+
 ## EP-R1-ROAD-001 unified-mask topology (0.11.0)
 
 - The separate-colour skeleton produced 9 artificial components; that result is superseded.
@@ -215,6 +240,7 @@ contracts/
 ├── third-party-roundtrip-v0.1.yaml
 ├── sketch-evidence-v0.1.yaml
 ├── sketch-domain-handoff-v0.2.yaml
+├── design-synthesis-v0.3.yaml
 ├── evidence-gate-register-v0.2.yaml
 ├── runtime-state-contract-v0.1.yaml
 ├── runtime-agent-surface-v0.1.yaml
@@ -230,6 +256,8 @@ contracts/
 
 Re-run this map before each milestone exit. The next expected promotions are:
 
+- ~~OSMnx topology adapter → noded connectivity check~~ — done in 4c-1a without OSMnx (explicit shared-coordinate junctions, dependency-free noded check); next: design-aware hierarchy and full-site expansion.
+- Autonomous design draft → full-site group layout, design-quality evaluation and candidate comparison.
 - Sketch evidence → human-confirmed trace and fidelity metrics when the designer completes the object-level review packet and supplies or approves the geometry reference.
 - Handoff → a real `human_object_review` record; then the selected subset may enter Canonical/DXF without a test double.
 - Road connectivity from actual geometry → after review of the 121 junction candidates; then width/profile/alignment and 支路/入户路 separation.

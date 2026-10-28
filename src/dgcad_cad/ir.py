@@ -100,6 +100,10 @@ class CadObject:
     source_world: str
     provenance: dict[str, Any]
     massing: dict[str, Any] | None = None
+    text: str | None = None
+    text_height: float = 0.0
+    text_style: str | None = None
+    rotation: float = 0.0
 
     def to_dict(self) -> dict[str, Any]:
         payload = {
@@ -114,6 +118,11 @@ class CadObject:
         }
         if self.massing is not None:
             payload["massing"] = self.massing
+        if self.text is not None:
+            payload["text"] = self.text
+            payload["text_height"] = self.text_height
+            payload["text_style"] = self.text_style
+            payload["rotation"] = self.rotation
         return payload
 
 

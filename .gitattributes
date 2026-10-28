@@ -4,9 +4,20 @@
 *.bat text eol=crlf
 *.cmd text eol=crlf
 
-# Preserve exact bytes of CAD interchange and evidence artifacts
+# Preserve exact bytes of CAD interchange and hash-pinned evidence artifacts
 *.dxf -text
 *.dwg -text
+*.geojson -text
 *.zip binary
 *.png binary
 *.pdf binary
+
+# Generated evidence artifacts: keep them in the repository (hash/readback/privacy
+# chain) but collapse them in code review and language statistics.
+docs/e2e/**/*.json linguist-generated=true
+docs/e2e/**/*.geojson linguist-generated=true
+docs/e2e/**/*.dxf linguist-generated=true
+docs/e2e/**/*.png linguist-generated=true
+docs/e2e/**/*.txt linguist-generated=true
+docs/e2e/**/*.html linguist-generated=true
+docs/e2e/**/*.scr linguist-generated=true

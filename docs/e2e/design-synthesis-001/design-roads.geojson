@@ -1,0 +1,3143 @@
+{
+  "type": "FeatureCollection",
+  "schema_id": "dgcad.design-roads.v0.1",
+  "road_count": 41,
+  "coordinate_frame": "design-local-metric",
+  "junction_count": 16,
+  "junctions": [
+    {
+      "id": "J-01",
+      "x": 230.45417791456143,
+      "y": 544.6377855048715,
+      "road_ids": [
+        "MAIN-08",
+        "BR-FOCUS"
+      ]
+    },
+    {
+      "id": "J-02",
+      "x": 208.72108017617907,
+      "y": 508.968827,
+      "road_ids": [
+        "BR-FOCUS",
+        "ACC-FOCUS-01"
+      ]
+    },
+    {
+      "id": "J-03",
+      "x": 298.94237312140615,
+      "y": 137.91209255448297,
+      "road_ids": [
+        "MAIN-21",
+        "BR-G-02"
+      ]
+    },
+    {
+      "id": "J-04",
+      "x": 103.36341263330598,
+      "y": 253.38413227491904,
+      "road_ids": [
+        "MAIN-07",
+        "BR-G-03"
+      ]
+    },
+    {
+      "id": "J-05",
+      "x": 248.66219689376692,
+      "y": 456.8384073132006,
+      "road_ids": [
+        "MAIN-08",
+        "BR-G-04"
+      ]
+    },
+    {
+      "id": "J-06",
+      "x": 199.73352512194066,
+      "y": 125.86101957176594,
+      "road_ids": [
+        "MAIN-14",
+        "BR-G-06"
+      ]
+    },
+    {
+      "id": "J-07",
+      "x": 104.593929,
+      "y": 129.614438,
+      "road_ids": [
+        "MAIN-10",
+        "BR-G-07"
+      ]
+    },
+    {
+      "id": "J-08",
+      "x": 234.02753783092217,
+      "y": 67.92735197730987,
+      "road_ids": [
+        "MAIN-17",
+        "BR-G-08"
+      ]
+    },
+    {
+      "id": "J-09",
+      "x": 243.64232977850696,
+      "y": 84.4954881050041,
+      "road_ids": [
+        "MAIN-20",
+        "BR-G-09"
+      ]
+    },
+    {
+      "id": "J-10",
+      "x": 302.40891802196893,
+      "y": 192.82345615916867,
+      "road_ids": [
+        "MAIN-21",
+        "BR-G-10"
+      ]
+    },
+    {
+      "id": "J-11",
+      "x": 103.36341263330598,
+      "y": 202.59331087518228,
+      "road_ids": [
+        "MAIN-07",
+        "BR-G-11"
+      ]
+    },
+    {
+      "id": "J-12",
+      "x": 111.156686,
+      "y": 127.973749,
+      "road_ids": [
+        "MAIN-10",
+        "BR-G-13"
+      ]
+    },
+    {
+      "id": "J-13",
+      "x": 159.14684167350285,
+      "y": 114.84823625922887,
+      "road_ids": [
+        "MAIN-15",
+        "BR-G-14"
+      ]
+    },
+    {
+      "id": "J-14",
+      "x": 303.93765381460213,
+      "y": 375.71780147662014,
+      "road_ids": [
+        "MAIN-24",
+        "BR-G-15"
+      ]
+    },
+    {
+      "id": "J-15",
+      "x": 103.36341263330598,
+      "y": 328.899530903572,
+      "road_ids": [
+        "MAIN-07",
+        "BR-G-16"
+      ]
+    },
+    {
+      "id": "J-16",
+      "x": 350.1773323315702,
+      "y": 343.33433538128946,
+      "road_ids": [
+        "MAIN-25",
+        "BR-G-17"
+      ]
+    }
+  ],
+  "features": [
+    {
+      "type": "Feature",
+      "id": "MAIN-01",
+      "properties": {
+        "edge_id": "MAIN-01",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            34.454470877768664,
+            460.62346185397865
+          ],
+          [
+            38.96636587366694,
+            470.0574241181296
+          ],
+          [
+            42.24774405250205,
+            477.0303527481542
+          ],
+          [
+            45.52912223133716,
+            483.5931091058244
+          ],
+          [
+            53.32239540607055,
+            497.53896636587365
+          ],
+          [
+            66.85808039376538,
+            522.5594749794914
+          ],
+          [
+            74.24118129614438,
+            535.6849876948318
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-02",
+      "properties": {
+        "edge_id": "MAIN-02",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            34.454470877768664,
+            460.62346185397865
+          ],
+          [
+            20.91878589007383,
+            434.78260869565213
+          ],
+          [
+            16.81706316652994,
+            425.3486464315012
+          ],
+          [
+            16.81706316652994,
+            409.35192780968003
+          ],
+          [
+            22.149302707136997,
+            406.8908941755537
+          ],
+          [
+            30.352748154224773,
+            402.78917145200984
+          ],
+          [
+            41.01722723543888,
+            398.68744872846594
+          ],
+          [
+            53.732567678424935,
+            392.9450369155045
+          ],
+          [
+            66.0377358490566,
+            387.20262510254304
+          ],
+          [
+            78.75307629204265,
+            381.87038556193596
+          ],
+          [
+            103.36341263330598,
+            374.48728465955696
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-03",
+      "properties": {
+        "edge_id": "MAIN-03",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            34.454470877768664,
+            460.62346185397865
+          ],
+          [
+            48.40032813781788,
+            458.5726004922067
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-04",
+      "properties": {
+        "edge_id": "MAIN-04",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            74.24118129614438,
+            535.6849876948318
+          ],
+          [
+            77.1123872026251,
+            542.247744052502
+          ],
+          [
+            89.82772764561115,
+            564.397046759639
+          ],
+          [
+            92.28876127973749,
+            568.9089417555373
+          ],
+          [
+            94.74979491386382,
+            574.2411812961443
+          ],
+          [
+            99.2616899097621,
+            582.0344544708777
+          ],
+          [
+            109.5159967186218,
+            601.7227235438884
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-05",
+      "properties": {
+        "edge_id": "MAIN-05",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            100.49220672682526,
+            521.3289581624282
+          ],
+          [
+            74.24118129614438,
+            535.6849876948318
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-06",
+      "properties": {
+        "edge_id": "MAIN-06",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            144.3578513694241,
+            376.4394010741933
+          ],
+          [
+            103.36341263330598,
+            374.48728465955696
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-07",
+      "properties": {
+        "edge_id": "MAIN-07",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            110.9410270180822,
+            129.35850663855445
+          ],
+          [
+            103.36341263330598,
+            178.01476620180475
+          ],
+          [
+            103.36341263330598,
+            202.59331087518228
+          ],
+          [
+            103.36341263330598,
+            253.38413227491904
+          ],
+          [
+            103.36341263330598,
+            263.3305988515176
+          ],
+          [
+            103.36341263330598,
+            328.899530903572
+          ],
+          [
+            103.36341263330598,
+            374.48728465955696
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-08",
+      "properties": {
+        "edge_id": "MAIN-08",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            248.974569319114,
+            422.4774405250205
+          ],
+          [
+            248.66219689376692,
+            456.8384073132006
+          ],
+          [
+            248.5643970467596,
+            467.5963904840032
+          ],
+          [
+            247.33388022969646,
+            501.2305168170631
+          ],
+          [
+            239.95077932731746,
+            516.8170631665299
+          ],
+          [
+            235.4388843314192,
+            521.3289581624282
+          ],
+          [
+            234.208367514356,
+            533.6341263330598
+          ],
+          [
+            230.45417791456143,
+            544.6377855048715
+          ],
+          [
+            222.31337161607874,
+            568.4987694831829
+          ],
+          [
+            215.34044298605411,
+            585.3158326497129
+          ],
+          [
+            213.69975389663657,
+            593.929450369155
+          ],
+          [
+            206.72682526661197,
+            616.078753076292
+          ],
+          [
+            203.85561936013124,
+            627.9737489745693
+          ],
+          [
+            122.64150943396226,
+            627.5635767022148
+          ],
+          [
+            120.18047579983592,
+            621.0008203445446
+          ],
+          [
+            109.5159967186218,
+            601.7227235438884
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-09",
+      "properties": {
+        "edge_id": "MAIN-09",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            124.6923707957342,
+            600.9023789991796
+          ],
+          [
+            109.5159967186218,
+            601.7227235438884
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-10",
+      "properties": {
+        "edge_id": "MAIN-10",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            110.9410270180822,
+            129.35850663855445
+          ],
+          [
+            104.593929,
+            129.614438
+          ],
+          [
+            111.156686,
+            127.973749
+          ],
+          [
+            110.9410270180822,
+            129.35850663855445
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-11",
+      "properties": {
+        "edge_id": "MAIN-11",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            155.45529122231335,
+            127.56357670221492
+          ],
+          [
+            110.9410270180822,
+            129.35850663855445
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-12",
+      "properties": {
+        "edge_id": "MAIN-12",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            144.3578513694241,
+            376.4394010741933
+          ],
+          [
+            114.027892,
+            377.358491
+          ],
+          [
+            163.658737,
+            377.358491
+          ],
+          [
+            144.3578513694241,
+            376.4394010741933
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-13",
+      "properties": {
+        "edge_id": "MAIN-13",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            248.974569319114,
+            378.9991796554553
+          ],
+          [
+            240.77112387202624,
+            375.30762920426577
+          ],
+          [
+            185.808039,
+            377.358491
+          ],
+          [
+            168.17063166529942,
+            375.71780147662014
+          ],
+          [
+            144.3578513694241,
+            376.4394010741933
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-14",
+      "properties": {
+        "edge_id": "MAIN-14",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            155.45529122231335,
+            127.56357670221492
+          ],
+          [
+            160.78753076292043,
+            127.56357670221492
+          ],
+          [
+            199.73352512194066,
+            125.86101957176594
+          ],
+          [
+            235.84905660377356,
+            124.2821985233798
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-15",
+      "properties": {
+        "edge_id": "MAIN-15",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            159.14684167350285,
+            114.84823625922887
+          ],
+          [
+            155.455291,
+            118.949959
+          ],
+          [
+            155.45529122231335,
+            127.56357670221492
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-16",
+      "properties": {
+        "edge_id": "MAIN-16",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            231.3371616078753,
+            20.098441345365053
+          ],
+          [
+            221.49302707136997,
+            17.227235438884332
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-17",
+      "properties": {
+        "edge_id": "MAIN-17",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            235.0287120590648,
+            85.72600492206726
+          ],
+          [
+            234.02753783092217,
+            67.92735197730987
+          ],
+          [
+            231.3371616078753,
+            20.098441345365053
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-18",
+      "properties": {
+        "edge_id": "MAIN-18",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            231.3371616078753,
+            20.098441345365053
+          ],
+          [
+            245.6931911402789,
+            16.81706316652994
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-19",
+      "properties": {
+        "edge_id": "MAIN-19",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            235.84905660377356,
+            124.2821985233798
+          ],
+          [
+            235.0287120590648,
+            85.72600492206726
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-20",
+      "properties": {
+        "edge_id": "MAIN-20",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            235.0287120590648,
+            85.72600492206726
+          ],
+          [
+            243.64232977850696,
+            84.4954881050041
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-21",
+      "properties": {
+        "edge_id": "MAIN-21",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            235.84905660377356,
+            124.2821985233798
+          ],
+          [
+            240.77112387202624,
+            125.1025430680886
+          ],
+          [
+            298.1952420016407,
+            127.15340442986053
+          ],
+          [
+            298.94237312140615,
+            137.91209255448297
+          ],
+          [
+            302.2969647251846,
+            186.21821164889252
+          ],
+          [
+            302.40891802196893,
+            192.82345615916867
+          ],
+          [
+            302.70713699753895,
+            210.41837571780147
+          ],
+          [
+            304.7579983593109,
+            303.93765381460213
+          ],
+          [
+            307.6292042657916,
+            342.0836751435603
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-22",
+      "properties": {
+        "edge_id": "MAIN-22",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            248.974569319114,
+            422.4774405250205
+          ],
+          [
+            239.95077932731746,
+            424.93847415914684
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-23",
+      "properties": {
+        "edge_id": "MAIN-23",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            248.974569319114,
+            378.9991796554553
+          ],
+          [
+            248.974569319114,
+            422.4774405250205
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-24",
+      "properties": {
+        "edge_id": "MAIN-24",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            248.974569319114,
+            378.9991796554553
+          ],
+          [
+            273.58490566037733,
+            376.53814602132894
+          ],
+          [
+            303.93765381460213,
+            375.71780147662014
+          ],
+          [
+            307.6292042657916,
+            342.0836751435603
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-25",
+      "properties": {
+        "edge_id": "MAIN-25",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            307.6292042657916,
+            342.0836751435603
+          ],
+          [
+            348.6464315012305,
+            343.3141919606234
+          ],
+          [
+            350.1773323315702,
+            343.33433538128946
+          ],
+          [
+            379.819524,
+            343.724364
+          ],
+          [
+            382.2805578342904,
+            340.8531583264971
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-FOCUS",
+      "properties": {
+        "edge_id": "BR-FOCUS",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-01",
+        "end_junction_id": "J-02",
+        "source_edge_ids": []
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            230.45417791456143,
+            544.6377855048715
+          ],
+          [
+            208.72108017617907,
+            508.968827
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-02",
+      "properties": {
+        "edge_id": "BR-G-02",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-03",
+        "end_junction_id": null,
+        "source_edge_ids": []
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            298.94237312140615,
+            137.91209255448297
+          ],
+          [
+            320.344545,
+            137.91209255448297
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-03",
+      "properties": {
+        "edge_id": "BR-G-03",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-04",
+        "end_junction_id": null,
+        "source_edge_ids": []
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            103.36341263330598,
+            253.38413227491904
+          ],
+          [
+            123.872026,
+            253.384132274919
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-04",
+      "properties": {
+        "edge_id": "BR-G-04",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-05",
+        "end_junction_id": null,
+        "source_edge_ids": []
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            248.66219689376692,
+            456.8384073132006
+          ],
+          [
+            262.920427,
+            456.8384073132006
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-06",
+      "properties": {
+        "edge_id": "BR-G-06",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-06",
+        "end_junction_id": null,
+        "source_edge_ids": []
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            199.73352512194066,
+            125.86101957176594
+          ],
+          [
+            199.73352512194066,
+            151.763741
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-07",
+      "properties": {
+        "edge_id": "BR-G-07",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-07",
+        "end_junction_id": null,
+        "source_edge_ids": []
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            104.593929,
+            129.614438
+          ],
+          [
+            77.112387,
+            115.258409
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-08",
+      "properties": {
+        "edge_id": "BR-G-08",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-08",
+        "end_junction_id": null,
+        "source_edge_ids": []
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            234.02753783092217,
+            67.92735197730987
+          ],
+          [
+            220.672683,
+            67.92735197730987
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-09",
+      "properties": {
+        "edge_id": "BR-G-09",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-09",
+        "end_junction_id": null,
+        "source_edge_ids": []
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            243.64232977850696,
+            84.4954881050041
+          ],
+          [
+            251.025431,
+            84.4954881050041
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-10",
+      "properties": {
+        "edge_id": "BR-G-10",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-10",
+        "end_junction_id": null,
+        "source_edge_ids": []
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            302.40891802196893,
+            192.82345615916867
+          ],
+          [
+            285.069729,
+            192.82345615916867
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-11",
+      "properties": {
+        "edge_id": "BR-G-11",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-11",
+        "end_junction_id": null,
+        "source_edge_ids": []
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            103.36341263330598,
+            202.59331087518228
+          ],
+          [
+            84.495488,
+            202.59331087518228
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-13",
+      "properties": {
+        "edge_id": "BR-G-13",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-12",
+        "end_junction_id": null,
+        "source_edge_ids": []
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            111.156686,
+            127.973749
+          ],
+          [
+            111.156686,
+            114.027892
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-14",
+      "properties": {
+        "edge_id": "BR-G-14",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-13",
+        "end_junction_id": null,
+        "source_edge_ids": []
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            159.14684167350285,
+            114.84823625922887
+          ],
+          [
+            132.485644,
+            41.017227
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-15",
+      "properties": {
+        "edge_id": "BR-G-15",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-14",
+        "end_junction_id": null,
+        "source_edge_ids": []
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            303.93765381460213,
+            375.71780147662014
+          ],
+          [
+            319.5242,
+            401.558655
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-16",
+      "properties": {
+        "edge_id": "BR-G-16",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-15",
+        "end_junction_id": null,
+        "source_edge_ids": []
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            103.36341263330598,
+            328.899530903572
+          ],
+          [
+            72.600492,
+            328.899530903572
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-17",
+      "properties": {
+        "edge_id": "BR-G-17",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-16",
+        "end_junction_id": null,
+        "source_edge_ids": []
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            350.1773323315702,
+            343.33433538128946
+          ],
+          [
+            350.1773323315702,
+            327.317473
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ACC-FOCUS-01",
+      "properties": {
+        "edge_id": "ACC-FOCUS-01",
+        "class_name": "access",
+        "width_m": 4.0,
+        "is_new_connector": true,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": []
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            108.26912894112797,
+            388.968827
+          ],
+          [
+            73.121001,
+            424.69315375983496
+          ],
+          [
+            73.121001,
+            439.73590274359185
+          ],
+          [
+            86.52092182382093,
+            508.968827
+          ],
+          [
+            208.72108017617907,
+            508.968827
+          ],
+          [
+            222.121001,
+            439.73590274359185
+          ],
+          [
+            222.121001,
+            424.69315375983496
+          ],
+          [
+            186.97287305887204,
+            388.968827
+          ],
+          [
+            108.26912894112797,
+            388.968827
+          ]
+        ]
+      }
+    }
+  ]
+}

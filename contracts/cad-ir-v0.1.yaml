@@ -48,12 +48,20 @@ object:
     - green_space
     - building_footprint
     - road_centerline
+    - road_corridor
+    - road_sidewalk
+    - open_space
+    - entrance
     - environment_sensor
     - annotation
+    - annotation_text
+    - annotation_polyline
   representation_kind_enum:
     - polygon_ring
     - centerline
     - point_marker
+    - polyline
+    - text
   geometry_format: geojson
   source_world_enum: [canonical_current, proposal_preview, external, analysis]
   provenance:
@@ -64,12 +72,15 @@ object:
       - confirmation_scope
     canonical_revisions:
       required: [semantic, geometry, parameter]
-    confirmation_scope_states: [synthetic, pilot_subset, full_case]
+    confirmation_scope_states: [synthetic, pilot_subset, full_case, design_draft]
     review_fields: [geometry_quality, review_kind]
+    design_fields: [design_basis_id, design_authority, human_confirmed]
     rules:
       - "pilot_subset requires geometry_quality confirmed_for_pilot"
       - "full_case requires geometry_quality confirmed"
       - "a published sketch boundary may not set canonical_site_identity true"
+      - "design_draft requires design_authority rule_derived and human_confirmed false"
+      - "a design draft is never presented as human-confirmed or code-compliant"
     dependency_refs: []
   massing:
     required_if_object_class: building_footprint

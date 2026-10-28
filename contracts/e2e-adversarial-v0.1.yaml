@@ -16,6 +16,7 @@ issue_categories:
       - NONZERO_Z
       - CIRCLE_NONZERO_Z
       - TEXT_NONZERO_Z
+      - TEXT_INSERT_MISMATCH
       - CIRCLE_MISMATCH
       - TEXT_MISMATCH
       - BULGE_MISMATCH
