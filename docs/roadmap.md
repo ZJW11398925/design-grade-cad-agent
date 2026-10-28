@@ -232,6 +232,7 @@ Next in 4c (sequence: 4c-1b design-aware coverage → multi-candidate evaluation
 - [x] Label derived checks: FAR_RANGE / UNIT_COUNT_PRESERVED = `design_basis_arithmetic`; ROAD_WIDTHS = `design_basis_assignment`.
 - [x] Publish design-basis provenance: 21 parameters with authority states (5 `declared_requirement`, 2 `designer_stated`, 3 `inferred_from_sketch`, 11 `agent_assumption`), **all `confirmed: false`**; the Agent cannot self-confirm them (`design-assumption-v0.2`).
 - [x] Contract `design-synthesis-v0.3.yaml` (v0.2/v0.1 superseded); evidence-gate register v0.3; tests: `test_design_basis` (14), `test_green_parking_semantics` (7), `test_design_contract` 7→10; suite **283 passed**.
+- [x] Merged to `main` as **PR #34** (merge commit `e40f468`, main CI 4/4 green). The merged result remains a research prototype with the non-claims above.
 
 ### M4c-0 — Open-Source Design Capability Reuse Sprint (complete; partial answer)
 
