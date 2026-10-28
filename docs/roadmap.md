@@ -275,7 +275,7 @@ Next in 4c (4c-1a/1c/1d/1b/1e complete; sequence: M4c-2 main-road alignment → 
 - [x] Checks 21 → **25 = 6 pass + 10 info + 9 deferred**: new `MAIN_ROAD_BUILDING_OVERLAP` (deferred; 38.19068149970834 m², rows MAIN-19/SK-BLD-0006 34.42 + MAIN-08/SK-BLD-0038 3.68 + MAIN-08/SK-BLD-0061 0.09; `known_unresolved`), `FULL_SITE_ROAD_CLEARANCE` (deferred), `DEAD_END_RESOLUTION` (deferred, 7 unresolved), `PARKING_DRIVEWAY_CONNECTION` (deferred); `PARKING_ENTRANCE_CONNECTION` renamed `PARKING_ENTRANCE_PROXIMITY` (info).
 - [x] No design geometry changed: 44 roads (25/17/2), endpoints, widths, topology (1 component, 59 nodes / 65 segments, cyclomatic 7, 24 dead ends, 32 junctions / 21 explicit, 3 rings, gap 0.0), overlap values (new 1.3365 / main 38.1907 / total 38.7392) and DXF **content** (206 entities, audit 0/0, readback 206/206, XDATA 11, privacy pass) are identical to 0.19.0. DXF byte SHA changes per save (0.19.0 `34a65926…` → 0.20.0 `fcc42d32…`) — compare content, not bytes; `design-roads.geojson` SHA changes to `d77ce7a8…` because new fields are published (expected).
 - [x] Contract `design-synthesis-v0.6.yaml` (v0.5 superseded; gate-register pointer re-pointed); tests 324 → **334** (road access 23, road access generation 13; no test removed).
-- [ ] PR/merge pending (work is uncommitted on `fix/m4c-1e-evidence-binding` at the time of this docs pass); commit/push/CI is Lead-owned.
+- [x] PR #40 merged to `main` (merge commit `7f81f0e`, main CI 4/4 green); tests **334 passed**. The merged result keeps the M4c-2 main-road alignment and the 7 unresolved dead ends as open work.
 
 ### M4c-0 — Open-Source Design Capability Reuse Sprint (complete; partial answer)
 
