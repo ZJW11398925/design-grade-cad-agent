@@ -326,6 +326,49 @@ def _evidence_files(out: Path) -> None:
     out.mkdir(parents=True, exist_ok=True)
 
 
+def _design_roads_geojson(road_layout: RoadLayout) -> dict[str, Any]:
+    """Publish the 41 design centre lines so topology is checkable from evidence.
+
+    This is the M4c-1a artefact: before it, only the 10 focus-area centre lines
+    reached the DXF/CAD-IR and the full design network's topology could not be
+    recomputed from committed files.
+    """
+    return {
+        "type": "FeatureCollection",
+        "schema_id": "dgcad.design-roads.v0.1",
+        "road_count": len(road_layout.roads),
+        "coordinate_frame": "design-local-metric",
+        "junction_count": len(road_layout.explicit_junctions),
+        "junctions": [
+            dict(junction)
+            for junction in road_layout.explicit_junctions
+        ],
+        "features": [
+            {
+                "type": "Feature",
+                "id": road.edge_id,
+                "properties": {
+                    "edge_id": road.edge_id,
+                    "class_name": road.class_name,
+                    "width_m": road.width_m,
+                    "is_new_connector": road.is_new_connector,
+                    "start_junction_id": road.start_junction_id,
+                    "end_junction_id": road.end_junction_id,
+                    "source_edge_ids": list(road.source_edge_ids),
+                },
+                "geometry": {
+                    "type": "LineString",
+                    "coordinates": [
+                        [float(x), float(y)]
+                        for x, y in road.centerline.coords
+                    ],
+                },
+            }
+            for road in road_layout.roads
+        ],
+    }
+
+
 def run_design_synthesis(
     case_dir: str | Path,
     basis_path: str | Path,
@@ -393,6 +436,17 @@ def run_design_synthesis(
     if design_rect is not None:
         diff["focus_design_rect"] = list(design_rect)
 
+    roads_path = output_dir / "design-roads.geojson"
+    roads_path.write_text(
+        json.dumps(
+            _design_roads_geojson(road_layout),
+            indent=2,
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    roads_sha256 = hashlib.sha256(roads_path.read_bytes()).hexdigest()
+
     summary: dict[str, Any] = {
         "schema_id": "dgcad.design-synthesis.v0.1",
         "case_id": design_input.case_id,
@@ -418,6 +472,12 @@ def run_design_synthesis(
         "metrics": consistency.metrics,
         "consistency": consistency.to_dict(),
         "intent": intent.to_dict(),
+        "road_topology": road_layout.noded_topology.to_dict(),
+        "design_roads": {
+            "path": roads_path.name,
+            "road_count": len(road_layout.roads),
+            "sha256": roads_sha256,
+        },
         "diff": diff,
         "non_claims": [
             "this is a schematic design proposal, not a construction or permit drawing",
@@ -427,6 +487,7 @@ def run_design_synthesis(
             "road corridors are schematic offsets, not professional alignment or junction design",
             "the garage layout is not designed; only the entrance requirement is checked",
             "the full-site north-south spacing is not yet enforced; the focus group is",
+            "the noded-topology check proves connectivity only; it is not road design, alignment or junction engineering",
         ],
     }
 

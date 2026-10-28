@@ -14,22 +14,23 @@ Repository: `D:\agent-cad`
 ## 0. Paste-ready first message for the new conversation
 
 > 先读 `D:\agent-cad\docs\development\session-handoff.md`，再读其中列出的
-> `docs/roadmap.md`（Milestone 4c / M4c-0）、`docs/status.md` §16–18 和
-> `docs/e2e/design-synthesis-001/README.md`。当前最高优先级是修复 4c 的道路拓扑
-> 缺陷：新增可选 OSMnx 适配器，用 noded 中心线拓扑检查替换 corridor-union
-> 检查，然后在真正连通的网络上重生成候选，并用同一套 FAR/停车/20 m 指标复验。
-> 不要新增核心依赖，不要声称 human_confirmed / 合规 / 已采纳，不要重写
-> Foundation/Runtime/CAD-IR。
+> `docs/roadmap.md`（Milestone 4c-1a / 4c / M4c-0）、`docs/status.md` §16–18 和
+> `docs/e2e/design-synthesis-001/README.md`。4c 道路拓扑缺陷已在 M4c-1a（v0.16.0）
+> 修正：显式共享坐标 junction、不依赖容差的 noded 拓扑检查（1 连通分量），证据已重
+> 生成并发布 design-roads.geojson。当前最高优先级是 4c-1b：支路接入入口、G-05/G-12
+> 覆盖，然后全站点展开与 20 m 间距。不要新增核心依赖，不要声称 human_confirmed /
+> 合规 / 已采纳，不要重写 Foundation/Runtime/CAD-IR。
 
-## 1. Repo state (verified 2026-10-27)
+## 1. Repo state (verified 2026-10-28)
 
-- Branch: `milestone-4c-autonomous-design`, clean working tree.
-- Latest commit: `f812deb feat(research): add M4c-0 open-source design reuse experiments`.
+- Branch: `milestone-4c-autonomous-design`; M4c-1a changes are in-flight in the
+  working tree (clean again at the M4c-1a commit).
+- Latest commit: `e52972a docs: add verified team continuation dossier and correct handoff pointers` **(M4c-1a commit follows — repin this hash when it lands)**.
 - `main`: `4f6698b` (Milestone 4b.1 merged as PR #33).
 - Open PR: **#34** “Milestone 4c — autonomous design synthesis + M4c-0
   open-source reuse”; 4/4 CI jobs green (Ubuntu/Windows × Python 3.11/3.13).
-- Version: `0.15.0` (`pyproject.toml`).
-- Test baseline: **217 passed** (`python -m pytest -q`, ~21 s locally).
+- Version: `0.16.0` (`pyproject.toml`).
+- Test baseline: **259 passed** (`python -m pytest -q`).
 - Local environment: Windows, Python 3.13. Core dependencies remain only
   **PyYAML 6.0.3 / Shapely 2.1.2 / ezdxf 1.4.5**.
 - Optional research-only installs (NOT in `pyproject.toml`): osmnx 2.1.1,
@@ -68,11 +69,17 @@ Evidence: `docs/e2e/sketch-handoff-a/` (status `blocked`, correct).
 - Focus G-01: 7 standardized buildings / 16 units; dropped `SK-BLD-0038` (2U)
   and `SK-BLD-0061` (1U) with recorded reasons.
 - 208-entity editable DXF, audit 0/0, readback 208/208, 23 design layers,
-  title block “AGENT-GENERATED PROPOSAL — NOT HUMAN-CONFIRMED — NOT
-  CODE-COMPLIANCE”.
+  title block "AGENT-GENERATED PROPOSAL - NOT HUMAN-CONFIRMED - NOT
+  CODE-COMPLIANCE" (ASCII hyphens, as in the DXF).
 - All design objects `rule_derived`, world `proposal_preview`,
   `confirmation_scope: design_draft`, `human_confirmed: false`.
-- Consistency: 11 checks pass, `FULL_SITE_NS_SPACING` explicitly deferred.
+- Consistency: 13 declared checks — 11 pass, `ROAD_CORRIDOR_COVERAGE`
+  informational, `FULL_SITE_NS_SPACING` explicitly deferred.
+- M4c-1a (0.16.0) corrected the road-topology defect: explicit shared-coordinate
+  junctions, noded graph 1 component (51 nodes / 55 segments, cyclomatic 5,
+  dead ends 21, junctions 27, `max_endpoint_gap_m` 0.0); `design-roads.geojson`
+  (41 centerlines + 16 explicit junction records) published; control plane
+  unchanged.
 
 ### M4c-0 — open-source reuse sprint (on PR #34)
 
@@ -89,49 +96,54 @@ Evidence: `docs/e2e/sketch-handoff-a/` (status `blocked`, correct).
   Street Generator/rue-lib: not on PyPI, foreign widths.
 - Verdicts and rejected uses: `docs/e2e/open-source-reuse-001/reuse-matrix.yaml`.
 
-## 3. Current defect (highest priority)
+## 3. Road-topology defect — FIXED in M4c-1a (0.16.0)
 
-The 4c road design is **not topologically connected**, but the check says it is:
+The M4c-0 finding ("corridor union 1 polygon, noded graph 5 components",
+51 nodes / 50 edges, `cyclomatic: 0`) was real as measured but wrong as a
+diagnosis: it was a **sub-ULP floating-point noding artefact** — connector
+endpoints sat 1.5e-15–2.1e-14 m off the main lines (GEOS exact predicates
+create no node), all 25 main roads were always in one exact component, the
+50-edge count is the simple-graph collapse of the closed access loop, and
+`cyclomatic: 0` is momepy's connected-graph formula returning 0 on a
+disconnected graph.
 
-- design corridor union = 1 polygon → `ROAD_CONNECTIVITY` passes with value 1;
-- the **noded centerline graph of the same 41 design roads = 5 connected
-  components** (51 nodes / 50 edges, cyclomatic 0, meshedness 0).
+M4c-1a fix: explicit shared-coordinate junctions (no snap, no rounding, no
+tolerance); the noded graph is **1 component** (51 nodes / 55 segments,
+cyclomatic 5, dead ends 21, junctions 27, `max_endpoint_gap_m` 0.0);
+`ROAD_CONNECTIVITY` now checks the noded graph and fails closed within a
+1e-9 m endpoint tolerance (sub-1e-9 misalignment surfaces first as component
+count >1); `ROAD_CORRIDOR_COVERAGE` is informational. Evidence:
+`design-roads.geojson` (41 centerlines + 16 explicit junction records) and
+the regenerated `docs/e2e/design-synthesis-001/` package.
 
-Evidence: `docs/e2e/open-source-reuse-001/exp-c/metrics.json`
-(`corrected_road_topology_defect: true`) and the “Known defect found by M4c-0”
-section of `docs/e2e/design-synthesis-001/README.md`.
+The 4c candidate is still **partial** (full-site north-south spacing
+deferred). Do not present it as a finished road design.
 
-The 4c candidate is therefore **partial**. Do not present it as a finished
-road design.
+## 4. Next work order (status after M4c-1a)
 
-## 4. Next work order
-
-1. **Add an optional OSMnx adapter** (experiment/research path first):
-   `RoadGraph → nx.MultiDiGraph → simplify_graph + consolidate_intersections
-   (≤8 m) → noded RoadGraph`, preserving source edge IDs and road classes.
-   OSMnx must remain optional; import lazily and record the dependency and
-   version in the output. Core `pyproject.toml` stays unchanged.
-2. **Replace the corridor-only connectivity check** with a noded centerline
-   topology check (component count > 1 fails; record nodes, edges, cyclomatic,
-   dead ends, and which source edges were consolidated). Keep
-   `contracts/` + `ISSUE_CATEGORIES` in sync — a test enforces category
-   completeness.
-3. **Regenerate the 4c candidate** on the connected consolidated network with
-   design-aware hierarchy (12/7/4 m widths, branch tree, clearance, buildable
-   blocks). Re-run the same FAR / parking / 20 m / green / CAD checks; publish
-   the new DXF and a before/after topology comparison.
-4. Only then **expand from focus G-01 to all groups** and enforce 20 m
-   north-south spacing site-wide (`FULL_SITE_NS_SPACING`).
+1. ~~Add an optional OSMnx adapter~~ — **superseded**: the fix is
+   dependency-free (explicit shared-coordinate junctions); OSMnx remains an
+   optional source-skeleton preprocessor, never the design base.
+2. ~~Replace the corridor-only connectivity check~~ — **done** (noded check,
+   fail-closed within a 1e-9 m endpoint tolerance; `ROAD_CORRIDOR_COVERAGE`
+   informational; contract `design-synthesis-v0.2.yaml`).
+3. ~~Regenerate the 4c candidate~~ — **done** (same FAR / parking / 20 m /
+   green / CAD checks pass; 208-entity DXF unchanged; `design-roads.geojson`
+   published). Design-aware coverage (branch → entrance access, G-05/G-12) is
+   **M4c-1b**, still open.
+4. **Expand from focus G-01 to all groups** and enforce 20 m north-south
+   spacing site-wide (`FULL_SITE_NS_SPACING`) — open; the spacing policy needs
+   agreement (dossier §8).
 5. Add design evaluation/search: intent preservation, completeness, internal
    consistency, verified constraint satisfaction, CAD editability; compare
-   candidates instead of scoring one.
+   candidates instead of scoring one — open.
 6. Replace the provisional 24×11 m staircase module with the designer’s
-   unit-type library.
+   unit-type library — open (designer input).
 
-Acceptance for step 3: the noded graph is 1 component; FAR remains inside
-1.55–1.60; parking ≥1/household; focus spacing ≥20 m; DXF remains editable
-with audit 0/0 and full readback; all design objects stay `rule_derived`
-`design_draft`.
+Acceptance for step 3 (met): the noded graph is 1 component; FAR remains
+inside 1.55–1.60; parking ≥1/household; focus spacing ≥20 m; DXF remains
+editable with audit 0/0 and full readback; all design objects stay
+`rule_derived` `design_draft`.
 
 ## 5. Non-negotiable constraints
 
@@ -166,7 +178,7 @@ Design synthesis:
 - `src/dgcad_design/scene.py`, `drawing.py`, `project.py`.
 - `scripts/design/run_design_synthesis_001.py`.
 - `fixtures/design/design-basis-001.yaml`, `design-profile-001.yaml`.
-- `contracts/design-synthesis-v0.1.yaml`.
+- `contracts/design-synthesis-v0.2.yaml` (v0.1 superseded).
 
 CAD delivery:
 
@@ -178,14 +190,15 @@ Experiments / evidence:
 
 - `experiments/m4c0/common.py`, `exp_a_building.py`, `exp_b_roads.py`,
   `exp_c_collaborative.py`, `run_all.py`, `requirements-reuse.txt`.
-- `docs/e2e/design-synthesis-001/` (28 files incl. `design-proposal.dxf`,
-  `design-preview.png`, `design-summary.json`).
+- `docs/e2e/design-synthesis-001/` (16 files incl. `design-proposal.dxf`,
+  `design-roads.geojson`, `design-preview.png`, `design-summary.json`).
 - `docs/e2e/open-source-reuse-001/` (matrix, README, exp-a/b/c artifacts).
 - `docs/e2e/sketch-handoff-a/` (blocked pilot evidence).
 
 Tests:
 
-- `tests/test_design_synthesis.py` (8).
+- `tests/test_design_synthesis.py` (9), `tests/test_design_topology.py` (14),
+  `tests/test_design_contract.py` (7), `tests/test_privacy_scan.py` (20).
 - `tests/test_open_source_reuse.py` (3).
 - `tests/test_sketch_handoff.py` (32), `tests/e2e/test_sketch_handoff_a.py` (6).
 
@@ -211,10 +224,15 @@ hash (see pitfalls).
 
 ## 8. Pitfalls learned (do not rediscover)
 
-- **ezdxf output is not byte-reproducible**: `$TDUPDATE`, `$FINGERPRINTGUID`
-  and `$VERSIONGUID` are random even with
-  `write_fixed_meta_data_for_testing`. The committed hash matches the
-  committed file, not a regenerated file. Compare content, not bytes.
+- **ezdxf byte reproducibility (corrected 2026-10-28)**: output **is**
+  byte-identical with the global `ezdxf.options.write_fixed_meta_data_for_testing = True`
+  (zero GUID + J2000 date); without it `$TDUPDATE`/`$FINGERPRINTGUID`/
+  `$VERSIONGUID` are random. The project never sets the option, so committed
+  hashes match the committed files only. Compare content, not bytes — and hash
+  **file bytes**, never loaded header metadata (ezdxf regenerates random GUIDs
+  in memory on load). Enabling the option would invalidate every committed DXF
+  hash including the third-party round-trip input — a separate evidence
+  migration, not part of a feature change.
 - **Privacy scan false positives**: numeric tokens in raw bytes (e.g. a float
   containing `95119`) are not private data. Scan structured TEXT/MTEXT, XDATA
   and symbol names; skip numeric-only raw tokens.
@@ -225,6 +243,10 @@ hash (see pitfalls).
 - **Road graph construction**: build the topology graph from `unary_union` of
   noded linework, not from per-road endpoints (the latter gave 15 spurious
   components).
+- **Noding needs exact shared coordinates**: `nearest_points()` returns a
+  projection, not an on-line point; 1e-15 m residuals defeat GEOS exact
+  predicates and split the graph. Junctions must be explicit shared vertices
+  (M4c-1a `topology.py`); never infer connectivity from a snap tolerance.
 - **Focus layout**: search the largest free rectangle inside the focus bbox
   minus main-road corridor + 3 m clearance; drop non-fitting buildings and
   record why. `main_barrier = 8 m` keeps buildings across a main road in
@@ -240,8 +262,9 @@ hash (see pitfalls).
 
 ## 9. Open threads needing a decision or external input
 
-- Merge PR #34 now, or continue on the branch until the road topology is fixed? 
-  (Current recommendation: fix topology first, then merge.)
+- Merge PR #34 now? (Update 2026-10-28: M4c-1a fixed the road topology; the
+  earlier "fix topology first" recommendation is satisfied — merge the
+  corrected candidate.)
 - The designer’s unit-type library is still missing; six source buildings have
   length-vs-area unit-count conflicts: `SK-BLD-0009`, `0010`, `0011`, `0013`,
   `0015`, `0018`. The kindergarten/facility classification is also unresolved.

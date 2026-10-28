@@ -6,13 +6,17 @@ Testing is the primary engineering control in this project. Research claims are 
 
 | Layer | Purpose | Current state |
 |---|---|---|
-| L0 Contract / conformance | Prove governance invariants: identity, revision, authority, dependency, idempotency, lifecycle | **65 tests passing** |
-| L1 Domain contract | Prove building/road domain objects, unknown-state preservation, atomic topology changes and validators | **26 tests passing** |
+| L0 Contract / conformance | Prove governance invariants: identity, revision, authority, dependency, idempotency, contract↔module sync | **58 tests passing** (Foundation 21, Runtime 22, Deployment 8, Design contract 7) |
+| L1 Domain & design topology | Prove building/road domain objects, unknown-state preservation, atomic topology changes, validators and the noded design-road topology | **43 tests passing** (Domain 26, Road topology 3, Design topology 14) |
 | L2 Integration | Prove the synthetic E2E pipeline, scoped mutation/rebuild, adversarial delivery and semantic/dependency closure | **45 tests (8 E2E-001 + 6 E2E-002 + 20 E2E-003 + 11 E2E-003b), all passing** |
-| L2 Sketch evidence | Prove the sketch case's privacy boundary, designer-confirmed semantics, building merges/unit states and image-space-only trace/centerlines | **11 tests passing** |
-| L2 Road topology | Prove the unified road mask restores one design network and that junctions are proposed, not inferred | **3 tests passing** |
+| L2 CAD delivery & evidence | Prove CAD-IR mapping, DXF compile/readback and third-party evidence integrity | **11 tests passing** (CAD delivery 9, Third-party evidence 2) |
+| L2 Analysis | Prove solar position, confirmed/unknown blockers, context completeness, dependency fingerprint | **7 tests passing** |
+| L2 Sketch & handoff evidence | Prove the sketch case's privacy boundary, designer-confirmed semantics, the scope-aware handoff gate and the blocked pilot | **49 tests passing** (Sketch evidence 11, Sketch handoff gate 32, Sketch handoff A 6) |
+| L2 Design synthesis & reuse | Prove the autonomous draft basis/layout/checks/DXF and the reuse matrix | **12 tests passing** (Design synthesis 9, Open-source reuse 3) |
 | L3 Third-party | Prove semantic round-trip through independent CAD/BIM applications | partial evidence: AutoCAD 2024 Core Console semantic pass with serialization differences; no LibreCAD/FreeCAD/GUI matrix |
-| L4 Security / lifecycle | Prove loopback, roles, pairing, lease, bridge expiry, stale writers | 14 lifecycle tests |
+| L4 Security / privacy & lifecycle | Prove loopback, roles, pairing, lease, bridge expiry, stale writers and the structured DXF privacy scan | **34 tests passing** (Lifecycle 14, Privacy scan 20) |
+
+Layer totals partition all 259 collected tests with no double counting. (Taxonomy rebuilt in 0.16.0: the previous table counted the 14 lifecycle tests in both L0 and L4 and left 67 tests unmapped.)
 
 A passing lower layer never promotes a higher-layer claim automatically.
 
@@ -36,7 +40,10 @@ A passing lower layer never promotes a higher-layer claim automatically.
 | Road topology | `tests/test_road_topology.py` | 3 |
 | Sketch handoff gate | `tests/test_sketch_handoff.py` | 32 |
 | Sketch handoff A | `tests/e2e/test_sketch_handoff_a.py` | 6 |
-| Design synthesis | `tests/test_design_synthesis.py` | 8 |
+| Design synthesis | `tests/test_design_synthesis.py` | 9 |
+| Design topology | `tests/test_design_topology.py` | 14 |
+| Design contract | `tests/test_design_contract.py` | 7 |
+| Privacy scan | `tests/test_privacy_scan.py` | 20 |
 | Open-source reuse | `tests/test_open_source_reuse.py` | 3 |
 
 Run all:

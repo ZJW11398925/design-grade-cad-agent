@@ -273,7 +273,7 @@
   "green": {
     "cluster_area_m2": 10692.841181219279,
     "strip_area_m2": 2753.6432121652397,
-    "supplementary_area_m2": 115229.73589901486,
+    "supplementary_area_m2": 115229.73589901485,
     "green_ratio": 0.6303863597090935,
     "dropped_cluster_ids": []
   },

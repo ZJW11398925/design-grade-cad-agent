@@ -1,5 +1,11 @@
 schema_id: dgcad.design-synthesis.v0.1
-status: living_contract
+status: superseded
+superseded_by: design-synthesis-v0.2.yaml
+superseded_note: >-
+  Historical contract, kept as evidence. v0.2 renames the connectivity semantic
+  to the noded centreline graph, adds the road_design.topology block and adds
+  the non-gating road_corridor_coverage verification item. Do not edit; cite v0.2
+  for living rules.
 scope: CASE-SKETCH-001 autonomous design synthesis pilot
 purpose: >-
   Define the state, authority and evidence rules for an Agent-generated

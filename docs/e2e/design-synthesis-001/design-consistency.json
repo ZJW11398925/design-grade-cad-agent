@@ -66,7 +66,19 @@
       "status": "pass",
       "value": 1,
       "required": 1,
-      "message": "the design road graph must be one component"
+      "message": "the design road graph must be one connected component with explicit shared-vertex junctions",
+      "detail": {
+        "violations": [],
+        "max_endpoint_gap_m": 0.0,
+        "crossing_only_count": 0
+      }
+    },
+    {
+      "id": "ROAD_CORRIDOR_COVERAGE",
+      "status": "info",
+      "value": 1,
+      "required": "coverage only",
+      "message": "corridor-union piece count is paved coverage, not centreline topology; it is published for continuity and does not gate"
     },
     {
       "id": "ROAD_WIDTHS",
@@ -115,15 +127,170 @@
     "focus_households": 352,
     "focus_area_m2": 4224.0,
     "focus_min_ns_gap_m": 20.0,
-    "road_area_m2": 26170.241651018776,
-    "sidewalk_area_m2": 9866.177785935135,
+    "road_area_m2": 26170.241651018805,
+    "sidewalk_area_m2": 9866.177785935128,
     "green_area_m2": 128676.22029239938,
     "green_ratio": 0.6303863597090935,
     "green_ratio_target": 0.3,
-    "road_components": 1,
+    "road_noded_component_count": 1,
+    "corridor_union_pieces": 1,
+    "road_topology": {
+      "schema_id": "dgcad.design-road-topology.v0.1",
+      "road_count": 41,
+      "noded_segment_count": 55,
+      "node_count": 51,
+      "edge_count": 55,
+      "component_count": 1,
+      "cyclomatic": 5,
+      "degree_histogram": {
+        "1": 21,
+        "2": 3,
+        "3": 25,
+        "4": 2
+      },
+      "dead_end_count": 21,
+      "junction_count": 27,
+      "explicit_junction_count": 16,
+      "max_endpoint_gap_m": 0.0,
+      "closed_ring_count": 3,
+      "components": [
+        {
+          "node_count": 51,
+          "edge_count": 55,
+          "road_ids": [
+            "ACC-FOCUS-01",
+            "BR-FOCUS",
+            "BR-G-02",
+            "BR-G-03",
+            "BR-G-04",
+            "BR-G-06",
+            "BR-G-07",
+            "BR-G-08",
+            "BR-G-09",
+            "BR-G-10",
+            "BR-G-11",
+            "BR-G-13",
+            "BR-G-14",
+            "BR-G-15",
+            "BR-G-16",
+            "BR-G-17",
+            "MAIN-01",
+            "MAIN-02",
+            "MAIN-03",
+            "MAIN-04",
+            "MAIN-05",
+            "MAIN-06",
+            "MAIN-07",
+            "MAIN-08",
+            "MAIN-09",
+            "MAIN-10",
+            "MAIN-11",
+            "MAIN-12",
+            "MAIN-13",
+            "MAIN-14",
+            "MAIN-15",
+            "MAIN-16",
+            "MAIN-17",
+            "MAIN-18",
+            "MAIN-19",
+            "MAIN-20",
+            "MAIN-21",
+            "MAIN-22",
+            "MAIN-23",
+            "MAIN-24",
+            "MAIN-25"
+          ]
+        }
+      ],
+      "connector_states": [
+        {
+          "road_id": "BR-FOCUS",
+          "class_name": "branch",
+          "state": "shared_vertex"
+        },
+        {
+          "road_id": "BR-G-02",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-03",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-04",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-06",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-07",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-08",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-09",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-10",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-11",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-13",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-14",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-15",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-16",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-17",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "ACC-FOCUS-01",
+          "class_name": "access",
+          "state": "shared_vertex"
+        }
+      ]
+    },
     "road_count": 41,
-    "junction_count": 16,
-    "dead_end_count": 35,
+    "junction_count": 27,
+    "dead_end_count": 21,
+    "explicit_junction_count": 16,
+    "closed_ring_count": 3,
+    "max_endpoint_gap_m": 0.0,
     "focus_group_id": "G-01",
     "focus_subgroups": {
       "FOCUS-1": [

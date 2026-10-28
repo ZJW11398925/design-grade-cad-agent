@@ -2,6 +2,81 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.16.0 — 2026-10-28
+
+### Added
+
+- **M4c-1a — noded road-topology truth and explicit design junctions**
+  (`src/dgcad_design/topology.py`, `src/dgcad_design/roads.py`): exact-coordinate
+  MultiGraph topology (no rounding, buffering, tolerance or snapping),
+  fail-closed violation codes, and explicit shared-vertex junctions replacing the
+  `nearest_points`-as-junction connectors. `RoadLayout` now exposes
+  `corridor_union_pieces`, `noded_topology` and `explicit_junctions`;
+  `RoadDesign` carries `start_junction_id` / `end_junction_id`.
+- `design-roads.geojson` in `docs/e2e/design-synthesis-001/` (41 centre lines
+  with class, width, junction ids and a recorded SHA-256), so the design road
+  topology can be recomputed from committed evidence. Before this, only the 10
+  focus-area centre lines reached the DXF and the defect was not checkable from
+  the evidence package.
+- `contracts/design-synthesis-v0.2.yaml` with a `road_design.topology` block
+  (required fields, connector states, fail-closed conditions and rules);
+  `design-synthesis-v0.1.yaml` marked superseded;
+  `contracts/evidence-gate-register-v0.2.yaml` re-pointed.
+- Tests: `tests/test_design_topology.py` (14), `tests/test_privacy_scan.py` (20),
+  and an evidence test that recomputes the noded topology from
+  `design-roads.geojson` (`tests/test_design_synthesis.py`).
+
+### Fixed
+
+- **The 4c "5-component road network" defect is a floating-point noding
+  artefact, not a design disconnection.** Four connector endpoints were
+  1.5e-15 … 2.1e-14 m off the main alignment, so exact GEOS noding never merged
+  them, while the corridor-union check still passed (it merges centreline gaps up
+  to 8.98 m). Explicit shared-vertex junctions reduce the noded graph to **one
+  component with 0.0 m geometry displacement**; the documented claim that the main
+  roads were not connected to each other was wrong (all 25 main roads were always
+  in one exact component).
+- `ROAD_CONNECTIVITY` now reads the **noded centreline component count** and fails
+  closed on component > 1, endpoint gap > 1e-9 m, crossing-without-shared-vertex
+  and undeclared closed rings. The corridor-union piece count became the
+  non-gating `ROAD_CORRIDOR_COVERAGE` (`info`).
+- DXF privacy scan no longer reports spurious numeric-token matches inside
+  64-hex digests/GUIDs (the ~6.3 % per-run false-positive source); real numeric
+  privacy findings are still detected.
+
+### Verified
+
+- 41 design roads: **1 noded component**, 51 nodes / 55 edges / cyclomatic 5,
+  21 dead ends, 27 junctions, 16 explicit junctions, 3 design-level closed rings,
+  max endpoint gap **0.0 m**.
+- Design metrics unchanged: FAR 1.5654107291796402, 2,398 households, 2,398
+  parking spaces, 5 entrances, focus G-01 7 buildings / 16 units / 352 households
+  at 20.0 m north-south spacing, green ratio 0.6303863597090935.
+- `design-proposal.dxf`: 208 entities, audit 0/0, readback 208/208, XDATA arity
+  11, 7 `UNKNOWN_HEIGHT_ALLOWED` warnings, privacy pass. All design objects stay
+  `rule_derived` / `proposal_preview` / `design_draft`; no `human_confirmed`
+  object and no compliance claim.
+- **259 passed** (`python -m pytest -q`).
+
+### Docs
+
+- The 4c defect narrative is corrected in `docs/e2e/design-synthesis-001/README.md`,
+  `docs/status.md` §16–18, `docs/roadmap.md`, `docs/e2e/open-source-reuse-001/`
+  and `docs/research-to-product-map.md`; stale counts (206 / 214 / 65 / 154 /
+  210 entities / 22 layers / 28 files) are corrected and the contract references
+  point at `design-synthesis-v0.2`.
+- `docs/development/session-handoff.md` carries the updated HEAD and file counts.
+
+### Scope
+
+- OSMnx is **not** required for this fix and remains an optional source-skeleton
+  preprocessor; design connectivity is now proven by exact shared vertices, not
+  by tolerance snapping.
+- DXF byte reproducibility (`write_fixed_meta_data_for_testing`) remains a
+  separate evidence-migration decision.
+- No road width/profile/alignment, junction design, full-site layout or
+  code-compliance claim is added.
+
 ## 0.15.0 — 2026-10-27
 
 ### Added

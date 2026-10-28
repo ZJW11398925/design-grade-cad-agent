@@ -183,16 +183,16 @@ decisions:
 failed_cases:
   - clothoid_single_g1_fit: "356 m Hausdorff on MAIN-08; not a usable alignment."
   - pygeoops_network_assembly: "10 of 11 centerlines are multi-component; per-area centerlines do not form a connected network."
-  - design_4c_road_topology: "The 4c corridor union is one polygon, but its noded centerline graph has 5 components (51 nodes / 50 edges, cyclomatic 0). The corridor-based ROAD_CONNECTIVITY check is too weak."
+  - design_4c_road_topology: "The 4c corridor union is one polygon, but its noded centerline graph has 5 components (51 nodes / 50 edges, cyclomatic 0). The corridor-based ROAD_CONNECTIVITY check is too weak. [M4c-1a diagnosis: sub-ULP floating-point noding artefact, not a design disconnection; fixed with explicit shared-coordinate junctions — noded graph 1 component.]"
 next_round:
-  - "Add an optional OSMnx adapter: local RoadGraph -> nx.MultiDiGraph -> simplify_graph + consolidate_intersections(tolerance <= 8 m) -> noded RoadGraph, preserving source edge IDs and class."
-  - "Replace the corridor-only road-connectivity check with a noded centerline topology check; the 4c candidate must be regenerated."
-  - "Apply a design-aware road hierarchy on the connected consolidated network: retain a connected branch tree, assign 12/7/4 m widths, and search for buildable blocks."
+  - "[superseded by M4c-1a: the noded topology check is dependency-free with explicit shared-coordinate junctions; no OSMnx adapter was needed] Add an optional OSMnx adapter: local RoadGraph -> nx.MultiDiGraph -> simplify_graph + consolidate_intersections(tolerance <= 8 m) -> noded RoadGraph, preserving source edge IDs and class."
+  - "[done in M4c-1a] Replace the corridor-only road-connectivity check with a noded centerline topology check; the 4c candidate must be regenerated."
+  - "[partially superseded: the hierarchy stayed on the design network, not the OSMnx-consolidated one] Apply a design-aware road hierarchy on the connected consolidated network: retain a connected branch tree, assign 12/7/4 m widths, and search for buildable blocks."
   - "Add Building Regulariser as an optional footprint-cleanup adapter only for noisy inputs; keep the 24x11 module synthesis as the building design step."
   - "Add momepy as an optional candidate-evaluation dependency, not a compliance checker."
   - "Do not add pyclothoids, UrbGEN, or Street Generator to core; they need host adapters, control-point policies or Chinese profile data first."
 non_claims:
   - "The tested libraries do not by themselves produce a professional Chinese residential design."
-  - "The 4c design candidate is a partial candidate: its road centerline topology is disconnected; the corridor-union check masked it."
+  - "The 4c design candidate is a partial candidate: full-site north-south spacing is deferred; the earlier disconnected-topology reading was a floating-point noding artefact corrected in M4c-1a (the corridor-union check had masked the noding residuals)."
   - "The open-source experiments do not establish code compliance, construction readiness or design-office approval."
   - "The local metric sketch frame is not a project or georeferenced CRS; EPSG:3857 was assigned only for library compatibility."

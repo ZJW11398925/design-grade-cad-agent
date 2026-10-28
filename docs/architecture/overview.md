@@ -279,7 +279,7 @@ source raster (public)
 - The sprint tested Building Regulariser, OSMnx, PyGeoOps, PyClothoids and momepy on the same CASE-SKETCH-001 focus block; evidence is in `docs/e2e/open-source-reuse-001/`.
 - OSMnx `consolidate_intersections` is the strongest candidate for a topology preprocessor: 309/333 → 117/141 at 8 m, one component. It does not select the design hierarchy or widths.
 - Building Regulariser is a limited footprint-cleanup adapter; PyGeoOps produces per-area centerlines; a single clothoid fit fails quality; momepy is an evaluation adapter.
-- The 4c design candidate exposed a road-topology defect: the corridor union is one polygon, but the noded centerline graph has 5 components. The next architecture step is an optional OSMnx adapter and a noded connectivity check before the design hierarchy.
+- The 4c design candidate exposed a road-topology defect: the corridor union is one polygon, but the noded centerline graph read 5 components. M4c-1a (0.16.0) diagnosed this as a sub-ULP floating-point noding artefact — not a design disconnection — and fixed it with explicit shared-coordinate junctions: the noded graph is 1 component (51 nodes / 55 segments, `max_endpoint_gap_m` 0.0), the dependency-free noded check replaced the corridor-only check, and OSMnx remains an optional source-skeleton preprocessor, not a connectivity proof.
 - No new core dependency is promoted; the experiment dependencies are optional only.
 
 ## 20. Open architecture questions

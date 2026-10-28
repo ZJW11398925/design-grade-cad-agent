@@ -18,6 +18,37 @@ DEFAULT_FORBIDDEN_TOKENS = (
     "private site reference",
 )
 
+_HEX_DIGITS = frozenset("0123456789abcdefABCDEF")
+_GUID_PART_LENGTHS = (8, 4, 4, 4, 12)
+
+
+def _is_opaque_identifier(value: str) -> bool:
+    """True when ``value`` is a content-derived digest or a GUID.
+
+    A 64-character hex string is a SHA-256 digest (``canonical_hash``,
+    ``source_hash``, ``rep_hash`` and ``ring_key`` are all built this way) and
+    a GUID is a random identifier.  A numeric forbidden token — a private
+    control number or a coordinate fragment — can occur inside them by chance,
+    which is not a privacy leak.  Numeric tokens are therefore not matched
+    against these values.  Non-numeric tokens are still matched everywhere: a
+    hex digest cannot contain letters outside ``[0-9a-f]``, so no real
+    non-numeric secret can hide in one.
+    """
+    core = value
+    if len(core) == 38 and core.startswith("{") and core.endswith("}"):
+        core = core[1:-1]
+    if len(core) == 36 and core.count("-") == 4:
+        parts = core.split("-")
+        if (
+            tuple(len(part) for part in parts) == _GUID_PART_LENGTHS
+            and all(
+                part and all(char in _HEX_DIGITS for char in part)
+                for part in parts
+            )
+        ):
+            return True
+    return len(core) == 64 and all(char in _HEX_DIGITS for char in core)
+
 
 def _strings_from_doc(doc) -> list[tuple[str, str]]:
     values: list[tuple[str, str]] = []
@@ -79,7 +110,13 @@ def scan_dxf_privacy(
     findings: list[dict[str, str]] = []
     for source, value in _strings_from_doc(doc):
         lowered = value.lower()
+        opaque = _is_opaque_identifier(value)
         for token in tokens:
+            if opaque and token.isdigit():
+                # A numeric token inside a hash/GUID can only be a coincidence;
+                # see _is_opaque_identifier.  Real numeric data still lives in
+                # TEXT/MTEXT, symbol names and non-digest XDATA values.
+                continue
             if token in lowered:
                 findings.append(
                     {

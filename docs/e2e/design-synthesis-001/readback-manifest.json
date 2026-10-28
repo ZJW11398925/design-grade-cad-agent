@@ -1,6 +1,6 @@
 {
   "file": "design-proposal.dxf",
-  "dxf_sha256": "bf71f573b551a95ee137f7681a6649a8c62c3397c23c6a58db2285c1a3963cc9",
+  "dxf_sha256": "7a2a54b6c44744dabcc490cc56695b7d1a1bfd1cb986d421ab014606d9b9bc29",
   "dxf_version": "AC1024",
   "insunits": 6,
   "layer_names": [
@@ -10009,7 +10009,7 @@
       "part_index": 0,
       "ring_index": 0,
       "ring_role": "none",
-      "ring_key": "a223260e9d3a0503e660af7364fb160ad88914af4618411181a957d115b4bef3",
+      "ring_key": "cb00713b875168eefc256b4dd6e3bf78faeb42eb040143cce77fc017ecd76b1d",
       "confirmation_scope": "design_draft",
       "dxftype": "LWPOLYLINE",
       "layer": "A-KEYPLAN",
@@ -10025,7 +10025,19 @@
           ],
           [
             295.84085315832647,
+            470.6483277187956
+          ],
+          [
+            295.84085315832647,
+            483.34603306872975
+          ],
+          [
+            295.84085315832647,
             485.8326497128794
+          ],
+          [
+            295.84085315832647,
+            502.224882725893
           ],
           [
             295.84085315832647,
@@ -10041,15 +10053,24 @@
           0.0,
           0.0,
           0.0,
+          0.0,
+          0.0,
+          0.0,
           0.0
         ],
         "start_width": [
           0.0,
           0.0,
           0.0,
+          0.0,
+          0.0,
+          0.0,
           0.0
         ],
         "end_width": [
+          0.0,
+          0.0,
+          0.0,
           0.0,
           0.0,
           0.0,
@@ -10071,7 +10092,7 @@
       "part_index": 0,
       "ring_index": 0,
       "ring_role": "none",
-      "ring_key": "c35db58fa636856875e3659c3ae2311cd27e8b1193f5cdd2f1408e52a74c6d7d",
+      "ring_key": "7abf7c2064bf3f531713d9257c31eeb645c00017fac9d37f79a325a2c8e2d2b5",
       "confirmation_scope": "design_draft",
       "dxftype": "LWPOLYLINE",
       "layer": "A-KEYPLAN",
@@ -10080,6 +10101,10 @@
           [
             332.2436423297785,
             525.6193601312551
+          ],
+          [
+            332.16554922344176,
+            534.2096018283002
           ],
           [
             332.1410992616899,
@@ -10100,6 +10125,10 @@
           [
             328.552091878589,
             553.4085315832649
+          ],
+          [
+            327.61354447864034,
+            556.1594463762178
           ],
           [
             325.5783429040197,
@@ -10153,6 +10182,8 @@
           0.0,
           0.0,
           0.0,
+          0.0,
+          0.0,
           0.0
         ],
         "start_width": [
@@ -10169,9 +10200,13 @@
           0.0,
           0.0,
           0.0,
+          0.0,
+          0.0,
           0.0
         ],
         "end_width": [
+          0.0,
+          0.0,
           0.0,
           0.0,
           0.0,
@@ -10492,7 +10527,7 @@
       "part_index": 0,
       "ring_index": 0,
       "ring_role": "none",
-      "ring_key": "762584b1cbfb89f13f8e5ddf74179848620045cbb665d14685e2c2afd4a49835",
+      "ring_key": "bfbdb6379388c7039d130788705c620e64e068a50c6ec88c77a58b353b2220a6",
       "confirmation_scope": "design_draft",
       "dxftype": "LWPOLYLINE",
       "layer": "A-KEYPLAN",
@@ -10507,6 +10542,10 @@
             451.89089417555374
           ],
           [
+            319.93338128048515,
+            451.46525489294146
+          ],
+          [
             328.9622641509434,
             451.07054963084494
           ]
@@ -10519,14 +10558,17 @@
         "bulge": [
           0.0,
           0.0,
+          0.0,
           0.0
         ],
         "start_width": [
           0.0,
           0.0,
+          0.0,
           0.0
         ],
         "end_width": [
+          0.0,
           0.0,
           0.0,
           0.0
@@ -10650,7 +10692,7 @@
       "part_index": 0,
       "ring_index": 0,
       "ring_role": "none",
-      "ring_key": "4b9f8f5e37f847ddd9289756356d40c310913abe7d54e4974a1ef9b49600cee9",
+      "ring_key": "5cd5e1b49250adbfe925d3a2d2e77b7d171b0113ad7ae25c1f7b62c6e1ee35aa",
       "confirmation_scope": "design_draft",
       "dxftype": "LWPOLYLINE",
       "layer": "A-KEYPLAN",
@@ -10659,6 +10701,10 @@
           [
             328.75717801476617,
             441.4315012305168
+          ],
+          [
+            328.50688445773056,
+            436.98183799432746
           ],
           [
             327.8342904019688,
@@ -10672,13 +10718,16 @@
         "elevation": 0.0,
         "bulge": [
           0.0,
+          0.0,
           0.0
         ],
         "start_width": [
           0.0,
+          0.0,
           0.0
         ],
         "end_width": [
+          0.0,
           0.0,
           0.0
         ],
@@ -10842,7 +10891,7 @@
       "part_index": 0,
       "ring_index": 0,
       "ring_role": "none",
-      "ring_key": "ab33b063d14b7b9be8f153ad73ed1c6a6b59e3b9d8e2ee348dc946c382e7d2f8",
+      "ring_key": "309c106e16ffad8e05a036fb1e4222f4f71a9eafbb669ad5bf79a9fc2cdff61e",
       "confirmation_scope": "design_draft",
       "dxftype": "LWPOLYLINE",
       "layer": "A-KEYPLAN",
@@ -10861,8 +10910,16 @@
             451.78835110746513
           ],
           [
+            344.7355932803515,
+            454.47802313862076
+          ],
+          [
             345.57424118129614,
             466.55455291222313
+          ],
+          [
+            345.60222950549223,
+            468.2058640397922
           ],
           [
             345.67678424938475,
@@ -10889,6 +10946,8 @@
           0.0,
           0.0,
           0.0,
+          0.0,
+          0.0,
           0.0
         ],
         "start_width": [
@@ -10898,9 +10957,13 @@
           0.0,
           0.0,
           0.0,
+          0.0,
+          0.0,
           0.0
         ],
         "end_width": [
+          0.0,
+          0.0,
           0.0,
           0.0,
           0.0,
@@ -11083,7 +11146,7 @@
       "part_index": 0,
       "ring_index": 0,
       "ring_role": "none",
-      "ring_key": "dc557878d8fe5050dbd8a194e8dd29551681f09d3ee296d304b8c8ca07bbe2cd",
+      "ring_key": "51249eaf4c5bc2e234b087388ce6cf006420bddfe14b20f154c2e28eea99274d",
       "confirmation_scope": "design_draft",
       "dxftype": "LWPOLYLINE",
       "layer": "A-KEYPLAN",
@@ -11096,6 +11159,10 @@
           [
             357.1616078753076,
             505.82854799015587
+          ],
+          [
+            357.54433308289254,
+            505.8335838453224
           ],
           [
             364.954881,
@@ -11115,15 +11182,18 @@
           0.0,
           0.0,
           0.0,
+          0.0,
           0.0
         ],
         "start_width": [
           0.0,
           0.0,
           0.0,
+          0.0,
           0.0
         ],
         "end_width": [
+          0.0,
           0.0,
           0.0,
           0.0,
@@ -11656,8 +11726,8 @@
         "height": 1.8,
         "style": "Standard",
         "insert": [
-          232.066022,
-          453.996668
+          232.605104,
+          448.67607
         ],
         "rotation": 0.0,
         "width": 1.0,
@@ -11666,8 +11736,8 @@
       },
       "raw_dxf_semantics": {
         "insert": [
-          232.066022,
-          453.996668,
+          232.605104,
+          448.67607,
           0.0
         ],
         "height": 1.8,
@@ -15141,12 +15211,16 @@
       "part_index": 0,
       "ring_index": 0,
       "ring_role": "outer",
-      "ring_key": "0dc930989297a5e8b61e03ec33f69e76b0d687027a8fcbdaa198f1d02fe27fba",
+      "ring_key": "0f92f29234431d2f8557513bc6a4e17bd18b160ff1300a6cb9492b29067da93b",
       "confirmation_scope": "design_draft",
       "dxftype": "LWPOLYLINE",
       "layer": "C-ROAD-MAIN",
       "canonical_target": {
         "coords": [
+          [
+            229.681776292254,
+            518.6007848273548
+          ],
           [
             228.94497207498947,
             525.9688269999999
@@ -15162,10 +15236,6 @@
           [
             234.97325493915503,
             513.3093061804537
-          ],
-          [
-            229.681776292254,
-            518.6007848273548
           ]
         ],
         "closed": true
@@ -16185,7 +16255,7 @@
             512.9688269999999
           ],
           [
-            212.6386678071187,
+            212.63866780711868,
             525.9688269999999
           ],
           [
@@ -18513,7 +18583,7 @@
   ],
   "audit_errors": 0,
   "audit_fixes": 0,
-  "cad_ir_dependency_fingerprint": "6f2a3ea5fd24ca5e6095c2c7ea3e32c33ce6d6f10ef09694674d4e9cdd97d2dc",
+  "cad_ir_dependency_fingerprint": "c949b79f014203d41573e4fb3e227612aa9289d3414dc87c337bc9e2b2a69803",
   "profile_id": "DGCAD-SCHEMATIC-001",
   "profile_version": "0.1.0"
 }

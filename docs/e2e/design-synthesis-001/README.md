@@ -3,32 +3,42 @@
 Status: **partial autonomous design draft**, not human-confirmed, not a
 construction or permit drawing, and not a code-compliance claim.
 `EP-R1-SKETCH-001` remains in progress. M4c-0 found a road-topology defect in
-this candidate; see below.
+this candidate; M4c-1a (0.16.0) diagnosed and fixed it — see below.
 
 This is the first round of Milestone 4c. The Agent does not ask the designer to
 review sketch geometry. It takes the sketch's spatial intent, makes design
 decisions, changes the building/road/green organization, checks the declared
-constraints, and produces an editable schematic site plan.
+constraints, and produces an editable schematic design — a focus-block detail
+sheet plus a site key plan (7 of 55 buildings; 10 of 41 design roads drawn).
 
-## Known defect found by M4c-0
+## Road-topology defect — found by M4c-0, fixed in M4c-1a
 
 The corridor union of the design roads is one polygon, but a noded centerline
-graph of the same 41 design roads has **5 connected components** (51 nodes /
-50 edges, cyclomatic 0). The current `ROAD_CONNECTIVITY` check uses the
-corridor union and is therefore too weak; this candidate is a partial
-candidate, not a fully self-consistent road design.
+graph of the same 41 design roads read **5 connected components** (51 nodes /
+50 edges, `cyclomatic: 0`).
 
-The cause is visible in the design road list: merging main-road fragments and
-dropping the blue branch/access mesh connects groups to the nearest main
-component but does not connect the main components to each other. The
-open-source M4c-0 experiment found that OSMnx
-`consolidate_intersections(8 m)` reduces the source mesh to 117 nodes / 141
-edges while keeping **one connected component**. The next round should use
-that connected network as the topology base, then apply a design-aware edge
-selection and width hierarchy.
+M4c-1a diagnosis: that reading was a **sub-ULP floating-point noding
+artefact**, not a design disconnection. Connector endpoints taken from
+`shapely.ops.nearest_points()` sat 1.5e-15–2.1e-14 m off the main lines, so
+GEOS exact predicates created no node; all 25 main roads were always in one
+exact component. The 50-edge count is the simple-graph collapse of the closed
+access loop, and `cyclomatic: 0` is momepy's connected-graph formula returning
+0 on a disconnected graph.
 
-Evidence: `docs/e2e/open-source-reuse-001/exp-c/metrics.json` and
-`docs/e2e/open-source-reuse-001/reuse-matrix.yaml`.
+M4c-1a fix: every junction is an **explicit shared-coordinate vertex** (no
+snap, no rounding, no tolerance). The noded centerline graph is now
+**1 component**: 51 nodes / 55 segments, cyclomatic 5, dead ends 21,
+junctions 27 (16 explicit shared-vertex records in `design-roads.geojson`),
+`max_endpoint_gap_m` 0.0. `ROAD_CONNECTIVITY` checks the noded graph and
+fails closed within a 1e-9 m endpoint tolerance; sub-1e-9 endpoint
+misalignment surfaces first as component count >1. `ROAD_CORRIDOR_COVERAGE`
+(corridor union, 1 piece) is published as informational. OSMnx consolidation
+(117/141 at 8 m) remains an optional source-skeleton preprocessor — not a
+connectivity proof and not the design base.
+
+Evidence: `design-roads.geojson` (41 centerlines + 16 explicit junction
+records), `design-consistency.json`, and
+`docs/e2e/open-source-reuse-001/exp-c/metrics.json` (historical measurement).
 
 ## What the Agent changed
 
@@ -129,16 +139,20 @@ python scripts/design/run_design_synthesis_001.py
 python -m pytest -q tests/test_design_synthesis.py
 ```
 
-The preview PNG is rendered from the DXF with the ezdxf matplotlib backend; it
-is a convenience image, not the deliverable.
+The preview PNG is a convenience image, not the deliverable. The committed
+tree contains no script that renders it (matplotlib is not a declared
+dependency), so treat it as illustrative rather than reproducible output.
 
 ## Evidence files
 
 - `design-basis.yaml`, `design-profile.yaml`
 - `design-intent.json` — groups, road hierarchy, focus block, principles
 - `design-summary.json` — status, metrics, checks, CAD/readback/privacy
-- `design-consistency.json` — all declared checks, including the corridor-union connectivity check that M4c-0 shows is too weak
+- `design-consistency.json` — all declared checks; connectivity is the noded
+  centerline graph (`ROAD_CORRIDOR_COVERAGE` is the informational corridor measure)
 - `design-diff.json` — what changed, why, what was preserved, what was dropped
+- `design-roads.geojson` — the 41 design roads as committed evidence:
+  41 centerlines + 16 explicit junction records (id/x/y/road_ids)
 - `draft-manifest.json` — persistent autonomous draft, revision 1
 - `scene-snapshot.json` — proposal-preview design objects
 - `design-proposal.dxf`, `cad-ir.json`, `readback-manifest.json`,

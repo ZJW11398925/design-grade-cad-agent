@@ -1,8 +1,9 @@
 # M4c-0 — open-source design capability reuse sprint
 
-Status: **research sprint complete; the 4c candidate is partial** (its road
-centerline topology is disconnected; see the finding below). This sprint does
-not add new core dependencies and does not claim a finished design.
+Status: **research sprint complete; the 4c candidate is partial** (full-site
+north-south spacing deferred). The road-topology finding below was later
+diagnosed in M4c-1a as a floating-point noding artefact and fixed — this
+sprint does not add new core dependencies and does not claim a finished design.
 
 The sprint tested whether existing open-source geometry, road, morphology and
 CAD-agent projects can replace work we have been doing ourselves. It used the
@@ -33,11 +34,14 @@ we need. The most important finding is negative:
   environment; it remains a design-knowledge reference.
 
 The 4c design candidate also exposed a real defect: its **corridor union is one
-polygon, but its noded centerline graph has 5 components** (51 nodes / 50
-edges, cyclomatic 0). The current `ROAD_CONNECTIVITY` check used the corridor
-union and was too weak. The 4c candidate is therefore a partial candidate; the
-next round must use the connected OSMnx-consolidated network as the topology
-base, then apply a design-aware road hierarchy.
+polygon, but its noded centerline graph read 5 components** (51 nodes / 50
+edges, `cyclomatic: 0`). The current `ROAD_CONNECTIVITY` check used the corridor
+union and was too weak. (M4c-1a diagnosis: the 5-component reading was a
+sub-ULP floating-point noding artefact — the 50-edge count is the simple-graph
+collapse and `cyclomatic: 0` is momepy's connected-graph artefact. Fixed with
+explicit shared-coordinate junctions; the noded graph is now 1 component
+without OSMnx, which remains an optional source-skeleton preprocessor, not a
+connectivity proof or the design base.)
 
 ## Experiments
 
@@ -45,7 +49,7 @@ base, then apply a design-aware road hierarchy.
 |---|---|---|
 | A — building | Building Regulariser 0.2.5 on 9 focus footprints | 63→61 vertices, area −2.0%, mean Hausdorff 1.07 m, max 4.87 m, IoU 0.959, ERI 0.972→0.984; 10.3 s. Limited gain; no unit/typology generation. |
 | B — roads | OSMnx 2.1.1 simplify + consolidate; PyGeoOps 0.6.0 centerlines; PyClothoids 0.2.0 G1 | OSMnx simplify 309/333→257/281; consolidate 8 m→117/141, 1 component, length 6,090 m (−10.7%). PyGeoOps 11/11 centerlines, 78% coverage, 10/11 multi-component. Clothoid fit failed quality (356 m Hausdorff). |
-| C — collaboration | Uncorrected vs corrected building/road/green layout; momepy 1.0 evaluation | Uncorrected: 9 buildings, 1 road-clearance conflict (`SK-BLD-0038`), `FOCUS_ROAD_CLEARANCE` fail. Corrected: 7 buildings / 16 units, 20.0 m N-S, dropped `SK-BLD-0038` (2U) and `SK-BLD-0061` (1U), all current checks pass except deferred full-site spacing. Noded road topology still has 5 components. |
+| C — collaboration | Uncorrected vs corrected building/road/green layout; momepy 1.0 evaluation | Uncorrected: 9 buildings, 1 road-clearance conflict (`SK-BLD-0038`), `FOCUS_ROAD_CLEARANCE` fail. Corrected: 7 buildings / 16 units, 20.0 m N-S, dropped `SK-BLD-0038` (2U) and `SK-BLD-0061` (1U), all current checks pass except deferred full-site spacing. Noded road topology then read 5 components (M4c-1a later diagnosed this as a float-noding artefact and fixed it). |
 
 ## Visual comparison
 

@@ -185,7 +185,7 @@ Task C — coordinate and source integrity:
 - [x] Add a structured DXF privacy scan over TEXT/MTEXT, layer/linetype/style/block names, XDATA and raw bytes.
 - [x] Regenerate the pilot evidence to match the new contract (blocked state + review packet + superseded history).
 
-**4b.1 exit (met for code/evidence):** scope cannot silently become global confirmation; a sketch boundary cannot become `SITE-001`; a source-geometry mutation with a stale hash fails; a road-topology mismatch fails closed; the synthetic E2E and CAD delivery remain green; 206 tests pass. The real pilot remains blocked until the designer signs the object-level review.
+**4b.1 exit (met for code/evidence):** scope cannot silently become global confirmation; a sketch boundary cannot become `SITE-001`; a source-geometry mutation with a stale hash fails; a road-topology mismatch fails closed; the synthetic E2E and CAD delivery remain green; 206 tests pass (count true at the 4b.1 exit; the suite is 259 after 4c-1a). The real pilot remains blocked until the designer signs the object-level review.
 
 ### Milestone 4c — Autonomous Site Design Synthesis (first round partial; M4c-0 complete)
 
@@ -200,19 +200,29 @@ First round (`docs/e2e/design-synthesis-001/`):
 - [x] Focus block G-01: 7 standardized buildings / 16 units in rows with 20.0 m north-south spacing, unit division lines, green strips and an access loop.
 - [x] Replace the 333-edge skeleton mesh with a design road hierarchy: merged main roads, one branch per group, one focus access loop; widths 12/7/4 m; record the source mesh as evidence.
 - [x] Allocate cluster/ strip/ supplementary green; site green ratio 63.0%.
-- [x] Check FAR, parking, entrances, unit count, spacing, setback, overlap, road clearance, connectivity, road widths and green ratio; record full-site north-south spacing as deferred.
+- [x] Check FAR, parking, entrances, unit count, spacing, setback, overlap, road clearance, noded connectivity (1 component after 4c-1a; `ROAD_CORRIDOR_COVERAGE` recorded as informational), road widths and green ratio; record full-site north-south spacing as deferred.
 - [x] Produce an editable 208-entity DXF with layers, building/road labels, dimensions, key plan, title block, legend, north arrow and scale bar; audit 0/0; readback 208/208.
 - [x] Mark all design objects `rule_derived` in `proposal_preview`; no `human_confirmed`; title block says Agent-generated and not code-compliant.
 - [x] Record the design diff, dropped buildings and the persistent draft manifest.
 
 Next in 4c:
 
-- **First fix the road topology**: use the OSMnx-consolidated connected network as the topology base, replace the corridor-only check with a noded check, then regenerate the candidate.
+- **First fix the road topology** — **done in 4c-1a** without OSMnx: explicit shared-coordinate junctions + dependency-free noded check + evidence regeneration (the OSMnx base was rejected as a tolerance-created connectivity proof; OSMnx remains an optional preprocessor, see 4c-1a below).
 - Expand the standardized layout from the focus block to all groups; enforce 20 m north-south spacing site-wide.
 - Improve the design-intent model: group boundaries, road hierarchy, access logic and green relationships.
 - Add design evaluation/search: compare candidate layouts against intent preservation, completeness, consistency, constraint satisfaction and CAD editability.
 - Replace the provisional unit module with the designer's unit-type library.
 - Move to a real CAD host loop after the draft is stable.
+
+### Milestone 4c-1a — Road-Topology Truth Fix (complete, 0.16.0)
+
+- [x] Diagnose the M4c-0 finding: the 5-component noded reading was a sub-ULP floating-point noding artefact (connector endpoints 1.5e-15–2.1e-14 m off the main lines; GEOS exact predicates create no node; all 25 main roads were always in one exact component).
+- [x] Add explicit shared-coordinate junctions (no snap, no rounding, no tolerance): noded centerline graph 1 component — 51 nodes / 55 segments, cyclomatic 5, dead ends 21, junctions 27 (16 explicit shared-vertex), closed rings 3, `max_endpoint_gap_m` 0.0.
+- [x] Replace the corridor-only `ROAD_CONNECTIVITY` with the noded check: noded connectivity fails closed within a 1e-9 m endpoint tolerance; sub-1e-9 endpoint misalignment surfaces first as component count >1. `ROAD_CORRIDOR_COVERAGE` (corridor union, 1 piece) is published as informational, non-gating.
+- [x] Publish `design-roads.geojson` (41 centerlines + 16 explicit junction records) so the topology is checkable from committed evidence.
+- [x] Regenerate the evidence in one run: 208-entity DXF, audit 0/0, readback 208/208, 23 declared design layers, all prior metrics unchanged; contract bumped to `design-synthesis-v0.2.yaml` (v0.1 superseded).
+- [x] Control plane unchanged: foundation/runtime/deployment/CAD/domain untouched; XDATA arity 11; `ISSUE_CATEGORIES` unchanged.
+- [x] Correct the defect narrative across docs (this roadmap, status §16–18, design/reuse READMEs, research-to-product-map); full-site spacing remains deferred (M4c-1b/4c next steps below still open).
 
 ### M4c-0 — Open-Source Design Capability Reuse Sprint (complete; partial answer)
 
@@ -240,6 +250,8 @@ rebuilding, using the same CASE-SKETCH-001 focus block.
 - [x] Found a real 4c defect: the corridor union is 1 polygon, but the noded
   road centerline graph has **5 components**. The corridor-only
   `ROAD_CONNECTIVITY` check is too weak; the 4c candidate is partial.
+  (Diagnosed in 4c-1a: sub-ULP floating-point noding artefact — not a design
+  disconnection; fixed with explicit shared-coordinate junctions.)
 
 **M4c-0 answer (partial):** OSMnx is the strongest candidate for a topology
 preprocessor; Building Regulariser is a cleanup adapter; PyGeoOps is a
@@ -247,14 +259,15 @@ per-area centerline candidate; momepy is an evaluation adapter; Clothoids,
 UrbGEN and Street Generator are not direct core dependencies. No open-source
 tool produced a complete professional design by itself.
 
-**Next in 4c:** add the optional OSMnx adapter, replace the corridor-only
-connectivity check with a noded topology check, and apply a design-aware
-hierarchy on the connected consolidated network before regenerating the
-candidate.
+**Next in 4c (superseded by 4c-1a):** the noded topology check landed
+dependency-free with explicit shared-coordinate junctions and the candidate was
+regenerated; the OSMnx-consolidated base was rejected (tolerance-created
+connectivity, source edge ids not preserved). OSMnx remains an optional
+source-skeleton preprocessor.
 
 ### Next research main line
 
-1. **Repair the design road topology** — optional OSMnx adapter, noded connectivity check, design-aware hierarchy on the connected network; then expand to all groups.
+1. ~~Repair the design road topology~~ — **done in 4c-1a** (explicit shared-coordinate junctions, dependency-free noded check, evidence regenerated); next: expand to all groups.
 2. **Expand and evaluate autonomous design** — full-site group layout, design-quality metrics, candidate comparison; do not return to sketch-level human review as the gate.
 3. **Measure design quality, not only sketch fidelity** — intent preservation, completeness, internal consistency, verified constraint satisfaction and CAD editability; Hausdorff/IoU remain secondary.
 4. **Professional building and road design** — apply the unit-type library, resolve six unit-count conflicts and the kindergarten classification; separate 支路/入户路, then review road class and cross-sections.

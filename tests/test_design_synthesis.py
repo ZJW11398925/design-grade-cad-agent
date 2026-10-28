@@ -136,7 +136,20 @@ def test_design_synthesis_end_to_end(tmp_path):
     ]
     assert metrics["focus_min_ns_gap_m"] >= 20.0 - 1e-6
     assert metrics["green_ratio"] >= 0.30
-    assert metrics["road_components"] == 1
+    assert metrics["road_noded_component_count"] == 1
+    assert metrics["corridor_union_pieces"] == 1
+    assert metrics["max_endpoint_gap_m"] == 0.0
+    assert metrics["road_topology"]["component_count"] == 1
+    assert (
+        sum(
+            1
+            for item in metrics["road_topology"]["connector_states"]
+            if item["state"] == "crossing_only"
+        )
+        == 0
+    )
+    assert summary["road_topology"]["schema_id"] == "dgcad.design-road-topology.v0.1"
+    assert summary["design_roads"]["road_count"] == 41
     for name in (
         "FAR_RANGE",
         "PARKING_MIN_ONE_PER_HOUSEHOLD",
@@ -151,6 +164,7 @@ def test_design_synthesis_end_to_end(tmp_path):
         "GREEN_RATIO",
     ):
         assert checks[name]["status"] == "pass", checks[name]
+    assert checks["ROAD_CORRIDOR_COVERAGE"]["status"] == "info"
     assert checks["FULL_SITE_NS_SPACING"]["status"] == "deferred"
     assert summary["readback"]["verdict"] == "pass"
     assert summary["readback"]["confirmation_scopes"] == ["design_draft"]
@@ -259,3 +273,64 @@ def test_committed_design_evidence_is_consistent():
     assert (EVIDENCE / "design-basis.yaml").is_file()
     assert (EVIDENCE / "design-diff.json").is_file()
     assert (EVIDENCE / "design-intent.json").is_file()
+
+
+class _RoadDouble:
+    """Minimal RoadDesign-compatible object for evidence recomputation."""
+
+    def __init__(self, feature: dict):
+        from shapely.geometry import shape
+
+        properties = feature["properties"]
+        geometry = feature["geometry"]
+        assert geometry["type"] == "LineString"
+        self.edge_id = properties["edge_id"]
+        self.class_name = properties["class_name"]
+        self.centerline = shape(geometry)
+        self.start_junction_id = properties["start_junction_id"]
+        self.end_junction_id = properties["end_junction_id"]
+
+
+def _junction_records_from_features(
+    payload: dict,
+) -> tuple[dict, ...]:
+    """Read the explicit junction records embedded in the committed artefact."""
+    junctions = tuple(dict(item) for item in payload["junctions"])
+    assert payload["junction_count"] == len(junctions) == 16
+    for junction in junctions:
+        assert set(junction) == {"id", "x", "y", "road_ids"}
+        # each junction joins exactly two roads (main/branch or branch/loop)
+        assert len(junction["road_ids"]) == 2
+    return junctions
+
+
+def test_committed_design_roads_artifact_recomputes_topology():
+    from dgcad_design.topology import noded_road_topology, topology_violations
+
+    summary = json.loads(
+        (EVIDENCE / "design-summary.json").read_text(encoding="utf-8")
+    )
+    roads_path = EVIDENCE / "design-roads.geojson"
+    assert roads_path.is_file()
+    payload = json.loads(roads_path.read_text(encoding="utf-8"))
+    features = payload["features"]
+    assert len(features) == 41 == payload["road_count"]
+    assert hashlib.sha256(roads_path.read_bytes()).hexdigest() == (
+        summary["design_roads"]["sha256"]
+    )
+    roads = [_RoadDouble(feature) for feature in features]
+    junctions = _junction_records_from_features(payload)
+    topology = noded_road_topology(roads, junctions)
+    assert topology.component_count == 1
+    assert topology.road_count == 41
+    assert topology.explicit_junction_count == 16
+    # the endpoint-gap check must be a real measurement from committed evidence,
+    # not the empty-set default: junction records carry both member roads.
+    assert topology.max_endpoint_gap_m == 0.0
+    assert topology_violations(topology) == ()
+    # JSON round-trip normalises tuple fields and integer histogram keys
+    assert json.loads(json.dumps(topology.to_dict(), sort_keys=True)) == (
+        summary["road_topology"]
+    )
+    classes = sorted({feature["properties"]["class_name"] for feature in features})
+    assert classes == ["access", "branch", "main"]

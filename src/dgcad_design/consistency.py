@@ -12,6 +12,7 @@ from .input import DesignInput
 from .intent import DesignIntent
 from .parking import ParkingLayout
 from .roads import RoadLayout
+from .topology import topology_violations
 
 
 @dataclass(frozen=True)
@@ -89,7 +90,9 @@ def check_design(
         if item.footprint.intersection(road_clear).area > 0.01
     ]
     spacing = row_spacing_report(building_layout, basis)
-    components = road_layout.component_count
+    noded_topology = road_layout.noded_topology
+    topology_issues = topology_violations(noded_topology)
+    components = noded_topology.component_count
     width_values = {
         road.width_m for road in road_layout.roads
     }
@@ -164,10 +167,32 @@ def check_design(
         },
         {
             "id": "ROAD_CONNECTIVITY",
-            "status": "pass" if components == 1 else "fail",
+            "status": "pass" if not topology_issues else "fail",
             "value": components,
             "required": 1,
-            "message": "the design road graph must be one component",
+            "message": (
+                "the design road graph must be one connected component with "
+                "explicit shared-vertex junctions"
+            ),
+            "detail": {
+                "violations": [issue["code"] for issue in topology_issues],
+                "max_endpoint_gap_m": noded_topology.max_endpoint_gap_m,
+                "crossing_only_count": sum(
+                    1
+                    for item in noded_topology.connector_states
+                    if item["state"] == "crossing_only"
+                ),
+            },
+        },
+        {
+            "id": "ROAD_CORRIDOR_COVERAGE",
+            "status": "info",
+            "value": road_layout.corridor_union_pieces,
+            "required": "coverage only",
+            "message": (
+                "corridor-union piece count is paved coverage, not centreline "
+                "topology; it is published for continuity and does not gate"
+            ),
         },
         {
             "id": "ROAD_WIDTHS",
@@ -234,10 +259,15 @@ def check_design(
         "green_area_m2": green_layout.total_area_m2,
         "green_ratio": green_layout.green_ratio,
         "green_ratio_target": green_layout.target_ratio,
-        "road_components": components,
+        "road_noded_component_count": components,
+        "corridor_union_pieces": road_layout.corridor_union_pieces,
+        "road_topology": noded_topology.to_dict(),
         "road_count": len(road_layout.roads),
-        "junction_count": len(road_layout.junction_nodes),
-        "dead_end_count": len(road_layout.dead_end_nodes),
+        "junction_count": noded_topology.junction_count,
+        "dead_end_count": noded_topology.dead_end_count,
+        "explicit_junction_count": noded_topology.explicit_junction_count,
+        "closed_ring_count": noded_topology.closed_ring_count,
+        "max_endpoint_gap_m": noded_topology.max_endpoint_gap_m,
         "focus_group_id": intent.focus_group_id,
         "focus_subgroups": {
             subgroup_id: list(building_ids)
