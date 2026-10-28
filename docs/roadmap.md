@@ -187,7 +187,7 @@ Task C — coordinate and source integrity:
 
 **4b.1 exit (met for code/evidence):** scope cannot silently become global confirmation; a sketch boundary cannot become `SITE-001`; a source-geometry mutation with a stale hash fails; a road-topology mismatch fails closed; the synthetic E2E and CAD delivery remain green; 206 tests pass. The real pilot remains blocked until the designer signs the object-level review.
 
-### Milestone 4c — Autonomous Site Design Synthesis (first round complete)
+### Milestone 4c — Autonomous Site Design Synthesis (first round partial; M4c-0 complete)
 
 Goal: the Agent converts the sketch's spatial intent into a self-consistent,
 standardized schematic design without asking the designer to review sketch
@@ -207,18 +207,58 @@ First round (`docs/e2e/design-synthesis-001/`):
 
 Next in 4c:
 
+- **First fix the road topology**: use the OSMnx-consolidated connected network as the topology base, replace the corridor-only check with a noded check, then regenerate the candidate.
 - Expand the standardized layout from the focus block to all groups; enforce 20 m north-south spacing site-wide.
 - Improve the design-intent model: group boundaries, road hierarchy, access logic and green relationships.
 - Add design evaluation/search: compare candidate layouts against intent preservation, completeness, consistency, constraint satisfaction and CAD editability.
 - Replace the provisional unit module with the designer's unit-type library.
 - Move to a real CAD host loop after the draft is stable.
 
+### M4c-0 — Open-Source Design Capability Reuse Sprint (complete; partial answer)
+
+Goal: test whether existing open-source geometry, road, morphology and
+CAD-agent projects can perform the professional design work we have been
+rebuilding, using the same CASE-SKETCH-001 focus block.
+
+- [x] Read the R0 project matrix and capability allocation; audit the current
+  core dependencies (PyYAML, Shapely/GEOS, ezdxf only).
+- [x] Experiment A: Building Regulariser 0.2.5 on 9 focus footprints. 63→61
+  vertices, area −2.0%, mean Hausdorff 1.07 m, ERI 0.972→0.984. Limited gain;
+  it is a footprint-cleanup adapter, not a unit/typology generator.
+- [x] Experiment B: OSMnx 2.1.1 simplify/consolidate, PyGeoOps 0.6.0
+  centerlines, PyClothoids 0.2.0 G1. OSMnx 309/333→257/281→117/141 at 8 m,
+  keeping 1 component; PyGeoOps 11 per-area centerlines (10/11
+  multi-component); Clothoids single fit failed quality (356 m Hausdorff).
+- [x] Experiment C: uncorrected vs corrected collaborative layout. Uncorrected
+  had 1 road-clearance conflict (`SK-BLD-0038`); corrected has 7 buildings /
+  16 units, 20.0 m N-S, dropped 0038/0061; all current checks pass except
+  deferred full-site spacing.
+- [x] Reuse matrix with versions, licenses, hosts, tested APIs, metrics,
+  verdicts and rejected uses: `docs/e2e/open-source-reuse-001/reuse-matrix.yaml`.
+- [x] Visual comparison and editable DXF:
+  `docs/e2e/open-source-reuse-001/`.
+- [x] Found a real 4c defect: the corridor union is 1 polygon, but the noded
+  road centerline graph has **5 components**. The corridor-only
+  `ROAD_CONNECTIVITY` check is too weak; the 4c candidate is partial.
+
+**M4c-0 answer (partial):** OSMnx is the strongest candidate for a topology
+preprocessor; Building Regulariser is a cleanup adapter; PyGeoOps is a
+per-area centerline candidate; momepy is an evaluation adapter; Clothoids,
+UrbGEN and Street Generator are not direct core dependencies. No open-source
+tool produced a complete professional design by itself.
+
+**Next in 4c:** add the optional OSMnx adapter, replace the corridor-only
+connectivity check with a noded topology check, and apply a design-aware
+hierarchy on the connected consolidated network before regenerating the
+candidate.
+
 ### Next research main line
 
-1. **Expand and evaluate autonomous design** — full-site group layout, design-quality metrics, candidate comparison; do not return to sketch-level human review as the gate.
-2. **Measure design quality, not only sketch fidelity** — intent preservation, completeness, internal consistency, verified constraint satisfaction and CAD editability; Hausdorff/IoU remain secondary.
-3. **Professional building and road design** — apply the unit-type library, resolve six unit-count conflicts and the kindergarten classification; separate 支路/入户路, then review road class and cross-sections.
-4. **Agent ↔ real CAD loop** — hand the draft to the CAD bridge; verify host read/edit/readback/diff/local rebuild; keep LibreCAD, FreeCAD and AutoCAD GUI as independent evidence lanes.
+1. **Repair the design road topology** — optional OSMnx adapter, noded connectivity check, design-aware hierarchy on the connected network; then expand to all groups.
+2. **Expand and evaluate autonomous design** — full-site group layout, design-quality metrics, candidate comparison; do not return to sketch-level human review as the gate.
+3. **Measure design quality, not only sketch fidelity** — intent preservation, completeness, internal consistency, verified constraint satisfaction and CAD editability; Hausdorff/IoU remain secondary.
+4. **Professional building and road design** — apply the unit-type library, resolve six unit-count conflicts and the kindergarten classification; separate 支路/入户路, then review road class and cross-sections.
+5. **Agent ↔ real CAD loop** — hand the draft to the CAD bridge; verify host read/edit/readback/diff/local rebuild; keep LibreCAD, FreeCAD and AutoCAD GUI as independent evidence lanes.
 
 ## Milestone 5 — Production hardening (not started)
 

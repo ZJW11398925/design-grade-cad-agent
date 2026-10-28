@@ -1,7 +1,7 @@
 # Project Status
 
 Updated: 2026-10-27
-Version: `0.14.0` (Milestone 4c autonomous design synthesis; Milestone 4b.1 scope-aware handoff integrity; Milestone 4a sketch/road evidence; Milestone 3c partial third-party evidence)
+Version: `0.15.0` (M4c-0 open-source design reuse sprint; Milestone 4c autonomous design synthesis draft; Milestone 4b.1 scope-aware handoff integrity; Milestone 4a sketch/road evidence; Milestone 3c partial third-party evidence)
 Research basis: R0 v0.19 + R1 deployment-entry v0.2
 
 ## 1. One-line status
@@ -36,6 +36,7 @@ python -m pytest -q
 | Sketch handoff gate | 32 | passing |
 | Sketch handoff A | 6 | passing |
 | Design synthesis | 8 | passing |
+| Open-source reuse | 3 | passing |
 
 ## 3. Capability status
 
@@ -67,7 +68,8 @@ python -m pytest -q
 | Third-party CAD round-trip | **partial evidence only** | AutoCAD 2024 Core Console: semantic pass with serialization differences; LibreCAD/FreeCAD/GUI not run; issue #6 |
 | Real sketch → trace | **partial (designer sketch)** | CASE-SKETCH-001: 55 buildings (5 designer-confirmed merges), unit counts 16/21/17 plus 1 facility, 11 floors provisional, image-space geometry proposed; no fidelity metrics or unit-type library yet |
 | Real sketch → canonical handoff | **gate implemented; pilot blocked** | CASE-SKETCH-001-HANDOFF-A: 7 selected objects pass source-integrity and topology checks but stop at `HUMAN_OBJECT_REVIEW_REQUIRED`; the downstream ConfirmedTraceScene → Canonical → CAD-IR → DXF path is proven only with an explicitly marked test double. Scope, geometry quality and boundary authority propagate when confirmed. |
-| Autonomous design synthesis | **first draft implemented** | CASE-SKETCH-001 design draft: full-site context (55 buildings/109 staircases/333 road edges) + focus block G-01 (7 standardized buildings/16 units); FAR 1.565; 2,398 households; 2,398 parking spaces and 5 entrances; 20 m north-south rows; simplified main/branch/access hierarchy; 208-entity DXF with title block/key plan/dimensions; `rule_derived` proposal, not human-confirmed |
+| Autonomous design synthesis | **partial draft implemented** | CASE-SKETCH-001 design draft: full-site context (55 buildings/109 staircases/333 road edges) + focus block G-01 (7 standardized buildings/16 units); FAR 1.565; 2,398 households; 2,398 parking spaces and 5 entrances; 20 m north-south rows; 208-entity DXF with title block/key plan/dimensions; `rule_derived` proposal, not human-confirmed. M4c-0 found the noded road centerline topology has 5 components; the corridor-union connectivity check is too weak. |
+| Open-source design reuse | **sprint complete; partial answer** | Building Regulariser, OSMnx, PyGeoOps, Clothoids, momepy tested on CASE-SKETCH-001; OSMnx consolidation 309/333→117/141 with 1 component; Building Regulariser limited; PyGeoOps per-area; Clothoids single fit fails; momepy evaluation only; UrbGEN/Street Generator host/reference only |
 | Road centerline extraction | **proposed_rough** | skeleton-derived from colour masks; no professional alignment, width or junction design |
 | Road network topology | **connected_by_unified_road_mask** | 1 component: 309 nodes, 333 edges, 121 junction candidates; colour is a class attribute; no width, profile or alignment |
 | Real design-office profile | **not validated** | synthetic and DB11 subset only |
@@ -355,8 +357,23 @@ Evidence: `docs/e2e/sketch-001/README.md`, `docs/e2e/sketch-001/case-summary.jso
 - Checks: FAR, parking, entrance count, unit count, focus 20 m spacing, boundary setback, overlap, road clearance, road connectivity, road widths and green ratio pass. Full-site north-south spacing is **deferred** until each group is designed.
 - Tests: `tests/test_design_synthesis.py` (8); full suite **214 passed**.
 - The autonomous draft is not construction-ready, not code-compliant, not the designer's unit library, and not an adopted or officially issued design.
+- M4c-0 found the noded road centerline topology has 5 components; the corridor-union connectivity check is too weak. The 4c candidate is partial; see §17.
 
-## 17. Current non-claims
+## 17. M4c-0 open-source design reuse sprint
+
+- Evidence: `docs/e2e/open-source-reuse-001/`; matrix: `reuse-matrix.yaml`; experiments A/B/C with metrics, overlays, GeoJSON and an editable DXF.
+- **Building Regulariser 0.2.5 (MIT)**: 9 focus footprints, 63→61 vertices, area −2.0%, mean Hausdorff 1.07 m, max 4.87 m, IoU 0.959, ERI 0.972→0.984. Limited gain; a cleanup adapter, not a unit/typology generator.
+- **OSMnx 2.1.1 (MIT)**: source 309 nodes/333 edges → simplify 257/281 → consolidate 8 m 117/141, **1 component**, total length 6,090 m (−10.7%). With design widths the consolidated network still leaves no 120×90 m buildable focus rectangle; it is a topology preprocessor, not the design hierarchy.
+- **PyGeoOps 0.6.0 (BSD-3)**: 11 centerlines for 11 road areas, 78% coverage, 10/11 multi-component; per-area candidates, not a connected network.
+- **PyClothoids 0.2.0 (MIT)**: single G1 fit on MAIN-08 shortened the road by 78 m and deviated by 356 m Hausdorff; not a usable alignment generator.
+- **momepy 1.0.0 (BSD-3)**: building morphology and network-ratio metrics; candidate evaluation only, not a compliance verdict.
+- **UrbGEN (MIT)** is a Rhino/Grasshopper `.gha` plugin; **Street Generator/rue-lib (MIT)** is not on PyPI and uses foreign 20/15/10 m widths; both are reference-only. Clothoids, IfcOpenShell and Ladybug are deferred.
+- The 4c candidate's road **corridor union is 1 polygon but its noded centerline graph has 5 components** (51 nodes/50 edges, cyclomatic 0). The `ROAD_CONNECTIVITY` check is too weak; the candidate is partial.
+- Next: optional OSMnx adapter, noded topology check, design-aware hierarchy on the connected consolidated network; Building Regulariser only for noisy input cleanup; momepy for evaluation.
+- No new core dependencies were added; the experiment dependencies are optional only.
+
+## 18. Current non-claims
+
 
 
 - `research_complete = false`
@@ -373,5 +390,8 @@ Evidence: `docs/e2e/sketch-001/README.md`, `docs/e2e/sketch-001/case-summary.jso
 - No DXF or canonical model is published for the current blocked handoff. The test-double DXF is local metric only; no project coordinates/DWG are published. Same-library `ezdxf` readback is not third-party evidence.
 - The pilot transform is uniform scale, translation and y-flip, not the six-point homography; it does not correct local sketch distortion.
 - No road width, cross-section, profile, alignment or surface is designed.
+- The 4c design candidate is partial: its noded road centerline topology has 5 components, even though the corridor union is one polygon. The open-source M4c-0 sprint did not produce a complete professional design; it identified OSMnx consolidation as the next topology base.
+- The open-source libraries tested in M4c-0 are optional experiment dependencies, not production/core dependencies; no code-compliance or construction-readiness claim is made.
+- The reuse experiments assigned EPSG:3857 only for library compatibility; the coordinates are the local metric sketch frame, not a real projection.
 - The autonomous design draft is a schematic proposal, not a construction or permit drawing and not a code-compliance claim; its unit module is provisional, its road corridors are schematic, its garage layout is not designed, and full-site north-south spacing is deferred.
 - The autonomous draft is never `human_confirmed`; it is a `rule_derived` proposal the designer may adopt or edit.

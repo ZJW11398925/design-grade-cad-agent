@@ -1,0 +1,5 @@
+buildingregulariser==0.2.5
+osmnx==2.1.1
+pygeoops==0.6.0
+pyclothoids==0.2.0
+momepy==1.0.0

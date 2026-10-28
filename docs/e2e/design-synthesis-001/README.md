@@ -1,13 +1,34 @@
 # CASE-SKETCH-001 — Autonomous Design Synthesis 001
 
-Status: **autonomous design draft**, not human-confirmed, not a construction or
-permit drawing, and not a code-compliance claim. `EP-R1-SKETCH-001` remains in
-progress.
+Status: **partial autonomous design draft**, not human-confirmed, not a
+construction or permit drawing, and not a code-compliance claim.
+`EP-R1-SKETCH-001` remains in progress. M4c-0 found a road-topology defect in
+this candidate; see below.
 
 This is the first round of Milestone 4c. The Agent does not ask the designer to
 review sketch geometry. It takes the sketch's spatial intent, makes design
 decisions, changes the building/road/green organization, checks the declared
 constraints, and produces an editable schematic site plan.
+
+## Known defect found by M4c-0
+
+The corridor union of the design roads is one polygon, but a noded centerline
+graph of the same 41 design roads has **5 connected components** (51 nodes /
+50 edges, cyclomatic 0). The current `ROAD_CONNECTIVITY` check uses the
+corridor union and is therefore too weak; this candidate is a partial
+candidate, not a fully self-consistent road design.
+
+The cause is visible in the design road list: merging main-road fragments and
+dropping the blue branch/access mesh connects groups to the nearest main
+component but does not connect the main components to each other. The
+open-source M4c-0 experiment found that OSMnx
+`consolidate_intersections(8 m)` reduces the source mesh to 117 nodes / 141
+edges while keeping **one connected component**. The next round should use
+that connected network as the topology base, then apply a design-aware edge
+selection and width hierarchy.
+
+Evidence: `docs/e2e/open-source-reuse-001/exp-c/metrics.json` and
+`docs/e2e/open-source-reuse-001/reuse-matrix.yaml`.
 
 ## What the Agent changed
 
@@ -116,7 +137,7 @@ is a convenience image, not the deliverable.
 - `design-basis.yaml`, `design-profile.yaml`
 - `design-intent.json` — groups, road hierarchy, focus block, principles
 - `design-summary.json` — status, metrics, checks, CAD/readback/privacy
-- `design-consistency.json` — all declared checks
+- `design-consistency.json` — all declared checks, including the corridor-union connectivity check that M4c-0 shows is too weak
 - `design-diff.json` — what changed, why, what was preserved, what was dropped
 - `draft-manifest.json` — persistent autonomous draft, revision 1
 - `scene-snapshot.json` — proposal-preview design objects

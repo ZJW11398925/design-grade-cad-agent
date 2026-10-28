@@ -1,0 +1,159 @@
+{
+  "experiment": "C-collaborative-design",
+  "source_building_metrics": {
+    "count": 9,
+    "area_m2": 3616.683077603661,
+    "mean_eri": 0.9716671572891256,
+    "mean_elongation": 0.34268260998078315,
+    "mean_convexity": 0.9808483400253404,
+    "orientations_deg": [
+      0.0,
+      0.0,
+      0.0,
+      -26.281411209590317,
+      3.621485885647262,
+      22.93210061285056,
+      -29.577839607362744,
+      -23.629379562617856,
+      4.2891539365323865
+    ]
+  },
+  "uncorrected_building_metrics": {
+    "count": 9,
+    "area_m2": 5016.0,
+    "mean_eri": 1.0000000000000004,
+    "mean_elongation": 0.23765432098765363,
+    "mean_convexity": 1.0,
+    "orientations_deg": [
+      0.0,
+      0.0,
+      -5.684341886080802e-14,
+      0.0,
+      0.0,
+      0.0,
+      -5.684341886080802e-14,
+      0.0,
+      0.0
+    ]
+  },
+  "corrected_building_metrics": {
+    "count": 7,
+    "area_m2": 4224.0,
+    "mean_eri": 1.0000000000000009,
+    "mean_elongation": 0.20734126984126872,
+    "mean_convexity": 1.0,
+    "orientations_deg": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "source_road_metrics": {
+    "node_count": 309,
+    "edge_count": 333,
+    "component_count": 1,
+    "mean_node_degree_manual": 2.1553398058252426,
+    "edge_node_ratio": 1.0776699029126213,
+    "cyclomatic": 25,
+    "meshedness": 0.040783034257748776
+  },
+  "corrected_road_metrics": {
+    "node_count": 51,
+    "edge_count": 50,
+    "component_count": 5,
+    "mean_node_degree_manual": 1.9607843137254901,
+    "edge_node_ratio": 0.9803921568627451,
+    "cyclomatic": 0,
+    "meshedness": 0.0
+  },
+  "corrected_road_topology_defect": true,
+  "osmnx_candidate": {
+    "status": "ok",
+    "edge_count": 141,
+    "road_area_m2": 46409.90264054876,
+    "focus_free_area_m2": 24314.488180117176,
+    "largest_buildable_rect": null,
+    "buildable": false,
+    "widths_used": [
+      4.0,
+      7.0,
+      12.0
+    ]
+  },
+  "candidates": {
+    "uncorrected": {
+      "status": "fail",
+      "building_count": 9,
+      "unit_count": 19,
+      "households": 418,
+      "dropped_building_ids": [],
+      "road_count": 41,
+      "road_area_m2": 25966.484408620447,
+      "green_ratio": 0.630912416535307,
+      "conflicts": [
+        "SK-BLD-0038"
+      ],
+      "checks": {
+        "FAR_RANGE": "pass",
+        "PARKING_MIN_ONE_PER_HOUSEHOLD": "pass",
+        "PARKING_ENTRANCES": "pass",
+        "UNIT_COUNT_PRESERVED": "pass",
+        "FOCUS_NS_SPACING": "pass",
+        "FOCUS_BOUNDARY_SETBACK": "pass",
+        "FOCUS_BUILDING_OVERLAP": "pass",
+        "FOCUS_ROAD_CLEARANCE": "fail",
+        "ROAD_CONNECTIVITY": "pass",
+        "ROAD_WIDTHS": "pass",
+        "GREEN_RATIO": "pass",
+        "FULL_SITE_NS_SPACING": "deferred"
+      },
+      "failed_checks": [
+        "FOCUS_ROAD_CLEARANCE"
+      ]
+    },
+    "corrected": {
+      "status": "pass",
+      "building_count": 7,
+      "unit_count": 16,
+      "households": 352,
+      "dropped_building_ids": [
+        "SK-BLD-0038",
+        "SK-BLD-0061"
+      ],
+      "road_count": 41,
+      "road_area_m2": 26170.241651018776,
+      "green_ratio": 0.6303863597090935,
+      "conflicts": [],
+      "checks": {
+        "FAR_RANGE": "pass",
+        "PARKING_MIN_ONE_PER_HOUSEHOLD": "pass",
+        "PARKING_ENTRANCES": "pass",
+        "UNIT_COUNT_PRESERVED": "pass",
+        "FOCUS_NS_SPACING": "pass",
+        "FOCUS_BOUNDARY_SETBACK": "pass",
+        "FOCUS_BUILDING_OVERLAP": "pass",
+        "FOCUS_ROAD_CLEARANCE": "pass",
+        "ROAD_CONNECTIVITY": "pass",
+        "ROAD_WIDTHS": "pass",
+        "GREEN_RATIO": "pass",
+        "FULL_SITE_NS_SPACING": "deferred"
+      },
+      "failed_checks": []
+    }
+  },
+  "design_4c": {
+    "far": 1.5654107291796402,
+    "households": 2398,
+    "parking_spaces": 2398,
+    "parking_entrances": 5,
+    "focus_building_count": 7,
+    "focus_unit_count": 16,
+    "focus_min_ns_gap_m": 20.0,
+    "dxf_entity_count": 208,
+    "readback_verdict": "pass"
+  }
+}

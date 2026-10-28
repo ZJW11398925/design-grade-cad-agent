@@ -2,6 +2,36 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.15.0 — 2026-10-27
+
+### Added
+
+- **M4c-0 — open-source design capability reuse sprint**: `docs/e2e/open-source-reuse-001/` and `experiments/m4c0/`.
+- Reuse matrix with tested versions, licenses, hosts, APIs, metrics, verdicts and rejected uses: `reuse-matrix.yaml`.
+- Experiment A: Building Regulariser 0.2.5 on 9 focus footprints.
+- Experiment B: OSMnx 2.1.1 simplify/consolidate, PyGeoOps 0.6.0 centerlines, PyClothoids 0.2.0 G1 fit.
+- Experiment C: uncorrected vs corrected collaborative layout, momepy 1.0 evaluation, comparison image and editable DXF.
+- `tests/test_open_source_reuse.py` (3 tests).
+
+### Verified
+
+- **217 passed**.
+- Building Regulariser: 63→61 vertices, area −2.0%, mean Hausdorff 1.07 m, max 4.87 m, IoU 0.959, ERI 0.972→0.984; limited gain, no unit/typology generation.
+- OSMnx: 309/333 → 257/281 (simplify) → 117/141 (consolidate 8 m), 1 component, length 6,090 m (−10.7%); with design widths it still leaves no 120×90 m buildable focus rectangle.
+- PyGeoOps: 11 centerlines for 11 road areas, 78% coverage, 10/11 multi-component.
+- PyClothoids: single G1 fit on MAIN-08 shortened the road by 78 m and deviated by 356 m Hausdorff; not a usable alignment.
+- momepy: building morphology and network-ratio metrics for candidate evaluation only.
+- **Found a 4c defect**: the design corridor union is one polygon, but the noded road centerline graph has 5 components (51 nodes / 50 edges, cyclomatic 0). The corridor-only `ROAD_CONNECTIVITY` check is too weak; the 4c candidate is partial.
+- Uncorrected layout had 1 road-clearance conflict (`SK-BLD-0038`); the corrected layout has 7 buildings / 16 units, 20.0 m N-S and dropped 0038/0061; all current checks pass except deferred full-site spacing.
+- No new core dependencies: `pyproject.toml` still lists only PyYAML, Shapely/GEOS and ezdxf.
+
+### Scope
+
+- Open-source tools were tested as optional experiment dependencies, not production/core dependencies.
+- No open-source algorithm or foreign design default is claimed as Chinese code compliance.
+- UrbGEN is a Rhino/Grasshopper plugin (host-blocked); Street Generator/rue-lib is not on PyPI and uses foreign widths; Clothoids, IfcOpenShell and Ladybug are deferred.
+- The 4c candidate remains a partial schematic proposal; the road topology must be rebuilt on the connected OSMnx-consolidated base.
+
 ## 0.14.0 — 2026-10-27
 
 ### Added

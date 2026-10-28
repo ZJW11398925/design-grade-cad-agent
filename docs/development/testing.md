@@ -37,6 +37,7 @@ A passing lower layer never promotes a higher-layer claim automatically.
 | Sketch handoff gate | `tests/test_sketch_handoff.py` | 32 |
 | Sketch handoff A | `tests/e2e/test_sketch_handoff_a.py` | 6 |
 | Design synthesis | `tests/test_design_synthesis.py` | 8 |
+| Open-source reuse | `tests/test_open_source_reuse.py` | 3 |
 
 Run all:
 

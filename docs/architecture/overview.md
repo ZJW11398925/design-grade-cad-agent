@@ -274,7 +274,15 @@ source raster (public)
 - Consistency checks cover FAR, parking, entrances, unit counts, focus spacing/setback/overlap/road clearance, connectivity, road widths and green ratio. Full-site north-south spacing is recorded as deferred, not pass.
 - `EP-R1-DESIGN-001` is in progress; the draft is not construction-ready or code-compliant.
 
-## 19. Open architecture questions
+## 19. Open-source reuse (M4c-0)
+
+- The sprint tested Building Regulariser, OSMnx, PyGeoOps, PyClothoids and momepy on the same CASE-SKETCH-001 focus block; evidence is in `docs/e2e/open-source-reuse-001/`.
+- OSMnx `consolidate_intersections` is the strongest candidate for a topology preprocessor: 309/333 → 117/141 at 8 m, one component. It does not select the design hierarchy or widths.
+- Building Regulariser is a limited footprint-cleanup adapter; PyGeoOps produces per-area centerlines; a single clothoid fit fails quality; momepy is an evaluation adapter.
+- The 4c design candidate exposed a road-topology defect: the corridor union is one polygon, but the noded centerline graph has 5 components. The next architecture step is an optional OSMnx adapter and a noded connectivity check before the design hierarchy.
+- No new core dependency is promoted; the experiment dependencies are optional only.
+
+## 20. Open architecture questions
 
 - Final road alignment algorithm and Chinese profile source.
 - Shapely vs CGAL boundary.

@@ -4,7 +4,7 @@
 
 **A traceable research-and-development workspace for turning hand-drawn site sketches into professional, verifiable site models and editable CAD/BIM output.**
 
-> **Status: research prototype (v0.14.0).** This is not production CAD software, not a compliance certification, and not a validated AutoCAD/FreeCAD integration. Claims are scoped to the tests and evidence recorded in this repository.
+> **Status: research prototype (v0.15.0).** This is not production CAD software, not a compliance certification, and not a validated AutoCAD/FreeCAD integration. Claims are scoped to the tests and evidence recorded in this repository.
 
 ---
 
@@ -72,12 +72,13 @@ The provisional architecture defines 11 modules (M01 Source & Calibration throug
 | E2E-003c third-party CAD | **partial**, 2 evidence tests | AutoCAD 2024 Core Console round-trip: 15 entities/XDATA preserved, R2010→R2018 + linetype case; LibreCAD/FreeCAD/GUI not run |
 | EP-R1-SKETCH-001 intake | **in progress**, 11 evidence tests | [CASE-SKETCH-001](docs/e2e/sketch-001/README.md): designer sketch, 55 buildings (5 designer-confirmed merges), unit counts 16/21/17 + 1 facility, 11 floors provisional, public image-space trace and rough centerlines; private DWG/redline; no fidelity metrics or unit-type library yet |
 | Real sketch → canonical handoff | **gate implemented; pilot blocked**, 6 E2E tests | [CASE-SKETCH-001-HANDOFF-A](docs/e2e/sketch-handoff-a/README.md): 7 selected objects pass source-integrity and road-topology checks but stop at `HUMAN_OBJECT_REVIEW_REQUIRED`; the downstream Canonical → CAD-IR → DXF path (11/11) is proven only with an explicitly marked test double; scope, geometry quality and boundary authority propagate when confirmed |
-| Autonomous design synthesis | **first draft implemented**, 8 tests | [CASE-SKETCH-001 design synthesis](docs/e2e/design-synthesis-001/README.md): full-site context + focus block G-01; 7 standardized buildings / 16 units in 20 m rows; FAR 1.565; 1 parking space/household and 5 entrances; simplified main/branch/access hierarchy; 208-entity editable DXF with title block, key plan and dimensions; `rule_derived` draft, not human-confirmed |
+| Autonomous design synthesis | **partial draft implemented**, 8 tests | [CASE-SKETCH-001 design synthesis](docs/e2e/design-synthesis-001/README.md): full-site context + focus block G-01; 7 standardized buildings / 16 units in 20 m rows; FAR 1.565; 1 parking space/household and 5 entrances; 208-entity editable DXF with title block, key plan and dimensions; `rule_derived` draft, not human-confirmed. M4c-0 found the noded road topology has 5 components; the corridor-union check is too weak. |
+| Open-source design reuse | **sprint complete; partial answer**, 3 tests | [M4c-0](docs/e2e/open-source-reuse-001/README.md): Building Regulariser, OSMnx, PyGeoOps, Clothoids, momepy tested on CASE-SKETCH-001; OSMnx consolidation 309/333→117/141 with 1 component; Building Regulariser limited; PyGeoOps per-area; Clothoids single fit fails; momepy evaluation only; no new core dependencies |
 | Road network topology | **connected_by_unified_road_mask**, 3 tests | 1 connected design network: 309 nodes / 333 edges / 121 junction candidates; colour is a class attribute; no width/profile/alignment |
 | R0 research | archived | 5 acquisition batches, synthetic benchmarks, adversarial reviews, architecture challenge |
 | Real-world evidence | **partially obtained** | one designer sketch intake (CASE-SKETCH-001); still missing a field-paired case, real design-office profile, IFC round-trip, independent solar engine, AutoCAD/FreeCAD host exchange, MCP wire conformance |
 
-**Verified test baseline: 214 passed (214 collected)** (`python -m pytest -q`).
+**Verified test baseline: 217 passed (217 collected)** (`python -m pytest -q`).
 
 ### Explicit non-claims
 
@@ -98,6 +99,8 @@ The provisional architecture defines 11 modules (M01 Source & Calibration throug
 - The test-double DXF is local metric only; no DWG/redline/project coordinates are published, and unknown building height and road hierarchy remain unknown. The pilot transform is uniform scale + y-flip, not the six-point homography.
 - The autonomous design draft is a schematic proposal, not a construction or permit drawing and not a code-compliance claim. Its unit module is provisional, its road corridors are schematic, its garage layout is not designed, and its full-site north-south spacing is deferred; only the focus block is checked at 20 m.
 - The autonomous draft is `rule_derived` in `proposal_preview`, never `human_confirmed`; the designer may adopt or edit it, but the Agent cannot declare it adopted or officially issued.
+- The 4c design candidate is **partial**: its corridor union is one polygon, but its noded road centerline graph has 5 components. M4c-0 found that OSMnx consolidation keeps one connected component (309/333→117/141); the next round must rebuild the design road hierarchy on that base and replace the corridor-only connectivity check.
+- M4c-0 tested open-source libraries as optional experiment dependencies; no OSMnx/GeoPandas/momepy/Building Regulariser dependency was added to `pyproject.toml`, and no open-source algorithm or foreign design default is claimed as Chinese code compliance.
 
 ## 4. Repository layout
 
@@ -111,7 +114,8 @@ The provisional architecture defines 11 modules (M01 Source & Calibration throug
 │   ├── dgcad_analysis/        Synthetic solar/shadow baseline with dependency fingerprint
 │   ├── dgcad_cad/             CAD-IR, DXF compiler, readback validator
 │   └── dgcad_e2e/             Living end-to-end pipeline orchestration
-├── tests/                     Executable contract suites (214 collected)
+├── experiments/m4c0/         Open-source reuse experiments A/B/C (optional deps)
+├── tests/                     Executable contract suites (217 collected)
 ├── contracts/                 Machine-readable IR, domain, E2E, lifecycle/auth/MCP/CAD bridge contracts
 ├── fixtures/                  Typed synthetic fixtures (scene, authority, dependency, domain, E2E)
 ├── spikes/                    Executed process probe and MCP install-attempt evidence
@@ -153,7 +157,7 @@ python -m pytest -q
 Expected:
 
 ```text
-214 passed
+217 passed
 ```
 
 With coverage:
@@ -183,7 +187,8 @@ python -m pytest -q --cov --cov-report=term-missing
 | Sketch handoff gate | `tests/test_sketch_handoff.py` | 32 | authorization vs geometry review, scope/authority propagation, source integrity, road topology, coordinate metadata and sensitivity, DXF privacy |
 | Sketch handoff A | `tests/e2e/test_sketch_handoff_a.py` | 6 | blocked evidence + review packet; test-double Canonical → CAD-IR → DXF (11/11) with scope in trace/canonical/CAD-IR/XDATA/manifest; privacy and scope-mismatch detection |
 | Design synthesis | `tests/test_design_synthesis.py` | 8 | basis math (FAR/parking/spacing), full-site input, intent/focus block, row layout, consistency checks, 208-entity DXF, rule-derived draft authority |
-| **Total** | | **214 (all passing)** | |
+| Open-source reuse | `tests/test_open_source_reuse.py` | 3 | reuse-matrix coverage/verdicts, experiment evidence and DXF privacy, core-dependency minimality |
+| **Total** | | **217 (all passing)** | |
 
 Read [docs/development/testing.md](docs/development/testing.md) for what these tests prove, what they do **not** prove, and how new test layers are added.
 

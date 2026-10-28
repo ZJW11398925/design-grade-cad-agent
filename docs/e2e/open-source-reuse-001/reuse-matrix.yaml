@@ -1,0 +1,198 @@
+schema_id: dgcad.open-source-reuse-matrix.v0.1
+status: research_sprint_evidence
+scope: M4c-0 open-source design capability reuse
+common_input: CASE-SKETCH-001 focus block G-01 (local metric sketch frame)
+tested_environment:
+  python: "3.13"
+  os: Windows
+  note: "Optional experiment dependencies were installed only in the research environment, not added to pyproject core dependencies."
+current_core_dependencies:
+  - PyYAML
+  - Shapely/GEOS
+  - ezdxf
+projects:
+  - name: Building Regulariser
+    package: buildingregulariser
+    version: 0.2.5
+    url: https://github.com/DPIRD-DMA/Building-Regulariser
+    license: MIT
+    host: Python/GeoPandas
+    tested_in: experiment_a
+    capability: building footprint regularization (principal directions, rectangles, 45 degrees, neighbour alignment)
+    experiment_result:
+      buildings: 9
+      vertices: "63 -> 61"
+      area_change_ratio: -0.019994606435829922
+      mean_hausdorff_m: 1.0688834004956307
+      max_hausdorff_m: 4.874738229248765
+      mean_iou: 0.9590213920846435
+      mean_centroid_shift_m: 0.1595354835789556
+      equivalent_rectangular_index: "0.9717 -> 0.9839"
+      runtime_s: 10.338511999929324
+    verdict: adapter_candidate_limited
+    adopt: optional footprint cleanup and orientation cleanup before module fitting; not a building generator
+    reject: using it to claim unit/typology/massing generation
+  - name: UrbGEN
+    version: 0.1.11-beta (repo)
+    url: https://github.com/trongtintr/UrbGEN
+    license: MIT
+    host: Rhino 7/8 + Grasshopper (GhPython, C#/.NET)
+    tested_in: not runnable_here
+    capability: generative urban massing under BCR/FAR/height/orientation/typology constraints
+    experiment_result:
+      status: host_blocked
+      reason: "No Rhino/Grasshopper host in the CI or research environment; the repository is a .gha plugin, not a Python/CLI library."
+    verdict: reference_only
+    adopt: BCR/FAR/typology constraint logic as a design-knowledge reference
+    reject: direct dependency without a host adapter and a licensing/host review
+  - name: OSMnx
+    version: 2.1.1
+    url: https://github.com/gboeing/osmnx
+    license: MIT
+    host: Python/NetworkX/GeoPandas
+    tested_in: experiment_b
+    capability: graph simplification and intersection consolidation
+    experiment_result:
+      source: "309 nodes / 333 edges / 1 weak component / 6821.84 m"
+      simplify_graph: "257 nodes / 281 edges / 1 weak component / 6821.84 m"
+      consolidate_intersections_8m: "117 nodes / 141 edges / 1 weak component / 6090.17 m"
+      reduction_at_8m: "62.1% nodes, 57.7% edges, 10.7% total length"
+      tolerance_sweep:
+        - {tolerance_m: 4.0, nodes: 280, edges: 304}
+        - {tolerance_m: 6.0, nodes: 180, edges: 204}
+        - {tolerance_m: 8.0, nodes: 117, edges: 141}
+        - {tolerance_m: 10.0, nodes: 87, edges: 110}
+        - {tolerance_m: 15.0, nodes: 24, edges: 37}
+      with_design_widths:
+        road_area_m2: 46409.90264054876
+        focus_free_area_m2: 24314.488180117176
+        largest_buildable_rectangle: null
+    verdict: adopt_optional_topology_preprocessor
+    adopt: convert the local RoadGraph to an OSMnx MultiDiGraph, simplify and consolidate at <=8 m, then apply a design-aware edge selection, class and width hierarchy
+    reject: treating the consolidated graph as the design road network or as a source of widths/alignment
+  - name: PyGeoOps
+    version: 0.6.0
+    url: https://github.com/pygeoops/pygeoops
+    license: BSD-3-Clause
+    host: Python/Shapely/GeoPandas
+    tested_in: experiment_b
+    capability: centerline and geometry simplification
+    experiment_result:
+      road_area_count: 11
+      centerline_count: 11
+      failure_count: 0
+      total_length_m: 7082.3519898692275
+      mean_coverage_2m_buffer: 0.7843780033389595
+      multi_component_count: 10
+    verdict: adapter_candidate
+    adopt: per-road-area centerline candidate generation; then assemble and validate topology
+    reject: treating per-area centerlines as a connected road network
+  - name: Clothoids / PyClothoids
+    version: 0.2.0
+    url: https://github.com/phillipd94/PyClothoids
+    license: MIT
+    host: Python/C++ extension
+    tested_in: experiment_b
+    capability: G1/G2 clothoid fitting
+    experiment_result:
+      road_id: MAIN-08
+      source_length_m: 324.29632566501857
+      clothoid_length_m: 246.50334964199075
+      length_delta_m: -77.79297602302782
+      hausdorff_m: 356.2197246204467
+      centroid_shift_m: 258.4966261209616
+      status: failed_quality
+      reason: "A single G1 Hermite fit between the endpoints of a multi-vertex hand-drawn road is not an alignment; it deviates by 356 m and shortens the road by 78 m."
+    verdict: defer
+    adopt: a clothoid-chain/control-point alignment generator only after a road-specific adapter and control-point policy exist
+    reject: direct clothoid fitting as a road design solution; any claim of Chinese road-standard compliance
+  - name: Street Generator / rue-lib
+    version: 0.1.0 (repo)
+    url: https://github.com/kartoza/rue-lib
+    license: MIT
+    host: Python/GeoPandas/GDAL
+    tested_in: source_review_only
+    capability: typed StreetConfig, parcel/street/cluster generation
+    experiment_result:
+      status: not_adopted
+      reasons:
+        - "Not published on PyPI in the tested environment."
+        - "Requires GeoPandas/GDAL and a parcel/roads data model."
+        - "Default widths (arterial 20 m, secondary 15 m, local 10 m) are not Chinese project standards."
+    verdict: reference_only
+    adopt: typed street-config and rules/renderer separation as an architecture reference
+    reject: importing its default rules or widths
+  - name: momepy
+    version: 1.0.0
+    url: https://github.com/pysal/momepy
+    license: BSD-3-Clause
+    host: Python/GeoPandas/NetworkX
+    tested_in: experiment_c
+    capability: urban morphology metrics
+    experiment_result:
+      source_building_mean_eri: 0.9716671572891256
+      corrected_building_mean_eri: 1.0000000000000009
+      source_road_edge_node_ratio: 1.0776699029126213
+      source_road_cyclomatic: 25
+      source_road_meshedness: 0.040783034257748776
+      corrected_road_edge_node_ratio: 0.9803921568627451
+      corrected_road_cyclomatic: 0
+      corrected_road_meshedness: 0.0
+      mean_node_degree_note: "momepy.mean_node_degree required additional graph attributes in this graph; manual 2E/V was recorded instead."
+    verdict: adopt_optional_evaluation
+    adopt: building morphology and network-ratio metrics for candidate comparison; not a compliance verdict
+    reject: using morphology metrics as a substitute for code compliance or engineering design
+  - name: IfcOpenShell
+    license: LGPL-2.1 (check before integration)
+    url: https://github.com/IfcOpenShell/IfcOpenShell
+    tested_in: deferred
+    verdict: defer
+    reason: "3D/IFC stage; heavy dependency and identity mapping not exercised in this sprint."
+  - name: Ladybug Tools
+    license: AGPL-3.0/GPL (check before integration)
+    url: https://github.com/ladybug-tools
+    tested_in: deferred
+    verdict: defer
+    reason: "Environment analysis stage; license and Chinese daylight-standard separation require a separate review."
+  - name: Agent-driven CAD projects (SolidCraft, vcad, text-to-cad, CADAM)
+    tested_in: research_only
+    verdict: research_only
+    reason: "No direct experiment in this sprint; licenses and host models must be checked before any code reuse."
+decisions:
+  adopt_optional:
+    - buildingregulariser
+    - osmnx
+    - pygeoops
+    - momepy
+  reference_only:
+    - urbgen
+    - street-generator-rue-lib
+  defer:
+    - pyclothoids
+    - ifcopenshell
+    - ladybug-tools
+  research_only:
+    - solidcraft
+    - vcad
+    - text-to-cad
+    - cadam
+  reject:
+    - broad-90-project-integration
+    - foreign-design-defaults-as-chinese-standards
+    - source-skeleton-as-final-road-design
+failed_cases:
+  - clothoid_single_g1_fit: "356 m Hausdorff on MAIN-08; not a usable alignment."
+  - pygeoops_network_assembly: "10 of 11 centerlines are multi-component; per-area centerlines do not form a connected network."
+  - design_4c_road_topology: "The 4c corridor union is one polygon, but its noded centerline graph has 5 components (51 nodes / 50 edges, cyclomatic 0). The corridor-based ROAD_CONNECTIVITY check is too weak."
+next_round:
+  - "Add an optional OSMnx adapter: local RoadGraph -> nx.MultiDiGraph -> simplify_graph + consolidate_intersections(tolerance <= 8 m) -> noded RoadGraph, preserving source edge IDs and class."
+  - "Replace the corridor-only road-connectivity check with a noded centerline topology check; the 4c candidate must be regenerated."
+  - "Apply a design-aware road hierarchy on the connected consolidated network: retain a connected branch tree, assign 12/7/4 m widths, and search for buildable blocks."
+  - "Add Building Regulariser as an optional footprint-cleanup adapter only for noisy inputs; keep the 24x11 module synthesis as the building design step."
+  - "Add momepy as an optional candidate-evaluation dependency, not a compliance checker."
+  - "Do not add pyclothoids, UrbGEN, or Street Generator to core; they need host adapters, control-point policies or Chinese profile data first."
+non_claims:
+  - "The tested libraries do not by themselves produce a professional Chinese residential design."
+  - "The 4c design candidate is a partial candidate: its road centerline topology is disconnected; the corridor-union check masked it."
+  - "The open-source experiments do not establish code compliance, construction readiness or design-office approval."
+  - "The local metric sketch frame is not a project or georeferenced CRS; EPSG:3857 was assigned only for library compatibility."
