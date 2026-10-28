@@ -1,0 +1,32 @@
+basis_id: design-assumption-v0.1
+version: 0.1.0
+case_id: CASE-SKETCH-001
+households_per_staircase_per_floor: 2
+floors: 11
+floor_height_m: 3.0
+staircase_width_m: 24.0
+staircase_depth_m: 11.0
+dwelling_gfa_m2: 132.0
+facility_gfa_m2: 3000.0
+far_min: 1.55
+far_max: 1.60
+parking_spaces_per_household: 1.0
+spaces_per_entrance: 500
+north_south_spacing_m: 20.0
+side_spacing_m: 13.0
+boundary_setback_m: 5.0
+building_road_clearance_m: 3.0
+green_ratio_min: 0.30
+road_widths:
+  main_road: 12.0
+  branch_road: 7.0
+  access_road: 4.0
+sidewalk_width_m: 2.0
+group_distance_m: 45.0
+scale_px_per_m: 2.438
+origin_px: [45.0, 1536.0]
+target_frame: LOCAL-XY-ZUP
+drawing_standard: DGCAD-SCHEMATIC-001
+claim_scope: schematic_design_proposal_not_code_compliance
+design_authority: rule_derived
+human_confirmed: false

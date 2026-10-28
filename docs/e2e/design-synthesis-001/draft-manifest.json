@@ -1,0 +1,68 @@
+{
+  "draft_id": "DRAFT-CASE-SKETCH-001-A-R1",
+  "revision": 1,
+  "status": "autonomous_draft",
+  "parent_revision": null,
+  "created_by": "agent",
+  "design_authority": "rule_derived",
+  "human_confirmed": false,
+  "design_basis_id": "design-assumption-v0.1",
+  "scene_id": "scene-CASE-SKETCH-001-AUTONOMOUS-DRAFT-R1",
+  "scene_object_count": 203,
+  "metrics": {
+    "site_area_m2": 204122.7864634952,
+    "staircase_count": 109,
+    "facility_count": 1,
+    "households": 2398,
+    "residential_gfa_m2": 316536.0,
+    "facility_gfa_m2": 3000.0,
+    "total_gfa_m2": 319536.0,
+    "far": 1.5654107291796402,
+    "parking_spaces": 2398,
+    "parking_entrances": 5,
+    "parking_entrances_required": 5,
+    "focus_building_count": 7,
+    "focus_unit_count": 16,
+    "focus_households": 352,
+    "focus_area_m2": 4224.0,
+    "focus_min_ns_gap_m": 20.0,
+    "road_area_m2": 26170.241651018776,
+    "sidewalk_area_m2": 9866.177785935135,
+    "green_area_m2": 128676.22029239938,
+    "green_ratio": 0.6303863597090935,
+    "green_ratio_target": 0.3,
+    "road_components": 1,
+    "road_count": 41,
+    "junction_count": 16,
+    "dead_end_count": 35,
+    "focus_group_id": "G-01",
+    "focus_subgroups": {
+      "FOCUS-1": [
+        "SK-BLD-0007",
+        "SK-BLD-0015",
+        "SK-BLD-0021"
+      ],
+      "FOCUS-2": [
+        "SK-BLD-0034",
+        "SK-BLD-0035",
+        "SK-BLD-0032",
+        "SK-BLD-0025"
+      ]
+    },
+    "dropped_focus_building_ids": [
+      "SK-BLD-0038",
+      "SK-BLD-0061"
+    ],
+    "focus_design_rect": [
+      72.621001,
+      396.968827,
+      222.621001,
+      506.968827
+    ]
+  },
+  "consistency_ok": true,
+  "basis_ref": "design-basis.yaml",
+  "diff_ref": "design-diff.json",
+  "dxf_ref": "design-proposal.dxf",
+  "note": "The agent may revise this draft without human approval. The draft is not canonical design truth and is not human-confirmed."
+}

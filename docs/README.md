@@ -12,6 +12,7 @@
 | [e2e/third-party-003c.md](e2e/third-party-003c.md) | Executed AutoCAD 2024 Core Console round-trip evidence and partial-matrix scope |
 | [e2e/sketch-001/README.md](e2e/sketch-001/README.md) | CASE-SKETCH-001: designer sketch, image-space trace, rough centerlines, privacy boundary |
 | [e2e/sketch-handoff-a/README.md](e2e/sketch-handoff-a/README.md) | CASE-SKETCH-001-HANDOFF-A: real subset source/topology checks, blocked human review packet and test-double downstream path |
+| [e2e/design-synthesis-001/README.md](e2e/design-synthesis-001/README.md) | CASE-SKETCH-001 autonomous design draft: basis, full-site metrics, focus block, consistency checks and editable DXF |
 | [architecture/overview.md](architecture/overview.md) | Provisional architecture, module boundaries, Canonical IR |
 | [architecture/authority.md](architecture/authority.md) | Living authority, role and lock model |
 | [development/testing.md](development/testing.md) | Test layers, current coverage scope, what tests do and do not prove |

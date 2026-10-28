@@ -111,6 +111,7 @@ After Milestone 3, prioritize the real sketch/trace and road evidence packages b
 | `EP-R1-ENV-001` | independent shadow engine |
 | `EP-R1-PROFILE-001` | real project/design-office profile |
 | `CASE-SKETCH-001-HANDOFF-A` | **gate implemented; pilot blocked**: selected real subset passes source/topology checks, then requires an object-level human geometry review. Downstream Canonical → CAD-IR → DXF is proven with a test double only. |
+| `EP-R1-DESIGN-001` | **in progress**: autonomous schematic design draft, focus block + full-site metrics; human confirmation not required to generate |
 
 Each package has its own decision question, raw evidence, metrics, failure policy and scope-leakage prohibition. No package is a checklist for production release.
 
@@ -186,12 +187,38 @@ Task C — coordinate and source integrity:
 
 **4b.1 exit (met for code/evidence):** scope cannot silently become global confirmation; a sketch boundary cannot become `SITE-001`; a source-geometry mutation with a stale hash fails; a road-topology mismatch fails closed; the synthetic E2E and CAD delivery remain green; 206 tests pass. The real pilot remains blocked until the designer signs the object-level review.
 
+### Milestone 4c — Autonomous Site Design Synthesis (first round complete)
+
+Goal: the Agent converts the sketch's spatial intent into a self-consistent,
+standardized schematic design without asking the designer to review sketch
+geometry. The designer reviews the product.
+
+First round (`docs/e2e/design-synthesis-001/`):
+
+- [x] Design basis with the required FAR 1.55–1.60, ≥1 parking space/household and ≥20 m north-south spacing, plus explicit assumptions for the unit module, floors, roads, setbacks, green and drawing standard.
+- [x] Full-site context: 55 buildings, 109 staircases, 2,398 households, 319,536 m² GFA, FAR 1.565, 2,398 parking spaces and 5 entrances.
+- [x] Focus block G-01: 7 standardized buildings / 16 units in rows with 20.0 m north-south spacing, unit division lines, green strips and an access loop.
+- [x] Replace the 333-edge skeleton mesh with a design road hierarchy: merged main roads, one branch per group, one focus access loop; widths 12/7/4 m; record the source mesh as evidence.
+- [x] Allocate cluster/ strip/ supplementary green; site green ratio 63.0%.
+- [x] Check FAR, parking, entrances, unit count, spacing, setback, overlap, road clearance, connectivity, road widths and green ratio; record full-site north-south spacing as deferred.
+- [x] Produce an editable 210-entity DXF with layers, building/road labels, dimensions, key plan, title block, legend, north arrow and scale bar; audit 0/0; readback 210/210.
+- [x] Mark all design objects `rule_derived` in `proposal_preview`; no `human_confirmed`; title block says Agent-generated and not code-compliant.
+- [x] Record the design diff, dropped buildings and the persistent draft manifest.
+
+Next in 4c:
+
+- Expand the standardized layout from the focus block to all groups; enforce 20 m north-south spacing site-wide.
+- Improve the design-intent model: group boundaries, road hierarchy, access logic and green relationships.
+- Add design evaluation/search: compare candidate layouts against intent preservation, completeness, consistency, constraint satisfaction and CAD editability.
+- Replace the provisional unit module with the designer's unit-type library.
+- Move to a real CAD host loop after the draft is stable.
+
 ### Next research main line
 
-1. **Close the handoff integrity loop** — the designer's object-level review, then a real (not test-double) Canonical/DXF run for the selected subset.
-2. **Measure real-sketch fidelity** — human-confirmed reference geometry, Hausdorff/percentile boundary distance, IoU as secondary, topology/junction precision/recall, modification workload; expand gradually, never batch-promote all 55 buildings.
-3. **Professional building and road design** — apply the unit-type library, resolve six unit-count conflicts and the kindergarten classification; separate 支路/入户路, then review junctions, road class and cross-sections.
-4. **Agent ↔ real CAD loop** — hand the confirmed model to the CAD bridge; verify host read/edit/readback/diff/local rebuild; keep LibreCAD, FreeCAD and AutoCAD GUI as independent evidence lanes.
+1. **Expand and evaluate autonomous design** — full-site group layout, design-quality metrics, candidate comparison; do not return to sketch-level human review as the gate.
+2. **Measure design quality, not only sketch fidelity** — intent preservation, completeness, internal consistency, verified constraint satisfaction and CAD editability; Hausdorff/IoU remain secondary.
+3. **Professional building and road design** — apply the unit-type library, resolve six unit-count conflicts and the kindergarten classification; separate 支路/入户路, then review road class and cross-sections.
+4. **Agent ↔ real CAD loop** — hand the draft to the CAD bridge; verify host read/edit/readback/diff/local rebuild; keep LibreCAD, FreeCAD and AutoCAD GUI as independent evidence lanes.
 
 ## Milestone 5 — Production hardening (not started)
 

@@ -1,0 +1,147 @@
+schema_id: dgcad.design-synthesis.v0.1
+status: living_contract
+scope: CASE-SKETCH-001 autonomous design synthesis pilot
+purpose: >-
+  Define the state, authority and evidence rules for an Agent-generated
+  schematic design draft. The Agent may synthesize and revise a design without
+  human approval; it may not present the draft as human-confirmed, code
+  compliant, construction-ready or an authoritative site boundary.
+
+states:
+  source_evidence:
+    owner: extraction_import
+    mutable_by_design: false
+  autonomous_design_draft:
+    owner: agent_and_geometry_engine
+    persistent: true
+    versioned: true
+    human_approval_required_to_create_or_revise: false
+    world: proposal_preview
+    authority: rule_derived
+    human_confirmed: false
+  adopted_design:
+    owner: designer
+    meaning: the designer explicitly accepts a draft version
+    promotion_requires: human_decision
+  official_issued_design:
+    owner: authorized_issuer
+    meaning: a formal delivery or permit document
+    promotion_requires: applicable professional and regulatory process
+
+basis:
+  required:
+    - basis_id
+    - households_per_staircase_per_floor
+    - floors
+    - floor_height_m
+    - staircase_width_m
+    - staircase_depth_m
+    - dwelling_gfa_m2
+    - facility_gfa_m2
+    - far_min
+    - far_max
+    - parking_spaces_per_household
+    - spaces_per_entrance
+    - north_south_spacing_m
+    - side_spacing_m
+    - boundary_setback_m
+    - building_road_clearance_m
+    - green_ratio_min
+    - road_widths
+    - drawing_standard
+  rules:
+    - "the basis is an explicit design assumption, not a verified engineering fact"
+    - "the unit module is provisional until the designer supplies a unit-type library"
+    - "the Agent may choose design values but must record them in the basis"
+    - "changing the basis and re-running is the normal revision path"
+
+constraints:
+  required:
+    - far_range
+    - parking_per_household
+    - north_south_spacing
+    - boundary_setback
+    - building_overlap
+    - building_road_clearance
+    - road_connectivity
+    - road_width_by_class
+  rules:
+    - "a hard constraint failure blocks the draft from being presented as complete"
+    - "full-site constraints not yet designed are recorded as deferred, not as pass"
+    - "the Agent may change building, road, green and parking organization to satisfy the constraints"
+    - "dropped or moved objects are recorded in the design diff, never silently deleted"
+
+road_design:
+  hierarchy: [main, branch, access]
+  widths_from: design_basis
+  corridor_generator: round_buffer_hierarchy_v0.1
+  rules:
+    - "the source skeleton mesh is evidence, not the design road network"
+    - "the design may merge main roads and replace short blue-edge stubs with branches and access loops"
+    - "the corridor generator is schematic and is not a professional alignment or junction design"
+    - "the 121-junction review is not continued as an optimization target"
+
+drawing:
+  standard: DGCAD-SCHEMATIC-001
+  units: metre
+  dxf_version: R2010
+  entity_set: [LWPOLYLINE, TEXT]
+  required_layers:
+    - A-SITE-BOUNDARY
+    - A-BUILDING-OUTLINE
+    - A-UNIT-LINE
+    - C-ROAD-MAIN
+    - C-ROAD-BRANCH
+    - C-ROAD-ACCESS
+    - C-SIDEWALK
+    - L-GREEN
+    - A-DIM
+    - A-TITLE
+    - A-LEGEND
+    - A-NORTH
+    - A-SCALE
+    - A-KEYPLAN
+  annotations:
+    - building labels with unit count, households, height and dimensions
+    - road labels with class and width
+    - north-south spacing dimension
+    - overall plan dimensions
+    - key plan
+    - title block with FAR, households, parking and entrance count
+    - legend, north arrow and scale bar
+  rules:
+    - "the title block states the draft is Agent-generated, not human-confirmed and not code-compliant"
+    - "XDATA and the readback manifest carry confirmation_scope: design_draft"
+    - "all design objects are rule_derived in the proposal_preview world"
+    - "no object may claim human_confirmed authority"
+
+verification:
+  required:
+    - far_range
+    - parking_min_one_per_household
+    - parking_entrances
+    - unit_count_preserved
+    - focus_north_south_spacing
+    - focus_boundary_setback
+    - focus_building_overlap
+    - focus_road_clearance
+    - road_connectivity
+    - road_widths
+    - green_ratio
+    - dxf_audit
+    - dxf_readback
+    - dxf_privacy
+  rules:
+    - "a hard failure blocks the summary status autonomous_design_draft"
+    - "dxf readback failure is a failure, not a scope limit"
+    - "the same-library ezdxf readback is not third-party CAD evidence"
+
+non_claims:
+  - "schematic design proposal, not construction or permit drawing"
+  - "no code, fire-access, daylight or accessibility compliance"
+  - "the unit module is provisional, not the designer's unit library"
+  - "the published sketch boundary is not the authoritative private redline"
+  - "road corridors are schematic, not professional alignment"
+  - "the garage layout is not designed"
+  - "the full-site north-south spacing is deferred until each group is designed"
+  - "EP-R1-SKETCH-001 is not complete"

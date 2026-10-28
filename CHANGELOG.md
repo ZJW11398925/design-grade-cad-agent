@@ -2,6 +2,38 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.14.0 — 2026-10-27
+
+### Added
+
+- **Milestone 4c — first autonomous standardized design draft** from the real CASE-SKETCH-001 sketch: `docs/e2e/design-synthesis-001/`.
+- `contracts/design-synthesis-v0.1.yaml`: autonomous draft state, design basis, constraints, drawing standard and authority rules.
+- `src/dgcad_design/`: design basis, full-site input, intent model, building standardization/row layout, road hierarchy, green allocation, parking, consistency checks, drawing and CAD export.
+- `fixtures/design/design-basis-001.yaml` and `design-profile-001.yaml`.
+- `scripts/design/run_design_synthesis_001.py`.
+- `tests/test_design_synthesis.py` (8 tests).
+- `docs/e2e/design-synthesis-001/README.md`, `design-proposal.dxf`, `design-preview.png`, `design-basis.yaml`, `design-intent.json`, `design-summary.json`, `design-consistency.json`, `design-diff.json`, `draft-manifest.json`, `scene-snapshot.json`, `cad-ir.json`, `readback-manifest.json`, `validation.json`, `privacy.json`.
+
+### Verified
+
+- **214 passed**.
+- Full-site context: 55 buildings, 109 staircase units, 2,398 households, 319,536 m² GFA, **FAR 1.565** (required 1.55–1.60), 2,398 parking spaces (≥1/household) and 5 garage entrances.
+- Focus block G-01: 7 buildings / 16 units in rows with **20.0 m north-south spacing**, unit division lines, green strips and an access loop; 2 buildings recorded as dropped.
+- Road hierarchy: merged main roads, one branch per group and a focus access loop; widths 12/7/4 m; the 333-edge skeleton mesh is retained as evidence and is not the design network.
+- Green ratio 63.0%; all declared hard checks pass except full-site north-south spacing, which is recorded as deferred.
+- DXF: 208 entities, audit 0/0, readback 208/208 pass; CAD-IR `pass_with_scope_limits` with seven `UNKNOWN_HEIGHT_ALLOWED` warnings for the declared design heights; 23 design layers including main/branch/access roads, unit lines, dimensions, title, legend, north, scale and key plan.
+- Authority: every design object is `rule_derived` in `proposal_preview`; XDATA and the readback manifest carry `confirmation_scope: design_draft`; no `human_confirmed` claim.
+- The design is generated without a human review gate; the designer reviews the product, not the sketch.
+
+### Scope
+
+- Schematic design proposal, not construction or permit drawing; no code-compliance claim.
+- The unit module is provisional; the designer's unit-type library is still pending.
+- Road corridors are schematic; the 121-junction review is not continued.
+- The garage layout is not designed; only the entrance requirement is checked.
+- The full-site north-south spacing is deferred until each group is designed.
+- `EP-R1-SKETCH-001` remains in progress.
+
 ## 0.13.0 — 2026-10-27
 
 ### Fixed

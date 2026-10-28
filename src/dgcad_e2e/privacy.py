@@ -91,6 +91,11 @@ def scan_dxf_privacy(
 
     raw = path.read_bytes().decode("latin-1", errors="ignore").lower()
     for token in tokens:
+        if token.isdigit():
+            # Numeric private coordinates are checked in structured TEXT,
+            # XDATA and symbol names. A raw float can contain a digit
+            # substring by chance, so the byte scan is not used for numerics.
+            continue
         index = raw.find(token)
         if index >= 0:
             findings.append(

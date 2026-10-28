@@ -1,0 +1,152 @@
+{
+  "schema_id": "dgcad.design-consistency.v0.1",
+  "ok": true,
+  "checks": [
+    {
+      "id": "FAR_RANGE",
+      "status": "pass",
+      "value": 1.5654107291796402,
+      "required": [
+        1.55,
+        1.6
+      ],
+      "message": "site FAR must be inside the declared range"
+    },
+    {
+      "id": "PARKING_MIN_ONE_PER_HOUSEHOLD",
+      "status": "pass",
+      "value": 1.0,
+      "required": 1.0,
+      "message": "at least one parking space per household"
+    },
+    {
+      "id": "PARKING_ENTRANCES",
+      "status": "pass",
+      "value": 5,
+      "required": 5,
+      "message": "entrances must serve the declared spaces"
+    },
+    {
+      "id": "UNIT_COUNT_PRESERVED",
+      "status": "pass",
+      "value": 109,
+      "required": 109,
+      "message": "standardized buildings preserve the inferred unit counts"
+    },
+    {
+      "id": "FOCUS_NS_SPACING",
+      "status": "pass",
+      "value": 20.0,
+      "required": 20.0,
+      "message": "focus-group north-south building gap"
+    },
+    {
+      "id": "FOCUS_BOUNDARY_SETBACK",
+      "status": "pass",
+      "value": [],
+      "required": 5.0,
+      "message": "focus buildings must stay inside the setback"
+    },
+    {
+      "id": "FOCUS_BUILDING_OVERLAP",
+      "status": "pass",
+      "value": [],
+      "required": "none",
+      "message": "focus buildings must not overlap"
+    },
+    {
+      "id": "FOCUS_ROAD_CLEARANCE",
+      "status": "pass",
+      "value": [],
+      "required": 3.0,
+      "message": "focus buildings must clear the schematic road corridor"
+    },
+    {
+      "id": "ROAD_CONNECTIVITY",
+      "status": "pass",
+      "value": 1,
+      "required": 1,
+      "message": "the design road graph must be one component"
+    },
+    {
+      "id": "ROAD_WIDTHS",
+      "status": "pass",
+      "value": [
+        4.0,
+        7.0,
+        12.0
+      ],
+      "required": [
+        4.0,
+        7.0,
+        12.0
+      ],
+      "message": "each road width comes from the declared class"
+    },
+    {
+      "id": "GREEN_RATIO",
+      "status": "pass",
+      "value": 0.6303863597090935,
+      "required": 0.3,
+      "message": "site green ratio"
+    },
+    {
+      "id": "FULL_SITE_NS_SPACING",
+      "status": "deferred",
+      "value": null,
+      "required": 20.0,
+      "message": "the full-site layout is a coarse context; the 20 m gap is enforced in the focus group and must be extended group by group"
+    }
+  ],
+  "metrics": {
+    "site_area_m2": 204122.7864634952,
+    "staircase_count": 109,
+    "facility_count": 1,
+    "households": 2398,
+    "residential_gfa_m2": 316536.0,
+    "facility_gfa_m2": 3000.0,
+    "total_gfa_m2": 319536.0,
+    "far": 1.5654107291796402,
+    "parking_spaces": 2398,
+    "parking_entrances": 5,
+    "parking_entrances_required": 5,
+    "focus_building_count": 7,
+    "focus_unit_count": 16,
+    "focus_households": 352,
+    "focus_area_m2": 4224.0,
+    "focus_min_ns_gap_m": 20.0,
+    "road_area_m2": 26170.241651018776,
+    "sidewalk_area_m2": 9866.177785935135,
+    "green_area_m2": 128676.22029239938,
+    "green_ratio": 0.6303863597090935,
+    "green_ratio_target": 0.3,
+    "road_components": 1,
+    "road_count": 41,
+    "junction_count": 16,
+    "dead_end_count": 35,
+    "focus_group_id": "G-01",
+    "focus_subgroups": {
+      "FOCUS-1": [
+        "SK-BLD-0007",
+        "SK-BLD-0015",
+        "SK-BLD-0021"
+      ],
+      "FOCUS-2": [
+        "SK-BLD-0034",
+        "SK-BLD-0035",
+        "SK-BLD-0032",
+        "SK-BLD-0025"
+      ]
+    },
+    "dropped_focus_building_ids": [
+      "SK-BLD-0038",
+      "SK-BLD-0061"
+    ],
+    "focus_design_rect": [
+      72.621001,
+      396.968827,
+      222.621001,
+      506.968827
+    ]
+  }
+}

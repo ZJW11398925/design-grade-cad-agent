@@ -1,0 +1,108 @@
+profile_id: DGCAD-SCHEMATIC-001
+profile_version: 0.1.0
+dxf_version: R2010
+units: metre
+coordinate_state: local_metric_scaled
+coordinate_frame_ref: LOCAL-XY-ZUP
+entity_style_policy: BYLAYER
+layer_set_policy: exact_allowlist
+symbol_name_policy: case_insensitive
+layers:
+  A-FRAME:
+    color: 7
+    linetype: CONTINUOUS
+    lineweight: 35
+  A-SITE-BOUNDARY:
+    color: 1
+    linetype: CONTINUOUS
+    lineweight: 50
+  A-BUILDING-OUTLINE:
+    color: 7
+    linetype: CONTINUOUS
+    lineweight: 50
+  A-UNIT-LINE:
+    color: 4
+    linetype: CONTINUOUS
+    lineweight: 18
+  A-BUILDING-LABEL:
+    color: 7
+    linetype: CONTINUOUS
+    lineweight: 18
+  A-DIM:
+    color: 3
+    linetype: CONTINUOUS
+    lineweight: 18
+  A-ENTRANCE:
+    color: 6
+    linetype: CONTINUOUS
+    lineweight: 35
+  A-ANNO-TEXT:
+    color: 7
+    linetype: CONTINUOUS
+    lineweight: 18
+  A-TITLE:
+    color: 7
+    linetype: CONTINUOUS
+    lineweight: 35
+  A-LEGEND:
+    color: 7
+    linetype: CONTINUOUS
+    lineweight: 18
+  A-NORTH:
+    color: 7
+    linetype: CONTINUOUS
+    lineweight: 35
+  A-SCALE:
+    color: 7
+    linetype: CONTINUOUS
+    lineweight: 35
+  A-KEYPLAN:
+    color: 8
+    linetype: CONTINUOUS
+    lineweight: 18
+  C-ROAD-CENTER:
+    color: 8
+    linetype: CONTINUOUS
+    lineweight: 18
+  C-ROAD-EDGE:
+    color: 2
+    linetype: CONTINUOUS
+    lineweight: 35
+  C-ROAD-MAIN:
+    color: 30
+    linetype: CONTINUOUS
+    lineweight: 50
+  C-ROAD-BRANCH:
+    color: 2
+    linetype: CONTINUOUS
+    lineweight: 35
+  C-ROAD-ACCESS:
+    color: 4
+    linetype: CONTINUOUS
+    lineweight: 25
+  C-SIDEWALK:
+    color: 8
+    linetype: CONTINUOUS
+    lineweight: 18
+  C-ROAD-LABEL:
+    color: 2
+    linetype: CONTINUOUS
+    lineweight: 18
+  L-GREEN:
+    color: 94
+    linetype: CONTINUOUS
+    lineweight: 18
+  L-GREEN-LABEL:
+    color: 94
+    linetype: CONTINUOUS
+    lineweight: 18
+  ANNO-DIM:
+    color: 7
+    linetype: CONTINUOUS
+    lineweight: 18
+text_style_policy:
+  style: Standard
+  rotation: 0.0
+  width_factor: 1.0
+  halign: 0
+  valign: 0

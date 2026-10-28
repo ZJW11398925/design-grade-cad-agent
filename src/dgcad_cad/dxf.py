@@ -64,6 +64,10 @@ def _rep_hash(obj: CadObject) -> str:
             "representation_kind": obj.representation_kind,
             "geometry": obj.geometry,
             "massing": obj.massing,
+            "text": obj.text,
+            "text_height": obj.text_height,
+            "text_style": obj.text_style,
+            "rotation": obj.rotation,
         }
     )
 
@@ -221,6 +225,67 @@ def compile_to_dxf(
                     ring_role="none",
                 )
                 entity_count += 1
+        elif obj.representation_kind == "polyline":
+            if geometry.geom_type == "LineString":
+                coords = [(float(x), float(y)) for x, y in geometry.coords]
+                closed = False
+            elif geometry.geom_type == "Polygon":
+                coords = _ring_coords(geometry.exterior)
+                closed = True
+            else:
+                raise ValueError(
+                    f"unsupported polyline geometry: {geometry.geom_type}"
+                )
+            entity = msp.add_lwpolyline(
+                coords,
+                close=closed,
+                dxfattribs={"layer": obj.layer_key},
+            )
+            _set_xdata(
+                entity,
+                obj,
+                entity_role="polyline",
+                part_index=0,
+                ring_index=0,
+                ring_role="none",
+                ring_key=_ring_key(obj, "polyline", "none", coords),
+            )
+            entity_count += 1
+        elif obj.representation_kind == "text":
+            if geometry.geom_type != "Point":
+                raise ValueError(
+                    f"unsupported text geometry: {geometry.geom_type}"
+                )
+            x, y = float(geometry.x), float(geometry.y)
+            height = (
+                float(obj.text_height)
+                if obj.text_height
+                else 2.5
+            )
+            entity = msp.add_text(
+                obj.text or obj.object_id,
+                height=height,
+                dxfattribs={"layer": obj.layer_key},
+            )
+            entity.dxf.insert = (x, y)
+            entity.dxf.style = str(
+                obj.text_style or profile.text_style_policy["style"]
+            )
+            entity.dxf.rotation = float(obj.rotation)
+            entity.dxf.width = float(
+                profile.text_style_policy["width_factor"]
+            )
+            entity.dxf.halign = int(profile.text_style_policy["halign"])
+            entity.dxf.valign = int(profile.text_style_policy["valign"])
+            _set_xdata(
+                entity,
+                obj,
+                entity_role="text",
+                part_index=0,
+                ring_index=0,
+                ring_role="none",
+            )
+            entity_count += 1
         elif obj.representation_kind == "point_marker":
             if geometry.geom_type != "Point":
                 raise ValueError(

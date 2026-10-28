@@ -36,6 +36,7 @@ A passing lower layer never promotes a higher-layer claim automatically.
 | Road topology | `tests/test_road_topology.py` | 3 |
 | Sketch handoff gate | `tests/test_sketch_handoff.py` | 32 |
 | Sketch handoff A | `tests/e2e/test_sketch_handoff_a.py` | 6 |
+| Design synthesis | `tests/test_design_synthesis.py` | 8 |
 
 Run all:
 
@@ -124,6 +125,8 @@ python -m pytest -q --cov --cov-report=term-missing
 - When a confirmed handoff exists (test double), scope and geometry quality propagate through trace, canonical, CAD-IR, DXF XDATA and the readback manifest; the audit object is not `human_confirmed` for a test double.
 - Structured DXF privacy scanning covers TEXT/MTEXT, layer/linetype/style/block names, XDATA and raw bytes.
 - CASE-SKETCH-001-HANDOFF-A is blocked: the committed evidence contains no DXF, canonical snapshot or CAD-IR. The downstream 11-entity / 11/11 path is exercised only by an explicitly marked test double.
+- The autonomous design synthesis uses the public sketch evidence without a human review gate; it produces a `rule_derived` draft in `proposal_preview`, never `human_confirmed`.
+- The design basis is checked at full-site FAR/parking and focus-block spacing/setback/overlap/road clearance/connectivity; the focus block is the detailed design.
 
 ## 4. What the current tests do **not** prove
 
@@ -136,6 +139,8 @@ python -m pytest -q --cov --cov-report=term-missing
 - That building merge/split, 支路/入户路 separation or the canonical Building/Road handoff are resolved.
 - That the unified-mask road topology is professionally correct; its 121 junctions are proposed candidates, not designed intersections.
 - That the full CASE-SKETCH-001 sketch is human-confirmed, or that the selected pilot subset has been object-level reviewed; no real object is `confirmed_for_pilot` yet.
+- That the autonomous design draft is construction-ready, code-compliant, or the designer's unit-type library; full-site north-south spacing is deferred and road corridors are schematic.
+- That the autonomous draft has been adopted or officially issued; it is a proposal the designer may edit or adopt.
 - That a DXF produced by the test double is third-party CAD evidence or design-office compliant; readback is same-library ezdxf.
 - That the colour-based road class is confirmed; it is inferred from brown/blue pixel majority.
 - That road width, cross-section, profile or alignment has been designed; none is derived.

@@ -27,6 +27,18 @@ packages:
       - real_sketch_automatic_trace_reliability
       - human_confirmed_sketch_geometry
       - low_review_workload_claim
+  - package_id: EP-R1-DESIGN-001
+    stage: R1.1-R1.2
+    gates: [R1-G04, R1-G07]
+    status: in_progress
+    living_evidence: docs/e2e/design-synthesis-001/README.md
+    contract: contracts/design-synthesis-v0.1.yaml
+    first_round: autonomous_schematic_design_draft
+    blocks_claims:
+      - autonomous_design_production_ready
+      - design_code_compliance
+      - construction_ready_design
+      - full_site_spacing_complete
   - package_id: EP-R1-ROAD-001
     stage: R1.3
     gates: [R1-G03, R1-G04]

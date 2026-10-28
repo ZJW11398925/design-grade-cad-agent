@@ -1,0 +1,540 @@
+{
+  "schema_id": "dgcad.design-intent.v0.1",
+  "groups": [
+    {
+      "group_id": "G-01",
+      "building_ids": [
+        "SK-BLD-0007",
+        "SK-BLD-0015",
+        "SK-BLD-0021",
+        "SK-BLD-0025",
+        "SK-BLD-0032",
+        "SK-BLD-0034",
+        "SK-BLD-0035",
+        "SK-BLD-0038",
+        "SK-BLD-0061"
+      ],
+      "unit_count": 19,
+      "households": 418,
+      "centroid": [
+        179.0442578489105,
+        527.0979304236495
+      ],
+      "bbox": [
+        97.621001,
+        401.968827,
+        235.028712,
+        619.360131
+      ],
+      "green_ids": [
+        "SK-GRN-0008"
+      ],
+      "main_road_distance_m": 54.31966860564312
+    },
+    {
+      "group_id": "G-02",
+      "building_ids": [
+        "SK-BLD-0009",
+        "SK-BLD-0010",
+        "SK-BLD-0014",
+        "SK-BLD-0016",
+        "SK-BLD-0020",
+        "SK-BLD-0022",
+        "SK-BLD-0024"
+      ],
+      "unit_count": 16,
+      "households": 352,
+      "centroid": [
+        348.92592870917485,
+        134.44101230533235
+      ],
+      "bbox": [
+        320.344545,
+        25.430681,
+        373.256768,
+        244.872847
+      ],
+      "green_ids": [
+        "SK-GRN-0012"
+      ],
+      "main_road_distance_m": 50.103934249633625
+    },
+    {
+      "group_id": "G-03",
+      "building_ids": [
+        "SK-BLD-0049",
+        "SK-BLD-0050",
+        "SK-BLD-0052",
+        "SK-BLD-0054",
+        "SK-BLD-0056",
+        "SK-BLD-0057"
+      ],
+      "unit_count": 6,
+      "households": 132,
+      "centroid": [
+        138.37597413361223,
+        253.38413227491904
+      ],
+      "bbox": [
+        123.872026,
+        153.40443,
+        151.763741,
+        348.236259
+      ],
+      "green_ids": [],
+      "main_road_distance_m": 35.01256150030625
+    },
+    {
+      "group_id": "G-04",
+      "building_ids": [
+        "SK-BLD-0040",
+        "SK-BLD-0041",
+        "SK-BLD-0042",
+        "SK-BLD-0043",
+        "SK-BLD-0044"
+      ],
+      "unit_count": 5,
+      "households": 110,
+      "centroid": [
+        292.08420331913965,
+        457.2331528261586
+      ],
+      "bbox": [
+        262.920427,
+        401.968827,
+        328.137818,
+        495.077933
+      ],
+      "green_ids": [],
+      "main_road_distance_m": 43.42380068608817
+    },
+    {
+      "group_id": "G-05",
+      "building_ids": [
+        "SK-BLD-0002",
+        "SK-BLD-0017",
+        "SK-BLD-0033"
+      ],
+      "unit_count": 7,
+      "households": 154,
+      "centroid": [
+        81.39773195891898,
+        463.1397315146269
+      ],
+      "bbox": [
+        42.657916,
+        408.531583,
+        117.719442,
+        514.35603
+      ],
+      "green_ids": [],
+      "main_road_distance_m": 33.31196999141256
+    },
+    {
+      "group_id": "G-06",
+      "building_ids": [
+        "SK-BLD-0003",
+        "SK-BLD-0005",
+        "SK-BLD-0008"
+      ],
+      "unit_count": 9,
+      "households": 198,
+      "centroid": [
+        202.84886251404518,
+        197.1243624161568
+      ],
+      "bbox": [
+        175.963905,
+        151.763741,
+        228.876128,
+        241.181296
+      ],
+      "green_ids": [],
+      "main_road_distance_m": 71.33140514825037
+    },
+    {
+      "group_id": "G-07",
+      "building_ids": [
+        "SK-BLD-0004",
+        "SK-BLD-0013",
+        "SK-BLD-0018"
+      ],
+      "unit_count": 9,
+      "households": 198,
+      "centroid": [
+        52.29460626472508,
+        73.2983087773414
+      ],
+      "bbox": [
+        25.840853,
+        32.40361,
+        77.112387,
+        115.258409
+      ],
+      "green_ids": [],
+      "main_road_distance_m": 76.85522473580848
+    },
+    {
+      "group_id": "G-08",
+      "building_ids": [
+        "SK-BLD-0006",
+        "SK-BLD-0011",
+        "SK-BLD-0012"
+      ],
+      "unit_count": 8,
+      "households": 176,
+      "centroid": [
+        193.17745610974063,
+        70.22516907412633
+      ],
+      "bbox": [
+        162.42822,
+        29.532404,
+        220.672683,
+        111.97703
+      ],
+      "green_ids": [],
+      "main_road_distance_m": 40.914656787484276
+    },
+    {
+      "group_id": "G-09",
+      "building_ids": [
+        "SK-BLD-0029",
+        "SK-BLD-0031",
+        "SK-BLD-0036"
+      ],
+      "unit_count": 6,
+      "households": 132,
+      "centroid": [
+        269.0367533652521,
+        68.47229158537051
+      ],
+      "bbox": [
+        251.025431,
+        25.840853,
+        286.710418,
+        110.336341
+      ],
+      "green_ids": [],
+      "main_road_distance_m": 30.026980800770406
+    },
+    {
+      "group_id": "G-10",
+      "building_ids": [
+        "SK-BLD-0045",
+        "SK-BLD-0051",
+        "SK-BLD-0055"
+      ],
+      "unit_count": 3,
+      "households": 66,
+      "centroid": [
+        270.618975853599,
+        193.36226873829355
+      ],
+      "bbox": [
+        256.767842,
+        149.302707,
+        285.069729,
+        237.079573
+      ],
+      "green_ids": [],
+      "main_road_distance_m": 31.7945080487767
+    },
+    {
+      "group_id": "G-11",
+      "building_ids": [
+        "SK-BLD-MRG-0002",
+        "SK-BLD-MRG-0004",
+        "SK-BLD-MRG-0005"
+      ],
+      "unit_count": 9,
+      "households": 198,
+      "centroid": [
+        53.60638086136529,
+        202.59331087518228
+      ],
+      "bbox": [
+        22.969647,
+        152.994258,
+        84.495488,
+        251.025431
+      ],
+      "green_ids": [],
+      "main_road_distance_m": 49.757031771940696
+    },
+    {
+      "group_id": "G-12",
+      "building_ids": [
+        "SK-BLD-0023",
+        "SK-BLD-0026"
+      ],
+      "unit_count": 4,
+      "households": 88,
+      "centroid": [
+        142.17605842259087,
+        425.75334223604534
+      ],
+      "bbox": [
+        122.231337,
+        401.968827,
+        161.607875,
+        449.138638
+      ],
+      "green_ids": [],
+      "main_road_distance_m": 48.39485123604533
+    },
+    {
+      "group_id": "G-13",
+      "building_ids": [
+        "SK-BLD-0028"
+      ],
+      "unit_count": 2,
+      "households": 44,
+      "centroid": [
+        115.77367787144706,
+        107.68162197688417
+      ],
+      "bbox": [
+        98.031173,
+        101.312551,
+        133.716161,
+        114.027892
+      ],
+      "green_ids": [],
+      "main_road_distance_m": 20.81074321266004
+    },
+    {
+      "group_id": "G-14",
+      "building_ids": [
+        "SK-BLD-0039"
+      ],
+      "unit_count": 2,
+      "households": 44,
+      "centroid": [
+        115.5733149892067,
+        35.5800187269218
+      ],
+      "bbox": [
+        98.441345,
+        29.942576,
+        132.485644,
+        41.017227
+      ],
+      "green_ids": [],
+      "main_road_distance_m": 90.45497520013049
+    },
+    {
+      "group_id": "G-15",
+      "building_ids": [
+        "SK-BLD-0048"
+      ],
+      "unit_count": 1,
+      "households": 22,
+      "centroid": [
+        331.1802154426545,
+        407.3872779646992
+      ],
+      "bbox": [
+        319.5242,
+        401.558655,
+        342.90402,
+        413.453651
+      ],
+      "green_ids": [],
+      "main_road_distance_m": 41.77454853241653
+    },
+    {
+      "group_id": "G-16",
+      "building_ids": [
+        "SK-BLD-MRG-0001"
+      ],
+      "unit_count": 3,
+      "households": 66,
+      "centroid": [
+        45.06365653809305,
+        328.899530903572
+      ],
+      "bbox": [
+        17.227235,
+        309.269893,
+        72.600492,
+        340.853158
+      ],
+      "green_ids": [],
+      "main_road_distance_m": 58.29975609521293
+    },
+    {
+      "group_id": "G-17",
+      "building_ids": [
+        "SK-BLD-MRG-0003"
+      ],
+      "unit_count": 0,
+      "households": 0,
+      "centroid": [
+        350.77672966470635,
+        297.7801124806519
+      ],
+      "bbox": [
+        318.703856,
+        278.506973,
+        374.077112,
+        327.317473
+      ],
+      "green_ids": [
+        "SK-GRN-0011"
+      ],
+      "main_road_distance_m": 45.558166131265004
+    }
+  ],
+  "road_hierarchy": {
+    "main_edges": 65,
+    "branch_or_access_edges": 268,
+    "node_count": 309,
+    "edge_count": 333,
+    "main_class_state": "inferred_from_colour_majority",
+    "branch_access_combined": true
+  },
+  "principles": [
+    "the main road forms the organization spine; residential groups sit along it",
+    "each building keeps its unit count and building ID; the footprint is standardized to the declared staircase module",
+    "the focus group is reorganized into rows with at least 20 m north-south spacing and internal green strips",
+    "branch/access roads connect the groups to the main road; the blue class still combines branch and access road",
+    "garage entrances are placed on the main road; parking is underground and its layout is not designed"
+  ],
+  "focus_group_id": "G-01",
+  "focus_bbox": [
+    72.621001,
+    376.968827,
+    260.02871200000004,
+    644.360131
+  ],
+  "focus_building_ids": [
+    "SK-BLD-0007",
+    "SK-BLD-0015",
+    "SK-BLD-0021",
+    "SK-BLD-0025",
+    "SK-BLD-0032",
+    "SK-BLD-0034",
+    "SK-BLD-0035",
+    "SK-BLD-0038",
+    "SK-BLD-0061"
+  ],
+  "focus_green_ids": [
+    "SK-GRN-0008"
+  ],
+  "focus_road_ids": [
+    "SK-RDC-U-0006",
+    "SK-RDC-U-0008",
+    "SK-RDC-U-0010",
+    "SK-RDC-U-0022",
+    "SK-RDC-U-0023",
+    "SK-RDC-U-0025",
+    "SK-RDC-U-0034",
+    "SK-RDC-U-0043",
+    "SK-RDC-U-0047",
+    "SK-RDC-U-0063",
+    "SK-RDC-U-0064",
+    "SK-RDC-U-0065",
+    "SK-RDC-U-0072",
+    "SK-RDC-U-0073",
+    "SK-RDC-U-0074",
+    "SK-RDC-U-0081",
+    "SK-RDC-U-0086",
+    "SK-RDC-U-0094",
+    "SK-RDC-U-0098",
+    "SK-RDC-U-0102",
+    "SK-RDC-U-0105",
+    "SK-RDC-U-0107",
+    "SK-RDC-U-0108",
+    "SK-RDC-U-0114",
+    "SK-RDC-U-0117",
+    "SK-RDC-U-0120",
+    "SK-RDC-U-0121",
+    "SK-RDC-U-0124",
+    "SK-RDC-U-0134",
+    "SK-RDC-U-0136",
+    "SK-RDC-U-0142",
+    "SK-RDC-U-0143",
+    "SK-RDC-U-0146",
+    "SK-RDC-U-0154",
+    "SK-RDC-U-0158",
+    "SK-RDC-U-0159",
+    "SK-RDC-U-0162",
+    "SK-RDC-U-0171",
+    "SK-RDC-U-0181",
+    "SK-RDC-U-0182",
+    "SK-RDC-U-0185",
+    "SK-RDC-U-0186",
+    "SK-RDC-U-0188",
+    "SK-RDC-U-0198",
+    "SK-RDC-U-0199",
+    "SK-RDC-U-0204",
+    "SK-RDC-U-0208",
+    "SK-RDC-U-0213",
+    "SK-RDC-U-0226",
+    "SK-RDC-U-0231",
+    "SK-RDC-U-0232",
+    "SK-RDC-U-0237",
+    "SK-RDC-U-0241",
+    "SK-RDC-U-0245",
+    "SK-RDC-U-0247",
+    "SK-RDC-U-0249",
+    "SK-RDC-U-0250",
+    "SK-RDC-U-0252",
+    "SK-RDC-U-0253",
+    "SK-RDC-U-0256",
+    "SK-RDC-U-0259",
+    "SK-RDC-U-0260",
+    "SK-RDC-U-0261",
+    "SK-RDC-U-0265",
+    "SK-RDC-U-0266",
+    "SK-RDC-U-0271",
+    "SK-RDC-U-0274",
+    "SK-RDC-U-0275",
+    "SK-RDC-U-0281",
+    "SK-RDC-U-0285",
+    "SK-RDC-U-0287",
+    "SK-RDC-U-0288",
+    "SK-RDC-U-0292",
+    "SK-RDC-U-0293",
+    "SK-RDC-U-0294",
+    "SK-RDC-U-0297",
+    "SK-RDC-U-0300",
+    "SK-RDC-U-0301",
+    "SK-RDC-U-0302",
+    "SK-RDC-U-0303",
+    "SK-RDC-U-0304",
+    "SK-RDC-U-0306",
+    "SK-RDC-U-0308",
+    "SK-RDC-U-0310",
+    "SK-RDC-U-0312",
+    "SK-RDC-U-0313",
+    "SK-RDC-U-0316",
+    "SK-RDC-U-0317",
+    "SK-RDC-U-0319",
+    "SK-RDC-U-0320",
+    "SK-RDC-U-0324",
+    "SK-RDC-U-0326",
+    "SK-RDC-U-0327",
+    "SK-RDC-U-0328",
+    "SK-RDC-U-0329",
+    "SK-RDC-U-0331"
+  ],
+  "focus_subgroups": {
+    "FOCUS-1": [
+      "SK-BLD-0007",
+      "SK-BLD-0015",
+      "SK-BLD-0021"
+    ],
+    "FOCUS-2": [
+      "SK-BLD-0034",
+      "SK-BLD-0035",
+      "SK-BLD-0032"
+    ],
+    "FOCUS-3": [
+      "SK-BLD-0025",
+      "SK-BLD-0061",
+      "SK-BLD-0038"
+    ]
+  }
+}

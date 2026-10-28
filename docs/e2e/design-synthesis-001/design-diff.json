@@ -1,0 +1,312 @@
+{
+  "schema_id": "dgcad.design-diff.v0.1",
+  "design_basis_id": "design-assumption-v0.1",
+  "focus_group_id": "G-01",
+  "buildings": [
+    {
+      "building_id": "SK-BLD-0007",
+      "subgroup_id": "FOCUS-1",
+      "row": 1,
+      "unit_count": 3,
+      "households": 66,
+      "gfa_m2": 8712.0,
+      "source_area_m2": 565.9637193600666,
+      "design_area_m2": 792.0,
+      "area_change_m2": 226.03628063993335,
+      "source_centroid": [
+        211.23872,
+        407.916325
+      ],
+      "design_centroid": [
+        147.621001,
+        402.468827
+      ],
+      "displacement_m": 63.8505239228541,
+      "source_orientation_deg": 0.0,
+      "design_orientation_deg": 0.0,
+      "design_dimensions_m": [
+        72.0,
+        11.0
+      ],
+      "reason": "standardized to the declared staircase module and placed in a 20 m north-south row layout"
+    },
+    {
+      "building_id": "SK-BLD-0015",
+      "subgroup_id": "FOCUS-1",
+      "row": 2,
+      "unit_count": 3,
+      "households": 66,
+      "gfa_m2": 8712.0,
+      "source_area_m2": 487.89976299109014,
+      "design_area_m2": 792.0,
+      "area_change_m2": 304.10023700890986,
+      "source_centroid": [
+        211.23871999999997,
+        444.0114845
+      ],
+      "design_centroid": [
+        117.121001,
+        433.468827
+      ],
+      "displacement_m": 94.70634961250096,
+      "source_orientation_deg": 0.0,
+      "design_orientation_deg": 0.0,
+      "design_dimensions_m": [
+        72.0,
+        11.0
+      ],
+      "reason": "standardized to the declared staircase module and placed in a 20 m north-south row layout"
+    },
+    {
+      "building_id": "SK-BLD-0021",
+      "subgroup_id": "FOCUS-1",
+      "row": 2,
+      "unit_count": 2,
+      "households": 44,
+      "gfa_m2": 5808.0,
+      "source_area_m2": 449.7089622628057,
+      "design_area_m2": 528.0,
+      "area_change_m2": 78.2910377371943,
+      "source_centroid": [
+        207.3420835,
+        480.92698949999993
+      ],
+      "design_centroid": [
+        190.121001,
+        433.468827
+      ],
+      "displacement_m": 50.48606610093728,
+      "source_orientation_deg": 0.0,
+      "design_orientation_deg": 0.0,
+      "design_dimensions_m": [
+        48.0,
+        11.0
+      ],
+      "reason": "standardized to the declared staircase module and placed in a 20 m north-south row layout"
+    },
+    {
+      "building_id": "SK-BLD-0025",
+      "subgroup_id": "FOCUS-2",
+      "row": 4,
+      "unit_count": 2,
+      "households": 44,
+      "gfa_m2": 5808.0,
+      "source_area_m2": 424.80928068300733,
+      "design_area_m2": 528.0,
+      "area_change_m2": 103.19071931699267,
+      "source_centroid": [
+        133.59584389007526,
+        575.3732567193505
+      ],
+      "design_centroid": [
+        178.121001,
+        495.468827
+      ],
+      "displacement_m": 91.47244122924732,
+      "source_orientation_deg": -26.281411209590317,
+      "design_orientation_deg": 0.0,
+      "design_dimensions_m": [
+        48.0,
+        11.0
+      ],
+      "reason": "standardized to the declared staircase module and placed in a 20 m north-south row layout"
+    },
+    {
+      "building_id": "SK-BLD-0032",
+      "subgroup_id": "FOCUS-2",
+      "row": 4,
+      "unit_count": 2,
+      "households": 44,
+      "gfa_m2": 5808.0,
+      "source_area_m2": 387.12321875002095,
+      "design_area_m2": 528.0,
+      "area_change_m2": 140.87678124997905,
+      "source_centroid": [
+        194.21657076640588,
+        566.4479079704477
+      ],
+      "design_centroid": [
+        117.121001,
+        495.468827
+      ],
+      "displacement_m": 104.79387774586893,
+      "source_orientation_deg": 3.621485885647262,
+      "design_orientation_deg": 0.0,
+      "design_dimensions_m": [
+        48.0,
+        11.0
+      ],
+      "reason": "standardized to the declared staircase module and placed in a 20 m north-south row layout"
+    },
+    {
+      "building_id": "SK-BLD-0034",
+      "subgroup_id": "FOCUS-2",
+      "row": 3,
+      "unit_count": 2,
+      "households": 44,
+      "gfa_m2": 5808.0,
+      "source_area_m2": 381.9077209825837,
+      "design_area_m2": 528.0,
+      "area_change_m2": 146.09227901741627,
+      "source_centroid": [
+        195.47626963993386,
+        523.3236239074212
+      ],
+      "design_centroid": [
+        117.121001,
+        464.468827
+      ],
+      "displacement_m": 97.99711854258776,
+      "source_orientation_deg": 22.93210061285056,
+      "design_orientation_deg": 0.0,
+      "design_dimensions_m": [
+        48.0,
+        11.0
+      ],
+      "reason": "standardized to the declared staircase module and placed in a 20 m north-south row layout"
+    },
+    {
+      "building_id": "SK-BLD-0035",
+      "subgroup_id": "FOCUS-2",
+      "row": 3,
+      "unit_count": 2,
+      "households": 44,
+      "gfa_m2": 5808.0,
+      "source_area_m2": 381.06653122120946,
+      "design_area_m2": 528.0,
+      "area_change_m2": 146.93346877879054,
+      "source_centroid": [
+        116.99474376946986,
+        533.7527715983024
+      ],
+      "design_centroid": [
+        178.121001,
+        464.468827
+      ],
+      "displacement_m": 92.39417894063227,
+      "source_orientation_deg": -29.577839607362744,
+      "design_orientation_deg": 0.0,
+      "design_dimensions_m": [
+        48.0,
+        11.0
+      ],
+      "reason": "standardized to the declared staircase module and placed in a 20 m north-south row layout"
+    }
+  ],
+  "rows": [
+    {
+      "row": 1,
+      "subgroup_id": "FOCUS-1",
+      "y": 396.968827,
+      "building_ids": [
+        "SK-BLD-0007"
+      ],
+      "north_south_gap_m": 20.0
+    },
+    {
+      "row": 2,
+      "subgroup_id": "FOCUS-1",
+      "y": 427.968827,
+      "building_ids": [
+        "SK-BLD-0015",
+        "SK-BLD-0021"
+      ],
+      "north_south_gap_m": 20.0
+    },
+    {
+      "row": 3,
+      "subgroup_id": "FOCUS-2",
+      "y": 458.968827,
+      "building_ids": [
+        "SK-BLD-0034",
+        "SK-BLD-0035"
+      ],
+      "north_south_gap_m": 20.0
+    },
+    {
+      "row": 4,
+      "subgroup_id": "FOCUS-2",
+      "y": 489.968827,
+      "building_ids": [
+        "SK-BLD-0032",
+        "SK-BLD-0025"
+      ],
+      "north_south_gap_m": 20.0
+    }
+  ],
+  "dropped_focus_building_ids": [
+    "SK-BLD-0038",
+    "SK-BLD-0061"
+  ],
+  "dropped": [
+    {
+      "building_id": "SK-BLD-0038",
+      "unit_count": 2,
+      "reason": "does not fit the buildable focus block at the declared north-south spacing, setback and road clearance"
+    },
+    {
+      "building_id": "SK-BLD-0061",
+      "unit_count": 1,
+      "reason": "does not fit the buildable focus block at the declared north-south spacing, setback and road clearance"
+    }
+  ],
+  "roads": {
+    "classes": {
+      "main": {
+        "count": 25,
+        "width_m": 12.0
+      },
+      "branch": {
+        "count": 15,
+        "width_m": 7.0
+      },
+      "access": {
+        "count": 1,
+        "width_m": 4.0
+      }
+    },
+    "corridor_generator": "round_buffer_hierarchy_v0.1",
+    "not_professional_alignment": true,
+    "main_road_count": 65,
+    "branch_or_access_count": 268
+  },
+  "green": {
+    "cluster_area_m2": 10692.841181219279,
+    "strip_area_m2": 2753.6432121652397,
+    "supplementary_area_m2": 115229.73589901486,
+    "green_ratio": 0.6303863597090935,
+    "dropped_cluster_ids": []
+  },
+  "parking": {
+    "households": 2398,
+    "spaces_required": 2398,
+    "entrances_required": 5,
+    "existing_entrances": 3,
+    "proposed_entrances": 2
+  },
+  "changed": [
+    "building footprints replaced by standardized staircase modules",
+    "focus-group buildings reorganized into rows",
+    "20 m north-south spacing inserted between rows",
+    "green strips inserted between building rows",
+    "road widths assigned from the declared class",
+    "garage entrances added to meet the parking requirement"
+  ],
+  "preserved": [
+    "building IDs and inferred staircase counts",
+    "the focus group's location and its relation to the main road",
+    "the main road as the organization spine",
+    "cluster green spaces that remain clear of buildings and roads"
+  ],
+  "why": [
+    "the declared design basis fixes the unit module, floor count, road widths, FAR range, parking ratio and 20 m north-south gap",
+    "a regular row layout makes the 20 m gap verifiable and gives each group a clear internal green strip",
+    "the schema is a proposal: no human confirmation or code-compliance claim is made"
+  ],
+  "focus_design_rect": [
+    72.621001,
+    396.968827,
+    222.621001,
+    506.968827
+  ]
+}

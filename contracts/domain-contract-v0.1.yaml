@@ -67,6 +67,14 @@ canonical_binding:
     values_required: [trace_ref]
     commit_requires_human_confirmation: true
     trace_reference_must_exist: true
+  autonomous_design_draft:
+    world: proposal_preview
+    authority_state: rule_derived
+    human_confirmed: false
+    persistent_revisions: true
+    values_required: [design_basis_id, design_authority, human_confirmed, confirmation_scope]
+    may_commit_to_canonical_without_human_adoption: false
+    may_claim_human_confirmation: false
   worlds:
     canonical_current: confirmed_design_truth
     proposal_preview: non_committed_candidate
