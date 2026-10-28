@@ -29,9 +29,10 @@ Repository: `D:\agent-cad`
   **PR #36 merged as merge commit `0546649`** (M4c-1d semantic residuals),
   **PR #38 merged as merge commit `7a3e70a`** (M4c-1b design-aware road access),
   **PR #39 merged as merge commit `3e50399`** (docs: record PR #38 merge),
-  **PR #40 merged as merge commit `7f81f0e`** (M4c-1e declared access evidence)
-  and **PR #41 merged as merge commit `03b5367`** (docs: record PR #40 merge);
-  main CI is 4/4 green on all.
+  **PR #40 merged as merge commit `7f81f0e`** (M4c-1e declared access evidence),
+  **PR #41 merged as merge commit `03b5367`** (docs: record PR #40 merge) and
+  **PR #42 merged as merge commit `bb23377`** (M4c-2 main-road alignment and
+  dead-end resolution); main CI is 4/4 green on all.
 - The old topic branches `milestone-4c-autonomous-design`,
   `fix/m4c-1d-semantic-residuals`, `feat/m4c-1b-road-access`,
   `fix/m4c-1e-evidence-binding` and `feat/m4c-2-main-alignment` contain the same
