@@ -280,7 +280,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -392,7 +394,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -520,7 +524,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -616,7 +622,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -728,7 +736,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -824,7 +834,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -916,7 +928,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -1028,7 +1042,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -1180,7 +1196,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -1272,7 +1290,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -1372,7 +1392,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -1464,7 +1486,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -1564,7 +1588,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -1668,7 +1694,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -1768,7 +1796,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -1864,7 +1894,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -1956,7 +1988,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -2048,7 +2082,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -2140,7 +2176,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -2236,7 +2274,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -2328,7 +2368,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -2452,7 +2494,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -2544,7 +2588,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -2636,7 +2682,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -2736,7 +2784,9 @@
           "SK-RDC-U-0329",
           "SK-RDC-U-0332",
           "SK-RDC-U-0333"
-        ]
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -2770,7 +2820,9 @@
         "is_new_connector": true,
         "start_junction_id": "J-03",
         "end_junction_id": "J-04",
-        "source_edge_ids": []
+        "source_edge_ids": [],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -2796,7 +2848,14 @@
         "is_new_connector": true,
         "start_junction_id": "J-05",
         "end_junction_id": null,
-        "source_edge_ids": []
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-01"
+        ],
+        "access_terminal_xy": [
+          204.5930225394812,
+          612.77806003196
+        ]
       },
       "geometry": {
         "type": "LineString",
@@ -2822,7 +2881,14 @@
         "is_new_connector": true,
         "start_junction_id": "J-06",
         "end_junction_id": null,
-        "source_edge_ids": []
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-02"
+        ],
+        "access_terminal_xy": [
+          307.19812484872534,
+          245.11737789684884
+        ]
       },
       "geometry": {
         "type": "LineString",
@@ -2848,7 +2914,14 @@
         "is_new_connector": true,
         "start_junction_id": "J-07",
         "end_junction_id": null,
-        "source_edge_ids": []
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-03"
+        ],
+        "access_terminal_xy": [
+          120.89913495183204,
+          152.89360960686366
+        ]
       },
       "geometry": {
         "type": "LineString",
@@ -2874,7 +2947,14 @@
         "is_new_connector": true,
         "start_junction_id": "J-08",
         "end_junction_id": null,
-        "source_edge_ids": []
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-04"
+        ],
+        "access_terminal_xy": [
+          259.5373634518321,
+          443.91083710686365
+        ]
       },
       "geometry": {
         "type": "LineString",
@@ -2900,7 +2980,14 @@
         "is_new_connector": true,
         "start_junction_id": "J-09",
         "end_junction_id": null,
-        "source_edge_ids": []
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-05"
+        ],
+        "access_terminal_xy": [
+          32.495631311261754,
+          436.70291090117996
+        ]
       },
       "geometry": {
         "type": "LineString",
@@ -2926,7 +3013,14 @@
         "is_new_connector": true,
         "start_junction_id": "J-10",
         "end_junction_id": null,
-        "source_edge_ids": []
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-06"
+        ],
+        "access_terminal_xy": [
+          165.5664030478256,
+          149.70176046639037
+        ]
       },
       "geometry": {
         "type": "LineString",
@@ -2952,7 +3046,14 @@
         "is_new_connector": true,
         "start_junction_id": "J-11",
         "end_junction_id": null,
-        "source_edge_ids": []
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-07"
+        ],
+        "access_terminal_xy": [
+          89.97410178701078,
+          116.26699318587342
+        ]
       },
       "geometry": {
         "type": "LineString",
@@ -2978,7 +3079,14 @@
         "is_new_connector": true,
         "start_junction_id": "J-12",
         "end_junction_id": null,
-        "source_edge_ids": []
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-08"
+        ],
+        "access_terminal_xy": [
+          157.25025335673936,
+          112.46114966732631
+        ]
       },
       "geometry": {
         "type": "LineString",
@@ -3004,7 +3112,14 @@
         "is_new_connector": true,
         "start_junction_id": "J-13",
         "end_junction_id": null,
-        "source_edge_ids": []
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-09"
+        ],
+        "access_terminal_xy": [
+          240.7398633050156,
+          110.36541450355081
+        ]
       },
       "geometry": {
         "type": "LineString",
@@ -3030,7 +3145,14 @@
         "is_new_connector": true,
         "start_junction_id": "J-14",
         "end_junction_id": null,
-        "source_edge_ids": []
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-10"
+        ],
+        "access_terminal_xy": [
+          288.78095757412234,
+          225.97629217046463
+        ]
       },
       "geometry": {
         "type": "LineString",
@@ -3056,7 +3178,14 @@
         "is_new_connector": true,
         "start_junction_id": "J-15",
         "end_junction_id": null,
-        "source_edge_ids": []
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-11"
+        ],
+        "access_terminal_xy": [
+          93.79980775460419,
+          250.4758924613709
+        ]
       },
       "geometry": {
         "type": "LineString",
@@ -3082,7 +3211,14 @@
         "is_new_connector": true,
         "start_junction_id": "J-16",
         "end_junction_id": null,
-        "source_edge_ids": []
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-12"
+        ],
+        "access_terminal_xy": [
+          169.009433,
+          446.5880463635157
+        ]
       },
       "geometry": {
         "type": "LineString",
@@ -3108,7 +3244,14 @@
         "is_new_connector": true,
         "start_junction_id": "J-17",
         "end_junction_id": null,
-        "source_edge_ids": []
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-13"
+        ],
+        "access_terminal_xy": [
+          110.49081434251151,
+          116.8054439913529
+        ]
       },
       "geometry": {
         "type": "LineString",
@@ -3134,7 +3277,14 @@
         "is_new_connector": true,
         "start_junction_id": "J-18",
         "end_junction_id": null,
-        "source_edge_ids": []
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-14"
+        ],
+        "access_terminal_xy": [
+          142.31938469454892,
+          27.521785862260035
+        ]
       },
       "geometry": {
         "type": "LineString",
@@ -3160,7 +3310,14 @@
         "is_new_connector": true,
         "start_junction_id": "J-19",
         "end_junction_id": null,
-        "source_edge_ids": []
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-15"
+        ],
+        "access_terminal_xy": [
+          317.5303273351603,
+          398.8005544214012
+        ]
       },
       "geometry": {
         "type": "LineString",
@@ -3186,7 +3343,14 @@
         "is_new_connector": true,
         "start_junction_id": "J-20",
         "end_junction_id": null,
-        "source_edge_ids": []
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-16"
+        ],
+        "access_terminal_xy": [
+          84.56365553809306,
+          334.399530903572
+        ]
       },
       "geometry": {
         "type": "LineString",
@@ -3212,7 +3376,14 @@
         "is_new_connector": true,
         "start_junction_id": "J-21",
         "end_junction_id": null,
-        "source_edge_ids": []
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-17"
+        ],
+        "access_terminal_xy": [
+          332.40709373542757,
+          308.32345318146946
+        ]
       },
       "geometry": {
         "type": "LineString",
@@ -3238,7 +3409,9 @@
         "is_new_connector": true,
         "start_junction_id": null,
         "end_junction_id": null,
-        "source_edge_ids": []
+        "source_edge_ids": [],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
       },
       "geometry": {
         "type": "LineString",
@@ -3304,6 +3477,28 @@
     }
   ],
   "road_access_coverage": 1.0,
+  "road_access_relation_error_count": 0,
+  "main_road_building_overlap": {
+    "area_m2": 38.19068149970834,
+    "conflicts": [
+      {
+        "road_id": "MAIN-19",
+        "building_id": "SK-BLD-0006",
+        "area_m2": 34.421783197612406
+      },
+      {
+        "road_id": "MAIN-08",
+        "building_id": "SK-BLD-0038",
+        "area_m2": 3.6837010812969346
+      },
+      {
+        "road_id": "MAIN-08",
+        "building_id": "SK-BLD-0061",
+        "area_m2": 0.08519722079900238
+      }
+    ],
+    "status": "known_unresolved"
+  },
   "group_access": [
     {
       "group_id": "G-01",
@@ -3319,6 +3514,8 @@
         "SK-BLD-0061"
       ],
       "served": true,
+      "declared": true,
+      "served_by_relation": true,
       "access_road_id": "BR-G-01",
       "terminal_xy": [
         204.5930225394812,
@@ -3326,8 +3523,11 @@
       ],
       "nearest_building_id": "SK-BLD-0061",
       "terminal_to_building_m": 3.4999989999999825,
+      "terminal_centerline_distance_m": 3.4999989999999825,
+      "terminal_corridor_edge_clearance_m": 0.0038050162335238674,
       "route_crossing_length_m": 0.0,
-      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+      "relation_errors": [],
+      "reason": "road BR-G-01 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0038050162335238674"
     },
     {
       "group_id": "G-02",
@@ -3341,6 +3541,8 @@
         "SK-BLD-0024"
       ],
       "served": true,
+      "declared": true,
+      "served_by_relation": true,
       "access_road_id": "BR-G-02",
       "terminal_xy": [
         307.19812484872534,
@@ -3348,8 +3550,11 @@
       ],
       "nearest_building_id": "SK-BLD-0010",
       "terminal_to_building_m": 3.4999990000000007,
+      "terminal_centerline_distance_m": 3.4999990000000007,
+      "terminal_corridor_edge_clearance_m": 3.263800928684811e-05,
       "route_crossing_length_m": 0.0,
-      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+      "relation_errors": [],
+      "reason": "road BR-G-02 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 3.263800928684811e-05"
     },
     {
       "group_id": "G-03",
@@ -3362,6 +3567,8 @@
         "SK-BLD-0057"
       ],
       "served": true,
+      "declared": true,
+      "served_by_relation": true,
       "access_road_id": "BR-G-03",
       "terminal_xy": [
         120.89913495183204,
@@ -3369,8 +3576,11 @@
       ],
       "nearest_building_id": "SK-BLD-0057",
       "terminal_to_building_m": 3.499999000000005,
+      "terminal_centerline_distance_m": 3.499999000000005,
+      "terminal_corridor_edge_clearance_m": 0.004123313107790557,
       "route_crossing_length_m": 0.0,
-      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+      "relation_errors": [],
+      "reason": "road BR-G-03 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.004123313107790557"
     },
     {
       "group_id": "G-04",
@@ -3382,6 +3592,8 @@
         "SK-BLD-0044"
       ],
       "served": true,
+      "declared": true,
+      "served_by_relation": true,
       "access_road_id": "BR-G-04",
       "terminal_xy": [
         259.5373634518321,
@@ -3389,8 +3601,11 @@
       ],
       "nearest_building_id": "SK-BLD-0042",
       "terminal_to_building_m": 3.499998999999994,
+      "terminal_centerline_distance_m": 3.499998999999994,
+      "terminal_corridor_edge_clearance_m": 0.0014157355375424385,
       "route_crossing_length_m": 0.0,
-      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+      "relation_errors": [],
+      "reason": "road BR-G-04 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0014157355375424385"
     },
     {
       "group_id": "G-05",
@@ -3400,6 +3615,8 @@
         "SK-BLD-0033"
       ],
       "served": true,
+      "declared": true,
+      "served_by_relation": true,
       "access_road_id": "BR-G-05",
       "terminal_xy": [
         32.495631311261754,
@@ -3407,8 +3624,11 @@
       ],
       "nearest_building_id": "SK-BLD-0002",
       "terminal_to_building_m": 3.4999990000000043,
+      "terminal_centerline_distance_m": 3.4999990000000043,
+      "terminal_corridor_edge_clearance_m": 0.0,
       "route_crossing_length_m": 0.0,
-      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+      "relation_errors": [],
+      "reason": "road BR-G-05 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0"
     },
     {
       "group_id": "G-06",
@@ -3418,6 +3638,8 @@
         "SK-BLD-0008"
       ],
       "served": true,
+      "declared": true,
+      "served_by_relation": true,
       "access_road_id": "BR-G-06",
       "terminal_xy": [
         165.5664030478256,
@@ -3425,8 +3647,11 @@
       ],
       "nearest_building_id": "SK-BLD-0005",
       "terminal_to_building_m": 3.4999989999999888,
+      "terminal_centerline_distance_m": 3.4999989999999888,
+      "terminal_corridor_edge_clearance_m": 0.0013529748184366338,
       "route_crossing_length_m": 0.0,
-      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+      "relation_errors": [],
+      "reason": "road BR-G-06 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0013529748184366338"
     },
     {
       "group_id": "G-07",
@@ -3436,6 +3661,8 @@
         "SK-BLD-0018"
       ],
       "served": true,
+      "declared": true,
+      "served_by_relation": true,
       "access_road_id": "BR-G-07",
       "terminal_xy": [
         89.97410178701078,
@@ -3443,8 +3670,11 @@
       ],
       "nearest_building_id": "SK-BLD-0004",
       "terminal_to_building_m": 3.4999990000000003,
+      "terminal_centerline_distance_m": 3.4999990000000003,
+      "terminal_corridor_edge_clearance_m": 0.0035411368848656706,
       "route_crossing_length_m": 0.0,
-      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+      "relation_errors": [],
+      "reason": "road BR-G-07 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0035411368848656706"
     },
     {
       "group_id": "G-08",
@@ -3454,15 +3684,20 @@
         "SK-BLD-0012"
       ],
       "served": true,
-      "access_road_id": "BR-G-09",
+      "declared": true,
+      "served_by_relation": true,
+      "access_road_id": "BR-G-08",
       "terminal_xy": [
-        235.5553018335334,
-        110.47572432209299
+        157.25025335673936,
+        112.46114966732631
       ],
       "nearest_building_id": "SK-BLD-0006",
-      "terminal_to_building_m": 2.894807622231173,
+      "terminal_to_building_m": 3.4999990000000074,
+      "terminal_centerline_distance_m": 3.4999990000000074,
+      "terminal_corridor_edge_clearance_m": 0.0,
       "route_crossing_length_m": 0.0,
-      "reason": "access-road terminal is 2.895 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+      "relation_errors": [],
+      "reason": "road BR-G-08 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0"
     },
     {
       "group_id": "G-09",
@@ -3472,6 +3707,8 @@
         "SK-BLD-0036"
       ],
       "served": true,
+      "declared": true,
+      "served_by_relation": true,
       "access_road_id": "BR-G-09",
       "terminal_xy": [
         240.7398633050156,
@@ -3479,8 +3716,11 @@
       ],
       "nearest_building_id": "SK-BLD-0029",
       "terminal_to_building_m": 3.499998999999994,
+      "terminal_centerline_distance_m": 3.499998999999994,
+      "terminal_corridor_edge_clearance_m": 0.001454581283735763,
       "route_crossing_length_m": 0.0,
-      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+      "relation_errors": [],
+      "reason": "road BR-G-09 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.001454581283735763"
     },
     {
       "group_id": "G-10",
@@ -3490,6 +3730,8 @@
         "SK-BLD-0055"
       ],
       "served": true,
+      "declared": true,
+      "served_by_relation": true,
       "access_road_id": "BR-G-10",
       "terminal_xy": [
         288.78095757412234,
@@ -3497,8 +3739,11 @@
       ],
       "nearest_building_id": "SK-BLD-0055",
       "terminal_to_building_m": 3.4999990000000145,
+      "terminal_centerline_distance_m": 3.4999990000000145,
+      "terminal_corridor_edge_clearance_m": 3.263800354259445e-05,
       "route_crossing_length_m": 0.0,
-      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+      "relation_errors": [],
+      "reason": "road BR-G-10 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 3.263800354259445e-05"
     },
     {
       "group_id": "G-11",
@@ -3508,6 +3753,8 @@
         "SK-BLD-MRG-0005"
       ],
       "served": true,
+      "declared": true,
+      "served_by_relation": true,
       "access_road_id": "BR-G-11",
       "terminal_xy": [
         93.79980775460419,
@@ -3515,8 +3762,11 @@
       ],
       "nearest_building_id": "SK-BLD-MRG-0002",
       "terminal_to_building_m": 3.4999990000000025,
+      "terminal_centerline_distance_m": 3.4999990000000025,
+      "terminal_corridor_edge_clearance_m": 0.0,
       "route_crossing_length_m": 0.0,
-      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+      "relation_errors": [],
+      "reason": "road BR-G-11 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0"
     },
     {
       "group_id": "G-12",
@@ -3525,6 +3775,8 @@
         "SK-BLD-0026"
       ],
       "served": true,
+      "declared": true,
+      "served_by_relation": true,
       "access_road_id": "ACC-G-12",
       "terminal_xy": [
         169.009433,
@@ -3532,8 +3784,11 @@
       ],
       "nearest_building_id": "SK-BLD-0026",
       "terminal_to_building_m": 3.499999000000002,
+      "terminal_centerline_distance_m": 3.499999000000002,
+      "terminal_corridor_edge_clearance_m": 1.500025678005045,
       "route_crossing_length_m": 0.0,
-      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+      "relation_errors": [],
+      "reason": "road ACC-G-12 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 1.500025678005045"
     },
     {
       "group_id": "G-13",
@@ -3541,15 +3796,20 @@
         "SK-BLD-0028"
       ],
       "served": true,
-      "access_road_id": "BR-G-07",
+      "declared": true,
+      "served_by_relation": true,
+      "access_road_id": "BR-G-13",
       "terminal_xy": [
-        89.97410178701078,
-        116.26699318587342
+        110.49081434251151,
+        116.8054439913529
       ],
       "nearest_building_id": "SK-BLD-0028",
-      "terminal_to_building_m": 3.1876831467565885,
+      "terminal_to_building_m": 3.4999990000000034,
+      "terminal_centerline_distance_m": 3.4999990000000034,
+      "terminal_corridor_edge_clearance_m": 0.002338690685246725,
       "route_crossing_length_m": 0.0,
-      "reason": "access-road terminal is 3.188 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+      "relation_errors": [],
+      "reason": "road BR-G-13 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.002338690685246725"
     },
     {
       "group_id": "G-14",
@@ -3557,6 +3817,8 @@
         "SK-BLD-0039"
       ],
       "served": true,
+      "declared": true,
+      "served_by_relation": true,
       "access_road_id": "BR-G-14",
       "terminal_xy": [
         142.31938469454892,
@@ -3564,8 +3826,11 @@
       ],
       "nearest_building_id": "SK-BLD-0039",
       "terminal_to_building_m": 3.4979873463090696,
+      "terminal_centerline_distance_m": 3.4979873463090696,
+      "terminal_corridor_edge_clearance_m": 0.0007563784182462494,
       "route_crossing_length_m": 0.0,
-      "reason": "access-road terminal is 3.498 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+      "relation_errors": [],
+      "reason": "road BR-G-14 declares this group; terminal is 3.498 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0007563784182462494"
     },
     {
       "group_id": "G-15",
@@ -3573,6 +3838,8 @@
         "SK-BLD-0048"
       ],
       "served": true,
+      "declared": true,
+      "served_by_relation": true,
       "access_road_id": "BR-G-15",
       "terminal_xy": [
         317.5303273351603,
@@ -3580,8 +3847,11 @@
       ],
       "nearest_building_id": "SK-BLD-0048",
       "terminal_to_building_m": 3.4999989999999905,
+      "terminal_centerline_distance_m": 3.4999989999999905,
+      "terminal_corridor_edge_clearance_m": 0.004109307817377645,
       "route_crossing_length_m": 0.0,
-      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+      "relation_errors": [],
+      "reason": "road BR-G-15 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.004109307817377645"
     },
     {
       "group_id": "G-16",
@@ -3589,6 +3859,8 @@
         "SK-BLD-MRG-0001"
       ],
       "served": true,
+      "declared": true,
+      "served_by_relation": true,
       "access_road_id": "BR-G-16",
       "terminal_xy": [
         84.56365553809306,
@@ -3596,8 +3868,11 @@
       ],
       "nearest_building_id": "SK-BLD-MRG-0001",
       "terminal_to_building_m": 3.4999990000000025,
+      "terminal_centerline_distance_m": 3.4999990000000025,
+      "terminal_corridor_edge_clearance_m": 0.0,
       "route_crossing_length_m": 0.0,
-      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+      "relation_errors": [],
+      "reason": "road BR-G-16 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0"
     },
     {
       "group_id": "G-17",
@@ -3605,6 +3880,8 @@
         "SK-BLD-MRG-0003"
       ],
       "served": true,
+      "declared": true,
+      "served_by_relation": true,
       "access_road_id": "BR-G-17",
       "terminal_xy": [
         332.40709373542757,
@@ -3612,8 +3889,11 @@
       ],
       "nearest_building_id": "SK-BLD-MRG-0003",
       "terminal_to_building_m": 3.499998999999997,
+      "terminal_centerline_distance_m": 3.499998999999997,
+      "terminal_corridor_edge_clearance_m": 0.0038121515266400017,
       "route_crossing_length_m": 0.0,
-      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+      "relation_errors": [],
+      "reason": "road BR-G-17 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0038121515266400017"
     }
   ],
   "dead_end_justification": [

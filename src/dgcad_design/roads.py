@@ -66,6 +66,8 @@ class RoadDesign:
     source_trace_ref: str | None = None
     start_junction_id: str | None = None
     end_junction_id: str | None = None
+    serves_group_ids: tuple[str, ...] = ()
+    access_terminal_xy: tuple[float, float] | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -78,6 +80,15 @@ class RoadDesign:
             "source_trace_ref": self.source_trace_ref,
             "start_junction_id": self.start_junction_id,
             "end_junction_id": self.end_junction_id,
+            "serves_group_ids": list(self.serves_group_ids),
+            "access_terminal_xy": (
+                None
+                if self.access_terminal_xy is None
+                else [
+                    float(self.access_terminal_xy[0]),
+                    float(self.access_terminal_xy[1]),
+                ]
+            ),
             "length_m": self.centerline.length,
             "corridor_area_m2": self.corridor.area,
             "centerline": {
@@ -213,6 +224,8 @@ def _road(
     round_caps: bool = False,
     start_junction_id: str | None = None,
     end_junction_id: str | None = None,
+    serves_group_ids: tuple[str, ...] = (),
+    access_terminal_xy: tuple[float, float] | None = None,
 ) -> RoadDesign:
     return RoadDesign(
         edge_id=edge_id,
@@ -226,6 +239,8 @@ def _road(
         source_trace_ref=source_trace_ref,
         start_junction_id=start_junction_id,
         end_junction_id=end_junction_id,
+        serves_group_ids=serves_group_ids,
+        access_terminal_xy=access_terminal_xy,
     )
 
 
@@ -686,6 +701,8 @@ def build_road_layout(
                     LineString([main_xy, loop_xy]),
                     main_junction_id,
                     loop_junction_id,
+                    (),
+                    None,
                 )
             )
             focus_corridor = _corridor(
@@ -774,7 +791,15 @@ def build_road_layout(
         )
         centerline = LineString([xy, terminal])
         connector_specs.append(
-            (edge_id, class_name, centerline, junction_id, None)
+            (
+                edge_id,
+                class_name,
+                centerline,
+                junction_id,
+                None,
+                (group.group_id,),
+                (float(terminal[0]), float(terminal[1])),
+            )
         )
         access_corridor = _corridor(
             centerline, float(choice["width"]), round_caps=True
@@ -808,7 +833,15 @@ def build_road_layout(
                 ),
             )
         )
-    for edge_id, class_name, centerline, start_j, end_j in connector_specs:
+    for (
+        edge_id,
+        class_name,
+        centerline,
+        start_j,
+        end_j,
+        serves_group_ids,
+        access_terminal_xy,
+    ) in connector_specs:
         if edge_id == "BR-FOCUS":
             reason = (
                 "design branch from the main road to the focus-group "
@@ -837,6 +870,8 @@ def build_road_layout(
                 round_caps=True,
                 start_junction_id=start_j,
                 end_junction_id=end_j,
+                serves_group_ids=serves_group_ids,
+                access_terminal_xy=access_terminal_xy,
             )
         )
     roads.append(

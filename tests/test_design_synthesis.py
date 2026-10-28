@@ -181,25 +181,50 @@ def test_design_synthesis_end_to_end(tmp_path):
     )
     assert summary["road_topology"]["schema_id"] == "dgcad.design-road-topology.v0.1"
     assert summary["design_roads"]["road_count"] == 44
-    # M4c-1b: design-aware access coverage
+    # M4c-1e: declared access relations, not nearest-endpoint inference
     assert metrics["road_access_coverage"] == pytest.approx(1.0)
     assert metrics["road_groups_total"] == metrics["road_groups_served"] == 17
     assert metrics["road_groups_unserved"] == []
+    assert metrics["road_relation_error_count"] == 0
     assert metrics["dead_end_justified_count"] == 17
     assert metrics["dead_end_unfinished_count"] == 5
     assert metrics["dead_end_unclassified_count"] == 2
-    assert metrics["entrance_connected_count"] == 2
+    assert metrics["dead_end_unresolved_count"] == 7
+    assert metrics["entrance_proximity_connected_count"] == 2
+    assert metrics["entrance_driveway_designed_count"] == 0
     assert metrics["entrance_count"] == 5
+    assert metrics["main_road_building_overlap_m2"] == pytest.approx(
+        38.19068149970834, rel=1e-12
+    )
+    assert metrics["main_road_building_overlap_status"] == "known_unresolved"
     access = summary["road_access"]
     assert access["road_access_coverage"] == pytest.approx(1.0)
     assert access["groups_served"] == 17
+    assert access["relation_error_count"] == 0
     assert all(item["served"] for item in access["groups"])
-    assert all(
-        item["served"]
-        for item in access["groups"]
-        if item["group_id"] in {"G-05", "G-12"}
+    assert all(item["declared"] for item in access["groups"])
+    assert all(item["served_by_relation"] for item in access["groups"])
+    group_by_id = {item["group_id"]: item for item in access["groups"]}
+    assert group_by_id["G-08"]["access_road_id"] == "BR-G-08"
+    assert group_by_id["G-13"]["access_road_id"] == "BR-G-13"
+    assert group_by_id["G-12"]["access_road_id"] == "ACC-G-12"
+    for item in access["groups"]:
+        if item["group_id"] == "G-01":
+            continue
+        assert 3.4 - 1e-9 <= item["terminal_centerline_distance_m"] <= 3.5 + 1e-9
+    assert group_by_id["G-08"]["terminal_corridor_edge_clearance_m"] == (
+        pytest.approx(0.0, abs=1e-6)
     )
-    assert len(checks) == 21
+    assert group_by_id["G-12"]["terminal_corridor_edge_clearance_m"] == (
+        pytest.approx(1.5, abs=0.01)
+    )
+    assert summary["main_road_building_overlap"]["status"] == "known_unresolved"
+    assert summary["main_road_building_overlap"]["area_m2"] == pytest.approx(
+        38.19068149970834
+    )
+    assert len(summary["main_road_building_overlap"]["conflicts"]) == 3
+    assert summary["full_site_road_clearance"]["status"] == "deferred"
+    assert len(checks) == 25
     pass_ids = {
         "FOCUS_NS_SPACING",
         "FOCUS_BOUNDARY_SETBACK",
@@ -212,7 +237,7 @@ def test_design_synthesis_end_to_end(tmp_path):
         "FAR_ARITHMETIC_SCENARIO",
         "PARKING_REQUIREMENT_ARITHMETIC",
         "PARKING_ENTRANCE_COUNT",
-        "PARKING_ENTRANCE_CONNECTION",
+        "PARKING_ENTRANCE_PROXIMITY",
         "UNIT_COUNT_BASIS_INVARIANT",
         "ROAD_CORRIDOR_COVERAGE",
         "DEAD_END_JUSTIFICATION",
@@ -222,7 +247,11 @@ def test_design_synthesis_end_to_end(tmp_path):
     }
     deferred_ids = {
         "PARKING_CAPACITY",
+        "PARKING_DRIVEWAY_CONNECTION",
         "PARKING_LAYOUT",
+        "MAIN_ROAD_BUILDING_OVERLAP",
+        "FULL_SITE_ROAD_CLEARANCE",
+        "DEAD_END_RESOLUTION",
         "DESIGNED_GREEN_RATIO",
         "FULL_SITE_NS_SPACING",
         "FAR_FINAL_VERIFICATION",
@@ -233,6 +262,14 @@ def test_design_synthesis_end_to_end(tmp_path):
     assert {
         name for name, item in checks.items() if item["status"] == "deferred"
     } == deferred_ids
+    assert checks["MAIN_ROAD_BUILDING_OVERLAP"]["value"] == pytest.approx(
+        38.19068149970834
+    )
+    assert len(checks["MAIN_ROAD_BUILDING_OVERLAP"]["detail"]["conflicts"]) == 3
+    assert checks["PARKING_DRIVEWAY_CONNECTION"]["status"] == "deferred"
+    assert checks["DEAD_END_RESOLUTION"]["status"] == "deferred"
+    assert checks["DEAD_END_RESOLUTION"]["value"] == "7 unresolved"
+    assert checks["FULL_SITE_ROAD_CLEARANCE"]["status"] == "deferred"
     for name in ("FAR_ARITHMETIC_SCENARIO", "UNIT_COUNT_BASIS_INVARIANT"):
         assert checks[name]["derived_from"] == "design_basis_arithmetic"
     assert checks["ROAD_WIDTH_ASSIGNMENT"]["derived_from"] == "design_basis_assignment"
@@ -377,7 +414,7 @@ def test_committed_design_evidence_is_consistent():
     assert summary["focus_design_rect"] is not None
     assert summary["diff"]["focus_design_rect"] == summary["focus_design_rect"]
     checks = {check["id"]: check for check in summary["consistency"]["checks"]}
-    assert len(checks) == 21
+    assert len(checks) == 25
     assert checks["DESIGNED_GREEN_RATIO"]["status"] == "deferred"
     assert checks["PARKING_CAPACITY"]["status"] == "deferred"
     assert checks["PARKING_LAYOUT"]["status"] == "deferred"
@@ -385,8 +422,19 @@ def test_committed_design_evidence_is_consistent():
     assert checks["CANDIDATE_OPEN_SPACE_RATIO"]["status"] == "info"
     assert checks["UNBUILT_RATIO"]["status"] == "info"
     assert checks["ROAD_ACCESS_COVERAGE"]["status"] == "pass"
-    assert checks["PARKING_ENTRANCE_CONNECTION"]["status"] == "info"
+    assert checks["PARKING_ENTRANCE_PROXIMITY"]["status"] == "info"
+    assert checks["PARKING_DRIVEWAY_CONNECTION"]["status"] == "deferred"
+    assert checks["MAIN_ROAD_BUILDING_OVERLAP"]["status"] == "deferred"
+    assert checks["FULL_SITE_ROAD_CLEARANCE"]["status"] == "deferred"
     assert checks["DEAD_END_JUSTIFICATION"]["status"] == "info"
+    assert checks["DEAD_END_RESOLUTION"]["status"] == "deferred"
+    assert checks["DEAD_END_RESOLUTION"]["value"] == "7 unresolved"
+    assert checks["MAIN_ROAD_BUILDING_OVERLAP"]["value"] == pytest.approx(
+        38.19068149970834
+    )
+    assert len(
+        checks["MAIN_ROAD_BUILDING_OVERLAP"]["detail"]["conflicts"]
+    ) == 3
     assert {
         name for name, item in checks.items() if item["status"] == "pass"
     } == {
@@ -467,8 +515,29 @@ def test_committed_design_roads_artifact_recomputes_topology():
     features = payload["features"]
     assert len(features) == 44 == payload["road_count"]
     assert payload["road_access_coverage"] == pytest.approx(1.0)
+    assert payload["road_access_relation_error_count"] == 0
+    assert payload["main_road_building_overlap"]["status"] == "known_unresolved"
+    assert payload["main_road_building_overlap"]["area_m2"] == pytest.approx(
+        38.19068149970834
+    )
+    declared_groups = [
+        group_id
+        for feature in features
+        for group_id in feature["properties"]["serves_group_ids"]
+    ]
+    assert len(declared_groups) == 17
+    assert sorted(declared_groups) == sorted(
+        item["group_id"] for item in summary["road_access"]["groups"]
+    )
+    for feature in features:
+        properties = feature["properties"]
+        if properties["serves_group_ids"]:
+            assert properties["access_terminal_xy"] is not None
+        else:
+            assert properties["access_terminal_xy"] is None
     assert len(payload["group_access"]) == 17
     assert all(item["served"] for item in payload["group_access"])
+    assert all(item["declared"] for item in payload["group_access"])
     assert len(payload["dead_end_justification"]) == (
         summary["metrics"]["dead_end_justified_count"]
         + summary["metrics"]["dead_end_unfinished_count"]

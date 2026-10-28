@@ -2,6 +2,68 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.20.0 — 2026-10-28
+
+### Changed
+
+- **M4c-1e — road-access evidence is now bound to declared service
+  relations.** No design geometry changes: the road inventory, endpoints,
+  widths, topology and the 206-entity DXF are identical to 0.19.0; the change
+  is to what the evidence can prove, and to the machine-readable state of
+  known conflicts. Tests 324 → **334**.
+
+  - **Explicit service relations.** Each access road now declares
+    `serves_group_ids` and `access_terminal_xy`; `ROAD_ACCESS_COVERAGE` uses
+    that declaration instead of "nearest qualifying endpoint". Each of the 17
+    groups is served by exactly its own connector (G-08 → BR-G-08,
+    G-13 → BR-G-13); the previous evidence assigned G-08 to BR-G-09 (2.895 m)
+    and G-13 to BR-G-07 (3.188 m), which are other groups' roads.
+  - **Terminal band and binding.** A served terminal must be within the
+    **[3.4, 3.5] m** centreline band, outside every footprint, with route
+    crossing ≤ 0.1 m, and must actually lie on the serving road's centreline or
+    an endpoint (≤ 1e-6 m) — a declared terminal 100 m off its road is rejected.
+    Orphan declarations (`serves_group_ids` naming a non-existent group) are
+    reported as relation errors.
+  - **Two clearances, not one.** The terminal band is a centreline-to-facade
+    distance; the 3.0 m `building_road_clearance_m` in `FOCUS_ROAD_CLEARANCE`
+    remains a corridor-edge quantity. Each group now records
+    `terminal_corridor_edge_clearance_m` separately (0.0 m for a 7 m branch
+    end-cap, 1.5 m for the 4 m ACC-G-12 lane), so "3 m clearance" is no longer
+    stated with two different meanings.
+  - **Known main-road conflict is now a check, not a footnote.**
+    `MAIN_ROAD_BUILDING_OVERLAP` is `deferred` and lists the conflicts per road
+    and building (MAIN-19/SK-BLD-0006 34.42 m², MAIN-08/SK-BLD-0038 3.68 m²,
+    MAIN-08/SK-BLD-0061 0.09 m²; total 38.1907 m², `known_unresolved`);
+    `FULL_SITE_ROAD_CLEARANCE` is `deferred`. The 1.0 m² per-route budget applies
+    only to new group-access roads and does not cover the main-road overlap.
+  - **Parking proximity vs driveway.** `PARKING_ENTRANCE_CONNECTION` is renamed
+    `PARKING_ENTRANCE_PROXIMITY` (`info`; point-to-centreline proximity only)
+    and `PARKING_DRIVEWAY_CONNECTION` is added as `deferred`; all entrances
+    report `driveway_designed: false`.
+  - **Dead ends classified ≠ resolved.** `DEAD_END_JUSTIFICATION` (`info`) now
+    states "all classified, not all justified"; a new `DEAD_END_RESOLUTION`
+    (`deferred`, 7 unresolved) lists the 5 unfinished main stubs and 2
+    unclassified tips.
+  - **Checks: 25 design checks = 6 pass + 10 info + 9 deferred** (plus 3 DXF in
+    the contract). Contract `design-synthesis-v0.6.yaml` (v0.5 superseded;
+    gate-register pointer re-pointed).
+  - Docs: the self-contradictory "every dead end is justified" wording is
+    removed; the "19 connector roads / G-08/G-09 share BR-G-09" statement is
+    corrected to 17 declared group-access connectors (16 branch + ACC-G-12)
+    plus BR-FOCUS and the focus loop; the continuation dossier is marked as a
+    historical 0.15-era audit snapshot and the handoff is the single current
+    state source.
+
+### Verified
+
+- **334 passed** (`python -m pytest -q`; 324 → 334: declared-relation, terminal
+  binding, orphan-declaration and negative tests; no test removed).
+- Evidence regenerated: DXF unchanged (206 entities, audit 0/0, readback
+  206/206, XDATA 11, privacy pass); `design-roads.geojson` SHA-256 changes only
+  because it now publishes `serves_group_ids`, `access_terminal_xy` and the
+  main-road overlap records; road geometry, topology and overlap values are
+  bit-identical to 0.19.0.
+
 ## 0.19.0 — 2026-10-28
 
 ### Changed

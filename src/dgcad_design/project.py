@@ -391,6 +391,15 @@ def _design_roads_geojson(
                     "start_junction_id": road.start_junction_id,
                     "end_junction_id": road.end_junction_id,
                     "source_edge_ids": list(road.source_edge_ids),
+                    "serves_group_ids": list(road.serves_group_ids),
+                    "access_terminal_xy": (
+                        None
+                        if road.access_terminal_xy is None
+                        else [
+                            float(road.access_terminal_xy[0]),
+                            float(road.access_terminal_xy[1]),
+                        ]
+                    ),
                 },
                 "geometry": {
                     "type": "LineString",
@@ -405,6 +414,12 @@ def _design_roads_geojson(
     }
     if road_access is not None:
         payload["road_access_coverage"] = road_access.road_access_coverage
+        payload["road_access_relation_error_count"] = len(
+            road_access.relation_errors
+        )
+        payload["main_road_building_overlap"] = dict(
+            road_access.main_road_overlap
+        )
         payload["group_access"] = [
             item.to_dict() for item in road_access.groups
         ]
@@ -544,6 +559,16 @@ def run_design_synthesis(
         "intent": intent.to_dict(),
         "road_topology": road_layout.noded_topology.to_dict(),
         "road_access": road_access.to_dict(),
+        "main_road_building_overlap": dict(road_access.main_road_overlap),
+        "full_site_road_clearance": {
+            "status": "deferred",
+            "value": None,
+            "required": "full-site road/building clearance design",
+            "message": (
+                "only the focus group's road clearance is designed and checked; "
+                "the known main-road overlap is not resolved by this round"
+            ),
+        },
         "design_roads": {
             "path": roads_path.name,
             "road_count": len(road_layout.roads),

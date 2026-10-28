@@ -1,5 +1,13 @@
 schema_id: dgcad.design-synthesis.v0.5
-status: living_contract
+status: superseded
+superseded_by: design-synthesis-v0.6.yaml
+superseded_note: >-
+  Historical contract, kept as evidence. v0.6 replaces proximity-inferred group
+  access with a declared service relation (serves_group_ids + access_terminal_xy,
+  terminal band [3.4, 3.5] m, corridor-edge clearance recorded separately), renames
+  parking_entrance_connection to parking_entrance_proximity, and adds
+  parking_driveway_connection, main_road_building_overlap, full_site_road_clearance
+  and dead_end_resolution. Do not edit; cite v0.6 for living rules.
 supersedes: design-synthesis-v0.4.yaml
 scope: CASE-SKETCH-001 autonomous design synthesis pilot
 purpose: >-

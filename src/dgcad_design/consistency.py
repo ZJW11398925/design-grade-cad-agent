@@ -159,39 +159,55 @@ def check_design(
             ),
         },
         {
-            "id": "PARKING_ENTRANCE_CONNECTION",
+            "id": "PARKING_ENTRANCE_PROXIMITY",
             "status": "info",
             "value": (
-                sum(1 for item in road_access.entrances if item.connected)
+                sum(
+                    1
+                    for item in road_access.entrances
+                    if item.proximity_connected
+                )
                 / len(road_access.entrances)
                 if road_access.entrances
                 else 0.0
             ),
-            "required": "connected entrances",
+            "required": "entrances near a design road",
             "message": (
-                "entrance points are Points (not polygon faces); connection is "
-                "distance to the nearest road centreline <= half width + 1 m. "
-                "Existing designer-marked garage faces have no designed driveway, "
-                "so they are reported as not connected rather than assumed"
+                "proximity only: the entrance point is a Point and lies within "
+                "half the nearest road width + 1 m of its centreline. This is "
+                "NOT a designed driveway; all entrances report "
+                "driveway_designed: false"
             ),
             "detail": {
                 "entrances": [
                     {
                         "entrance_id": item.entrance_id,
                         "status": item.status,
-                        "connected": item.connected,
+                        "proximity_connected": item.proximity_connected,
+                        "driveway_designed": item.driveway_designed,
                         "distance_m": item.distance_m,
                         "nearest_road_id": item.nearest_road_id,
                         "reason": item.reason,
                     }
                     for item in road_access.entrances
                 ],
-                "disconnected_ids": [
+                "not_near_road_ids": [
                     item.entrance_id
                     for item in road_access.entrances
-                    if not item.connected
+                    if not item.proximity_connected
                 ],
             },
+        },
+        {
+            "id": "PARKING_DRIVEWAY_CONNECTION",
+            "status": "deferred",
+            "value": "not_designed",
+            "required": "designed driveway connection per garage entrance",
+            "message": (
+                "no driveway, apron, ramp or parking-space geometry is designed; "
+                "entrance proximity is not a driveway connection, so this stays "
+                "deferred rather than passing on point distances"
+            ),
         },
         {
             "id": "PARKING_LAYOUT",
@@ -281,30 +297,59 @@ def check_design(
         },
         {
             "id": "ROAD_ACCESS_COVERAGE",
-            "status": "pass" if not road_access.unserved_group_ids else "fail",
+            "status": (
+                "pass"
+                if not road_access.unserved_group_ids
+                and not road_access.relation_errors
+                else "fail"
+            ),
             "value": road_access.road_access_coverage,
             "required": 1.0,
             "message": (
-                "every group with buildings has an access road whose terminal "
-                "is within clearance + 0.5 m of that group's buildings, lies "
-                "outside the footprints and whose route crosses them by <= 0.1 "
-                "m; this is a geometric access relation, not merely a "
-                "connected-component count"
+                "each group is served by its DECLARED access road "
+                "(serves_group_ids), not by the nearest endpoint: the declared "
+                "terminal centreline distance must be within [3.4, 3.5] m, lie "
+                "outside every footprint and cross footprints by <= 0.1 m. A "
+                "separate corridor-edge clearance is recorded per group; it is "
+                "not the 3.0 m corridor setback"
             ),
             "detail": {
                 "groups_total": road_access.groups_total,
                 "groups_served": road_access.groups_served,
                 "unserved_group_ids": list(road_access.unserved_group_ids),
-                "max_terminal_distance_m": max(
-                    (
-                        item.terminal_to_building_m
-                        for item in road_access.groups
-                        if item.terminal_to_building_m is not None
-                    ),
-                    default=None,
-                ),
+                "relation_error_count": len(road_access.relation_errors),
+                "relation_errors": [
+                    dict(item) for item in road_access.relation_errors
+                ],
                 "group_access": [item.to_dict() for item in road_access.groups],
             },
+        },
+        {
+            "id": "MAIN_ROAD_BUILDING_OVERLAP",
+            "status": "deferred",
+            "value": road_access.main_road_overlap.get("area_m2"),
+            "required": "0 resolved road/building conflicts",
+            "message": (
+                "known unresolved conflict, reported per road and building: the "
+                "source-aligned main roads overlap building footprints "
+                "(MAIN-19/SK-BLD-0006, MAIN-08/SK-BLD-0038 and MAIN-08/"
+                "SK-BLD-0061). This is NOT a pass; main-road alignment is a "
+                "separate design task and the full-site road clearance check "
+                "remains deferred"
+            ),
+            "detail": dict(road_access.main_road_overlap),
+        },
+        {
+            "id": "FULL_SITE_ROAD_CLEARANCE",
+            "status": "deferred",
+            "value": None,
+            "required": "full-site road/building clearance design",
+            "message": (
+                "only the focus group's road clearance is designed and checked; "
+                "a full-site road-building clearance design and check are "
+                "deferred, so the known main-road overlap above is not resolved "
+                "by this round"
+            ),
         },
         {
             "id": "DEAD_END_JUSTIFICATION",
@@ -312,12 +357,13 @@ def check_design(
             "value": (
                 f"{road_access.dead_ends_justified}/{len(road_access.dead_ends)}"
             ),
-            "required": "justified dead ends",
+            "required": "classified dead ends",
             "message": (
-                "a branch/access terminal within clearance + 0.5 m of a group "
-                "is a planned terminal; a main-road stub far from buildings is "
-                "reported as an unfinished connection; anything else remains "
-                "unclassified and must be reviewed"
+                "all dead ends are classified, not all justified: a branch/"
+                "access terminal within the access band of a group is a planned "
+                "terminal, a main-road stub far from buildings is unfinished, "
+                "anything else is unclassified. The unresolved items are "
+                "reported below and are a deferred resolution item"
             ),
             "detail": {
                 "classes": {
@@ -332,6 +378,35 @@ def check_design(
                         "unclassified",
                     )
                 },
+                "unfinished_ids": [
+                    item.node_id
+                    for item in road_access.dead_ends
+                    if item.classification == "main_stub_unfinished"
+                ],
+                "unclassified_ids": [
+                    item.node_id
+                    for item in road_access.dead_ends
+                    if item.classification == "unclassified"
+                ],
+            },
+        },
+        {
+            "id": "DEAD_END_RESOLUTION",
+            "status": "deferred",
+            "value": f"{road_access.dead_ends_unresolved} unresolved",
+            "required": "0 unresolved dead ends",
+            "message": (
+                "5 unfinished main-road stubs and 2 unclassified dead ends are "
+                "explicitly left unresolved; classifying them is not resolving "
+                "them, so this check stays deferred until each is connected, "
+                "removed or given a designed terminus"
+            ),
+            "detail": {
+                "unresolved_ids": [
+                    item.node_id
+                    for item in road_access.dead_ends
+                    if not item.justified
+                ],
                 "unfinished_ids": [
                     item.node_id
                     for item in road_access.dead_ends
@@ -484,8 +559,21 @@ def check_design(
             if item.classification == "unclassified"
         ),
         "entrance_count": len(road_access.entrances),
-        "entrance_connected_count": sum(
-            1 for item in road_access.entrances if item.connected
+        "entrance_proximity_connected_count": sum(
+            1
+            for item in road_access.entrances
+            if item.proximity_connected
+        ),
+        "entrance_driveway_designed_count": sum(
+            1 for item in road_access.entrances if item.driveway_designed
+        ),
+        "road_relation_error_count": len(road_access.relation_errors),
+        "dead_end_unresolved_count": road_access.dead_ends_unresolved,
+        "main_road_building_overlap_m2": road_access.main_road_overlap.get(
+            "area_m2"
+        ),
+        "main_road_building_overlap_status": road_access.main_road_overlap.get(
+            "status"
         ),
         "road_building_overlap_m2_new_access": (
             road_layout.road_building_overlap_m2_new_access
