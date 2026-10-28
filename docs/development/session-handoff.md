@@ -23,17 +23,18 @@ Repository: `D:\agent-cad`
 
 ## 1. Repo state (verified 2026-10-28)
 
-- Branch: `milestone-4c-autonomous-design`; M4c-1a is committed; M4c-1c is
-  implemented in the working tree and lands with the next commit.
-- Latest committed changes (M4c-1a): `9d4ae56 feat(design): M4c-1a noded
-  road-topology truth and explicit junctions` + `1209955 fix(evidence): make
-  design-roads.geojson byte-stable across platforms`; the **M4c-1c** commit
-  follows this handoff (repin this line and the M4c-1a hashes when it exists).
-- `main`: `4f6698b` (Milestone 4b.1 merged as PR #33).
-- Open PR: **#34** “Milestone 4c — autonomous design synthesis + M4c-0 reuse +
-  M4c-1a topology fix”; 4/4 CI jobs green (Ubuntu/Windows × Python 3.11/3.13).
+- `main` is the integration branch and holds the merged research prototype:
+  **PR #34 merged as merge commit `e40f468`** (Milestone 4c — autonomous design
+  synthesis + M4c-0 reuse + M4c-1a/1c fixes); main CI is 4/4 green.
+- The old topic branch `milestone-4c-autonomous-design` contains the same
+  history (M4c-1a commits `9d4ae56` + `1209955`, M4c-1c `e02337b`). **Start new
+  work from `main`** — e.g. `feat/m4c-1b-road-service`.
 - Version: `0.17.0` (`pyproject.toml`).
 - Test baseline: **283 passed** (`python -m pytest -q`).
+- Next milestone: **M4c-1b** — road service coverage (G-05/G-12, entrance
+  geometry type, branch-to-entrance connections, `road_access_coverage`,
+  dead-end justification); then multi-candidate design evaluation, then
+  full-site expansion with basis confirmation.
 - Local environment: Windows, Python 3.13. Core dependencies remain only
   **PyYAML 6.0.3 / Shapely 2.1.2 / ezdxf 1.4.5**.
 - Optional research-only installs (NOT in `pyproject.toml`): osmnx 2.1.1,
