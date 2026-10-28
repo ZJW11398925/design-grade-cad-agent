@@ -4,6 +4,7 @@
 |---|---|
 | [status.md](status.md) | Current implementation, gate and evidence status |
 | [roadmap.md](roadmap.md) | Milestones, exit criteria and next actions |
+| [development/session-handoff.md](development/session-handoff.md) | Point-in-time continuation state: repo status, known road-topology defect, next work order and decision rules |
 | [research-to-product-map.md](research-to-product-map.md) | Which research artifacts are promoted, deferred or blocked |
 | [e2e/living-pipeline-001.md](e2e/living-pipeline-001.md) | Executed E2E-001 pipeline result, scope and known gaps |
 | [e2e/dependency-mutation-002.md](e2e/dependency-mutation-002.md) | Executed E2E-002 mutation/rebuild result and road-surface deferral |

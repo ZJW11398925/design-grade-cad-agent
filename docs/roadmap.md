@@ -201,7 +201,7 @@ First round (`docs/e2e/design-synthesis-001/`):
 - [x] Replace the 333-edge skeleton mesh with a design road hierarchy: merged main roads, one branch per group, one focus access loop; widths 12/7/4 m; record the source mesh as evidence.
 - [x] Allocate cluster/ strip/ supplementary green; site green ratio 63.0%.
 - [x] Check FAR, parking, entrances, unit count, spacing, setback, overlap, road clearance, connectivity, road widths and green ratio; record full-site north-south spacing as deferred.
-- [x] Produce an editable 210-entity DXF with layers, building/road labels, dimensions, key plan, title block, legend, north arrow and scale bar; audit 0/0; readback 210/210.
+- [x] Produce an editable 208-entity DXF with layers, building/road labels, dimensions, key plan, title block, legend, north arrow and scale bar; audit 0/0; readback 208/208.
 - [x] Mark all design objects `rule_derived` in `proposal_preview`; no `human_confirmed`; title block says Agent-generated and not code-compliant.
 - [x] Record the design diff, dropped buildings and the persistent draft manifest.
 
