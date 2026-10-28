@@ -31,13 +31,13 @@ Repository: `D:\agent-cad`
   `fix/m4c-1d-semantic-residuals` contain the same history (M4c-1a commits
   `9d4ae56` + `1209955`, M4c-1c `e02337b`, M4c-1d `2f396b2`). **Start new work
   from `main`** — e.g. `feat/m4c-1b-road-service`.
-- Version: `0.18.0` (`pyproject.toml`).
-- Test baseline: **292 passed** (`python -m pytest -q`).
+- Branch: `feat/m4c-1b-road-access` (M4c-1b work; merge back to `main`).
+- Version: `0.19.0` (`pyproject.toml`).
+- Test baseline: **324 passed** (`python -m pytest -q`).
 - Milestone order: M4c-1d honest-semantics residuals (**complete**) →
-  **M4c-1b** road service coverage (G-05/G-12, entrance geometry type,
-  branch-to-entrance connections, `road_access_coverage`, dead-end
-  justification) → multi-candidate design evaluation → full-site expansion
-  with basis confirmation.
+  M4c-1b road service coverage (**complete** — first design-geometry change:
+  44 roads, coverage 1.0, DXF 206 entities) → **next: multi-candidate design
+  evaluation** → full-site expansion with basis confirmation.
 - Local environment: Windows, Python 3.13. Core dependencies remain only
   **PyYAML 6.0.3 / Shapely 2.1.2 / ezdxf 1.4.5**.
 - Optional research-only installs (NOT in `pyproject.toml`): osmnx 2.1.1,
@@ -77,19 +77,22 @@ Evidence: `docs/e2e/sketch-handoff-a/` (status `blocked`, correct).
   319,536 m² GFA, 3,000 m² facility, 5 garage entrances.
 - Focus G-01: 7 standardized buildings / 16 units; dropped `SK-BLD-0038` (2U)
   and `SK-BLD-0061` (1U) with recorded reasons.
-- 208-entity editable DXF, audit 0/0, readback 208/208, 23 design layers,
+- **206-entity** editable DXF (was 208 before M4c-1b), audit 0/0, readback
+  206/206, 23 design layers,
   title block "AGENT-GENERATED PROPOSAL - NOT HUMAN-CONFIRMED - NOT
   CODE-COMPLIANCE" (ASCII hyphens, as in the DXF).
 - All design objects `rule_derived`, world `proposal_preview`,
   `confirmation_scope: design_draft`, `human_confirmed: false`.
-- Consistency: 18 declared checks — 5 pass (independently geometry-verified:
+- Consistency: 21 declared checks — 6 pass (independently geometry-verified:
   FOCUS_NS_SPACING, FOCUS_BOUNDARY_SETBACK, FOCUS_BUILDING_OVERLAP,
-  FOCUS_ROAD_CLEARANCE, ROAD_CONNECTIVITY), 8 info (FAR_ARITHMETIC_SCENARIO,
-  PARKING_REQUIREMENT_ARITHMETIC, PARKING_ENTRANCE_COUNT,
-  UNIT_COUNT_BASIS_INVARIANT, ROAD_CORRIDOR_COVERAGE, ROAD_WIDTH_ASSIGNMENT,
-  CANDIDATE_OPEN_SPACE_RATIO, UNBUILT_RATIO), 5 deferred (PARKING_CAPACITY,
-  PARKING_LAYOUT, DESIGNED_GREEN_RATIO, FULL_SITE_NS_SPACING,
-  FAR_FINAL_VERIFICATION — value None). `info`/`deferred` are not `pass`.
+  FOCUS_ROAD_CLEARANCE, ROAD_CONNECTIVITY, and new ROAD_ACCESS_COVERAGE),
+  10 info (FAR_ARITHMETIC_SCENARIO, PARKING_REQUIREMENT_ARITHMETIC,
+  PARKING_ENTRANCE_COUNT, UNIT_COUNT_BASIS_INVARIANT, ROAD_CORRIDOR_COVERAGE,
+  ROAD_WIDTH_ASSIGNMENT, CANDIDATE_OPEN_SPACE_RATIO, UNBUILT_RATIO, and new
+  PARKING_ENTRANCE_CONNECTION, DEAD_END_JUSTIFICATION), 5 deferred
+  (PARKING_CAPACITY, PARKING_LAYOUT, DESIGNED_GREEN_RATIO,
+  FULL_SITE_NS_SPACING, FAR_FINAL_VERIFICATION — value None).
+  `info`/`deferred` are not `pass`.
 - M4c-1c (0.17.0) honest semantics: open space is not designed green
   (`designed_green_ratio` 6.6%, deferred); parking capacity recorded 1,000 vs
   2,398 required; basis provenance published (21 parameters,
@@ -102,6 +105,16 @@ Evidence: `docs/e2e/sketch-handoff-a/` (status `blocked`, correct).
   geometric union — both ratios use the full published site area as
   denominator; the filtered/unbuilt areas are measured inside the 5 m setback
   boundary); provenance authentication `declarative`; contract v0.4.
+- M4c-1b (0.19.0) road service coverage — the first design-geometry change:
+  44 design roads (25 main + 17 branch + 2 access), all 17 groups served
+  (coverage 1.0), G-05/G-12 access gaps closed, dead ends justified
+  (17 justified / 5 unfinished / 2 unclassified), terminals 3.5 m from
+  footprints, no building crossings; DXF now 206 entities (readback 206/206);
+  topology rebaselined (59 nodes / 65 segments, cyclomatic 7, junctions 32);
+  `design-roads.geojson` regenerated (44 centerlines + 21 junction records,
+  sha 59df13d8…). Honest residuals: 2/5 garage entrances connected;
+  pre-existing 38.19 m² MAIN-19/08 road/building overlap deferred to M4c-2;
+  contract v0.5.
 - M4c-1a (0.16.0) corrected the road-topology defect: explicit shared-coordinate
   junctions, noded graph 1 component (51 nodes / 55 segments, cyclomatic 5,
   dead ends 21, junctions 27, `max_endpoint_gap_m` 0.0); `design-roads.geojson`
@@ -146,14 +159,14 @@ the regenerated `docs/e2e/design-synthesis-001/` package.
 The 4c candidate is still **partial** (full-site north-south spacing
 deferred). Do not present it as a finished road design.
 
-## 4. Next work order (status after M4c-1d; order: M4c-1b → multi-candidate evaluation → full-site expansion)
+## 4. Next work order (status after M4c-1b; order: multi-candidate evaluation → full-site expansion)
 
 1. ~~Add an optional OSMnx adapter~~ — **superseded**: the fix is
    dependency-free (explicit shared-coordinate junctions); OSMnx remains an
    optional source-skeleton preprocessor, never the design base.
 2. ~~Replace the corridor-only connectivity check~~ — **done** (noded check,
    fail-closed within a 1e-9 m endpoint tolerance; `ROAD_CORRIDOR_COVERAGE`
-   informational; contract `design-synthesis-v0.4.yaml`).
+   informational; contract `design-synthesis-v0.5.yaml`).
 3. ~~Regenerate the 4c candidate~~ — **done** (same FAR / parking / 20 m /
    green / CAD checks pass; 208-entity DXF unchanged; `design-roads.geojson`
    published). Design-aware coverage (branch → entrance access, G-05/G-12) is
@@ -205,7 +218,7 @@ Design synthesis:
 - `src/dgcad_design/scene.py`, `drawing.py`, `project.py`.
 - `scripts/design/run_design_synthesis_001.py`.
 - `fixtures/design/design-basis-001.yaml`, `design-profile-001.yaml`.
-- `contracts/design-synthesis-v0.4.yaml` (v0.3/v0.2/v0.1 superseded).
+- `contracts/design-synthesis-v0.5.yaml` (v0.4/v0.3/v0.2/v0.1 superseded).
 
 CAD delivery:
 
@@ -226,7 +239,9 @@ Tests:
 
 - `tests/test_design_synthesis.py` (9), `tests/test_design_topology.py` (14),
   `tests/test_design_contract.py` (11), `tests/test_design_basis.py` (20),
-  `tests/test_green_parking_semantics.py` (9), `tests/test_privacy_scan.py` (20).
+  `tests/test_green_parking_semantics.py` (9), `tests/test_privacy_scan.py` (20),
+  `tests/test_road_access.py` (16), `tests/test_road_access_generation.py` (10),
+  `tests/test_parking_geometry.py` (6).
 - `tests/test_open_source_reuse.py` (3).
 - `tests/test_sketch_handoff.py` (32), `tests/e2e/test_sketch_handoff_a.py` (6).
 
@@ -304,6 +319,10 @@ hash (see pitfalls).
   `0015`, `0018`. The kindergarten/facility classification is also unresolved.
 - Full-site 20 m spacing is deferred; it may require dropping or reshaping more
   buildings than the focus block, and that policy has not been agreed.
+- Pre-existing 38.19 m² main-road/building overlap (MAIN-19/08) is a known
+  unresolved conflict deferred to M4c-2; only 2 of 5 garage entrances have
+  designed road connections (the 3 existing garage positions are area markers
+  **18.83–25.71 m** from the carriageway, no access lane designed).
 - Real CAD host loop (LibreCAD/FreeCAD/AutoCAD) remains deferred; issue #6 open.
 - `EP-R1-SKETCH-001` remains in progress; `R1-G07` partial;
   `EP-R1-DESIGN-001` in progress.

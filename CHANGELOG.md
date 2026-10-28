@@ -2,6 +2,76 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.19.0 — 2026-10-28
+
+### Changed
+
+- **M4c-1b — design-aware road access coverage.** This is the first M4c
+  release that changes design **geometry**: the design road network now
+  connects every building group to the network, replaces the
+  bounding-box/ focus-box heuristic, and publishes a per-group access relation
+  and per-dead-end justification. 292 → **324 passed**. Main-road alignment,
+  DXF layers/drawing standard, XDATA schema (11), readback and privacy
+  mechanisms are unchanged.
+
+  - **Every group is served.** 44 roads = 25 main (12 m) + 17 branch (7 m) +
+    2 access (4 m). G-05 (3 buildings / 7 units) and G-12 (2 buildings /
+    4 units), previously skipped because their bounding boxes intersected the
+    focus box, now have access roads (`BR-G-05`, `ACC-G-12`). `G-01` is served
+    by `BR-G-01`; the focus access loop is `ACC-FOCUS-01`.
+  - **Access is a geometric relation.** Each access road terminates
+    **3.499999 m** from its group's building footprint (clearance 3.0 m + 0.5 m
+    schematic tolerance), never inside a footprint, with a route that crosses
+    footprints by 0.0 m, and is joined to the network by an explicit
+    shared-vertex junction. `ROAD_ACCESS_COVERAGE` = 1.0 (17/17 groups) is a
+    `pass`; it is not a connected-component count.
+  - **G-12 is a 4 m access lane** because a 7 m branch corridor could not keep
+    the 3.0 m focus-building clearance from SK-BLD-0035; the loop was expanded
+    to include the G-05/G-12 buildings, so loop corridor ∩ buildings = 0 m².
+  - **Known, reported road-building overlap.** New access roads overlap
+    building footprints by **1.3365 m²** (budget ≤ 1.0 m² per new road, max
+    per-building 0.9228 m²). The pre-existing **main-road overlap is
+    38.1907 m²** (MAIN-19 34.42 + MAIN-08 3.77, source alignment vs coarse
+    full-site context); total 38.7392 m². This is published as a known
+    unresolved conflict, not silently accepted; main alignment is M4c-2 scope.
+  - **Parking entrance geometry repaired (R18).** Designer-marked garage
+    entrances are Polygons in the source; `ParkingEntrance.point` is now
+    always a `Point` (representative point) with the polygon kept in a separate
+    `footprint` field, so serialisation no longer crashes.
+    `PARKING_ENTRANCE_CONNECTION` (info) reports 2/5 connected: the two proposed
+    entrances sit on the main road, while the three existing garage-face markers
+    are 18.83–25.71 m from a centreline and **have no designed driveway** —
+    reported, not assumed away.
+  - **Access connectors vs groups.** The 17 groups are served by 19 connector
+    roads (G-08/G-09 share `BR-G-09`), not necessarily one branch per group.
+  - **Dead ends classified.** 24 noded dead ends = **17 justified group
+    terminals** + **5 unfinished main-road stubs** + 2 unclassified; the
+    unfinished and unclassified ids are published in
+    `DEAD_END_JUSTIFICATION` (info) and in `design-roads.geojson`.
+  - **Checks: 21 design checks = 6 pass + 10 info + 5 deferred** (plus 3 DXF
+    checks in the contract). New: `ROAD_ACCESS_COVERAGE` (pass/fail),
+    `PARKING_ENTRANCE_CONNECTION` (info), `DEAD_END_JUSTIFICATION` (info).
+    Contract `design-synthesis-v0.5.yaml` (v0.4 superseded; gate-register
+    pointer re-pointed).
+  - **Evidence changed accordingly**: DXF 208 → **206 entities** (junction
+    repair merges some road polylines), road count 41 → **44**, design-roads
+    SHA-256 changes, noded graph 59 nodes / 65 edges / cyclomatic 7 / 24 dead
+    ends / 32 junctions / 21 explicit junctions / 3 closed rings / gap 0.0 /
+    1 component; readback 206/206, audit 0/0, XDATA 11, privacy pass.
+    Open-space areas shift slightly with the new corridors: candidate
+    63.02 % (128,645 m²), unbuilt 65.35 % (133,384 m²), designed green
+    6.54 % (13,347 m², deferred).
+
+### Not claimed
+
+- No parking layout, aisle geometry or parking spaces are designed; entrance
+  points are markers, not driveways.
+- The main-road building overlap (38.19 m²), the vertical alignment, road
+  profiles, junction turning radii and road service beyond "terminal within
+  3.5 m of a group" are not designed.
+- The draft is still focus-only for detailed building design (7 of 55
+  buildings); full-site spacing remains deferred.
+
 ## 0.18.0 — 2026-10-28
 
 ### Changed

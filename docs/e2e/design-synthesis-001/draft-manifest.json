@@ -30,51 +30,54 @@
     "focus_households": 352,
     "focus_area_m2": 4224.0,
     "focus_min_ns_gap_m": 20.0,
-    "road_area_m2": 26170.241651018805,
-    "sidewalk_area_m2": 9866.177785935128,
-    "candidate_open_space_area_m2": 128676.22029239938,
-    "candidate_open_space_ratio": 0.6303863597090935,
-    "unbuilt_area_m2": 133373.64664347022,
-    "unbuilt_ratio": 0.65339910822412,
+    "road_area_m2": 25772.039089864433,
+    "sidewalk_area_m2": 9538.685434220975,
+    "candidate_open_space_area_m2": 128645.3130013814,
+    "candidate_open_space_ratio": 0.6302349445165348,
+    "unbuilt_area_m2": 133384.460533079,
+    "unbuilt_ratio": 0.6534520856001206,
     "open_space_filters": {
       "boundary_setback_m": 5.0,
       "obstacle_buffer_m": 0.5,
       "min_supplementary_polygon_m2": 100.0
     },
-    "designed_green_area_m2": 13446.484393384519,
-    "designed_green_ratio": 0.06587448969490359,
+    "designed_green_area_m2": 13346.693042679242,
+    "designed_green_ratio": 0.06538561066069971,
     "green_target_ratio": 0.3,
     "road_noded_component_count": 1,
     "corridor_union_pieces": 1,
     "road_topology": {
       "schema_id": "dgcad.design-road-topology.v0.1",
-      "road_count": 41,
-      "noded_segment_count": 55,
-      "node_count": 51,
-      "edge_count": 55,
+      "road_count": 44,
+      "noded_segment_count": 65,
+      "node_count": 59,
+      "edge_count": 65,
       "component_count": 1,
-      "cyclomatic": 5,
+      "cyclomatic": 7,
       "degree_histogram": {
-        "1": 21,
+        "1": 24,
         "2": 3,
-        "3": 25,
-        "4": 2
+        "3": 28,
+        "4": 4
       },
-      "dead_end_count": 21,
-      "junction_count": 27,
-      "explicit_junction_count": 16,
+      "dead_end_count": 24,
+      "junction_count": 32,
+      "explicit_junction_count": 21,
       "max_endpoint_gap_m": 0.0,
       "closed_ring_count": 3,
       "components": [
         {
-          "node_count": 51,
-          "edge_count": 55,
+          "node_count": 59,
+          "edge_count": 65,
           "road_ids": [
             "ACC-FOCUS-01",
+            "ACC-G-12",
             "BR-FOCUS",
+            "BR-G-01",
             "BR-G-02",
             "BR-G-03",
             "BR-G-04",
+            "BR-G-05",
             "BR-G-06",
             "BR-G-07",
             "BR-G-08",
@@ -121,6 +124,11 @@
           "state": "shared_vertex"
         },
         {
+          "road_id": "BR-G-01",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
           "road_id": "BR-G-02",
           "class_name": "branch",
           "state": "dead_end"
@@ -132,6 +140,11 @@
         },
         {
           "road_id": "BR-G-04",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-05",
           "class_name": "branch",
           "state": "dead_end"
         },
@@ -166,6 +179,11 @@
           "state": "dead_end"
         },
         {
+          "road_id": "ACC-G-12",
+          "class_name": "access",
+          "state": "dead_end"
+        },
+        {
           "road_id": "BR-G-13",
           "class_name": "branch",
           "state": "dead_end"
@@ -197,10 +215,27 @@
         }
       ]
     },
-    "road_count": 41,
-    "junction_count": 27,
-    "dead_end_count": 21,
-    "explicit_junction_count": 16,
+    "road_count": 44,
+    "road_class_counts": {
+      "main": 25,
+      "branch": 17,
+      "access": 2
+    },
+    "road_access_coverage": 1.0,
+    "road_groups_total": 17,
+    "road_groups_served": 17,
+    "road_groups_unserved": [],
+    "dead_end_justified_count": 17,
+    "dead_end_unfinished_count": 5,
+    "dead_end_unclassified_count": 2,
+    "entrance_count": 5,
+    "entrance_connected_count": 2,
+    "road_building_overlap_m2_new_access": 1.3364783241726115,
+    "road_building_overlap_m2_main": 38.19068149970835,
+    "road_building_overlap_m2_total": 38.73915403620522,
+    "junction_count": 32,
+    "dead_end_count": 24,
+    "explicit_junction_count": 21,
     "closed_ring_count": 3,
     "max_endpoint_gap_m": 0.0,
     "focus_group_id": "G-01",

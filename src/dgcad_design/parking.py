@@ -4,7 +4,7 @@ import math
 from dataclasses import dataclass
 from typing import Any
 
-from shapely.geometry import Point
+from shapely.geometry import Point, Polygon
 from shapely.ops import unary_union
 
 from .basis import DesignBasis
@@ -21,6 +21,7 @@ class ParkingEntrance:
     serves_group_id: str | None
     capacity_spaces: int
     reason: str
+    footprint: Polygon | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -71,6 +72,21 @@ class ParkingLayout:
         }
 
 
+def _entrance_point(geometry: Any) -> tuple[Point, Polygon | None]:
+    """Return a Point plus the original footprint polygon when the source is one.
+
+    The published sketch marks the garage-entrance candidates as polygons, not
+    points (R18). Storing that polygon directly made ``to_dict()`` crash on
+    ``.x`` and left the entrance geometry ambiguous, so existing entrances keep
+    the polygon as ``footprint`` and expose a Point for connection checks.
+    """
+    if isinstance(geometry, Point) or geometry.geom_type == "Point":
+        return geometry, None
+    if geometry.geom_type == "Polygon":
+        return geometry.representative_point(), geometry
+    return geometry.centroid, None
+
+
 def build_parking_layout(
     design_input: DesignInput,
     intent: DesignIntent,
@@ -80,17 +96,20 @@ def build_parking_layout(
     households = basis.households(design_input.staircase_count)
     spaces = basis.parking_spaces(households)
     required = basis.required_entrances(spaces)
-    existing = [
-        ParkingEntrance(
-            entrance_id=item.trace_id,
-            point=item.point,
-            status="existing",
-            serves_group_id=None,
-            capacity_spaces=0,
-            reason="designer-marked underground garage entrance",
+    existing = []
+    for item in design_input.entrances:
+        point, footprint = _entrance_point(item.point)
+        existing.append(
+            ParkingEntrance(
+                entrance_id=item.trace_id,
+                point=point,
+                status="existing",
+                serves_group_id=None,
+                capacity_spaces=0,
+                reason="designer-marked underground garage entrance",
+                footprint=footprint,
+            )
         )
-        for item in design_input.entrances
-    ]
     main_lines = [
         road.centerline
         for road in road_layout.roads

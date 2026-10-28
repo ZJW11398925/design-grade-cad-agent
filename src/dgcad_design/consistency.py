@@ -13,6 +13,7 @@ from .intent import DesignIntent
 from .parking import ParkingLayout
 from .roads import RoadLayout
 from .topology import topology_violations
+from .access import RoadAccessLayout, build_road_access
 
 
 @dataclass(frozen=True)
@@ -55,7 +56,12 @@ def check_design(
     road_layout: RoadLayout,
     green_layout: GreenLayout,
     parking_layout: ParkingLayout,
+    road_access: RoadAccessLayout | None = None,
 ) -> DesignConsistency:
+    if road_access is None:
+        road_access = build_road_access(
+            building_layout, road_layout, intent, parking_layout, basis
+        )
     site_area = design_input.site_area_m2
     staircases = design_input.staircase_count
     far = basis.far(site_area, staircases)
@@ -153,6 +159,41 @@ def check_design(
             ),
         },
         {
+            "id": "PARKING_ENTRANCE_CONNECTION",
+            "status": "info",
+            "value": (
+                sum(1 for item in road_access.entrances if item.connected)
+                / len(road_access.entrances)
+                if road_access.entrances
+                else 0.0
+            ),
+            "required": "connected entrances",
+            "message": (
+                "entrance points are Points (not polygon faces); connection is "
+                "distance to the nearest road centreline <= half width + 1 m. "
+                "Existing designer-marked garage faces have no designed driveway, "
+                "so they are reported as not connected rather than assumed"
+            ),
+            "detail": {
+                "entrances": [
+                    {
+                        "entrance_id": item.entrance_id,
+                        "status": item.status,
+                        "connected": item.connected,
+                        "distance_m": item.distance_m,
+                        "nearest_road_id": item.nearest_road_id,
+                        "reason": item.reason,
+                    }
+                    for item in road_access.entrances
+                ],
+                "disconnected_ids": [
+                    item.entrance_id
+                    for item in road_access.entrances
+                    if not item.connected
+                ],
+            },
+        },
+        {
             "id": "PARKING_LAYOUT",
             "status": "deferred",
             "value": parking_layout.garage_layout,
@@ -237,6 +278,71 @@ def check_design(
                 "corridor-union piece count is paved coverage, not centreline "
                 "topology; it is published for continuity and does not gate"
             ),
+        },
+        {
+            "id": "ROAD_ACCESS_COVERAGE",
+            "status": "pass" if not road_access.unserved_group_ids else "fail",
+            "value": road_access.road_access_coverage,
+            "required": 1.0,
+            "message": (
+                "every group with buildings has an access road whose terminal "
+                "is within clearance + 0.5 m of that group's buildings, lies "
+                "outside the footprints and whose route crosses them by <= 0.1 "
+                "m; this is a geometric access relation, not merely a "
+                "connected-component count"
+            ),
+            "detail": {
+                "groups_total": road_access.groups_total,
+                "groups_served": road_access.groups_served,
+                "unserved_group_ids": list(road_access.unserved_group_ids),
+                "max_terminal_distance_m": max(
+                    (
+                        item.terminal_to_building_m
+                        for item in road_access.groups
+                        if item.terminal_to_building_m is not None
+                    ),
+                    default=None,
+                ),
+                "group_access": [item.to_dict() for item in road_access.groups],
+            },
+        },
+        {
+            "id": "DEAD_END_JUSTIFICATION",
+            "status": "info",
+            "value": (
+                f"{road_access.dead_ends_justified}/{len(road_access.dead_ends)}"
+            ),
+            "required": "justified dead ends",
+            "message": (
+                "a branch/access terminal within clearance + 0.5 m of a group "
+                "is a planned terminal; a main-road stub far from buildings is "
+                "reported as an unfinished connection; anything else remains "
+                "unclassified and must be reviewed"
+            ),
+            "detail": {
+                "classes": {
+                    name: sum(
+                        1
+                        for item in road_access.dead_ends
+                        if item.classification == name
+                    )
+                    for name in (
+                        "group_terminal_justified",
+                        "main_stub_unfinished",
+                        "unclassified",
+                    )
+                },
+                "unfinished_ids": [
+                    item.node_id
+                    for item in road_access.dead_ends
+                    if item.classification == "main_stub_unfinished"
+                ],
+                "unclassified_ids": [
+                    item.node_id
+                    for item in road_access.dead_ends
+                    if item.classification == "unclassified"
+                ],
+            },
         },
         {
             "id": "ROAD_WIDTH_ASSIGNMENT",
@@ -360,6 +466,36 @@ def check_design(
         "corridor_union_pieces": road_layout.corridor_union_pieces,
         "road_topology": noded_topology.to_dict(),
         "road_count": len(road_layout.roads),
+        "road_class_counts": {
+            name: sum(
+                1 for road in road_layout.roads if road.class_name == name
+            )
+            for name in ("main", "branch", "access")
+        },
+        "road_access_coverage": road_access.road_access_coverage,
+        "road_groups_total": road_access.groups_total,
+        "road_groups_served": road_access.groups_served,
+        "road_groups_unserved": list(road_access.unserved_group_ids),
+        "dead_end_justified_count": road_access.dead_ends_justified,
+        "dead_end_unfinished_count": road_access.dead_ends_unfinished,
+        "dead_end_unclassified_count": sum(
+            1
+            for item in road_access.dead_ends
+            if item.classification == "unclassified"
+        ),
+        "entrance_count": len(road_access.entrances),
+        "entrance_connected_count": sum(
+            1 for item in road_access.entrances if item.connected
+        ),
+        "road_building_overlap_m2_new_access": (
+            road_layout.road_building_overlap_m2_new_access
+        ),
+        "road_building_overlap_m2_main": (
+            road_layout.road_building_overlap_m2_main
+        ),
+        "road_building_overlap_m2_total": (
+            road_layout.road_building_overlap_m2_total
+        ),
         "junction_count": noded_topology.junction_count,
         "dead_end_count": noded_topology.dead_end_count,
         "explicit_junction_count": noded_topology.explicit_junction_count,

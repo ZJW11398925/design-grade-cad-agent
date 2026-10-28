@@ -89,10 +89,10 @@ def _green() -> GreenLayout:
 def test_candidate_open_space_ratio_is_filtered_and_not_designed_green():
     green = _green()
     assert green.candidate_open_space_ratio == pytest.approx(
-        0.6303863597090935, rel=1e-12
+        0.6302349445165348, rel=1e-12
     )
     assert green.candidate_open_space_area_m2 == pytest.approx(
-        128676.22029239938, rel=1e-9
+        128645.3130013814, rel=1e-9
     )
     # the candidate account is the sum of the classified areas
     assert green.candidate_open_space_area_m2 == pytest.approx(
@@ -131,13 +131,13 @@ def test_unbuilt_account_is_plain_geometric_union_area():
         expected_unbuilt_area, rel=1e-12
     )
     assert green.unbuilt_area_m2 == pytest.approx(
-        133373.64664347022, rel=1e-9
+        133384.460533079, rel=1e-9
     )
     assert green.unbuilt_ratio == pytest.approx(
         green.unbuilt_area_m2 / _site_area(), rel=1e-12
     )
     assert green.unbuilt_ratio == pytest.approx(
-        0.65339910822412, rel=1e-9
+        0.6534520856001206, rel=1e-9
     )
     # dual accounting: the strict geometric account is larger than the filtered
     # classified one (no 0.5 m buffer, no 100 m2 drop)
@@ -153,19 +153,19 @@ def test_designed_green_ratio_is_smaller_and_defined_by_designed_area():
         green.designed_green_area_m2 / site_area, rel=1e-12
     )
     assert green.designed_green_ratio == pytest.approx(
-        0.06587448969490359, rel=1e-3
+        0.06538561066069971, rel=1e-3
     )
     # the honest headline: most open space is supplementary, not designed green
     supplementary_share = (
         green.supplementary_area_m2 / green.candidate_open_space_area_m2
     )
     assert supplementary_share == pytest.approx(
-        0.8955014037338896, rel=1e-3
+        0.8962520069228179, rel=1e-3
     )
     designed_share = (
         green.designed_green_area_m2 / green.candidate_open_space_area_m2
     )
-    assert designed_share == pytest.approx(0.1045, rel=1e-3)
+    assert designed_share == pytest.approx(0.1037479930771821, rel=1e-3)
     assert green.designed_green_ratio < green.candidate_open_space_ratio
 
 

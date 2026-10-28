@@ -140,16 +140,16 @@ def test_design_synthesis_end_to_end(tmp_path):
     # honesty semantics: candidate open space != designed green;
     # strict unbuilt is a geometric union; capacity is an assumption
     assert metrics["candidate_open_space_ratio"] == pytest.approx(
-        0.6303863597090935, rel=1e-12
+        0.6302349445165348, rel=1e-12
     )
     assert metrics["candidate_open_space_area_m2"] == pytest.approx(
-        128676.22029239938, rel=1e-9
+        128645.3130013814, rel=1e-9
     )
     assert metrics["unbuilt_ratio"] == pytest.approx(
-        0.65339910822412, rel=1e-9
+        0.6534520856001206, rel=1e-9
     )
     assert metrics["unbuilt_area_m2"] == pytest.approx(
-        133373.64664347022, rel=1e-9
+        133384.460533079, rel=1e-9
     )
     assert metrics["unbuilt_ratio"] > metrics["candidate_open_space_ratio"]
     assert metrics["open_space_filters"] == {
@@ -158,7 +158,7 @@ def test_design_synthesis_end_to_end(tmp_path):
         "min_supplementary_polygon_m2": 100.0,
     }
     assert metrics["designed_green_ratio"] == pytest.approx(
-        0.06587448969490359, rel=1e-9
+        0.06538561066069971, rel=1e-9
     )
     assert (
         metrics["designed_green_ratio"]
@@ -180,21 +180,42 @@ def test_design_synthesis_end_to_end(tmp_path):
         == 0
     )
     assert summary["road_topology"]["schema_id"] == "dgcad.design-road-topology.v0.1"
-    assert summary["design_roads"]["road_count"] == 41
-    assert len(checks) == 18
+    assert summary["design_roads"]["road_count"] == 44
+    # M4c-1b: design-aware access coverage
+    assert metrics["road_access_coverage"] == pytest.approx(1.0)
+    assert metrics["road_groups_total"] == metrics["road_groups_served"] == 17
+    assert metrics["road_groups_unserved"] == []
+    assert metrics["dead_end_justified_count"] == 17
+    assert metrics["dead_end_unfinished_count"] == 5
+    assert metrics["dead_end_unclassified_count"] == 2
+    assert metrics["entrance_connected_count"] == 2
+    assert metrics["entrance_count"] == 5
+    access = summary["road_access"]
+    assert access["road_access_coverage"] == pytest.approx(1.0)
+    assert access["groups_served"] == 17
+    assert all(item["served"] for item in access["groups"])
+    assert all(
+        item["served"]
+        for item in access["groups"]
+        if item["group_id"] in {"G-05", "G-12"}
+    )
+    assert len(checks) == 21
     pass_ids = {
         "FOCUS_NS_SPACING",
         "FOCUS_BOUNDARY_SETBACK",
         "FOCUS_BUILDING_OVERLAP",
         "FOCUS_ROAD_CLEARANCE",
         "ROAD_CONNECTIVITY",
+        "ROAD_ACCESS_COVERAGE",
     }
     info_ids = {
         "FAR_ARITHMETIC_SCENARIO",
         "PARKING_REQUIREMENT_ARITHMETIC",
         "PARKING_ENTRANCE_COUNT",
+        "PARKING_ENTRANCE_CONNECTION",
         "UNIT_COUNT_BASIS_INVARIANT",
         "ROAD_CORRIDOR_COVERAGE",
+        "DEAD_END_JUSTIFICATION",
         "ROAD_WIDTH_ASSIGNMENT",
         "CANDIDATE_OPEN_SPACE_RATIO",
         "UNBUILT_RATIO",
@@ -319,10 +340,10 @@ def test_design_diff_records_design_changes_and_drops():
     assert diff["parking"]["assumed_nominal_capacity_spaces"] == 1000
     assert diff["parking"]["garage_layout"] == "not_designed"
     assert diff["green"]["candidate_open_space_ratio"] == pytest.approx(
-        0.6303863597090935, rel=1e-12
+        0.6302349445165348, rel=1e-12
     )
     assert diff["green"]["unbuilt_ratio"] == pytest.approx(
-        0.65339910822412, rel=1e-9
+        0.6534520856001206, rel=1e-9
     )
     assert diff["green"]["open_space_filters"] == {
         "boundary_setback_m": 5.0,
@@ -330,7 +351,7 @@ def test_design_diff_records_design_changes_and_drops():
         "min_supplementary_polygon_m2": 100.0,
     }
     assert diff["green"]["designed_green_ratio"] == pytest.approx(
-        0.06587448969490359, rel=1e-9
+        0.06538561066069971, rel=1e-9
     )
     assert diff["green"]["designed_green_area_m2"] < (
         diff["green"]["candidate_open_space_area_m2"]
@@ -356,13 +377,16 @@ def test_committed_design_evidence_is_consistent():
     assert summary["focus_design_rect"] is not None
     assert summary["diff"]["focus_design_rect"] == summary["focus_design_rect"]
     checks = {check["id"]: check for check in summary["consistency"]["checks"]}
-    assert len(checks) == 18
+    assert len(checks) == 21
     assert checks["DESIGNED_GREEN_RATIO"]["status"] == "deferred"
     assert checks["PARKING_CAPACITY"]["status"] == "deferred"
     assert checks["PARKING_LAYOUT"]["status"] == "deferred"
     assert checks["FAR_FINAL_VERIFICATION"]["status"] == "deferred"
     assert checks["CANDIDATE_OPEN_SPACE_RATIO"]["status"] == "info"
     assert checks["UNBUILT_RATIO"]["status"] == "info"
+    assert checks["ROAD_ACCESS_COVERAGE"]["status"] == "pass"
+    assert checks["PARKING_ENTRANCE_CONNECTION"]["status"] == "info"
+    assert checks["DEAD_END_JUSTIFICATION"]["status"] == "info"
     assert {
         name for name, item in checks.items() if item["status"] == "pass"
     } == {
@@ -371,15 +395,16 @@ def test_committed_design_evidence_is_consistent():
         "FOCUS_BUILDING_OVERLAP",
         "FOCUS_ROAD_CLEARANCE",
         "ROAD_CONNECTIVITY",
+        "ROAD_ACCESS_COVERAGE",
     }
     assert summary["metrics"]["candidate_open_space_ratio"] == pytest.approx(
-        0.6303863597090935, rel=1e-12
+        0.6302349445165348, rel=1e-12
     )
     assert summary["metrics"]["unbuilt_ratio"] == pytest.approx(
-        0.65339910822412, rel=1e-9
+        0.6534520856001206, rel=1e-9
     )
     assert summary["metrics"]["designed_green_ratio"] == pytest.approx(
-        0.06587448969490359, rel=1e-9
+        0.06538561066069971, rel=1e-9
     )
     assert summary["metrics"]["parking_assumed_nominal_capacity"] == 1000
     assert summary["metrics"]["parking_capacity_required"] == 2398
@@ -422,7 +447,7 @@ def _junction_records_from_features(
 ) -> tuple[dict, ...]:
     """Read the explicit junction records embedded in the committed artefact."""
     junctions = tuple(dict(item) for item in payload["junctions"])
-    assert payload["junction_count"] == len(junctions) == 16
+    assert payload["junction_count"] == len(junctions) == 21
     for junction in junctions:
         assert set(junction) == {"id", "x", "y", "road_ids"}
         # each junction joins exactly two roads (main/branch or branch/loop)
@@ -440,7 +465,15 @@ def test_committed_design_roads_artifact_recomputes_topology():
     assert roads_path.is_file()
     payload = json.loads(roads_path.read_text(encoding="utf-8"))
     features = payload["features"]
-    assert len(features) == 41 == payload["road_count"]
+    assert len(features) == 44 == payload["road_count"]
+    assert payload["road_access_coverage"] == pytest.approx(1.0)
+    assert len(payload["group_access"]) == 17
+    assert all(item["served"] for item in payload["group_access"])
+    assert len(payload["dead_end_justification"]) == (
+        summary["metrics"]["dead_end_justified_count"]
+        + summary["metrics"]["dead_end_unfinished_count"]
+        + summary["metrics"]["dead_end_unclassified_count"]
+    )
     assert hashlib.sha256(roads_path.read_bytes()).hexdigest() == (
         summary["design_roads"]["sha256"]
     )
@@ -448,8 +481,8 @@ def test_committed_design_roads_artifact_recomputes_topology():
     junctions = _junction_records_from_features(payload)
     topology = noded_road_topology(roads, junctions)
     assert topology.component_count == 1
-    assert topology.road_count == 41
-    assert topology.explicit_junction_count == 16
+    assert topology.road_count == 44
+    assert topology.explicit_junction_count == 21
     # the endpoint-gap check must be a real measurement from committed evidence,
     # not the empty-set default: junction records carry both member roads.
     assert topology.max_endpoint_gap_m == 0.0

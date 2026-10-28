@@ -37,6 +37,62 @@
       "message": "the recorded capacity is the Agent's assumed nominal capacity (2 proposed entrances x declared spaces/entrance), not a verified capacity; no garage layout exists, so capacity is deferred"
     },
     {
+      "id": "PARKING_ENTRANCE_CONNECTION",
+      "status": "info",
+      "value": 0.4,
+      "required": "connected entrances",
+      "message": "entrance points are Points (not polygon faces); connection is distance to the nearest road centreline <= half width + 1 m. Existing designer-marked garage faces have no designed driveway, so they are reported as not connected rather than assumed",
+      "detail": {
+        "entrances": [
+          {
+            "entrance_id": "SK-GAR-0001",
+            "status": "existing",
+            "connected": false,
+            "distance_m": 25.411120786892965,
+            "nearest_road_id": "MAIN-02",
+            "reason": "designer-marked garage face; driveway connection not designed (25.411 m from the nearest centreline)"
+          },
+          {
+            "entrance_id": "SK-GAR-0002",
+            "status": "existing",
+            "connected": false,
+            "distance_m": 18.827450986617727,
+            "nearest_road_id": "BR-G-07",
+            "reason": "designer-marked garage face; driveway connection not designed (18.827 m from the nearest centreline)"
+          },
+          {
+            "entrance_id": "SK-GAR-0003",
+            "status": "existing",
+            "connected": false,
+            "distance_m": 25.71443618054793,
+            "nearest_road_id": "MAIN-25",
+            "reason": "designer-marked garage face; driveway connection not designed (25.714 m from the nearest centreline)"
+          },
+          {
+            "entrance_id": "GARAGE-ENTRANCE-P01",
+            "status": "proposed",
+            "connected": true,
+            "distance_m": 0.0,
+            "nearest_road_id": "MAIN-08",
+            "reason": "point is 0.000 m from the nearest centreline, within half the 12.0 m road width + 1.0 m"
+          },
+          {
+            "entrance_id": "GARAGE-ENTRANCE-P02",
+            "status": "proposed",
+            "connected": true,
+            "distance_m": 1.6681362918762538e-14,
+            "nearest_road_id": "MAIN-21",
+            "reason": "point is 0.000 m from the nearest centreline, within half the 12.0 m road width + 1.0 m"
+          }
+        ],
+        "disconnected_ids": [
+          "SK-GAR-0001",
+          "SK-GAR-0002",
+          "SK-GAR-0003"
+        ]
+      }
+    },
+    {
       "id": "PARKING_LAYOUT",
       "status": "deferred",
       "value": "not_designed",
@@ -99,6 +155,356 @@
       "message": "corridor-union piece count is paved coverage, not centreline topology; it is published for continuity and does not gate"
     },
     {
+      "id": "ROAD_ACCESS_COVERAGE",
+      "status": "pass",
+      "value": 1.0,
+      "required": 1.0,
+      "message": "every group with buildings has an access road whose terminal is within clearance + 0.5 m of that group's buildings, lies outside the footprints and whose route crosses them by <= 0.1 m; this is a geometric access relation, not merely a connected-component count",
+      "detail": {
+        "groups_total": 17,
+        "groups_served": 17,
+        "unserved_group_ids": [],
+        "max_terminal_distance_m": 3.4999990000000145,
+        "group_access": [
+          {
+            "group_id": "G-01",
+            "building_ids": [
+              "SK-BLD-0007",
+              "SK-BLD-0015",
+              "SK-BLD-0021",
+              "SK-BLD-0025",
+              "SK-BLD-0032",
+              "SK-BLD-0034",
+              "SK-BLD-0035",
+              "SK-BLD-0038",
+              "SK-BLD-0061"
+            ],
+            "served": true,
+            "access_road_id": "BR-G-01",
+            "terminal_xy": [
+              204.5930225394812,
+              612.77806003196
+            ],
+            "nearest_building_id": "SK-BLD-0061",
+            "terminal_to_building_m": 3.4999989999999825,
+            "route_crossing_length_m": 0.0,
+            "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+          },
+          {
+            "group_id": "G-02",
+            "building_ids": [
+              "SK-BLD-0009",
+              "SK-BLD-0010",
+              "SK-BLD-0014",
+              "SK-BLD-0016",
+              "SK-BLD-0020",
+              "SK-BLD-0022",
+              "SK-BLD-0024"
+            ],
+            "served": true,
+            "access_road_id": "BR-G-02",
+            "terminal_xy": [
+              307.19812484872534,
+              245.11737789684884
+            ],
+            "nearest_building_id": "SK-BLD-0010",
+            "terminal_to_building_m": 3.4999990000000007,
+            "route_crossing_length_m": 0.0,
+            "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+          },
+          {
+            "group_id": "G-03",
+            "building_ids": [
+              "SK-BLD-0049",
+              "SK-BLD-0050",
+              "SK-BLD-0052",
+              "SK-BLD-0054",
+              "SK-BLD-0056",
+              "SK-BLD-0057"
+            ],
+            "served": true,
+            "access_road_id": "BR-G-03",
+            "terminal_xy": [
+              120.89913495183204,
+              152.89360960686366
+            ],
+            "nearest_building_id": "SK-BLD-0057",
+            "terminal_to_building_m": 3.499999000000005,
+            "route_crossing_length_m": 0.0,
+            "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+          },
+          {
+            "group_id": "G-04",
+            "building_ids": [
+              "SK-BLD-0040",
+              "SK-BLD-0041",
+              "SK-BLD-0042",
+              "SK-BLD-0043",
+              "SK-BLD-0044"
+            ],
+            "served": true,
+            "access_road_id": "BR-G-04",
+            "terminal_xy": [
+              259.5373634518321,
+              443.91083710686365
+            ],
+            "nearest_building_id": "SK-BLD-0042",
+            "terminal_to_building_m": 3.499998999999994,
+            "route_crossing_length_m": 0.0,
+            "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+          },
+          {
+            "group_id": "G-05",
+            "building_ids": [
+              "SK-BLD-0002",
+              "SK-BLD-0017",
+              "SK-BLD-0033"
+            ],
+            "served": true,
+            "access_road_id": "BR-G-05",
+            "terminal_xy": [
+              32.495631311261754,
+              436.70291090117996
+            ],
+            "nearest_building_id": "SK-BLD-0002",
+            "terminal_to_building_m": 3.4999990000000043,
+            "route_crossing_length_m": 0.0,
+            "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+          },
+          {
+            "group_id": "G-06",
+            "building_ids": [
+              "SK-BLD-0003",
+              "SK-BLD-0005",
+              "SK-BLD-0008"
+            ],
+            "served": true,
+            "access_road_id": "BR-G-06",
+            "terminal_xy": [
+              165.5664030478256,
+              149.70176046639037
+            ],
+            "nearest_building_id": "SK-BLD-0005",
+            "terminal_to_building_m": 3.4999989999999888,
+            "route_crossing_length_m": 0.0,
+            "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+          },
+          {
+            "group_id": "G-07",
+            "building_ids": [
+              "SK-BLD-0004",
+              "SK-BLD-0013",
+              "SK-BLD-0018"
+            ],
+            "served": true,
+            "access_road_id": "BR-G-07",
+            "terminal_xy": [
+              89.97410178701078,
+              116.26699318587342
+            ],
+            "nearest_building_id": "SK-BLD-0004",
+            "terminal_to_building_m": 3.4999990000000003,
+            "route_crossing_length_m": 0.0,
+            "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+          },
+          {
+            "group_id": "G-08",
+            "building_ids": [
+              "SK-BLD-0006",
+              "SK-BLD-0011",
+              "SK-BLD-0012"
+            ],
+            "served": true,
+            "access_road_id": "BR-G-09",
+            "terminal_xy": [
+              235.5553018335334,
+              110.47572432209299
+            ],
+            "nearest_building_id": "SK-BLD-0006",
+            "terminal_to_building_m": 2.894807622231173,
+            "route_crossing_length_m": 0.0,
+            "reason": "access-road terminal is 2.895 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+          },
+          {
+            "group_id": "G-09",
+            "building_ids": [
+              "SK-BLD-0029",
+              "SK-BLD-0031",
+              "SK-BLD-0036"
+            ],
+            "served": true,
+            "access_road_id": "BR-G-09",
+            "terminal_xy": [
+              240.7398633050156,
+              110.36541450355081
+            ],
+            "nearest_building_id": "SK-BLD-0029",
+            "terminal_to_building_m": 3.499998999999994,
+            "route_crossing_length_m": 0.0,
+            "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+          },
+          {
+            "group_id": "G-10",
+            "building_ids": [
+              "SK-BLD-0045",
+              "SK-BLD-0051",
+              "SK-BLD-0055"
+            ],
+            "served": true,
+            "access_road_id": "BR-G-10",
+            "terminal_xy": [
+              288.78095757412234,
+              225.97629217046463
+            ],
+            "nearest_building_id": "SK-BLD-0055",
+            "terminal_to_building_m": 3.4999990000000145,
+            "route_crossing_length_m": 0.0,
+            "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+          },
+          {
+            "group_id": "G-11",
+            "building_ids": [
+              "SK-BLD-MRG-0002",
+              "SK-BLD-MRG-0004",
+              "SK-BLD-MRG-0005"
+            ],
+            "served": true,
+            "access_road_id": "BR-G-11",
+            "terminal_xy": [
+              93.79980775460419,
+              250.4758924613709
+            ],
+            "nearest_building_id": "SK-BLD-MRG-0002",
+            "terminal_to_building_m": 3.4999990000000025,
+            "route_crossing_length_m": 0.0,
+            "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+          },
+          {
+            "group_id": "G-12",
+            "building_ids": [
+              "SK-BLD-0023",
+              "SK-BLD-0026"
+            ],
+            "served": true,
+            "access_road_id": "ACC-G-12",
+            "terminal_xy": [
+              169.009433,
+              446.5880463635157
+            ],
+            "nearest_building_id": "SK-BLD-0026",
+            "terminal_to_building_m": 3.499999000000002,
+            "route_crossing_length_m": 0.0,
+            "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+          },
+          {
+            "group_id": "G-13",
+            "building_ids": [
+              "SK-BLD-0028"
+            ],
+            "served": true,
+            "access_road_id": "BR-G-07",
+            "terminal_xy": [
+              89.97410178701078,
+              116.26699318587342
+            ],
+            "nearest_building_id": "SK-BLD-0028",
+            "terminal_to_building_m": 3.1876831467565885,
+            "route_crossing_length_m": 0.0,
+            "reason": "access-road terminal is 3.188 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+          },
+          {
+            "group_id": "G-14",
+            "building_ids": [
+              "SK-BLD-0039"
+            ],
+            "served": true,
+            "access_road_id": "BR-G-14",
+            "terminal_xy": [
+              142.31938469454892,
+              27.521785862260035
+            ],
+            "nearest_building_id": "SK-BLD-0039",
+            "terminal_to_building_m": 3.4979873463090696,
+            "route_crossing_length_m": 0.0,
+            "reason": "access-road terminal is 3.498 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+          },
+          {
+            "group_id": "G-15",
+            "building_ids": [
+              "SK-BLD-0048"
+            ],
+            "served": true,
+            "access_road_id": "BR-G-15",
+            "terminal_xy": [
+              317.5303273351603,
+              398.8005544214012
+            ],
+            "nearest_building_id": "SK-BLD-0048",
+            "terminal_to_building_m": 3.4999989999999905,
+            "route_crossing_length_m": 0.0,
+            "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+          },
+          {
+            "group_id": "G-16",
+            "building_ids": [
+              "SK-BLD-MRG-0001"
+            ],
+            "served": true,
+            "access_road_id": "BR-G-16",
+            "terminal_xy": [
+              84.56365553809306,
+              334.399530903572
+            ],
+            "nearest_building_id": "SK-BLD-MRG-0001",
+            "terminal_to_building_m": 3.4999990000000025,
+            "route_crossing_length_m": 0.0,
+            "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+          },
+          {
+            "group_id": "G-17",
+            "building_ids": [
+              "SK-BLD-MRG-0003"
+            ],
+            "served": true,
+            "access_road_id": "BR-G-17",
+            "terminal_xy": [
+              332.40709373542757,
+              308.32345318146946
+            ],
+            "nearest_building_id": "SK-BLD-MRG-0003",
+            "terminal_to_building_m": 3.499998999999997,
+            "route_crossing_length_m": 0.0,
+            "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+          }
+        ]
+      }
+    },
+    {
+      "id": "DEAD_END_JUSTIFICATION",
+      "status": "info",
+      "value": "17/24",
+      "required": "justified dead ends",
+      "message": "a branch/access terminal within clearance + 0.5 m of a group is a planned terminal; a main-road stub far from buildings is reported as an unfinished connection; anything else remains unclassified and must be reviewed",
+      "detail": {
+        "classes": {
+          "group_terminal_justified": 17,
+          "main_stub_unfinished": 5,
+          "unclassified": 2
+        },
+        "unfinished_ids": [
+          "DE-02",
+          "DE-06",
+          "DE-09",
+          "DE-15",
+          "DE-24"
+        ],
+        "unclassified_ids": [
+          "DE-17",
+          "DE-18"
+        ]
+      }
+    },
+    {
       "id": "ROAD_WIDTH_ASSIGNMENT",
       "status": "info",
       "value": [
@@ -117,7 +523,7 @@
     {
       "id": "CANDIDATE_OPEN_SPACE_RATIO",
       "status": "info",
-      "value": 0.6303863597090935,
+      "value": 0.6302349445165348,
       "required": "none",
       "message": "candidate open-space share under the recorded filters (5 m boundary setback, 0.5 m obstacle buffer, supplementary polygons >= 100 m2, area = sum of recorded classifications); it is not designed green",
       "detail": {
@@ -131,14 +537,14 @@
     {
       "id": "UNBUILT_RATIO",
       "status": "info",
-      "value": 0.65339910822412,
+      "value": 0.6534520856001206,
       "required": "none",
       "message": "geometric unbuilt-area ratio: area of (site boundary - 5 m setback) minus (buildings + road corridors + sidewalks), computed as a polygon-union area"
     },
     {
       "id": "DESIGNED_GREEN_RATIO",
       "status": "deferred",
-      "value": 0.06587448969490359,
+      "value": 0.06538561066069971,
       "required": 0.3,
       "message": "only classified cluster/strip green counts; usable-area, continuity and green-quality criteria are not defined, so the declared target is not met under this definition yet"
     },
@@ -178,51 +584,54 @@
     "focus_households": 352,
     "focus_area_m2": 4224.0,
     "focus_min_ns_gap_m": 20.0,
-    "road_area_m2": 26170.241651018805,
-    "sidewalk_area_m2": 9866.177785935128,
-    "candidate_open_space_area_m2": 128676.22029239938,
-    "candidate_open_space_ratio": 0.6303863597090935,
-    "unbuilt_area_m2": 133373.64664347022,
-    "unbuilt_ratio": 0.65339910822412,
+    "road_area_m2": 25772.039089864433,
+    "sidewalk_area_m2": 9538.685434220975,
+    "candidate_open_space_area_m2": 128645.3130013814,
+    "candidate_open_space_ratio": 0.6302349445165348,
+    "unbuilt_area_m2": 133384.460533079,
+    "unbuilt_ratio": 0.6534520856001206,
     "open_space_filters": {
       "boundary_setback_m": 5.0,
       "obstacle_buffer_m": 0.5,
       "min_supplementary_polygon_m2": 100.0
     },
-    "designed_green_area_m2": 13446.484393384519,
-    "designed_green_ratio": 0.06587448969490359,
+    "designed_green_area_m2": 13346.693042679242,
+    "designed_green_ratio": 0.06538561066069971,
     "green_target_ratio": 0.3,
     "road_noded_component_count": 1,
     "corridor_union_pieces": 1,
     "road_topology": {
       "schema_id": "dgcad.design-road-topology.v0.1",
-      "road_count": 41,
-      "noded_segment_count": 55,
-      "node_count": 51,
-      "edge_count": 55,
+      "road_count": 44,
+      "noded_segment_count": 65,
+      "node_count": 59,
+      "edge_count": 65,
       "component_count": 1,
-      "cyclomatic": 5,
+      "cyclomatic": 7,
       "degree_histogram": {
-        "1": 21,
+        "1": 24,
         "2": 3,
-        "3": 25,
-        "4": 2
+        "3": 28,
+        "4": 4
       },
-      "dead_end_count": 21,
-      "junction_count": 27,
-      "explicit_junction_count": 16,
+      "dead_end_count": 24,
+      "junction_count": 32,
+      "explicit_junction_count": 21,
       "max_endpoint_gap_m": 0.0,
       "closed_ring_count": 3,
       "components": [
         {
-          "node_count": 51,
-          "edge_count": 55,
+          "node_count": 59,
+          "edge_count": 65,
           "road_ids": [
             "ACC-FOCUS-01",
+            "ACC-G-12",
             "BR-FOCUS",
+            "BR-G-01",
             "BR-G-02",
             "BR-G-03",
             "BR-G-04",
+            "BR-G-05",
             "BR-G-06",
             "BR-G-07",
             "BR-G-08",
@@ -269,6 +678,11 @@
           "state": "shared_vertex"
         },
         {
+          "road_id": "BR-G-01",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
           "road_id": "BR-G-02",
           "class_name": "branch",
           "state": "dead_end"
@@ -280,6 +694,11 @@
         },
         {
           "road_id": "BR-G-04",
+          "class_name": "branch",
+          "state": "dead_end"
+        },
+        {
+          "road_id": "BR-G-05",
           "class_name": "branch",
           "state": "dead_end"
         },
@@ -314,6 +733,11 @@
           "state": "dead_end"
         },
         {
+          "road_id": "ACC-G-12",
+          "class_name": "access",
+          "state": "dead_end"
+        },
+        {
           "road_id": "BR-G-13",
           "class_name": "branch",
           "state": "dead_end"
@@ -345,10 +769,27 @@
         }
       ]
     },
-    "road_count": 41,
-    "junction_count": 27,
-    "dead_end_count": 21,
-    "explicit_junction_count": 16,
+    "road_count": 44,
+    "road_class_counts": {
+      "main": 25,
+      "branch": 17,
+      "access": 2
+    },
+    "road_access_coverage": 1.0,
+    "road_groups_total": 17,
+    "road_groups_served": 17,
+    "road_groups_unserved": [],
+    "dead_end_justified_count": 17,
+    "dead_end_unfinished_count": 5,
+    "dead_end_unclassified_count": 2,
+    "entrance_count": 5,
+    "entrance_connected_count": 2,
+    "road_building_overlap_m2_new_access": 1.3364783241726115,
+    "road_building_overlap_m2_main": 38.19068149970835,
+    "road_building_overlap_m2_total": 38.73915403620522,
+    "junction_count": 32,
+    "dead_end_count": 24,
+    "explicit_junction_count": 21,
     "closed_ring_count": 3,
     "max_endpoint_gap_m": 0.0,
     "focus_group_id": "G-01",

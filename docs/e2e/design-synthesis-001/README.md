@@ -8,17 +8,20 @@ this candidate; M4c-1a (0.16.0) diagnosed and fixed it — see below. M4c-1c
 designed green is separated from open space, parking capacity is split from
 the requirement, and every design-basis parameter carries provenance with
 `confirmed: false`. M4c-1d (0.18.0) tightened this further: `pass` is reserved
-for the 5 independently geometry-verified checks, FAR is split into an
+for the independently geometry-verified checks, FAR is split into an
 arithmetic scenario and a deferred final verification, parking capacity is
 named as assumed nominal, open space is dual-measured, and the basis
 provenance authentication is `declarative` (a `confirmed: true` state requires
-an `approval_ref`).
+an `approval_ref`). M4c-1b (0.19.0) made the first design-geometry change:
+the network grew to **44 design roads** and all 17 groups are served —
+see below.
 
 This is the first round of Milestone 4c. The Agent does not ask the designer to
 review sketch geometry. It takes the sketch's spatial intent, makes design
 decisions, changes the building/road/green organization, checks the declared
 constraints, and produces an editable schematic design — a focus-block detail
-sheet plus a site key plan (7 of 55 buildings; 10 of 41 design roads drawn).
+sheet plus a site key plan (7 of 55 buildings; only the design-road
+centerlines inside the plan box are drawn).
 
 ## Road-topology defect — found by M4c-0, fixed in M4c-1a
 
@@ -45,9 +48,34 @@ misalignment surfaces first as component count >1. `ROAD_CORRIDOR_COVERAGE`
 (117/141 at 8 m) remains an optional source-skeleton preprocessor — not a
 connectivity proof and not the design base.
 
-Evidence: `design-roads.geojson` (41 centerlines + 16 explicit junction
-records), `design-consistency.json`, and
-`docs/e2e/open-source-reuse-001/exp-c/metrics.json` (historical measurement).
+Evidence (as measured at M4c-0 time): `docs/e2e/open-source-reuse-001/exp-c/metrics.json`; the current `design-roads.geojson` (44 centerlines + 21 junction records) supersedes the 41/16 counts.
+
+## Road service coverage — added in M4c-1b
+
+M4c-1b (0.19.0) made the first design-geometry change: the network grew from
+41 to **44 design roads** (25 main × 12 m + 17 branch × 7 m + 2 access × 4 m)
+and every group is now served:
+
+- Road access coverage **1.0 — 17/17 groups** (`ROAD_ACCESS_COVERAGE` pass);
+  G-05 is served by branch BR-G-05, G-12 by access road ACC-G-12 (a 7 m branch
+  cannot satisfy the 3 m focus-building clearance there).
+- Connection terminals stop 3.5 m from building footprints (measured
+  3.499999 m); no access route crosses a building; the new-access/building
+  overlap totals 1.34 m², within the ≤1.0 m²-per-branch budget (single largest
+  0.92 m²).
+- Every dead end is justified: 24 = 17 justified + 5 unfinished +
+  2 unclassified (`DEAD_END_JUSTIFICATION` info).
+- Entrance honesty (`PARKING_ENTRANCE_CONNECTION` info): only 2 of 5 garage
+  entrances are connected by a designed road; the 3 existing garage positions
+  are area markers **18.83–25.71 m** from the carriageway with no designed access
+  lane.
+- A **pre-existing 38.19 m² main-road/building overlap (MAIN-19/08**, source
+  alignment vs rough background**)** is a known unresolved conflict, deferred
+  to M4c-2; the access loop crosses no building.
+- Topology rebaseline: 59 nodes / 65 segments, cyclomatic 7, dead ends 24,
+  junctions 32 (21 explicit records), closed rings 3, `max_endpoint_gap_m`
+  0.0, 1 component. Evidence: `design-roads.geojson` regenerated (44
+  centerlines + 21 junction records, sha 59df13d8…).
 
 ## What the Agent changed
 
@@ -59,7 +87,7 @@ The design is not a trace of the sketch. The Agent:
 2. reorganized the focus group into rows with **20 m north-south spacing**,
    internal green strips and an access loop;
 3. replaced the 333-edge skeleton mesh with a simplified road hierarchy:
-   merged main-road alignments, one branch per group and a focus access loop;
+   merged main-road alignments, group branch connectors and a focus access loop;
 4. assigned road widths from the declared class: main 12 m, branch 7 m,
    access 4 m, with a 2 m sidewalk band;
 5. allocated green space around the blocks and added two garage entrances to
@@ -115,7 +143,7 @@ recorded as deferred**, to be extended group by group.
 
 ## Plan and CAD output
 
-`design-proposal.dxf` (208 entities, audit 0/0, readback 208/208 pass):
+`design-proposal.dxf` (**206 entities** after M4c-1b; was 208, audit 0/0, readback 206/206 pass):
 
 - layers: site boundary, building outline, unit line, main/branch/access road,
   sidewalk, green, entrance, dimensions, title, legend, north, scale, key plan;
@@ -165,8 +193,8 @@ dependency), so treat it as illustrative rather than reproducible output.
 - `design-consistency.json` — all declared checks; connectivity is the noded
   centerline graph (`ROAD_CORRIDOR_COVERAGE` is the informational corridor measure)
 - `design-diff.json` — what changed, why, what was preserved, what was dropped
-- `design-roads.geojson` — the 41 design roads as committed evidence:
-  41 centerlines + 16 explicit junction records (id/x/y/road_ids)
+- `design-roads.geojson` — the 44 design roads as committed evidence:
+  44 centerlines + 21 explicit junction records (id/x/y/road_ids)
 - `draft-manifest.json` — persistent autonomous draft, revision 1
 - `scene-snapshot.json` — proposal-preview design objects
 - `design-proposal.dxf`, `cad-ir.json`, `readback-manifest.json`,

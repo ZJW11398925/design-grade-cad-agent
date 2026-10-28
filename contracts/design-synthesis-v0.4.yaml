@@ -1,5 +1,14 @@
 schema_id: dgcad.design-synthesis.v0.4
-status: living_contract
+status: superseded
+superseded_by: design-synthesis-v0.5.yaml
+superseded_note: >-
+  Historical contract, kept as evidence. v0.5 adds the three geometric access
+  checks (road_access_coverage, parking_entrance_connection,
+  dead_end_justification) to verification.required and constraints.required, the
+  access rules (terminal clearance/containment/crossing, coverage definition,
+  entrance Point + half-width connection, dead-end classification) and the
+  "access is a geometric relation, not a component count" rule. Do not edit;
+  cite v0.5 for living rules.
 supersedes: design-synthesis-v0.3.yaml
 scope: CASE-SKETCH-001 autonomous design synthesis pilot
 purpose: >-

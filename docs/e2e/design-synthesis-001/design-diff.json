@@ -257,11 +257,11 @@
         "width_m": 12.0
       },
       "branch": {
-        "count": 15,
+        "count": 17,
         "width_m": 7.0
       },
       "access": {
-        "count": 1,
+        "count": 2,
         "width_m": 4.0
       }
     },
@@ -271,20 +271,20 @@
     "branch_or_access_count": 268
   },
   "green": {
-    "cluster_area_m2": 10692.841181219279,
-    "strip_area_m2": 2753.6432121652397,
-    "supplementary_area_m2": 115229.73589901485,
-    "candidate_open_space_area_m2": 128676.22029239938,
-    "candidate_open_space_ratio": 0.6303863597090935,
-    "unbuilt_area_m2": 133373.64664347022,
-    "unbuilt_ratio": 0.65339910822412,
+    "cluster_area_m2": 10784.402044403503,
+    "strip_area_m2": 2562.29099827574,
+    "supplementary_area_m2": 115298.61995870215,
+    "candidate_open_space_area_m2": 128645.3130013814,
+    "candidate_open_space_ratio": 0.6302349445165348,
+    "unbuilt_area_m2": 133384.460533079,
+    "unbuilt_ratio": 0.6534520856001206,
     "open_space_filters": {
       "boundary_setback_m": 5.0,
       "obstacle_buffer_m": 0.5,
       "min_supplementary_polygon_m2": 100.0
     },
-    "designed_green_area_m2": 13446.484393384519,
-    "designed_green_ratio": 0.06587448969490359,
+    "designed_green_area_m2": 13346.693042679242,
+    "designed_green_ratio": 0.06538561066069971,
     "green_target_ratio": 0.3,
     "dropped_cluster_ids": []
   },
