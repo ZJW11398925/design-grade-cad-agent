@@ -7,7 +7,12 @@ this candidate; M4c-1a (0.16.0) diagnosed and fixed it — see below. M4c-1c
 (0.17.0) made the evidence semantics honest: checks are pass/info/deferred,
 designed green is separated from open space, parking capacity is split from
 the requirement, and every design-basis parameter carries provenance with
-`confirmed: false`.
+`confirmed: false`. M4c-1d (0.18.0) tightened this further: `pass` is reserved
+for the 5 independently geometry-verified checks, FAR is split into an
+arithmetic scenario and a deferred final verification, parking capacity is
+named as assumed nominal, open space is dual-measured, and the basis
+provenance authentication is `declarative` (a `confirmed: true` state requires
+an `approval_ref`).
 
 This is the first round of Milestone 4c. The Agent does not ask the designer to
 review sketch geometry. It takes the sketch's spatial intent, makes design
@@ -73,22 +78,23 @@ not fit the buildable block are recorded as dropped
 | Staircase module | 24 × 11 m (2 households/floor) | provisional design assumption; replaces the pending unit-type library |
 | Floors / floor height | 11 / 3.0 m → 33.0 m | design assumption |
 | Household gross area | 132.0 m² | design assumption |
-| FAR | 1.55–1.60 | **required**; achieved 1.565 (design-basis arithmetic, not a spatial design result) |
-| Parking | ≥1 space/household; 500 spaces/entrance | entrance count **pass** (5 = 3 existing capacity 0 + 2 proposed capacity 500); requirement 2,398 spaces is arithmetic; recorded capacity 1,000 — capacity and layout **deferred** |
+| FAR | 1.55–1.60 | **required**; achieved 1.565 = arithmetic scenario (`FAR_ARITHMETIC_SCENARIO`, info); final FAR verification **deferred** (needs confirmed basis + full-site design) |
+| Parking | ≥1 space/household; 500 spaces/entrance | entrance count `info` — a count check under a 500-spaces-per-entrance assumption, **not** a capacity result; **assumed nominal capacity 1,000** vs 2,398 required (capacity and layout **deferred**); entrances: 3 existing capacity 0 + 2 proposed capacity 500 |
 | North-south spacing | ≥20 m | **required**; focus group 20.0 m |
 | Side spacing | 13 m | design assumption |
 | Boundary setback | 5 m | design assumption |
 | Building-road clearance | 3 m | design assumption |
 | Road widths | main 12 m, branch 7 m, access 4 m | design assumption |
-| Green | ≥30% designed green | **deferred, not achieved**: designed green ratio 6.6% (13,446 m²; supplementary covers 89.6% of open space); open-space ratio 63.0% (128,676 m²) is open space, not designed green |
+| Green | ≥30% designed green | **deferred, not achieved**: designed green ratio 6.6% (13,446 m²; supplementary covers 89.6% of open space); open space is dual-measured — `candidate_open_space_ratio` 63.0% (128,676 m²; classified-area sum with filters 5.0 m setback / 0.5 m obstacle buffer / 100 m² min polygon) and `unbuilt_ratio` 65.3% (133,374 m²; geometric union). Both ratios use the full published site area as denominator; the filtered/unbuilt areas are measured inside the 5 m setback boundary. Neither is designed green. |
 | Drawing standard | `DGCAD-SCHEMATIC-001` | internal schematic standard |
 
 The basis is `design-basis.yaml` (`design-assumption-v0.2`, 0.2.0): 21
 parameters with per-parameter provenance — 5 `declared_requirement`,
 2 `designer_stated`, 3 `inferred_from_sketch`, 11 `agent_assumption` —
-**all `confirmed: false`**; the Agent cannot self-confirm them. Changing the
-basis and re-running regenerates the design; the designer does not need to
-re-review the sketch.
+**all `confirmed: false`**; the Agent cannot self-confirm them. Provenance
+authentication is `declarative` (declared, not certified): a `confirmed: true`
+state requires an `approval_ref`. Changing the basis and re-running regenerates
+the design; the designer does not need to re-review the sketch.
 
 ## Full-site context and focus block
 

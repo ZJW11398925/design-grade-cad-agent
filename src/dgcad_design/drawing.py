@@ -503,7 +503,9 @@ def build_drawing_elements(
                 f"FAR {metrics['far']:.3f} | {metrics['households']} HH | "
                 f"{metrics['parking_spaces']} PARKING | "
                 f"{metrics['parking_entrances']} ENTRANCES | "
-                f"OPEN SPACE {metrics['open_space_ratio'] * 100:.1f}% | "
+                f"UNBUILT {metrics['unbuilt_ratio'] * 100:.1f}% | "
+                f"CAND OPEN SPACE "
+                f"{metrics['candidate_open_space_ratio'] * 100:.1f}% | "
                 f"DESIGNED GREEN "
                 f"{metrics['designed_green_ratio'] * 100:.1f}% (DEFERRED)"
             ),

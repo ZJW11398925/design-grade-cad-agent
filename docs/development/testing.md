@@ -6,17 +6,17 @@ Testing is the primary engineering control in this project. Research claims are 
 
 | Layer | Purpose | Current state |
 |---|---|---|
-| L0 Contract / conformance | Prove governance invariants: identity, revision, authority, dependency, idempotency, contract↔module sync | **61 tests passing** (Foundation 21, Runtime 22, Deployment 8, Design contract 10) |
+| L0 Contract / conformance | Prove governance invariants: identity, revision, authority, dependency, idempotency, contract↔module sync | **62 tests passing** (Foundation 21, Runtime 22, Deployment 8, Design contract 11) |
 | L1 Domain & design topology | Prove building/road domain objects, unknown-state preservation, atomic topology changes, validators and the noded design-road topology | **43 tests passing** (Domain 26, Road topology 3, Design topology 14) |
 | L2 Integration | Prove the synthetic E2E pipeline, scoped mutation/rebuild, adversarial delivery and semantic/dependency closure | **45 tests (8 E2E-001 + 6 E2E-002 + 20 E2E-003 + 11 E2E-003b), all passing** |
 | L2 CAD delivery & evidence | Prove CAD-IR mapping, DXF compile/readback and third-party evidence integrity | **11 tests passing** (CAD delivery 9, Third-party evidence 2) |
 | L2 Analysis | Prove solar position, confirmed/unknown blockers, context completeness, dependency fingerprint | **7 tests passing** |
 | L2 Sketch & handoff evidence | Prove the sketch case's privacy boundary, designer-confirmed semantics, the scope-aware handoff gate and the blocked pilot | **49 tests passing** (Sketch evidence 11, Sketch handoff gate 32, Sketch handoff A 6) |
-| L2 Design synthesis & reuse | Prove the autonomous draft basis/layout/checks/DXF, basis provenance, honest green/parking semantics and the reuse matrix | **33 tests passing** (Design synthesis 9, Design basis 14, Green/parking semantics 7, Open-source reuse 3) |
+| L2 Design synthesis & reuse | Prove the autonomous draft basis/layout/checks/DXF, basis provenance, honest green/parking semantics and the reuse matrix | **41 tests passing** (Design synthesis 9, Design basis 20, Green/parking semantics 9, Open-source reuse 3) |
 | L3 Third-party | Prove semantic round-trip through independent CAD/BIM applications | partial evidence: AutoCAD 2024 Core Console semantic pass with serialization differences; no LibreCAD/FreeCAD/GUI matrix |
 | L4 Security / privacy & lifecycle | Prove loopback, roles, pairing, lease, bridge expiry, stale writers and the structured DXF privacy scan | **34 tests passing** (Lifecycle 14, Privacy scan 20) |
 
-Layer totals partition all 283 collected tests with no double counting. (Taxonomy rebuilt in 0.16.0: the previous table counted the 14 lifecycle tests in both L0 and L4 and left 67 tests unmapped.)
+Layer totals partition all 292 collected tests with no double counting. (Taxonomy rebuilt in 0.16.0: the previous table counted the 14 lifecycle tests in both L0 and L4 and left 67 tests unmapped.)
 
 A passing lower layer never promotes a higher-layer claim automatically.
 
@@ -42,9 +42,9 @@ A passing lower layer never promotes a higher-layer claim automatically.
 | Sketch handoff A | `tests/e2e/test_sketch_handoff_a.py` | 6 |
 | Design synthesis | `tests/test_design_synthesis.py` | 9 |
 | Design topology | `tests/test_design_topology.py` | 14 |
-| Design contract | `tests/test_design_contract.py` | 10 |
-| Design basis | `tests/test_design_basis.py` | 14 |
-| Green/parking semantics | `tests/test_green_parking_semantics.py` | 7 |
+| Design contract | `tests/test_design_contract.py` | 11 |
+| Design basis | `tests/test_design_basis.py` | 20 |
+| Green/parking semantics | `tests/test_green_parking_semantics.py` | 9 |
 | Privacy scan | `tests/test_privacy_scan.py` | 20 |
 | Open-source reuse | `tests/test_open_source_reuse.py` | 3 |
 

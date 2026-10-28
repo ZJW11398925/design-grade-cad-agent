@@ -2,6 +2,67 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.18.0 — 2026-10-28
+
+### Changed
+
+- **M4c-1d — tightened pass semantics and metric definitions.** No design
+  geometry, CAD content or road topology changes; the checks are restructured so
+  that `pass` means what it says. The check set grows from 16 to **18**:
+  **5 pass / 8 info / 5 deferred**.
+
+  - **`pass` is now reserved for checks that verify generated geometry against
+    a declared constraint**: `FOCUS_NS_SPACING`, `FOCUS_BOUNDARY_SETBACK`,
+    `FOCUS_BUILDING_OVERLAP`, `FOCUS_ROAD_CLEARANCE`, `ROAD_CONNECTIVITY`.
+    Basis-derived checks report `info` when self-consistent and `fail` on
+    inconsistency; they never report `pass`.
+  - **FAR split**: `FAR_RANGE` → `FAR_ARITHMETIC_SCENARIO` (`info`; 1.5654 under
+    the current all-unconfirmed assumptions) plus a new
+    `FAR_FINAL_VERIFICATION` (`deferred`; can only be answered after the basis is
+    confirmed and the full-site design exists).
+  - **Parking naming**: `PARKING_CAPACITY` now records
+    `assumed_nominal_capacity_spaces` (1,000 = 2 proposed entrances × the
+    declared 500 spaces/entrance assumption), explicitly **not verified
+    capacity**; the entrance-count check is `info` under that assumption;
+    `PARKING_LAYOUT` remains deferred.
+  - **Unit count / road widths**: `UNIT_COUNT_PRESERVED` →
+    `UNIT_COUNT_BASIS_INVARIANT` (`info`), `ROAD_WIDTHS` →
+    `ROAD_WIDTH_ASSIGNMENT` (`info`); both keep their `derived_from` labels.
+  - **Open space split into two measured accounts**: `CANDIDATE_OPEN_SPACE_RATIO`
+    (`info`; 63.04 %, filtered: 5 m boundary setback, 0.5 m obstacle buffer,
+    supplementary polygons ≥ 100 m², area = sum of recorded classifications) and
+    a new `UNBUILT_RATIO` (`info`; **65.34 %**, geometric polygon-union area of
+    the site minus buildings/roads/sidewalks, no extra filters). The 30 %
+    designed-green target stays `deferred` (`DESIGNED_GREEN_RATIO` 6.59 %).
+  - **Design-basis provenance**: `confirmed: true` now requires a non-empty
+    `approval_ref`; provenance is explicitly declared
+    `provenance_authentication: declarative` in the contract and in
+    `design-summary.json`. This binds confirmation to an approval reference but
+    does **not** authenticate the author — real authentication remains part of
+    the authority-hardening task that must close before any autonomous canonical
+    write. The 21 basis parameters remain `confirmed: false`.
+  - **Contract** `design-synthesis-v0.4.yaml` (v0.3 superseded; gate register
+    re-pointed) updates the verification list (18 design checks + 3 DXF checks)
+    and rules (pass reserved for geometry verifications; basis-derived checks are
+    info; deferred is not pass; candidate/unbuilt definitions; provenance is
+    declarative).
+  - DXF title block now states `UNBUILT … | CAND OPEN SPACE … | DESIGNED GREEN …
+    (DEFERRED)` instead of reporting open space as "GREEN".
+
+- Evidence regenerated in one run: **18 checks = 5 pass + 8 info + 5 deferred**;
+  DXF still 208 entities, audit 0/0, readback 208/208, XDATA 11, privacy pass;
+  road topology and `design-roads.geojson` SHA-256 unchanged.
+- Docs: early 4c/M4c-0 checklists are annotated (not rewritten) with the
+  M4c-1c/1d definitions; the completed "merge PR #34" thread is removed from the
+  handoff; the mainline order is recorded as M4c-1d → M4c-1b → multi-candidate
+  evaluation → full-site expansion.
+
+### Verified
+
+- **292 passed** (`python -m pytest -q`): new basis approval-ref tests (20
+  basis tests), green/parking dual-account tests (9), contract tests expanded to
+  11 including the v0.4 evidence binding; no test was removed (283 → 292).
+
 ## 0.17.0 — 2026-10-28
 
 ### Changed

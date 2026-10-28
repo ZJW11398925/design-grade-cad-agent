@@ -12,6 +12,7 @@
     "version": "0.2.0",
     "design_authority": "rule_derived",
     "human_confirmed": false,
+    "provenance_authentication": "declarative",
     "parameter_sources": {
       "households_per_staircase_per_floor": {
         "source": "derived from the designer's confirmed 1/2/3-unit building types in CASE-SKETCH-001",
@@ -194,7 +195,7 @@
     "parking_spaces": 2398,
     "parking_entrances": 5,
     "parking_entrances_required": 5,
-    "parking_capacity_recorded": 1000,
+    "parking_assumed_nominal_capacity": 1000,
     "parking_capacity_required": 2398,
     "garage_layout": "not_designed",
     "focus_building_count": 7,
@@ -204,8 +205,15 @@
     "focus_min_ns_gap_m": 20.0,
     "road_area_m2": 26170.241651018805,
     "sidewalk_area_m2": 9866.177785935128,
-    "open_space_area_m2": 128676.22029239938,
-    "open_space_ratio": 0.6303863597090935,
+    "candidate_open_space_area_m2": 128676.22029239938,
+    "candidate_open_space_ratio": 0.6303863597090935,
+    "unbuilt_area_m2": 133373.64664347022,
+    "unbuilt_ratio": 0.65339910822412,
+    "open_space_filters": {
+      "boundary_setback_m": 5.0,
+      "obstacle_buffer_m": 0.5,
+      "min_supplementary_polygon_m2": 100.0
+    },
     "designed_green_area_m2": 13446.484393384519,
     "designed_green_ratio": 0.06587448969490359,
     "green_target_ratio": 0.3,
@@ -398,15 +406,15 @@
     "ok": true,
     "checks": [
       {
-        "id": "FAR_RANGE",
-        "status": "pass",
+        "id": "FAR_ARITHMETIC_SCENARIO",
+        "status": "info",
         "value": 1.5654107291796402,
         "required": [
           1.55,
           1.6
         ],
         "derived_from": "design_basis_arithmetic",
-        "message": "FAR is design-basis arithmetic (declared staircase/floor/dwelling-area assumptions over the site area), not a spatial design result"
+        "message": "FAR under the current (all-unconfirmed) design-basis assumptions; a scenario calculation, not a spatial design result and not a pass. The final FAR verification is deferred"
       },
       {
         "id": "PARKING_REQUIREMENT_ARITHMETIC",
@@ -418,17 +426,18 @@
       },
       {
         "id": "PARKING_ENTRANCE_COUNT",
-        "status": "pass",
+        "status": "info",
         "value": 5,
         "required": 5,
-        "message": "entrance COUNT satisfies the declared spaces-per-entrance assumption; this is not a parking capacity check"
+        "derived_from": "design_basis_arithmetic",
+        "message": "entrance COUNT under the declared 500-spaces-per-entrance assumption; this is not a parking capacity or layout check"
       },
       {
         "id": "PARKING_CAPACITY",
         "status": "deferred",
         "value": 1000,
         "required": 2398,
-        "message": "only the recorded entrance capacity is declared; the remaining spaces have no designed garage layout, so capacity is deferred"
+        "message": "the recorded capacity is the Agent's assumed nominal capacity (2 proposed entrances x declared spaces/entrance), not a verified capacity; no garage layout exists, so capacity is deferred"
       },
       {
         "id": "PARKING_LAYOUT",
@@ -438,8 +447,8 @@
         "message": "no garage geometry, aisle geometry or parking-space layout is designed; entrance count is not parking provision"
       },
       {
-        "id": "UNIT_COUNT_PRESERVED",
-        "status": "pass",
+        "id": "UNIT_COUNT_BASIS_INVARIANT",
+        "status": "info",
         "value": 109,
         "required": 109,
         "derived_from": "design_basis_arithmetic",
@@ -493,8 +502,8 @@
         "message": "corridor-union piece count is paved coverage, not centreline topology; it is published for continuity and does not gate"
       },
       {
-        "id": "ROAD_WIDTHS",
-        "status": "pass",
+        "id": "ROAD_WIDTH_ASSIGNMENT",
+        "status": "info",
         "value": [
           4.0,
           7.0,
@@ -509,11 +518,25 @@
         "message": "widths are assigned from the declared basis and checked for set membership; they are not an alignment or cross-section design result"
       },
       {
-        "id": "OPEN_SPACE_RATIO",
+        "id": "CANDIDATE_OPEN_SPACE_RATIO",
         "status": "info",
         "value": 0.6303863597090935,
         "required": "none",
-        "message": "share of the site left free by buildings and roads; this is NOT a designed-green ratio"
+        "message": "candidate open-space share under the recorded filters (5 m boundary setback, 0.5 m obstacle buffer, supplementary polygons >= 100 m2, area = sum of recorded classifications); it is not designed green",
+        "detail": {
+          "filters": {
+            "boundary_setback_m": 5.0,
+            "obstacle_buffer_m": 0.5,
+            "min_supplementary_polygon_m2": 100.0
+          }
+        }
+      },
+      {
+        "id": "UNBUILT_RATIO",
+        "status": "info",
+        "value": 0.65339910822412,
+        "required": "none",
+        "message": "geometric unbuilt-area ratio: area of (site boundary - 5 m setback) minus (buildings + road corridors + sidewalks), computed as a polygon-union area"
       },
       {
         "id": "DESIGNED_GREEN_RATIO",
@@ -528,6 +551,13 @@
         "value": null,
         "required": 20.0,
         "message": "the full-site layout is a coarse context; the 20 m gap is enforced in the focus group and must be extended group by group"
+      },
+      {
+        "id": "FAR_FINAL_VERIFICATION",
+        "status": "deferred",
+        "value": null,
+        "required": "confirmed design basis + full-site design",
+        "message": "the final FAR check can only be answered after the 21 design-basis parameters are confirmed and the full-site design exists; all parameters are currently unconfirmed assumptions"
       }
     ],
     "metrics": {
@@ -543,7 +573,7 @@
       "parking_spaces": 2398,
       "parking_entrances": 5,
       "parking_entrances_required": 5,
-      "parking_capacity_recorded": 1000,
+      "parking_assumed_nominal_capacity": 1000,
       "parking_capacity_required": 2398,
       "garage_layout": "not_designed",
       "focus_building_count": 7,
@@ -553,8 +583,15 @@
       "focus_min_ns_gap_m": 20.0,
       "road_area_m2": 26170.241651018805,
       "sidewalk_area_m2": 9866.177785935128,
-      "open_space_area_m2": 128676.22029239938,
-      "open_space_ratio": 0.6303863597090935,
+      "candidate_open_space_area_m2": 128676.22029239938,
+      "candidate_open_space_ratio": 0.6303863597090935,
+      "unbuilt_area_m2": 133373.64664347022,
+      "unbuilt_ratio": 0.65339910822412,
+      "open_space_filters": {
+        "boundary_setback_m": 5.0,
+        "obstacle_buffer_m": 0.5,
+        "min_supplementary_polygon_m2": 100.0
+      },
       "designed_green_area_m2": 13446.484393384519,
       "designed_green_ratio": 0.06587448969490359,
       "green_target_ratio": 0.3,
@@ -1715,8 +1752,15 @@
       "cluster_area_m2": 10692.841181219279,
       "strip_area_m2": 2753.6432121652397,
       "supplementary_area_m2": 115229.73589901485,
-      "open_space_area_m2": 128676.22029239938,
-      "open_space_ratio": 0.6303863597090935,
+      "candidate_open_space_area_m2": 128676.22029239938,
+      "candidate_open_space_ratio": 0.6303863597090935,
+      "unbuilt_area_m2": 133373.64664347022,
+      "unbuilt_ratio": 0.65339910822412,
+      "open_space_filters": {
+        "boundary_setback_m": 5.0,
+        "obstacle_buffer_m": 0.5,
+        "min_supplementary_polygon_m2": 100.0
+      },
       "designed_green_area_m2": 13446.484393384519,
       "designed_green_ratio": 0.06587448969490359,
       "green_target_ratio": 0.3,
@@ -1728,7 +1772,8 @@
       "entrances_required": 5,
       "existing_entrances": 3,
       "proposed_entrances": 2,
-      "recorded_capacity_spaces": 1000,
+      "assumed_nominal_capacity_spaces": 1000,
+      "capacity_basis": "spaces_per_entrance assumption (not verified)",
       "garage_layout": "not_designed"
     },
     "changed": [
@@ -1771,7 +1816,7 @@
   "scene_object_count": 203,
   "dxf": {
     "path": "design-proposal.dxf",
-    "sha256": "03f6101b4427ad471504214a6c2a1eeb358d08779641de4a17e637b64527ee8f",
+    "sha256": "2b003722709dfbe5992cc07b03fec71ad0f131f1e292df8bdcc03ac32d3a17d7",
     "entity_count": 208,
     "audit_errors": 0,
     "audit_fixes": 0
@@ -1784,7 +1829,7 @@
     "confirmation_scopes": [
       "design_draft"
     ],
-    "manifest_sha256": "dbd28768f77b05df63141c9cb0e648b4106fe4da1f7c84b95d7e79ca78429357"
+    "manifest_sha256": "a2dbfacc9425eefed4166eb519d05fc034c9c3826d6f9b96861dfd84ee4a5d1e"
   },
   "cad_ir_validation": {
     "verdict": "pass_with_scope_limits",

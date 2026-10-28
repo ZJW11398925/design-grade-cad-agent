@@ -46,6 +46,14 @@ PARAMETER_SOURCE_KEYS = (
     "origin_px",
 )
 
+#: How provenance is established in this artefact. ``declarative`` means the
+#: YAML ``parameter_sources`` block is a claim written by whoever produced the
+#: file; it is not bound to a server-side approval record or a verified actor
+#: identity. A ``confirmed: true`` entry therefore also needs an
+#: ``approval_ref`` that a human reader can trace, and ``confirmed`` must never
+#: be read as authenticated approval until the authority layer binds it.
+PROVENANCE_AUTHENTICATION = "declarative"
+
 
 @dataclass(frozen=True)
 class DesignBasis:
@@ -245,6 +253,17 @@ class DesignBasis:
                     f"parameter_sources[{key!r}]: an agent_assumption cannot "
                     "be confirmed; the Agent may not self-confirm a parameter"
                 )
+            if entry["confirmed"]:
+                approval_ref = entry.get("approval_ref")
+                if (
+                    not isinstance(approval_ref, str)
+                    or not approval_ref.strip()
+                ):
+                    raise ValueError(
+                        f"parameter_sources[{key!r}]: confirmed requires "
+                        "approval_ref; provenance is declarative, not "
+                        "authenticated"
+                    )
 
     @property
     def building_width_for_units(self) -> dict[int, float]:
@@ -367,6 +386,7 @@ class DesignBasis:
             "case_id": self.case_id,
             "human_confirmed": self.human_confirmed,
             "design_authority": self.design_authority,
+            "provenance_authentication": PROVENANCE_AUTHENTICATION,
             "parameters": {
                 key: dict(value)
                 for key, value in sorted(self.parameter_sources.items())

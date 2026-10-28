@@ -274,8 +274,15 @@
     "cluster_area_m2": 10692.841181219279,
     "strip_area_m2": 2753.6432121652397,
     "supplementary_area_m2": 115229.73589901485,
-    "open_space_area_m2": 128676.22029239938,
-    "open_space_ratio": 0.6303863597090935,
+    "candidate_open_space_area_m2": 128676.22029239938,
+    "candidate_open_space_ratio": 0.6303863597090935,
+    "unbuilt_area_m2": 133373.64664347022,
+    "unbuilt_ratio": 0.65339910822412,
+    "open_space_filters": {
+      "boundary_setback_m": 5.0,
+      "obstacle_buffer_m": 0.5,
+      "min_supplementary_polygon_m2": 100.0
+    },
     "designed_green_area_m2": 13446.484393384519,
     "designed_green_ratio": 0.06587448969490359,
     "green_target_ratio": 0.3,
@@ -287,7 +294,8 @@
     "entrances_required": 5,
     "existing_entrances": 3,
     "proposed_entrances": 2,
-    "recorded_capacity_spaces": 1000,
+    "assumed_nominal_capacity_spaces": 1000,
+    "capacity_basis": "spaces_per_entrance assumption (not verified)",
     "garage_layout": "not_designed"
   },
   "changed": [
