@@ -694,7 +694,7 @@ def build_road_layout(
             new_access_corridors.append(focus_corridor)
             accumulate_overlap(focus_corridor)
 
-    # ---- design-aware group access: one branch per group with buildings ----
+    # ---- design-aware group access: connector roads for every group with buildings ----
     existing_connector_lines = [
         spec[2] for spec in connector_specs
     ]
