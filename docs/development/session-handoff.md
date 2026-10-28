@@ -179,7 +179,7 @@ Evidence: `docs/e2e/sketch-handoff-a/` (status `blocked`, correct).
   0.5484725364968938; access stays 17/17 declared (terminals frozen and
   re-attached with shared vertices); green candidate 62.07% / unbuilt 64.45% /
   designed 6.54% (designed unchanged); `design-roads.geojson` SHA-256
-  `c2f7ebff…`. Tests 347. Contract v0.7.
+  `a55ebb58…`. Tests 347. Contract v0.7.
 - M4c-1a (0.16.0) corrected the road-topology defect: explicit shared-coordinate
   junctions, noded graph 1 component (51 nodes / 55 segments, cyclomatic 5,
   dead ends 21, junctions 27, `max_endpoint_gap_m` 0.0); `design-roads.geojson`
@@ -399,7 +399,7 @@ hash (see pitfalls).
   (0.19.0 `34a65926…`, 0.20.0 `fcc42d32…`, 0.21.0 `0f76c006…`) because ezdxf
   regenerates `$TDUPDATE`/GUIDs on save — documentation must say "content
   changed/unchanged" as appropriate and never infer content change from SHA
-  alone. `design-roads.geojson` SHA is now `c2f7ebff…` (it publishes
+  alone. `design-roads.geojson` SHA is now `a55ebb58…` (it publishes
   main-alignment and dead-end-resolution records).
 
 ## 9. Open threads needing a decision or external input
