@@ -100,7 +100,7 @@ evidence to explicit service relations:
   `max_endpoint_gap_m` 0.0**. Evidence: `design-roads.geojson` (44 centerlines
   + 24 junction records) now also publishes `serves_group_ids` /
   `access_terminal_xy`, main-alignment and dead-end-resolution records; its
-  SHA-256 is `c2f7ebff…` (was `d77ce7a8…` in 0.20.0).
+  SHA-256 is `a55ebb58…` (was `d77ce7a8…` in 0.20.0).
 
 ## Main-road alignment — added in M4c-2
 
@@ -266,7 +266,7 @@ dependency), so treat it as illustrative rather than reproducible output.
   relations), `main_alignment_records` (2 roads, source edges, original/adjusted
   centreline, strategy, displacement, vertex budget) and
   `dead_end_resolution_records` (7 resolutions); `main_road_building_overlap`
-  is resolved (0.0 m²); SHA-256 `c2f7ebff…` (was `d77ce7a8…`)
+  is resolved (0.0 m²); SHA-256 `a55ebb58…` (was `d77ce7a8…`)
 - `draft-manifest.json` — persistent autonomous draft, revision 1
 - `scene-snapshot.json` — proposal-preview design objects
 - `design-proposal.dxf`, `cad-ir.json`, `readback-manifest.json`,
