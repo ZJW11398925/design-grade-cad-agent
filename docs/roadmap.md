@@ -248,6 +248,7 @@ Next in 4c (4c-1d honest semantics done; sequence: 4c-1b design-aware coverage �
 - [x] Parking capacity named `assumed_nominal_capacity_spaces` (1,000 vs 2,398 required, deferred); entrance count is info (per-entrance 500-space assumption, not a capacity result).
 - [x] Provenance authentication `declarative` (declared, not certified); `confirmed: true` requires an `approval_ref`.
 - [x] Contract `design-synthesis-v0.4.yaml` (v0.3/v0.2/v0.1 superseded); the gate register's `EP-R1-DESIGN-001` pointer updated to v0.4; evidence regenerated with geometry/topology/DXF content unchanged (208 entities, audit 0/0, readback 208/208, design-roads geojson unchanged); tests: `test_design_basis` 14→20, `test_green_parking_semantics` 7→9, `test_design_contract` →11; suite **292 passed**.
+- [x] Merged to `main` as **PR #36** (merge commit `0546649`, main CI 4/4 green). The merged result remains a research prototype with the non-claims above.
 
 ### M4c-0 — Open-Source Design Capability Reuse Sprint (complete; partial answer)
 

@@ -25,11 +25,12 @@ Repository: `D:\agent-cad`
 
 - `main` is the integration branch and holds the merged research prototype:
   **PR #34 merged as merge commit `e40f468`** (Milestone 4c — autonomous design
-  synthesis + M4c-0 reuse + M4c-1a/1c fixes); main CI is 4/4 green.
-- The old topic branch `milestone-4c-autonomous-design` contains the same
-  history (M4c-1a commits `9d4ae56` + `1209955`, M4c-1c `e02337b`). **Start new
-  work from `main`** — e.g. `feat/m4c-1b-road-service`.
-- Branch: `fix/m4c-1d-semantic-residuals` (M4c-1d work; merge back to `main`).
+  synthesis + M4c-0 reuse + M4c-1a/1c fixes) and **PR #36 merged as merge commit
+  `0546649`** (M4c-1d semantic residuals); main CI is 4/4 green on both.
+- The old topic branches `milestone-4c-autonomous-design` and
+  `fix/m4c-1d-semantic-residuals` contain the same history (M4c-1a commits
+  `9d4ae56` + `1209955`, M4c-1c `e02337b`, M4c-1d `2f396b2`). **Start new work
+  from `main`** — e.g. `feat/m4c-1b-road-service`.
 - Version: `0.18.0` (`pyproject.toml`).
 - Test baseline: **292 passed** (`python -m pytest -q`).
 - Milestone order: M4c-1d honest-semantics residuals (**complete**) →
