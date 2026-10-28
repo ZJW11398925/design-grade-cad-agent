@@ -6,6 +6,11 @@ development note, not a living contract.
 
 Repository: `D:\agent-cad`
 
+> **2026-10-28 team audit update:** §3 (defect root cause), §4 (next work
+> order) and §8 (DXF byte-reproducibility) of this handoff are corrected by
+> `docs/development/team-continuation-dossier.md`. Read that dossier before
+> acting on this handoff; the rest of this document is still accurate.
+
 ## 0. Paste-ready first message for the new conversation
 
 > 先读 `D:\agent-cad\docs\development\session-handoff.md`，再读其中列出的
