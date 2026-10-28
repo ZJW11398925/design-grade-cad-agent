@@ -1,5 +1,14 @@
 # Team Continuation Dossier — DGCAD (2026-10-28)
 
+> **Historical baseline (annotation added 2026-10-28 for M4c-1e).** This dossier
+> is a **0.15-era audit snapshot** (branch `milestone-4c-autonomous-design` @
+> `83d71eb`, version 0.15.0, 217 tests, PR #34 open at the time). It is **not
+> the current state**; the current continuation state is
+> `docs/development/session-handoff.md` §1 (0.20.0 / 334 tests / contract v0.6),
+> with `docs/status.md` as the status source. Do not derive current numbers,
+> status or next steps from this file. The body below is an unchanged historical
+> record.
+
 Status: **development note, not a living contract.** It complements — and in three
 places corrects — `docs/development/session-handoff.md`, which should be read first
 for the narrative context. Every claim below was reproduced in this session by the

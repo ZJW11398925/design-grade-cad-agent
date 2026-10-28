@@ -7,16 +7,16 @@ Testing is the primary engineering control in this project. Research claims are 
 | Layer | Purpose | Current state |
 |---|---|---|
 | L0 Contract / conformance | Prove governance invariants: identity, revision, authority, dependency, idempotency, contract↔module sync | **62 tests passing** (Foundation 21, Runtime 22, Deployment 8, Design contract 11) |
-| L1 Domain & design topology | Prove building/road domain objects, unknown-state preservation, atomic topology changes, validators, the noded design-road topology and road access semantics | **59 tests passing** (Domain 26, Road topology 3, Design topology 14, Road access 16) |
+| L1 Domain & design topology | Prove building/road domain objects, unknown-state preservation, atomic topology changes, validators, the noded design-road topology and declared road access semantics | **66 tests passing** (Domain 26, Road topology 3, Design topology 14, Road access 23) |
 | L2 Integration | Prove the synthetic E2E pipeline, scoped mutation/rebuild, adversarial delivery and semantic/dependency closure | **45 tests (8 E2E-001 + 6 E2E-002 + 20 E2E-003 + 11 E2E-003b), all passing** |
 | L2 CAD delivery & evidence | Prove CAD-IR mapping, DXF compile/readback and third-party evidence integrity | **11 tests passing** (CAD delivery 9, Third-party evidence 2) |
 | L2 Analysis | Prove solar position, confirmed/unknown blockers, context completeness, dependency fingerprint | **7 tests passing** |
 | L2 Sketch & handoff evidence | Prove the sketch case's privacy boundary, designer-confirmed semantics, the scope-aware handoff gate and the blocked pilot | **49 tests passing** (Sketch evidence 11, Sketch handoff gate 32, Sketch handoff A 6) |
-| L2 Design synthesis & reuse | Prove the autonomous draft basis/layout/checks/DXF, basis provenance, honest green/parking semantics, access-road generation and the reuse matrix | **57 tests passing** (Design synthesis 9, Design basis 20, Green/parking semantics 9, Road access generation 10, Parking geometry 6, Open-source reuse 3) |
+| L2 Design synthesis & reuse | Prove the autonomous draft basis/layout/checks/DXF, basis provenance, honest green/parking semantics, declared access relations, access-road generation and the reuse matrix | **60 tests passing** (Design synthesis 9, Design basis 20, Green/parking semantics 9, Road access generation 13, Parking geometry 6, Open-source reuse 3) |
 | L3 Third-party | Prove semantic round-trip through independent CAD/BIM applications | partial evidence: AutoCAD 2024 Core Console semantic pass with serialization differences; no LibreCAD/FreeCAD/GUI matrix |
 | L4 Security / privacy & lifecycle | Prove loopback, roles, pairing, lease, bridge expiry, stale writers and the structured DXF privacy scan | **34 tests passing** (Lifecycle 14, Privacy scan 20) |
 
-Layer totals partition all 324 collected tests with no double counting. (Taxonomy rebuilt in 0.16.0: the previous table counted the 14 lifecycle tests in both L0 and L4 and left 67 tests unmapped.)
+Layer totals partition all 334 collected tests with no double counting. (Taxonomy rebuilt in 0.16.0: the previous table counted the 14 lifecycle tests in both L0 and L4 and left 67 tests unmapped.)
 
 A passing lower layer never promotes a higher-layer claim automatically.
 
@@ -42,8 +42,8 @@ A passing lower layer never promotes a higher-layer claim automatically.
 | Sketch handoff A | `tests/e2e/test_sketch_handoff_a.py` | 6 |
 | Design synthesis | `tests/test_design_synthesis.py` | 9 |
 | Design topology | `tests/test_design_topology.py` | 14 |
-| Road access | `tests/test_road_access.py` | 16 |
-| Road access generation | `tests/test_road_access_generation.py` | 10 |
+| Road access | `tests/test_road_access.py` | 23 |
+| Road access generation | `tests/test_road_access_generation.py` | 13 |
 | Design contract | `tests/test_design_contract.py` | 11 |
 | Design basis | `tests/test_design_basis.py` | 20 |
 | Green/parking semantics | `tests/test_green_parking_semantics.py` | 9 |
@@ -140,6 +140,8 @@ python -m pytest -q --cov --cov-report=term-missing
 - CASE-SKETCH-001-HANDOFF-A is blocked: the committed evidence contains no DXF, canonical snapshot or CAD-IR. The downstream 11-entity / 11/11 path is exercised only by an explicitly marked test double.
 - The autonomous design synthesis uses the public sketch evidence without a human review gate; it produces a `rule_derived` draft in `proposal_preview`, never `human_confirmed`.
 - The design basis is checked at full-site FAR/parking and focus-block spacing/setback/overlap/road clearance/connectivity; the focus block is the detailed design.
+- Design road access is a **declared** service relation (`serves_group_ids` + `access_terminal_xy`): each of the 17 groups is served by its own connector, the terminal centreline distance is in [3.4, 3.5] m, and the separate corridor-edge clearance is recorded next to the 3.0 m corridor setback.
+- Declared-access negatives are tested: a terminal not on the serving road's centreline is rejected, an orphan declaration is reported as a relation error, and proximity to another group's endpoint cannot serve a group. Dead ends are asserted as 17 justified / 5 unfinished / 2 unclassified with 7 unresolved, not as "all justified".
 
 ## 4. What the current tests do **not** prove
 
@@ -153,6 +155,7 @@ python -m pytest -q --cov --cov-report=term-missing
 - That the unified-mask road topology is professionally correct; its 121 junctions are proposed candidates, not designed intersections.
 - That the full CASE-SKETCH-001 sketch is human-confirmed, or that the selected pilot subset has been object-level reviewed; no real object is `confirmed_for_pilot` yet.
 - That the autonomous design draft is construction-ready, code-compliant, or the designer's unit-type library; full-site north-south spacing is deferred and road corridors are schematic.
+- That the main-road/building overlap is resolved (it is a deferred machine check, `known_unresolved`) or that full-site road clearance is designed; entrance proximity is not a designed driveway.
 - That the autonomous draft has been adopted or officially issued; it is a proposal the designer may edit or adopt.
 - That a DXF produced by the test double is third-party CAD evidence or design-office compliant; readback is same-library ezdxf.
 - That the colour-based road class is confirmed; it is inferred from brown/blue pixel majority.

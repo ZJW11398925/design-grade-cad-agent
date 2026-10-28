@@ -199,23 +199,26 @@ First round (`docs/e2e/design-synthesis-001/`):
 - [x] Full-site context: 55 buildings, 109 staircases, 2,398 households, 319,536 m² GFA, FAR 1.565, 2,398 parking spaces and 5 entrances.
 - [x] Focus block G-01: 7 standardized buildings / 16 units in rows with 20.0 m north-south spacing, unit division lines, green strips and an access loop.
 - [x] Replace the 333-edge skeleton mesh with a design road hierarchy: merged main roads, one branch per group, one focus access loop; widths 12/7/4 m; record the source mesh as evidence.
-  (M4c-1b annotation: the current 44-road network serves all 17 groups through
-  19 connector roads — G-08/G-09 share BR-G-09, so it is no longer one branch
-  per group.)
+  (M4c-1b/1e annotation: the current 44-road network serves all 17 groups
+  through **declared** `serves_group_ids` relations — 17 group-access roads
+  (16 branch + ACC-G-12), each group served by its own road; `BR-FOCUS` and the
+  focus loop are network connectors, so 19 connector roads exist in total.)
 - [x] Allocate cluster/ strip/ supplementary green; site green ratio 63.0%.
   (M4c-1c/1d annotation: 63.0% is the candidate open-space ratio, not the
-  designed-green ratio — designed green is 6.59% and deferred; this checklist
-  is a historical statement from before M4c-1c.)
+  designed-green ratio — designed green is 6.54% in 0.20.0 (6.59% when this
+  annotation was written) and deferred; this checklist is a historical statement
+  from before M4c-1c.)
 - [x] Check FAR, parking, entrances, unit count, spacing, setback, overlap, road clearance, noded connectivity (1 component after 4c-1a; `ROAD_CORRIDOR_COVERAGE` recorded as informational), road widths and green ratio; record full-site north-south spacing as deferred.
   (M4c-1c/1d annotation: same historical caveat — "green ratio" here meant the
   candidate open-space measure; FAR/parking/unit-count are basis arithmetic or
-  info checks in the current 18-check semantics.)
+  info checks. The current taxonomy is **25 = 6 pass + 10 info + 9 deferred**,
+  M4c-1e.)
 - [x] Produce an editable 208-entity DXF with layers, building/road labels, dimensions, key plan, title block, legend, north arrow and scale bar; audit 0/0; readback 208/208.
   (M4c-1b annotation: the DXF is now 206 entities after the road-service geometry change — this line records the pre-4c-1b state.)
 - [x] Mark all design objects `rule_derived` in `proposal_preview`; no `human_confirmed`; title block says Agent-generated and not code-compliant.
 - [x] Record the design diff, dropped buildings and the persistent draft manifest.
 
-Next in 4c (4c-1a/1c/1d/1b complete; sequence: multi-candidate evaluation → full-site expansion):
+Next in 4c (4c-1a/1c/1d/1b/1e complete; sequence: M4c-2 main-road alignment → multi-candidate evaluation → full-site expansion):
 
 - **First fix the road topology** — **done in 4c-1a** without OSMnx: explicit shared-coordinate junctions + dependency-free noded check + evidence regeneration (the OSMnx base was rejected as a tolerance-created connectivity proof; OSMnx remains an optional preprocessor, see 4c-1a below).
 - Expand the standardized layout from the focus block to all groups; enforce 20 m north-south spacing site-wide.
@@ -237,7 +240,7 @@ Next in 4c (4c-1a/1c/1d/1b complete; sequence: multi-candidate evaluation → fu
 ### Milestone 4c-1c — Honest Evidence Semantics (complete, 0.17.0)
 
 - [x] Split check statuses into pass / info / deferred — 16 declared checks: **9 pass**, 3 info (PARKING_REQUIREMENT_ARITHMETIC, ROAD_CORRIDOR_COVERAGE, OPEN_SPACE_RATIO), 4 deferred (PARKING_CAPACITY, PARKING_LAYOUT, DESIGNED_GREEN_RATIO, FULL_SITE_NS_SPACING). `info` is not `pass`; `deferred` is not `pass`.
-- [x] Split the green claim: `open_space_ratio` **63.0%** (128,676 m²) is open space, not designed green; `designed_green_ratio` **6.6%** (13,446 m²; supplementary covers 89.6% of open space) — the ≥30% designed-green target is deferred, not achieved.
+- [x] Split the green claim: `open_space_ratio` **63.0%** (128,676 m²) is open space, not designed green; `designed_green_ratio` **6.6%** (13,446 m²; supplementary covers 89.6% of open space) — the ≥30% designed-green target is deferred, not achieved. (0.17.0 values; in 0.20.0 they are candidate 63.02% / 128,645.31 m², unbuilt 65.35% / 133,384.46 m², designed green 6.54% / 13,346.69 m².)
 - [x] Split the parking claim: entrance count 5 **pass**; recorded capacity **1,000 vs 2,398 required** (PARKING_CAPACITY deferred); parking layout deferred; entrances carry capacities (3 existing × 0, 2 proposed × 500); garage layout `not_designed`.
 - [x] Label derived checks: FAR_RANGE / UNIT_COUNT_PRESERVED = `design_basis_arithmetic`; ROAD_WIDTHS = `design_basis_assignment`.
 - [x] Publish design-basis provenance: 21 parameters with authority states (5 `declared_requirement`, 2 `designer_stated`, 3 `inferred_from_sketch`, 11 `agent_assumption`), **all `confirmed: false`**; the Agent cannot self-confirm them (`design-assumption-v0.2`).
@@ -257,13 +260,22 @@ Next in 4c (4c-1a/1c/1d/1b complete; sequence: multi-candidate evaluation → fu
 ### Milestone 4c-1b — Road Service Coverage (complete, 0.19.0; branch `feat/m4c-1b-road-access`; first design-geometry change)
 
 - [x] Grow the design network to 44 roads (25 main × 12 m + 17 branch × 7 m + 2 access × 4 m); close the G-05/G-12 access gaps (G-05 via branch BR-G-05; G-12 via access road ACC-G-12 — a 7 m branch cannot satisfy the 3 m focus-building clearance).
-- [x] Road access coverage 1.0 — all 17 groups served (`ROAD_ACCESS_COVERAGE` **pass**); connection terminals stop 3.5 m from building footprints (measured 3.499999 m); no route crosses a building; new-access/building overlap 1.34 m² total, within the ≤1.0 m²-per-branch budget (single largest 0.92 m²).
-- [x] Justify every dead end: 24 = 17 justified + 5 unfinished + 2 unclassified (`DEAD_END_JUSTIFICATION` info).
-- [x] Entrance connection honesty (`PARKING_ENTRANCE_CONNECTION` info): 2 of 5 garage entrances connected; the 3 existing garage positions are area markers **18.83–25.71 m** from the carriageway with no designed access lane.
-- [x] Record the pre-existing main-road/building overlap (MAIN-19/08, 38.19 m², source alignment vs rough background) as a known unresolved conflict deferred to M4c-2; loop∩building = 0.
+- [x] Road access coverage 1.0 — all 17 groups served (`ROAD_ACCESS_COVERAGE` **pass**); connection terminals stop 3.5 m from building footprints (measured 3.499999 m); no route crosses a building; new-access/building overlap 1.34 m² total; the ≤1.0 m² budget applies only to new group-access roads (largest per-building overlap 0.9228 m²).
+- [x] Classify every dead end: 24 = 17 justified + 5 unfinished + 2 unclassified (`DEAD_END_JUSTIFICATION` info) — classified, **not all justified**; M4c-1e adds `DEAD_END_RESOLUTION` (deferred, 7 unresolved).
+- [x] Entrance proximity honesty (`PARKING_ENTRANCE_CONNECTION` info at the time): 2 of 5 garage entrances near a design road; the 3 existing garage positions are area markers **18.83–25.71 m** from the carriageway; no driveway designed (M4c-1e renames this `PARKING_ENTRANCE_PROXIMITY` info and adds `PARKING_DRIVEWAY_CONNECTION` deferred).
+- [x] Record the pre-existing main-road/building overlap (38.19 m² = MAIN-19 34.42 + MAIN-08 3.77, source alignment vs rough background) as a known unresolved conflict deferred to M4c-2; loop∩building = 0; M4c-1e turns it into a deferred machine check (`MAIN_ROAD_BUILDING_OVERLAP`, `known_unresolved`).
 - [x] Regenerate evidence: DXF now **206 entities** (was 208), audit 0/0, readback 206/206, XDATA 11, privacy pass; `design-roads.geojson` 44 centerlines + 21 junction records (new sha 59df13d8…); topology rebaselined to 59 nodes / 65 segments, cyclomatic 7, dead ends 24, junctions 32, `max_endpoint_gap_m` 0.0, 1 component; contract `design-synthesis-v0.5.yaml` (v0.4 superseded).
 - [x] Tests: `test_road_access` (16), `test_road_access_generation` (10), `test_parking_geometry` (6); `test_design_topology` rebaselined to the new network; suite **324 passed**.
 - [x] Merged to `main` as **PR #38** (merge commit `7a3e70a`, main CI 4/4 green). The merged result remains a research prototype with the non-claims above; the MAIN-19/08 overlap and the 5 unfinished / 2 unclassified dead ends stay open for M4c-2.
+
+### Milestone 4c-1e — Evidence Binding (complete, 0.20.0; branch `fix/m4c-1e-evidence-binding`; no design-geometry change)
+
+- [x] Bind group access to **declared** service relations: `RoadDesign.serves_group_ids` + `access_terminal_xy`; 17 groups / 17 group-access roads (16 branch + ACC-G-12; G-08 → BR-G-08, G-13 → BR-G-13); `BR-FOCUS` and the focus loop are connectors (19 connector roads total). The previous nearest-endpoint attribution (G-08 to BR-G-09 2.895 m, G-13 to BR-G-07 3.188 m) is removed.
+- [x] Validate the declared terminal: centreline distance in [3.4, 3.5] m (min 3.497987 m), outside every footprint, route crossing 0.0 m, terminal on the serving road's centreline within 1e-6 m; orphan declarations reported as relation errors (`relation_error_count` 0). `terminal_corridor_edge_clearance_m` is published separately (0.0 m for a 7 m branch end-cap, ~1.5 m for ACC-G-12) — not the 3.0 m corridor setback.
+- [x] Checks 21 → **25 = 6 pass + 10 info + 9 deferred**: new `MAIN_ROAD_BUILDING_OVERLAP` (deferred; 38.19068149970834 m², rows MAIN-19/SK-BLD-0006 34.42 + MAIN-08/SK-BLD-0038 3.68 + MAIN-08/SK-BLD-0061 0.09; `known_unresolved`), `FULL_SITE_ROAD_CLEARANCE` (deferred), `DEAD_END_RESOLUTION` (deferred, 7 unresolved), `PARKING_DRIVEWAY_CONNECTION` (deferred); `PARKING_ENTRANCE_CONNECTION` renamed `PARKING_ENTRANCE_PROXIMITY` (info).
+- [x] No design geometry changed: 44 roads (25/17/2), endpoints, widths, topology (1 component, 59 nodes / 65 segments, cyclomatic 7, 24 dead ends, 32 junctions / 21 explicit, 3 rings, gap 0.0), overlap values (new 1.3365 / main 38.1907 / total 38.7392) and DXF **content** (206 entities, audit 0/0, readback 206/206, XDATA 11, privacy pass) are identical to 0.19.0. DXF byte SHA changes per save (0.19.0 `34a65926…` → 0.20.0 `fcc42d32…`) — compare content, not bytes; `design-roads.geojson` SHA changes to `d77ce7a8…` because new fields are published (expected).
+- [x] Contract `design-synthesis-v0.6.yaml` (v0.5 superseded; gate-register pointer re-pointed); tests 324 → **334** (road access 23, road access generation 13; no test removed).
+- [ ] PR/merge pending (work is uncommitted on `fix/m4c-1e-evidence-binding` at the time of this docs pass); commit/push/CI is Lead-owned.
 
 ### M4c-0 — Open-Source Design Capability Reuse Sprint (complete; partial answer)
 
@@ -286,8 +298,8 @@ rebuilding, using the same CASE-SKETCH-001 focus block.
   deferred full-site spacing.
   (M4c-1c/1d annotation: this block predates the honest-semantics split — the
   63.0% figure is the candidate open-space ratio, not designed green, and the
-  current check semantics are pass/info/deferred with designed green 6.59%
-  deferred.)
+  current check semantics are 25 = 6 pass + 10 info + 9 deferred (0.20.0), with
+  designed green 6.54% deferred.)
 - [x] Reuse matrix with versions, licenses, hosts, tested APIs, metrics,
   verdicts and rejected uses: `docs/e2e/open-source-reuse-001/reuse-matrix.yaml`.
 - [x] Visual comparison and editable DXF:
@@ -308,15 +320,18 @@ tool produced a complete professional design by itself.
 dependency-free with explicit shared-coordinate junctions and the candidate was
 regenerated; the OSMnx-consolidated base was rejected (tolerance-created
 connectivity, source edge ids not preserved). OSMnx remains an optional
-source-skeleton preprocessor.
+source-skeleton preprocessor. **Update (0.20.0):** group access is now bound to
+declared `serves_group_ids` relations; the nearest-endpoint attribution used in
+the M4c-1b evidence is removed.
 
 ### Next research main line
 
-1. ~~Repair the design road topology~~ — **done in 4c-1a** (explicit shared-coordinate junctions, dependency-free noded check, evidence regenerated); next: expand to all groups.
-2. **Expand and evaluate autonomous design** — full-site group layout, design-quality metrics, candidate comparison; do not return to sketch-level human review as the gate.
-3. **Measure design quality, not only sketch fidelity** — intent preservation, completeness, internal consistency, verified constraint satisfaction and CAD editability; Hausdorff/IoU remain secondary.
-4. **Professional building and road design** — apply the unit-type library, resolve six unit-count conflicts and the kindergarten classification; separate 支路/入户路, then review road class and cross-sections.
-5. **Agent ↔ real CAD loop** — hand the draft to the CAD bridge; verify host read/edit/readback/diff/local rebuild; keep LibreCAD, FreeCAD and AutoCAD GUI as independent evidence lanes.
+1. ~~Repair the design road topology~~ — **done in 4c-1a/1b/1e** (explicit shared-coordinate junctions, dependency-free noded check, 44-road access network, declared service relations, evidence regenerated).
+2. **M4c-2 main-road alignment** — resolve the 38.19 m² MAIN-19/08 road/building overlap and full-site road clearance (`MAIN_ROAD_BUILDING_OVERLAP` / `FULL_SITE_ROAD_CLEARANCE` are deferred machine checks, not passes).
+3. **Expand and evaluate autonomous design** — full-site group layout, design-quality metrics, candidate comparison; do not return to sketch-level human review as the gate.
+4. **Measure design quality, not only sketch fidelity** — intent preservation, completeness, internal consistency, verified constraint satisfaction and CAD editability; Hausdorff/IoU remain secondary.
+5. **Professional building and road design** — apply the unit-type library, resolve six unit-count conflicts and the kindergarten classification; separate 支路/入户路, then review road class and cross-sections.
+6. **Agent ↔ real CAD loop** — hand the draft to the CAD bridge; verify host read/edit/readback/diff/local rebuild; keep LibreCAD, FreeCAD and AutoCAD GUI as independent evidence lanes.
 
 ## Milestone 5 — Production hardening (not started)
 

@@ -203,6 +203,79 @@ def test_focus_road_clearance_holds_for_the_new_design():
     assert minimum >= 3.0 - 1e-6, minimum
 
 
+# ------------------------------------------------- service binding (M4c-1e)
+def _declared_road_for_group(group_id: str):
+    matches = [
+        road
+        for road in _layout().roads
+        if group_id in road.serves_group_ids
+    ]
+    assert len(matches) == 1, (group_id, [r.edge_id for r in matches])
+    return matches[0]
+
+
+def test_service_relations_are_explicit_and_single_valued():
+    layout = _layout()
+    groups = _groups_with_buildings()
+    declared: dict[str, list] = {}
+    for road in layout.roads:
+        for group_id in road.serves_group_ids:
+            declared.setdefault(group_id, []).append(road)
+    group_ids = {group.group_id for group in groups}
+    # total declared relations: exactly one per served group, no stray ids
+    assert sum(len(items) for items in declared.values()) == 17
+    assert set(declared) == group_ids
+    for group in groups:
+        assert len(declared[group.group_id]) == 1, group.group_id
+        road = _declared_road_for_group(group.group_id)
+        assert road.edge_id in (
+            f"BR-{group.group_id}",
+            f"ACC-{group.group_id}",
+        ), road.edge_id
+    # network connector / loop are not group access roads
+    for edge_id in ("BR-FOCUS", "ACC-FOCUS-01"):
+        road = _road_by_id(edge_id)
+        assert road.serves_group_ids == ()
+        assert road.access_terminal_xy is None
+
+
+def test_access_terminal_metadata_matches_generated_terminal():
+    footprints = _all_footprints()
+    for group in _groups_with_buildings():
+        road = _declared_road_for_group(group.group_id)
+        assert road.access_terminal_xy is not None
+        terminal_xy = tuple(road.access_terminal_xy)
+        # the recorded terminal is the non-junction endpoint of the centerline
+        assert road.start_junction_id is not None
+        assert road.end_junction_id is None
+        assert terminal_xy == tuple(
+            float(value) for value in road.centerline.coords[-1]
+        )
+        terminal = Point(terminal_xy)
+        group_union = unary_union(
+            [item.footprint for item in _group_buildings(group)]
+        )
+        assert 3.4 <= terminal.distance(group_union) <= (
+            ACCESS_TERMINAL_DISTANCE_M + 1e-6
+        ), (group.group_id, terminal.distance(group_union))
+        assert not any(
+            footprint.intersects(terminal) for footprint in footprints
+        ), group.group_id
+
+
+def test_road_to_dict_emits_service_binding():
+    payload = _declared_road_for_group("G-12").to_dict()
+    assert payload["serves_group_ids"] == ["G-12"]
+    assert payload["access_terminal_xy"] is not None
+    assert len(payload["access_terminal_xy"]) == 2
+    main_payload = _road_by_id("MAIN-01").to_dict()
+    assert main_payload["serves_group_ids"] == []
+    assert main_payload["access_terminal_xy"] is None
+    focus_payload = _road_by_id("BR-FOCUS").to_dict()
+    assert focus_payload["serves_group_ids"] == []
+    assert focus_payload["access_terminal_xy"] is None
+
+
 # ------------------------------------------------------------ loop geometry
 def test_access_loop_no_longer_overlaps_buildings():
     layout = _layout()
