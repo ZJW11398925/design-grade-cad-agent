@@ -29,12 +29,14 @@ Repository: `D:\agent-cad`
 - The old topic branch `milestone-4c-autonomous-design` contains the same
   history (M4c-1a commits `9d4ae56` + `1209955`, M4c-1c `e02337b`). **Start new
   work from `main`** — e.g. `feat/m4c-1b-road-service`.
-- Version: `0.17.0` (`pyproject.toml`).
-- Test baseline: **283 passed** (`python -m pytest -q`).
-- Next milestone: **M4c-1b** — road service coverage (G-05/G-12, entrance
-  geometry type, branch-to-entrance connections, `road_access_coverage`,
-  dead-end justification); then multi-candidate design evaluation, then
-  full-site expansion with basis confirmation.
+- Branch: `fix/m4c-1d-semantic-residuals` (M4c-1d work; merge back to `main`).
+- Version: `0.18.0` (`pyproject.toml`).
+- Test baseline: **292 passed** (`python -m pytest -q`).
+- Milestone order: M4c-1d honest-semantics residuals (**complete**) →
+  **M4c-1b** road service coverage (G-05/G-12, entrance geometry type,
+  branch-to-entrance connections, `road_access_coverage`, dead-end
+  justification) → multi-candidate design evaluation → full-site expansion
+  with basis confirmation.
 - Local environment: Windows, Python 3.13. Core dependencies remain only
   **PyYAML 6.0.3 / Shapely 2.1.2 / ezdxf 1.4.5**.
 - Optional research-only installs (NOT in `pyproject.toml`): osmnx 2.1.1,
@@ -61,13 +63,14 @@ Closed the five review findings:
 
 Evidence: `docs/e2e/sketch-handoff-a/` (status `blocked`, correct).
 
-### Milestone 4c — first autonomous design draft (on PR #34)
+### Milestone 4c — first autonomous design draft (merged in PR #34)
 
 `docs/e2e/design-synthesis-001/`:
 
-- Design basis (`design-assumption-v0.2`, 21 parameters, all `confirmed: false`):
-  FAR **1.5654** inside 1.55–1.60 (design-basis arithmetic); parking requirement
-  **2,398** = 1.0/household (recorded capacity 1,000, capacity/layout deferred);
+- Design basis (`design-assumption-v0.2`, 21 parameters, all `confirmed: false`,
+  provenance authentication `declarative`): FAR **1.5654** = arithmetic scenario
+  inside 1.55–1.60 (final verification deferred); parking requirement **2,398** =
+  1.0/household (assumed nominal capacity 1,000, capacity/layout deferred);
   **20.0 m** north-south spacing in focus group G-01.
 - Full-site context: 55 buildings, 109 staircases, 2,398 households,
   319,536 m² GFA, 3,000 m² facility, 5 garage entrances.
@@ -78,21 +81,33 @@ Evidence: `docs/e2e/sketch-handoff-a/` (status `blocked`, correct).
   CODE-COMPLIANCE" (ASCII hyphens, as in the DXF).
 - All design objects `rule_derived`, world `proposal_preview`,
   `confirmation_scope: design_draft`, `human_confirmed: false`.
-- Consistency: 16 declared checks — 9 pass, 3 info
-  (PARKING_REQUIREMENT_ARITHMETIC, ROAD_CORRIDOR_COVERAGE, OPEN_SPACE_RATIO),
-  4 deferred (PARKING_CAPACITY, PARKING_LAYOUT, DESIGNED_GREEN_RATIO,
-  FULL_SITE_NS_SPACING). `info`/`deferred` are not `pass`.
-- M4c-1c (0.17.0) honest semantics: `open_space_ratio` 63.0% is not designed
-  green (`designed_green_ratio` 6.6%, deferred); parking capacity recorded
-  1,000 vs 2,398 required; FAR/unit-count passes labelled design-basis
-  arithmetic; basis provenance published (21 parameters, `confirmed: false`).
+- Consistency: 18 declared checks — 5 pass (independently geometry-verified:
+  FOCUS_NS_SPACING, FOCUS_BOUNDARY_SETBACK, FOCUS_BUILDING_OVERLAP,
+  FOCUS_ROAD_CLEARANCE, ROAD_CONNECTIVITY), 8 info (FAR_ARITHMETIC_SCENARIO,
+  PARKING_REQUIREMENT_ARITHMETIC, PARKING_ENTRANCE_COUNT,
+  UNIT_COUNT_BASIS_INVARIANT, ROAD_CORRIDOR_COVERAGE, ROAD_WIDTH_ASSIGNMENT,
+  CANDIDATE_OPEN_SPACE_RATIO, UNBUILT_RATIO), 5 deferred (PARKING_CAPACITY,
+  PARKING_LAYOUT, DESIGNED_GREEN_RATIO, FULL_SITE_NS_SPACING,
+  FAR_FINAL_VERIFICATION — value None). `info`/`deferred` are not `pass`.
+- M4c-1c (0.17.0) honest semantics: open space is not designed green
+  (`designed_green_ratio` 6.6%, deferred); parking capacity recorded 1,000 vs
+  2,398 required; basis provenance published (21 parameters,
+  `confirmed: false`).
+- M4c-1d (0.18.0) semantic residuals: `pass` narrowed to the 5
+  geometry-verified checks; FAR split into `FAR_ARITHMETIC_SCENARIO` (info) and
+  `FAR_FINAL_VERIFICATION` (deferred); parking capacity named
+  `assumed_nominal_capacity_spaces`; open space dual-measured
+  (`candidate_open_space_ratio` 63.0% classified / `unbuilt_ratio` 65.3%
+  geometric union — both ratios use the full published site area as
+  denominator; the filtered/unbuilt areas are measured inside the 5 m setback
+  boundary); provenance authentication `declarative`; contract v0.4.
 - M4c-1a (0.16.0) corrected the road-topology defect: explicit shared-coordinate
   junctions, noded graph 1 component (51 nodes / 55 segments, cyclomatic 5,
   dead ends 21, junctions 27, `max_endpoint_gap_m` 0.0); `design-roads.geojson`
   (41 centerlines + 16 explicit junction records) published; control plane
   unchanged.
 
-### M4c-0 — open-source reuse sprint (on PR #34)
+### M4c-0 — open-source reuse sprint (merged in PR #34)
 
 `docs/e2e/open-source-reuse-001/` + `experiments/m4c0/`:
 
@@ -130,14 +145,14 @@ the regenerated `docs/e2e/design-synthesis-001/` package.
 The 4c candidate is still **partial** (full-site north-south spacing
 deferred). Do not present it as a finished road design.
 
-## 4. Next work order (status after M4c-1a)
+## 4. Next work order (status after M4c-1d; order: M4c-1b → multi-candidate evaluation → full-site expansion)
 
 1. ~~Add an optional OSMnx adapter~~ — **superseded**: the fix is
    dependency-free (explicit shared-coordinate junctions); OSMnx remains an
    optional source-skeleton preprocessor, never the design base.
 2. ~~Replace the corridor-only connectivity check~~ — **done** (noded check,
    fail-closed within a 1e-9 m endpoint tolerance; `ROAD_CORRIDOR_COVERAGE`
-   informational; contract `design-synthesis-v0.3.yaml`).
+   informational; contract `design-synthesis-v0.4.yaml`).
 3. ~~Regenerate the 4c candidate~~ — **done** (same FAR / parking / 20 m /
    green / CAD checks pass; 208-entity DXF unchanged; `design-roads.geojson`
    published). Design-aware coverage (branch → entrance access, G-05/G-12) is
@@ -189,7 +204,7 @@ Design synthesis:
 - `src/dgcad_design/scene.py`, `drawing.py`, `project.py`.
 - `scripts/design/run_design_synthesis_001.py`.
 - `fixtures/design/design-basis-001.yaml`, `design-profile-001.yaml`.
-- `contracts/design-synthesis-v0.3.yaml` (v0.2/v0.1 superseded).
+- `contracts/design-synthesis-v0.4.yaml` (v0.3/v0.2/v0.1 superseded).
 
 CAD delivery:
 
@@ -209,7 +224,8 @@ Experiments / evidence:
 Tests:
 
 - `tests/test_design_synthesis.py` (9), `tests/test_design_topology.py` (14),
-  `tests/test_design_contract.py` (7), `tests/test_privacy_scan.py` (20).
+  `tests/test_design_contract.py` (11), `tests/test_design_basis.py` (20),
+  `tests/test_green_parking_semantics.py` (9), `tests/test_privacy_scan.py` (20).
 - `tests/test_open_source_reuse.py` (3).
 - `tests/test_sketch_handoff.py` (32), `tests/e2e/test_sketch_handoff_a.py` (6).
 
@@ -282,9 +298,6 @@ hash (see pitfalls).
 
 ## 9. Open threads needing a decision or external input
 
-- Merge PR #34 now? (Update 2026-10-28: M4c-1a fixed the road topology; the
-  earlier "fix topology first" recommendation is satisfied — merge the
-  corrected candidate.)
 - The designer’s unit-type library is still missing; six source buildings have
   length-vs-area unit-count conflicts: `SK-BLD-0009`, `0010`, `0011`, `0013`,
   `0015`, `0018`. The kindergarten/facility classification is also unresolved.

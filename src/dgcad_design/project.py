@@ -29,7 +29,7 @@ from .buildings import (
 )
 from .consistency import check_design
 from .drawing import build_drawing_elements
-from .green import GreenLayout, build_green_layout
+from .green import OPEN_SPACE_FILTERS, GreenLayout, build_green_layout
 from .input import DesignInput, load_design_input
 from .intent import DesignIntent, build_design_intent
 from .parking import ParkingLayout, build_parking_layout
@@ -279,8 +279,15 @@ def _design_diff(
             "cluster_area_m2": green_layout.cluster_area_m2,
             "strip_area_m2": green_layout.strip_area_m2,
             "supplementary_area_m2": green_layout.supplementary_area_m2,
-            "open_space_area_m2": green_layout.open_space_area_m2,
-            "open_space_ratio": green_layout.open_space_ratio,
+            "candidate_open_space_area_m2": (
+                green_layout.candidate_open_space_area_m2
+            ),
+            "candidate_open_space_ratio": (
+                green_layout.candidate_open_space_ratio
+            ),
+            "unbuilt_area_m2": green_layout.unbuilt_area_m2,
+            "unbuilt_ratio": green_layout.unbuilt_ratio,
+            "open_space_filters": dict(OPEN_SPACE_FILTERS),
             "designed_green_area_m2": green_layout.designed_green_area_m2,
             "designed_green_ratio": green_layout.designed_green_ratio,
             "green_target_ratio": green_layout.target_ratio,
@@ -300,9 +307,10 @@ def _design_diff(
                 for item in parking_layout.entrances
                 if item.status == "proposed"
             ),
-            "recorded_capacity_spaces": (
-                parking_layout.recorded_capacity_spaces
+            "assumed_nominal_capacity_spaces": (
+                parking_layout.assumed_nominal_capacity_spaces
             ),
+            "capacity_basis": "spaces_per_entrance assumption (not verified)",
             "garage_layout": parking_layout.garage_layout,
         },
         "changed": [
@@ -479,6 +487,9 @@ def run_design_synthesis(
             "version": basis.version,
             "design_authority": basis.design_authority,
             "human_confirmed": basis.human_confirmed,
+            "provenance_authentication": basis.provenance()[
+                "provenance_authentication"
+            ],
             "parameter_sources": basis.parameter_sources,
             "authority_counts": dict(sorted(authority_counts.items())),
         },

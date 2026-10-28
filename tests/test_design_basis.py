@@ -17,6 +17,7 @@ import yaml
 from dgcad_design.basis import (
     PARAMETER_AUTHORITIES,
     PARAMETER_SOURCE_KEYS,
+    PROVENANCE_AUTHENTICATION,
     DesignBasis,
 )
 
@@ -108,12 +109,68 @@ def test_agent_assumption_cannot_be_confirmed():
         DesignBasis.from_dict(data)
 
 
+def test_provenance_authentication_is_declarative():
+    assert PROVENANCE_AUTHENTICATION == "declarative"
+    provenance = load_fixture().provenance()
+    assert provenance["provenance_authentication"] == "declarative"
+    assert provenance["provenance_authentication"] == PROVENANCE_AUTHENTICATION
+
+
+def test_confirmed_without_approval_ref_is_rejected():
+    data = fixture_data()
+    data["parameter_sources"]["floors"]["confirmed"] = True
+    with pytest.raises(
+        ValueError,
+        match="confirmed requires approval_ref; provenance is declarative, not authenticated",
+    ):
+        DesignBasis.from_dict(data)
+
+
+def test_confirmed_with_blank_approval_ref_is_rejected():
+    data = fixture_data()
+    data["parameter_sources"]["floors"]["confirmed"] = True
+    data["parameter_sources"]["floors"]["approval_ref"] = "   "
+    with pytest.raises(ValueError, match="confirmed requires approval_ref"):
+        DesignBasis.from_dict(data)
+
+
+def test_confirmed_with_non_string_approval_ref_is_rejected():
+    data = fixture_data()
+    data["parameter_sources"]["floors"]["confirmed"] = True
+    data["parameter_sources"]["floors"]["approval_ref"] = True
+    with pytest.raises(ValueError, match="confirmed requires approval_ref"):
+        DesignBasis.from_dict(data)
+
+
+def test_confirmed_with_approval_ref_passes_but_stays_declarative():
+    data = fixture_data()
+    data["parameter_sources"]["floors"]["confirmed"] = True
+    data["parameter_sources"]["floors"]["approval_ref"] = "APPROVAL-REF-001"
+    basis = DesignBasis.from_dict(data)
+    assert basis.parameter_sources["floors"]["confirmed"] is True
+    assert basis.parameter_sources["floors"]["approval_ref"] == "APPROVAL-REF-001"
+    provenance = basis.provenance()
+    assert provenance["confirmed_parameters"] == ["floors"]
+    # a written approval reference still does not authenticate the provenance
+    assert provenance["provenance_authentication"] == "declarative"
+    assert basis.human_confirmed is False
+
+
+def test_agent_assumption_cannot_be_confirmed_even_with_approval_ref():
+    data = fixture_data()
+    data["parameter_sources"]["floor_height_m"]["confirmed"] = True
+    data["parameter_sources"]["floor_height_m"]["approval_ref"] = "APPROVAL-REF-001"
+    with pytest.raises(ValueError, match="agent_assumption cannot be confirmed"):
+        DesignBasis.from_dict(data)
+
+
 def test_confirmed_designer_stated_value_is_allowed_by_shape():
     # the Agent-facing rule is about agent_assumption only; a human-sourced
-    # parameter may carry confirmed: true (the draft still records
+    # parameter may carry confirmed: true + approval_ref (the draft still records
     # human_confirmed: false at basis level).
     data = fixture_data()
     data["parameter_sources"]["floors"]["confirmed"] = True
+    data["parameter_sources"]["floors"]["approval_ref"] = "APPROVAL-REF-001"
     basis = DesignBasis.from_dict(data)
     assert basis.parameter_sources["floors"]["confirmed"] is True
     assert basis.human_confirmed is False
@@ -181,8 +238,9 @@ def test_provenance_summary_reports_authority_counts_and_unconfirmed_keys():
         "designer_stated": 2,
         "inferred_from_sketch": 3,
     }
-    assert len(provenance["unconfirmed_parameters"]) == 21
+    assert provenance["unconfirmed_parameters"] == sorted(PARAMETER_SOURCE_KEYS)
     assert provenance["confirmed_parameters"] == []
     assert len(provenance["agent_assumption_parameters"]) == 11
     assert provenance["all_parameters_confirmed"] is False
+    assert provenance["provenance_authentication"] == "declarative"
     assert provenance["parameters"]["floors"]["authority"] == "designer_stated"

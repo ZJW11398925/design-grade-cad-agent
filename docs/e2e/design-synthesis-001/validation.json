@@ -72,7 +72,7 @@
     "issues": [],
     "manifest": {
       "file": "design-proposal.dxf",
-      "dxf_sha256": "03f6101b4427ad471504214a6c2a1eeb358d08779641de4a17e637b64527ee8f",
+      "dxf_sha256": "2b003722709dfbe5992cc07b03fec71ad0f131f1e292df8bdcc03ac32d3a17d7",
       "dxf_version": "AC1024",
       "insunits": 6,
       "layer_names": [
@@ -17797,7 +17797,7 @@
           "dxftype": "TEXT",
           "layer": "A-TITLE",
           "canonical_target": {
-            "text": "FAR 1.565 | 2398 HH | 2398 PARKING | 5 ENTRANCES | OPEN SPACE 63.0% | DESIGNED GREEN 6.6% (DEFERRED)",
+            "text": "FAR 1.565 | 2398 HH | 2398 PARKING | 5 ENTRANCES | UNBUILT 65.3% | CAND OPEN SPACE 63.0% | DESIGNED GREEN 6.6% (DEFERRED)",
             "height": 1.9,
             "style": "Standard",
             "insert": [
@@ -17821,7 +17821,7 @@
             "halign": 0,
             "valign": 0,
             "style": "Standard",
-            "text": "FAR 1.565 | 2398 HH | 2398 PARKING | 5 ENTRANCES | OPEN SPACE 63.0% | DESIGNED GREEN 6.6% (DEFERRED)"
+            "text": "FAR 1.565 | 2398 HH | 2398 PARKING | 5 ENTRANCES | UNBUILT 65.3% | CAND OPEN SPACE 63.0% | DESIGNED GREEN 6.6% (DEFERRED)"
           }
         },
         {
@@ -18655,7 +18655,7 @@
       ],
       "audit_errors": 0,
       "audit_fixes": 0,
-      "cad_ir_dependency_fingerprint": "751c6f571964d84e93b0852f719bca3c09317099f49e08ea19eb7eb947addca0",
+      "cad_ir_dependency_fingerprint": "14c9db4bf44435ff9104d889a5a82b7e70a0cdecb75d752e06f538a3d2628472",
       "profile_id": "DGCAD-SCHEMATIC-001",
       "profile_version": "0.1.0"
     },

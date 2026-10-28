@@ -12234,7 +12234,7 @@
         "human_confirmed": false,
         "annotation_role": "title_text"
       },
-      "text": "FAR 1.565 | 2398 HH | 2398 PARKING | 5 ENTRANCES | OPEN SPACE 63.0% | DESIGNED GREEN 6.6% (DEFERRED)",
+      "text": "FAR 1.565 | 2398 HH | 2398 PARKING | 5 ENTRANCES | UNBUILT 65.3% | CAND OPEN SPACE 63.0% | DESIGNED GREEN 6.6% (DEFERRED)",
       "text_height": 1.9,
       "text_style": "Standard",
       "rotation": 0.0
@@ -12879,5 +12879,5 @@
       }
     }
   ],
-  "dependency_fingerprint": "751c6f571964d84e93b0852f719bca3c09317099f49e08ea19eb7eb947addca0"
+  "dependency_fingerprint": "14c9db4bf44435ff9104d889a5a82b7e70a0cdecb75d752e06f538a3d2628472"
 }

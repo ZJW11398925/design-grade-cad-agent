@@ -1,5 +1,13 @@
 schema_id: dgcad.design-synthesis.v0.3
-status: living_contract
+status: superseded
+superseded_by: design-synthesis-v0.4.yaml
+superseded_note: >-
+  Historical contract, kept as evidence. v0.4 adds the declarative provenance
+  authentication statement, the confirmed/approval_ref rule, the reserved-pass
+  metric taxonomy (far_arithmetic_scenario / unit_count_basis_invariant /
+  road_width_assignment / candidate_open_space_ratio / unbuilt_ratio /
+  far_final_verification) and the explicit candidate-vs-unbuilt distinction.
+  Do not edit; cite v0.4 for living rules.
 supersedes: design-synthesis-v0.2.yaml
 scope: CASE-SKETCH-001 autonomous design synthesis pilot
 purpose: >-

@@ -137,15 +137,34 @@ def test_design_synthesis_end_to_end(tmp_path):
         "parking_entrances_required"
     ]
     assert metrics["focus_min_ns_gap_m"] >= 20.0 - 1e-6
-    # honesty semantics: open space is not designed green; capacity is unproven
-    assert metrics["open_space_ratio"] == pytest.approx(
+    # honesty semantics: candidate open space != designed green;
+    # strict unbuilt is a geometric union; capacity is an assumption
+    assert metrics["candidate_open_space_ratio"] == pytest.approx(
         0.6303863597090935, rel=1e-12
     )
+    assert metrics["candidate_open_space_area_m2"] == pytest.approx(
+        128676.22029239938, rel=1e-9
+    )
+    assert metrics["unbuilt_ratio"] == pytest.approx(
+        0.65339910822412, rel=1e-9
+    )
+    assert metrics["unbuilt_area_m2"] == pytest.approx(
+        133373.64664347022, rel=1e-9
+    )
+    assert metrics["unbuilt_ratio"] > metrics["candidate_open_space_ratio"]
+    assert metrics["open_space_filters"] == {
+        "boundary_setback_m": 5.0,
+        "obstacle_buffer_m": 0.5,
+        "min_supplementary_polygon_m2": 100.0,
+    }
     assert metrics["designed_green_ratio"] == pytest.approx(
         0.06587448969490359, rel=1e-9
     )
-    assert metrics["designed_green_ratio"] < metrics["open_space_ratio"]
-    assert metrics["parking_capacity_recorded"] == 1000
+    assert (
+        metrics["designed_green_ratio"]
+        < metrics["candidate_open_space_ratio"]
+    )
+    assert metrics["parking_assumed_nominal_capacity"] == 1000
     assert metrics["parking_capacity_required"] == 2398
     assert metrics["garage_layout"] == "not_designed"
     assert metrics["road_noded_component_count"] == 1
@@ -162,45 +181,55 @@ def test_design_synthesis_end_to_end(tmp_path):
     )
     assert summary["road_topology"]["schema_id"] == "dgcad.design-road-topology.v0.1"
     assert summary["design_roads"]["road_count"] == 41
-    assert len(checks) == 16
-    for name in (
-        "FAR_RANGE",
-        "PARKING_ENTRANCE_COUNT",
-        "UNIT_COUNT_PRESERVED",
+    assert len(checks) == 18
+    pass_ids = {
         "FOCUS_NS_SPACING",
         "FOCUS_BOUNDARY_SETBACK",
         "FOCUS_BUILDING_OVERLAP",
         "FOCUS_ROAD_CLEARANCE",
         "ROAD_CONNECTIVITY",
-        "ROAD_WIDTHS",
-    ):
-        assert checks[name]["status"] == "pass", checks[name]
-    for name in (
+    }
+    info_ids = {
+        "FAR_ARITHMETIC_SCENARIO",
         "PARKING_REQUIREMENT_ARITHMETIC",
+        "PARKING_ENTRANCE_COUNT",
+        "UNIT_COUNT_BASIS_INVARIANT",
         "ROAD_CORRIDOR_COVERAGE",
-        "OPEN_SPACE_RATIO",
-    ):
-        assert checks[name]["status"] == "info", checks[name]
-    for name in (
+        "ROAD_WIDTH_ASSIGNMENT",
+        "CANDIDATE_OPEN_SPACE_RATIO",
+        "UNBUILT_RATIO",
+    }
+    deferred_ids = {
         "PARKING_CAPACITY",
         "PARKING_LAYOUT",
         "DESIGNED_GREEN_RATIO",
         "FULL_SITE_NS_SPACING",
-    ):
-        assert checks[name]["status"] == "deferred", checks[name]
-    for name in ("FAR_RANGE", "UNIT_COUNT_PRESERVED"):
+        "FAR_FINAL_VERIFICATION",
+    }
+    assert pass_ids | info_ids | deferred_ids == set(checks)
+    assert {name for name, item in checks.items() if item["status"] == "pass"} == pass_ids
+    assert {name for name, item in checks.items() if item["status"] == "info"} == info_ids
+    assert {
+        name for name, item in checks.items() if item["status"] == "deferred"
+    } == deferred_ids
+    for name in ("FAR_ARITHMETIC_SCENARIO", "UNIT_COUNT_BASIS_INVARIANT"):
         assert checks[name]["derived_from"] == "design_basis_arithmetic"
-    assert checks["ROAD_WIDTHS"]["derived_from"] == "design_basis_assignment"
+    assert checks["ROAD_WIDTH_ASSIGNMENT"]["derived_from"] == "design_basis_assignment"
+    assert checks["FAR_FINAL_VERIFICATION"]["value"] is None
     assert checks["DESIGNED_GREEN_RATIO"]["value"] == pytest.approx(
         metrics["designed_green_ratio"]
     )
-    assert checks["OPEN_SPACE_RATIO"]["value"] == pytest.approx(
-        metrics["open_space_ratio"]
+    assert checks["CANDIDATE_OPEN_SPACE_RATIO"]["value"] == pytest.approx(
+        metrics["candidate_open_space_ratio"]
+    )
+    assert checks["UNBUILT_RATIO"]["value"] == pytest.approx(
+        metrics["unbuilt_ratio"]
     )
     basis_block = summary["design_basis"]
     assert basis_block["basis_id"] == "design-assumption-v0.2"
     assert basis_block["design_authority"] == "rule_derived"
     assert basis_block["human_confirmed"] is False
+    assert basis_block["provenance_authentication"] == "declarative"
     assert len(basis_block["parameter_sources"]) == 21
     assert all(
         item["confirmed"] is False
@@ -287,16 +316,24 @@ def test_design_diff_records_design_changes_and_drops():
     assert diff["roads"]["not_professional_alignment"] is True
     assert diff["parking"]["proposed_entrances"] == 2
     assert diff["parking"]["existing_entrances"] == 3
-    assert diff["parking"]["recorded_capacity_spaces"] == 1000
+    assert diff["parking"]["assumed_nominal_capacity_spaces"] == 1000
     assert diff["parking"]["garage_layout"] == "not_designed"
-    assert diff["green"]["open_space_ratio"] == pytest.approx(
+    assert diff["green"]["candidate_open_space_ratio"] == pytest.approx(
         0.6303863597090935, rel=1e-12
     )
+    assert diff["green"]["unbuilt_ratio"] == pytest.approx(
+        0.65339910822412, rel=1e-9
+    )
+    assert diff["green"]["open_space_filters"] == {
+        "boundary_setback_m": 5.0,
+        "obstacle_buffer_m": 0.5,
+        "min_supplementary_polygon_m2": 100.0,
+    }
     assert diff["green"]["designed_green_ratio"] == pytest.approx(
         0.06587448969490359, rel=1e-9
     )
     assert diff["green"]["designed_green_area_m2"] < (
-        diff["green"]["open_space_area_m2"]
+        diff["green"]["candidate_open_space_area_m2"]
     )
 
 
@@ -319,20 +356,37 @@ def test_committed_design_evidence_is_consistent():
     assert summary["focus_design_rect"] is not None
     assert summary["diff"]["focus_design_rect"] == summary["focus_design_rect"]
     checks = {check["id"]: check for check in summary["consistency"]["checks"]}
-    assert len(checks) == 16
+    assert len(checks) == 18
     assert checks["DESIGNED_GREEN_RATIO"]["status"] == "deferred"
     assert checks["PARKING_CAPACITY"]["status"] == "deferred"
     assert checks["PARKING_LAYOUT"]["status"] == "deferred"
-    assert checks["OPEN_SPACE_RATIO"]["status"] == "info"
-    assert summary["metrics"]["open_space_ratio"] == pytest.approx(
+    assert checks["FAR_FINAL_VERIFICATION"]["status"] == "deferred"
+    assert checks["CANDIDATE_OPEN_SPACE_RATIO"]["status"] == "info"
+    assert checks["UNBUILT_RATIO"]["status"] == "info"
+    assert {
+        name for name, item in checks.items() if item["status"] == "pass"
+    } == {
+        "FOCUS_NS_SPACING",
+        "FOCUS_BOUNDARY_SETBACK",
+        "FOCUS_BUILDING_OVERLAP",
+        "FOCUS_ROAD_CLEARANCE",
+        "ROAD_CONNECTIVITY",
+    }
+    assert summary["metrics"]["candidate_open_space_ratio"] == pytest.approx(
         0.6303863597090935, rel=1e-12
+    )
+    assert summary["metrics"]["unbuilt_ratio"] == pytest.approx(
+        0.65339910822412, rel=1e-9
     )
     assert summary["metrics"]["designed_green_ratio"] == pytest.approx(
         0.06587448969490359, rel=1e-9
     )
-    assert summary["metrics"]["parking_capacity_recorded"] == 1000
+    assert summary["metrics"]["parking_assumed_nominal_capacity"] == 1000
     assert summary["metrics"]["parking_capacity_required"] == 2398
     assert len(summary["design_basis"]["parameter_sources"]) == 21
+    assert summary["design_basis"]["provenance_authentication"] == (
+        "declarative"
+    )
     assert all(
         item["confirmed"] is False
         for item in summary["design_basis"]["parameter_sources"].values()

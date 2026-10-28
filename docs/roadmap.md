@@ -200,12 +200,18 @@ First round (`docs/e2e/design-synthesis-001/`):
 - [x] Focus block G-01: 7 standardized buildings / 16 units in rows with 20.0 m north-south spacing, unit division lines, green strips and an access loop.
 - [x] Replace the 333-edge skeleton mesh with a design road hierarchy: merged main roads, one branch per group, one focus access loop; widths 12/7/4 m; record the source mesh as evidence.
 - [x] Allocate cluster/ strip/ supplementary green; site green ratio 63.0%.
+  (M4c-1c/1d annotation: 63.0% is the candidate open-space ratio, not the
+  designed-green ratio — designed green is 6.59% and deferred; this checklist
+  is a historical statement from before M4c-1c.)
 - [x] Check FAR, parking, entrances, unit count, spacing, setback, overlap, road clearance, noded connectivity (1 component after 4c-1a; `ROAD_CORRIDOR_COVERAGE` recorded as informational), road widths and green ratio; record full-site north-south spacing as deferred.
+  (M4c-1c/1d annotation: same historical caveat — "green ratio" here meant the
+  candidate open-space measure; FAR/parking/unit-count are basis arithmetic or
+  info checks in the current 18-check semantics.)
 - [x] Produce an editable 208-entity DXF with layers, building/road labels, dimensions, key plan, title block, legend, north arrow and scale bar; audit 0/0; readback 208/208.
 - [x] Mark all design objects `rule_derived` in `proposal_preview`; no `human_confirmed`; title block says Agent-generated and not code-compliant.
 - [x] Record the design diff, dropped buildings and the persistent draft manifest.
 
-Next in 4c (sequence: 4c-1b design-aware coverage → multi-candidate evaluation → full-site expansion):
+Next in 4c (4c-1d honest semantics done; sequence: 4c-1b design-aware coverage → multi-candidate evaluation → full-site expansion):
 
 - **First fix the road topology** — **done in 4c-1a** without OSMnx: explicit shared-coordinate junctions + dependency-free noded check + evidence regeneration (the OSMnx base was rejected as a tolerance-created connectivity proof; OSMnx remains an optional preprocessor, see 4c-1a below).
 - Expand the standardized layout from the focus block to all groups; enforce 20 m north-south spacing site-wide.
@@ -231,8 +237,17 @@ Next in 4c (sequence: 4c-1b design-aware coverage → multi-candidate evaluation
 - [x] Split the parking claim: entrance count 5 **pass**; recorded capacity **1,000 vs 2,398 required** (PARKING_CAPACITY deferred); parking layout deferred; entrances carry capacities (3 existing × 0, 2 proposed × 500); garage layout `not_designed`.
 - [x] Label derived checks: FAR_RANGE / UNIT_COUNT_PRESERVED = `design_basis_arithmetic`; ROAD_WIDTHS = `design_basis_assignment`.
 - [x] Publish design-basis provenance: 21 parameters with authority states (5 `declared_requirement`, 2 `designer_stated`, 3 `inferred_from_sketch`, 11 `agent_assumption`), **all `confirmed: false`**; the Agent cannot self-confirm them (`design-assumption-v0.2`).
-- [x] Contract `design-synthesis-v0.3.yaml` (v0.2/v0.1 superseded); evidence-gate register v0.3; tests: `test_design_basis` (14), `test_green_parking_semantics` (7), `test_design_contract` 7→10; suite **283 passed**.
+- [x] Contract `design-synthesis-v0.3.yaml` (v0.2/v0.1 superseded); the gate register's `EP-R1-DESIGN-001` pointer updated to v0.3; tests: `test_design_basis` (14), `test_green_parking_semantics` (7), `test_design_contract` 7→10; suite **283 passed**.
 - [x] Merged to `main` as **PR #34** (merge commit `e40f468`, main CI 4/4 green). The merged result remains a research prototype with the non-claims above.
+
+### Milestone 4c-1d — Semantic Residuals (complete, 0.18.0; branch `fix/m4c-1d-semantic-residuals`)
+
+- [x] Narrow `pass` to the 5 independently geometry-verified checks (FOCUS_NS_SPACING, FOCUS_BOUNDARY_SETBACK, FOCUS_BUILDING_OVERLAP, FOCUS_ROAD_CLEARANCE, ROAD_CONNECTIVITY); everything else is info or deferred.
+- [x] Split FAR: `FAR_ARITHMETIC_SCENARIO` info (1.5654 under current assumptions) + `FAR_FINAL_VERIFICATION` deferred (value None; needs a confirmed basis and a full-site design).
+- [x] Rename/check semantics: `UNIT_COUNT_PRESERVED` → `UNIT_COUNT_BASIS_INVARIANT` (info), `ROAD_WIDTHS` → `ROAD_WIDTH_ASSIGNMENT` (info), `OPEN_SPACE_RATIO` → `CANDIDATE_OPEN_SPACE_RATIO` (info; filters 5.0 m setback / 0.5 m obstacle buffer / 100 m² min polygon, classified-area sum); new `UNBUILT_RATIO` info (65.3%, geometric union). Both open-space ratios use the full published site area as denominator; the filtered/unbuilt areas are measured inside the 5 m setback boundary.
+- [x] Parking capacity named `assumed_nominal_capacity_spaces` (1,000 vs 2,398 required, deferred); entrance count is info (per-entrance 500-space assumption, not a capacity result).
+- [x] Provenance authentication `declarative` (declared, not certified); `confirmed: true` requires an `approval_ref`.
+- [x] Contract `design-synthesis-v0.4.yaml` (v0.3/v0.2/v0.1 superseded); the gate register's `EP-R1-DESIGN-001` pointer updated to v0.4; evidence regenerated with geometry/topology/DXF content unchanged (208 entities, audit 0/0, readback 208/208, design-roads geojson unchanged); tests: `test_design_basis` 14→20, `test_green_parking_semantics` 7→9, `test_design_contract` →11; suite **292 passed**.
 
 ### M4c-0 — Open-Source Design Capability Reuse Sprint (complete; partial answer)
 
@@ -253,6 +268,10 @@ rebuilding, using the same CASE-SKETCH-001 focus block.
   had 1 road-clearance conflict (`SK-BLD-0038`); corrected has 7 buildings /
   16 units, 20.0 m N-S, dropped 0038/0061; all current checks pass except
   deferred full-site spacing.
+  (M4c-1c/1d annotation: this block predates the honest-semantics split — the
+  63.0% figure is the candidate open-space ratio, not designed green, and the
+  current check semantics are pass/info/deferred with designed green 6.59%
+  deferred.)
 - [x] Reuse matrix with versions, licenses, hosts, tested APIs, metrics,
   verdicts and rejected uses: `docs/e2e/open-source-reuse-001/reuse-matrix.yaml`.
 - [x] Visual comparison and editable DXF:

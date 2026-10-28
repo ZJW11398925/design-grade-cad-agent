@@ -1,15 +1,17 @@
-"""Honest green / parking semantics (M4c-1c).
+"""Honest green / parking semantics (M4c-1c / M4c-1d).
 
 The R1 design is built through the committed pipeline (same call sequence as
 ``tests/test_design_synthesis.py``) and the green/parking data models are
 checked for the semantics split:
 
-* ``open_space_ratio`` is open space, **not** designed green;
+* green space has **two accounts**: ``candidate_open_space_*`` (current filter
+  rules, sum of classified areas) and ``unbuilt_area_m2`` / ``unbuilt_ratio``
+  (plain geometric union area, no extra buffer and no area filter);
 * ``designed_green_ratio`` covers only the designed classifications
-  (cluster green + green strips), supplementary green is the remaining
+  (cluster green + green strips); supplementary green is the remaining
   occupiable space;
-* parking ``recorded_capacity_spaces`` is what the entrances can actually
-  serve, which is not the same as the parking requirement.
+* parking capacity is an **assumption** under ``spaces_per_entrance``, not a
+  verified capacity.
 """
 from __future__ import annotations
 
@@ -18,6 +20,7 @@ from pathlib import Path
 
 import pytest
 from shapely.geometry import box
+from shapely.ops import unary_union
 
 from dgcad_design import DesignBasis, build_design_intent, load_design_input
 from dgcad_design.buildings import (
@@ -25,7 +28,11 @@ from dgcad_design.buildings import (
     layout_focus_region,
     standardize_all,
 )
-from dgcad_design.green import GreenLayout, build_green_layout
+from dgcad_design.green import (
+    OPEN_SPACE_FILTERS,
+    GreenLayout,
+    build_green_layout,
+)
 from dgcad_design.parking import build_parking_layout
 from dgcad_design.roads import build_road_layout
 
@@ -65,30 +72,30 @@ def _r1_models():
     parking = build_parking_layout(
         design_input, intent, road_layout, basis
     )
-    return design_input, green, parking
+    return design_input, building_layout, road_layout, green, parking
 
 
 def _site_area() -> float:
-    design_input, _, _ = _r1_models()
+    design_input, _, _, _, _ = _r1_models()
     return design_input.site_area_m2
 
 
 def _green() -> GreenLayout:
-    _, green, _ = _r1_models()
+    _, _, _, green, _ = _r1_models()
     return green
 
 
-# ------------------------------------------------------- open space semantics
-def test_open_space_ratio_is_open_space_not_designed_green():
+# ------------------------------------------------- candidate open space account
+def test_candidate_open_space_ratio_is_filtered_and_not_designed_green():
     green = _green()
-    assert green.open_space_ratio == pytest.approx(
+    assert green.candidate_open_space_ratio == pytest.approx(
         0.6303863597090935, rel=1e-12
     )
-    assert green.open_space_area_m2 == pytest.approx(
+    assert green.candidate_open_space_area_m2 == pytest.approx(
         128676.22029239938, rel=1e-9
     )
-    # open space is the sum of all three classifications
-    assert green.open_space_area_m2 == pytest.approx(
+    # the candidate account is the sum of the classified areas
+    assert green.candidate_open_space_area_m2 == pytest.approx(
         green.cluster_area_m2
         + green.strip_area_m2
         + green.supplementary_area_m2,
@@ -100,6 +107,45 @@ def test_open_space_ratio_is_open_space_not_designed_green():
     )
 
 
+def test_open_space_filters_are_declared():
+    assert OPEN_SPACE_FILTERS == {
+        "boundary_setback_m": 5.0,
+        "obstacle_buffer_m": 0.5,
+        "min_supplementary_polygon_m2": 100.0,
+    }
+    payload = _empty_green_layout().to_dict()
+    assert payload["open_space_filters"] == OPEN_SPACE_FILTERS
+
+
+# ------------------------------------------------------ strict unbuilt account
+def test_unbuilt_account_is_plain_geometric_union_area():
+    green = _green()
+    design_input, building_layout, road_layout, _, _ = _r1_models()
+    site_inner = design_input.site_boundary.buffer(-5.0)
+    obstacles = unary_union(
+        [item.footprint for item in building_layout.buildings]
+        + [road_layout.corridor_union, road_layout.sidewalk_union]
+    )
+    expected_unbuilt_area = site_inner.difference(obstacles).area
+    assert green.unbuilt_area_m2 == pytest.approx(
+        expected_unbuilt_area, rel=1e-12
+    )
+    assert green.unbuilt_area_m2 == pytest.approx(
+        133373.64664347022, rel=1e-9
+    )
+    assert green.unbuilt_ratio == pytest.approx(
+        green.unbuilt_area_m2 / _site_area(), rel=1e-12
+    )
+    assert green.unbuilt_ratio == pytest.approx(
+        0.65339910822412, rel=1e-9
+    )
+    # dual accounting: the strict geometric account is larger than the filtered
+    # classified one (no 0.5 m buffer, no 100 m2 drop)
+    assert green.unbuilt_area_m2 > green.candidate_open_space_area_m2
+    assert green.unbuilt_ratio > green.candidate_open_space_ratio
+
+
+# ------------------------------------------------------- designed green account
 def test_designed_green_ratio_is_smaller_and_defined_by_designed_area():
     green = _green()
     site_area = _site_area()
@@ -111,43 +157,19 @@ def test_designed_green_ratio_is_smaller_and_defined_by_designed_area():
     )
     # the honest headline: most open space is supplementary, not designed green
     supplementary_share = (
-        green.supplementary_area_m2 / green.open_space_area_m2
+        green.supplementary_area_m2 / green.candidate_open_space_area_m2
     )
-    assert supplementary_share == pytest.approx(0.8955, rel=1e-3)
-    designed_share = green.designed_green_area_m2 / green.open_space_area_m2
+    assert supplementary_share == pytest.approx(
+        0.8955014037338896, rel=1e-3
+    )
+    designed_share = (
+        green.designed_green_area_m2 / green.candidate_open_space_area_m2
+    )
     assert designed_share == pytest.approx(0.1045, rel=1e-3)
-    assert green.designed_green_ratio < green.open_space_ratio
+    assert green.designed_green_ratio < green.candidate_open_space_ratio
 
 
-def test_old_green_names_are_gone():
-    green = _green()
-    assert not hasattr(green, "green_ratio")
-    assert not hasattr(green, "total_area_m2")
-    payload = _empty_green_layout().to_dict()
-    assert "green_ratio" not in payload
-    assert "total_area_m2" not in payload
-    for key in (
-        "open_space_area_m2",
-        "designed_green_area_m2",
-        "open_space_ratio",
-        "designed_green_ratio",
-    ):
-        assert key in payload
-    assert set(GreenLayout.__dataclass_fields__) == {
-        "greens",
-        "focus_greens",
-        "cluster_area_m2",
-        "strip_area_m2",
-        "supplementary_area_m2",
-        "open_space_area_m2",
-        "designed_green_area_m2",
-        "open_space_ratio",
-        "designed_green_ratio",
-        "target_ratio",
-        "dropped_cluster_ids",
-    }
-
-
+# ------------------------------------------------------------- field contract
 def _empty_green_layout() -> GreenLayout:
     return GreenLayout(
         greens=(),
@@ -155,38 +177,88 @@ def _empty_green_layout() -> GreenLayout:
         cluster_area_m2=0.0,
         strip_area_m2=0.0,
         supplementary_area_m2=0.0,
-        open_space_area_m2=0.0,
+        candidate_open_space_area_m2=0.0,
+        candidate_open_space_ratio=0.0,
+        unbuilt_area_m2=0.0,
+        unbuilt_ratio=0.0,
         designed_green_area_m2=0.0,
-        open_space_ratio=0.0,
         designed_green_ratio=0.0,
         target_ratio=0.30,
         dropped_cluster_ids=(),
     )
 
 
-def test_empty_green_layout_has_zero_designed_ratio():
+def test_old_green_names_are_gone():
+    green = _green()
+    for old_name in (
+        "green_ratio",
+        "total_area_m2",
+        "open_space_area_m2",
+        "open_space_ratio",
+    ):
+        assert not hasattr(green, old_name), old_name
+    payload = _empty_green_layout().to_dict()
+    for old_name in (
+        "green_ratio",
+        "total_area_m2",
+        "open_space_area_m2",
+        "open_space_ratio",
+    ):
+        assert old_name not in payload, old_name
+    for key in (
+        "candidate_open_space_area_m2",
+        "candidate_open_space_ratio",
+        "unbuilt_area_m2",
+        "unbuilt_ratio",
+        "designed_green_area_m2",
+        "designed_green_ratio",
+        "open_space_filters",
+    ):
+        assert key in payload, key
+    assert set(GreenLayout.__dataclass_fields__) == {
+        "greens",
+        "focus_greens",
+        "cluster_area_m2",
+        "strip_area_m2",
+        "supplementary_area_m2",
+        "candidate_open_space_area_m2",
+        "candidate_open_space_ratio",
+        "unbuilt_area_m2",
+        "unbuilt_ratio",
+        "designed_green_area_m2",
+        "designed_green_ratio",
+        "target_ratio",
+        "dropped_cluster_ids",
+    }
+
+
+def test_empty_green_layout_has_zero_ratios():
     empty = _empty_green_layout()
-    assert empty.open_space_area_m2 == 0.0
+    assert empty.candidate_open_space_area_m2 == 0.0
+    assert empty.candidate_open_space_ratio == 0.0
+    assert empty.unbuilt_area_m2 == 0.0
+    assert empty.unbuilt_ratio == 0.0
     assert empty.designed_green_area_m2 == 0.0
-    assert empty.open_space_ratio == 0.0
     assert empty.designed_green_ratio == 0.0
 
 
 # ------------------------------------------------------------ parking semantics
-def test_parking_capacity_is_recorded_not_assumed():
-    _, _, parking = _r1_models()
+def test_parking_capacity_is_assumed_nominal_not_verified():
+    """Nominal assumption under ``spaces_per_entrance``, not verified capacity."""
+    _, _, _, _, parking = _r1_models()
     assert parking.spaces_required == 2398
     assert parking.entrances_required == 5
-    assert parking.recorded_capacity_spaces == 1000
-    assert parking.recorded_capacity_spaces == sum(
+    assert parking.assumed_nominal_capacity_spaces == 1000
+    assert parking.assumed_nominal_capacity_spaces == sum(
         entrance.capacity_spaces for entrance in parking.entrances
     )
-    # the honest gap: recorded entrance capacity does not cover the requirement
-    assert parking.recorded_capacity_spaces < parking.spaces_required
+    # the honest gap: the nominal assumption does not cover the requirement
+    assert parking.assumed_nominal_capacity_spaces < parking.spaces_required
+    assert not hasattr(parking, "recorded_capacity_spaces")
 
 
 def test_parking_entrance_composition_is_unchanged():
-    _, _, parking = _r1_models()
+    _, _, _, _, parking = _r1_models()
     existing = [
         item for item in parking.entrances if item.status == "existing"
     ]
@@ -201,7 +273,7 @@ def test_parking_entrance_composition_is_unchanged():
     assert parking.underground is True
 
 
-def test_parking_to_dict_carries_recorded_capacity_and_garage_layout():
+def test_parking_to_dict_carries_assumed_nominal_capacity_and_garage_layout():
     from dgcad_design.parking import ParkingLayout
 
     payload = ParkingLayout(
@@ -212,7 +284,8 @@ def test_parking_to_dict_carries_recorded_capacity_and_garage_layout():
         entrances=(),
         underground=True,
         garage_layout="not_designed",
-        recorded_capacity_spaces=1000,
+        assumed_nominal_capacity_spaces=1000,
     ).to_dict()
-    assert payload["recorded_capacity_spaces"] == 1000
+    assert payload["assumed_nominal_capacity_spaces"] == 1000
     assert payload["garage_layout"] == "not_designed"
+    assert "recorded_capacity_spaces" not in payload
