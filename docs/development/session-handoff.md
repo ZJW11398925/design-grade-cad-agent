@@ -27,9 +27,10 @@ Repository: `D:\agent-cad`
 - `main` is the integration branch: **PR #34 merged as merge commit `e40f468`**
   (Milestone 4c — autonomous design synthesis + M4c-0 reuse + M4c-1a/1c fixes),
   **PR #36 merged as merge commit `0546649`** (M4c-1d semantic residuals),
-  **PR #38 merged as merge commit `7a3e70a`** (M4c-1b design-aware road access)
-  and **PR #39 merged as merge commit `3e50399`** (docs: record PR #38 merge and
-  refresh continuation state); main CI is 4/4 green on all.
+  **PR #38 merged as merge commit `7a3e70a`** (M4c-1b design-aware road access),
+  **PR #39 merged as merge commit `3e50399`** (docs: record PR #38 merge) and
+  **PR #40 merged as merge commit `7f81f0e`** (M4c-1e declared access evidence);
+  main CI is 4/4 green on all.
 - The old topic branches `milestone-4c-autonomous-design`,
   `fix/m4c-1d-semantic-residuals`, `feat/m4c-1b-road-access` and
   `fix/m4c-1e-evidence-binding` contain the same history (M4c-1a `9d4ae56` +
