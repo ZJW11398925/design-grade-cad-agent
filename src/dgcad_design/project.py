@@ -27,6 +27,7 @@ from .buildings import (
     layout_focus_region,
     standardize_all,
 )
+from .access import RoadAccessLayout, build_road_access
 from .consistency import check_design
 from .drawing import build_drawing_elements
 from .green import OPEN_SPACE_FILTERS, GreenLayout, build_green_layout
@@ -342,19 +343,38 @@ def _evidence_files(out: Path) -> None:
     out.mkdir(parents=True, exist_ok=True)
 
 
-def _design_roads_geojson(road_layout: RoadLayout) -> dict[str, Any]:
-    """Publish the 41 design centre lines so topology is checkable from evidence.
+def _design_roads_geojson(
+    road_layout: RoadLayout,
+    road_access: RoadAccessLayout | None = None,
+) -> dict[str, Any]:
+    """Publish the design centre lines so topology is checkable from evidence.
 
-    This is the M4c-1a artefact: before it, only the 10 focus-area centre lines
+    This is the M4c-1a artefact: before it, only the focus-area centre lines
     reached the DXF/CAD-IR and the full design network's topology could not be
-    recomputed from committed files.
+    recomputed from committed files. M4c-1b adds the per-group access terminals
+    and the dead-end justification records.
     """
-    return {
+    payload: dict[str, Any] = {
         "type": "FeatureCollection",
         "schema_id": "dgcad.design-roads.v0.1",
         "road_count": len(road_layout.roads),
         "coordinate_frame": "design-local-metric",
         "junction_count": len(road_layout.explicit_junctions),
+        "road_class_counts": {
+            name: sum(
+                1 for road in road_layout.roads if road.class_name == name
+            )
+            for name in ("main", "branch", "access")
+        },
+        "road_building_overlap_m2_new_access": (
+            road_layout.road_building_overlap_m2_new_access
+        ),
+        "road_building_overlap_m2_main": (
+            road_layout.road_building_overlap_m2_main
+        ),
+        "road_building_overlap_m2_total": (
+            road_layout.road_building_overlap_m2_total
+        ),
         "junctions": [
             dict(junction)
             for junction in road_layout.explicit_junctions
@@ -383,6 +403,15 @@ def _design_roads_geojson(road_layout: RoadLayout) -> dict[str, Any]:
             for road in road_layout.roads
         ],
     }
+    if road_access is not None:
+        payload["road_access_coverage"] = road_access.road_access_coverage
+        payload["group_access"] = [
+            item.to_dict() for item in road_access.groups
+        ]
+        payload["dead_end_justification"] = [
+            item.to_dict() for item in road_access.dead_ends
+        ]
+    return payload
 
 
 def run_design_synthesis(
@@ -429,6 +458,13 @@ def run_design_synthesis(
     parking_layout = build_parking_layout(
         design_input, intent, road_layout, basis
     )
+    road_access = build_road_access(
+        building_layout,
+        road_layout,
+        intent,
+        parking_layout,
+        basis,
+    )
     consistency = check_design(
         design_input,
         basis,
@@ -437,6 +473,7 @@ def run_design_synthesis(
         road_layout,
         green_layout,
         parking_layout,
+        road_access,
     )
     if design_rect is not None:
         consistency.metrics["focus_design_rect"] = list(design_rect)
@@ -455,7 +492,7 @@ def run_design_synthesis(
     roads_path = output_dir / "design-roads.geojson"
     roads_path.write_text(
         json.dumps(
-            _design_roads_geojson(road_layout),
+            _design_roads_geojson(road_layout, road_access),
             indent=2,
             ensure_ascii=False,
         ),
@@ -506,6 +543,7 @@ def run_design_synthesis(
         "consistency": consistency.to_dict(),
         "intent": intent.to_dict(),
         "road_topology": road_layout.noded_topology.to_dict(),
+        "road_access": road_access.to_dict(),
         "design_roads": {
             "path": roads_path.name,
             "road_count": len(road_layout.roads),

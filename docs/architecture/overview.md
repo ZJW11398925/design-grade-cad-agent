@@ -269,7 +269,7 @@ source raster (public)
 - The Agent generates a **schematic design draft** in `proposal_preview` with `rule_derived` authority. It may revise the draft without human approval; it may not claim `human_confirmed`, code compliance, adoption or official issue.
 - The design basis is explicit and replaceable: staircase module, floors, floor height, road widths, setbacks, FAR range, parking ratio, north-south spacing and green target.
 - The first round uses the full site as coarse context (55 buildings, 109 staircases, 2,398 households, FAR 1.565, 2,398 parking spaces, 5 entrances) and deep-designs focus block G-01 (7 buildings / 16 units) with 20 m rows, green strips and an access loop.
-- The 333-edge source skeleton is evidence, not the design road network. The design merges main roads, adds one branch per group and a focus access loop; the 121-junction review is not continued.
+- The 333-edge source skeleton is evidence, not the design road network. The design merges main roads and serves all 17 groups through 19 connector roads (17 branch + 2 access; G-08/G-09 share BR-G-09 — not one branch per group); the 121-junction review is not continued.
 - The CAD layer now supports `polyline` and `text` representations in addition to polygon rings, centerlines and point markers; the design profile standardizes 22 layers, labels, dimensions, key plan, title block, legend, north arrow and scale bar.
 - Consistency checks cover FAR, parking, entrances, unit counts, focus spacing/setback/overlap/road clearance, connectivity, road widths and green ratio. Full-site north-south spacing is recorded as deferred, not pass.
 - `EP-R1-DESIGN-001` is in progress; the draft is not construction-ready or code-compliant.

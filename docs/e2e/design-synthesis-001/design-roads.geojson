@@ -1,12 +1,38 @@
 {
   "type": "FeatureCollection",
   "schema_id": "dgcad.design-roads.v0.1",
-  "road_count": 41,
+  "road_count": 44,
   "coordinate_frame": "design-local-metric",
-  "junction_count": 16,
+  "junction_count": 21,
+  "road_class_counts": {
+    "main": 25,
+    "branch": 17,
+    "access": 2
+  },
+  "road_building_overlap_m2_new_access": 1.3364783241726115,
+  "road_building_overlap_m2_main": 38.19068149970835,
+  "road_building_overlap_m2_total": 38.73915403620522,
   "junctions": [
     {
       "id": "J-01",
+      "x": 38.77648241969884,
+      "y": 459.9878719213419,
+      "road_ids": [
+        "MAIN-03",
+        "ACC-FOCUS-01"
+      ]
+    },
+    {
+      "id": "J-02",
+      "x": 100.27619111433694,
+      "y": 521.4470917005077,
+      "road_ids": [
+        "MAIN-05",
+        "ACC-FOCUS-01"
+      ]
+    },
+    {
+      "id": "J-03",
       "x": 230.45417791456143,
       "y": 544.6377855048715,
       "road_ids": [
@@ -15,52 +41,70 @@
       ]
     },
     {
-      "id": "J-02",
-      "x": 208.72108017617907,
-      "y": 508.968827,
+      "id": "J-04",
+      "x": 208.86886985106338,
+      "y": 508.2052470130977,
       "road_ids": [
         "BR-FOCUS",
         "ACC-FOCUS-01"
       ]
     },
     {
-      "id": "J-03",
-      "x": 298.94237312140615,
-      "y": 137.91209255448297,
+      "id": "J-05",
+      "x": 207.47982596132522,
+      "y": 613.6868685166146,
+      "road_ids": [
+        "MAIN-08",
+        "BR-G-01"
+      ]
+    },
+    {
+      "id": "J-06",
+      "x": 303.46987300823696,
+      "y": 245.19913780563147,
       "road_ids": [
         "MAIN-21",
         "BR-G-02"
       ]
     },
     {
-      "id": "J-04",
-      "x": 103.36341263330598,
-      "y": 253.38413227491904,
+      "id": "J-07",
+      "x": 107.59832496189854,
+      "y": 150.8221719334051,
       "road_ids": [
         "MAIN-07",
         "BR-G-03"
       ]
     },
     {
-      "id": "J-05",
-      "x": 248.66219689376692,
-      "y": 456.8384073132006,
+      "id": "J-08",
+      "x": 248.78060924722985,
+      "y": 443.81304843227633,
       "road_ids": [
         "MAIN-08",
         "BR-G-04"
       ]
     },
     {
-      "id": "J-06",
-      "x": 199.73352512194066,
-      "y": 125.86101957176594,
+      "id": "J-09",
+      "x": 28.406922783604482,
+      "y": 438.58239795244253,
+      "road_ids": [
+        "ACC-FOCUS-01",
+        "BR-G-05"
+      ]
+    },
+    {
+      "id": "J-10",
+      "x": 164.59134421979272,
+      "y": 127.39728977513853,
       "road_ids": [
         "MAIN-14",
         "BR-G-06"
       ]
     },
     {
-      "id": "J-07",
+      "id": "J-11",
       "x": 104.593929,
       "y": 129.614438,
       "road_ids": [
@@ -69,43 +113,52 @@
       ]
     },
     {
-      "id": "J-08",
-      "x": 234.02753783092217,
-      "y": 67.92735197730987,
+      "id": "J-12",
+      "x": 159.14684167350285,
+      "y": 114.84823625922887,
       "road_ids": [
-        "MAIN-17",
+        "MAIN-15",
         "BR-G-08"
       ]
     },
     {
-      "id": "J-09",
-      "x": 243.64232977850696,
-      "y": 84.4954881050041,
+      "id": "J-13",
+      "x": 235.5553018335334,
+      "y": 110.47572432209299,
       "road_ids": [
-        "MAIN-20",
+        "MAIN-19",
         "BR-G-09"
       ]
     },
     {
-      "id": "J-10",
-      "x": 302.40891802196893,
-      "y": 192.82345615916867,
+      "id": "J-14",
+      "x": 303.0414612543109,
+      "y": 225.66356182660087,
       "road_ids": [
         "MAIN-21",
         "BR-G-10"
       ]
     },
     {
-      "id": "J-11",
+      "id": "J-15",
       "x": 103.36341263330598,
-      "y": 202.59331087518228,
+      "y": 250.4758924613709,
       "road_ids": [
         "MAIN-07",
         "BR-G-11"
       ]
     },
     {
-      "id": "J-12",
+      "id": "J-16",
+      "x": 218.92489752827902,
+      "y": 456.2491040141503,
+      "road_ids": [
+        "ACC-FOCUS-01",
+        "ACC-G-12"
+      ]
+    },
+    {
+      "id": "J-17",
       "x": 111.156686,
       "y": 127.973749,
       "road_ids": [
@@ -114,16 +167,16 @@
       ]
     },
     {
-      "id": "J-13",
-      "x": 159.14684167350285,
-      "y": 114.84823625922887,
+      "id": "J-18",
+      "x": 221.49302707136997,
+      "y": 17.227235438884332,
       "road_ids": [
-        "MAIN-15",
+        "MAIN-16",
         "BR-G-14"
       ]
     },
     {
-      "id": "J-14",
+      "id": "J-19",
       "x": 303.93765381460213,
       "y": 375.71780147662014,
       "road_ids": [
@@ -132,20 +185,20 @@
       ]
     },
     {
-      "id": "J-15",
+      "id": "J-20",
       "x": 103.36341263330598,
-      "y": 328.899530903572,
+      "y": 334.399530903572,
       "road_ids": [
         "MAIN-07",
         "BR-G-16"
       ]
     },
     {
-      "id": "J-16",
-      "x": 350.1773323315702,
-      "y": 343.33433538128946,
+      "id": "J-21",
+      "x": 305.24201319734954,
+      "y": 310.3681366628302,
       "road_ids": [
-        "MAIN-25",
+        "MAIN-21",
         "BR-G-17"
       ]
     }
@@ -477,6 +530,10 @@
             460.62346185397865
           ],
           [
+            38.77648241969884,
+            459.9878719213419
+          ],
+          [
             48.40032813781788,
             458.5726004922067
           ]
@@ -681,6 +738,10 @@
             521.3289581624282
           ],
           [
+            100.27619111433694,
+            521.4470917005077
+          ],
+          [
             74.24118129614438,
             535.6849876948318
           ]
@@ -865,16 +926,16 @@
             129.35850663855445
           ],
           [
+            107.59832496189854,
+            150.8221719334051
+          ],
+          [
             103.36341263330598,
             178.01476620180475
           ],
           [
             103.36341263330598,
-            202.59331087518228
-          ],
-          [
-            103.36341263330598,
-            253.38413227491904
+            250.4758924613709
           ],
           [
             103.36341263330598,
@@ -882,7 +943,7 @@
           ],
           [
             103.36341263330598,
-            328.899530903572
+            334.399530903572
           ],
           [
             103.36341263330598,
@@ -977,8 +1038,8 @@
             422.4774405250205
           ],
           [
-            248.66219689376692,
-            456.8384073132006
+            248.78060924722985,
+            443.81304843227633
           ],
           [
             248.5643970467596,
@@ -1015,6 +1076,10 @@
           [
             213.69975389663657,
             593.929450369155
+          ],
+          [
+            207.47982596132522,
+            613.6868685166146
           ],
           [
             206.72682526661197,
@@ -1617,8 +1682,8 @@
             127.56357670221492
           ],
           [
-            199.73352512194066,
-            125.86101957176594
+            164.59134421979272,
+            127.39728977513853
           ],
           [
             235.84905660377356,
@@ -1901,10 +1966,6 @@
             85.72600492206726
           ],
           [
-            234.02753783092217,
-            67.92735197730987
-          ],
-          [
             231.3371616078753,
             20.098441345365053
           ]
@@ -2087,6 +2148,10 @@
           [
             235.84905660377356,
             124.2821985233798
+          ],
+          [
+            235.5553018335334,
+            110.47572432209299
           ],
           [
             235.0287120590648,
@@ -2281,24 +2346,28 @@
             127.15340442986053
           ],
           [
-            298.94237312140615,
-            137.91209255448297
-          ],
-          [
             302.2969647251846,
             186.21821164889252
-          ],
-          [
-            302.40891802196893,
-            192.82345615916867
           ],
           [
             302.70713699753895,
             210.41837571780147
           ],
           [
+            303.0414612543109,
+            225.66356182660087
+          ],
+          [
+            303.46987300823696,
+            245.19913780563147
+          ],
+          [
             304.7579983593109,
             303.93765381460213
+          ],
+          [
+            305.24201319734954,
+            310.3681366628302
           ],
           [
             307.6292042657916,
@@ -2681,10 +2750,6 @@
             343.3141919606234
           ],
           [
-            350.1773323315702,
-            343.33433538128946
-          ],
-          [
             379.819524,
             343.724364
           ],
@@ -2703,8 +2768,8 @@
         "class_name": "branch",
         "width_m": 7.0,
         "is_new_connector": true,
-        "start_junction_id": "J-01",
-        "end_junction_id": "J-02",
+        "start_junction_id": "J-03",
+        "end_junction_id": "J-04",
         "source_edge_ids": []
       },
       "geometry": {
@@ -2715,8 +2780,34 @@
             544.6377855048715
           ],
           [
-            208.72108017617907,
-            508.968827
+            208.86886985106338,
+            508.2052470130977
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-01",
+      "properties": {
+        "edge_id": "BR-G-01",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-05",
+        "end_junction_id": null,
+        "source_edge_ids": []
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            207.47982596132522,
+            613.6868685166146
+          ],
+          [
+            204.5930225394812,
+            612.77806003196
           ]
         ]
       }
@@ -2729,7 +2820,7 @@
         "class_name": "branch",
         "width_m": 7.0,
         "is_new_connector": true,
-        "start_junction_id": "J-03",
+        "start_junction_id": "J-06",
         "end_junction_id": null,
         "source_edge_ids": []
       },
@@ -2737,12 +2828,12 @@
         "type": "LineString",
         "coordinates": [
           [
-            298.94237312140615,
-            137.91209255448297
+            303.46987300823696,
+            245.19913780563147
           ],
           [
-            320.344545,
-            137.91209255448297
+            307.19812484872534,
+            245.11737789684884
           ]
         ]
       }
@@ -2755,7 +2846,7 @@
         "class_name": "branch",
         "width_m": 7.0,
         "is_new_connector": true,
-        "start_junction_id": "J-04",
+        "start_junction_id": "J-07",
         "end_junction_id": null,
         "source_edge_ids": []
       },
@@ -2763,12 +2854,12 @@
         "type": "LineString",
         "coordinates": [
           [
-            103.36341263330598,
-            253.38413227491904
+            107.59832496189854,
+            150.8221719334051
           ],
           [
-            123.872026,
-            253.384132274919
+            120.89913495183204,
+            152.89360960686366
           ]
         ]
       }
@@ -2781,7 +2872,7 @@
         "class_name": "branch",
         "width_m": 7.0,
         "is_new_connector": true,
-        "start_junction_id": "J-05",
+        "start_junction_id": "J-08",
         "end_junction_id": null,
         "source_edge_ids": []
       },
@@ -2789,12 +2880,38 @@
         "type": "LineString",
         "coordinates": [
           [
-            248.66219689376692,
-            456.8384073132006
+            248.78060924722985,
+            443.81304843227633
           ],
           [
-            262.920427,
-            456.8384073132006
+            259.5373634518321,
+            443.91083710686365
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-05",
+      "properties": {
+        "edge_id": "BR-G-05",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-09",
+        "end_junction_id": null,
+        "source_edge_ids": []
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            28.406922783604482,
+            438.58239795244253
+          ],
+          [
+            32.495631311261754,
+            436.70291090117996
           ]
         ]
       }
@@ -2807,7 +2924,7 @@
         "class_name": "branch",
         "width_m": 7.0,
         "is_new_connector": true,
-        "start_junction_id": "J-06",
+        "start_junction_id": "J-10",
         "end_junction_id": null,
         "source_edge_ids": []
       },
@@ -2815,12 +2932,12 @@
         "type": "LineString",
         "coordinates": [
           [
-            199.73352512194066,
-            125.86101957176594
+            164.59134421979272,
+            127.39728977513853
           ],
           [
-            199.73352512194066,
-            151.763741
+            165.5664030478256,
+            149.70176046639037
           ]
         ]
       }
@@ -2833,7 +2950,7 @@
         "class_name": "branch",
         "width_m": 7.0,
         "is_new_connector": true,
-        "start_junction_id": "J-07",
+        "start_junction_id": "J-11",
         "end_junction_id": null,
         "source_edge_ids": []
       },
@@ -2845,8 +2962,8 @@
             129.614438
           ],
           [
-            77.112387,
-            115.258409
+            89.97410178701078,
+            116.26699318587342
           ]
         ]
       }
@@ -2859,7 +2976,7 @@
         "class_name": "branch",
         "width_m": 7.0,
         "is_new_connector": true,
-        "start_junction_id": "J-08",
+        "start_junction_id": "J-12",
         "end_junction_id": null,
         "source_edge_ids": []
       },
@@ -2867,12 +2984,12 @@
         "type": "LineString",
         "coordinates": [
           [
-            234.02753783092217,
-            67.92735197730987
+            159.14684167350285,
+            114.84823625922887
           ],
           [
-            220.672683,
-            67.92735197730987
+            157.25025335673936,
+            112.46114966732631
           ]
         ]
       }
@@ -2885,7 +3002,7 @@
         "class_name": "branch",
         "width_m": 7.0,
         "is_new_connector": true,
-        "start_junction_id": "J-09",
+        "start_junction_id": "J-13",
         "end_junction_id": null,
         "source_edge_ids": []
       },
@@ -2893,12 +3010,12 @@
         "type": "LineString",
         "coordinates": [
           [
-            243.64232977850696,
-            84.4954881050041
+            235.5553018335334,
+            110.47572432209299
           ],
           [
-            251.025431,
-            84.4954881050041
+            240.7398633050156,
+            110.36541450355081
           ]
         ]
       }
@@ -2911,7 +3028,7 @@
         "class_name": "branch",
         "width_m": 7.0,
         "is_new_connector": true,
-        "start_junction_id": "J-10",
+        "start_junction_id": "J-14",
         "end_junction_id": null,
         "source_edge_ids": []
       },
@@ -2919,12 +3036,12 @@
         "type": "LineString",
         "coordinates": [
           [
-            302.40891802196893,
-            192.82345615916867
+            303.0414612543109,
+            225.66356182660087
           ],
           [
-            285.069729,
-            192.82345615916867
+            288.78095757412234,
+            225.97629217046463
           ]
         ]
       }
@@ -2937,7 +3054,7 @@
         "class_name": "branch",
         "width_m": 7.0,
         "is_new_connector": true,
-        "start_junction_id": "J-11",
+        "start_junction_id": "J-15",
         "end_junction_id": null,
         "source_edge_ids": []
       },
@@ -2946,11 +3063,37 @@
         "coordinates": [
           [
             103.36341263330598,
-            202.59331087518228
+            250.4758924613709
           ],
           [
-            84.495488,
-            202.59331087518228
+            93.79980775460419,
+            250.4758924613709
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ACC-G-12",
+      "properties": {
+        "edge_id": "ACC-G-12",
+        "class_name": "access",
+        "width_m": 4.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-16",
+        "end_junction_id": null,
+        "source_edge_ids": []
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            218.92489752827902,
+            456.2491040141503
+          ],
+          [
+            169.009433,
+            446.5880463635157
           ]
         ]
       }
@@ -2963,7 +3106,7 @@
         "class_name": "branch",
         "width_m": 7.0,
         "is_new_connector": true,
-        "start_junction_id": "J-12",
+        "start_junction_id": "J-17",
         "end_junction_id": null,
         "source_edge_ids": []
       },
@@ -2975,8 +3118,8 @@
             127.973749
           ],
           [
-            111.156686,
-            114.027892
+            110.49081434251151,
+            116.8054439913529
           ]
         ]
       }
@@ -2989,7 +3132,7 @@
         "class_name": "branch",
         "width_m": 7.0,
         "is_new_connector": true,
-        "start_junction_id": "J-13",
+        "start_junction_id": "J-18",
         "end_junction_id": null,
         "source_edge_ids": []
       },
@@ -2997,12 +3140,12 @@
         "type": "LineString",
         "coordinates": [
           [
-            159.14684167350285,
-            114.84823625922887
+            221.49302707136997,
+            17.227235438884332
           ],
           [
-            132.485644,
-            41.017227
+            142.31938469454892,
+            27.521785862260035
           ]
         ]
       }
@@ -3015,7 +3158,7 @@
         "class_name": "branch",
         "width_m": 7.0,
         "is_new_connector": true,
-        "start_junction_id": "J-14",
+        "start_junction_id": "J-19",
         "end_junction_id": null,
         "source_edge_ids": []
       },
@@ -3027,8 +3170,8 @@
             375.71780147662014
           ],
           [
-            319.5242,
-            401.558655
+            317.5303273351603,
+            398.8005544214012
           ]
         ]
       }
@@ -3041,7 +3184,7 @@
         "class_name": "branch",
         "width_m": 7.0,
         "is_new_connector": true,
-        "start_junction_id": "J-15",
+        "start_junction_id": "J-20",
         "end_junction_id": null,
         "source_edge_ids": []
       },
@@ -3050,11 +3193,11 @@
         "coordinates": [
           [
             103.36341263330598,
-            328.899530903572
+            334.399530903572
           ],
           [
-            72.600492,
-            328.899530903572
+            84.56365553809306,
+            334.399530903572
           ]
         ]
       }
@@ -3067,7 +3210,7 @@
         "class_name": "branch",
         "width_m": 7.0,
         "is_new_connector": true,
-        "start_junction_id": "J-16",
+        "start_junction_id": "J-21",
         "end_junction_id": null,
         "source_edge_ids": []
       },
@@ -3075,12 +3218,12 @@
         "type": "LineString",
         "coordinates": [
           [
-            350.1773323315702,
-            343.33433538128946
+            305.24201319734954,
+            310.3681366628302
           ],
           [
-            350.1773323315702,
-            327.317473
+            332.40709373542757,
+            308.32345318146946
           ]
         ]
       }
@@ -3101,24 +3244,44 @@
         "type": "LineString",
         "coordinates": [
           [
-            108.26912894112797,
+            109.71914464003737,
             388.968827
           ],
           [
-            73.121001,
-            424.69315375983496
+            25.183548658487517,
+            431.5701457188652
           ],
           [
-            73.121001,
-            439.73590274359185
+            28.406922783604482,
+            438.58239795244253
           ],
           [
-            86.52092182382093,
-            508.968827
+            33.06490513825656,
+            448.7155521885142
           ],
           [
-            208.72108017617907,
-            508.968827
+            38.77648241969884,
+            459.9878719213419
+          ],
+          [
+            50.37499071193469,
+            482.87858799704566
+          ],
+          [
+            73.44209185944966,
+            524.7192549696471
+          ],
+          [
+            100.27619111433694,
+            521.4470917005077
+          ],
+          [
+            208.86886985106338,
+            508.2052470130977
+          ],
+          [
+            218.92489752827902,
+            456.2491040141503
           ],
           [
             222.121001,
@@ -3133,11 +3296,638 @@
             388.968827
           ],
           [
-            108.26912894112797,
+            109.71914464003737,
             388.968827
           ]
         ]
       }
+    }
+  ],
+  "road_access_coverage": 1.0,
+  "group_access": [
+    {
+      "group_id": "G-01",
+      "building_ids": [
+        "SK-BLD-0007",
+        "SK-BLD-0015",
+        "SK-BLD-0021",
+        "SK-BLD-0025",
+        "SK-BLD-0032",
+        "SK-BLD-0034",
+        "SK-BLD-0035",
+        "SK-BLD-0038",
+        "SK-BLD-0061"
+      ],
+      "served": true,
+      "access_road_id": "BR-G-01",
+      "terminal_xy": [
+        204.5930225394812,
+        612.77806003196
+      ],
+      "nearest_building_id": "SK-BLD-0061",
+      "terminal_to_building_m": 3.4999989999999825,
+      "route_crossing_length_m": 0.0,
+      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+    },
+    {
+      "group_id": "G-02",
+      "building_ids": [
+        "SK-BLD-0009",
+        "SK-BLD-0010",
+        "SK-BLD-0014",
+        "SK-BLD-0016",
+        "SK-BLD-0020",
+        "SK-BLD-0022",
+        "SK-BLD-0024"
+      ],
+      "served": true,
+      "access_road_id": "BR-G-02",
+      "terminal_xy": [
+        307.19812484872534,
+        245.11737789684884
+      ],
+      "nearest_building_id": "SK-BLD-0010",
+      "terminal_to_building_m": 3.4999990000000007,
+      "route_crossing_length_m": 0.0,
+      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+    },
+    {
+      "group_id": "G-03",
+      "building_ids": [
+        "SK-BLD-0049",
+        "SK-BLD-0050",
+        "SK-BLD-0052",
+        "SK-BLD-0054",
+        "SK-BLD-0056",
+        "SK-BLD-0057"
+      ],
+      "served": true,
+      "access_road_id": "BR-G-03",
+      "terminal_xy": [
+        120.89913495183204,
+        152.89360960686366
+      ],
+      "nearest_building_id": "SK-BLD-0057",
+      "terminal_to_building_m": 3.499999000000005,
+      "route_crossing_length_m": 0.0,
+      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+    },
+    {
+      "group_id": "G-04",
+      "building_ids": [
+        "SK-BLD-0040",
+        "SK-BLD-0041",
+        "SK-BLD-0042",
+        "SK-BLD-0043",
+        "SK-BLD-0044"
+      ],
+      "served": true,
+      "access_road_id": "BR-G-04",
+      "terminal_xy": [
+        259.5373634518321,
+        443.91083710686365
+      ],
+      "nearest_building_id": "SK-BLD-0042",
+      "terminal_to_building_m": 3.499998999999994,
+      "route_crossing_length_m": 0.0,
+      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+    },
+    {
+      "group_id": "G-05",
+      "building_ids": [
+        "SK-BLD-0002",
+        "SK-BLD-0017",
+        "SK-BLD-0033"
+      ],
+      "served": true,
+      "access_road_id": "BR-G-05",
+      "terminal_xy": [
+        32.495631311261754,
+        436.70291090117996
+      ],
+      "nearest_building_id": "SK-BLD-0002",
+      "terminal_to_building_m": 3.4999990000000043,
+      "route_crossing_length_m": 0.0,
+      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+    },
+    {
+      "group_id": "G-06",
+      "building_ids": [
+        "SK-BLD-0003",
+        "SK-BLD-0005",
+        "SK-BLD-0008"
+      ],
+      "served": true,
+      "access_road_id": "BR-G-06",
+      "terminal_xy": [
+        165.5664030478256,
+        149.70176046639037
+      ],
+      "nearest_building_id": "SK-BLD-0005",
+      "terminal_to_building_m": 3.4999989999999888,
+      "route_crossing_length_m": 0.0,
+      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+    },
+    {
+      "group_id": "G-07",
+      "building_ids": [
+        "SK-BLD-0004",
+        "SK-BLD-0013",
+        "SK-BLD-0018"
+      ],
+      "served": true,
+      "access_road_id": "BR-G-07",
+      "terminal_xy": [
+        89.97410178701078,
+        116.26699318587342
+      ],
+      "nearest_building_id": "SK-BLD-0004",
+      "terminal_to_building_m": 3.4999990000000003,
+      "route_crossing_length_m": 0.0,
+      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+    },
+    {
+      "group_id": "G-08",
+      "building_ids": [
+        "SK-BLD-0006",
+        "SK-BLD-0011",
+        "SK-BLD-0012"
+      ],
+      "served": true,
+      "access_road_id": "BR-G-09",
+      "terminal_xy": [
+        235.5553018335334,
+        110.47572432209299
+      ],
+      "nearest_building_id": "SK-BLD-0006",
+      "terminal_to_building_m": 2.894807622231173,
+      "route_crossing_length_m": 0.0,
+      "reason": "access-road terminal is 2.895 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+    },
+    {
+      "group_id": "G-09",
+      "building_ids": [
+        "SK-BLD-0029",
+        "SK-BLD-0031",
+        "SK-BLD-0036"
+      ],
+      "served": true,
+      "access_road_id": "BR-G-09",
+      "terminal_xy": [
+        240.7398633050156,
+        110.36541450355081
+      ],
+      "nearest_building_id": "SK-BLD-0029",
+      "terminal_to_building_m": 3.499998999999994,
+      "route_crossing_length_m": 0.0,
+      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+    },
+    {
+      "group_id": "G-10",
+      "building_ids": [
+        "SK-BLD-0045",
+        "SK-BLD-0051",
+        "SK-BLD-0055"
+      ],
+      "served": true,
+      "access_road_id": "BR-G-10",
+      "terminal_xy": [
+        288.78095757412234,
+        225.97629217046463
+      ],
+      "nearest_building_id": "SK-BLD-0055",
+      "terminal_to_building_m": 3.4999990000000145,
+      "route_crossing_length_m": 0.0,
+      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+    },
+    {
+      "group_id": "G-11",
+      "building_ids": [
+        "SK-BLD-MRG-0002",
+        "SK-BLD-MRG-0004",
+        "SK-BLD-MRG-0005"
+      ],
+      "served": true,
+      "access_road_id": "BR-G-11",
+      "terminal_xy": [
+        93.79980775460419,
+        250.4758924613709
+      ],
+      "nearest_building_id": "SK-BLD-MRG-0002",
+      "terminal_to_building_m": 3.4999990000000025,
+      "route_crossing_length_m": 0.0,
+      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+    },
+    {
+      "group_id": "G-12",
+      "building_ids": [
+        "SK-BLD-0023",
+        "SK-BLD-0026"
+      ],
+      "served": true,
+      "access_road_id": "ACC-G-12",
+      "terminal_xy": [
+        169.009433,
+        446.5880463635157
+      ],
+      "nearest_building_id": "SK-BLD-0026",
+      "terminal_to_building_m": 3.499999000000002,
+      "route_crossing_length_m": 0.0,
+      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+    },
+    {
+      "group_id": "G-13",
+      "building_ids": [
+        "SK-BLD-0028"
+      ],
+      "served": true,
+      "access_road_id": "BR-G-07",
+      "terminal_xy": [
+        89.97410178701078,
+        116.26699318587342
+      ],
+      "nearest_building_id": "SK-BLD-0028",
+      "terminal_to_building_m": 3.1876831467565885,
+      "route_crossing_length_m": 0.0,
+      "reason": "access-road terminal is 3.188 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+    },
+    {
+      "group_id": "G-14",
+      "building_ids": [
+        "SK-BLD-0039"
+      ],
+      "served": true,
+      "access_road_id": "BR-G-14",
+      "terminal_xy": [
+        142.31938469454892,
+        27.521785862260035
+      ],
+      "nearest_building_id": "SK-BLD-0039",
+      "terminal_to_building_m": 3.4979873463090696,
+      "route_crossing_length_m": 0.0,
+      "reason": "access-road terminal is 3.498 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+    },
+    {
+      "group_id": "G-15",
+      "building_ids": [
+        "SK-BLD-0048"
+      ],
+      "served": true,
+      "access_road_id": "BR-G-15",
+      "terminal_xy": [
+        317.5303273351603,
+        398.8005544214012
+      ],
+      "nearest_building_id": "SK-BLD-0048",
+      "terminal_to_building_m": 3.4999989999999905,
+      "route_crossing_length_m": 0.0,
+      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+    },
+    {
+      "group_id": "G-16",
+      "building_ids": [
+        "SK-BLD-MRG-0001"
+      ],
+      "served": true,
+      "access_road_id": "BR-G-16",
+      "terminal_xy": [
+        84.56365553809306,
+        334.399530903572
+      ],
+      "nearest_building_id": "SK-BLD-MRG-0001",
+      "terminal_to_building_m": 3.4999990000000025,
+      "route_crossing_length_m": 0.0,
+      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+    },
+    {
+      "group_id": "G-17",
+      "building_ids": [
+        "SK-BLD-MRG-0003"
+      ],
+      "served": true,
+      "access_road_id": "BR-G-17",
+      "terminal_xy": [
+        332.40709373542757,
+        308.32345318146946
+      ],
+      "nearest_building_id": "SK-BLD-MRG-0003",
+      "terminal_to_building_m": 3.499998999999997,
+      "route_crossing_length_m": 0.0,
+      "reason": "access-road terminal is 3.500 m from the group footprint (clearance + 0.5 m tolerance) and the route crosses the footprint by 0.000 m"
+    }
+  ],
+  "dead_end_justification": [
+    {
+      "node_id": "DE-01",
+      "coordinate": [
+        32.495631311261754,
+        436.70291090117996
+      ],
+      "road_id": "BR-G-05",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0002",
+      "distance_m": 3.499999000000004,
+      "classification": "group_terminal_justified",
+      "justified": true
+    },
+    {
+      "node_id": "DE-02",
+      "coordinate": [
+        48.40032813781788,
+        458.5726004922067
+      ],
+      "road_id": "MAIN-03",
+      "road_class": "main",
+      "nearest_building_id": "SK-BLD-0033",
+      "distance_m": 11.440870341813453,
+      "classification": "main_stub_unfinished",
+      "justified": false
+    },
+    {
+      "node_id": "DE-03",
+      "coordinate": [
+        84.56365553809306,
+        334.399530903572
+      ],
+      "road_id": "BR-G-16",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-MRG-0001",
+      "distance_m": 3.4999990000000025,
+      "classification": "group_terminal_justified",
+      "justified": true
+    },
+    {
+      "node_id": "DE-04",
+      "coordinate": [
+        89.97410178701078,
+        116.26699318587342
+      ],
+      "road_id": "BR-G-07",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0028",
+      "distance_m": 3.1876831467565885,
+      "classification": "group_terminal_justified",
+      "justified": true
+    },
+    {
+      "node_id": "DE-05",
+      "coordinate": [
+        93.79980775460419,
+        250.4758924613709
+      ],
+      "road_id": "BR-G-11",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-MRG-0002",
+      "distance_m": 3.4999990000000025,
+      "classification": "group_terminal_justified",
+      "justified": true
+    },
+    {
+      "node_id": "DE-06",
+      "coordinate": [
+        100.49220672682526,
+        521.3289581624282
+      ],
+      "road_id": "MAIN-05",
+      "road_class": "main",
+      "nearest_building_id": "SK-BLD-0017",
+      "distance_m": 14.5417665574244,
+      "classification": "main_stub_unfinished",
+      "justified": false
+    },
+    {
+      "node_id": "DE-07",
+      "coordinate": [
+        110.49081434251151,
+        116.8054439913529
+      ],
+      "road_id": "BR-G-13",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0028",
+      "distance_m": 3.4999990000000034,
+      "classification": "group_terminal_justified",
+      "justified": true
+    },
+    {
+      "node_id": "DE-08",
+      "coordinate": [
+        120.89913495183204,
+        152.89360960686366
+      ],
+      "road_id": "BR-G-03",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0057",
+      "distance_m": 3.499999000000005,
+      "classification": "group_terminal_justified",
+      "justified": true
+    },
+    {
+      "node_id": "DE-09",
+      "coordinate": [
+        124.6923707957342,
+        600.9023789991796
+      ],
+      "road_id": "MAIN-09",
+      "road_class": "main",
+      "nearest_building_id": "SK-BLD-0038",
+      "distance_m": 11.801206831285178,
+      "classification": "main_stub_unfinished",
+      "justified": false
+    },
+    {
+      "node_id": "DE-10",
+      "coordinate": [
+        142.31938469454892,
+        27.521785862260035
+      ],
+      "road_id": "BR-G-14",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0039",
+      "distance_m": 3.4979873463090696,
+      "classification": "group_terminal_justified",
+      "justified": true
+    },
+    {
+      "node_id": "DE-11",
+      "coordinate": [
+        157.25025335673936,
+        112.46114966732631
+      ],
+      "road_id": "BR-G-08",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0006",
+      "distance_m": 3.4999990000000074,
+      "classification": "group_terminal_justified",
+      "justified": true
+    },
+    {
+      "node_id": "DE-12",
+      "coordinate": [
+        165.5664030478256,
+        149.70176046639037
+      ],
+      "road_id": "BR-G-06",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0005",
+      "distance_m": 3.4999989999999888,
+      "classification": "group_terminal_justified",
+      "justified": true
+    },
+    {
+      "node_id": "DE-13",
+      "coordinate": [
+        169.009433,
+        446.5880463635157
+      ],
+      "road_id": "ACC-G-12",
+      "road_class": "access",
+      "nearest_building_id": "SK-BLD-0026",
+      "distance_m": 3.499999000000002,
+      "classification": "group_terminal_justified",
+      "justified": true
+    },
+    {
+      "node_id": "DE-14",
+      "coordinate": [
+        204.5930225394812,
+        612.77806003196
+      ],
+      "road_id": "BR-G-01",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0061",
+      "distance_m": 3.4999989999999825,
+      "classification": "group_terminal_justified",
+      "justified": true
+    },
+    {
+      "node_id": "DE-15",
+      "coordinate": [
+        239.95077932731746,
+        424.93847415914684
+      ],
+      "road_id": "MAIN-22",
+      "road_class": "main",
+      "nearest_building_id": "SK-BLD-0021",
+      "distance_m": 26.006931514087263,
+      "classification": "main_stub_unfinished",
+      "justified": false
+    },
+    {
+      "node_id": "DE-16",
+      "coordinate": [
+        240.7398633050156,
+        110.36541450355081
+      ],
+      "road_id": "BR-G-09",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0029",
+      "distance_m": 3.499998999999994,
+      "classification": "group_terminal_justified",
+      "justified": true
+    },
+    {
+      "node_id": "DE-17",
+      "coordinate": [
+        243.64232977850696,
+        84.4954881050041
+      ],
+      "road_id": "MAIN-20",
+      "road_class": "main",
+      "nearest_building_id": "SK-BLD-0031",
+      "distance_m": 9.396906732714546,
+      "classification": "unclassified",
+      "justified": false
+    },
+    {
+      "node_id": "DE-18",
+      "coordinate": [
+        245.6931911402789,
+        16.81706316652994
+      ],
+      "road_id": "MAIN-18",
+      "road_class": "main",
+      "nearest_building_id": "SK-BLD-0036",
+      "distance_m": 9.637835677563668,
+      "classification": "unclassified",
+      "justified": false
+    },
+    {
+      "node_id": "DE-19",
+      "coordinate": [
+        259.5373634518321,
+        443.91083710686365
+      ],
+      "road_id": "BR-G-04",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0042",
+      "distance_m": 3.499998999999994,
+      "classification": "group_terminal_justified",
+      "justified": true
+    },
+    {
+      "node_id": "DE-20",
+      "coordinate": [
+        288.78095757412234,
+        225.97629217046463
+      ],
+      "road_id": "BR-G-10",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0055",
+      "distance_m": 3.4999990000000145,
+      "classification": "group_terminal_justified",
+      "justified": true
+    },
+    {
+      "node_id": "DE-21",
+      "coordinate": [
+        307.19812484872534,
+        245.11737789684884
+      ],
+      "road_id": "BR-G-02",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0010",
+      "distance_m": 3.4999990000000016,
+      "classification": "group_terminal_justified",
+      "justified": true
+    },
+    {
+      "node_id": "DE-22",
+      "coordinate": [
+        317.5303273351603,
+        398.8005544214012
+      ],
+      "road_id": "BR-G-15",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0048",
+      "distance_m": 3.4999989999999905,
+      "classification": "group_terminal_justified",
+      "justified": true
+    },
+    {
+      "node_id": "DE-23",
+      "coordinate": [
+        332.40709373542757,
+        308.32345318146946
+      ],
+      "road_id": "BR-G-17",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-MRG-0003",
+      "distance_m": 3.499998999999997,
+      "classification": "group_terminal_justified",
+      "justified": true
+    },
+    {
+      "node_id": "DE-24",
+      "coordinate": [
+        382.2805578342904,
+        340.8531583264971
+      ],
+      "road_id": "MAIN-25",
+      "road_class": "main",
+      "nearest_building_id": "SK-BLD-MRG-0003",
+      "distance_m": 37.06084035186662,
+      "classification": "main_stub_unfinished",
+      "justified": false
     }
   ]
 }

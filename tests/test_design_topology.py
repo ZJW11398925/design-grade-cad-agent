@@ -129,33 +129,33 @@ def test_schema_contract_fields():
 def test_r1_design_network_is_exactly_connected():
     layout = _r1_layout()
     topology = layout.noded_topology
-    assert len(layout.roads) == 41
+    assert len(layout.roads) == 44
     assert sum(1 for r in layout.roads if r.class_name == "main") == 25
-    assert sum(1 for r in layout.roads if r.class_name == "branch") == 15
-    assert sum(1 for r in layout.roads if r.class_name == "access") == 1
+    assert sum(1 for r in layout.roads if r.class_name == "branch") == 17
+    assert sum(1 for r in layout.roads if r.class_name == "access") == 2
     assert layout.corridor_union_pieces == 1
     assert topology.component_count == 1
     assert topology.max_endpoint_gap_m == 0.0
     assert _crossing_only_count(topology) == 0
     assert topology_violations(topology) == ()
     assert topology.closed_ring_count == 3
-    assert topology.explicit_junction_count == 16
+    assert topology.explicit_junction_count == 21
 
 
 def test_r1_noded_graph_numbers():
     topology = _r1_layout().noded_topology
-    assert topology.node_count == 51
-    assert topology.edge_count == 55
-    assert topology.noded_segment_count == 55
-    assert topology.cyclomatic == 5
-    assert topology.degree_histogram == {1: 21, 2: 3, 3: 25, 4: 2}
-    assert topology.dead_end_count == 21
-    assert topology.junction_count == 27
+    assert topology.node_count == 59
+    assert topology.edge_count == 65
+    assert topology.noded_segment_count == 65
+    assert topology.cyclomatic == 7
+    assert topology.degree_histogram == {1: 24, 2: 3, 3: 28, 4: 4}
+    assert topology.dead_end_count == 24
+    assert topology.junction_count == 32
     assert topology.components[0]["road_ids"] == sorted(
         road.edge_id for road in _r1_layout().roads
     )
-    assert len(_r1_layout().junction_nodes) == 27
-    assert len(_r1_layout().dead_end_nodes) == 21
+    assert len(_r1_layout().junction_nodes) == 32
+    assert len(_r1_layout().dead_end_nodes) == 24
 
 
 def test_r1_junctions_are_explicit_shared_vertices():
@@ -186,11 +186,16 @@ def test_r1_junctions_are_explicit_shared_vertices():
     states = _connector_states(layout.noded_topology)
     assert states["BR-FOCUS"] == "shared_vertex"
     assert states["ACC-FOCUS-01"] == "shared_vertex"
-    assert sum(1 for state in states.values() if state == "dead_end") == 14
+    assert sum(1 for state in states.values() if state == "dead_end") == 17
 
 
-def test_r1_geometry_is_unchanged_by_the_junction_repair():
-    """The repair only adds collinear vertices; lengths/areas must not move."""
+def test_r1_main_alignment_and_network_areas_are_stable():
+    """M4c-1a added collinear vertices; M4c-1b added access branches.
+
+    The main-road alignment and its length are unchanged by the junction
+    repair; the road/sidewalk areas grow with the M4c-1b access network, so
+    they are re-baselined against the current design, not the 4c-1a design.
+    """
     layout = _r1_layout()
     main_length = sum(
         road.centerline.length
@@ -199,10 +204,10 @@ def test_r1_geometry_is_unchanged_by_the_junction_repair():
     )
     assert main_length == pytest.approx(1970.9989980294813, rel=1e-12)
     assert layout.road_area_m2 == pytest.approx(
-        26170.241651018776, rel=1e-12
+        25772.039089864433, rel=1e-12
     )
     assert layout.sidewalk_area_m2 == pytest.approx(
-        9866.177785935135, rel=1e-12
+        9538.685434220975, rel=1e-12
     )
 
 

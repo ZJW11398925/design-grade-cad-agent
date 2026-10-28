@@ -502,7 +502,10 @@ def build_drawing_elements(
             (
                 f"FAR {metrics['far']:.3f} | {metrics['households']} HH | "
                 f"{metrics['parking_spaces']} PARKING | "
-                f"{metrics['parking_entrances']} ENTRANCES | "
+                f"{metrics['parking_entrances']} ENT | "
+                f"ACCESS {metrics['road_access_coverage'] * 100:.0f}% "
+                f"({metrics['road_groups_served']}/"
+                f"{metrics['road_groups_total']}) | "
                 f"UNBUILT {metrics['unbuilt_ratio'] * 100:.1f}% | "
                 f"CAND OPEN SPACE "
                 f"{metrics['candidate_open_space_ratio'] * 100:.1f}% | "
