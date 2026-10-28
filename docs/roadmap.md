@@ -263,6 +263,7 @@ Next in 4c (4c-1a/1c/1d/1b complete; sequence: multi-candidate evaluation → fu
 - [x] Record the pre-existing main-road/building overlap (MAIN-19/08, 38.19 m², source alignment vs rough background) as a known unresolved conflict deferred to M4c-2; loop∩building = 0.
 - [x] Regenerate evidence: DXF now **206 entities** (was 208), audit 0/0, readback 206/206, XDATA 11, privacy pass; `design-roads.geojson` 44 centerlines + 21 junction records (new sha 59df13d8…); topology rebaselined to 59 nodes / 65 segments, cyclomatic 7, dead ends 24, junctions 32, `max_endpoint_gap_m` 0.0, 1 component; contract `design-synthesis-v0.5.yaml` (v0.4 superseded).
 - [x] Tests: `test_road_access` (16), `test_road_access_generation` (10), `test_parking_geometry` (6); `test_design_topology` rebaselined to the new network; suite **324 passed**.
+- [x] Merged to `main` as **PR #38** (merge commit `7a3e70a`, main CI 4/4 green). The merged result remains a research prototype with the non-claims above; the MAIN-19/08 overlap and the 5 unfinished / 2 unclassified dead ends stay open for M4c-2.
 
 ### M4c-0 — Open-Source Design Capability Reuse Sprint (complete; partial answer)
 

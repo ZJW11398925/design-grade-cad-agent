@@ -25,19 +25,21 @@ Repository: `D:\agent-cad`
 
 - `main` is the integration branch and holds the merged research prototype:
   **PR #34 merged as merge commit `e40f468`** (Milestone 4c — autonomous design
-  synthesis + M4c-0 reuse + M4c-1a/1c fixes) and **PR #36 merged as merge commit
-  `0546649`** (M4c-1d semantic residuals); main CI is 4/4 green on both.
-- The old topic branches `milestone-4c-autonomous-design` and
-  `fix/m4c-1d-semantic-residuals` contain the same history (M4c-1a commits
-  `9d4ae56` + `1209955`, M4c-1c `e02337b`, M4c-1d `2f396b2`). **Start new work
-  from `main`** — e.g. `feat/m4c-1b-road-service`.
-- Branch: `feat/m4c-1b-road-access` (M4c-1b work; merge back to `main`).
+  synthesis + M4c-0 reuse + M4c-1a/1c fixes), **PR #36 merged as merge commit
+  `0546649`** (M4c-1d semantic residuals) and **PR #38 merged as merge commit
+  `7a3e70a`** (M4c-1b design-aware road access); main CI is 4/4 green on all.
+- The old topic branches `milestone-4c-autonomous-design`,
+  `fix/m4c-1d-semantic-residuals` and `feat/m4c-1b-road-access` contain the same
+  history (M4c-1a `9d4ae56` + `1209955`, M4c-1c `e02337b`, M4c-1d `2f396b2`,
+  M4c-1b `2750bc5`). **Start new work from `main`** — e.g.
+  `feat/m4c-2-main-alignment` or `feat/m4c-multi-candidate`.
 - Version: `0.19.0` (`pyproject.toml`).
 - Test baseline: **324 passed** (`python -m pytest -q`).
 - Milestone order: M4c-1d honest-semantics residuals (**complete**) →
   M4c-1b road service coverage (**complete** — first design-geometry change:
   44 roads, coverage 1.0, DXF 206 entities) → **next: multi-candidate design
-  evaluation** → full-site expansion with basis confirmation.
+  evaluation** → full-site expansion with basis confirmation; parallel lane:
+  M4c-2 main-road alignment (MAIN-19/08 38.19 m² overlap).
 - Local environment: Windows, Python 3.13. Core dependencies remain only
   **PyYAML 6.0.3 / Shapely 2.1.2 / ezdxf 1.4.5**.
 - Optional research-only installs (NOT in `pyproject.toml`): osmnx 2.1.1,
