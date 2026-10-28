@@ -23,9 +23,9 @@ Repository: `D:\agent-cad`
 
 ## 1. Repo state (verified 2026-10-28)
 
-- Branch: `milestone-4c-autonomous-design`; M4c-1a changes are in-flight in the
-  working tree (clean again at the M4c-1a commit).
-- Latest commit: `e52972a docs: add verified team continuation dossier and correct handoff pointers` **(M4c-1a commit follows — repin this hash when it lands)**.
+- Branch: `milestone-4c-autonomous-design`; M4c-1a is committed, working tree
+  clean.
+- Latest commit: `9d4ae56 feat(design): M4c-1a noded road-topology truth and explicit junctions`.
 - `main`: `4f6698b` (Milestone 4b.1 merged as PR #33).
 - Open PR: **#34** “Milestone 4c — autonomous design synthesis + M4c-0
   open-source reuse”; 4/4 CI jobs green (Ubuntu/Windows × Python 3.11/3.13).
