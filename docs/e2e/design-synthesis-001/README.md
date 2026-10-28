@@ -18,7 +18,13 @@ below. M4c-1e (0.20.0) bound road access to **declared** service relations
 (`serves_group_ids` + `access_terminal_xy`), made the main-road overlap and
 full-site road clearance machine-checked deferred items, split parking
 proximity from driveway design, and changed no design geometry (25 checks =
-6 pass + 10 info + 9 deferred; DXF content unchanged).
+6 pass + 10 info + 9 deferred; DXF content unchanged). M4c-2 (0.21.0) made the
+real alignment change: MAIN-19 diversion and MAIN-08 local detour removed the
+38.1907 m² main-road/building overlap (0.0 m² after, `MAIN_ROAD_BUILDING_OVERLAP`
+pass), the 7 unresolved dead ends were resolved (`DEAD_END_RESOLUTION` pass), the
+DXF content is **211 entities** and the topology is 57 nodes / 66 segments /
+cyclomatic 10 — 26 checks = 8 pass + 11 info + 7 deferred
+(`ROAD_ALIGNMENT_EVIDENCE` info).
 
 This is the first round of Milestone 4c. The Agent does not ask the designer to
 review sketch geometry. It takes the sketch's spatial intent, makes design
@@ -52,7 +58,7 @@ misalignment surfaces first as component count >1. `ROAD_CORRIDOR_COVERAGE`
 (117/141 at 8 m) remains an optional source-skeleton preprocessor — not a
 connectivity proof and not the design base.
 
-Evidence (as measured at M4c-0 time): `docs/e2e/open-source-reuse-001/exp-c/metrics.json`; the current `design-roads.geojson` (44 centerlines + 21 junction records) supersedes the 41/16 counts.
+Evidence (as measured at M4c-0 time): `docs/e2e/open-source-reuse-001/exp-c/metrics.json`; the current `design-roads.geojson` (44 centerlines + 24 junction records) supersedes the 41/16 counts.
 
 ## Road service coverage — added in M4c-1b, bound to declared relations in M4c-1e
 
@@ -73,27 +79,67 @@ evidence to explicit service relations:
   relation errors/orphans. The separate `terminal_corridor_edge_clearance_m`
   is published per group (0.0 m for a 7 m branch end-cap, ~1.5 m for the 4 m
   `ACC-G-12` lane) — this is not the 3.0 m corridor setback.
-- New-access/building overlap totals 1.34 m²; the ≤1.0 m² budget applies only
-  to new group-access roads.
-- Dead ends are **all classified, not all justified**: 24 = 17 justified +
-  5 unfinished + 2 unclassified (`DEAD_END_JUSTIFICATION` info); the 7
-  unresolved items are listed by the new `DEAD_END_RESOLUTION` (deferred).
+- New-access/building overlap is **0.5484725364968939 m²** after the M4c-2
+  alignment (was 1.3365); the ≤1.0 m² budget applies only to new group-access
+  roads.
+- Dead ends: the 7 previously unresolved items are **resolved** in M4c-2 (2
+  trimmed, 3 bridged, 2 site-edge termini; `DEAD_END_RESOLUTION` pass, 0
+  unresolved). The 19 remaining dead ends are 17 planned group terminals + 2
+  site-edge termini (`DEAD_END_JUSTIFICATION` info, 17/19) — classified, and no
+  longer "7 unresolved".
 - Parking is **proximity only** (`PARKING_ENTRANCE_PROXIMITY` info): 2 of 5
   garage entrances are near a design road, the 3 existing garage positions are
   area markers **18.83–25.71 m** from the carriageway; no driveway is designed
   (`PARKING_DRIVEWAY_CONNECTION` deferred).
-- The **pre-existing 38.19 m² main-road/building overlap** (MAIN-19 34.42 +
-  MAIN-08 3.77; rows MAIN-19/SK-BLD-0006 34.42, MAIN-08/SK-BLD-0038 3.68,
-  MAIN-08/SK-BLD-0061 0.09) is a deferred machine check
-  (`MAIN_ROAD_BUILDING_OVERLAP`, `known_unresolved`), not a footnote; full-site
-  road clearance is also deferred (`FULL_SITE_ROAD_CLEARANCE`). The access loop
-  crosses no building.
-- Topology is unchanged: 59 nodes / 65 segments, cyclomatic 7, dead ends 24,
-  junctions 32 (21 explicit records), closed rings 3, `max_endpoint_gap_m` 0.0,
-  1 component. Evidence: `design-roads.geojson` (44 centerlines + 21 junction
-  records) now also publishes `serves_group_ids`/`access_terminal_xy` and the
-  main-overlap records; its SHA-256 is `d77ce7a8…` (changed from 0.19.0
-  `59df13d8…` because of the new fields).
+- The **main-road/building overlap is resolved** in M4c-2:
+  38.19068149970834 → **0.0 m²** (`MAIN_ROAD_BUILDING_OVERLAP` pass; details in
+  the main-road alignment section below). Full-site road clearance remains
+  deferred (`FULL_SITE_ROAD_CLEARANCE`); the access loop crosses no building.
+- Topology after M4c-2: **1 component, 57 nodes / 66 segments, cyclomatic 10,
+  19 dead ends, 35 junctions (24 explicit), closed rings 3,
+  `max_endpoint_gap_m` 0.0**. Evidence: `design-roads.geojson` (44 centerlines
+  + 24 junction records) now also publishes `serves_group_ids` /
+  `access_terminal_xy`, main-alignment and dead-end-resolution records; its
+  SHA-256 is `c2f7ebff…` (was `d77ce7a8…` in 0.20.0).
+
+## Main-road alignment — added in M4c-2
+
+M4c-2 (0.21.0) is the real design-geometry change that closes the known
+conflicts. Two main roads were adjusted; road ids, source edges and widths are
+preserved (+45 vertices, −0), and every adjustment is published in
+`ROAD_ALIGNMENT_EVIDENCE` and `design-roads.geojson`:
+
+- **MAIN-19 / SK-BLD-0006**: **diversion**; overlap 34.421783197612406 → 0 m²;
+  max displacement **66.23545861756293 m**; +29 vertices;
+  `local_detour_infeasible: true` because the gap between SK-BLD-0006 and
+  SK-BLD-0029 is **11.565220076201857 m**, narrower than the 12 m corridor, so
+  no endpoint-preserving local detour can clear both footprints.
+- **MAIN-08 / SK-BLD-0038 + SK-BLD-0061**: **local detour**; overlap
+  3.768898302095937 → 0 m²; max displacement **4.90654356307025 m**; +16
+  vertices; conflicting-building gap 4.482068672289278 m.
+- Total main-road overlap **38.19068149970834 → 0 m²**;
+  `MAIN_ROAD_BUILDING_OVERLAP` pass (remaining ≤ 0.01 m²); new-access overlap
+  0.5484725364968939 m²; total 0.5484725364968938 m².
+- **7 dead ends resolved**: MAIN-03 trimmed 9.727353166421203 m; MAIN-05
+  trimmed 0.24620779365789502 m; MAIN-09 bridged to MAIN-08
+  13.677655946265997 m; MAIN-20 bridged to MAIN-19 5.233264199174163 m;
+  MAIN-22 bridged to MAIN-08 9.642090864979577 m; **MAIN-18** site-edge
+  terminus lies 4.047925766932525 m from the boundary **within the ≤5 m
+  site-edge band** (no extension; the source network is clipped at the published
+  boundary, so the endpoint is within the band and no source vertex lies outside
+  it); **MAIN-25** extended 5.643487350037444 m **along
+  the shortest direction to the published boundary (not collinear with the
+  terminal segment)**; all `criterion_met`.
+- Scope of the alignment claim: the adjustment eliminates the **known** overlaps
+  (zero remaining overlap after the recorded alignments). It does **not** claim
+  that all 25 main roads satisfy the 3.0 m corridor clearance — the unadjusted
+  main roads' minimum corridor clearance is about **1.229 m**, and full-site road
+  clearance (`FULL_SITE_ROAD_CLEARANCE`) remains deferred.
+- Geometry: main length **2,126.392617984018 m**; road area
+  27,369.822509945796 m²; sidewalk 9,889.900380276495 m²; 44 roads (25 main /
+  17 branch / 2 access); access stays 17/17 declared (terminals frozen and
+  re-attached to the adjusted mains with shared vertices). Full-site road
+  clearance remains deferred.
 
 ## What the Agent changed
 
@@ -131,7 +177,7 @@ not fit the buildable block are recorded as dropped
 | Boundary setback | 5 m | design assumption |
 | Building-road clearance | 3 m | design assumption |
 | Road widths | main 12 m, branch 7 m, access 4 m | design assumption |
-| Green | ≥30% designed green | **deferred, not achieved**: designed green ratio 6.54% (13,346.693042679242 m²; supplementary covers 89.6% of candidate open space); open space is dual-measured — `candidate_open_space_ratio` 63.02% (128,645.3130013814 m²; classified-area sum with filters 5.0 m setback / 0.5 m obstacle buffer / 100 m² min polygon) and `unbuilt_ratio` 65.35% (133,384.460533079 m²; geometric union). Both ratios use the full published site area as denominator; the filtered/unbuilt areas are measured inside the 5 m setback boundary. Neither is designed green. |
+| Green | ≥30% designed green | **deferred, not achieved**: designed green ratio 6.54% (13,346.693042679242 m²; supplementary covers 89.6% of candidate open space); open space is dual-measured (re-measured after the M4c-2 geometry change) — `candidate_open_space_ratio` 62.0663% (126,691.44519134649 m²; classified-area sum with filters 5.0 m setback / 0.5 m obstacle buffer / 100 m² min polygon) and `unbuilt_ratio` 64.4515% (131,560.2329157454 m²; geometric union). Both ratios use the full published site area as denominator; the filtered/unbuilt areas are measured inside the 5 m setback boundary. Neither is designed green. |
 | Drawing standard | `DGCAD-SCHEMATIC-001` | internal schematic standard |
 
 The basis is `design-basis.yaml` (`design-assumption-v0.2`, 0.2.0): 21
@@ -161,7 +207,7 @@ recorded as deferred**, to be extended group by group.
 
 ## Plan and CAD output
 
-`design-proposal.dxf` (**206 entities** after M4c-1b; was 208, audit 0/0, readback 206/206 pass; M4c-1e changed no geometry). Content is unchanged since 0.19.0, but the file byte SHA-256 changes per save because ezdxf regenerates `$TDUPDATE`/GUIDs (0.19.0 `34a65926…`, 0.20.0 `fcc42d32…`) — compare content, not bytes:
+`design-proposal.dxf` (**211 entities** after M4c-2; was 206 in 0.20.0 and 208 before M4c-1b; audit 0/0, readback 211/211 pass). M4c-2 changed the content; the file byte SHA-256 also changes per save because ezdxf regenerates `$TDUPDATE`/GUIDs (0.19.0 `34a65926…`, 0.20.0 `fcc42d32…`, 0.21.0 `0f76c006…`) — compare content, not bytes:
 
 - layers: site boundary, building outline, unit line, main/branch/access road,
   sidewalk, green, entrance, dimensions, title, legend, north, scale, key plan;
@@ -208,16 +254,19 @@ dependency), so treat it as illustrative rather than reproducible output.
 - `design-basis.yaml`, `design-profile.yaml`
 - `design-intent.json` — groups, road hierarchy, focus block, principles
 - `design-summary.json` — status, metrics, checks, CAD/readback/privacy
-- `design-consistency.json` — all 25 declared checks (6 pass / 10 info / 9
-  deferred, M4c-1e); connectivity is the noded centerline graph
+- `design-consistency.json` — all 26 declared checks (8 pass / 11 info / 7
+  deferred, M4c-2); connectivity is the noded centerline graph
   (`ROAD_CORRIDOR_COVERAGE` is the informational corridor measure); group access
-  is the declared `serves_group_ids` relation, not a nearest-endpoint guess
+  is the declared `serves_group_ids` relation; `ROAD_ALIGNMENT_EVIDENCE` records
+  the two main-road adjustments
 - `design-diff.json` — what changed, why, what was preserved, what was dropped
 - `design-roads.geojson` — the 44 design roads as committed evidence:
-  44 centerlines + 21 explicit junction records (id/x/y/road_ids) + per-road
+  44 centerlines + 24 explicit junction records (id/x/y/road_ids) + per-road
   `serves_group_ids`/`access_terminal_xy`, `group_access` (17 declared
-  relations) and `main_road_building_overlap` (3 rows, `known_unresolved`);
-  SHA-256 `d77ce7a8…` (new fields vs 0.19.0 `59df13d8…`)
+  relations), `main_alignment_records` (2 roads, source edges, original/adjusted
+  centreline, strategy, displacement, vertex budget) and
+  `dead_end_resolution_records` (7 resolutions); `main_road_building_overlap`
+  is resolved (0.0 m²); SHA-256 `c2f7ebff…` (was `d77ce7a8…`)
 - `draft-manifest.json` — persistent autonomous draft, revision 1
 - `scene-snapshot.json` — proposal-preview design objects
 - `design-proposal.dxf`, `cad-ir.json`, `readback-manifest.json`,
@@ -232,16 +281,19 @@ dependency), so treat it as illustrative rather than reproducible output.
   library.
 - The published sketch boundary is used; the private redline remains
   authoritative.
-- Road corridors are schematic offsets, not professional alignment or junction
-  design; the 121-junction review is not continued.
+- Road corridors are schematic offsets. The two M4c-2 main-road alignments are
+  schematic centreline adjustments made to clear building footprints (a
+  diversion and a local detour); they are not professional alignment, junction,
+  profile or horizontal/vertical design, and the 121-junction review is not
+  continued.
 - The underground garage layout and driveways are not designed; entrance
   proximity is not a connection (`PARKING_ENTRANCE_PROXIMITY` info,
   `PARKING_DRIVEWAY_CONNECTION` deferred).
-- Dead ends are all classified, not all justified: 17 justified / 5 unfinished /
-  2 unclassified, with 7 unresolved (`DEAD_END_RESOLUTION` deferred).
-- The pre-existing 38.19 m² main-road/building overlap is a deferred machine
-  check (`MAIN_ROAD_BUILDING_OVERLAP`, `known_unresolved`) and full-site road
-  clearance is deferred (`FULL_SITE_ROAD_CLEARANCE`); main-road alignment is
-  M4c-2.
+- Dead ends are all classified: after M4c-2 the 7 previously unresolved items are
+  resolved (`DEAD_END_RESOLUTION` pass, 0 unresolved); 19 remain = 17 planned
+  group terminals + 2 site-edge termini.
+- The main-road/building overlap is **resolved** in M4c-2 (`MAIN_ROAD_BUILDING_OVERLAP`
+  pass, 38.19068149970834 → 0.0 m²); full-site road clearance is still deferred
+  (`FULL_SITE_ROAD_CLEARANCE`).
 - The full-site north-south spacing is not yet enforced; the focus block is.
 - `EP-R1-SKETCH-001` is not complete.

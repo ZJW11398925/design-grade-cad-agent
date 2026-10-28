@@ -1,0 +1,284 @@
+schema_id: dgcad.design-synthesis.v0.7
+status: living_contract
+supersedes: design-synthesis-v0.6.yaml
+scope: CASE-SKETCH-001 autonomous design synthesis pilot
+purpose: >-
+  Define the state, authority, basis-provenance, road-topology and evidence
+  rules for an Agent-generated schematic design draft. The Agent may synthesize
+  and revise a design without human approval; it may not present the draft as
+  human-confirmed, code compliant, construction-ready or an authoritative site
+  boundary. Road connectivity is defined on the noded centreline graph, not on
+  the corridor union. Every basis parameter declares its source, authority and
+  confirmation state, and metric names separate arithmetic requirements from
+  spatial design results. A pass verdict is reserved for generated geometry
+  checked against a declared constraint; basis-derived arithmetic and unbuilt
+  quantities stay info or deferred, and confirmed provenance is declarative,
+  not authenticated. Group access is a **declared** geometric relation
+  (serves_group_ids + access_terminal_xy, terminal band, corridor-edge
+  clearance), not a proximity guess or a road-network component count.
+  M4c-2 aligns main-road corridors away from building footprints and resolves
+  dead ends with recorded strategies; alignment keeps the declared access
+  relations and the [3.4, 3.5] m terminal band unchanged.
+
+states:
+  source_evidence:
+    owner: extraction_import
+    mutable_by_design: false
+  autonomous_design_draft:
+    owner: agent_and_geometry_engine
+    persistent: true
+    versioned: true
+    human_approval_required_to_create_or_revise: false
+    world: proposal_preview
+    authority: rule_derived
+    human_confirmed: false
+  adopted_design:
+    owner: designer
+    meaning: the designer explicitly accepts a draft version
+    promotion_requires: human_decision
+  official_issued_design:
+    owner: authorized_issuer
+    meaning: a formal delivery or permit document
+    promotion_requires: applicable professional and regulatory process
+
+basis:
+  required:
+    - basis_id
+    - households_per_staircase_per_floor
+    - floors
+    - floor_height_m
+    - staircase_width_m
+    - staircase_depth_m
+    - dwelling_gfa_m2
+    - facility_gfa_m2
+    - far_min
+    - far_max
+    - parking_spaces_per_household
+    - spaces_per_entrance
+    - north_south_spacing_m
+    - side_spacing_m
+    - boundary_setback_m
+    - building_road_clearance_m
+    - green_ratio_min
+    - road_widths
+    - drawing_standard
+    - parameter_sources
+  parameter_authorities:
+    - declared_requirement
+    - designer_stated
+    - inferred_from_sketch
+    - agent_assumption
+    - project_condition
+  parameter_source_keys:
+    - households_per_staircase_per_floor
+    - floors
+    - floor_height_m
+    - staircase_width_m
+    - staircase_depth_m
+    - dwelling_gfa_m2
+    - facility_gfa_m2
+    - far_min
+    - far_max
+    - parking_spaces_per_household
+    - spaces_per_entrance
+    - north_south_spacing_m
+    - side_spacing_m
+    - boundary_setback_m
+    - building_road_clearance_m
+    - green_ratio_min
+    - road_widths
+    - sidewalk_width_m
+    - group_distance_m
+    - scale_px_per_m
+    - origin_px
+  provenance_authentication: declarative
+  rules:
+    - "the basis is an explicit design assumption, not a verified engineering fact"
+    - "the unit module is provisional until the designer supplies a unit-type library"
+    - "the Agent may choose design values but must record them in the basis"
+    - "changing the basis and re-running is the normal revision path"
+    - "every basis parameter declares source, authority and confirmation state"
+    - "agent_assumption parameters cannot be presented as verified project requirements"
+    - "human confirmation is never claimed by the Agent"
+    - "confirmed: true requires an approval_ref"
+    - "provenance is declarative metadata and is not authenticated until the authority layer binds it"
+
+constraints:
+  required:
+    - far
+    - parking_per_household
+    - north_south_spacing
+    - boundary_setback
+    - building_overlap
+    - building_road_clearance
+    - road_connectivity
+    - road_width_by_class
+    - designed_green_ratio
+    - parking_capacity
+    - far_final_verification
+    - road_access_coverage
+    - parking_entrance_proximity
+    - parking_driveway_connection
+    - dead_end_justification
+    - dead_end_resolution
+    - main_road_building_overlap
+    - road_alignment_evidence
+    - full_site_road_clearance
+  rules:
+    - "a hard constraint failure blocks the draft from being presented as complete"
+    - "full-site constraints not yet designed are recorded as deferred, not as pass"
+    - "designed_green_ratio and parking_capacity may be deferred, but a deferred check is never a pass"
+    - "the Agent may change building, road, green and parking organization to satisfy the constraints"
+    - "dropped or moved objects are recorded in the design diff, never silently deleted"
+    - "road connectivity is measured on the noded centreline graph; the corridor union is coverage, not connectivity"
+    - "far is a basis arithmetic scenario; far_final_verification is deferred until the basis is confirmed"
+    - "road access coverage, entrance proximity, driveway connection, dead-end justification/resolution, main-road overlap, road alignment evidence and full-site road clearance are access checks; an unserved group or an unresolved dead end is reported, never silently dropped"
+    - "main-road alignment is recorded as evidence and must remove the building overlap (at most 0.01 m2); dead-end resolutions must reach 0 unresolved"
+
+road_design:
+  hierarchy: [main, branch, access]
+  widths_from: design_basis
+  corridor_generator: round_buffer_hierarchy_v0.1
+  topology:
+    schema_id: dgcad.design-road-topology.v0.1
+    required:
+      - road_count
+      - noded_segment_count
+      - node_count
+      - edge_count
+      - component_count
+      - cyclomatic
+      - degree_histogram
+      - dead_end_count
+      - junction_count
+      - explicit_junction_count
+      - max_endpoint_gap_m
+      - closed_ring_count
+      - components
+      - connector_states
+    connector_states: [shared_vertex, crossing_only, detached, dead_end, isolated_ring]
+    fail_closed:
+      - component_count == 1
+      - max_endpoint_gap_m <= 1e-9
+      - crossing_only_count == 0
+      - closed rings are declared
+    rules:
+      - "design junctions are explicit shared coordinates or explicit junction records, not nearest-point inference"
+      - "a post-hoc snap, tolerance or key rounding must not create connectivity"
+      - "crossing-without-shared-vertex is a defect, not a junction"
+      - "the corridor union is coverage, not connectivity"
+      - "dead ends are recorded and justified"
+      - "topology is not road design"
+  rules:
+    - "the source skeleton mesh is evidence, not the design road network"
+    - "OSMnx consolidation is an optional source-mesh preprocessor, never a connectivity proof for the design network"
+    - "the design may merge main roads and replace short blue-edge stubs with branches and access loops"
+    - "the corridor generator is schematic and is not a professional alignment or junction design"
+    - "the 121-junction review is not continued as an optimization target"
+
+drawing:
+  standard: DGCAD-SCHEMATIC-001
+  units: metre
+  dxf_version: R2010
+  entity_set: [LWPOLYLINE, TEXT]
+  required_layers:
+    - A-SITE-BOUNDARY
+    - A-BUILDING-OUTLINE
+    - A-UNIT-LINE
+    - C-ROAD-MAIN
+    - C-ROAD-BRANCH
+    - C-ROAD-ACCESS
+    - C-SIDEWALK
+    - L-GREEN
+    - A-DIM
+    - A-TITLE
+    - A-LEGEND
+    - A-NORTH
+    - A-SCALE
+    - A-KEYPLAN
+  annotations:
+    - building labels with unit count, households, height and dimensions
+    - road labels with class and width
+    - north-south spacing dimension
+    - overall plan dimensions
+    - key plan
+    - title block with FAR, households, parking and entrance count
+    - legend, north arrow and scale bar
+  rules:
+    - "the title block states the draft is Agent-generated, not human-confirmed and not code-compliant"
+    - "XDATA and the readback manifest carry confirmation_scope: design_draft"
+    - "all design objects are rule_derived in the proposal_preview world"
+    - "no object may claim human_confirmed authority"
+
+verification:
+  required:
+    - far_arithmetic_scenario
+    - parking_requirement_arithmetic
+    - parking_entrance_count
+    - parking_capacity
+    - parking_entrance_proximity
+    - parking_driveway_connection
+    - parking_layout
+    - unit_count_basis_invariant
+    - focus_north_south_spacing
+    - focus_boundary_setback
+    - focus_building_overlap
+    - focus_road_clearance
+    - road_connectivity
+    - road_corridor_coverage
+    - road_access_coverage
+    - main_road_building_overlap
+    - road_alignment_evidence
+    - full_site_road_clearance
+    - dead_end_justification
+    - dead_end_resolution
+    - road_width_assignment
+    - candidate_open_space_ratio
+    - unbuilt_ratio
+    - designed_green_ratio
+    - full_site_north_south_spacing
+    - far_final_verification
+    - dxf_audit
+    - dxf_readback
+    - dxf_privacy
+  rules:
+    - "a hard failure blocks the summary status autonomous_design_draft"
+    - "pass is reserved for checks that verify generated geometry against a declared constraint"
+    - "basis-derived arithmetic, assignment and count invariants are info, not pass"
+    - "a deferred check is not a pass"
+    - "road_connectivity is the noded centreline component count == 1; it is not the corridor-union polygon count"
+    - "road_corridor_coverage is a non-gating coverage diagnostic and never substitutes for connectivity"
+    - "candidate open-space ratio records its filters; the unbuilt ratio is a geometric union"
+    - "the open-space ratio is not a designed-green ratio"
+    - "parking entrance count is not parking capacity"
+    - "FAR/GFA are basis arithmetic; final FAR verification is deferred until the basis is confirmed"
+    - "dxf readback failure is a failure, not a scope limit"
+    - "the same-library ezdxf readback is not third-party CAD evidence"
+    - "main-road corridor-edge clearance must be at least 3.0 m to every building footprint or zero overlap must be recorded; the 1.0 m2 per-route budget continues to constrain only newly generated group-access roads"
+    - "road access coverage counts groups whose declared serving road passes validation, divided by groups that contain buildings; it is not a road-network component count"
+    - "an entrance point must be a Point; proximity_connected is a distance check (at most half the nearest road width + 1.0 m) and is not a driveway connection"
+    - "dead ends are classified as justified group terminals, resolved site-edge termini, bridged or trimmed, and every unresolved dead end is listed"
+    - "dead_end_resolution is a pass only when every dead end is resolved by site_edge_terminus, bridged or trimmed with a record; unresolved dead ends must be 0"
+    - "all dead ends are classified and resolved, not all justified"
+    - "an access service relation must be declared through serves_group_ids, not inferred from proximity"
+    - "a declared access terminal must lie on its serving road centreline or one of its endpoints within 1e-6 m; a terminal off its own road is a fabricated relation"
+    - "the declared access terminal must lie in the [3.4, 3.5] m centreline band from the group footprint and outside every footprint; the 3.0 m basis corridor-edge clearance is a different quantity and is recorded separately"
+    - "a serves_group_ids declaration that names a group with no buildings is an orphan relation error, not a silent claim"
+    - "main-road/building overlap must be at most 0.01 m2 after alignment (a pass check); each resolved conflict records before/after overlap per road and building"
+    - "source main edges remain in the evidence after alignment; every adjustment records its road_id, maximum displacement and before/after overlap"
+    - "road_alignment_evidence is informational: it records the adjusted main-road count and per-road displacement and is not a gate"
+    - "main alignment must not change the declared access service relations or the [3.4, 3.5] m terminal band"
+    - "no road may be silently deleted: road ids are preserved and any removal is declared through the resolution record"
+    - "full-site road clearance is deferred until every group is designed"
+    - "parking entrance proximity is not a driveway connection; driveway geometry is deferred"
+    - "access is a declared geometric relation, not a proximity guess"
+
+non_claims:
+  - "schematic design proposal, not construction or permit drawing"
+  - "no code, fire-access, daylight or accessibility compliance"
+  - "the unit module is provisional, not the designer's unit library"
+  - "the published sketch boundary is not the authoritative private redline"
+  - "road corridors are schematic, not professional alignment"
+  - "the garage layout is not designed"
+  - "the full-site north-south spacing is deferred until each group is designed"
+  - "EP-R1-SKETCH-001 is not complete"

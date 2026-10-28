@@ -7,7 +7,7 @@ Testing is the primary engineering control in this project. Research claims are 
 | Layer | Purpose | Current state |
 |---|---|---|
 | L0 Contract / conformance | Prove governance invariants: identity, revision, authority, dependency, idempotency, contract↔module sync | **62 tests passing** (Foundation 21, Runtime 22, Deployment 8, Design contract 11) |
-| L1 Domain & design topology | Prove building/road domain objects, unknown-state preservation, atomic topology changes, validators, the noded design-road topology and declared road access semantics | **66 tests passing** (Domain 26, Road topology 3, Design topology 14, Road access 23) |
+| L1 Domain & design topology | Prove building/road domain objects, unknown-state preservation, atomic topology changes, validators, the noded design-road topology, declared road access semantics and main-road alignment/dead-end resolution | **79 tests passing** (Domain 26, Road topology 3, Design topology 14, Road access 27, Main alignment 9) |
 | L2 Integration | Prove the synthetic E2E pipeline, scoped mutation/rebuild, adversarial delivery and semantic/dependency closure | **45 tests (8 E2E-001 + 6 E2E-002 + 20 E2E-003 + 11 E2E-003b), all passing** |
 | L2 CAD delivery & evidence | Prove CAD-IR mapping, DXF compile/readback and third-party evidence integrity | **11 tests passing** (CAD delivery 9, Third-party evidence 2) |
 | L2 Analysis | Prove solar position, confirmed/unknown blockers, context completeness, dependency fingerprint | **7 tests passing** |
@@ -16,7 +16,7 @@ Testing is the primary engineering control in this project. Research claims are 
 | L3 Third-party | Prove semantic round-trip through independent CAD/BIM applications | partial evidence: AutoCAD 2024 Core Console semantic pass with serialization differences; no LibreCAD/FreeCAD/GUI matrix |
 | L4 Security / privacy & lifecycle | Prove loopback, roles, pairing, lease, bridge expiry, stale writers and the structured DXF privacy scan | **34 tests passing** (Lifecycle 14, Privacy scan 20) |
 
-Layer totals partition all 334 collected tests with no double counting. (Taxonomy rebuilt in 0.16.0: the previous table counted the 14 lifecycle tests in both L0 and L4 and left 67 tests unmapped.)
+Layer totals partition all 347 collected tests with no double counting. (Taxonomy rebuilt in 0.16.0: the previous table counted the 14 lifecycle tests in both L0 and L4 and left 67 tests unmapped.)
 
 A passing lower layer never promotes a higher-layer claim automatically.
 
@@ -42,8 +42,9 @@ A passing lower layer never promotes a higher-layer claim automatically.
 | Sketch handoff A | `tests/e2e/test_sketch_handoff_a.py` | 6 |
 | Design synthesis | `tests/test_design_synthesis.py` | 9 |
 | Design topology | `tests/test_design_topology.py` | 14 |
-| Road access | `tests/test_road_access.py` | 23 |
+| Road access | `tests/test_road_access.py` | 27 |
 | Road access generation | `tests/test_road_access_generation.py` | 13 |
+| Main alignment | `tests/test_main_alignment.py` | 9 |
 | Design contract | `tests/test_design_contract.py` | 11 |
 | Design basis | `tests/test_design_basis.py` | 20 |
 | Green/parking semantics | `tests/test_green_parking_semantics.py` | 9 |
@@ -141,7 +142,8 @@ python -m pytest -q --cov --cov-report=term-missing
 - The autonomous design synthesis uses the public sketch evidence without a human review gate; it produces a `rule_derived` draft in `proposal_preview`, never `human_confirmed`.
 - The design basis is checked at full-site FAR/parking and focus-block spacing/setback/overlap/road clearance/connectivity; the focus block is the detailed design.
 - Design road access is a **declared** service relation (`serves_group_ids` + `access_terminal_xy`): each of the 17 groups is served by its own connector, the terminal centreline distance is in [3.4, 3.5] m, and the separate corridor-edge clearance is recorded next to the 3.0 m corridor setback.
-- Declared-access negatives are tested: a terminal not on the serving road's centreline is rejected, an orphan declaration is reported as a relation error, and proximity to another group's endpoint cannot serve a group. Dead ends are asserted as 17 justified / 5 unfinished / 2 unclassified with 7 unresolved, not as "all justified".
+- Declared-access negatives are tested: a terminal not on the serving road's centreline is rejected, an orphan declaration is reported as a relation error, and proximity to another group's endpoint cannot serve a group. Dead ends are asserted as 19 = 17 planned group terminals + 2 site-edge termini with 0 unresolved after the M4c-2 resolution (2 trimmed, 3 bridged, 2 site-edge), not as "all justified".
+- Main-road alignment is tested as evidence, not just as a metric: MAIN-19 uses a diversion because the local-detour gap proof (SK-BLD-0006/0029 11.565 m < 12 m corridor) makes it infeasible; MAIN-08 uses a local detour; the before/after overlap is 38.19068149970834 → 0 m², +45 vertices with road ids/source edges preserved, and the 7 dead-end resolutions each meet their criterion. The access relations remain 17/17 declared and unchanged.
 
 ## 4. What the current tests do **not** prove
 
@@ -155,7 +157,7 @@ python -m pytest -q --cov --cov-report=term-missing
 - That the unified-mask road topology is professionally correct; its 121 junctions are proposed candidates, not designed intersections.
 - That the full CASE-SKETCH-001 sketch is human-confirmed, or that the selected pilot subset has been object-level reviewed; no real object is `confirmed_for_pilot` yet.
 - That the autonomous design draft is construction-ready, code-compliant, or the designer's unit-type library; full-site north-south spacing is deferred and road corridors are schematic.
-- That the main-road/building overlap is resolved (it is a deferred machine check, `known_unresolved`) or that full-site road clearance is designed; entrance proximity is not a designed driveway.
+- That the schematic main-road alignments are professional alignment, junction or profile design, or that full-site road clearance is designed; entrance proximity is not a designed driveway. The 38.1907 → 0 m² overlap and the 7 dead-end resolutions are asserted by tests, but only within the recorded schematic scope.
 - That the autonomous draft has been adopted or officially issued; it is a proposal the designer may edit or adopt.
 - That a DXF produced by the test double is third-party CAD evidence or design-office compliant; readback is same-library ezdxf.
 - That the colour-based road class is confirmed; it is inferred from brown/blue pixel majority.

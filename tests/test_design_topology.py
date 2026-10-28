@@ -139,23 +139,23 @@ def test_r1_design_network_is_exactly_connected():
     assert _crossing_only_count(topology) == 0
     assert topology_violations(topology) == ()
     assert topology.closed_ring_count == 3
-    assert topology.explicit_junction_count == 21
+    assert topology.explicit_junction_count == 24
 
 
 def test_r1_noded_graph_numbers():
     topology = _r1_layout().noded_topology
-    assert topology.node_count == 59
-    assert topology.edge_count == 65
-    assert topology.noded_segment_count == 65
-    assert topology.cyclomatic == 7
-    assert topology.degree_histogram == {1: 24, 2: 3, 3: 28, 4: 4}
-    assert topology.dead_end_count == 24
-    assert topology.junction_count == 32
+    assert topology.node_count == 57
+    assert topology.edge_count == 66
+    assert topology.noded_segment_count == 66
+    assert topology.cyclomatic == 10
+    assert topology.degree_histogram == {1: 19, 2: 3, 3: 33, 4: 2}
+    assert topology.dead_end_count == 19
+    assert topology.junction_count == 35
     assert topology.components[0]["road_ids"] == sorted(
         road.edge_id for road in _r1_layout().roads
     )
-    assert len(_r1_layout().junction_nodes) == 32
-    assert len(_r1_layout().dead_end_nodes) == 24
+    assert len(_r1_layout().junction_nodes) == 35
+    assert len(_r1_layout().dead_end_nodes) == 19
 
 
 def test_r1_junctions_are_explicit_shared_vertices():
@@ -202,12 +202,12 @@ def test_r1_main_alignment_and_network_areas_are_stable():
         for road in layout.roads
         if road.class_name == "main"
     )
-    assert main_length == pytest.approx(1970.9989980294813, rel=1e-12)
+    assert main_length == pytest.approx(2126.392617984018, rel=1e-12)
     assert layout.road_area_m2 == pytest.approx(
-        25772.039089864433, rel=1e-12
+        27369.822509945796, rel=1e-12
     )
     assert layout.sidewalk_area_m2 == pytest.approx(
-        9538.685434220975, rel=1e-12
+        9889.900380276495, rel=1e-12
     )
 
 
