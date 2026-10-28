@@ -43,6 +43,12 @@ All notable changes to the formal repository are recorded here. Research snapsho
 - DXF privacy scan no longer reports spurious numeric-token matches inside
   64-hex digests/GUIDs (the ~6.3 % per-run false-positive source); real numeric
   privacy findings are still detected.
+- **Hash-pinned evidence is byte-stable across platforms**: `design-roads.geojson`
+  is written with explicit LF newlines and `*.geojson` is marked `-text` in
+  `.gitattributes`, so the recorded `design_roads.sha256` matches the committed
+  blob on Linux and Windows. (CI caught the CRLF-normalisation mismatch before
+  merge; the first CI run of M4c-1a failed on all four jobs and was fixed in the
+  follow-up commit without changing any evidence value.)
 
 ### Verified
 

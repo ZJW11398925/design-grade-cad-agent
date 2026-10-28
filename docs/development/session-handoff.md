@@ -25,7 +25,9 @@ Repository: `D:\agent-cad`
 
 - Branch: `milestone-4c-autonomous-design`; M4c-1a is committed, working tree
   clean.
-- Latest commit: `9d4ae56 feat(design): M4c-1a noded road-topology truth and explicit junctions`.
+- Latest commits: `9d4ae56 feat(design): M4c-1a noded road-topology truth
+  and explicit junctions` + `1209955 fix(evidence): make design-roads.geojson
+  byte-stable across platforms` (this handoff may be one docs-only commit ahead).
 - `main`: `4f6698b` (Milestone 4b.1 merged as PR #33).
 - Open PR: **#34** “Milestone 4c — autonomous design synthesis + M4c-0
   open-source reuse”; 4/4 CI jobs green (Ubuntu/Windows × Python 3.11/3.13).
@@ -235,7 +237,16 @@ hash (see pitfalls).
   migration, not part of a feature change.
 - **Privacy scan false positives**: numeric tokens in raw bytes (e.g. a float
   containing `95119`) are not private data. Scan structured TEXT/MTEXT, XDATA
-  and symbol names; skip numeric-only raw tokens.
+  and symbol names; skip numeric-only raw tokens. (M4c-1a hardened the scanner
+  so 64-hex digests/GUIDs no longer trigger numeric-token false positives.)
+- **Hash-pinned evidence artifacts must be byte-stable across platforms**: a
+  `.geojson`/JSON evidence file whose sha256 is recorded inside another
+  committed file must be written with explicit LF newlines
+  (`write_text(..., newline="\n")`) and marked `-text` in `.gitattributes`.
+  Otherwise git normalises CRLF→LF and the recorded hash matches the local
+  Windows bytes but fails on a clean Linux CI checkout (caught by CI in M4c-1a,
+  fixed in `1209955`). Verify the *committed blob* hash
+  (`git show :path | sha256`), not just the working-tree file.
 - **Blocked handoff runs must not write `domain-fixture.yaml`** (the old stale
   file was deleted; a test forbids it).
 - **Invalid sketch polygons**: use `shapely.validation.make_valid` and accept
