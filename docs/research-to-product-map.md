@@ -78,7 +78,7 @@ This map is the single index of which research artifacts have been promoted into
 | E2E-003b semantic/dependency | **promoted** | `src/dgcad_cad/` + `tests/e2e/test_e2e_003b_semantics.py` | Fingerprint consistency, symbol tables, ring keys, raw/canonical manifest; same-library only |
 | E2E-003c third-party CAD | **partially promoted** | `contracts/third-party-roundtrip-v0.1.yaml` + `scripts/third_party/autocad_core_roundtrip.py` | AutoCAD 2024 Core Console evidence captured; LibreCAD/FreeCAD/GUI matrix still open (#6) |
 | CASE-SKETCH-001-HANDOFF-A | **promoted (gate; pilot blocked)** | `contracts/sketch-domain-handoff-v0.2.yaml` + `src/dgcad_domain/sketch_handoff.py` + `docs/e2e/sketch-handoff-a/` | Source integrity, road topology, review packet and scope/authority propagation promoted; the real pilot blocks at `HUMAN_OBJECT_REVIEW_REQUIRED` until an object-level review exists |
-| CASE-SKETCH-001-AUTONOMOUS-DESIGN-001 | **promoted (partial draft)** | `contracts/design-synthesis-v0.2.yaml` + `src/dgcad_design/` + `docs/e2e/design-synthesis-001/` | Full-site metrics + focus-block standardized design; `rule_derived` draft, no human review gate; full-site spacing deferred; road topology corrected in 4c-1a (explicit shared-coordinate junctions, noded graph 1 component; v0.1 superseded) |
+| CASE-SKETCH-001-AUTONOMOUS-DESIGN-001 | **promoted (partial draft)** | `contracts/design-synthesis-v0.3.yaml` + `src/dgcad_design/` + `docs/e2e/design-synthesis-001/` | Full-site metrics + focus-block standardized design; `rule_derived` draft, no human review gate; full-site spacing deferred; road topology corrected in 4c-1a; honest semantics in 4c-1c (pass/info/deferred checks, designed-green vs open space, parking capacity vs requirement, basis provenance all `confirmed: false`; v0.2/v0.1 superseded) |
 | CASE-SKETCH-001-OPEN-SOURCE-REUSE-001 | **promoted (research evidence)** | `experiments/m4c0/` + `docs/e2e/open-source-reuse-001/` | Building Regulariser, OSMnx, PyGeoOps, Clothoids, momepy tested; OSMnx useful as an optional source-skeleton preprocessor, not a connectivity proof (see 4c-1a); no new core dependencies |
 | DEV-CAD-001..008 | **partially promoted** | Issues #1/#4/#5/#6/#8 + closed #2/#3/#7 | Milestone 3a fixed 002/003/007; 009/010 added and fixed; 001/004/005/006/008/011 remain for 3b/3c |
 | R0 acquisition batches (BATCH-001..005) | `research_only` | — | Unclosed evidence; gate claims remain blocked |
@@ -240,7 +240,7 @@ contracts/
 ├── third-party-roundtrip-v0.1.yaml
 ├── sketch-evidence-v0.1.yaml
 ├── sketch-domain-handoff-v0.2.yaml
-├── design-synthesis-v0.2.yaml
+├── design-synthesis-v0.3.yaml
 ├── evidence-gate-register-v0.2.yaml
 ├── runtime-state-contract-v0.1.yaml
 ├── runtime-agent-surface-v0.1.yaml

@@ -8,7 +8,7 @@
     "coordinate_state": "local_metric_scaled",
     "profile_ref": "DGCAD-SCHEMATIC-001",
     "profile_version": "0.1.0",
-    "design_basis_id": "design-assumption-v0.1",
+    "design_basis_id": "design-assumption-v0.2",
     "design_authority": "rule_derived",
     "human_confirmed": false,
     "drawing_standard": "DGCAD-SCHEMATIC-001",
@@ -68,7 +68,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "standardized_building"
@@ -77,7 +77,7 @@
         "height_m": 33.0,
         "height_state": "proposed",
         "base_elevation_m": 0.0,
-        "height_source": "design-assumption-v0.1"
+        "height_source": "design-assumption-v0.2"
       }
     },
     {
@@ -125,7 +125,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "standardized_building"
@@ -134,7 +134,7 @@
         "height_m": 33.0,
         "height_state": "proposed",
         "base_elevation_m": 0.0,
-        "height_source": "design-assumption-v0.1"
+        "height_source": "design-assumption-v0.2"
       }
     },
     {
@@ -182,7 +182,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "standardized_building"
@@ -191,7 +191,7 @@
         "height_m": 33.0,
         "height_state": "proposed",
         "base_elevation_m": 0.0,
-        "height_source": "design-assumption-v0.1"
+        "height_source": "design-assumption-v0.2"
       }
     },
     {
@@ -239,7 +239,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "standardized_building"
@@ -248,7 +248,7 @@
         "height_m": 33.0,
         "height_state": "proposed",
         "base_elevation_m": 0.0,
-        "height_source": "design-assumption-v0.1"
+        "height_source": "design-assumption-v0.2"
       }
     },
     {
@@ -296,7 +296,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "standardized_building"
@@ -305,7 +305,7 @@
         "height_m": 33.0,
         "height_state": "proposed",
         "base_elevation_m": 0.0,
-        "height_source": "design-assumption-v0.1"
+        "height_source": "design-assumption-v0.2"
       }
     },
     {
@@ -353,7 +353,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "standardized_building"
@@ -362,7 +362,7 @@
         "height_m": 33.0,
         "height_state": "proposed",
         "base_elevation_m": 0.0,
-        "height_source": "design-assumption-v0.1"
+        "height_source": "design-assumption-v0.2"
       }
     },
     {
@@ -410,7 +410,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "standardized_building"
@@ -419,7 +419,7 @@
         "height_m": 33.0,
         "height_state": "proposed",
         "base_elevation_m": 0.0,
-        "height_source": "design-assumption-v0.1"
+        "height_source": "design-assumption-v0.2"
       }
     },
     {
@@ -481,7 +481,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "road_centerline"
@@ -518,7 +518,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "road_centerline"
@@ -563,7 +563,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "road_centerline"
@@ -612,7 +612,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "road_centerline"
@@ -649,7 +649,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "road_centerline"
@@ -686,7 +686,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "road_centerline"
@@ -723,7 +723,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "road_centerline"
@@ -768,7 +768,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "road_centerline"
@@ -813,7 +813,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "road_centerline"
@@ -862,7 +862,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "road_centerline"
@@ -899,7 +899,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "dimension"
@@ -930,7 +930,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "dimension_text"
@@ -971,7 +971,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "dimension"
@@ -1002,7 +1002,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "dimension_text"
@@ -1043,7 +1043,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "dimension"
@@ -1074,7 +1074,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "dimension_text"
@@ -1115,7 +1115,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "dimension_tick"
@@ -1152,7 +1152,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "dimension_tick"
@@ -1201,7 +1201,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "drawing_frame"
@@ -1248,7 +1248,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "green_strip"
@@ -1303,7 +1303,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "green_strip"
@@ -1350,7 +1350,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "green_strip"
@@ -1429,7 +1429,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "green_strip"
@@ -1480,7 +1480,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "green_strip"
@@ -1887,7 +1887,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "supplementary_green"
@@ -1962,7 +1962,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "supplementary_green"
@@ -2133,7 +2133,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "supplementary_green"
@@ -2456,7 +2456,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "supplementary_green"
@@ -3097,7 +3097,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "supplementary_green"
@@ -3620,7 +3620,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "supplementary_green"
@@ -4165,7 +4165,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "supplementary_green"
@@ -4456,7 +4456,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "supplementary_green"
@@ -4659,7 +4659,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "supplementary_green"
@@ -4770,7 +4770,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "cluster_green"
@@ -4819,7 +4819,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan_focus"
@@ -4850,7 +4850,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan_label"
@@ -4885,7 +4885,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan_label"
@@ -4938,7 +4938,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -4987,7 +4987,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -5036,7 +5036,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -5085,7 +5085,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -5134,7 +5134,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -5183,7 +5183,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -5232,7 +5232,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -5281,7 +5281,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -5330,7 +5330,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -5379,7 +5379,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -5428,7 +5428,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -5477,7 +5477,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -5526,7 +5526,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -5575,7 +5575,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -5624,7 +5624,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -5673,7 +5673,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -5722,7 +5722,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -5753,7 +5753,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan_label"
@@ -5788,7 +5788,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan_label"
@@ -5823,7 +5823,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan_label"
@@ -5858,7 +5858,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan_label"
@@ -5893,7 +5893,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan_label"
@@ -5928,7 +5928,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan_label"
@@ -5963,7 +5963,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan_label"
@@ -5998,7 +5998,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan_label"
@@ -6033,7 +6033,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan_label"
@@ -6068,7 +6068,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan_label"
@@ -6103,7 +6103,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan_label"
@@ -6138,7 +6138,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan_label"
@@ -6173,7 +6173,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan_label"
@@ -6208,7 +6208,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan_label"
@@ -6243,7 +6243,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan_label"
@@ -6278,7 +6278,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan_label"
@@ -6313,7 +6313,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan_label"
@@ -6374,7 +6374,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -6447,7 +6447,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -6484,7 +6484,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -6541,7 +6541,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -6578,7 +6578,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -6615,7 +6615,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -6672,7 +6672,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -6765,7 +6765,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -6802,7 +6802,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -6847,7 +6847,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -6884,7 +6884,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -6929,7 +6929,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -6978,7 +6978,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -7023,7 +7023,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -7064,7 +7064,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -7101,7 +7101,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -7142,7 +7142,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -7179,7 +7179,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -7216,7 +7216,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -7253,7 +7253,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -7318,7 +7318,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -7355,7 +7355,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -7392,7 +7392,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -7437,7 +7437,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -7486,7 +7486,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -7671,7 +7671,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan"
@@ -7702,7 +7702,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "key_plan_title"
@@ -7737,7 +7737,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "green_label"
@@ -7772,7 +7772,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "green_label"
@@ -7807,7 +7807,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "green_label"
@@ -7842,7 +7842,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "green_label"
@@ -7877,7 +7877,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "green_label"
@@ -7912,7 +7912,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "green_label"
@@ -7947,7 +7947,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "green_label"
@@ -7982,7 +7982,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "green_label"
@@ -8017,7 +8017,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "green_label"
@@ -8052,7 +8052,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "building_label"
@@ -8087,7 +8087,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "building_label"
@@ -8122,7 +8122,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "building_label"
@@ -8157,7 +8157,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "building_label"
@@ -8192,7 +8192,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "building_label"
@@ -8227,7 +8227,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "building_label"
@@ -8262,7 +8262,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "building_label"
@@ -8297,7 +8297,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "building_label"
@@ -8332,7 +8332,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "building_label"
@@ -8367,7 +8367,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "building_label"
@@ -8402,7 +8402,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "building_label"
@@ -8437,7 +8437,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "building_label"
@@ -8472,7 +8472,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "building_label"
@@ -8507,7 +8507,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "building_label"
@@ -8542,7 +8542,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "green_label"
@@ -8577,7 +8577,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "legend_label"
@@ -8612,7 +8612,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "legend_label"
@@ -8647,7 +8647,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "legend_label"
@@ -8682,7 +8682,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "legend_label"
@@ -8717,7 +8717,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "legend_label"
@@ -8752,7 +8752,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "legend_label"
@@ -8787,7 +8787,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "legend_label"
@@ -8822,7 +8822,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "legend_label"
@@ -8857,7 +8857,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "legend_label"
@@ -8910,7 +8910,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "legend_swatch"
@@ -8959,7 +8959,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "legend_swatch"
@@ -9008,7 +9008,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "legend_swatch"
@@ -9057,7 +9057,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "legend_swatch"
@@ -9106,7 +9106,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "legend_swatch"
@@ -9155,7 +9155,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "legend_swatch"
@@ -9204,7 +9204,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "legend_swatch"
@@ -9253,7 +9253,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "legend_swatch"
@@ -9302,7 +9302,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "legend_swatch"
@@ -9333,7 +9333,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "legend_title"
@@ -9382,7 +9382,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "north_arrow"
@@ -9413,7 +9413,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "north_label"
@@ -9448,7 +9448,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "road_label"
@@ -9483,7 +9483,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "road_label"
@@ -9518,7 +9518,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "road_label"
@@ -9553,7 +9553,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "road_label"
@@ -9588,7 +9588,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "road_label"
@@ -9623,7 +9623,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "road_label"
@@ -9658,7 +9658,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "road_label"
@@ -9693,7 +9693,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "road_label"
@@ -9728,7 +9728,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "road_label"
@@ -9763,7 +9763,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "road_label"
@@ -10128,7 +10128,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "schematic_access_corridor"
@@ -10303,7 +10303,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "schematic_branch_corridor"
@@ -10414,7 +10414,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "schematic_main_corridor"
@@ -10477,7 +10477,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "schematic_main_corridor"
@@ -10524,7 +10524,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "schematic_main_corridor"
@@ -10579,7 +10579,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "schematic_main_corridor"
@@ -10620,7 +10620,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "scale_bar"
@@ -10651,7 +10651,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "scale_bar_label"
@@ -10692,7 +10692,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "scale_bar_tick"
@@ -10729,7 +10729,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "scale_bar_tick"
@@ -10766,7 +10766,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "scale_bar_tick"
@@ -10853,7 +10853,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "schematic_sidewalk"
@@ -10908,7 +10908,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "schematic_sidewalk"
@@ -11517,7 +11517,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "schematic_sidewalk"
@@ -11612,7 +11612,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "schematic_sidewalk"
@@ -11667,7 +11667,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "schematic_sidewalk"
@@ -11714,7 +11714,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "schematic_sidewalk"
@@ -11797,7 +11797,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "schematic_sidewalk"
@@ -11876,7 +11876,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "schematic_sidewalk"
@@ -12021,7 +12021,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "schematic_sidewalk"
@@ -12058,7 +12058,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "site_boundary_view"
@@ -12089,7 +12089,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "title_text"
@@ -12124,7 +12124,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "title_text"
@@ -12159,7 +12159,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "title_text"
@@ -12194,12 +12194,12 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "title_text"
       },
-      "text": "FOCUS G-01: 7B / 16U | BASIS: design-assumption-v0.1",
+      "text": "FOCUS G-01: 7B / 16U | BASIS: design-assumption-v0.2",
       "text_height": 1.9,
       "text_style": "Standard",
       "rotation": 0.0
@@ -12229,12 +12229,12 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "title_text"
       },
-      "text": "FAR 1.565 | 2398 HH | 2398 PARKING | 5 ENTRANCES | GREEN 63.0%",
+      "text": "FAR 1.565 | 2398 HH | 2398 PARKING | 5 ENTRANCES | OPEN SPACE 63.0% | DESIGNED GREEN 6.6% (DEFERRED)",
       "text_height": 1.9,
       "text_style": "Standard",
       "rotation": 0.0
@@ -12264,7 +12264,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "title_text"
@@ -12317,7 +12317,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "title_block"
@@ -12354,7 +12354,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "title_block_line"
@@ -12391,7 +12391,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "title_block_line"
@@ -12428,7 +12428,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "title_block_line"
@@ -12465,7 +12465,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "title_block_line"
@@ -12502,7 +12502,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "title_block_line"
@@ -12539,7 +12539,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "title_block_line"
@@ -12576,7 +12576,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "unit_division"
@@ -12613,7 +12613,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "unit_division"
@@ -12650,7 +12650,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "unit_division"
@@ -12687,7 +12687,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "unit_division"
@@ -12724,7 +12724,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "unit_division"
@@ -12761,7 +12761,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "unit_division"
@@ -12798,7 +12798,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "unit_division"
@@ -12835,7 +12835,7 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "unit_division"
@@ -12872,12 +12872,12 @@
         "confirmation_scope": "design_draft",
         "geometry_quality": "rule_derived",
         "review_kind": "autonomous_design_draft",
-        "design_basis_id": "design-assumption-v0.1",
+        "design_basis_id": "design-assumption-v0.2",
         "design_authority": "rule_derived",
         "human_confirmed": false,
         "annotation_role": "unit_division"
       }
     }
   ],
-  "dependency_fingerprint": "c949b79f014203d41573e4fb3e227612aa9289d3414dc87c337bc9e2b2a69803"
+  "dependency_fingerprint": "751c6f571964d84e93b0852f719bca3c09317099f49e08ea19eb7eb947addca0"
 }

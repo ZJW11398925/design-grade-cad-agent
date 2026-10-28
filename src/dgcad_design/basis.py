@@ -1,11 +1,50 @@
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
 import yaml
+
+
+#: Allowed authority classes for a design-basis parameter. The Agent may choose
+#: values under ``agent_assumption`` but may never mark them confirmed; only a
+#: human supplies ``declared_requirement`` confirmation or promotes a value.
+PARAMETER_AUTHORITIES = (
+    "declared_requirement",
+    "designer_stated",
+    "inferred_from_sketch",
+    "agent_assumption",
+    "project_condition",
+)
+
+#: The 21 design parameters that must each declare provenance. This tuple is the
+#: single source of truth for ``parameter_sources`` completeness and is asserted
+#: against the fixture and the contract by tests.
+PARAMETER_SOURCE_KEYS = (
+    "households_per_staircase_per_floor",
+    "floors",
+    "floor_height_m",
+    "staircase_width_m",
+    "staircase_depth_m",
+    "dwelling_gfa_m2",
+    "facility_gfa_m2",
+    "far_min",
+    "far_max",
+    "parking_spaces_per_household",
+    "spaces_per_entrance",
+    "north_south_spacing_m",
+    "side_spacing_m",
+    "boundary_setback_m",
+    "building_road_clearance_m",
+    "green_ratio_min",
+    "road_widths",
+    "sidewalk_width_m",
+    "group_distance_m",
+    "scale_px_per_m",
+    "origin_px",
+)
 
 
 @dataclass(frozen=True)
@@ -39,6 +78,9 @@ class DesignBasis:
     claim_scope: str
     design_authority: str = "rule_derived"
     human_confirmed: bool = False
+    parameter_sources: dict[str, dict[str, Any]] = field(
+        default_factory=dict
+    )
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "DesignBasis":
@@ -47,6 +89,22 @@ class DesignBasis:
             for key, value in data["road_widths"].items()
         }
         origin = tuple(float(value) for value in data["origin_px"])
+        if "parameter_sources" not in data:
+            raise ValueError(
+                "parameter_sources is required: every basis parameter must "
+                "declare source, authority and confirmation state"
+            )
+        raw_sources = data["parameter_sources"]
+        if not isinstance(raw_sources, dict):
+            raise ValueError("parameter_sources must be a mapping")
+        parameter_sources: dict[str, dict[str, Any]] = {}
+        for key, entry in raw_sources.items():
+            if not isinstance(entry, dict):
+                raise ValueError(
+                    f"parameter_sources[{key!r}] must be a mapping with "
+                    "source, authority and confirmed"
+                )
+            parameter_sources[str(key)] = dict(entry)
         basis = cls(
             basis_id=str(data["basis_id"]),
             version=str(data["version"]),
@@ -85,6 +143,7 @@ class DesignBasis:
                 data.get("design_authority", "rule_derived")
             ),
             human_confirmed=bool(data.get("human_confirmed", False)),
+            parameter_sources=parameter_sources,
         )
         basis.validate()
         return basis
@@ -140,6 +199,52 @@ class DesignBasis:
             raise ValueError(
                 "an autonomous design basis must be rule_derived"
             )
+        self._validate_parameter_sources()
+
+    def _validate_parameter_sources(self) -> None:
+        """Enforce per-parameter provenance and the Agent self-confirmation ban."""
+        sources = self.parameter_sources
+        if not isinstance(sources, dict):
+            raise ValueError("parameter_sources must be a mapping")
+        missing = [
+            key for key in PARAMETER_SOURCE_KEYS if key not in sources
+        ]
+        if missing:
+            raise ValueError(
+                "parameter_sources is missing declared parameters: "
+                + ", ".join(missing)
+            )
+        for key, entry in sources.items():
+            if not isinstance(entry, dict):
+                raise ValueError(
+                    f"parameter_sources[{key!r}] must be a mapping"
+                )
+            for required in ("source", "authority", "confirmed"):
+                if required not in entry:
+                    raise ValueError(
+                        f"parameter_sources[{key!r}] is missing {required!r}"
+                    )
+            source = entry["source"]
+            if not isinstance(source, str) or not source.strip():
+                raise ValueError(
+                    f"parameter_sources[{key!r}].source must be a non-empty "
+                    "string"
+                )
+            authority = entry["authority"]
+            if authority not in PARAMETER_AUTHORITIES:
+                raise ValueError(
+                    f"parameter_sources[{key!r}].authority {authority!r} is "
+                    "not one of " + ", ".join(PARAMETER_AUTHORITIES)
+                )
+            if not isinstance(entry["confirmed"], bool):
+                raise ValueError(
+                    f"parameter_sources[{key!r}].confirmed must be a bool"
+                )
+            if authority == "agent_assumption" and entry["confirmed"]:
+                raise ValueError(
+                    f"parameter_sources[{key!r}]: an agent_assumption cannot "
+                    "be confirmed; the Agent may not self-confirm a parameter"
+                )
 
     @property
     def building_width_for_units(self) -> dict[int, float]:
@@ -224,4 +329,53 @@ class DesignBasis:
             "claim_scope": self.claim_scope,
             "design_authority": self.design_authority,
             "human_confirmed": self.human_confirmed,
+            "parameter_sources": {
+                key: dict(value)
+                for key, value in sorted(self.parameter_sources.items())
+            },
+        }
+
+    def provenance(self) -> dict[str, Any]:
+        """Machine-readable provenance summary for evidence and summaries.
+
+        Reports every parameter's source/authority/confirmation state plus
+        aggregate counts, so a reader can see which values are Agent
+        assumptions and which are still unconfirmed.
+        """
+        counts: dict[str, int] = {}
+        for entry in self.parameter_sources.values():
+            authority = entry["authority"]
+            counts[authority] = counts.get(authority, 0) + 1
+        unconfirmed = sorted(
+            key
+            for key, entry in self.parameter_sources.items()
+            if not entry["confirmed"]
+        )
+        agent_assumptions = sorted(
+            key
+            for key, entry in self.parameter_sources.items()
+            if entry["authority"] == "agent_assumption"
+        )
+        confirmed = sorted(
+            key
+            for key, entry in self.parameter_sources.items()
+            if entry["confirmed"]
+        )
+        return {
+            "basis_id": self.basis_id,
+            "version": self.version,
+            "case_id": self.case_id,
+            "human_confirmed": self.human_confirmed,
+            "design_authority": self.design_authority,
+            "parameters": {
+                key: dict(value)
+                for key, value in sorted(self.parameter_sources.items())
+            },
+            "authority_counts": dict(sorted(counts.items())),
+            "unconfirmed_parameters": unconfirmed,
+            "confirmed_parameters": confirmed,
+            "agent_assumption_parameters": agent_assumptions,
+            "all_parameters_confirmed": bool(
+                self.parameter_sources and not unconfirmed
+            ),
         }

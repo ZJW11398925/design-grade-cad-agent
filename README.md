@@ -4,7 +4,7 @@
 
 **A traceable research-and-development workspace for turning hand-drawn site sketches into professional, verifiable site models and editable CAD/BIM output.**
 
-> **Status: research prototype (v0.16.0).** This is not production CAD software, not a compliance certification, and not a validated AutoCAD/FreeCAD integration. Claims are scoped to the tests and evidence recorded in this repository.
+> **Status: research prototype (v0.17.0).** This is not production CAD software, not a compliance certification, and not a validated AutoCAD/FreeCAD integration. Claims are scoped to the tests and evidence recorded in this repository.
 
 ---
 
@@ -72,13 +72,13 @@ The provisional architecture defines 11 modules (M01 Source & Calibration throug
 | E2E-003c third-party CAD | **partial**, 2 evidence tests | AutoCAD 2024 Core Console round-trip: 15 entities/XDATA preserved, R2010→R2018 + linetype case; LibreCAD/FreeCAD/GUI not run |
 | EP-R1-SKETCH-001 intake | **in progress**, 11 evidence tests | [CASE-SKETCH-001](docs/e2e/sketch-001/README.md): designer sketch, 55 buildings (5 designer-confirmed merges), unit counts 16/21/17 + 1 facility, 11 floors provisional, public image-space trace and rough centerlines; private DWG/redline; no fidelity metrics or unit-type library yet |
 | Real sketch → canonical handoff | **gate implemented; pilot blocked**, 6 E2E tests | [CASE-SKETCH-001-HANDOFF-A](docs/e2e/sketch-handoff-a/README.md): 7 selected objects pass source-integrity and road-topology checks but stop at `HUMAN_OBJECT_REVIEW_REQUIRED`; the downstream Canonical → CAD-IR → DXF path (11/11) is proven only with an explicitly marked test double; scope, geometry quality and boundary authority propagate when confirmed |
-| Autonomous design synthesis | **partial draft implemented**, 9 tests | [CASE-SKETCH-001 design synthesis](docs/e2e/design-synthesis-001/README.md): full-site context + focus block G-01; 7 standardized buildings / 16 units in 20 m rows; FAR 1.565; 1 parking space/household and 5 entrances; 208-entity editable DXF with title block, key plan and dimensions; `rule_derived` draft, not human-confirmed. M4c-0's 5-component road reading was a sub-ULP floating-point noding artefact, corrected in M4c-1a: explicit shared-coordinate junctions, noded graph **1 component** (51 nodes / 55 segments, `max_endpoint_gap_m` 0.0); `design-roads.geojson` published. |
+| Autonomous design synthesis | **partial draft implemented**, 9 tests | [CASE-SKETCH-001 design synthesis](docs/e2e/design-synthesis-001/README.md): full-site context + focus block G-01; 7 standardized buildings / 16 units in 20 m rows; FAR 1.565 (design-basis arithmetic, not a spatial result); parking entrance count 5 pass, recorded capacity 1,000 vs 2,398 required (capacity/layout deferred); open-space ratio 63.0% — not designed green (designed green 6.6%, deferred); 208-entity editable DXF; `rule_derived` draft, not human-confirmed. M4c-0's 5-component road reading was a sub-ULP floating-point noding artefact, corrected in M4c-1a: explicit shared-coordinate junctions, noded graph **1 component** (51 nodes / 55 segments, `max_endpoint_gap_m` 0.0); `design-roads.geojson` published. |
 | Open-source design reuse | **sprint complete; partial answer**, 3 tests | [M4c-0](docs/e2e/open-source-reuse-001/README.md): Building Regulariser, OSMnx, PyGeoOps, Clothoids, momepy tested on CASE-SKETCH-001; OSMnx consolidation 309/333→117/141 with 1 component; Building Regulariser limited; PyGeoOps per-area; Clothoids single fit fails; momepy evaluation only; no new core dependencies |
 | Road network topology | **connected_by_unified_road_mask**, 3 tests | 1 connected design network: 309 nodes / 333 edges / 121 junction candidates; colour is a class attribute; no width/profile/alignment |
 | R0 research | archived | 5 acquisition batches, synthetic benchmarks, adversarial reviews, architecture challenge |
 | Real-world evidence | **partially obtained** | one designer sketch intake (CASE-SKETCH-001); still missing a field-paired case, real design-office profile, IFC round-trip, independent solar engine, AutoCAD/FreeCAD host exchange, MCP wire conformance |
 
-**Verified test baseline: 259 passed (259 collected)** (`python -m pytest -q`).
+**Verified test baseline: 283 passed (283 collected)** (`python -m pytest -q`).
 
 ### Explicit non-claims
 
@@ -97,7 +97,7 @@ The provisional architecture defines 11 modules (M01 Source & Calibration throug
 - Road connectivity is derived from the unified brown+blue mask (5 px closing): 1 component, 309 nodes, 333 edges and 121 junction candidates. The separate-colour 9-component result and the eight nearest-node connectors are rejected; no width/profile/alignment is derived.
 - CASE-SKETCH-001-HANDOFF-A is a selected pilot subset. The committed record is a designer authorization, not an object-level geometry review; the pipeline blocks with `HUMAN_OBJECT_REVIEW_REQUIRED`. No pilot DXF/canonical model is currently published, and `EP-R1-SKETCH-001` remains in progress.
 - The test-double DXF is local metric only; no DWG/redline/project coordinates are published, and unknown building height and road hierarchy remain unknown. The pilot transform is uniform scale + y-flip, not the six-point homography.
-- The autonomous design draft is a schematic proposal, not a construction or permit drawing and not a code-compliance claim. Its unit module is provisional, its road corridors are schematic, its garage layout is not designed, and its full-site north-south spacing is deferred; only the focus block is checked at 20 m.
+- The autonomous design draft is a schematic proposal, not a construction or permit drawing and not a code-compliance claim. Its unit module is provisional, its road corridors are schematic, its garage layout is not designed, and its full-site north-south spacing is deferred; only the focus block is checked at 20 m. Green and parking claims are honest (M4c-1c): `open_space_ratio` 63.0% is open space, not designed green (`designed_green_ratio` 6.6%, the ≥30% designed-green target is deferred); parking capacity is recorded at 1,000 against the 2,398-space requirement (capacity and layout deferred); the FAR/unit-count passes are design-basis arithmetic, and all 21 design-basis parameters are unconfirmed assumptions the Agent cannot self-confirm.
 - The autonomous draft is `rule_derived` in `proposal_preview`, never `human_confirmed`; the designer may adopt or edit it, but the Agent cannot declare it adopted or officially issued.
 - The 4c design candidate is **partial** (full-site north-south spacing deferred; only the focus block is detailed). M4c-0's 5-component road reading was a sub-ULP floating-point noding artefact, corrected in M4c-1a with explicit shared-coordinate junctions: the noded centerline graph is **1 component** (51 nodes / 55 segments, cyclomatic 5, `max_endpoint_gap_m` 0.0) and `ROAD_CONNECTIVITY` now checks the noded graph. OSMnx remains an optional source-skeleton preprocessor, not a connectivity proof.
 - M4c-0 tested open-source libraries as optional experiment dependencies; no OSMnx/GeoPandas/momepy/Building Regulariser dependency was added to `pyproject.toml`, and no open-source algorithm or foreign design default is claimed as Chinese code compliance.
@@ -115,7 +115,7 @@ The provisional architecture defines 11 modules (M01 Source & Calibration throug
 │   ├── dgcad_cad/             CAD-IR, DXF compiler, readback validator
 │   └── dgcad_e2e/             Living end-to-end pipeline orchestration
 ├── experiments/m4c0/         Open-source reuse experiments A/B/C (optional deps)
-├── tests/                     Executable contract suites (259 collected)
+├── tests/                     Executable contract suites (283 collected)
 ├── contracts/                 Machine-readable IR, domain, E2E, lifecycle/auth/MCP/CAD bridge contracts
 ├── fixtures/                  Typed synthetic fixtures (scene, authority, dependency, domain, E2E)
 ├── spikes/                    Executed process probe and MCP install-attempt evidence
@@ -157,7 +157,7 @@ python -m pytest -q
 Expected:
 
 ```text
-259 passed
+283 passed
 ```
 
 With coverage:
@@ -188,10 +188,12 @@ python -m pytest -q --cov --cov-report=term-missing
 | Sketch handoff A | `tests/e2e/test_sketch_handoff_a.py` | 6 | blocked evidence + review packet; test-double Canonical → CAD-IR → DXF (11/11) with scope in trace/canonical/CAD-IR/XDATA/manifest; privacy and scope-mismatch detection |
 | Design synthesis | `tests/test_design_synthesis.py` | 9 | basis math (FAR/parking/spacing), full-site input, intent/focus block, row layout, consistency checks, 208-entity DXF, rule-derived draft authority |
 | Design topology | `tests/test_design_topology.py` | 14 | noded design-road topology: exact connectivity, explicit shared-vertex junctions, fail-closed negatives (split branch, sub-tolerance gap, snap/round/precision repairs rejected), geometry preservation |
-| Design contract | `tests/test_design_contract.py` | 7 | design-synthesis-v0.2 contract ↔ live module sync (topology states, connector states, fail-closed families), v0.1 superseded, evidence-gate register repointed |
+| Design contract | `tests/test_design_contract.py` | 10 | design-synthesis-v0.3 contract ↔ live module sync (basis provenance, honest check statuses, topology states, connector states, fail-closed families), v0.2/v0.1 superseded, evidence-gate register repointed |
+| Design basis | `tests/test_design_basis.py` | 14 | design-basis provenance and semantics: per-parameter authority states, `confirmed: false` invariants, arithmetic-vs-spatial check labelling |
+| Green/parking semantics | `tests/test_green_parking_semantics.py` | 7 | honest green/parking split: open-space vs designed-green ratio, recorded capacity vs required spaces, entrance capacities, deferred statuses |
 | Privacy scan | `tests/test_privacy_scan.py` | 20 | structured DXF privacy scan: hex-digest false-positive elimination, real token detection in TEXT/MTEXT/names/XDATA, committed-evidence clean runs, fail-closed behaviour |
 | Open-source reuse | `tests/test_open_source_reuse.py` | 3 | reuse-matrix coverage/verdicts, experiment evidence and DXF privacy, core-dependency minimality |
-| **Total** | | **259 (all passing)** | |
+| **Total** | | **283 (all passing)** | |
 
 Read [docs/development/testing.md](docs/development/testing.md) for what these tests prove, what they do **not** prove, and how new test layers are added.
 
@@ -215,7 +217,7 @@ Read [docs/development/testing.md](docs/development/testing.md) for what these t
 | `contracts/third-party-roundtrip-v0.1.yaml` | Third-party CAD evidence and verdict contract |
 | `contracts/sketch-evidence-v0.1.yaml` | Sketch-to-trace evidence, review states and publication boundary |
 | `contracts/sketch-domain-handoff-v0.2.yaml` | Scope-aware real-sketch handoff, boundary authority, source integrity and road topology (v0.1 superseded) |
-| `contracts/design-synthesis-v0.2.yaml` | Autonomous design draft state, basis, constraints, noded road topology, drawing standard and authority (v0.1 superseded) |
+| `contracts/design-synthesis-v0.3.yaml` | Autonomous design draft state, basis provenance, honest check semantics, noded road topology, drawing standard and authority (v0.2/v0.1 superseded) |
 | `contracts/evidence-gate-register-v0.2.yaml` | Living R1 evidence gate register; EP-R1-SKETCH-001 in progress |
 | `contracts/mcp-binding-v0.3.yaml` | MCP binding candidate; wire-level status remains unexecuted |
 
@@ -223,7 +225,11 @@ The promotion status of every research artifact is tracked in [docs/research-to-
 
 ## 8. Next milestone
 
-**Milestone 3c is partial; Milestone 4 is in progress.** AutoCAD 2024 Core Console round-trip evidence is captured and `DEV-CAD-001..005/007..011` are closed. LibreCAD/FreeCAD/GUI visual QA remain open under #6. `EP-R1-SKETCH-001` remains in progress with CASE-SKETCH-001. **Milestone 4b.1** made the handoff gate scope-aware: the committed designer record is an authorization, not an object-level geometry review, so the pilot blocks with `HUMAN_OBJECT_REVIEW_REQUIRED`. Source integrity, road topology and coordinate-transform semantics are now enforced; the downstream Canonical → CAD-IR → DXF path is proven with an explicitly marked test double, not published as real evidence. Remaining: the designer's object-level review, full-case fidelity metrics, the unit-type library, six unit-count conflicts, 121 junction review and the 5 px closing kernel, road width/profile/alignment, 支路/入户路 separation, then the other evidence packages. `EP-R1-ROAD-001` remains in progress with connectivity/junction review pending.
+**Milestone 3c is partial; Milestone 4 is in progress.** AutoCAD 2024 Core Console round-trip evidence is captured and `DEV-CAD-001..005/007..011` are closed. LibreCAD/FreeCAD/GUI visual QA remain open under #6. `EP-R1-SKETCH-001` remains in progress with CASE-SKETCH-001. **Milestone 4b.1** made the handoff gate scope-aware: the committed designer record is an authorization, not an object-level geometry review, so the pilot blocks with `HUMAN_OBJECT_REVIEW_REQUIRED`. Source integrity, road topology and coordinate-transform semantics are now enforced; the downstream Canonical → CAD-IR → DXF path is proven with an explicitly marked test double, not published as real evidence.
+
+**Milestone 4c** produced the first autonomous schematic design draft; **M4c-1a** (0.16.0) corrected its road-topology defect with explicit shared-coordinate junctions (noded graph: 1 component, 51 nodes / 55 edges, max endpoint gap 0.0 m) and published `design-roads.geojson`; **M4c-1c** (0.17.0) made the design checks honest — 16 checks = 9 pass + 3 info + 4 deferred, per-parameter design-basis provenance (21 parameters, all unconfirmed), and no unverified quantity presented as a pass.
+
+**Next:** M4c-1b — road service coverage (fix the G-05/G-12 skip logic, entrance geometry type, branch-to-entrance connections, `road_access_coverage`, dead-end justification); then multi-candidate generation with independent design-quality evaluation; then full-site expansion with basis confirmation. Remaining evidence gaps: the designer's object-level review, full-case fidelity metrics, the unit-type library, six unit-count conflicts, the 121-junction review and the 5 px closing kernel, road width/profile/alignment, 支路/入户路 separation, a real CAD host round-trip for the 208-entity DXF, and the authority-declaration hardening that must precede autonomous canonical writes.
 
 See [docs/roadmap.md](docs/roadmap.md) for the milestone plan and exit criteria.
 
@@ -254,8 +260,8 @@ Apache-2.0. See [LICENSE](LICENSE).
 
 **Design-Grade CAD Agent（DGCAD）** 是一个以研究为先导的开源工作区，目标是建立一条可追溯的 **草图 → 专业场地模型 → CAD/BIM** 转换链。
 
-当前仓库整合了 R0 v0.19 研究证据、R1 部署生命周期原型、Domain Slice 001、E2E-001 纵向链路、E2E-002 mutation/rebuild 与 E2E-003 对抗性交付回归：根目录 `src/`、`tests/` 是可执行的正式代码，`research/archive/` 保存历史研究快照。全部测试通过（当前 259，见 §6），无长期 xfail。
+当前仓库整合了 R0 v0.19 研究证据、R1 部署生命周期原型、Domain Slice 001、E2E-001 纵向链路、E2E-002 mutation/rebuild 与 E2E-003 对抗性交付回归：根目录 `src/`、`tests/` 是可执行的正式代码，`research/archive/` 保存历史研究快照。全部测试通过（当前 283，见 §6），无长期 xfail。
 
 项目坚持四条底线：原始 Source/Trace 不可覆盖；Agent 只能提议、不能写入 confirmed 设计真值；DXF/IFC 只是派生表示；未知状态必须显式保留。真实草图、真实设计院 Profile、IFC round-trip、独立日照引擎与真实 AutoCAD/FreeCAD 宿主接入仍是明确的证据缺口，仓库不会把合成测试包装成生产能力。
 
-E2E-001/002/003 已打通：DOMAIN-SLICE-001 → Runtime canonical → massing → 合成 shadow → CAD-IR → DXF → readback manifest，验证了高度/节点/北向的 scoped stale 与真实 rebuild。Milestone 3a 把 15 个 strict xfail 全部转为正向检查；3b 完成指纹/依赖键一致性、符号表大小写、稳定环身份、raw/canonical 回读证据；3c 已用 AutoCAD 2024 Core Console 完成真实第三方 round-trip，判定 semantic_pass_with_serialization_differences。LibreCAD/FreeCAD/GUI QA 仍未执行。此后 Milestone 4 持续推进：4a 引入真实设计师草图取证（CASE-SKETCH-001）与统一路网拓扑（309 节点 / 333 边 / 121 个待复核 junction 候选）；4b.1 让真实草图移交门具备作用域感知，pilot 在设计师对象级几何复核前保持 blocked；4c 产出首个自主标准化设计草案（focus G-01，`rule_derived` 草案，非 human_confirmed），M4c-0 完成开源设计能力复用 sprint；M4c-1a（v0.16.0）已修正 4c 道路图的浮点 noding 缺陷：设计路网携带显式共享坐标 junction，noded 图 1 连通分量（51 节点 / 55 段，max endpoint gap 0.0 m），证据已重生成并发布 design-roads.geojson。
+E2E-001/002/003 已打通：DOMAIN-SLICE-001 → Runtime canonical → massing → 合成 shadow → CAD-IR → DXF → readback manifest，验证了高度/节点/北向的 scoped stale 与真实 rebuild。Milestone 3a 把 15 个 strict xfail 全部转为正向检查；3b 完成指纹/依赖键一致性、符号表大小写、稳定环身份、raw/canonical 回读证据；3c 已用 AutoCAD 2024 Core Console 完成真实第三方 round-trip，判定 semantic_pass_with_serialization_differences。LibreCAD/FreeCAD/GUI QA 仍未执行。此后 Milestone 4 持续推进：4a 引入真实设计师草图取证（CASE-SKETCH-001）与统一路网拓扑（309 节点 / 333 边 / 121 个待复核 junction 候选）；4b.1 让真实草图移交门具备作用域感知，pilot 在设计师对象级几何复核前保持 blocked；4c 产出首个自主标准化设计草案（focus G-01，`rule_derived` 草案，非 human_confirmed），M4c-0 完成开源设计能力复用 sprint；M4c-1a（v0.16.0）已修正 4c 道路图的浮点 noding 缺陷：设计路网携带显式共享坐标 junction，noded 图 1 连通分量（51 节点 / 55 段，max endpoint gap 0.0 m），证据已重生成并发布 design-roads.geojson。M4c-1c（v0.17.0）把证据语义改诚实：检查分 pass / info / deferred（info 与 deferred 都不是 pass），open_space_ratio 63.0% 是开敞空间而非已设计绿地（designed green 6.6%，deferred），停车 recorded capacity 1,000 / 要求 2,398（capacity/layout deferred），21 项 design-basis 参数全部 confirmed:false，Agent 不能自确认。

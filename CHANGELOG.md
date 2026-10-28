@@ -2,6 +2,67 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.17.0 — 2026-10-28
+
+### Changed
+
+- **M4c-1c — honest design-check semantics.** No design geometry, CAD output or
+  road topology changes: this release changes what the checks are allowed to
+  claim. The previous 13-check set marked several basis-derived or unverified
+  quantities as `pass`; the new 16-check set uses explicit `pass` / `info` /
+  `deferred` semantics (a deferred check is never a pass).
+
+  - **Green** — `GREEN_RATIO` (which passed at 63.0 %) is replaced by
+    `OPEN_SPACE_RATIO` (`info`; 63.04 % of the site is free of buildings and
+    roads) and `DESIGNED_GREEN_RATIO` (`deferred`; classified cluster/strip
+    green is only 6.59 % / 13,446 m² of the site — 89.55 % of the reported
+    "green" was residual space, so the declared 30 % target is **not** met under
+    this definition yet).
+  - **Parking** — `PARKING_MIN_ONE_PER_HOUSEHOLD` and `PARKING_ENTRANCES` are
+    replaced by `PARKING_REQUIREMENT_ARITHMETIC` (`info`; requirement is
+    households × declared ratio), `PARKING_ENTRANCE_COUNT` (`pass`; 5 entrances,
+    count only), `PARKING_CAPACITY` (`deferred`; recorded entrance capacity is
+    1,000 spaces versus 2,398 required) and `PARKING_LAYOUT` (`deferred`; garage
+    layout is not designed).
+  - **FAR / unit count / road widths** — now explicitly labelled
+    `derived_from: design_basis_arithmetic` / `design_basis_assignment`; they are
+    basis arithmetic or declared-assignment results, not spatial design results.
+    `UNIT_COUNT_PRESERVED` now states that the 55 buildings / 109 units still
+    include the 2 buildings (3 units) dropped from the detailed focus layout.
+  - **Design basis provenance** — `design-basis-001.yaml` is now
+    `design-assumption-v0.2` with a machine-readable `parameter_sources` block
+    covering all 21 design parameters (`source`, `authority`, `confirmed`):
+    5 `declared_requirement`, 2 `designer_stated`, 3 `inferred_from_sketch`,
+    11 `agent_assumption`; every parameter is `confirmed: false`. Validation
+    rejects a missing/incomplete provenance block and **rejects
+    `agent_assumption` marked as confirmed** — the Agent cannot self-confirm.
+  - **Contract** — `contracts/design-synthesis-v0.3.yaml` (v0.2 marked
+    superseded; evidence-gate register re-pointed) adds
+    `basis.parameter_sources`, `basis.parameter_authorities`, the honest
+    verification list and rules ("deferred is not pass", "open-space ratio is
+    not designed green", "entrance count is not parking capacity",
+    "FAR/GFA are basis arithmetic"). A contract test binds the YAML to the live
+    module.
+
+- Evidence regenerated in one run: **16 checks = 9 pass + 3 info + 4 deferred**;
+  DXF still 208 entities, audit 0/0, readback 208/208, XDATA arity 11, privacy
+  pass; road topology unchanged (41 roads, 1 component, 51 nodes / 55 edges,
+  max endpoint gap 0.0 m, `design-roads.geojson` SHA-256 unchanged).
+
+### Verified
+
+- **283 passed** (`python -m pytest -q`), including new
+  `tests/test_green_parking_semantics.py` (7), `tests/test_design_basis.py` (14)
+  and an expanded `tests/test_design_contract.py` (10).
+
+### Docs
+
+- README / status / design-synthesis README / roadmap / testing guide updated to
+  the honest metrics: the misleading "green ratio achieved 63.0 %" is removed;
+  parking capacity and garage layout are shown as deferred; FAR is described as
+  design-basis arithmetic. The continuation dossier and handoff keep the
+  corrected narrative.
+
 ## 0.16.0 — 2026-10-28
 
 ### Added

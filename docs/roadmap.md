@@ -205,7 +205,7 @@ First round (`docs/e2e/design-synthesis-001/`):
 - [x] Mark all design objects `rule_derived` in `proposal_preview`; no `human_confirmed`; title block says Agent-generated and not code-compliant.
 - [x] Record the design diff, dropped buildings and the persistent draft manifest.
 
-Next in 4c:
+Next in 4c (sequence: 4c-1b design-aware coverage → multi-candidate evaluation → full-site expansion):
 
 - **First fix the road topology** — **done in 4c-1a** without OSMnx: explicit shared-coordinate junctions + dependency-free noded check + evidence regeneration (the OSMnx base was rejected as a tolerance-created connectivity proof; OSMnx remains an optional preprocessor, see 4c-1a below).
 - Expand the standardized layout from the focus block to all groups; enforce 20 m north-south spacing site-wide.
@@ -223,6 +223,15 @@ Next in 4c:
 - [x] Regenerate the evidence in one run: 208-entity DXF, audit 0/0, readback 208/208, 23 declared design layers, all prior metrics unchanged; contract bumped to `design-synthesis-v0.2.yaml` (v0.1 superseded).
 - [x] Control plane unchanged: foundation/runtime/deployment/CAD/domain untouched; XDATA arity 11; `ISSUE_CATEGORIES` unchanged.
 - [x] Correct the defect narrative across docs (this roadmap, status §16–18, design/reuse READMEs, research-to-product-map); full-site spacing remains deferred (M4c-1b/4c next steps below still open).
+
+### Milestone 4c-1c — Honest Evidence Semantics (complete, 0.17.0)
+
+- [x] Split check statuses into pass / info / deferred — 16 declared checks: **9 pass**, 3 info (PARKING_REQUIREMENT_ARITHMETIC, ROAD_CORRIDOR_COVERAGE, OPEN_SPACE_RATIO), 4 deferred (PARKING_CAPACITY, PARKING_LAYOUT, DESIGNED_GREEN_RATIO, FULL_SITE_NS_SPACING). `info` is not `pass`; `deferred` is not `pass`.
+- [x] Split the green claim: `open_space_ratio` **63.0%** (128,676 m²) is open space, not designed green; `designed_green_ratio` **6.6%** (13,446 m²; supplementary covers 89.6% of open space) — the ≥30% designed-green target is deferred, not achieved.
+- [x] Split the parking claim: entrance count 5 **pass**; recorded capacity **1,000 vs 2,398 required** (PARKING_CAPACITY deferred); parking layout deferred; entrances carry capacities (3 existing × 0, 2 proposed × 500); garage layout `not_designed`.
+- [x] Label derived checks: FAR_RANGE / UNIT_COUNT_PRESERVED = `design_basis_arithmetic`; ROAD_WIDTHS = `design_basis_assignment`.
+- [x] Publish design-basis provenance: 21 parameters with authority states (5 `declared_requirement`, 2 `designer_stated`, 3 `inferred_from_sketch`, 11 `agent_assumption`), **all `confirmed: false`**; the Agent cannot self-confirm them (`design-assumption-v0.2`).
+- [x] Contract `design-synthesis-v0.3.yaml` (v0.2/v0.1 superseded); evidence-gate register v0.3; tests: `test_design_basis` (14), `test_green_parking_semantics` (7), `test_design_contract` 7→10; suite **283 passed**.
 
 ### M4c-0 — Open-Source Design Capability Reuse Sprint (complete; partial answer)
 

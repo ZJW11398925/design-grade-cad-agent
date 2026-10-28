@@ -42,6 +42,7 @@ class ParkingLayout:
     entrances: tuple[ParkingEntrance, ...]
     underground: bool
     garage_layout: str
+    recorded_capacity_spaces: int
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -50,6 +51,7 @@ class ParkingLayout:
             "spaces_per_entrance": self.spaces_per_entrance,
             "entrances_required": self.entrances_required,
             "entrance_count": len(self.entrances),
+            "recorded_capacity_spaces": self.recorded_capacity_spaces,
             "existing_entrance_count": sum(
                 1 for item in self.entrances if item.status == "existing"
             ),
@@ -133,4 +135,7 @@ def build_parking_layout(
         entrances=tuple(entrances),
         underground=True,
         garage_layout="not_designed",
+        recorded_capacity_spaces=sum(
+            item.capacity_spaces for item in entrances
+        ),
     )

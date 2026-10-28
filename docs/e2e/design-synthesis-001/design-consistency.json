@@ -10,28 +10,45 @@
         1.55,
         1.6
       ],
-      "message": "site FAR must be inside the declared range"
+      "derived_from": "design_basis_arithmetic",
+      "message": "FAR is design-basis arithmetic (declared staircase/floor/dwelling-area assumptions over the site area), not a spatial design result"
     },
     {
-      "id": "PARKING_MIN_ONE_PER_HOUSEHOLD",
-      "status": "pass",
+      "id": "PARKING_REQUIREMENT_ARITHMETIC",
+      "status": "info",
       "value": 1.0,
       "required": 1.0,
-      "message": "at least one parking space per household"
+      "derived_from": "design_basis_arithmetic",
+      "message": "required parking is households x declared ratio; this is an arithmetic requirement, not a parking layout verification"
     },
     {
-      "id": "PARKING_ENTRANCES",
+      "id": "PARKING_ENTRANCE_COUNT",
       "status": "pass",
       "value": 5,
       "required": 5,
-      "message": "entrances must serve the declared spaces"
+      "message": "entrance COUNT satisfies the declared spaces-per-entrance assumption; this is not a parking capacity check"
+    },
+    {
+      "id": "PARKING_CAPACITY",
+      "status": "deferred",
+      "value": 1000,
+      "required": 2398,
+      "message": "only the recorded entrance capacity is declared; the remaining spaces have no designed garage layout, so capacity is deferred"
+    },
+    {
+      "id": "PARKING_LAYOUT",
+      "status": "deferred",
+      "value": "not_designed",
+      "required": "designed garage layout",
+      "message": "no garage geometry, aisle geometry or parking-space layout is designed; entrance count is not parking provision"
     },
     {
       "id": "UNIT_COUNT_PRESERVED",
       "status": "pass",
       "value": 109,
       "required": 109,
-      "message": "standardized buildings preserve the inferred unit counts"
+      "derived_from": "design_basis_arithmetic",
+      "message": "55 buildings / 109 units is a basis count that still includes the 2 buildings (3 units) dropped from the detailed focus layout; it is not a focus-layout preservation result"
     },
     {
       "id": "FOCUS_NS_SPACING",
@@ -93,14 +110,22 @@
         7.0,
         12.0
       ],
-      "message": "each road width comes from the declared class"
+      "derived_from": "design_basis_assignment",
+      "message": "widths are assigned from the declared basis and checked for set membership; they are not an alignment or cross-section design result"
     },
     {
-      "id": "GREEN_RATIO",
-      "status": "pass",
+      "id": "OPEN_SPACE_RATIO",
+      "status": "info",
       "value": 0.6303863597090935,
+      "required": "none",
+      "message": "share of the site left free by buildings and roads; this is NOT a designed-green ratio"
+    },
+    {
+      "id": "DESIGNED_GREEN_RATIO",
+      "status": "deferred",
+      "value": 0.06587448969490359,
       "required": 0.3,
-      "message": "site green ratio"
+      "message": "only classified cluster/strip green counts; usable-area, continuity and green-quality criteria are not defined, so the declared target is not met under this definition yet"
     },
     {
       "id": "FULL_SITE_NS_SPACING",
@@ -112,6 +137,7 @@
   ],
   "metrics": {
     "site_area_m2": 204122.7864634952,
+    "basis_id": "design-assumption-v0.2",
     "staircase_count": 109,
     "facility_count": 1,
     "households": 2398,
@@ -122,6 +148,9 @@
     "parking_spaces": 2398,
     "parking_entrances": 5,
     "parking_entrances_required": 5,
+    "parking_capacity_recorded": 1000,
+    "parking_capacity_required": 2398,
+    "garage_layout": "not_designed",
     "focus_building_count": 7,
     "focus_unit_count": 16,
     "focus_households": 352,
@@ -129,9 +158,11 @@
     "focus_min_ns_gap_m": 20.0,
     "road_area_m2": 26170.241651018805,
     "sidewalk_area_m2": 9866.177785935128,
-    "green_area_m2": 128676.22029239938,
-    "green_ratio": 0.6303863597090935,
-    "green_ratio_target": 0.3,
+    "open_space_area_m2": 128676.22029239938,
+    "open_space_ratio": 0.6303863597090935,
+    "designed_green_area_m2": 13446.484393384519,
+    "designed_green_ratio": 0.06587448969490359,
+    "green_target_ratio": 0.3,
     "road_noded_component_count": 1,
     "corridor_union_pieces": 1,
     "road_topology": {

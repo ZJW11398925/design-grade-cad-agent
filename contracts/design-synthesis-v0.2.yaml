@@ -1,5 +1,13 @@
 schema_id: dgcad.design-synthesis.v0.2
-status: living_contract
+status: superseded
+superseded_by: design-synthesis-v0.3.yaml
+superseded_note: >-
+  Historical contract, kept as evidence. v0.3 adds the per-parameter basis
+  provenance block (parameter_sources), the honest metric names in
+  verification.required (parking_requirement_arithmetic / parking_entrance_count
+  / parking_capacity / parking_layout / open_space_ratio / designed_green_ratio /
+  full_site_north_south_spacing) and the deferred-is-not-pass rules. Do not edit;
+  cite v0.3 for living rules.
 supersedes: design-synthesis-v0.1.yaml
 scope: CASE-SKETCH-001 autonomous design synthesis pilot
 purpose: >-

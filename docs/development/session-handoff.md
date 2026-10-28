@@ -23,16 +23,17 @@ Repository: `D:\agent-cad`
 
 ## 1. Repo state (verified 2026-10-28)
 
-- Branch: `milestone-4c-autonomous-design`; M4c-1a is committed, working tree
-  clean.
-- Latest commits: `9d4ae56 feat(design): M4c-1a noded road-topology truth
-  and explicit junctions` + `1209955 fix(evidence): make design-roads.geojson
-  byte-stable across platforms` (this handoff may be one docs-only commit ahead).
+- Branch: `milestone-4c-autonomous-design`; M4c-1a is committed; M4c-1c is
+  implemented in the working tree and lands with the next commit.
+- Latest committed changes (M4c-1a): `9d4ae56 feat(design): M4c-1a noded
+  road-topology truth and explicit junctions` + `1209955 fix(evidence): make
+  design-roads.geojson byte-stable across platforms`; the **M4c-1c** commit
+  follows this handoff (repin this line and the M4c-1a hashes when it exists).
 - `main`: `4f6698b` (Milestone 4b.1 merged as PR #33).
-- Open PR: **#34** “Milestone 4c — autonomous design synthesis + M4c-0
-  open-source reuse”; 4/4 CI jobs green (Ubuntu/Windows × Python 3.11/3.13).
-- Version: `0.16.0` (`pyproject.toml`).
-- Test baseline: **259 passed** (`python -m pytest -q`).
+- Open PR: **#34** “Milestone 4c — autonomous design synthesis + M4c-0 reuse +
+  M4c-1a topology fix”; 4/4 CI jobs green (Ubuntu/Windows × Python 3.11/3.13).
+- Version: `0.17.0` (`pyproject.toml`).
+- Test baseline: **283 passed** (`python -m pytest -q`).
 - Local environment: Windows, Python 3.13. Core dependencies remain only
   **PyYAML 6.0.3 / Shapely 2.1.2 / ezdxf 1.4.5**.
 - Optional research-only installs (NOT in `pyproject.toml`): osmnx 2.1.1,
@@ -63,9 +64,10 @@ Evidence: `docs/e2e/sketch-handoff-a/` (status `blocked`, correct).
 
 `docs/e2e/design-synthesis-001/`:
 
-- Design basis satisfies the three stated constraints: FAR **1.5654** inside
-  1.55–1.60; **2,398 parking spaces** = 1.0/household; **20.0 m** north-south
-  spacing in focus group G-01.
+- Design basis (`design-assumption-v0.2`, 21 parameters, all `confirmed: false`):
+  FAR **1.5654** inside 1.55–1.60 (design-basis arithmetic); parking requirement
+  **2,398** = 1.0/household (recorded capacity 1,000, capacity/layout deferred);
+  **20.0 m** north-south spacing in focus group G-01.
 - Full-site context: 55 buildings, 109 staircases, 2,398 households,
   319,536 m² GFA, 3,000 m² facility, 5 garage entrances.
 - Focus G-01: 7 standardized buildings / 16 units; dropped `SK-BLD-0038` (2U)
@@ -75,8 +77,14 @@ Evidence: `docs/e2e/sketch-handoff-a/` (status `blocked`, correct).
   CODE-COMPLIANCE" (ASCII hyphens, as in the DXF).
 - All design objects `rule_derived`, world `proposal_preview`,
   `confirmation_scope: design_draft`, `human_confirmed: false`.
-- Consistency: 13 declared checks — 11 pass, `ROAD_CORRIDOR_COVERAGE`
-  informational, `FULL_SITE_NS_SPACING` explicitly deferred.
+- Consistency: 16 declared checks — 9 pass, 3 info
+  (PARKING_REQUIREMENT_ARITHMETIC, ROAD_CORRIDOR_COVERAGE, OPEN_SPACE_RATIO),
+  4 deferred (PARKING_CAPACITY, PARKING_LAYOUT, DESIGNED_GREEN_RATIO,
+  FULL_SITE_NS_SPACING). `info`/`deferred` are not `pass`.
+- M4c-1c (0.17.0) honest semantics: `open_space_ratio` 63.0% is not designed
+  green (`designed_green_ratio` 6.6%, deferred); parking capacity recorded
+  1,000 vs 2,398 required; FAR/unit-count passes labelled design-basis
+  arithmetic; basis provenance published (21 parameters, `confirmed: false`).
 - M4c-1a (0.16.0) corrected the road-topology defect: explicit shared-coordinate
   junctions, noded graph 1 component (51 nodes / 55 segments, cyclomatic 5,
   dead ends 21, junctions 27, `max_endpoint_gap_m` 0.0); `design-roads.geojson`
@@ -128,7 +136,7 @@ deferred). Do not present it as a finished road design.
    optional source-skeleton preprocessor, never the design base.
 2. ~~Replace the corridor-only connectivity check~~ — **done** (noded check,
    fail-closed within a 1e-9 m endpoint tolerance; `ROAD_CORRIDOR_COVERAGE`
-   informational; contract `design-synthesis-v0.2.yaml`).
+   informational; contract `design-synthesis-v0.3.yaml`).
 3. ~~Regenerate the 4c candidate~~ — **done** (same FAR / parking / 20 m /
    green / CAD checks pass; 208-entity DXF unchanged; `design-roads.geojson`
    published). Design-aware coverage (branch → entrance access, G-05/G-12) is
@@ -180,7 +188,7 @@ Design synthesis:
 - `src/dgcad_design/scene.py`, `drawing.py`, `project.py`.
 - `scripts/design/run_design_synthesis_001.py`.
 - `fixtures/design/design-basis-001.yaml`, `design-profile-001.yaml`.
-- `contracts/design-synthesis-v0.2.yaml` (v0.1 superseded).
+- `contracts/design-synthesis-v0.3.yaml` (v0.2/v0.1 superseded).
 
 CAD delivery:
 

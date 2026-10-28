@@ -6,7 +6,126 @@
   "status": "autonomous_design_draft",
   "design_authority": "rule_derived",
   "human_confirmed": false,
-  "design_basis_id": "design-assumption-v0.1",
+  "design_basis_id": "design-assumption-v0.2",
+  "design_basis": {
+    "basis_id": "design-assumption-v0.2",
+    "version": "0.2.0",
+    "design_authority": "rule_derived",
+    "human_confirmed": false,
+    "parameter_sources": {
+      "households_per_staircase_per_floor": {
+        "source": "derived from the designer's confirmed 1/2/3-unit building types in CASE-SKETCH-001",
+        "authority": "designer_stated",
+        "confirmed": false
+      },
+      "floors": {
+        "source": "11 floors is the designer's provisional note for all buildings; no confirmed section exists",
+        "authority": "designer_stated",
+        "confirmed": false
+      },
+      "floor_height_m": {
+        "source": "3.0 m floor-to-floor assumed by the Agent for height arithmetic; no surveyed or designed section",
+        "authority": "agent_assumption",
+        "confirmed": false
+      },
+      "staircase_width_m": {
+        "source": "24 m staircase module width is an Agent layout assumption, not the designer's unit library",
+        "authority": "agent_assumption",
+        "confirmed": false
+      },
+      "staircase_depth_m": {
+        "source": "11 m staircase module depth is an Agent layout assumption paired with the module width",
+        "authority": "agent_assumption",
+        "confirmed": false
+      },
+      "dwelling_gfa_m2": {
+        "source": "132 m2 gross per household assumed so that two households match the 264 m2 module area",
+        "authority": "agent_assumption",
+        "confirmed": false
+      },
+      "facility_gfa_m2": {
+        "source": "3,000 m2 facility area inferred from the sketch's kindergarten footprint, not from a programme",
+        "authority": "inferred_from_sketch",
+        "confirmed": false
+      },
+      "far_min": {
+        "source": "declared project requirement: FAR lower bound 1.55",
+        "authority": "declared_requirement",
+        "confirmed": false
+      },
+      "far_max": {
+        "source": "declared project requirement: FAR upper bound 1.60",
+        "authority": "declared_requirement",
+        "confirmed": false
+      },
+      "parking_spaces_per_household": {
+        "source": "declared project requirement: at least one parking space per household",
+        "authority": "declared_requirement",
+        "confirmed": false
+      },
+      "spaces_per_entrance": {
+        "source": "500 spaces per garage entrance assumed by the Agent; no project traffic study backs this number",
+        "authority": "agent_assumption",
+        "confirmed": false
+      },
+      "north_south_spacing_m": {
+        "source": "declared project requirement: 20 m north-south building spacing",
+        "authority": "declared_requirement",
+        "confirmed": false
+      },
+      "side_spacing_m": {
+        "source": "13 m side spacing assumed by the Agent; no project or code source",
+        "authority": "agent_assumption",
+        "confirmed": false
+      },
+      "boundary_setback_m": {
+        "source": "5 m boundary setback assumed by the Agent; the private redline is not available",
+        "authority": "agent_assumption",
+        "confirmed": false
+      },
+      "building_road_clearance_m": {
+        "source": "3 m building-to-road clearance assumed by the Agent for the schematic layout",
+        "authority": "agent_assumption",
+        "confirmed": false
+      },
+      "green_ratio_min": {
+        "source": "declared project requirement: at least 30% site green ratio",
+        "authority": "declared_requirement",
+        "confirmed": false
+      },
+      "road_widths": {
+        "source": "12/7/4 m main/branch/access widths assumed from schematic class names, not a Chinese road standard",
+        "authority": "agent_assumption",
+        "confirmed": false
+      },
+      "sidewalk_width_m": {
+        "source": "2 m sidewalk width assumed by the Agent; not a road standard",
+        "authority": "agent_assumption",
+        "confirmed": false
+      },
+      "group_distance_m": {
+        "source": "45 m grouping distance assumed by the Agent for the focus-block search",
+        "authority": "agent_assumption",
+        "confirmed": false
+      },
+      "scale_px_per_m": {
+        "source": "2.438 px/m inferred from the published pilot scale (range 2.25-2.89), not project coordinates",
+        "authority": "inferred_from_sketch",
+        "confirmed": false
+      },
+      "origin_px": {
+        "source": "sketch-local origin [45.0, 1536.0] read from the published pilot image frame",
+        "authority": "inferred_from_sketch",
+        "confirmed": false
+      }
+    },
+    "authority_counts": {
+      "agent_assumption": 11,
+      "declared_requirement": 5,
+      "designer_stated": 2,
+      "inferred_from_sketch": 3
+    }
+  },
   "drawing_standard": "DGCAD-SCHEMATIC-001",
   "claim_scope": "schematic_design_proposal_not_code_compliance",
   "focus_group_id": "G-01",
@@ -64,6 +183,7 @@
   },
   "metrics": {
     "site_area_m2": 204122.7864634952,
+    "basis_id": "design-assumption-v0.2",
     "staircase_count": 109,
     "facility_count": 1,
     "households": 2398,
@@ -74,6 +194,9 @@
     "parking_spaces": 2398,
     "parking_entrances": 5,
     "parking_entrances_required": 5,
+    "parking_capacity_recorded": 1000,
+    "parking_capacity_required": 2398,
+    "garage_layout": "not_designed",
     "focus_building_count": 7,
     "focus_unit_count": 16,
     "focus_households": 352,
@@ -81,9 +204,11 @@
     "focus_min_ns_gap_m": 20.0,
     "road_area_m2": 26170.241651018805,
     "sidewalk_area_m2": 9866.177785935128,
-    "green_area_m2": 128676.22029239938,
-    "green_ratio": 0.6303863597090935,
-    "green_ratio_target": 0.3,
+    "open_space_area_m2": 128676.22029239938,
+    "open_space_ratio": 0.6303863597090935,
+    "designed_green_area_m2": 13446.484393384519,
+    "designed_green_ratio": 0.06587448969490359,
+    "green_target_ratio": 0.3,
     "road_noded_component_count": 1,
     "corridor_union_pieces": 1,
     "road_topology": {
@@ -280,28 +405,45 @@
           1.55,
           1.6
         ],
-        "message": "site FAR must be inside the declared range"
+        "derived_from": "design_basis_arithmetic",
+        "message": "FAR is design-basis arithmetic (declared staircase/floor/dwelling-area assumptions over the site area), not a spatial design result"
       },
       {
-        "id": "PARKING_MIN_ONE_PER_HOUSEHOLD",
-        "status": "pass",
+        "id": "PARKING_REQUIREMENT_ARITHMETIC",
+        "status": "info",
         "value": 1.0,
         "required": 1.0,
-        "message": "at least one parking space per household"
+        "derived_from": "design_basis_arithmetic",
+        "message": "required parking is households x declared ratio; this is an arithmetic requirement, not a parking layout verification"
       },
       {
-        "id": "PARKING_ENTRANCES",
+        "id": "PARKING_ENTRANCE_COUNT",
         "status": "pass",
         "value": 5,
         "required": 5,
-        "message": "entrances must serve the declared spaces"
+        "message": "entrance COUNT satisfies the declared spaces-per-entrance assumption; this is not a parking capacity check"
+      },
+      {
+        "id": "PARKING_CAPACITY",
+        "status": "deferred",
+        "value": 1000,
+        "required": 2398,
+        "message": "only the recorded entrance capacity is declared; the remaining spaces have no designed garage layout, so capacity is deferred"
+      },
+      {
+        "id": "PARKING_LAYOUT",
+        "status": "deferred",
+        "value": "not_designed",
+        "required": "designed garage layout",
+        "message": "no garage geometry, aisle geometry or parking-space layout is designed; entrance count is not parking provision"
       },
       {
         "id": "UNIT_COUNT_PRESERVED",
         "status": "pass",
         "value": 109,
         "required": 109,
-        "message": "standardized buildings preserve the inferred unit counts"
+        "derived_from": "design_basis_arithmetic",
+        "message": "55 buildings / 109 units is a basis count that still includes the 2 buildings (3 units) dropped from the detailed focus layout; it is not a focus-layout preservation result"
       },
       {
         "id": "FOCUS_NS_SPACING",
@@ -363,14 +505,22 @@
           7.0,
           12.0
         ],
-        "message": "each road width comes from the declared class"
+        "derived_from": "design_basis_assignment",
+        "message": "widths are assigned from the declared basis and checked for set membership; they are not an alignment or cross-section design result"
       },
       {
-        "id": "GREEN_RATIO",
-        "status": "pass",
+        "id": "OPEN_SPACE_RATIO",
+        "status": "info",
         "value": 0.6303863597090935,
+        "required": "none",
+        "message": "share of the site left free by buildings and roads; this is NOT a designed-green ratio"
+      },
+      {
+        "id": "DESIGNED_GREEN_RATIO",
+        "status": "deferred",
+        "value": 0.06587448969490359,
         "required": 0.3,
-        "message": "site green ratio"
+        "message": "only classified cluster/strip green counts; usable-area, continuity and green-quality criteria are not defined, so the declared target is not met under this definition yet"
       },
       {
         "id": "FULL_SITE_NS_SPACING",
@@ -382,6 +532,7 @@
     ],
     "metrics": {
       "site_area_m2": 204122.7864634952,
+      "basis_id": "design-assumption-v0.2",
       "staircase_count": 109,
       "facility_count": 1,
       "households": 2398,
@@ -392,6 +543,9 @@
       "parking_spaces": 2398,
       "parking_entrances": 5,
       "parking_entrances_required": 5,
+      "parking_capacity_recorded": 1000,
+      "parking_capacity_required": 2398,
+      "garage_layout": "not_designed",
       "focus_building_count": 7,
       "focus_unit_count": 16,
       "focus_households": 352,
@@ -399,9 +553,11 @@
       "focus_min_ns_gap_m": 20.0,
       "road_area_m2": 26170.241651018805,
       "sidewalk_area_m2": 9866.177785935128,
-      "green_area_m2": 128676.22029239938,
-      "green_ratio": 0.6303863597090935,
-      "green_ratio_target": 0.3,
+      "open_space_area_m2": 128676.22029239938,
+      "open_space_ratio": 0.6303863597090935,
+      "designed_green_area_m2": 13446.484393384519,
+      "designed_green_ratio": 0.06587448969490359,
+      "green_target_ratio": 0.3,
       "road_noded_component_count": 1,
       "corridor_union_pieces": 1,
       "road_topology": {
@@ -1285,7 +1441,7 @@
   },
   "diff": {
     "schema_id": "dgcad.design-diff.v0.1",
-    "design_basis_id": "design-assumption-v0.1",
+    "design_basis_id": "design-assumption-v0.2",
     "focus_group_id": "G-01",
     "buildings": [
       {
@@ -1559,7 +1715,11 @@
       "cluster_area_m2": 10692.841181219279,
       "strip_area_m2": 2753.6432121652397,
       "supplementary_area_m2": 115229.73589901485,
-      "green_ratio": 0.6303863597090935,
+      "open_space_area_m2": 128676.22029239938,
+      "open_space_ratio": 0.6303863597090935,
+      "designed_green_area_m2": 13446.484393384519,
+      "designed_green_ratio": 0.06587448969490359,
+      "green_target_ratio": 0.3,
       "dropped_cluster_ids": []
     },
     "parking": {
@@ -1567,7 +1727,9 @@
       "spaces_required": 2398,
       "entrances_required": 5,
       "existing_entrances": 3,
-      "proposed_entrances": 2
+      "proposed_entrances": 2,
+      "recorded_capacity_spaces": 1000,
+      "garage_layout": "not_designed"
     },
     "changed": [
       "building footprints replaced by standardized staircase modules",
@@ -1609,7 +1771,7 @@
   "scene_object_count": 203,
   "dxf": {
     "path": "design-proposal.dxf",
-    "sha256": "2722191f92612a13afd7d6e13e7939c2f20fae86a0d3492361902abc0b6a0aa2",
+    "sha256": "03f6101b4427ad471504214a6c2a1eeb358d08779641de4a17e637b64527ee8f",
     "entity_count": 208,
     "audit_errors": 0,
     "audit_fixes": 0
@@ -1622,7 +1784,7 @@
     "confirmation_scopes": [
       "design_draft"
     ],
-    "manifest_sha256": "0ca47badd84fdd1aafde59373ff01a4726468e6ac9379d298f2a0e7af33e0923"
+    "manifest_sha256": "dbd28768f77b05df63141c9cb0e648b4106fe4da1f7c84b95d7e79ca78429357"
   },
   "cad_ir_validation": {
     "verdict": "pass_with_scope_limits",

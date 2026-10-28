@@ -72,7 +72,7 @@
     "issues": [],
     "manifest": {
       "file": "design-proposal.dxf",
-      "dxf_sha256": "2722191f92612a13afd7d6e13e7939c2f20fae86a0d3492361902abc0b6a0aa2",
+      "dxf_sha256": "03f6101b4427ad471504214a6c2a1eeb358d08779641de4a17e637b64527ee8f",
       "dxf_version": "AC1024",
       "insunits": 6,
       "layer_names": [
@@ -17758,7 +17758,7 @@
           "dxftype": "TEXT",
           "layer": "A-TITLE",
           "canonical_target": {
-            "text": "FOCUS G-01: 7B / 16U | BASIS: design-assumption-v0.1",
+            "text": "FOCUS G-01: 7B / 16U | BASIS: design-assumption-v0.2",
             "height": 1.9,
             "style": "Standard",
             "insert": [
@@ -17782,7 +17782,7 @@
             "halign": 0,
             "valign": 0,
             "style": "Standard",
-            "text": "FOCUS G-01: 7B / 16U | BASIS: design-assumption-v0.1"
+            "text": "FOCUS G-01: 7B / 16U | BASIS: design-assumption-v0.2"
           }
         },
         {
@@ -17797,7 +17797,7 @@
           "dxftype": "TEXT",
           "layer": "A-TITLE",
           "canonical_target": {
-            "text": "FAR 1.565 | 2398 HH | 2398 PARKING | 5 ENTRANCES | GREEN 63.0%",
+            "text": "FAR 1.565 | 2398 HH | 2398 PARKING | 5 ENTRANCES | OPEN SPACE 63.0% | DESIGNED GREEN 6.6% (DEFERRED)",
             "height": 1.9,
             "style": "Standard",
             "insert": [
@@ -17821,7 +17821,7 @@
             "halign": 0,
             "valign": 0,
             "style": "Standard",
-            "text": "FAR 1.565 | 2398 HH | 2398 PARKING | 5 ENTRANCES | GREEN 63.0%"
+            "text": "FAR 1.565 | 2398 HH | 2398 PARKING | 5 ENTRANCES | OPEN SPACE 63.0% | DESIGNED GREEN 6.6% (DEFERRED)"
           }
         },
         {
@@ -18655,7 +18655,7 @@
       ],
       "audit_errors": 0,
       "audit_fixes": 0,
-      "cad_ir_dependency_fingerprint": "c949b79f014203d41573e4fb3e227612aa9289d3414dc87c337bc9e2b2a69803",
+      "cad_ir_dependency_fingerprint": "751c6f571964d84e93b0852f719bca3c09317099f49e08ea19eb7eb947addca0",
       "profile_id": "DGCAD-SCHEMATIC-001",
       "profile_version": "0.1.0"
     },

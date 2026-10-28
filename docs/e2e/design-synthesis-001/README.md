@@ -3,7 +3,11 @@
 Status: **partial autonomous design draft**, not human-confirmed, not a
 construction or permit drawing, and not a code-compliance claim.
 `EP-R1-SKETCH-001` remains in progress. M4c-0 found a road-topology defect in
-this candidate; M4c-1a (0.16.0) diagnosed and fixed it — see below.
+this candidate; M4c-1a (0.16.0) diagnosed and fixed it — see below. M4c-1c
+(0.17.0) made the evidence semantics honest: checks are pass/info/deferred,
+designed green is separated from open space, parking capacity is split from
+the requirement, and every design-basis parameter carries provenance with
+`confirmed: false`.
 
 This is the first round of Milestone 4c. The Agent does not ask the designer to
 review sketch geometry. It takes the sketch's spatial intent, makes design
@@ -69,18 +73,22 @@ not fit the buildable block are recorded as dropped
 | Staircase module | 24 × 11 m (2 households/floor) | provisional design assumption; replaces the pending unit-type library |
 | Floors / floor height | 11 / 3.0 m → 33.0 m | design assumption |
 | Household gross area | 132.0 m² | design assumption |
-| FAR | 1.55–1.60 | **required**; achieved 1.565 |
-| Parking | ≥1 space/household; 500 spaces/entrance | **required**; 2,398 spaces, 5 entrances |
+| FAR | 1.55–1.60 | **required**; achieved 1.565 (design-basis arithmetic, not a spatial design result) |
+| Parking | ≥1 space/household; 500 spaces/entrance | entrance count **pass** (5 = 3 existing capacity 0 + 2 proposed capacity 500); requirement 2,398 spaces is arithmetic; recorded capacity 1,000 — capacity and layout **deferred** |
 | North-south spacing | ≥20 m | **required**; focus group 20.0 m |
 | Side spacing | 13 m | design assumption |
 | Boundary setback | 5 m | design assumption |
 | Building-road clearance | 3 m | design assumption |
 | Road widths | main 12 m, branch 7 m, access 4 m | design assumption |
-| Green ratio | ≥30% | design target; achieved 63.0% |
+| Green | ≥30% designed green | **deferred, not achieved**: designed green ratio 6.6% (13,446 m²; supplementary covers 89.6% of open space); open-space ratio 63.0% (128,676 m²) is open space, not designed green |
 | Drawing standard | `DGCAD-SCHEMATIC-001` | internal schematic standard |
 
-The basis is `design-basis.yaml`. Changing it and re-running regenerates the
-design; the designer does not need to re-review the sketch.
+The basis is `design-basis.yaml` (`design-assumption-v0.2`, 0.2.0): 21
+parameters with per-parameter provenance — 5 `declared_requirement`,
+2 `designer_stated`, 3 `inferred_from_sketch`, 11 `agent_assumption` —
+**all `confirmed: false`**; the Agent cannot self-confirm them. Changing the
+basis and re-running regenerates the design; the designer does not need to
+re-review the sketch.
 
 ## Full-site context and focus block
 
@@ -90,8 +98,8 @@ entrances. The full-site metrics use all 109 staircases:
 
 - 2,398 households;
 - 319,536 m² total GFA (316,536 residential + 3,000 facility);
-- FAR 1.565;
-- 2,398 parking spaces and 5 garage entrances.
+- FAR 1.565 (design-basis arithmetic);
+- parking requirement 2,398 spaces (basis arithmetic; recorded capacity 1,000, deferred) and 5 garage entrances (3 existing + 2 proposed).
 
 The detailed design is the focus block G-01: **7 buildings / 16 units / 352
 households**. The block is selected from the main-road-bounded free space; it

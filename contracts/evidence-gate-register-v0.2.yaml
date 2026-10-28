@@ -32,7 +32,7 @@ packages:
     gates: [R1-G04, R1-G07]
     status: in_progress
     living_evidence: docs/e2e/design-synthesis-001/README.md
-    contract: contracts/design-synthesis-v0.2.yaml
+    contract: contracts/design-synthesis-v0.3.yaml
     first_round: autonomous_schematic_design_draft
     blocks_claims:
       - autonomous_design_production_ready

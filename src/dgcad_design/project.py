@@ -279,7 +279,11 @@ def _design_diff(
             "cluster_area_m2": green_layout.cluster_area_m2,
             "strip_area_m2": green_layout.strip_area_m2,
             "supplementary_area_m2": green_layout.supplementary_area_m2,
-            "green_ratio": green_layout.green_ratio,
+            "open_space_area_m2": green_layout.open_space_area_m2,
+            "open_space_ratio": green_layout.open_space_ratio,
+            "designed_green_area_m2": green_layout.designed_green_area_m2,
+            "designed_green_ratio": green_layout.designed_green_ratio,
+            "green_target_ratio": green_layout.target_ratio,
             "dropped_cluster_ids": list(green_layout.dropped_cluster_ids),
         },
         "parking": {
@@ -296,6 +300,10 @@ def _design_diff(
                 for item in parking_layout.entrances
                 if item.status == "proposed"
             ),
+            "recorded_capacity_spaces": (
+                parking_layout.recorded_capacity_spaces
+            ),
+            "garage_layout": parking_layout.garage_layout,
         },
         "changed": [
             "building footprints replaced by standardized staircase modules",
@@ -448,6 +456,11 @@ def run_design_synthesis(
     )
     roads_sha256 = hashlib.sha256(roads_path.read_bytes()).hexdigest()
 
+    authority_counts: dict[str, int] = {}
+    for entry in basis.parameter_sources.values():
+        authority = str(entry["authority"])
+        authority_counts[authority] = authority_counts.get(authority, 0) + 1
+
     summary: dict[str, Any] = {
         "schema_id": "dgcad.design-synthesis.v0.1",
         "case_id": design_input.case_id,
@@ -461,6 +474,14 @@ def run_design_synthesis(
         "design_authority": basis.design_authority,
         "human_confirmed": False,
         "design_basis_id": basis.basis_id,
+        "design_basis": {
+            "basis_id": basis.basis_id,
+            "version": basis.version,
+            "design_authority": basis.design_authority,
+            "human_confirmed": basis.human_confirmed,
+            "parameter_sources": basis.parameter_sources,
+            "authority_counts": dict(sorted(authority_counts.items())),
+        },
         "drawing_standard": basis.drawing_standard,
         "claim_scope": basis.claim_scope,
         "focus_group_id": intent.focus_group_id,

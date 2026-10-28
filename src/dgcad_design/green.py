@@ -37,13 +37,24 @@ class GreenDesign:
 
 @dataclass(frozen=True)
 class GreenLayout:
+    """Honest green-space semantics.
+
+    ``open_space_*`` is the total unbuilt/open space; it is NOT "designed
+    green".  ``designed_green_*`` covers only the designed classifications
+    (cluster green + green strips); the supplementary classification is the
+    remaining occupiable space, whose planning meaning is expressed by the
+    upper-layer checks, not by this data model.
+    """
+
     greens: tuple[GreenDesign, ...]
     focus_greens: tuple[GreenDesign, ...]
     cluster_area_m2: float
     strip_area_m2: float
     supplementary_area_m2: float
-    total_area_m2: float
-    green_ratio: float
+    open_space_area_m2: float
+    designed_green_area_m2: float
+    open_space_ratio: float
+    designed_green_ratio: float
     target_ratio: float
     dropped_cluster_ids: tuple[str, ...]
 
@@ -53,8 +64,10 @@ class GreenLayout:
             "cluster_area_m2": self.cluster_area_m2,
             "strip_area_m2": self.strip_area_m2,
             "supplementary_area_m2": self.supplementary_area_m2,
-            "total_area_m2": self.total_area_m2,
-            "green_ratio": self.green_ratio,
+            "open_space_area_m2": self.open_space_area_m2,
+            "designed_green_area_m2": self.designed_green_area_m2,
+            "open_space_ratio": self.open_space_ratio,
+            "designed_green_ratio": self.designed_green_ratio,
             "target_ratio": self.target_ratio,
             "dropped_cluster_ids": list(self.dropped_cluster_ids),
             "greens": [item.to_dict() for item in self.greens],
@@ -166,6 +179,8 @@ def build_green_layout(
         if item.classification == "supplementary_green"
     )
     total_area = cluster_area + strip_area + supplementary_area
+    designed_green_area = cluster_area + strip_area
+    site_area = design_input.site_area_m2
     focus_greens = tuple(
         item for item in greens if item.geometry.intersects(focus_box)
     )
@@ -175,8 +190,10 @@ def build_green_layout(
         cluster_area_m2=cluster_area,
         strip_area_m2=strip_area,
         supplementary_area_m2=supplementary_area,
-        total_area_m2=total_area,
-        green_ratio=total_area / design_input.site_area_m2,
+        open_space_area_m2=total_area,
+        designed_green_area_m2=designed_green_area,
+        open_space_ratio=total_area / site_area,
+        designed_green_ratio=designed_green_area / site_area,
         target_ratio=basis.green_ratio_min,
         dropped_cluster_ids=tuple(dropped),
     )

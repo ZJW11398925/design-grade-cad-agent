@@ -103,17 +103,26 @@ def check_design(
             "status": "pass" if basis.far_min <= far <= basis.far_max else "fail",
             "value": far,
             "required": [basis.far_min, basis.far_max],
-            "message": "site FAR must be inside the declared range",
+            "derived_from": "design_basis_arithmetic",
+            "message": (
+                "FAR is design-basis arithmetic (declared staircase/floor/"
+                "dwelling-area assumptions over the site area), not a spatial "
+                "design result"
+            ),
         },
         {
-            "id": "PARKING_MIN_ONE_PER_HOUSEHOLD",
-            "status": "pass" if spaces >= households else "fail",
+            "id": "PARKING_REQUIREMENT_ARITHMETIC",
+            "status": "info",
             "value": spaces / households if households else 0,
-            "required": 1.0,
-            "message": "at least one parking space per household",
+            "required": basis.parking_spaces_per_household,
+            "derived_from": "design_basis_arithmetic",
+            "message": (
+                "required parking is households x declared ratio; this is an "
+                "arithmetic requirement, not a parking layout verification"
+            ),
         },
         {
-            "id": "PARKING_ENTRANCES",
+            "id": "PARKING_ENTRANCE_COUNT",
             "status": (
                 "pass"
                 if len(parking_layout.entrances) >= required_entrances
@@ -121,7 +130,30 @@ def check_design(
             ),
             "value": len(parking_layout.entrances),
             "required": required_entrances,
-            "message": "entrances must serve the declared spaces",
+            "message": (
+                "entrance COUNT satisfies the declared spaces-per-entrance "
+                "assumption; this is not a parking capacity check"
+            ),
+        },
+        {
+            "id": "PARKING_CAPACITY",
+            "status": "deferred",
+            "value": parking_layout.recorded_capacity_spaces,
+            "required": spaces,
+            "message": (
+                "only the recorded entrance capacity is declared; the remaining "
+                "spaces have no designed garage layout, so capacity is deferred"
+            ),
+        },
+        {
+            "id": "PARKING_LAYOUT",
+            "status": "deferred",
+            "value": parking_layout.garage_layout,
+            "required": "designed garage layout",
+            "message": (
+                "no garage geometry, aisle geometry or parking-space layout is "
+                "designed; entrance count is not parking provision"
+            ),
         },
         {
             "id": "UNIT_COUNT_PRESERVED",
@@ -135,7 +167,12 @@ def check_design(
                 item.unit_count for item in building_layout.buildings
             ),
             "required": staircases,
-            "message": "standardized buildings preserve the inferred unit counts",
+            "derived_from": "design_basis_arithmetic",
+            "message": (
+                "55 buildings / 109 units is a basis count that still includes "
+                "the 2 buildings (3 units) dropped from the detailed focus "
+                "layout; it is not a focus-layout preservation result"
+            ),
         },
         {
             "id": "FOCUS_NS_SPACING",
@@ -203,18 +240,33 @@ def check_design(
             ),
             "value": sorted(width_values),
             "required": sorted(allowed_widths),
-            "message": "each road width comes from the declared class",
+            "derived_from": "design_basis_assignment",
+            "message": (
+                "widths are assigned from the declared basis and checked for "
+                "set membership; they are not an alignment or cross-section "
+                "design result"
+            ),
         },
         {
-            "id": "GREEN_RATIO",
-            "status": (
-                "pass"
-                if green_layout.green_ratio >= basis.green_ratio_min
-                else "fail"
+            "id": "OPEN_SPACE_RATIO",
+            "status": "info",
+            "value": green_layout.open_space_ratio,
+            "required": "none",
+            "message": (
+                "share of the site left free by buildings and roads; this is "
+                "NOT a designed-green ratio"
             ),
-            "value": green_layout.green_ratio,
+        },
+        {
+            "id": "DESIGNED_GREEN_RATIO",
+            "status": "deferred",
+            "value": green_layout.designed_green_ratio,
             "required": basis.green_ratio_min,
-            "message": "site green ratio",
+            "message": (
+                "only classified cluster/strip green counts; usable-area, "
+                "continuity and green-quality criteria are not defined, so the "
+                "declared target is not met under this definition yet"
+            ),
         },
         {
             "id": "FULL_SITE_NS_SPACING",
@@ -229,6 +281,7 @@ def check_design(
     )
     metrics = {
         "site_area_m2": site_area,
+        "basis_id": basis.basis_id,
         "staircase_count": staircases,
         "facility_count": design_input.facility_count,
         "households": households,
@@ -249,6 +302,9 @@ def check_design(
         "parking_spaces": spaces,
         "parking_entrances": len(parking_layout.entrances),
         "parking_entrances_required": required_entrances,
+        "parking_capacity_recorded": parking_layout.recorded_capacity_spaces,
+        "parking_capacity_required": spaces,
+        "garage_layout": parking_layout.garage_layout,
         "focus_building_count": len(focus),
         "focus_unit_count": sum(item.unit_count for item in focus),
         "focus_households": sum(item.households for item in focus),
@@ -256,9 +312,11 @@ def check_design(
         "focus_min_ns_gap_m": spacing["min_gap_m"],
         "road_area_m2": road_layout.road_area_m2,
         "sidewalk_area_m2": road_layout.sidewalk_area_m2,
-        "green_area_m2": green_layout.total_area_m2,
-        "green_ratio": green_layout.green_ratio,
-        "green_ratio_target": green_layout.target_ratio,
+        "open_space_area_m2": green_layout.open_space_area_m2,
+        "open_space_ratio": green_layout.open_space_ratio,
+        "designed_green_area_m2": green_layout.designed_green_area_m2,
+        "designed_green_ratio": green_layout.designed_green_ratio,
+        "green_target_ratio": green_layout.target_ratio,
         "road_noded_component_count": components,
         "corridor_union_pieces": road_layout.corridor_union_pieces,
         "road_topology": noded_topology.to_dict(),

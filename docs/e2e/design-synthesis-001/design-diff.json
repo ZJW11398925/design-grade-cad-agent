@@ -1,6 +1,6 @@
 {
   "schema_id": "dgcad.design-diff.v0.1",
-  "design_basis_id": "design-assumption-v0.1",
+  "design_basis_id": "design-assumption-v0.2",
   "focus_group_id": "G-01",
   "buildings": [
     {
@@ -274,7 +274,11 @@
     "cluster_area_m2": 10692.841181219279,
     "strip_area_m2": 2753.6432121652397,
     "supplementary_area_m2": 115229.73589901485,
-    "green_ratio": 0.6303863597090935,
+    "open_space_area_m2": 128676.22029239938,
+    "open_space_ratio": 0.6303863597090935,
+    "designed_green_area_m2": 13446.484393384519,
+    "designed_green_ratio": 0.06587448969490359,
+    "green_target_ratio": 0.3,
     "dropped_cluster_ids": []
   },
   "parking": {
@@ -282,7 +286,9 @@
     "spaces_required": 2398,
     "entrances_required": 5,
     "existing_entrances": 3,
-    "proposed_entrances": 2
+    "proposed_entrances": 2,
+    "recorded_capacity_spaces": 1000,
+    "garage_layout": "not_designed"
   },
   "changed": [
     "building footprints replaced by standardized staircase modules",
