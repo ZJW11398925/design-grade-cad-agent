@@ -1,49 +1,61 @@
-schema_id: dgcad.sketch-handoff-review.v0.1
+schema_id: dgcad.sketch-handoff-review.v0.2
 handoff_id: CASE-SKETCH-001-HANDOFF-A
+review_kind: designer_authorized_pilot
+object_geometry_review: false
 reviewer: designer
 reviewer_role: designer
 review_scope: pilot_subset
-human_confirmed_trace: true
-reviewed_at: "2026-10-28"
+human_confirmed_trace: false
 basis: >-
-  Designer instruction 2026-10-28 to run a representative
-  CASE-SKETCH-001 handoff pilot. The selected subset is confirmed for
-  pilot-scope geometry only; this is not a full-case geometry review and
-  not survey-grade.
+  Designer instruction to run a representative CASE-SKETCH-001 handoff pilot
+  on a selected subset. This record authorizes the pilot. It does not claim
+  that the designer inspected the per-object geometry or the coordinate
+  transform result; those decisions are still open and require the review
+  packet.
+evidence_refs: []
 decisions:
   - source_id: SK-BND-001
     semantic: confirmed
-    geometry: confirmed_for_pilot
-    coordinate: local_metric_approximate
+    geometry: not_reviewed
+    coordinate: not_reviewed
+    evidence_ref: null
   - source_id: SK-BLD-0007
     semantic: confirmed
-    geometry: confirmed_for_pilot
-    coordinate: local_metric_approximate
+    geometry: not_reviewed
+    coordinate: not_reviewed
+    evidence_ref: null
   - source_id: SK-BLD-MRG-0001
     semantic: confirmed
-    geometry: confirmed_for_pilot
-    coordinate: local_metric_approximate
+    geometry: not_reviewed
+    coordinate: not_reviewed
+    evidence_ref: null
   - source_id: SK-GRN-0001
     semantic: confirmed
-    geometry: confirmed_for_pilot
-    coordinate: local_metric_approximate
+    geometry: not_reviewed
+    coordinate: not_reviewed
+    evidence_ref: null
   - source_id: SK-RDC-U-0008
     semantic: confirmed
-    geometry: confirmed_for_pilot
-    coordinate: local_metric_approximate
+    geometry: not_reviewed
+    coordinate: not_reviewed
+    evidence_ref: null
   - source_id: SK-RDC-U-0010
     semantic: confirmed
-    geometry: confirmed_for_pilot
-    coordinate: local_metric_approximate
+    geometry: not_reviewed
+    coordinate: not_reviewed
+    evidence_ref: null
   - source_id: SK-RDC-U-0017
     semantic: confirmed
-    geometry: confirmed_for_pilot
-    coordinate: local_metric_approximate
+    geometry: not_reviewed
+    coordinate: not_reviewed
+    evidence_ref: null
 limitations:
-  - "pilot subset only: site boundary, one ordinary building, one merged building, one green, one main-road segment, one branch-road segment, one T-junction"
+  - "authorization only: no object-level geometry or coordinate review was performed"
+  - "pilot subset only: site boundary, one ordinary building, one merged building, one green, two main-road edges, one branch edge, one T-junction"
   - "not a full CASE-SKETCH-001 geometry review"
   - "local metric frame is approximate and not survey-grade"
   - "building heights, base elevations, road hierarchy and cross-section remain unknown"
 non_claims:
-  - "pilot-scope confirmation is not design-office approval"
+  - "this record is not a human geometry confirmation"
+  - "pilot-scope authorization is not design-office approval"
   - "a successful DXF readback is not a compliance conclusion"

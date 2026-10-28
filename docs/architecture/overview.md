@@ -245,21 +245,23 @@ source raster (public)
         -> canonical Building/Road handoff
 ```
 
-- The sketch and image-space geometry are public; the DWG/DXF, redline/project coordinates, calibration matrix and metric scale are private.
+- The sketch and image-space geometry are public; the project metric scale, DWG/DXF, redline/project coordinates and calibration matrix are private. The pilot-local approximate scale is published only inside the handoff publication block.
 - Semantic label state and geometry state are separate: a designer can confirm that red means building while the extracted footprint remains `proposed`.
-- Calibration to a private reference is a reviewed, approximate homography; it is not survey-grade and does not make the sketch project-coordinate truth.
+- Calibration to the private reference is a reviewed, approximate six-point homography; the pilot handoff uses only a uniform scale derived from it and does not correct local distortion.
 - Road centerlines are skeleton-derived `proposed_rough` candidates. They are not professional alignment, width, cross-section, junction or surface design.
 - Road topology is derived from the unified brown+blue mask: 1 component, 309 nodes, 333 edges and 121 proposed junction candidates. Colour is a class attribute; the separate-colour 9-component result and the eight nearest-node connectors are rejected. No width/profile/alignment is derived.
-- A selected pilot subset has entered canonical through a pilot-scope human gate; full-case confirmation and fidelity metrics remain open.
+- A selected pilot subset passes source-integrity and road-topology checks but is blocked at the object-level human geometry review; full-case confirmation and fidelity metrics remain open.
 
-## 16. CASE-SKETCH-001-HANDOFF-A (v0.12.0)
+## 16. CASE-SKETCH-001-HANDOFF-A (v0.13.0)
 
-- An explicit handoff contract maps selected source evidence → trace → canonical, with a human review record and a declared local metric transform.
-- Pilot subset: site boundary, one ordinary building, one merged building, one green, two main-road edges, one branch edge and one T-junction.
-- Pipeline: `ConfirmedTraceScene` → `build_initial_scene` → runtime proposal/approval/commit → Canonical → CAD-IR → DXF → readback.
-- The human gate is `pilot_subset`; `confirmed_for_pilot` is not full-case or survey-grade.
+- `contracts/sketch-domain-handoff-v0.2.yaml` maps selected source evidence → trace → canonical, with an explicit `review_kind`, confirmation scope, geometry quality, boundary authority, source integrity and road-topology checks.
+- `designer_authorized_pilot` is not a geometry review. The committed record authorizes the pilot but marks every object `not_reviewed`; the pipeline blocks with `HUMAN_OBJECT_REVIEW_REQUIRED` and publishes a review packet + unsigned template.
+- Pilot subset: site boundary, one ordinary building, one merged building, one green, two main-road edges, one branch edge and one T-junction. The sketch boundary maps to `SITE-SKETCH-001` with candidate authority; the private redline remains authoritative and unused.
+- The downstream path `ConfirmedTraceScene` → `build_initial_scene` → runtime proposal/approval/commit → Canonical → CAD-IR → DXF → readback is implemented and tested with an explicitly marked test double. Scope and geometry quality propagate through trace, canonical, CAD-IR provenance, DXF XDATA and the readback manifest.
+- The coordinate transform is `uniform_scale_translation_yflip` in `LOCAL-XY-ZUP`: no homography, no shape correction, unknown axis orientation, per-object scale-range sensitivity.
+- Source file/object/geometry hashes are verified; a stale hash or changed geometry fails closed. Road topology checks nodes, edge endpoints, corridor coverage, one component and the T-junction degree; the selected data's max endpoint offset is 3.606 px against a declared 4.0 px tolerance.
 - Unknown building height/base elevation and road hierarchy/cross-section remain unknown; massing and road profiles are blocked; no width is derived.
-- The handoff audit object and provenance map preserve source → trace → canonical → CAD-IR/readback links. `EP-R1-SKETCH-001` remains in progress.
+- `EP-R1-SKETCH-001` remains in progress.
 
 ## 17. Open architecture questions
 

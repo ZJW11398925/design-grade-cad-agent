@@ -1,0 +1,57 @@
+schema_id: dgcad.sketch-handoff-review.v0.2
+handoff_id: CASE-SKETCH-001-HANDOFF-A
+review_kind: human_object_review
+object_geometry_review: true
+reviewer: ''
+reviewer_role: designer
+review_scope: pilot_subset
+human_confirmed_trace: false
+reviewed_at: ''
+basis: ''
+evidence_refs:
+- review-packet.html
+review_packet_sha256: bb964f3e18abec4d86bd886199a6d784cf7f3d34de775776b1bfc5079ebbbf3c
+template_not_signed: true
+decisions:
+- source_id: SK-BND-001
+  semantic: confirmed
+  geometry: ''
+  coordinate: ''
+  evidence_ref: ''
+- source_id: SK-BLD-0007
+  semantic: confirmed
+  geometry: ''
+  coordinate: ''
+  evidence_ref: ''
+- source_id: SK-BLD-MRG-0001
+  semantic: confirmed
+  geometry: ''
+  coordinate: ''
+  evidence_ref: ''
+- source_id: SK-GRN-0001
+  semantic: confirmed
+  geometry: ''
+  coordinate: ''
+  evidence_ref: ''
+- source_id: SK-RDC-U-0008
+  semantic: confirmed
+  geometry: ''
+  coordinate: ''
+  evidence_ref: ''
+- source_id: SK-RDC-U-0010
+  semantic: confirmed
+  geometry: ''
+  coordinate: ''
+  evidence_ref: ''
+- source_id: SK-RDC-U-0017
+  semantic: confirmed
+  geometry: ''
+  coordinate: ''
+  evidence_ref: ''
+limitations:
+- fill every geometry and coordinate decision after inspection
+- pilot subset only; not a full-case geometry review
+- not survey-grade
+non_claims:
+- an unsigned template is not a human confirmation
+- a successful DXF readback is not a compliance conclusion

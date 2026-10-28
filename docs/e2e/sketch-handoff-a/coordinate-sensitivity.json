@@ -1,0 +1,176 @@
+{
+  "transform_kind": "uniform_scale_translation_yflip",
+  "homography_applied": false,
+  "shape_correction": "none",
+  "axis_orientation": "unknown",
+  "objects": [
+    {
+      "source_id": "SK-BND-001",
+      "semantic_role": "site_boundary",
+      "nominal_scale_px_per_m": 2.438,
+      "scale_range_px_per_m": [
+        2.25,
+        2.89
+      ],
+      "area_m2": 204122.7865333623,
+      "area_range_m2": [
+        145265.7415499188,
+        239659.06172827983
+      ],
+      "perimeter_m": 1921.1021970706356,
+      "perimeter_range_m": [
+        1620.6391544822627,
+        2081.620958426131
+      ],
+      "centroid_m": [
+        191.63826328193184,
+        284.8237149142976
+      ],
+      "centroid_shift_m": 53.69142942931366
+    },
+    {
+      "source_id": "SK-BLD-0007",
+      "semantic_role": "building",
+      "nominal_scale_px_per_m": 2.438,
+      "scale_range_px_per_m": [
+        2.25,
+        2.89
+      ],
+      "area_m2": 565.9637097132211,
+      "area_range_m2": [
+        402.7729553046887,
+        664.4938271203946
+      ],
+      "perimeter_m": 118.94995898399992,
+      "perimeter_range_m": [
+        100.34602076200002,
+        128.88888888799994
+      ],
+      "centroid_m": [
+        211.23872026249998,
+        407.9163248565
+      ],
+      "centroid_shift_m": 71.84554681704924
+    },
+    {
+      "source_id": "SK-BLD-MRG-0001",
+      "semantic_role": "building",
+      "nominal_scale_px_per_m": 2.438,
+      "scale_range_px_per_m": [
+        2.25,
+        2.89
+      ],
+      "area_m2": 930.2061090244392,
+      "area_range_m2": [
+        661.9892003121681,
+        1092.1481481125177
+      ],
+      "perimeter_m": 283.4123960123419,
+      "perimeter_range_m": [
+        239.08630500827925,
+        307.09307620788434
+      ],
+      "centroid_m": [
+        45.06365694646649,
+        328.8995310625971
+      ],
+      "centroid_shift_m": 51.92093349721128
+    },
+    {
+      "source_id": "SK-GRN-0001",
+      "semantic_role": "green",
+      "nominal_scale_px_per_m": 2.438,
+      "scale_range_px_per_m": [
+        2.25,
+        2.89
+      ],
+      "area_m2": 1629.753405379834,
+      "area_range_m2": [
+        1159.828067195034,
+        1913.481481471851
+      ],
+      "perimeter_m": 154.3501825712472,
+      "perimeter_range_m": [
+        130.2096003827787,
+        167.24699782575854
+      ],
+      "centroid_m": [
+        199.15512359395186,
+        350.4782689709763
+      ],
+      "centroid_shift_m": 63.04698292279093
+    },
+    {
+      "source_id": "SK-RDC-U-0008",
+      "semantic_role": "road",
+      "nominal_scale_px_per_m": 2.438,
+      "scale_range_px_per_m": [
+        2.25,
+        2.89
+      ],
+      "area_m2": 0.0,
+      "area_range_m2": [
+        0.0,
+        0.0
+      ],
+      "perimeter_m": 71.45414145341556,
+      "perimeter_range_m": [
+        60.27861483247374,
+        77.42453193975105
+      ],
+      "centroid_m": [
+        204.23700770563215,
+        376.84898034362664
+      ],
+      "centroid_shift_m": 67.03909742848451
+    },
+    {
+      "source_id": "SK-RDC-U-0010",
+      "semantic_role": "road",
+      "nominal_scale_px_per_m": 2.438,
+      "scale_range_px_per_m": [
+        2.25,
+        2.89
+      ],
+      "area_m2": 0.0,
+      "area_range_m2": [
+        0.0,
+        0.0
+      ],
+      "perimeter_m": 65.4760147439191,
+      "perimeter_range_m": [
+        55.23547541423411,
+        70.9468995315327
+      ],
+      "centroid_m": [
+        135.74310272447218,
+        377.05618823669806
+      ],
+      "centroid_shift_m": 62.67726858277008
+    },
+    {
+      "source_id": "SK-RDC-U-0017",
+      "semantic_role": "road",
+      "nominal_scale_px_per_m": 2.438,
+      "scale_range_px_per_m": [
+        2.25,
+        2.89
+      ],
+      "area_m2": 0.0,
+      "area_range_m2": [
+        0.0,
+        0.0
+      ],
+      "perimeter_m": 51.27317470683643,
+      "perimeter_range_m": [
+        43.25397921690642,
+        55.55733330533068
+      ],
+      "centroid_m": [
+        167.965545529,
+        349.67186218200004
+      ],
+      "centroid_shift_m": 60.67140821593963
+    }
+  ]
+}

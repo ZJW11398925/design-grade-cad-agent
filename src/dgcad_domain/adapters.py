@@ -99,7 +99,27 @@ def _proposal(
     )
 
 
-def _evidence_object(trace) -> CanonicalObject:
+def _confirmation_metadata(trace_scene: ConfirmedTraceScene) -> dict[str, Any]:
+    if trace_scene.synthetic_only:
+        return {}
+    return {
+        "confirmation_scope": trace_scene.confirmation_scope,
+        "geometry_quality": trace_scene.geometry_quality,
+        "review_kind": trace_scene.review_kind,
+    }
+
+
+def _trace_metadata(trace_scene: ConfirmedTraceScene, trace) -> dict[str, Any]:
+    if trace_scene.synthetic_only:
+        return {}
+    return {
+        "confirmation_scope": trace.confirmation_scope,
+        "geometry_quality": trace.geometry_quality,
+        "review_kind": trace.review_kind,
+    }
+
+
+def _evidence_object(trace, metadata: dict[str, Any]) -> CanonicalObject:
     return CanonicalObject(
         object_id=trace.trace_id,
         object_class=f"trace_{trace.semantic_role}",
@@ -110,6 +130,7 @@ def _evidence_object(trace) -> CanonicalObject:
             "geometry": geometry_to_geojson(trace.geometry),
             "review_state": trace.review_state,
             "locked": trace.locked,
+            **metadata,
         },
         locks=frozenset({"all"}),
     )
@@ -117,20 +138,43 @@ def _evidence_object(trace) -> CanonicalObject:
 
 def build_initial_scene(trace_scene: ConfirmedTraceScene) -> SceneState:
     objects: dict[str, CanonicalObject] = {}
+    metadata = _confirmation_metadata(trace_scene)
 
     for trace in trace_scene.trace_objects.values():
-        objects[trace.trace_id] = _evidence_object(trace)
+        objects[trace.trace_id] = _evidence_object(
+            trace, _trace_metadata(trace_scene, trace)
+        )
 
     site = trace_scene.site_boundary
-    objects["SITE-001"] = CanonicalObject(
-        object_id="SITE-001",
+    site_is_canonical = trace_scene.site_boundary_authority in {
+        "synthetic_reference",
+        "authoritative_site_reference",
+    }
+    site_id = trace_scene.site_canonical_id
+    objects[site_id] = CanonicalObject(
+        object_id=site_id,
         object_class="site_boundary",
         revisions=RevisionStamp(1, 1, 0),
-        authority_state=AuthorityState.HUMAN_CONFIRMED,
+        authority_state=(
+            AuthorityState.HUMAN_CONFIRMED
+            if site_is_canonical
+            else AuthorityState.CANDIDATE
+        ),
         values={
             "trace_ref": site.trace_id,
             "geometry": geometry_to_geojson(site.geometry),
             "semantic_role": "site_boundary",
+            **metadata,
+            **(
+                {}
+                if trace_scene.synthetic_only
+                else {
+                    "site_boundary_authority": (
+                        trace_scene.site_boundary_authority
+                    ),
+                    "canonical_site_identity": site_is_canonical,
+                }
+            ),
         },
     )
 
@@ -145,11 +189,17 @@ def build_initial_scene(trace_scene: ConfirmedTraceScene) -> SceneState:
             object_id=object_id,
             object_class="green_space",
             revisions=RevisionStamp(1, 1, 0),
-            authority_state=AuthorityState.HUMAN_CONFIRMED,
+            authority_state=(
+                AuthorityState.HUMAN_CONFIRMED
+                if trace_scene.review_kind
+                in {"human_object_review", "synthetic_fixture"}
+                else AuthorityState.CANDIDATE
+            ),
             values={
                 "trace_ref": trace.trace_id,
                 "geometry": geometry_to_geojson(trace.geometry),
                 "semantic_role": "green",
+                **metadata,
             },
         )
 
@@ -170,6 +220,7 @@ def build_initial_scene(trace_scene: ConfirmedTraceScene) -> SceneState:
                 "base_elevation": intent.base_elevation.to_dict(),
                 "typology": intent.typology,
                 "typology_state": intent.typology_state,
+                **metadata,
             },
         )
 
@@ -196,6 +247,7 @@ def build_initial_scene(trace_scene: ConfirmedTraceScene) -> SceneState:
                 "profile_resolution": None,
                 "centerline": None,
                 "centerline_state": "trace_only",
+                **metadata,
             },
         )
 
@@ -205,7 +257,12 @@ def build_initial_scene(trace_scene: ConfirmedTraceScene) -> SceneState:
             object_class="road_node",
             revisions=RevisionStamp(0, 0, 0),
             authority_state=AuthorityState.CANDIDATE,
-            values={"x": node.x, "y": node.y, "junction": node.junction},
+            values={
+                "x": node.x,
+                "y": node.y,
+                "junction": node.junction,
+                **metadata,
+            },
         )
 
     for edge in trace_scene.road_graph.edges.values():
@@ -220,6 +277,7 @@ def build_initial_scene(trace_scene: ConfirmedTraceScene) -> SceneState:
                 "node_b": edge.node_b,
                 "centerline": geometry_to_geojson(edge.centerline),
                 "centerline_state": "confirmed",
+                **metadata,
             },
         )
 

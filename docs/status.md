@@ -1,21 +1,21 @@
 # Project Status
 
 Updated: 2026-10-27
-Version: `0.12.0` (Milestone 4b real-sketch handoff pilot; Milestone 4a sketch/road evidence; Milestone 3c partial third-party evidence)
+Version: `0.13.0` (Milestone 4b.1 scope-aware handoff integrity; Milestone 4b real-sketch pilot; Milestone 4a sketch/road evidence; Milestone 3c partial third-party evidence)
 Research basis: R0 v0.19 + R1 deployment-entry v0.2
 
 ## 1. One-line status
 
-The project has a working **governance/runtime contract layer**, a **synthetic Building/Road domain slice**, **living E2E-001/002/003/003b pipelines** from confirmed trace to DXF readback with scoped mutation/rebuild, adversarial delivery checks, semantic/dependency closure, **one real AutoCAD 2024 Core Console round-trip**, a first **Tier B designer-sketch intake** with designer-confirmed semantics and a proposed image-space trace, a **unified-mask road topology** with 121 junction candidates, and a **pilot real-sketch handoff** into Canonical/DXF. It does **not** yet have a human-confirmed sketch trace with fidelity metrics, real road engineering, general third-party CAD interoperability, IFC, or real-world validated behavior.
+The project has a working **governance/runtime contract layer**, a **synthetic Building/Road domain slice**, **living E2E-001/002/003/003b pipelines** from confirmed trace to DXF readback with scoped mutation/rebuild, adversarial delivery checks, semantic/dependency closure, **one real AutoCAD 2024 Core Console round-trip**, a first **Tier B designer-sketch intake** with designer-confirmed semantics and a proposed image-space trace, a **unified-mask road topology** with 121 junction candidates, and a **real-sketch handoff gate that now blocks correctly** until an object-level human geometry review exists. The downstream handoff → Canonical → CAD-IR → DXF path is implemented and tested with a test double, not published as real evidence. It does **not** yet have a human-confirmed sketch trace with fidelity metrics, real road engineering, general third-party CAD interoperability, IFC, or real-world validated behavior.
 
 ## 2. Test baseline
 
 ```text
 python -m pytest -q
-184 passed
+206 passed
 ```
 
-184 tests collected, all passing. No long-lived strict xfails.
+206 tests collected, all passing. No long-lived strict xfails.
 
 | Suite | Tests | Status |
 |---|---|---|
@@ -33,8 +33,8 @@ python -m pytest -q
 | Third-party evidence | 2 | passing |
 | Sketch evidence | 11 | passing |
 | Road topology | 3 | passing |
-| Sketch handoff gate | 14 | passing |
-| Sketch handoff A | 2 | passing |
+| Sketch handoff gate | 32 | passing |
+| Sketch handoff A | 6 | passing |
 
 ## 3. Capability status
 
@@ -65,7 +65,7 @@ python -m pytest -q
 | Raw/canonical readback | **implemented** | manifest carries `canonical_target` + `raw_dxf_semantics`; tolerance 1e-9 |
 | Third-party CAD round-trip | **partial evidence only** | AutoCAD 2024 Core Console: semantic pass with serialization differences; LibreCAD/FreeCAD/GUI not run; issue #6 |
 | Real sketch → trace | **partial (designer sketch)** | CASE-SKETCH-001: 55 buildings (5 designer-confirmed merges), unit counts 16/21/17 plus 1 facility, 11 floors provisional, image-space geometry proposed; no fidelity metrics or unit-type library yet |
-| Real sketch → canonical handoff | **pilot implemented (selected subset)** | CASE-SKETCH-001-HANDOFF-A: 7 selected objects → human-reviewed handoff → Canonical → CAD-IR → DXF readback 11/11; local metric approximate; unknowns preserved |
+| Real sketch → canonical handoff | **gate implemented; pilot blocked** | CASE-SKETCH-001-HANDOFF-A: 7 selected objects pass source-integrity and topology checks but stop at `HUMAN_OBJECT_REVIEW_REQUIRED`; the downstream ConfirmedTraceScene → Canonical → CAD-IR → DXF path is proven only with an explicitly marked test double. Scope, geometry quality and boundary authority propagate when confirmed. |
 | Road centerline extraction | **proposed_rough** | skeleton-derived from colour masks; no professional alignment, width or junction design |
 | Road network topology | **connected_by_unified_road_mask** | 1 component: 309 nodes, 333 edges, 121 junction candidates; colour is a class attribute; no width, profile or alignment |
 | Real design-office profile | **not validated** | synthetic and DB11 subset only |
@@ -84,6 +84,7 @@ python -m pytest -q
 | `contracts/e2e-mutation-v0.1.yaml` | E2E-002 mutation, rebuild and manifest comparison |
 | `contracts/e2e-adversarial-v0.1.yaml` | E2E-003 adversarial scenarios, categories and issue mapping |
 | `contracts/sketch-evidence-v0.1.yaml` | Sketch-to-trace evidence, review states and publication boundary |
+| `contracts/sketch-domain-handoff-v0.2.yaml` | Scope-aware real-sketch handoff, boundary authority, source integrity and road topology |
 | `contracts/evidence-gate-register-v0.2.yaml` | R1-G01..G08 and evidence packages |
 | `contracts/runtime-state-contract-v0.1.yaml` | Runtime state envelope and registries |
 | `contracts/sidecar-lifecycle-contract-v0.1.yaml` | Sidecar lifecycle |
@@ -102,7 +103,7 @@ Promotion status of all research artifacts: [research-to-product-map.md](researc
 | R1-G04 Geometry | representative failure cases fail closed | partial (real geometry, entity range and project validation not exercised) |
 | R1-G05 Delivery | third-party semantic round-trip + real profile | partial (AutoCAD Core Console executed; real profile subset missing) |
 | R1-G06 Preview | no canonical pollution | pass for prototype scope |
-| R1-G07 Real Case | one non-synthetic site sketch | partial (a selected real subset reaches canonical/DXF through a pilot-scope human gate; the full sketch is not human-confirmed) |
+| R1-G07 Real Case | one non-synthetic site sketch | partial (the selected real subset passes source/topology checks but blocks at the human geometry gate; the downstream path is proven only with a test double) |
 | R1-G08 Spikes | IFC + independent ENV + real profile | not started |
 
 ## 6. Known defects carried forward
@@ -284,7 +285,7 @@ What is confirmed:
 - Existing survey buildings are to be removed and are unrelated to the sketch design.
 - Red = building; magenta = underground garage entrance; brown = main road; blue = branch/access road; green = cluster green space.
 - The top edge is intentional; only a road segment is clipped.
-- Publication is sketch-only; DWG/DXF, redline/project coordinates and metric scale remain private.
+- Publication is sketch-only; the project metric scale, DWG/DXF and redline/project coordinates remain private. The pilot-local approximate scale is published only inside the handoff publication block.
 
 What is proposed:
 
@@ -303,7 +304,7 @@ What is not done:
 - No unit-type library replacement; sketch-era building footprints remain placeholders.
 - All 10 close pairs are resolved into five merged buildings; six unit-count conflicts and the kindergarten facility remain for review.
 - No 支路/入户路 separation.
-- No full-case canonical Building/Road handoff; a selected pilot subset has reached canonical/DXF (`CASE-SKETCH-001-HANDOFF-A`).
+- No full-case canonical Building/Road handoff; the selected pilot subset is blocked at the object-level human geometry review (`CASE-SKETCH-001-HANDOFF-A`).
 - Road centerlines are not professional alignment or junction design.
 
 Evidence: `docs/e2e/sketch-001/README.md`, `docs/e2e/sketch-001/case-summary.json`, `contracts/sketch-evidence-v0.1.yaml`, `tests/test_sketch_evidence.py`.
@@ -317,20 +318,25 @@ Evidence: `docs/e2e/sketch-001/README.md`, `docs/e2e/sketch-001/case-summary.jso
 - Colour is a road-class attribute, not a topology separator; junctions are skeleton graph nodes, not inferred connectors. All 121 junction candidates are `proposed` and need review.
 - The eight nearest-node connectors are rejected and retained in `road-connectors-rejected.geojson` as negative evidence; they are not used.
 - No width, cross-section, profile, alignment, junction turn geometry or surface is derived. The blue class still combines 支路 and 入户路.
+- Handoff topology check on the selected T-junction: 4 nodes, 3 edges, 1 component, degree-3 node `SK-RDN-0126`; maximum edge-endpoint offset **3.606 px** against a declared **4.0 px** extraction tolerance. `SK-RDC-U-0010` and `SK-RDC-U-0017` are stored `to_node → from_node` in the source network and are normalized to `node_a → node_b`; this is recorded in the handoff, not hidden.
 - Evidence: `road-network-proposed.geojson` (unified), `road-nodes-proposed.geojson`, `road-junctions-proposed.geojson`, `road-topology-summary.json`, `road-network-overlay.png`; the separate-colour centerlines are superseded; `tests/test_road_topology.py` (3 tests).
 
-## 15. CASE-SKETCH-001-HANDOFF-A (Milestone 4b)
+## 15. CASE-SKETCH-001-HANDOFF-A (Milestone 4b.1)
 
-- Explicit handoff contract: `contracts/sketch-domain-handoff-v0.1.yaml`; model/validation: `src/dgcad_domain/sketch_handoff.py`.
+- Explicit handoff contract: `contracts/sketch-domain-handoff-v0.2.yaml`; v0.1 is superseded. Model/validation: `src/dgcad_domain/sketch_handoff.py`.
+- The committed review record is `designer_authorized_pilot`: it authorizes the pilot and records all object geometry/coordinate decisions as `not_reviewed`. It does **not** claim a geometry review. The loader blocks it with `HUMAN_OBJECT_REVIEW_REQUIRED`.
+- The v0.12.0 executed pilot is preserved under `docs/e2e/sketch-handoff-a/history-0.12.0/`; it is superseded and not current evidence.
 - Selected real subset: site boundary, one ordinary building, one merged building, one green, two main-road edges, one branch edge, one T-junction.
-- Human gate: designer, `pilot_subset`, `human_confirmed_trace: true`; all seven selected objects are `confirmed_for_pilot`; this is not full-case or survey-grade.
-- Coordinate handoff: `image_space_unscaled` → `LOCAL-ENU-XY-ZUP`, `local_metric_scaled`, 2.438 px/m (declared range 2.25–2.89), `project_coordinates: false`.
-- Pipeline: `ConfirmedTraceScene` → `build_initial_scene()` → runtime proposal/preview/human approval/commit → Canonical → CAD-IR → DXF → readback.
-- DXF: 11 entities, audit 0/0, readback 11/11 pass; CAD-IR `pass_with_scope_limits` with two `UNKNOWN_HEIGHT_ALLOWED` warnings.
-- Unknowns preserved: building height/base elevation unknown (massing blocked); road hierarchy/cross-section unknown (profile blocked; no width); shadow analysis not run.
-- Provenance: seven source→trace→canonical mappings, corridor/edge source IDs, canonical snapshot, readback manifest and handoff audit object.
-- Evidence: `docs/e2e/sketch-handoff-a/`; tests: `tests/test_sketch_handoff.py` (14) and `tests/e2e/test_sketch_handoff_a.py` (2).
-- `EP-R1-SKETCH-001` remains in progress; `R1-G07` remains partial.
+- Boundary authority: the private redline is authoritative; the pilot uses the published sketch boundary and maps it to `SITE-SKETCH-001` with **candidate** authority. It cannot become `SITE-001` or claim canonical site identity.
+- Review packet: `review-packet.html`, `review-packet.json`, `review-request.yaml` and an unsigned `review-confirmation-template.yaml`; 7 objects, image-space and local-metric panels, declared scale range, per-object sensitivity, T-junction topology and source hashes.
+- Source integrity: 3 source files and 7 objects verified by SHA-256 and canonical geometry hash. File-hash mismatch, source-object mismatch, missing object and handoff-geometry divergence fail closed.
+- Coordinate handoff: `image_space_unscaled` → `LOCAL-XY-ZUP`, `local_metric_scaled`, `uniform_scale_translation_yflip`, `homography_applied: false`, `shape_correction: none`, `axis_orientation: unknown`, scale 2.438 px/m (range 2.25–2.89), `project_coordinates: false`; area/perimeter/centroid sensitivity recorded per object.
+- Road topology: 4 nodes, 3 edges, 1 component; degree-3 `SK-RDN-0126`; endpoints `SK-RDN-0067/0125/0209`; max endpoint offset 3.606 px against a declared 4.0 px tolerance; two source edges are direction-normalized and recorded.
+- Downstream path (test double only): trace, canonical, CAD-IR, DXF XDATA and readback manifest all carry `confirmation_scope: pilot_subset` and `geometry_quality: confirmed_for_pilot`. The test-double run reaches 11 entities, audit 0/0 and readback pass; massing and road profiles remain blocked; no width is derived.
+- Scope, quality and boundary authority propagate through `build_initial_scene()`; a full-case review rejects `confirmed_for_pilot`; a test double is rejected unless the caller explicitly allows it.
+- Structured DXF privacy scan covers TEXT/MTEXT, layer/linetype/style/block names, XDATA and raw bytes.
+- Evidence: `docs/e2e/sketch-handoff-a/`; tests: `tests/test_sketch_handoff.py` (31) and `tests/e2e/test_sketch_handoff_a.py` (6).
+- `EP-R1-SKETCH-001` remains in progress; `R1-G07` remains partial until an object-level human geometry review exists.
 
 ## 16. Current non-claims
 
@@ -342,8 +348,9 @@ Evidence: `docs/e2e/sketch-001/README.md`, `docs/e2e/sketch-001/case-summary.jso
 - No claim that MCP wire protocol, FreeCAD or IFC have been executed; AutoCAD 2024 Core Console was executed as a file round-trip, not a runtime bridge or GUI/print QA.
 - CASE-SKETCH-001 semantic labels, five building merges, the 1/2/3-unit type set and the 11-floor assumption are designer-confirmed; geometry and road centerlines are proposed, and no fidelity metrics exist.
 - 11 floors is provisional; no floor height, massing, FAR or unit-mix is derived. Building footprints are placeholders pending the unit-type library; unit counts are inferred except M-001/M-002, the kindergarten M-003 is excluded as a facility, and six length-vs-area conflicts remain for review.
-- CASE-SKETCH-001 publishes the sketch and image-space geometry only; the DWG/DXF, redline/project coordinates and metric scale are private.
+- CASE-SKETCH-001 publishes the sketch and image-space geometry; the project metric scale, calibration matrix, DWG/DXF and redline/project coordinates remain private. The pilot-local approximate scale is published only inside the handoff publication block, with its source and range recorded.
 - Road connectivity is derived from the unified brown+blue mask: one component, 121 proposed junction candidates. The separate-colour 9-component result and the eight nearest-node connectors are rejected.
-- CASE-SKETCH-001-HANDOFF-A is a pilot subset; `confirmed_for_pilot` is not a full-case or survey-grade confirmation, and `EP-R1-SKETCH-001` is not complete.
-- The pilot DXF is local metric only; no project coordinates/DWG are published. Same-library `ezdxf` readback is not third-party evidence.
+- CASE-SKETCH-001-HANDOFF-A is a pilot subset. The committed review record is an authorization, not an object-level geometry review; the pipeline is blocked at `HUMAN_OBJECT_REVIEW_REQUIRED`, and `EP-R1-SKETCH-001` is not complete.
+- No DXF or canonical model is published for the current blocked handoff. The test-double DXF is local metric only; no project coordinates/DWG are published. Same-library `ezdxf` readback is not third-party evidence.
+- The pilot transform is uniform scale, translation and y-flip, not the six-point homography; it does not correct local sketch distortion.
 - No road width, cross-section, profile, alignment or surface is designed.

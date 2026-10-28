@@ -24,6 +24,7 @@ XDATA_FIELDS = (
     "ring_index",
     "ring_role",
     "ring_key",
+    "confirmation_scope",
 )
 
 
@@ -109,6 +110,14 @@ def _set_xdata(
             (1070, ring_index),
             (1000, ring_role),
             (1000, ring_key),
+            (
+                1000,
+                str(
+                    obj.provenance.get(
+                        "confirmation_scope", "synthetic"
+                    )
+                ),
+            ),
         ],
     )
 

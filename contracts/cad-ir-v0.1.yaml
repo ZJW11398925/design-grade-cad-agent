@@ -57,9 +57,19 @@ object:
   geometry_format: geojson
   source_world_enum: [canonical_current, proposal_preview, external, analysis]
   provenance:
-    required: [source_trace_ref, canonical_object_id, canonical_revisions]
+    required:
+      - source_trace_ref
+      - canonical_object_id
+      - canonical_revisions
+      - confirmation_scope
     canonical_revisions:
       required: [semantic, geometry, parameter]
+    confirmation_scope_states: [synthetic, pilot_subset, full_case]
+    review_fields: [geometry_quality, review_kind]
+    rules:
+      - "pilot_subset requires geometry_quality confirmed_for_pilot"
+      - "full_case requires geometry_quality confirmed"
+      - "a published sketch boundary may not set canonical_site_identity true"
     dependency_refs: []
   massing:
     required_if_object_class: building_footprint
@@ -79,8 +89,10 @@ validation:
     ROAD_CENTERLINE_MISSING: blocked
     DEPENDENCY_FINGERPRINT_MISSING: error
     PROVENANCE_INCOMPLETE: error
+    SCOPE_QUALITY_MISMATCH: error
+    SITE_AUTHORITY_CONFLICT: error
   coverage_limits:
-    - "synthetic E2E fixture only"
+    - "current delivery profile and entity set only (LWPOLYLINE/CIRCLE/TEXT)"
     - "no standards or design-office profile compliance"
     - "no IFC"
     - "no third-party CAD round-trip in E2E-001"
@@ -101,10 +113,17 @@ dxf_export:
     - ring_index
     - ring_role
     - ring_key
+    - confirmation_scope
+  xdata_defaults:
+    confirmation_scope: synthetic
   ring_index_semantics: "global within the CAD object: parts in order, then rings within each part"
   ring_identity_stability: "ring_key is content-derived and stable across sibling insertion; ring/part indices are build indices"
   readback_manifest:
-    required: [canonical_target, raw_dxf_semantics]
+    required:
+      - canonical_target
+      - raw_dxf_semantics
+      - confirmation_scope
+    top_level_required: [confirmation_scopes]
     numeric_tolerance: 1.0e-9
     tolerance_version: "0.1"
   lwpolyline_semantics:

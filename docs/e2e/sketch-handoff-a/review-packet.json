@@ -1,0 +1,1350 @@
+{
+  "schema_id": "dgcad.sketch-review-packet.v0.1",
+  "handoff_id": "CASE-SKETCH-001-HANDOFF-A",
+  "case_id": "CASE-SKETCH-001",
+  "status": "review_required",
+  "review_kind": "designer_authorized_pilot",
+  "object_geometry_review": false,
+  "human_confirmation_claimed": false,
+  "human_confirmed_trace": false,
+  "review_scope": "pilot_subset",
+  "reviewer_role": "designer",
+  "review_basis": "Designer instruction to run a representative CASE-SKETCH-001 handoff pilot on a selected subset. This record authorizes the pilot. It does not claim that the designer inspected the per-object geometry or the coordinate transform result; those decisions are still open and require the review packet.",
+  "source_sketch": {
+    "path": "docs/e2e/sketch-001/source/sketch.png",
+    "sha256": "07714b66f6405d7d4dacde91716eb7b4c8c6b4c32072ea91641a9725a295c0be"
+  },
+  "site_boundary_authority": "published_sketch_boundary",
+  "coordinate_handoff": {
+    "source_frame": "image_space_unscaled",
+    "target_frame": "LOCAL-XY-ZUP",
+    "transform_kind": "uniform_scale_translation_yflip",
+    "homography_applied": false,
+    "shape_correction": "none",
+    "axis_orientation": "unknown",
+    "scale_px_per_m": 2.438,
+    "scale_range_px_per_m": [
+      2.25,
+      2.89
+    ],
+    "scale_source": "private six-point homography reduced to a uniform scale for the pilot; the matrix is not published",
+    "origin_px": [
+      45.0,
+      1536.0
+    ],
+    "origin_source": "published sketch site-boundary bounding box (min x, max y)",
+    "accuracy": "approximate",
+    "not_survey_grade": true,
+    "uncertainty_method": "scale_range_sensitivity"
+  },
+  "objects": [
+    {
+      "source_id": "SK-BND-001",
+      "trace_id": "SK-BND-001",
+      "canonical_id": "SITE-SKETCH-001",
+      "semantic_role": "site_boundary",
+      "geometry_state": "proposed",
+      "source_file": "docs/e2e/sketch-001/trace-raw.geojson",
+      "source_object_id": "SK-BND-001",
+      "source_geometry_sha256": "d0faccdc67c07f793ea1bb0d1b8c6e14ab0acb51133f110c72207af83fb7b276",
+      "image_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              322.0,
+              0.0
+            ],
+            [
+              308.0,
+              33.0
+            ],
+            [
+              143.0,
+              330.0
+            ],
+            [
+              70.0,
+              479.0
+            ],
+            [
+              61.0,
+              487.0
+            ],
+            [
+              49.0,
+              488.0
+            ],
+            [
+              59.0,
+              499.0
+            ],
+            [
+              53.0,
+              629.0
+            ],
+            [
+              45.0,
+              1069.0
+            ],
+            [
+              60.0,
+              1251.0
+            ],
+            [
+              67.0,
+              1495.0
+            ],
+            [
+              538.0,
+              1503.0
+            ],
+            [
+              557.0,
+              1514.0
+            ],
+            [
+              563.0,
+              1536.0
+            ],
+            [
+              572.0,
+              1536.0
+            ],
+            [
+              578.0,
+              1514.0
+            ],
+            [
+              596.0,
+              1504.0
+            ],
+            [
+              982.0,
+              1511.0
+            ],
+            [
+              981.0,
+              1356.0
+            ],
+            [
+              989.0,
+              1274.0
+            ],
+            [
+              991.0,
+              627.0
+            ],
+            [
+              939.0,
+              518.0
+            ],
+            [
+              917.0,
+              457.0
+            ],
+            [
+              911.0,
+              417.0
+            ],
+            [
+              909.0,
+              274.0
+            ],
+            [
+              657.0,
+              271.0
+            ],
+            [
+              643.0,
+              253.0
+            ],
+            [
+              635.0,
+              228.0
+            ],
+            [
+              636.0,
+              216.0
+            ],
+            [
+              645.0,
+              205.0
+            ],
+            [
+              656.0,
+              202.0
+            ],
+            [
+              675.0,
+              213.0
+            ],
+            [
+              687.0,
+              191.0
+            ],
+            [
+              662.0,
+              191.0
+            ],
+            [
+              654.0,
+              200.0
+            ],
+            [
+              643.0,
+              203.0
+            ],
+            [
+              625.0,
+              193.0
+            ],
+            [
+              563.0,
+              0.0
+            ],
+            [
+              322.0,
+              0.0
+            ]
+          ]
+        ]
+      },
+      "local_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              113.617719442,
+              630.024610336
+            ],
+            [
+              107.875307629,
+              616.488925349
+            ],
+            [
+              40.196882691,
+              494.667760459
+            ],
+            [
+              10.254306809,
+              433.552091879
+            ],
+            [
+              6.562756358,
+              430.2707137
+            ],
+            [
+              1.640689089,
+              429.860541427
+            ],
+            [
+              5.742411813,
+              425.348646432
+            ],
+            [
+              3.281378179,
+              372.026251025
+            ],
+            [
+              0.0,
+              191.550451189
+            ],
+            [
+              6.152584085,
+              116.899097621
+            ],
+            [
+              9.023789992,
+              16.817063167
+            ],
+            [
+              202.214930271,
+              13.535684988
+            ],
+            [
+              210.008203445,
+              9.023789992
+            ],
+            [
+              212.46923708,
+              0.0
+            ],
+            [
+              216.160787531,
+              0.0
+            ],
+            [
+              218.621821165,
+              9.023789992
+            ],
+            [
+              226.004922067,
+              13.125512715
+            ],
+            [
+              384.331419196,
+              10.254306809
+            ],
+            [
+              383.921246924,
+              73.831009024
+            ],
+            [
+              387.202625103,
+              107.465135357
+            ],
+            [
+              388.022969647,
+              372.84659557
+            ],
+            [
+              366.694011485,
+              417.555373257
+            ],
+            [
+              357.670221493,
+              442.57588187
+            ],
+            [
+              355.209187859,
+              458.982772765
+            ],
+            [
+              354.388843314,
+              517.637407711
+            ],
+            [
+              251.025430681,
+              518.867924528
+            ],
+            [
+              245.283018868,
+              526.251025431
+            ],
+            [
+              242.001640689,
+              536.50533224
+            ],
+            [
+              242.411812961,
+              541.427399508
+            ],
+            [
+              246.103363413,
+              545.939294504
+            ],
+            [
+              250.615258409,
+              547.169811321
+            ],
+            [
+              258.408531583,
+              542.657916325
+            ],
+            [
+              263.330598852,
+              551.681706317
+            ],
+            [
+              253.076292043,
+              551.681706317
+            ],
+            [
+              249.794913864,
+              547.990155865
+            ],
+            [
+              245.283018868,
+              546.759639048
+            ],
+            [
+              237.899917966,
+              550.861361772
+            ],
+            [
+              212.46923708,
+              630.024610336
+            ],
+            [
+              113.617719442,
+              630.024610336
+            ]
+          ]
+        ]
+      },
+      "scale_sensitivity": {
+        "source_id": "SK-BND-001",
+        "semantic_role": "site_boundary",
+        "nominal_scale_px_per_m": 2.438,
+        "scale_range_px_per_m": [
+          2.25,
+          2.89
+        ],
+        "area_m2": 204122.7865333623,
+        "area_range_m2": [
+          145265.7415499188,
+          239659.06172827983
+        ],
+        "perimeter_m": 1921.1021970706356,
+        "perimeter_range_m": [
+          1620.6391544822627,
+          2081.620958426131
+        ],
+        "centroid_m": [
+          191.63826328193184,
+          284.8237149142976
+        ],
+        "centroid_shift_m": 53.69142942931366
+      },
+      "overlay": "review-packet.html#object-SK-BND-001",
+      "color": "#d62728"
+    },
+    {
+      "source_id": "SK-BLD-0007",
+      "trace_id": "SK-BLD-0007",
+      "canonical_id": "B-SKETCH-0007",
+      "semantic_role": "building",
+      "geometry_state": "proposed",
+      "source_file": "docs/e2e/sketch-001/trace-raw.geojson",
+      "source_object_id": "SK-BLD-0007",
+      "source_geometry_sha256": "61038e554958a90c36973e11aadb8b1eb501dbbf93507c2042f8746357390982",
+      "image_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              502.0,
+              527.0
+            ],
+            [
+              502.0,
+              556.0
+            ],
+            [
+              618.0,
+              556.0
+            ],
+            [
+              618.0,
+              527.0
+            ],
+            [
+              502.0,
+              527.0
+            ]
+          ]
+        ]
+      },
+      "local_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              187.448728466,
+              413.863822806
+            ],
+            [
+              187.448728466,
+              401.968826907
+            ],
+            [
+              235.028712059,
+              401.968826907
+            ],
+            [
+              235.028712059,
+              413.863822806
+            ],
+            [
+              187.448728466,
+              413.863822806
+            ]
+          ]
+        ]
+      },
+      "scale_sensitivity": {
+        "source_id": "SK-BLD-0007",
+        "semantic_role": "building",
+        "nominal_scale_px_per_m": 2.438,
+        "scale_range_px_per_m": [
+          2.25,
+          2.89
+        ],
+        "area_m2": 565.9637097132211,
+        "area_range_m2": [
+          402.7729553046887,
+          664.4938271203946
+        ],
+        "perimeter_m": 118.94995898399992,
+        "perimeter_range_m": [
+          100.34602076200002,
+          128.88888888799994
+        ],
+        "centroid_m": [
+          211.23872026249998,
+          407.9163248565
+        ],
+        "centroid_shift_m": 71.84554681704924
+      },
+      "overlay": "review-packet.html#object-SK-BLD-0007",
+      "color": "#1f77b4"
+    },
+    {
+      "source_id": "SK-BLD-MRG-0001",
+      "trace_id": "SK-BLD-MRG-0001",
+      "canonical_id": "B-SKETCH-MRG-0001",
+      "semantic_role": "building",
+      "geometry_state": "proposed",
+      "source_file": "docs/e2e/sketch-001/trace-raw.geojson",
+      "source_object_id": "SK-BLD-MRG-0001",
+      "source_geometry_sha256": "1a6c196afb9b9767fc63b0f6f28a45bcfe4cfc62656d536c9e4a1514b15039cd",
+      "image_geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                140.0,
+                736.0
+              ],
+              [
+                140.0,
+                705.0
+              ],
+              [
+                87.0,
+                705.0
+              ],
+              [
+                87.0,
+                736.0
+              ],
+              [
+                140.0,
+                736.0
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                167.0,
+                732.0
+              ],
+              [
+                170.0,
+                737.0
+              ],
+              [
+                222.0,
+                736.0
+              ],
+              [
+                222.0,
+                705.0
+              ],
+              [
+                169.0,
+                705.0
+              ],
+              [
+                170.0,
+                730.0
+              ],
+              [
+                167.0,
+                732.0
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                164.0,
+                737.0
+              ],
+              [
+                165.0,
+                710.0
+              ],
+              [
+                146.0,
+                710.0
+              ],
+              [
+                145.0,
+                737.0
+              ],
+              [
+                164.0,
+                737.0
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                142.0,
+                748.0
+              ],
+              [
+                144.0,
+                753.0
+              ],
+              [
+                148.0,
+                754.0
+              ],
+              [
+                167.0,
+                753.0
+              ],
+              [
+                168.0,
+                745.0
+              ],
+              [
+                164.0,
+                743.0
+              ],
+              [
+                171.0,
+                742.0
+              ],
+              [
+                171.0,
+                739.0
+              ],
+              [
+                138.0,
+                740.0
+              ],
+              [
+                138.0,
+                748.0
+              ],
+              [
+                142.0,
+                748.0
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                128.0,
+                782.0
+              ],
+              [
+                182.0,
+                781.0
+              ],
+              [
+                181.0,
+                763.0
+              ],
+              [
+                178.0,
+                761.0
+              ],
+              [
+                181.0,
+                760.0
+              ],
+              [
+                181.0,
+                756.0
+              ],
+              [
+                128.0,
+                755.0
+              ],
+              [
+                131.0,
+                764.0
+              ],
+              [
+                131.0,
+                778.0
+              ],
+              [
+                128.0,
+                782.0
+              ]
+            ]
+          ]
+        ]
+      },
+      "local_geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                38.966365874,
+                328.137817884
+              ],
+              [
+                38.966365874,
+                340.853158326
+              ],
+              [
+                17.227235439,
+                340.853158326
+              ],
+              [
+                17.227235439,
+                328.137817884
+              ],
+              [
+                38.966365874,
+                328.137817884
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                50.041017227,
+                329.778506973
+              ],
+              [
+                51.271534044,
+                327.727645611
+              ],
+              [
+                72.600492207,
+                328.137817884
+              ],
+              [
+                72.600492207,
+                340.853158326
+              ],
+              [
+                50.861361772,
+                340.853158326
+              ],
+              [
+                51.271534044,
+                330.598851518
+              ],
+              [
+                50.041017227,
+                329.778506973
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                48.81050041,
+                327.727645611
+              ],
+              [
+                49.220672683,
+                338.802296965
+              ],
+              [
+                41.427399508,
+                338.802296965
+              ],
+              [
+                41.017227235,
+                327.727645611
+              ],
+              [
+                48.81050041,
+                327.727645611
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                39.786710418,
+                323.215750615
+              ],
+              [
+                40.607054963,
+                321.164889253
+              ],
+              [
+                42.247744053,
+                320.754716981
+              ],
+              [
+                50.041017227,
+                321.164889253
+              ],
+              [
+                50.4511895,
+                324.446267432
+              ],
+              [
+                48.81050041,
+                325.266611977
+              ],
+              [
+                51.681706317,
+                325.676784249
+              ],
+              [
+                51.681706317,
+                326.907301066
+              ],
+              [
+                38.146021329,
+                326.497128794
+              ],
+              [
+                38.146021329,
+                323.215750615
+              ],
+              [
+                39.786710418,
+                323.215750615
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                34.044298605,
+                309.269893355
+              ],
+              [
+                56.193601313,
+                309.680065628
+              ],
+              [
+                55.78342904,
+                317.06316653
+              ],
+              [
+                54.552912223,
+                317.883511075
+              ],
+              [
+                55.78342904,
+                318.293683347
+              ],
+              [
+                55.78342904,
+                319.934372436
+              ],
+              [
+                34.044298605,
+                320.344544709
+              ],
+              [
+                35.274815422,
+                316.652994258
+              ],
+              [
+                35.274815422,
+                310.910582445
+              ],
+              [
+                34.044298605,
+                309.269893355
+              ]
+            ]
+          ]
+        ]
+      },
+      "scale_sensitivity": {
+        "source_id": "SK-BLD-MRG-0001",
+        "semantic_role": "building",
+        "nominal_scale_px_per_m": 2.438,
+        "scale_range_px_per_m": [
+          2.25,
+          2.89
+        ],
+        "area_m2": 930.2061090244392,
+        "area_range_m2": [
+          661.9892003121681,
+          1092.1481481125177
+        ],
+        "perimeter_m": 283.4123960123419,
+        "perimeter_range_m": [
+          239.08630500827925,
+          307.09307620788434
+        ],
+        "centroid_m": [
+          45.06365694646649,
+          328.8995310625971
+        ],
+        "centroid_shift_m": 51.92093349721128
+      },
+      "overlay": "review-packet.html#object-SK-BLD-MRG-0001",
+      "color": "#2ca02c"
+    },
+    {
+      "source_id": "SK-GRN-0001",
+      "trace_id": "SK-GRN-0001",
+      "canonical_id": "G-001",
+      "semantic_role": "green",
+      "geometry_state": "proposed",
+      "source_file": "docs/e2e/sketch-001/trace-raw.geojson",
+      "source_object_id": "SK-GRN-0001",
+      "source_geometry_sha256": "e77193d610701d8bb3879fcee7c3864cc2d6620ea99297ac1dfdf9ea67b8e86a",
+      "image_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              595.0,
+              646.0
+            ],
+            [
+              585.0,
+              640.0
+            ],
+            [
+              555.0,
+              638.0
+            ],
+            [
+              479.0,
+              644.0
+            ],
+            [
+              473.0,
+              657.0
+            ],
+            [
+              475.0,
+              715.0
+            ],
+            [
+              478.0,
+              725.0
+            ],
+            [
+              485.0,
+              732.0
+            ],
+            [
+              498.0,
+              735.0
+            ],
+            [
+              531.0,
+              729.0
+            ],
+            [
+              552.0,
+              720.0
+            ],
+            [
+              577.0,
+              703.0
+            ],
+            [
+              596.0,
+              680.0
+            ],
+            [
+              600.0,
+              670.0
+            ],
+            [
+              600.0,
+              657.0
+            ],
+            [
+              595.0,
+              646.0
+            ]
+          ]
+        ]
+      },
+      "local_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              225.594749795,
+              365.053322395
+            ],
+            [
+              221.493027071,
+              367.51435603
+            ],
+            [
+              209.187858901,
+              368.334700574
+            ],
+            [
+              178.014766202,
+              365.87366694
+            ],
+            [
+              175.553732568,
+              360.5414274
+            ],
+            [
+              176.374077112,
+              336.751435603
+            ],
+            [
+              177.604593929,
+              332.649712879
+            ],
+            [
+              180.475799836,
+              329.778506973
+            ],
+            [
+              185.808039377,
+              328.547990156
+            ],
+            [
+              199.343724364,
+              331.00902379
+            ],
+            [
+              207.957342084,
+              334.700574241
+            ],
+            [
+              218.211648893,
+              341.673502871
+            ],
+            [
+              226.004922067,
+              351.107465135
+            ],
+            [
+              227.645611157,
+              355.209187859
+            ],
+            [
+              227.645611157,
+              360.5414274
+            ],
+            [
+              225.594749795,
+              365.053322395
+            ]
+          ]
+        ]
+      },
+      "scale_sensitivity": {
+        "source_id": "SK-GRN-0001",
+        "semantic_role": "green",
+        "nominal_scale_px_per_m": 2.438,
+        "scale_range_px_per_m": [
+          2.25,
+          2.89
+        ],
+        "area_m2": 1629.753405379834,
+        "area_range_m2": [
+          1159.828067195034,
+          1913.481481471851
+        ],
+        "perimeter_m": 154.3501825712472,
+        "perimeter_range_m": [
+          130.2096003827787,
+          167.24699782575854
+        ],
+        "centroid_m": [
+          199.15512359395186,
+          350.4782689709763
+        ],
+        "centroid_shift_m": 63.04698292279093
+      },
+      "overlay": "review-packet.html#object-SK-GRN-0001",
+      "color": "#ff7f0e"
+    },
+    {
+      "source_id": "SK-RDC-U-0008",
+      "trace_id": "TRACE-SK-RDC-U-0008",
+      "canonical_id": "SK-RDC-U-0008",
+      "semantic_role": "road",
+      "geometry_state": "proposed",
+      "source_file": "docs/e2e/sketch-001/road-network-proposed.geojson",
+      "source_object_id": "SK-RDC-U-0008",
+      "source_geometry_sha256": "71cb5bef1679a204be2673dd65f95547d558c3e1e7796a066919ef690b491a6e",
+      "image_geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            630.0,
+            618.0
+          ],
+          [
+            498.0,
+            616.0
+          ],
+          [
+            456.0,
+            620.0
+          ]
+        ]
+      },
+      "local_geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            239.950779327,
+            376.538146021
+          ],
+          [
+            185.808039377,
+            377.358490566
+          ],
+          [
+            168.580803938,
+            375.717801477
+          ]
+        ]
+      },
+      "scale_sensitivity": {
+        "source_id": "SK-RDC-U-0008",
+        "semantic_role": "road",
+        "nominal_scale_px_per_m": 2.438,
+        "scale_range_px_per_m": [
+          2.25,
+          2.89
+        ],
+        "area_m2": 0.0,
+        "area_range_m2": [
+          0.0,
+          0.0
+        ],
+        "perimeter_m": 71.45414145341556,
+        "perimeter_range_m": [
+          60.27861483247374,
+          77.42453193975105
+        ],
+        "centroid_m": [
+          204.23700770563215,
+          376.84898034362664
+        ],
+        "centroid_shift_m": 67.03909742848451
+      },
+      "overlay": "review-packet.html#object-SK-RDC-U-0008",
+      "color": "#9467bd"
+    },
+    {
+      "source_id": "SK-RDC-U-0010",
+      "trace_id": "TRACE-SK-RDC-U-0010",
+      "canonical_id": "SK-RDC-U-0010",
+      "semantic_role": "road",
+      "geometry_state": "proposed",
+      "source_file": "docs/e2e/sketch-001/road-network-proposed.geojson",
+      "source_object_id": "SK-RDC-U-0010",
+      "source_geometry_sha256": "e721377736a3aa61ec5bce5234418d4abccf3c42edb2075fd72f3d98320f3ce5",
+      "image_geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            297.0,
+            623.0
+          ],
+          [
+            323.0,
+            616.0
+          ],
+          [
+            444.0,
+            616.0
+          ],
+          [
+            455.0,
+            620.0
+          ]
+        ]
+      },
+      "local_geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            103.363412633,
+            374.48728466
+          ],
+          [
+            114.027891715,
+            377.358490566
+          ],
+          [
+            163.658736669,
+            377.358490566
+          ],
+          [
+            168.170631665,
+            375.717801477
+          ]
+        ]
+      },
+      "scale_sensitivity": {
+        "source_id": "SK-RDC-U-0010",
+        "semantic_role": "road",
+        "nominal_scale_px_per_m": 2.438,
+        "scale_range_px_per_m": [
+          2.25,
+          2.89
+        ],
+        "area_m2": 0.0,
+        "area_range_m2": [
+          0.0,
+          0.0
+        ],
+        "perimeter_m": 65.4760147439191,
+        "perimeter_range_m": [
+          55.23547541423411,
+          70.9468995315327
+        ],
+        "centroid_m": [
+          135.74310272447218,
+          377.05618823669806
+        ],
+        "centroid_shift_m": 62.67726858277008
+      },
+      "overlay": "review-packet.html#object-SK-RDC-U-0010",
+      "color": "#8c564b"
+    },
+    {
+      "source_id": "SK-RDC-U-0017",
+      "trace_id": "TRACE-SK-RDC-U-0017",
+      "canonical_id": "SK-RDC-U-0017",
+      "semantic_role": "road",
+      "geometry_state": "proposed",
+      "source_file": "docs/e2e/sketch-001/road-network-proposed.geojson",
+      "source_object_id": "SK-RDC-U-0017",
+      "source_geometry_sha256": "c750eb39238d609c5ecf2a01216ad7e262e5ac68f4cef954288e33c116c50670",
+      "image_geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            455.0,
+            621.0
+          ],
+          [
+            454.0,
+            746.0
+          ]
+        ]
+      },
+      "local_geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            168.170631665,
+            375.307629204
+          ],
+          [
+            167.760459393,
+            324.03609516
+          ]
+        ]
+      },
+      "scale_sensitivity": {
+        "source_id": "SK-RDC-U-0017",
+        "semantic_role": "road",
+        "nominal_scale_px_per_m": 2.438,
+        "scale_range_px_per_m": [
+          2.25,
+          2.89
+        ],
+        "area_m2": 0.0,
+        "area_range_m2": [
+          0.0,
+          0.0
+        ],
+        "perimeter_m": 51.27317470683643,
+        "perimeter_range_m": [
+          43.25397921690642,
+          55.55733330533068
+        ],
+        "centroid_m": [
+          167.965545529,
+          349.67186218200004
+        ],
+        "centroid_shift_m": 60.67140821593963
+      },
+      "overlay": "review-packet.html#object-SK-RDC-U-0017",
+      "color": "#17becf"
+    }
+  ],
+  "road_topology": {
+    "ok": true,
+    "errors": [],
+    "component_count": 1,
+    "node_count": 4,
+    "edge_count": 3,
+    "junction_node_ids": [
+      "SK-RDN-0126"
+    ],
+    "endpoint_node_ids": [
+      "SK-RDN-0067",
+      "SK-RDN-0125",
+      "SK-RDN-0209"
+    ],
+    "endpoint_tolerance_px": 4.0,
+    "max_endpoint_offset_px": 3.605551275463989,
+    "edge_offsets": [
+      {
+        "edge_id": "SK-RDC-U-0008",
+        "start_node": "SK-RDN-0209",
+        "end_node": "SK-RDN-0126",
+        "start_offset_px": 3.605551275463989,
+        "end_offset_px": 1.0
+      },
+      {
+        "edge_id": "SK-RDC-U-0010",
+        "start_node": "SK-RDN-0126",
+        "end_node": "SK-RDN-0067",
+        "start_offset_px": 0.0,
+        "end_offset_px": 0.0
+      },
+      {
+        "edge_id": "SK-RDC-U-0017",
+        "start_node": "SK-RDN-0125",
+        "end_node": "SK-RDN-0126",
+        "start_offset_px": 2.23606797749979,
+        "end_offset_px": 1.0
+      }
+    ],
+    "degrees": {
+      "SK-RDN-0067": 1,
+      "SK-RDN-0125": 1,
+      "SK-RDN-0126": 3,
+      "SK-RDN-0209": 1
+    },
+    "corridors": {
+      "R-SK-MAIN-001": [
+        "SK-RDC-U-0008",
+        "SK-RDC-U-0010"
+      ],
+      "R-SK-BRANCH-001": [
+        "SK-RDC-U-0017"
+      ]
+    },
+    "expected": {
+      "expected_component_count": 1,
+      "expected_node_count": 4,
+      "expected_edge_count": 3,
+      "expected_junction_node_ids": [
+        "SK-RDN-0126"
+      ],
+      "expected_endpoint_node_ids": [
+        "SK-RDN-0067",
+        "SK-RDN-0125",
+        "SK-RDN-0209"
+      ],
+      "endpoint_tolerance_px": 4.0
+    }
+  },
+  "non_claims": [
+    "pilot subset only; not the full CASE-SKETCH-001 site",
+    "local metric frame is approximate and not survey-grade",
+    "the uniform-scale transform does not correct local sketch distortion",
+    "building height, base elevation, road hierarchy and cross-section remain unknown",
+    "a successful DXF readback is not a design-office compliance claim",
+    "this packet is a review request, not a confirmation",
+    "the uniform-scale transform does not correct local sketch distortion"
+  ]
+}
