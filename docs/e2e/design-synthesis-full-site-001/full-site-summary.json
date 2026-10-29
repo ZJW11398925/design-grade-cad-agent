@@ -30,18 +30,24 @@
     "road_groups_served": 0,
     "road_groups_total": 17,
     "road_access_relation_error_count": 17,
+    "dead_ends_unresolved": 17,
     "unbuilt_ratio": 0.6375220419595249,
     "candidate_open_space_ratio": 0.6191508737508923,
     "designed_green_ratio": 0.15931157257280934,
     "focus_group_id": "G-01",
     "focus_building_count": 7,
     "focus_unit_count": 16,
-    "full_site_green_parcel_count": 10,
-    "full_site_designed_green_area_m2": 124633.20046173329,
-    "full_site_designed_green_ratio": 0.6105795566533792,
+    "full_site_green_parcel_count": 59,
+    "full_site_designed_green_area_m2": 32519.12210944318,
+    "full_site_designed_green_ratio": 0.15931157257280934,
     "full_site_green_target_ratio": 0.3,
-    "full_site_green_gap_m2": 0.0,
+    "full_site_green_gap_m2": 28717.713829605378,
     "full_site_green_account_kind": "open_space_tiling_auxiliary_not_designed_green",
+    "full_site_open_space_account_area_m2": 124633.20046173329,
+    "full_site_open_space_account_ratio": 0.6105795566533792,
+    "full_site_open_space_account_target_ratio": 0.3,
+    "full_site_open_space_account_gap_m2": 0.0,
+    "full_site_open_space_account_parcel_count": 10,
     "road_clearance_required_m": 3.0,
     "min_road_clearance_m": 3.0163622902759215,
     "road_clearance_violation_count": 0,
@@ -66,12 +72,20 @@
     "violation_count": 0
   },
   "full_site_green": {
-    "parcel_count": 10,
-    "area_m2": 124633.20046173329,
-    "ratio": 0.6105795566533792,
+    "parcel_count": 59,
+    "area_m2": 32519.12210944318,
+    "ratio": 0.15931157257280934,
     "target_ratio": 0.3,
-    "gap_m2": 0.0,
-    "account_kind": "open_space_tiling_auxiliary_not_designed_green",
+    "gap_m2": 28717.713829605378,
+    "account_kind": "designed_green",
+    "open_space_account": {
+      "account_kind": "potential_open_space",
+      "area_m2": 124633.20046173329,
+      "ratio": 0.6105795566533792,
+      "target_ratio": 0.3,
+      "gap_m2": 0.0,
+      "parcel_count": 10
+    },
     "note": "this block is an open-space tiling account (parcels outside buildings/roads/sidewalks); it is NOT designed green and is not used to pass DESIGNED_GREEN_RATIO"
   },
   "non_claims": [
@@ -81,27 +95,27 @@
     "the full-site building placement is not a designer-confirmed layout",
     "road corridors are schematic offsets, not professional alignment or junction design",
     "the garage layout is not designed; only the entrance requirement is checked",
-    "the designed-green parcels are a schematic allocation of the open space left by buildings and roads, not a landscape design",
+    "the full-site potential-open-space account is an open-space allocation candidate outside buildings and roads, not designed green and not a landscape design; the designed-green ratio is reported separately and is below the declared target",
     "the declared group-access relations were generated for the focus layout; the full-site relocation invalidates them, so access coverage is reported as a known M4d gap, not designed"
   ],
   "scene_id": "scene-CASE-SKETCH-001-FULL-SITE-R1",
-  "scene_object_count": 487,
+  "scene_object_count": 493,
   "dxf": {
     "path": "full-site-proposal.dxf",
-    "sha256": "3167a73a82a5ece051bc1e1efda3f0246ef17bac9538cee5ae3f5fa2745ae554",
-    "entity_count": 547,
+    "sha256": "1bb65b46184ddaa109b1592caf506f88737ededa32a1dd17acfe0fa512dd7466",
+    "entity_count": 553,
     "audit_errors": 0,
     "audit_fixes": 0
   },
   "readback": {
     "verdict": "pass",
     "codes": [],
-    "entity_count": 547,
-    "expected_entity_count": 547,
+    "entity_count": 553,
+    "expected_entity_count": 553,
     "confirmation_scopes": [
       "design_draft"
     ],
-    "manifest_sha256": "05f8c508902e85979ab427be4765a845a0dfc518b6ec8e9efc6d09bdb6a2e21c"
+    "manifest_sha256": "14672d8860dbc088f52aa6ab6d7cfe2f2222da392f460aa178d5cb1ab5005c12"
   },
   "cad_ir_validation": {
     "verdict": "pass_with_scope_limits",

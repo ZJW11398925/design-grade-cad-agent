@@ -27,6 +27,25 @@ from .parking import ParkingLayout
 from .roads import RoadLayout
 from .scene import DesignElement
 
+try:  # M4d-1a renamed the full-site parcel classification
+    from .green import POTENTIAL_OPEN_SPACE_CLASSIFICATION
+except ImportError:  # pragma: no cover - compatibility with older green.py
+    POTENTIAL_OPEN_SPACE_CLASSIFICATION = "potential_open_space"
+
+#: Full-site open-space tiling parcels are NOT designed green.  The current
+#: classification is ``potential_open_space``; the older names are accepted so
+#: a drawing built against an older ``green.py`` still lands on the neutral
+#: layer instead of silently relabelling open space as designed green.
+POTENTIAL_OPEN_SPACE_CLASSIFICATIONS = frozenset(
+    {
+        POTENTIAL_OPEN_SPACE_CLASSIFICATION,
+        "potential_open_space",
+        "designed_green",
+        "landscape_allocation_candidate",
+        "open_space_allocation",
+    }
+)
+
 
 def _text(
     element_id: str,
@@ -172,6 +191,21 @@ def _sheet_geometry(geometry):
 
 def _frame_and_title_elements(
     title_lines: tuple[tuple[float, str, float], ...],
+    *,
+    title_block: tuple[float, float, float, float] = (
+        270.0,
+        300.0,
+        555.0,
+        400.0,
+    ),
+    title_block_lines: tuple[float, ...] = (
+        300.0,
+        310.0,
+        328.0,
+        346.0,
+        364.0,
+        382.0,
+    ),
 ) -> list[DesignElement]:
     elements = [
         _polyline(
@@ -182,12 +216,12 @@ def _frame_and_title_elements(
         ),
         _polyline(
             "TITLE-BLOCK",
-            box(270.0, 300.0, 555.0, 400.0).exterior,
+            box(*title_block).exterior,
             "A-TITLE",
             role="title_block",
         ),
     ]
-    for y in (300.0, 310.0, 328.0, 346.0, 364.0, 382.0):
+    for y in title_block_lines:
         elements.append(
             _polyline(
                 f"TITLE-LINE-{int(y)}",
@@ -322,24 +356,43 @@ def _key_plan_elements(
     return elements
 
 
-def _legend_elements() -> list[DesignElement]:
+_DEFAULT_LEGEND_ITEMS = (
+    ("A-BUILDING-OUTLINE", "BUILDING OUTLINE"),
+    ("A-UNIT-LINE", "UNIT LINE"),
+    ("C-ROAD-MAIN", "MAIN ROAD"),
+    ("C-ROAD-BRANCH", "BRANCH ROAD"),
+    ("C-ROAD-ACCESS", "ACCESS ROAD"),
+    ("C-SIDEWALK", "SIDEWALK"),
+    ("L-GREEN", "GREEN SPACE"),
+    ("A-ENTRANCE", "GARAGE ENTRANCE"),
+    ("A-DIM", "DIMENSION"),
+)
+
+#: Full-site legend: the open-space tiling is potential open space, not a
+#: landscape design; designed green keeps its own layer.
+FULL_SITE_LEGEND_ITEMS = (
+    ("A-BUILDING-OUTLINE", "BUILDING OUTLINE"),
+    ("A-UNIT-LINE", "UNIT LINE"),
+    ("C-ROAD-MAIN", "MAIN ROAD"),
+    ("C-ROAD-BRANCH", "BRANCH ROAD"),
+    ("C-ROAD-ACCESS", "ACCESS ROAD"),
+    ("C-SIDEWALK", "SIDEWALK"),
+    ("L-OPEN-SPACE", "POTENTIAL OPEN SPACE (NOT LANDSCAPE DESIGN)"),
+    ("L-GREEN", "DESIGNED GREEN"),
+    ("A-ENTRANCE", "GARAGE ENTRANCE"),
+    ("A-DIM", "DIMENSION"),
+)
+
+
+def _legend_elements(
+    legend_items: tuple[tuple[str, str], ...] = _DEFAULT_LEGEND_ITEMS,
+) -> list[DesignElement]:
     elements = [
         _text(
             "LEGEND-TITLE", 420.0, 648.0, "LEGEND", 2.5, "A-LEGEND",
             role="legend_title",
         )
     ]
-    legend_items = (
-        ("A-BUILDING-OUTLINE", "BUILDING OUTLINE"),
-        ("A-UNIT-LINE", "UNIT LINE"),
-        ("C-ROAD-MAIN", "MAIN ROAD"),
-        ("C-ROAD-BRANCH", "BRANCH ROAD"),
-        ("C-ROAD-ACCESS", "ACCESS ROAD"),
-        ("C-SIDEWALK", "SIDEWALK"),
-        ("L-GREEN", "GREEN SPACE"),
-        ("A-ENTRANCE", "GARAGE ENTRANCE"),
-        ("A-DIM", "DIMENSION"),
-    )
     for index, (layer, label) in enumerate(legend_items):
         y = 628.0 - index * 16.0
         elements.append(
@@ -786,6 +839,56 @@ def build_drawing_elements(
     return tuple(elements)
 
 
+def _potential_open_space_ratio(metrics: dict[str, Any]) -> float | None:
+    """The full-site open-space tiling ratio (auxiliary, not designed green)."""
+    for key in (
+        "full_site_potential_open_space_ratio",
+        "full_site_open_space_account_ratio",
+        "full_site_open_space_ratio",
+        "potential_open_space_ratio",
+        "full_site_designed_green_ratio",
+    ):
+        value = metrics.get(key)
+        if isinstance(value, (int, float)):
+            return float(value)
+    return None
+
+
+def _dead_ends_unresolved(
+    metrics: dict[str, Any],
+    building_layout: BuildingLayout,
+    road_layout: RoadLayout,
+    intent: DesignIntent,
+    parking_layout: ParkingLayout,
+    basis: DesignBasis,
+    design_input: DesignInput,
+) -> int | None:
+    """Unresolved dead ends for the incomplete declaration.
+
+    Prefers the metric published by the pipeline; falls back to measuring the
+    same quantity from the layouts (same public access model the consistency
+    checks use) so the number is never hard-coded.
+    """
+    for key in ("dead_ends_unresolved", "dead_end_unresolved_count"):
+        value = metrics.get(key)
+        if isinstance(value, int):
+            return value
+    try:
+        from .access import build_road_access  # noqa: PLC0415
+
+        access = build_road_access(
+            building_layout,
+            road_layout,
+            intent,
+            parking_layout,
+            basis,
+            site_boundary=design_input.site_boundary,
+        )
+        return int(access.dead_ends_unresolved)
+    except Exception:  # noqa: BLE001 - declaration must not crash the sheet
+        return None
+
+
 def build_full_site_drawing_elements(
     design_input: DesignInput,
     intent: DesignIntent,
@@ -955,13 +1058,23 @@ def build_full_site_drawing_elements(
                 )
             )
 
+    # The full-site open-space tiling is potential open space, NOT designed
+    # green: it is drawn on the neutral L-OPEN-SPACE layer and labelled as
+    # such.  Designed green (focus cluster/strip/supplementary) keeps L-GREEN
+    # on the focus sheet; it is never re-drawn as potential open space.
     full_site_green = getattr(green_layout, "full_site_green", None)
-    green_items = (
-        full_site_green.parcels
-        if full_site_green is not None
-        else green_layout.greens
-    )
-    for green in green_items:
+    if full_site_green is not None:
+        open_space_items = tuple(
+            getattr(full_site_green, "parcels", ()) or ()
+        )
+    else:
+        open_space_items = ()
+    for green in open_space_items:
+        classification = str(getattr(green, "classification", ""))
+        is_potential = classification in POTENTIAL_OPEN_SPACE_CLASSIFICATIONS
+        layer = "L-OPEN-SPACE" if is_potential else "L-GREEN"
+        role = "potential_open_space" if is_potential else classification
+        prefix = "OPS" if is_potential else "GRN"
         clipped = green.geometry.intersection(site_box)
         if clipped.is_empty:
             continue
@@ -970,37 +1083,84 @@ def build_full_site_drawing_elements(
         ):
             elements.append(
                 _polygon(
-                    f"GRN-{green.green_id}-{index}",
+                    f"{prefix}-{green.green_id}-{index}",
                     polygon,
                     "green_space",
-                    "L-GREEN",
-                    source_trace_ref=(
-                        green.green_id
-                        if green.classification == "cluster_green"
-                        else None
-                    ),
-                    role=green.classification,
+                    layer,
+                    source_trace_ref=None,
+                    role=role,
                 )
             )
-        if (
-            green.area_m2 >= 500.0
-            or green.classification in {"cluster_green", "green_strip"}
-        ):
+        if green.area_m2 >= 500.0 or is_potential:
             label_x, label_y = _sheet_point(*green.label_anchor)
+            if is_potential:
+                label_text = (
+                    f"POTENTIAL OPEN SPACE {green.area_m2:.0f}m2"
+                )
+                label_layer = "L-OPEN-SPACE"
+                label_role = "potential_open_space_label"
+            else:
+                label_text = (
+                    f"{classification.replace('_', ' ').upper()} "
+                    f"{green.area_m2:.0f}m2"
+                )
+                label_layer = "L-GREEN-LABEL"
+                label_role = "green_label"
             elements.append(
                 _text(
                     f"LBL-{green.green_id}",
                     label_x,
                     label_y,
-                    (
-                        f"{green.classification.replace('_', ' ').upper()} "
-                        f"{green.area_m2:.0f}m2"
-                    ),
+                    label_text,
                     1.2,
-                    "L-GREEN-LABEL",
-                    role="green_label",
+                    label_layer,
+                    role=label_role,
                 )
             )
+    if full_site_green is None:
+        # Compatibility path: older green layouts have no full-site account, so
+        # the source greens are drawn on L-GREEN as before.
+        for green in green_layout.greens:
+            clipped = green.geometry.intersection(site_box)
+            if clipped.is_empty:
+                continue
+            for index, polygon in enumerate(
+                _polygon_elements(_sheet_geometry(clipped)), start=1
+            ):
+                elements.append(
+                    _polygon(
+                        f"GRN-{green.green_id}-{index}",
+                        polygon,
+                        "green_space",
+                        "L-GREEN",
+                        source_trace_ref=(
+                            green.green_id
+                            if green.classification == "cluster_green"
+                            else None
+                        ),
+                        role=green.classification,
+                    )
+                )
+            if (
+                green.area_m2 >= 500.0
+                or green.classification
+                in {"cluster_green", "green_strip"}
+            ):
+                label_x, label_y = _sheet_point(*green.label_anchor)
+                elements.append(
+                    _text(
+                        f"LBL-{green.green_id}",
+                        label_x,
+                        label_y,
+                        (
+                            f"{green.classification.replace('_', ' ').upper()} "
+                            f"{green.area_m2:.0f}m2"
+                        ),
+                        1.2,
+                        "L-GREEN-LABEL",
+                        role="green_label",
+                    )
+                )
 
     for entrance in parking_layout.entrances:
         if not site_box.contains(entrance.point):
@@ -1131,9 +1291,42 @@ def build_full_site_drawing_elements(
         )
     )
 
-    green_ratio = metrics.get("full_site_designed_green_ratio")
-    if green_ratio is None:
-        green_ratio = metrics["designed_green_ratio"]
+    # Designed green is the legacy cluster+strip account (never the open-space
+    # tiling); the potential open space is a separate auxiliary account.
+    designed_green_ratio = metrics["designed_green_ratio"]
+    potential_open_space_ratio = _potential_open_space_ratio(metrics)
+    green_target = metrics.get("full_site_green_target_ratio")
+    if not isinstance(green_target, (int, float)):
+        green_target = metrics.get(
+            "full_site_open_space_account_target_ratio"
+        )
+    if not isinstance(green_target, (int, float)):
+        green_target = metrics.get("target_ratio", basis.green_ratio_min)
+    served = int(metrics.get("road_groups_served", 0))
+    groups_total = int(metrics.get("road_groups_total", 0))
+    dead_ends_unresolved = _dead_ends_unresolved(
+        metrics,
+        building_layout,
+        road_layout,
+        intent,
+        parking_layout,
+        basis,
+        design_input,
+    )
+    dead_ends_text = (
+        str(dead_ends_unresolved)
+        if dead_ends_unresolved is not None
+        else "n/a"
+    )
+    incomplete_parts = [
+        f"ROAD ACCESS {served}/{groups_total}",
+        f"DEAD ENDS {dead_ends_text} UNRESOLVED",
+    ]
+    if designed_green_ratio < float(green_target) - 1e-12:
+        incomplete_parts.append(
+            f"DESIGNED GREEN < {float(green_target) * 100:.0f}%"
+        )
+    incomplete_line = "INCOMPLETE: " + " - ".join(incomplete_parts)
     min_clearance = metrics.get("min_road_clearance_m")
     clearance_text = (
         f"{min_clearance:.2f}"
@@ -1148,56 +1341,76 @@ def build_full_site_drawing_elements(
     )
     min_ns = metrics.get("min_ns_spacing_m")
     ns_text = f"{min_ns:.1f}" if isinstance(min_ns, (int, float)) else "n/a"
+    potential_text = (
+        f"{potential_open_space_ratio * 100:.2f}%"
+        if potential_open_space_ratio is not None
+        else "n/a"
+    )
     title_lines = (
-        (390.0, "CASE-SKETCH-001 / AUTONOMOUS DESIGN DRAFT", 2.8),
-        (372.0, "SITE PLAN - FULL SITE", 3.2),
+        (396.0, "CASE-SKETCH-001 / AUTONOMOUS DESIGN DRAFT", 2.4),
+        (385.0, "SITE PLAN - FULL SITE", 2.8),
         (
-            354.0,
+            371.0,
             "SCALE 1:2000 (A2) | UNITS: m | SHEET A-102 | "
-            f"STANDARD: {basis.drawing_standard}",
+            f"STANDARD: {basis.drawing_standard} | BASIS: {basis.basis_id}",
             1.9,
         ),
         (
-            336.0,
+            357.0,
             (
                 f"FULL SITE {metrics['building_count']}B / "
                 f"{metrics['unit_count']}U | "
                 f"FOCUS {metrics['focus_group_id']}: "
                 f"{metrics['focus_building_count']}B / "
                 f"{metrics['focus_unit_count']}U | "
-                f"BASIS: {basis.basis_id}"
-            ),
-            1.9,
-        ),
-        (
-            318.0,
-            (
-                f"FAR {metrics['far']:.3f} | {metrics['households']} HH | "
+                f"FAR {metrics['far']:.3f} | "
+                f"{metrics['households']} HH | "
                 f"{metrics['parking_spaces']} PARKING | "
                 f"{metrics['parking_entrances']} ENT | "
                 f"ROAD CLEAR {clearance_text}m "
-                f"({clearance_violation_text} VIOL) | NS {ns_text}m | "
-                f"ACCESS {metrics['road_access_coverage'] * 100:.0f}% "
-                f"({metrics['road_groups_served']}/"
-                f"{metrics['road_groups_total']}) | "
-                f"UNBUILT {metrics['unbuilt_ratio'] * 100:.1f}% | "
-                f"GREEN {green_ratio * 100:.1f}%"
+                f"({clearance_violation_text} VIOL) | NS {ns_text}m"
             ),
             1.9,
         ),
         (
-            305.0,
+            343.0,
+            f"DESIGNED GREEN {designed_green_ratio * 100:.2f}% - INCOMPLETE",
+            1.9,
+        ),
+        (
+            329.0,
+            f"POTENTIAL OPEN SPACE {potential_text} - NOT LANDSCAPE DESIGN",
+            1.9,
+        ),
+        (315.0, incomplete_line, 1.9),
+        (
+            301.0,
             "AGENT-GENERATED PROPOSAL - NOT HUMAN-CONFIRMED - NOT CODE-COMPLIANCE",
             1.8,
         ),
     )
-    elements.extend(_frame_and_title_elements(title_lines))
+    elements.extend(
+        _frame_and_title_elements(
+            title_lines,
+            title_block=(270.0, 290.0, 555.0, 400.0),
+            title_block_lines=(
+                290.0,
+                304.0,
+                318.0,
+                332.0,
+                346.0,
+                360.0,
+                374.0,
+                388.0,
+            ),
+        )
+    )
     elements.extend(
         _key_plan_elements(
             design_input, intent, road_layout, focus_rect, metrics
         )
     )
-    elements.extend(_legend_elements())
+    elements.extend(_legend_elements(FULL_SITE_LEGEND_ITEMS))
     elements.extend(_north_elements())
     elements.extend(_scale_bar_elements())
     return tuple(elements)

@@ -2,6 +2,50 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.24.1 — 2026-10-29
+
+### Fixed
+
+- **M4d-1a — delivery semantics and full-site completeness (review fixes).**
+  - Full-site CAD no longer labels the 61.06 % open-space tiling as designed
+    green: potential-open-space parcels are drawn on the neutral
+    `L-OPEN-SPACE` layer (labels `POTENTIAL OPEN SPACE ...`), while `L-GREEN`
+    is reserved for designed green. The title block now states
+    `DESIGNED GREEN 15.93% - INCOMPLETE`,
+    `POTENTIAL OPEN SPACE 61.06% - NOT LANDSCAPE DESIGN` and
+    `INCOMPLETE: ROAD ACCESS 0/17 - DEAD ENDS 17 UNRESOLVED - DESIGNED GREEN < 30%`.
+    Full-site DXF: **553 entities**, readback **553/553**, XDATA 11, privacy
+    pass; the focus A-101 sheet is unchanged (211 entities).
+  - `full_site_green` parcels are classified **`potential_open_space`**
+    (not `designed_green`); `DESIGNED_GREEN_RATIO` stays **deferred** and
+    reports the legacy cluster/strip designed-green ratio (0.0654 focus /
+    0.1593 full-site) separately from the open-space account (61.06 %/61.46 %,
+    auxiliary only).
+  - Full-site completeness is now a precondition: `full_site_layout_state`
+    requires the layout building-id set to equal the expected input set (no
+    missing, unexpected or duplicate ids) before the four full-site geometry
+    checks can pass or fail; an incomplete layout leaves them deferred.
+    Negative tests cover missing, extra, duplicate and empty layouts.
+  - The 20.0 m row pitch is documented as the **row-rhythm rule of this
+    candidate row-layout strategy plus a design-basis assumption**, not a
+    regulatory or professional-standard requirement; over-spacing is a
+    row-rhythm violation, not a compliance conclusion.
+  - The 147.25 m displacement is reworded as a **search result**: under the
+    current fixed-road/uniform-grid search family, caps 25–130 m found no
+    complete layout and the unbounded search produced a 147.25 m maximum
+    candidate; a global minimum is **not proven**.
+  - Evidence tiers are stated explicitly: the pass values (e.g. 3.016362 m
+    road clearance, 19.999999999999943 m row spacing) are **model-coordinate
+    internal-consistency checks under the approximate sketch registration**;
+    confirming real-world engineering clearance needs authoritative boundary,
+    scale and design conditions. The full-site sheet is a research draft and
+    keeps the two access failures visible.
+
+### Verified
+
+- Full test suite: **472 passed** (467 → 472: 13 full-site evidence tests and the new completeness/negative delivery-semantics tests; no test removed).
+- CI 4/4.
+
 ## 0.24.0 — 2026-10-29
 
 ### Added

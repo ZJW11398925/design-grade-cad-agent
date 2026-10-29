@@ -72,7 +72,7 @@
     "issues": [],
     "manifest": {
       "file": "design-proposal.dxf",
-      "dxf_sha256": "6f3af4596faf315a5732e13b06f387f0a3a5ee5adfbd2c6bdd4c8f5d6b8c9b72",
+      "dxf_sha256": "cecb8da06b4379205b3a3aa15de156ab12bf151914dee28c52c753a0938d3a22",
       "dxf_version": "AC1024",
       "insunits": 6,
       "layer_names": [
@@ -100,7 +100,8 @@
         "C-SIDEWALK",
         "Defpoints",
         "L-GREEN",
-        "L-GREEN-LABEL"
+        "L-GREEN-LABEL",
+        "L-OPEN-SPACE"
       ],
       "entity_count": 211,
       "expected_entity_count": 211,
