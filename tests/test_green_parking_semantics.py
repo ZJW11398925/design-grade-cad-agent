@@ -229,6 +229,7 @@ def test_old_green_names_are_gone():
         "designed_green_ratio",
         "target_ratio",
         "dropped_cluster_ids",
+        "full_site_green",
     }
 
 

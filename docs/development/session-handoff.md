@@ -17,12 +17,15 @@ Repository: `D:\agent-cad`
 > 先读 `D:\agent-cad\docs\development\session-handoff.md`（§1 是唯一当前状态），再读
 > `docs/status.md` §2/§16–18、`docs/roadmap.md` 的 M4c-2/4c-3 与 Next 块、以及
 > `docs/e2e/design-synthesis-001/README.md` / `docs/e2e/design-candidates-001/README.md`。
-> 当前版本 0.23.0（M4c-3a 评价完整性 + Phase 0 + 首次多候选实验 A/B1/B2/C：默认推荐 B1、
-> road-first 推荐 A、Pareto [B1,B2,C,A]；候选证据比较全部 44 路的 main/branch/access 分类与
-> group terminal；11 个单目标、auxiliary 不进 Pareto；B1 当前候选边界合规 0.6735，pre-repair
-> 仅历史归档；27 项检查 = 9 pass + 11 info + 7 deferred（+3 DXF = 30），测试 414，DXF 211
-> 实体）。下一步顺序：M4d 全场地扩展（道路退距/20 m 间距）+ 真实 CAD 宿主往返/R1 并行。
-> 不要新增核心依赖，不要声称 human_confirmed / 合规 / 已采纳，不要重写 Foundation/Runtime/CAD-IR。
+> 当前版本 0.24.0（M4d 全场地扩展：55 栋 / 109 units / 2,398 households，18 rows / 36
+> row records / 8 superblocks，focus G-01 保留；位移 sum 2,328.95 m / max 147.25 m / mean
+> 42.34 m；全场地实验 29 检查 = 11 pass + 11 info + 5 deferred + 2 fail（access 0.0 /
+> 17 relation errors；dead-end 17 unresolved；DESIGNED_GREEN_RATIO deferred，designed
+> green 15.93%；open-space tiling 61.06% 仅 auxiliary），focus 证据 29 = 9 pass + 11 info
+> + 9 deferred（designed green 6.54%，tiling 61.46% 仅 auxiliary），四个 FULL_SITE_* 在
+> focus sheet 仍 deferred；全场地 DXF 547/547/XDATA 11/privacy；测试 467）。下一步
+> M4d-2 access/road co-design + 真实 CAD 宿主往返/R1 并行。不要新增核心依赖，不要声称 human_confirmed /
+> 合规 / 已采纳，不要重写 Foundation/Runtime/CAD-IR。
 
 ## 1. Repo state (verified 2026-10-28)
 
@@ -48,13 +51,13 @@ Repository: `D:\agent-cad`
   `feat/m4c-3-multi-candidate` and `feat/m4c-3a-evaluation-completeness`
   contain the same history (M4c-1a `9d4ae56` + `1209955`, M4c-1c `e02337b`,
   M4c-1d `2f396b2`, M4c-1b `2750bc5`). **Start new work from `main`** — e.g.
-  `feat/m4d-full-site-expansion` or `feat/real-cad-host-evidence`.
-- Version: `0.23.0` (`pyproject.toml`).
-- Contract: `design-synthesis-v0.8.yaml` (v0.7/v0.6/v0.5/v0.4/v0.3/v0.2/v0.1
-  superseded; gate-register pointer → v0.8) and
+  `feat/m4d-full-site` or `feat/real-cad-host-evidence`.
+- Version: `0.24.0` (`pyproject.toml`).
+- Contract: `design-synthesis-v0.9.yaml` (v0.8/v0.7/v0.6/v0.5/v0.4/v0.3/v0.2/v0.1
+  superseded; gate-register pointer → v0.9) and
   `design-candidates-v0.2.yaml` (v0.1 superseded; multi-candidate
   evaluation/comparison with basis binding and 11 single-unit objectives).
-- Test baseline: **414 passed** (`python -m pytest -q`).
+- Test baseline: **467 passed** (`python -m pytest -q`).
 - Milestone order: M4c-1d honest-semantics residuals (**complete**) →
   M4c-1b road service coverage (**complete** — first design-geometry change:
   44 roads, coverage 1.0, DXF 206 entities) → M4c-1e evidence binding
@@ -68,9 +71,16 @@ Repository: `D:\agent-cad`
   (**complete in 0.23.0** — candidate evidence compares all 44 roads by
   class/terminal, basis fingerprint binding, `HISTORICAL_BOUNDARY_ARCHIVE`,
   11 single-unit objectives with auxiliary excluded, contract v0.2, 414 tests)
-  → **next: M4d full-site expansion (full-site road clearance, 20 m spacing),
-  in parallel with real CAD host round-trip (LibreCAD/FreeCAD/AutoCAD GUI) and
-  R1 evidence closure**.
+  → M4d full-site expansion (**complete research draft in 0.24.0** — 55
+  buildings / 109 units / 2,398 households, 18 rows / 36 row records / 8
+  superblocks, focus preserved; full-site 29 checks = 11 pass + 11 info +
+  5 deferred + 2 fail (access 0.0, dead-end 17 unresolved; designed green
+  15.93% deferred, open-space tiling auxiliary); focus sheet 29 = 9 pass +
+  11 info + 9 deferred (designed green 6.54% deferred; tiling 61.46%
+  auxiliary); full-site DXF 547/547; contract v0.9; 467 tests) → **next: M4d-2
+  access/road co-design (recompute access terminals or clearance-preserving
+  road geometry), in parallel with real CAD host round-trip
+  (LibreCAD/FreeCAD/AutoCAD GUI) and R1 evidence closure**.
 - Local environment: Windows, Python 3.13. Core dependencies remain only
   **PyYAML 6.0.3 / Shapely 2.1.2 / ezdxf 1.4.5**.
 - Optional research-only installs (NOT in `pyproject.toml`): osmnx 2.1.1,
@@ -116,18 +126,20 @@ Evidence: `docs/e2e/sketch-handoff-a/` (status `blocked`, correct).
   CODE-COMPLIANCE" (ASCII hyphens, as in the DXF).
 - All design objects `rule_derived`, world `proposal_preview`,
   `confirmation_scope: design_draft`, `human_confirmed: false`.
-- Consistency: **27 declared checks** (M4c-3) — **9 pass** (FOCUS_NS_SPACING,
-  FOCUS_BOUNDARY_SETBACK, FOCUS_BUILDING_OVERLAP, FOCUS_ROAD_CLEARANCE,
-  ROAD_CONNECTIVITY, ROAD_ACCESS_COVERAGE, ROAD_BOUNDARY_CONTAINMENT,
-  MAIN_ROAD_BUILDING_OVERLAP, DEAD_END_RESOLUTION); **11 info**
-  (FAR_ARITHMETIC_SCENARIO, PARKING_REQUIREMENT_ARITHMETIC,
-  PARKING_ENTRANCE_COUNT, PARKING_ENTRANCE_PROXIMITY,
-  UNIT_COUNT_BASIS_INVARIANT, ROAD_CORRIDOR_COVERAGE, ROAD_ALIGNMENT_EVIDENCE,
-  DEAD_END_JUSTIFICATION, ROAD_WIDTH_ASSIGNMENT, CANDIDATE_OPEN_SPACE_RATIO,
-  UNBUILT_RATIO); **7 deferred** (PARKING_CAPACITY,
-  PARKING_DRIVEWAY_CONNECTION, PARKING_LAYOUT, FULL_SITE_ROAD_CLEARANCE,
-  DESIGNED_GREEN_RATIO, FULL_SITE_NS_SPACING, FAR_FINAL_VERIFICATION — value
-  None). `info`/`deferred` are not `pass`; plus 3 DXF checks = 30 items.
+- Consistency: **29 declared checks** under `design-synthesis-v0.9` — **9 pass**
+  (FOCUS_NS_SPACING, FOCUS_BOUNDARY_SETBACK, FOCUS_BUILDING_OVERLAP,
+  FOCUS_ROAD_CLEARANCE, ROAD_CONNECTIVITY, ROAD_ACCESS_COVERAGE,
+  ROAD_BOUNDARY_CONTAINMENT, MAIN_ROAD_BUILDING_OVERLAP, DEAD_END_RESOLUTION);
+  **11 info** (FAR_ARITHMETIC_SCENARIO,
+  PARKING_REQUIREMENT_ARITHMETIC, PARKING_ENTRANCE_COUNT,
+  PARKING_ENTRANCE_PROXIMITY, UNIT_COUNT_BASIS_INVARIANT, ROAD_CORRIDOR_COVERAGE,
+  ROAD_ALIGNMENT_EVIDENCE, DEAD_END_JUSTIFICATION, ROAD_WIDTH_ASSIGNMENT,
+  CANDIDATE_OPEN_SPACE_RATIO, UNBUILT_RATIO); **9 deferred** (PARKING_CAPACITY,
+  PARKING_DRIVEWAY_CONNECTION, PARKING_LAYOUT, FULL_SITE_BOUNDARY_SETBACK,
+  FULL_SITE_BUILDING_OVERLAP, FULL_SITE_ROAD_CLEARANCE, FULL_SITE_NS_SPACING,
+  DESIGNED_GREEN_RATIO, FAR_FINAL_VERIFICATION). `info`/`deferred` are not
+  `pass`; designed green is 6.54% (<30%, deferred), and the 61.46% open-space
+  tiling is auxiliary only, not designed green. Plus 3 DXF checks = 32 items.
 - M4c-1c (0.17.0) honest semantics: open space is not designed green
   (`designed_green_ratio` 6.6% at 0.17.0; now 6.54%, deferred); parking capacity recorded 1,000 vs
   2,398 required; basis provenance published (21 parameters,
@@ -253,6 +265,25 @@ Evidence: `docs/e2e/sketch-handoff-a/` (status `blocked`, correct).
   `design-candidates-v0.2.yaml` (v0.1 superseded); tests **414**; evidence
   schema v0.2 (candidates.json with basis/geometry_change, evaluation.json with
   11 objectives/auxiliary/two decisions, per-candidate 6 files).
+- M4d (0.24.0) full-site expansion — a **research draft**, not the canonical
+  design: all 55 buildings / 109 units / 2,398 households in **18 rows / 36
+  segments / 8 superblocks** against the frozen 44-road network, focus G-01
+  preserved; source→design displacement sum **2,328.95 m** (max **147.25 m**,
+  mean **42.34 m**). Full-site checks **29 = 11 pass + 11 info + 5 deferred +
+  2 fail**: `FULL_SITE_BOUNDARY_SETBACK`, `FULL_SITE_BUILDING_OVERLAP`,
+  `FULL_SITE_NS_SPACING` (min 19.999999999999943 m) and
+  `FULL_SITE_ROAD_CLEARANCE` (min 3.0163622902759215 m) pass;
+  `DESIGNED_GREEN_RATIO` is **deferred** (designed green 15.93% <30%; the
+  0.6105795566533792 / 124,633.20046173329 m² / 10 parcels open-space tiling is
+  auxiliary only); **`ROAD_ACCESS_COVERAGE`
+  fail 0.0** (17 relation errors) and **`DEAD_END_RESOLUTION` fail 17
+  unresolved**. The frozen network + old access declarations make clearance and
+  access coverage **mutually incompatible**; regenerating roads fails clearance
+  (min 0 m, 17 buildings below 3 m). Contract `design-synthesis-v0.9.yaml` (v0.8
+  superseded; 29 design + 3 DXF = 32 items). Focus evidence 29 = 9 pass + 11
+  info + 9 deferred (designed green 6.54% <30%, deferred; the 61.46% open-space
+  tiling is auxiliary only; four `FULL_SITE_*` deferred). Full-site DXF **547
+  entities**, readback 547/547, XDATA 11, privacy pass; tests **467**.
 - M4c-1a (0.16.0) corrected the road-topology defect: explicit shared-coordinate
   junctions, noded graph 1 component (51 nodes / 55 segments, cyclomatic 5,
   dead ends 21, junctions 27, `max_endpoint_gap_m` 0.0); `design-roads.geojson`
@@ -296,17 +327,18 @@ M4c-1a time point; the current file is 44 centerlines + 21 junction records
 after M4c-1b/M4c-1e) and the regenerated
 `docs/e2e/design-synthesis-001/` package.
 
-The 4c candidate is still **partial** (full-site north-south spacing
-deferred). Do not present it as a finished road design.
+The 4c candidate is still **partial**; the M4d full-site sheet checks N-S spacing
+but fails access coverage and dead-end resolution, so it is a research draft.
+Do not present either as a finished road design.
 
-## 4. Next work order (status after M4c-3a; order: M4d full-site expansion + real CAD host/R1 in parallel)
+## 4. Next work order (status after M4d; order: M4d-2 access/road co-design + real CAD host/R1 in parallel)
 
 1. ~~Add an optional OSMnx adapter~~ — **superseded**: the fix is
    dependency-free (explicit shared-coordinate junctions); OSMnx remains an
    optional source-skeleton preprocessor, never the design base.
 2. ~~Replace the corridor-only connectivity check~~ — **done** (noded check,
    fail-closed within a 1e-9 m endpoint tolerance; `ROAD_CORRIDOR_COVERAGE`
-   informational; contract `design-synthesis-v0.8.yaml`).
+   informational; contract `design-synthesis-v0.9.yaml`).
 3. ~~Regenerate the 4c candidate~~ — **done** (M4c-1b/1e/2 and Phase 0 in
    0.22.0; 44 roads, coverage 1.0, declared `serves_group_ids` evidence,
    boundary-containment hard check, 211-entity DXF with audit 0/0 and full
@@ -326,10 +358,16 @@ deferred). Do not present it as a finished road design.
    B1, road-first recommends A; Pareto [B1,B2,C,A]; reasons for every candidate,
    no single score. The current B1 is the boundary-repaired candidate
    (margin 0.6735); its pre-repair form is archival only.
-6. **M4d — expand from focus G-01 to all groups** and enforce 20 m north-south
-   spacing site-wide (`FULL_SITE_NS_SPACING`), plus full-site road clearance
-   (`FULL_SITE_ROAD_CLEARANCE`, still deferred) — open; the spacing policy needs
-   agreement.
+6. ~~M4d — full-site layout~~ — **full-site research draft in 0.24.0**: 55
+   buildings / 109 units / 2,398 households, 18 rows / 36 row records / 8
+   superblocks against the frozen 44-road network; boundary/overlap/NS
+   spacing/road clearance pass, but `DESIGNED_GREEN_RATIO` is **deferred**
+   (designed green 15.93% <30%; open-space tiling auxiliary), and
+   **`ROAD_ACCESS_COVERAGE` fail 0.0 (17 relation errors)** and
+   **`DEAD_END_RESOLUTION` fail 17 unresolved**. The frozen network plus old
+   access declarations make clearance and access coverage mutually
+   incompatible. **M4d-2 open:** recompute access declarations/terminals or
+   generate clearance-preserving road geometry (and then re-check dead ends).
 7. **Real CAD host/external evidence** — LibreCAD/FreeCAD/AutoCAD GUI, a real
    design-office profile and IFC remain open; the committed DXF evidence is
    same-library ezdxf readback only.
@@ -365,7 +403,14 @@ G-08 terminal 75.315), `HISTORICAL_BOUNDARY_ARCHIVE` is separate from current
 candidate verdicts (current B1 boundary-compliant 0.6735; pre-repair archival),
 11 single-unit objectives exclude auxiliary metrics from Pareto/preferences,
 contract `design-candidates-v0.2` is live (v0.1 superseded), and tests are
-**414 passed**.
+**414 passed at M4c-3a**. M4d acceptance (research draft): all 55 buildings / 109 units /
+2,398 households conserved and focus G-01 preserved; 18 rows / 36 row records / 8
+superblocks; boundary setback, building overlap, NS spacing 19.999999999999943 m
+and road clearance 3.0163622902759215 m pass; designed green is **15.93% (<30%,
+deferred; the 61.06% open-space tiling is auxiliary only)**; the two honest fails
+are `ROAD_ACCESS_COVERAGE` 0.0 (17 relation errors) and `DEAD_END_RESOLUTION` 17
+unresolved; full-site DXF 547/547, XDATA 11, privacy pass; contract v0.9 and
+**467 tests**.
 
 ## 5. Non-negotiable constraints
 
@@ -400,7 +445,7 @@ Design synthesis:
 - `src/dgcad_design/scene.py`, `drawing.py`, `project.py`.
 - `scripts/design/run_design_synthesis_001.py`.
 - `fixtures/design/design-basis-001.yaml`, `design-profile-001.yaml`.
-- `contracts/design-synthesis-v0.8.yaml` (v0.7/v0.6/v0.5/v0.4/v0.3/v0.2/v0.1
+- `contracts/design-synthesis-v0.9.yaml` (v0.8/v0.7/v0.6/v0.5/v0.4/v0.3/v0.2/v0.1
   superseded) and `contracts/design-candidates-v0.2.yaml` (v0.1 superseded).
 - `src/dgcad_design/candidates.py`, `evaluation.py`, `visuals.py`.
 - `scripts/design/build_candidate_experiment.py`,
@@ -435,6 +480,8 @@ Tests:
   `tests/test_parking_geometry.py` (6).
 - `tests/test_main_alignment.py` (11), `tests/test_candidates.py` (17),
   `tests/test_evaluation.py` (27), `tests/test_visuals.py` (13).
+- `tests/test_full_site_layout.py` (15), `tests/test_full_site_constraints.py`
+  (25), `tests/test_full_site_evidence.py` (12).
 - `tests/test_open_source_reuse.py` (3).
 - `tests/test_sketch_handoff.py` (32), `tests/e2e/test_sketch_handoff_a.py` (6).
 
@@ -504,17 +551,17 @@ hash (see pitfalls).
 - **XDATA arity**: 11 fields now (11th = `confirmation_scope`); changing it
   requires updating validator, contract and tests together.
 - **Test doubles**: never published; only allowed in explicit test runs.
-- **DXF content vs bytes (M4c-1e/2/3/3a)**: design geometry was unchanged in 0.20.0,
+- **DXF content vs bytes (M4c-1e/2/3/3a/M4d)**: design geometry was unchanged in 0.20.0,
   changed in 0.21.0 (206 → **211 entities**) and changed again in Phase 0/0.22.0
   (boundary repairs/alignment; still 211). The committed DXF byte SHA changed
   in each release (0.19.0 `34a65926…`, 0.20.0 `fcc42d32…`, 0.21.0 `0f76c006…`,
-  0.22.0 `65fde1ca…`, current 0.23.0 `f88c29e1…`) because ezdxf regenerates
-  `$TDUPDATE`/GUIDs on save — documentation must say "content changed/unchanged"
-  as appropriate and never infer content change from SHA alone. Base evidence
-  content is unchanged in M4c-3a; its files were regenerated, so only the byte
-  SHA moved. `design-roads.geojson` SHA is now `c5fc7262…` (publishes split
-  overlap fields, `main_boundary_repairs`, `source_segment_map`,
-  main-alignment and dead-end-resolution records).
+  0.22.0 `65fde1ca…`, 0.23.0 `f88c29e1…`, current 0.24.0 `1cb17865…`) because
+  ezdxf regenerates `$TDUPDATE`/GUIDs on save — documentation must say "content
+  changed/unchanged" as appropriate and never infer content change from SHA
+  alone. Base focus evidence content is unchanged in M4c-3a/M4d; its files were
+  regenerated, so only the byte SHA moved. `design-roads.geojson` SHA is
+  `c5fc7262…`. The full-site DXF is separate: **547 entities**, SHA-256
+  `4041be6f…`, readback 547/547.
 - **Visuals are generated, not hand-made**: `scripts/design/render_visuals.py`
   regenerates `design-preview.svg`/`.png` and `design-overlay.svg` from the
   current evidence; SVG is always written, PNG only when matplotlib is
@@ -534,11 +581,14 @@ hash (see pitfalls).
   `main_before` 38.19068149970835 → `main_after` 0.0 m²; after the MAIN-08
   boundary repair the remaining main conflict was 34.421783197612406 → 0;
   Phase 0 also added the `ROAD_BOUNDARY_CONTAINMENT` hard check with margin
-  0.6735131264650868 and MAIN-08/16/18 repairs). Full-site road clearance is
-  still deferred (`FULL_SITE_ROAD_CLEARANCE`). Entrance proximity is 2 of 5 but
+  0.6735131264650868 and MAIN-08/16/18 repairs). On the focus sheet the four
+  `FULL_SITE_*` checks remain deferred; the full-site experiment separately
+  passes boundary/overlap/NS spacing/clearance/green but fails access and
+  dead-end resolution. Entrance proximity is 2 of 5 but
   no driveway is designed (`PARKING_DRIVEWAY_CONNECTION` deferred); the 7
-  previously unresolved dead ends are resolved (`DEAD_END_RESOLUTION` pass,
-  0 unresolved), leaving 19 = 17 planned group terminals + 2 site-edge termini.
+  previously unresolved dead ends are resolved on the focus sheet
+  (`DEAD_END_RESOLUTION` pass, 0 unresolved), leaving 19 = 17 planned group
+  terminals + 2 site-edge termini.
 - The first multi-candidate experiment (A/B1/B2/C) is complete, and M4c-3a fixed
   evaluation integrity: default recommendation B1, road-first recommendation A,
   Pareto [B1,B2,C,A], no single score; 11 single-unit objectives with auxiliary
@@ -548,8 +598,15 @@ hash (see pitfalls).
   form is archival and never a hard pass. B1 is only a candidate baseline; the
   candidate set is not exhaustive and no candidate is a professional or
   human-confirmed design.
-- Full-site expansion, a real CAD host (LibreCAD/FreeCAD/AutoCAD GUI), a real
-  design-office profile and IFC remain the next evidence gaps; the committed DXF
-  evidence is same-library ezdxf readback.
+- M4d full-site expansion is complete as a **research draft** (0.24.0): 55
+  buildings / 109 units / 2,398 households in 18 rows / 36 segments / 9
+  superblocks; boundary/overlap/NS-spacing/road-clearance/designed-green pass,
+  but `ROAD_ACCESS_COVERAGE` 0.0 (17 relation errors) and `DEAD_END_RESOLUTION`
+  17 unresolved fail. The frozen network + old access declarations make
+  clearance and access coverage mutually incompatible. **Next: M4d-2**
+  access/road co-design (recompute access terminals or clearance-preserving
+  roads), plus a real CAD host (LibreCAD/FreeCAD/AutoCAD GUI), a real
+  design-office profile, IFC and R1 closure; the committed DXF evidence is
+  same-library ezdxf readback.
 - `EP-R1-SKETCH-001` remains in progress; `R1-G07` partial;
   `EP-R1-DESIGN-001` in progress.

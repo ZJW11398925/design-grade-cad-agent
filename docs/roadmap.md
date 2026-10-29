@@ -235,11 +235,11 @@ Next in 4c (4c-1a/1c/1d/1b/1e/2/3/3a complete; sequence: M4d full-site expansion
 - [x] Publish `design-roads.geojson` (41 centerlines + 16 explicit junction records) so the topology is checkable from committed evidence.
 - [x] Regenerate the evidence in one run: 208-entity DXF, audit 0/0, readback 208/208, 23 declared design layers, all prior metrics unchanged; contract bumped to `design-synthesis-v0.2.yaml` (v0.1 superseded).
 - [x] Control plane unchanged: foundation/runtime/deployment/CAD/domain untouched; XDATA arity 11; `ISSUE_CATEGORIES` unchanged.
-- [x] Correct the defect narrative across docs (this roadmap, status §16–18, design/reuse READMEs, research-to-product-map); full-site spacing remains deferred (M4c-1b/4c next steps below still open).
+- [x] Correct the defect narrative across docs (this roadmap, status §16–18, design/reuse READMEs, research-to-product-map); full-site spacing remains deferred at this M4c-1b time point (historical; M4d later checks full-site N-S spacing, min 19.999999999999943 m).
 
 ### Milestone 4c-1c — Honest Evidence Semantics (complete, 0.17.0)
 
-- [x] Split check statuses into pass / info / deferred — 16 declared checks: **9 pass**, 3 info (PARKING_REQUIREMENT_ARITHMETIC, ROAD_CORRIDOR_COVERAGE, OPEN_SPACE_RATIO), 4 deferred (PARKING_CAPACITY, PARKING_LAYOUT, DESIGNED_GREEN_RATIO, FULL_SITE_NS_SPACING). `info` is not `pass`; `deferred` is not `pass`.
+- [x] Split check statuses into pass / info / deferred — 16 declared checks: **9 pass**, 3 info (PARKING_REQUIREMENT_ARITHMETIC, ROAD_CORRIDOR_COVERAGE, OPEN_SPACE_RATIO), 4 deferred (PARKING_CAPACITY, PARKING_LAYOUT, DESIGNED_GREEN_RATIO, FULL_SITE_NS_SPACING) at the 0.17.0 time point (historical; superseded by the M4d 29-check taxonomy). `info` is not `pass`; `deferred` is not `pass`.
 - [x] Split the green claim: `open_space_ratio` **63.0%** (128,676 m²) is open space, not designed green; `designed_green_ratio` **6.6%** (13,446 m²; supplementary covers 89.6% of open space) — the ≥30% designed-green target is deferred, not achieved. (0.17.0 values; in 0.20.0 they are candidate 63.02% / 128,645.31 m², unbuilt 65.35% / 133,384.46 m², designed green 6.54% / 13,346.69 m².)
 - [x] Split the parking claim: entrance count 5 **pass**; recorded capacity **1,000 vs 2,398 required** (PARKING_CAPACITY deferred); parking layout deferred; entrances carry capacities (3 existing × 0, 2 proposed × 500); garage layout `not_designed`.
 - [x] Label derived checks: FAR_RANGE / UNIT_COUNT_PRESERVED = `design_basis_arithmetic`; ROAD_WIDTHS = `design_basis_assignment`.
@@ -302,6 +302,15 @@ Next in 4c (4c-1a/1c/1d/1b/1e/2/3/3a complete; sequence: M4d full-site expansion
 - [x] Comparison uses 11 single-unit objectives (building_count_change, building_displaced_count, building_displacement_max_m, main_length_delta_abs_m, main_route_deviation_max_m, branch_access_route_deviation_max_m, access_terminal_max_delta_m, source_preservation_coverage/distance_m/heading_deg, green_designed_ratio_delta); auxiliary metrics never enter Pareto/preference; no composite score. Default recommends **B1**, road-first recommends **A**, Pareto [B1,B2,C,A]; reasons in `evaluation.json`/README.
 - [x] Tests 396 → **414** (new candidate geometry-change, evaluation v0.2, basis/negative tests; no deletion). Merged to `main` as **PR #47** (merge commit `29c93bd`, main CI 4/4 green).
 
+### Milestone 4d-1 — Full-Site Design Expansion (research draft, 0.24.0; branch `feat/m4d-full-site`; contract `design-synthesis-v0.9`)
+
+- [x] Full-site layout: all **55 buildings / 109 units / 2,398 households** in **18 rows / 8 superblocks (36 row records)** against the frozen 44-road network; focus G-01 **7 buildings / 16 units** preserved. Source→design displacement sum **2,328.95 m**, max **147.25 m**, mean **42.34 m**.
+- [x] Full-site checks (`design-synthesis-v0.9`, 29 design + 3 DXF = 32 items): **11 pass + 11 info + 5 deferred + 2 fail**. Pass: `FULL_SITE_BOUNDARY_SETBACK`, `FULL_SITE_BUILDING_OVERLAP`, `FULL_SITE_NS_SPACING` (min **19.999999999999943 m**), `FULL_SITE_ROAD_CLEARANCE` (min **3.0163622902759215 m**), plus focus/topology/alignment checks. **`DESIGNED_GREEN_RATIO` deferred** (designed green **15.93%** <30%; open-space tiling 0.6105795566533792 / 124,633.20046173329 m² / 10 parcels is auxiliary only). Fail: **`ROAD_ACCESS_COVERAGE` 0.0 (17 relation errors)** and **`DEAD_END_RESOLUTION` 17 unresolved**.
+- [x] Focus evidence regenerated under v0.9: **29 checks = 9 pass + 11 info + 9 deferred**, `DESIGNED_GREEN_RATIO` **deferred** (designed green 6.54%; open-space tiling 61.46% auxiliary only), four `FULL_SITE_*` checks deferred; focus DXF 211/readback 211, topology 58/68/cyc11/19 dead, access 17/17 unchanged, road SHA `c5fc7262…`.
+- [x] Full-site DXF **547 entities**, audit 0/0, readback **547/547**, XDATA 11, privacy pass; `full-site-preview.svg/png`.
+- [x] Feasibility conclusion: with the frozen 44-road network and old focus-layout access declarations, `FULL_SITE_ROAD_CLEARANCE` and `ROAD_ACCESS_COVERAGE` are **mutually incompatible** (group-anchored 25 m cap geometrically infeasible; focus-preserving mode is feasible only at **≥147.25 m**); regenerating roads makes clearance fail (min 0 m, **17 buildings below 3 m**). The full-site sheet is a **research draft**, not a complete/professional design; the focus sheet remains canonical.
+- [x] Tests 414 → **467** (full-site layout 16, constraints 25, evidence 12; no deletion). PR/merge pending at docs time; next is **M4d-2 access/road co-design** plus real CAD host/R1 in parallel.
+
 ### M4c-0 — Open-Source Design Capability Reuse Sprint (complete; partial answer)
 
 Goal: test whether existing open-source geometry, road, morphology and
@@ -320,10 +329,10 @@ rebuilding, using the same CASE-SKETCH-001 focus block.
 - [x] Experiment C: uncorrected vs corrected collaborative layout. Uncorrected
   had 1 road-clearance conflict (`SK-BLD-0038`); corrected has 7 buildings /
   16 units, 20.0 m N-S, dropped 0038/0061; all current checks pass except
-  deferred full-site spacing.
+  deferred full-site spacing (historical 4c-0 experiment; superseded by M4d).
   (M4c-1c/1d annotation: this block predates the honest-semantics split — the
   63.0% figure is the candidate open-space ratio, not designed green, and the
-  current check semantics are 27 = 9 pass + 11 info + 7 deferred (0.23.0), with
+  current check semantics are 29 = 9 pass + 11 info + 9 deferred (0.24.0), with
   designed green 6.54% deferred.)
 - [x] Reuse matrix with versions, licenses, hosts, tested APIs, metrics,
   verdicts and rejected uses: `docs/e2e/open-source-reuse-001/reuse-matrix.yaml`.
@@ -354,7 +363,7 @@ the M4c-1b evidence is removed.
 1. ~~Repair the design road topology~~ — **done in 4c-1a/1b/1e** (explicit shared-coordinate junctions, dependency-free noded check, 44-road access network, declared service relations, evidence regenerated).
 2. ~~M4c-2 main-road alignment~~ — **done in 0.21.0 and Phase-0 corrected in 0.22.0** (overlap split 38.19068149970835 → 0; boundary-containment hard pass with margin 0.6735131264650868; `FULL_SITE_ROAD_CLEARANCE` remains deferred).
 3. ~~First multi-candidate experiment~~ — **done in 0.22.0, evaluation integrity fixed in M4c-3a/0.23.0** (A/B1/B2/C all hard-pass; all-44-road class/terminal evidence; basis binding; 11 single-unit objectives with auxiliary excluded; default B1, road-first A; Pareto [B1,B2,C,A]; no single score).
-4. **M4d — full-site expansion** — all groups, full-site road clearance, 20 m spacing, garage/driveway geometry; run in parallel with a real CAD host round-trip (LibreCAD/FreeCAD/AutoCAD GUI), a real design-office profile, and R1 evidence closure.
+4. ~~M4d-1 full-site expansion~~ — **full-site research draft in 0.24.0** (55 buildings/109 units/2,398 households, 18 rows/36 segments/8 superblocks; boundary/overlap/NS spacing/clearance/green pass, access 0.0/17 errors and dead-end 17 unresolved fail). **M4d-2 open:** recompute access declarations/terminals or clearance-preserving road geometry; run in parallel with a real CAD host round-trip (LibreCAD/FreeCAD/AutoCAD GUI), a real design-office profile, and R1 evidence closure.
 5. **Measure design quality, not only sketch fidelity** — intent preservation, completeness, internal consistency, verified constraint satisfaction and CAD editability; Hausdorff/IoU remain secondary.
 6. **Professional building and road design** — apply the unit-type library, resolve six unit-count conflicts and the kindergarten classification; separate 支路/入户路, then review road class and cross-sections.
 7. **Agent ↔ real CAD loop** — hand the draft to the CAD bridge; verify host read/edit/readback/diff/local rebuild; keep LibreCAD, FreeCAD and AutoCAD GUI as independent evidence lanes.

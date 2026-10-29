@@ -1,0 +1,31 @@
+{
+  "layout_source": "full_site_layout",
+  "layout_note": null,
+  "preview": {
+    "path": "D:\\agent-cad\\docs\\e2e\\design-synthesis-full-site-001\\full-site-preview.svg",
+    "bytes": 152249,
+    "sha256": "7542ebfb33f9220bb302c77f7f2e65c34560b0cbe331ae716018f400c3a40a98",
+    "line_count": 183,
+    "bounds": [
+      0.0,
+      0.0,
+      388.02297,
+      644.360131
+    ],
+    "counts": {
+      "buildings": 55,
+      "roads": 44,
+      "green": 10,
+      "main_roads": 25,
+      "centerlines": 44
+    },
+    "scale": 3.896676529227123,
+    "width": 1600,
+    "height": 2598.862998837414
+  },
+  "png": {
+    "status": "rendered",
+    "path": "D:\\agent-cad\\docs\\e2e\\design-synthesis-full-site-001\\full-site-preview.png",
+    "bytes": 91381
+  }
+}

@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import hashlib
+import inspect
 import json
 import shutil
+from dataclasses import replace
 from pathlib import Path
 from typing import Any
 
@@ -21,6 +23,7 @@ from dgcad_e2e import scan_dxf_privacy
 from dgcad_foundation import World, canonical_hash
 
 from .basis import DesignBasis
+from . import buildings as buildings_module
 from .buildings import (
     BuildingLayout,
     find_focus_design_rect,
@@ -29,8 +32,16 @@ from .buildings import (
 )
 from .access import RoadAccessLayout, build_road_access
 from .consistency import check_design
-from .drawing import build_drawing_elements
-from .green import OPEN_SPACE_FILTERS, GreenLayout, build_green_layout
+from .drawing import (
+    build_drawing_elements,
+    build_full_site_drawing_elements,
+)
+from .green import (
+    OPEN_SPACE_FILTERS,
+    GreenLayout,
+    build_green_layout,
+    design_full_site_green,
+)
 from .input import DesignInput, load_design_input
 from .intent import DesignIntent, build_design_intent
 from .parking import ParkingLayout, build_parking_layout
@@ -141,6 +152,8 @@ def build_design_cad_ir(
     profile: DeliveryProfile,
     basis: DesignBasis,
     metrics: dict[str, Any],
+    *,
+    project_id: str = "DESIGN-CASE-SKETCH-001",
 ) -> CadIR:
     objects = tuple(
         _cad_object(obj, profile, basis)
@@ -161,7 +174,7 @@ def build_design_cad_ir(
         }
     )
     project = {
-        "project_id": "DESIGN-CASE-SKETCH-001",
+        "project_id": project_id,
         "built_from_scene_revision": scene.scene_revision,
         "units": profile.units,
         "coordinate_frame_ref": profile.coordinate_frame_ref,
@@ -874,4 +887,516 @@ def run_design_synthesis(
         json.dumps(privacy, indent=2, ensure_ascii=False),
         encoding="utf-8",
     )
+    return summary
+
+
+FULL_SITE_SCHEMA_ID = "dgcad.full-site-evidence.v0.1"
+FULL_SITE_PROJECT_ID = "DESIGN-CASE-SKETCH-001-FULL-SITE"
+FULL_SITE_SCENE_ID = "scene-CASE-SKETCH-001-FULL-SITE-R1"
+
+
+def _full_site_metrics(
+    design_input: DesignInput,
+    basis: DesignBasis,
+    intent: DesignIntent,
+    building_layout: BuildingLayout,
+    road_layout: RoadLayout,
+    green_layout: GreenLayout,
+    parking_layout: ParkingLayout,
+    road_access: RoadAccessLayout,
+) -> dict[str, Any]:
+    """Metrics for the full-site sheet, measured from the layouts themselves.
+
+    Deliberately does not read ``consistency.metrics``: the sheet must be
+    generatable while the full-site checks are still being integrated, and a
+    failing full-site check must not block the drawing.  The measured clearance
+    and row-spacing values do reuse the public consistency reports when they are
+    available, so the drawing title block and the checks quote the same numbers.
+    """
+    site_area = float(design_input.site_area_m2)
+    total_gfa = sum(item.gfa_m2 for item in building_layout.buildings)
+    households = sum(item.households for item in building_layout.buildings)
+    unit_count = sum(item.unit_count for item in building_layout.buildings)
+    metrics: dict[str, Any] = {
+        "site_area_m2": site_area,
+        "building_count": len(building_layout.buildings),
+        "unit_count": unit_count,
+        "staircase_count": unit_count,
+        "households": households,
+        "total_gfa_m2": total_gfa,
+        "far": (total_gfa / site_area) if site_area else 0.0,
+        "parking_spaces": parking_layout.spaces_required,
+        "parking_entrances": len(parking_layout.entrances),
+        "road_access_coverage": road_access.road_access_coverage,
+        "road_groups_served": road_access.groups_served,
+        "road_groups_total": road_access.groups_total,
+        "road_access_relation_error_count": len(road_access.relation_errors),
+        "unbuilt_ratio": green_layout.unbuilt_ratio,
+        "candidate_open_space_ratio": (
+            green_layout.candidate_open_space_ratio
+        ),
+        "designed_green_ratio": green_layout.designed_green_ratio,
+        "focus_group_id": intent.focus_group_id,
+        "focus_building_count": len(building_layout.focus_buildings),
+        "focus_unit_count": sum(
+            item.unit_count for item in building_layout.focus_buildings
+        ),
+    }
+    full_site_green = getattr(green_layout, "full_site_green", None)
+    if full_site_green is not None:
+        metrics.update(
+            {
+                "full_site_green_parcel_count": len(
+                    full_site_green.parcels
+                ),
+                "full_site_designed_green_area_m2": (
+                    full_site_green.area_m2
+                ),
+                "full_site_designed_green_ratio": full_site_green.ratio,
+                "full_site_green_target_ratio": (
+                    full_site_green.target_ratio
+                ),
+                "full_site_green_gap_m2": full_site_green.gap_m2,
+                "full_site_green_account_kind": (
+                    "open_space_tiling_auxiliary_not_designed_green"
+                ),
+            }
+        )
+    required_clearance = float(basis.building_road_clearance_m)
+    metrics["road_clearance_required_m"] = required_clearance
+    try:
+        from .consistency import (  # noqa: PLC0415 - optional coupling
+            full_site_ns_spacing_report,
+            full_site_road_clearance_report,
+        )
+
+        clearance = full_site_road_clearance_report(
+            basis, building_layout, road_layout
+        )
+        spacing = full_site_ns_spacing_report(building_layout, basis)
+        metrics.update(
+            {
+                "min_road_clearance_m": clearance["min_clearance_m"],
+                "road_clearance_violation_count": clearance[
+                    "violation_count"
+                ],
+                "min_ns_spacing_m": spacing["value"],
+                "ns_spacing_violation_count": spacing["violation_count"],
+            }
+        )
+    except Exception:  # noqa: BLE001 - consistency coupling is optional
+        pass
+    if road_access.road_access_coverage < 1.0:
+        metrics["road_access_note"] = (
+            "the declared group-access relations (serves_group_ids and access "
+            "terminals) were generated for the focus layout; relocating the "
+            "other 48 buildings leaves "
+            f"{len(road_access.relation_errors)} relation errors and "
+            f"{road_access.groups_total - road_access.groups_served} unserved "
+            "groups.  This is a known M4d integration gap, reported, not hidden."
+        )
+    return metrics
+
+
+def try_full_site_layout(
+    design_input: DesignInput,
+    basis: DesignBasis,
+    intent: DesignIntent,
+    standardized: dict[str, Any],
+    *,
+    road_corridor=None,
+) -> tuple[BuildingLayout | None, str | None]:
+    """Use ``buildings.layout_full_site`` when it is available and valid.
+
+    ``road_corridor`` (the fixed committed road corridor) is passed when the
+    engine supports the keyword, which both pins the placement to the design
+    road network and avoids rebuilding the corridor inside the engine.
+    Returns ``(layout, None)`` on success and ``(None, reason)`` otherwise so
+    callers can fall back to the current pipeline layout *and say so* in their
+    evidence instead of silently pretending the site is laid out.
+    """
+    engine = getattr(buildings_module, "layout_full_site", None)
+    if engine is None:
+        return None, "dgcad_design.buildings.layout_full_site is not available"
+    site_inner = design_input.site_boundary.buffer(-basis.boundary_setback_m)
+    kwargs: dict[str, Any] = {}
+    if road_corridor is not None:
+        try:
+            if "road_corridor" in inspect.signature(engine).parameters:
+                kwargs["road_corridor"] = road_corridor
+        except (TypeError, ValueError):
+            pass
+    try:
+        layout = engine(
+            design_input, basis, intent, standardized, site_inner, **kwargs
+        )
+    except Exception as exc:  # noqa: BLE001 - report the reason, then fall back
+        return None, f"layout_full_site failed: {type(exc).__name__}: {exc}"
+    if not isinstance(layout, BuildingLayout):
+        return None, "layout_full_site did not return a BuildingLayout"
+    expected = {item.trace_id for item in design_input.buildings}
+    actual = {item.building_id for item in layout.buildings}
+    if actual != expected:
+        return None, (
+            "layout_full_site building set does not match the case "
+            f"({len(actual)} vs {len(expected)} ids)"
+        )
+    return layout, None
+
+
+def build_full_site_models(
+    case_dir: str | Path,
+    basis_path: str | Path,
+    profile_path: str | Path,
+    *,
+    building_layout: BuildingLayout | None = None,
+    use_full_site_layout: bool = True,
+) -> dict[str, Any]:
+    """Rebuild every layout the full-site sheet needs, once.
+
+    The road network is the committed design network: it is built on the focus
+    layout (exactly as ``run_design_synthesis`` does), which makes the 44 roads
+    identical to the published ``design-roads.geojson``.  The full-site layout
+    is then packed against that fixed corridor, so the sheet's buildings and
+    roads are mutually consistent (0 clearance violations).  Returns a dict
+    with ``basis``, ``profile``, ``design_input``, ``intent``, ``standardized``,
+    ``building_layout``, ``layout_source``, ``layout_note``, ``road_layout``,
+    ``green_layout``, ``parking_layout``, ``road_access`` and ``metrics``.
+    """
+    case_dir = Path(case_dir).resolve()
+    basis_path = Path(basis_path).resolve()
+    profile_path = Path(profile_path).resolve()
+    basis = DesignBasis.from_dict(
+        yaml.safe_load(basis_path.read_text(encoding="utf-8"))
+    )
+    profile = DeliveryProfile.from_dict(
+        yaml.safe_load(profile_path.read_text(encoding="utf-8"))
+    )
+    design_input = load_design_input(case_dir, basis)
+    intent = build_design_intent(design_input, basis)
+    standardized = standardize_all(design_input, basis)
+    site_inner = design_input.site_boundary.buffer(
+        -basis.boundary_setback_m
+    )
+    design_rect = find_focus_design_rect(design_input, intent, basis)
+    baseline = layout_focus_region(
+        design_input,
+        intent,
+        basis,
+        standardized,
+        site_inner,
+        design_rect,
+    )
+    road_layout = build_road_layout(
+        design_input, basis, intent, baseline
+    )
+    layout_source = "supplied"
+    layout_note: str | None = None
+    if building_layout is None:
+        if use_full_site_layout:
+            building_layout, layout_note = try_full_site_layout(
+                design_input,
+                basis,
+                intent,
+                standardized,
+                road_corridor=road_layout.corridor_union,
+            )
+        if building_layout is not None:
+            layout_source = "full_site_layout"
+        else:
+            building_layout = baseline
+            layout_source = "focus_region_fallback"
+
+    focus_box = box(*intent.focus_bbox)
+    green_layout = build_green_layout(
+        design_input,
+        building_layout,
+        road_layout,
+        basis,
+        focus_box,
+    )
+    try:
+        full_site_green = design_full_site_green(
+            design_input, building_layout, road_layout, basis
+        )
+        if hasattr(green_layout, "full_site_green"):
+            green_layout = replace(
+                green_layout, full_site_green=full_site_green
+            )
+    except Exception:  # noqa: BLE001 - full-site green is optional
+        pass
+    parking_layout = build_parking_layout(
+        design_input, intent, road_layout, basis
+    )
+    road_access = build_road_access(
+        building_layout,
+        road_layout,
+        intent,
+        parking_layout,
+        basis,
+        site_boundary=design_input.site_boundary,
+    )
+    metrics = _full_site_metrics(
+        design_input,
+        basis,
+        intent,
+        building_layout,
+        road_layout,
+        green_layout,
+        parking_layout,
+        road_access,
+    )
+    return {
+        "basis": basis,
+        "profile": profile,
+        "design_input": design_input,
+        "intent": intent,
+        "standardized": standardized,
+        "building_layout": building_layout,
+        "layout_source": layout_source,
+        "layout_note": layout_note,
+        "road_layout": road_layout,
+        "green_layout": green_layout,
+        "parking_layout": parking_layout,
+        "road_access": road_access,
+        "metrics": metrics,
+    }
+
+
+def _full_site_non_claims(
+    layout_source: str, metrics: dict[str, Any] | None = None
+) -> list[str]:
+    claims = [
+        "this is a schematic design proposal, not a construction or permit drawing",
+        "no Chinese code, fire-access, daylight or accessibility compliance is claimed",
+        "the full-site building placement is not a designer-confirmed layout",
+        "road corridors are schematic offsets, not professional alignment or junction design",
+        "the garage layout is not designed; only the entrance requirement is checked",
+    ]
+    if layout_source == "full_site_layout":
+        claims.insert(
+            2,
+            "the full-site row placement is rule-derived from the declared basis "
+            "and fixed roads, not a designer-confirmed site plan",
+        )
+    else:
+        claims.insert(
+            2,
+            "context buildings are drawn at their standardized source positions "
+            "because the full-site layout engine is not available or did not fit",
+        )
+    if metrics:
+        if metrics.get("full_site_designed_green_ratio") is not None:
+            claims.append(
+                "the designed-green parcels are a schematic allocation of the "
+                "open space left by buildings and roads, not a landscape design"
+            )
+        if metrics.get("road_access_coverage", 1.0) < 1.0:
+            claims.append(
+                "the declared group-access relations were generated for the "
+                "focus layout; the full-site relocation invalidates them, so "
+                "access coverage is reported as a known M4d gap, not designed"
+            )
+    return claims
+
+
+def run_full_site_evidence(
+    case_dir: str | Path,
+    basis_path: str | Path,
+    profile_path: str | Path,
+    output_dir: str | Path,
+    *,
+    building_layout: BuildingLayout | None = None,
+    models: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Generate the full-site sheet (A-102) DXF plus readback/privacy evidence.
+
+    The output directory is explicit: callers write into scratch during checks
+    and the Lead decides when (and where) to publish the artefacts.  When
+    ``building_layout`` is not supplied the current pipeline layout is rebuilt
+    (focus group placed in rows, the other 48 buildings at their standardized
+    source positions); that is the honest state until the full-site layout
+    engine lands.  ``models`` lets callers reuse an already-built model dict.
+    """
+    output_dir = Path(output_dir).resolve()
+    _evidence_files(output_dir)
+    if models is None:
+        models = build_full_site_models(
+            case_dir,
+            basis_path,
+            profile_path,
+            building_layout=building_layout,
+        )
+    basis = models["basis"]
+    profile = models["profile"]
+    design_input = models["design_input"]
+    intent = models["intent"]
+    building_layout = models["building_layout"]
+    layout_source = models["layout_source"]
+    layout_note = models.get("layout_note")
+    road_layout = models["road_layout"]
+    green_layout = models["green_layout"]
+    parking_layout = models["parking_layout"]
+    metrics = models["metrics"]
+
+    elements = build_full_site_drawing_elements(
+        design_input,
+        intent,
+        building_layout,
+        road_layout,
+        green_layout,
+        parking_layout,
+        basis,
+        metrics,
+    )
+    scene = design_scene(elements, basis, scene_id=FULL_SITE_SCENE_ID)
+    cad_ir = build_design_cad_ir(
+        scene, profile, basis, metrics, project_id=FULL_SITE_PROJECT_ID
+    )
+    cad_validation = validate_cad_ir(cad_ir, profile)
+    dxf_path = output_dir / "full-site-proposal.dxf"
+    compile_result = compile_to_dxf(cad_ir, profile, dxf_path)
+    readback = validate_dxf(dxf_path, cad_ir, profile)
+    privacy = scan_dxf_privacy(dxf_path)
+
+    summary: dict[str, Any] = {
+        "schema_id": FULL_SITE_SCHEMA_ID,
+        "case_id": design_input.case_id,
+        "draft_id": "DRAFT-CASE-SKETCH-001-FULL-SITE-R1",
+        "revision": 1,
+        "status": "autonomous_full_site_draft",
+        "design_authority": basis.design_authority,
+        "human_confirmed": False,
+        "design_basis_id": basis.basis_id,
+        "sheet_id": "A-102",
+        "plan_scale": "1:2000",
+        "layout_source": layout_source,
+        "layout_note": layout_note,
+        "building_count": metrics["building_count"],
+        "focus_building_count": metrics["focus_building_count"],
+        "unit_count": metrics["unit_count"],
+        "households": metrics["households"],
+        "site_area_m2": metrics["site_area_m2"],
+        "metrics": metrics,
+        "road_access": {
+            "coverage": metrics["road_access_coverage"],
+            "groups_served": metrics["road_groups_served"],
+            "groups_total": metrics["road_groups_total"],
+            "relation_error_count": metrics[
+                "road_access_relation_error_count"
+            ],
+            "note": metrics.get("road_access_note"),
+        },
+        "road_clearance": {
+            "required_m": metrics.get("road_clearance_required_m"),
+            "min_m": metrics.get("min_road_clearance_m"),
+            "violation_count": metrics.get(
+                "road_clearance_violation_count"
+            ),
+        },
+        "north_south_spacing": {
+            "min_m": metrics.get("min_ns_spacing_m"),
+            "violation_count": metrics.get("ns_spacing_violation_count"),
+        },
+        "full_site_green": (
+            None
+            if metrics.get("full_site_designed_green_ratio") is None
+            else {
+                "parcel_count": metrics.get(
+                    "full_site_green_parcel_count"
+                ),
+                "area_m2": metrics.get(
+                    "full_site_designed_green_area_m2"
+                ),
+                "ratio": metrics.get("full_site_designed_green_ratio"),
+                "target_ratio": metrics.get(
+                    "full_site_green_target_ratio"
+                ),
+                "gap_m2": metrics.get("full_site_green_gap_m2"),
+                "account_kind": (
+                    "open_space_tiling_auxiliary_not_designed_green"
+                ),
+                "note": (
+                    "this block is an open-space tiling account (parcels "
+                    "outside buildings/roads/sidewalks); it is NOT designed "
+                    "green and is not used to pass DESIGNED_GREEN_RATIO"
+                ),
+            }
+        ),
+        "non_claims": _full_site_non_claims(layout_source, metrics),
+        "scene_id": scene.scene_id,
+        "scene_object_count": len(scene.objects),
+        "dxf": {
+            "path": dxf_path.name,
+            "sha256": hashlib.sha256(dxf_path.read_bytes()).hexdigest(),
+            "entity_count": compile_result.entity_count,
+            "audit_errors": compile_result.audit_errors,
+            "audit_fixes": compile_result.audit_fixes,
+        },
+        "readback": {
+            "verdict": readback.verdict,
+            "codes": list(readback.codes),
+            "entity_count": readback.manifest.get("entity_count"),
+            "expected_entity_count": readback.manifest.get(
+                "expected_entity_count"
+            ),
+            "confirmation_scopes": readback.manifest.get(
+                "confirmation_scopes"
+            ),
+            "manifest_sha256": canonical_hash(readback.manifest),
+        },
+        "cad_ir_validation": cad_validation.to_dict(),
+        "privacy": privacy,
+    }
+    (output_dir / "full-site-summary.json").write_text(
+        json.dumps(summary, indent=2, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    (output_dir / "full-site-scene-snapshot.json").write_text(
+        json.dumps(
+            {
+                "scene_id": scene.scene_id,
+                "world": scene.world.value,
+                "objects": scene_objects_for_export(scene),
+            },
+            indent=2,
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    (output_dir / "full-site-cad-ir.json").write_text(
+        json.dumps(cad_ir.to_dict(), indent=2, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    (output_dir / "full-site-readback-manifest.json").write_text(
+        json.dumps(readback.manifest, indent=2, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    (output_dir / "full-site-validation.json").write_text(
+        json.dumps(
+            {
+                "cad_ir": cad_validation.to_dict(),
+                "dxf_readback": readback.to_dict(),
+                "privacy": privacy,
+                "verdicts": {
+                    "cad_ir": cad_validation.verdict,
+                    "dxf_readback": readback.verdict,
+                    "privacy": "pass" if privacy["ok"] else "fail",
+                },
+            },
+            indent=2,
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    (output_dir / "full-site-privacy.json").write_text(
+        json.dumps(privacy, indent=2, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    if readback.verdict == "fail":
+        raise DesignSynthesisBlocked(
+            "full-site DXF readback failed: " + ", ".join(readback.codes)
+        )
+    if not privacy["ok"]:
+        raise DesignSynthesisBlocked("full-site DXF privacy scan failed")
     return summary

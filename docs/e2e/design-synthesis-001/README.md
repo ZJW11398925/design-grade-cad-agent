@@ -31,10 +31,14 @@ is resolved by the boundary repair), the geojson overlap fields are split
 0.9943558185246757; `total_after` 0.9943558185246756), and `source_segment_map`,
 design-diff alignment/dead-end records, `criterion_met`-verified dead-end
 resolutions and regenerated preview/overlay are published. The base draft now
-has **27 checks = 9 pass + 11 info + 7 deferred (+3 DXF = 30)**, **58 nodes /
-68 edges / cyclomatic 11**, DXF **211 entities** and **414 tests**. M4c-3
-(0.22.0) adds the first **multi-candidate experiment** (A/B1/B2/C); **M4c-3a**
-(0.23.0) fixes its evaluation integrity (all-44-road class/terminal evidence,
+has **29 checks = 9 pass + 11 info + 9 deferred (+3 DXF = 32)** under
+`design-synthesis-v0.9` (v0.8 superseded), **58 nodes / 68 edges / cyclomatic
+11**, DXF **211 entities** and **467 tests**. `DESIGNED_GREEN_RATIO` is
+**deferred** (designed green 6.54% <30%; the 61.46% open-space tiling is
+auxiliary only, not designed green); the four `FULL_SITE_*` checks (boundary
+setback, building overlap, N-S spacing, road clearance) remain **deferred on
+this focus sheet** and are exercised separately in the full-site experiment. M4c-3 (0.22.0) added the first **multi-candidate
+experiment** (A/B1/B2/C); **M4c-3a** (0.23.0) fixed its evaluation integrity (all-44-road class/terminal evidence,
 basis fingerprint binding, `HISTORICAL_BOUNDARY_ARCHIVE`, 11 single-unit
 objectives with auxiliary excluded). Four candidates pass the hard gates; the
 default preference recommends **B1**, road-first recommends **A**, and no single
@@ -271,12 +275,23 @@ entrances. The full-site metrics use all 109 staircases:
 The detailed design is the focus block G-01: **7 buildings / 16 units / 352
 households**. The block is selected from the main-road-bounded free space; it
 is large enough for the 20 m row spacing and road clearance. The full-site
-building layout remains coarse context; **full-site north-south spacing is
-recorded as deferred**, to be extended group by group.
+layout was exercised separately in `docs/e2e/design-synthesis-full-site-001/`:
+all **55 buildings / 109 units / 2,398 households** in **18 rows / 36 row
+records / 8 superblocks** against the frozen 44-road network, with
+`FULL_SITE_BOUNDARY_SETBACK`, `FULL_SITE_BUILDING_OVERLAP`,
+`FULL_SITE_NS_SPACING` (min 19.999999999999943 m) and
+`FULL_SITE_ROAD_CLEARANCE` (min 3.0163622902759215 m) passing;
+`DESIGNED_GREEN_RATIO` is **deferred** (designed green **15.93%** <30%; the
+0.6105795566533792 / 124,633.20046173329 m² / 10 parcels open-space tiling is
+auxiliary only), and **`ROAD_ACCESS_COVERAGE` fails 0.0 (17 relation errors)**
+while **`DEAD_END_RESOLUTION` fails 17 unresolved**. The frozen network plus old
+access declarations make access and clearance mutually incompatible, so the
+full-site sheet is a research draft, not canonical. The focus sheet keeps those
+four `FULL_SITE_*` checks deferred.
 
 ## Plan and CAD output
 
-`design-proposal.dxf` (**211 entities** in the Phase-0 base; was 206 in 0.20.0 and 208 before M4c-1b; audit 0/0, readback 211/211 pass). Phase 0 changed the content (boundary repairs/alignment; still 211 entities); the file byte SHA-256 also changes per save because ezdxf regenerates `$TDUPDATE`/GUIDs (0.19.0 `34a65926…`, 0.20.0 `fcc42d32…`, 0.21.0 `0f76c006…`, 0.22.0 `65fde1ca…`, current 0.23.0 `f88c29e1…`) — compare content, not bytes:
+`design-proposal.dxf` (**211 entities** in the Phase-0 base; was 206 in 0.20.0 and 208 before M4c-1b; audit 0/0, readback 211/211 pass). Phase 0 changed the content (boundary repairs/alignment; still 211 entities); the file byte SHA-256 also changes per save because ezdxf regenerates `$TDUPDATE`/GUIDs (0.19.0 `34a65926…`, 0.20.0 `fcc42d32…`, 0.21.0 `0f76c006…`, 0.22.0 `65fde1ca…`, 0.23.0 `f88c29e1…`, current 0.24.0 `1cb17865…`) — compare content, not bytes. The full-site experiment has its own **547-entity** DXF (`full-site-proposal.dxf`, SHA-256 `4041be6f…`).
 
 - layers: site boundary, building outline, unit line, main/branch/access road,
   sidewalk, green, entrance, dimensions, title, legend, north, scale, key plan;
@@ -332,8 +347,8 @@ design elements (otherwise the summary records `dxf: pending_interface`).
 - `design-basis.yaml`, `design-profile.yaml`
 - `design-intent.json` — groups, road hierarchy, focus block, principles
 - `design-summary.json` — status, metrics, checks, CAD/readback/privacy
-- `design-consistency.json` — all 27 declared checks (9 pass / 11 info / 7
-  deferred, M4c-3) plus 3 DXF checks = 30; connectivity is the noded centerline
+- `design-consistency.json` — all 29 declared checks under v0.9 (9 pass / 11 info
+  / 9 deferred, M4d) plus 3 DXF checks = 32; connectivity is the noded centerline
   graph (`ROAD_CORRIDOR_COVERAGE` is the informational corridor measure); group
   access is the declared `serves_group_ids` relation; site-boundary containment
   (`ROAD_BOUNDARY_CONTAINMENT`) and the split main-overlap evidence are included
@@ -384,12 +399,18 @@ design elements (otherwise the summary records `dxf: pending_interface`).
   (`DEAD_END_RESOLUTION` pass, 0 unresolved); 19 remain = 17 planned group
   terminals + 2 site-edge termini.
 - The main-road/building overlap is **resolved** (`MAIN_ROAD_BUILDING_OVERLAP`
-  pass; `main_before` 38.19068149970835 → `main_after` 0.0 m²); full-site road
-  clearance is still deferred (`FULL_SITE_ROAD_CLEARANCE`).
+  pass; `main_before` 38.19068149970835 → `main_after` 0.0 m²); on this focus
+  sheet the four `FULL_SITE_*` checks remain deferred. The separate full-site
+  experiment passes clearance/NS-spacing/boundary/overlap/green but **fails**
+  `ROAD_ACCESS_COVERAGE` (0.0, 17 relation errors) and `DEAD_END_RESOLUTION`
+  (17 unresolved), so it is a research draft, not a complete design and not
+  canonical.
 - The multi-candidate experiment is a decision aid: the current B1 is the
   boundary-repaired candidate (margin 0.6735), its pre-repair 66.235 m form is
   `HISTORICAL_BOUNDARY_ARCHIVE` only, the candidate set is not exhaustive, no
   candidate is human-confirmed or code-compliant, and the 11 single-unit
   objectives are not a complete quality model.
-- The full-site north-south spacing is not yet enforced; the focus block is.
+- The full-site north-south spacing is not enforced on this focus sheet (the
+  full-site experiment separately checks it at min 19.999999999999943 m); the
+  focus sheet remains canonical.
 - `EP-R1-SKETCH-001` is not complete.
