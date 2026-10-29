@@ -42,9 +42,11 @@ Repository: `D:\agent-cad`
   correct final M4c-2 design-roads geojson SHA-256), **PR #45 merged as merge
   commit `569944f`** (M4c-3 multi-candidate design decision experiment +
   Phase-0 evidence corrections), **PR #46 merged as merge commit `c59b93b`**
-  (docs: record PR #45 merge and refresh continuation state) and **PR #47
+  (docs: record PR #45 merge and refresh continuation state), **PR #47
   merged as merge commit `29c93bd`** (M4c-3a evaluation integrity and
-  geometry-change evidence); main CI is 4/4 green on all.
+  geometry-change evidence), **PR #48 merged as merge commit `a2ec899`**
+  (docs: record PR #47 merge) and **PR #49 merged as merge commit `95239d7`**
+  (M4d-1 full-site design expansion); main CI is 4/4 green on all.
 - The old topic branches `milestone-4c-autonomous-design`,
   `fix/m4c-1d-semantic-residuals`, `feat/m4c-1b-road-access`,
   `fix/m4c-1e-evidence-binding`, `feat/m4c-2-main-alignment`,
