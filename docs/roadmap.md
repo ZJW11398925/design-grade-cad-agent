@@ -311,7 +311,7 @@ Next in 4c (4c-1a/1c/1d/1b/1e/2/3/3a complete; sequence: M4d full-site expansion
 - [x] Feasibility conclusion: under the fixed network / uniform row grid / current search family, caps 25–130 m found no complete layout; an unbounded search produced the **147.25 m candidate**, not a proven global minimum. Regenerating roads makes clearance fail (min 0 m, **17 buildings below 3 m**). The full-site sheet is a **research draft**; the focus sheet remains canonical. 3.016362 m / 19.999999999999943 m are model-coordinate internal consistency under approximate sketch registration, not survey-grade engineering clearances.
 - [x] Tests 467 → **472** (full-site layout 16, constraints 29, evidence 13; no deletion). Merged to `main` as **PR #51** (merge commit `b5c45ae`, main CI 4/4 green); next is **M4d-2 access/road co-design** plus real CAD host/R1 in parallel.
 
-### Milestone 4d-2 — A/B Building-Road Co-Design (research draft, 0.25.0; branch `feat/m4d-2-co-design`; contract `design-synthesis-v0.9` unchanged)
+### Milestone 4d-2 — A/B Building-Road Co-Design (research draft, 0.25.0; merged as **PR #53** (merge commit `81b7dc9`); contract `design-synthesis-v0.9` unchanged)
 
 - [x] Same CASE-SKETCH-001 input/basis and frozen 44-road network; rebuilt access is generated from geometry (old focus-era declarations never reused): **17 connectors (16 branch + 1 access; 362.0944726221448 m)**.
 - [x] **A** (fixed M4d-1 layout) reaches access 17/17, relation errors 0, dead ends 0 but fails **only** `FULL_SITE_ROAD_CLEARANCE` at served-face **2.8250521190593507 m <3 m** (terminal-band/branch-width structural conflict; not tolerance-widened) — status **12 pass + 11 info + 5 deferred + 1 fail**.
