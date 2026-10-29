@@ -2061,3 +2061,1164 @@ def row_spacing_report(
         "required_gap_m": basis.north_south_spacing_m,
         "ok": not violations,
     }
+
+# ---------------------------------------------------------------------------
+# M4d-2 candidate B: group-preserving full-site layout
+# ---------------------------------------------------------------------------
+
+#: Phase grid (metres) used to search the group-local 31 m row lattice origin.
+#: Groups may use different phases, so no global row grid is imposed.
+_GROUP_ROW_PHASE_STEP_M = 1.0
+
+
+def _subtract_start_intervals(
+    ranges: list[tuple[float, float]],
+    forbidden: list[tuple[float, float]],
+) -> list[tuple[float, float]]:
+    """Remove forbidden start intervals from a list of allowed start ranges."""
+    pieces = list(ranges)
+    for block_low, block_high in forbidden:
+        if block_high <= block_low or not pieces:
+            continue
+        remaining: list[tuple[float, float]] = []
+        for low, high in pieces:
+            if block_high <= low or block_low >= high:
+                remaining.append((low, high))
+                continue
+            if low < block_low:
+                remaining.append((low, block_low))
+            if block_high < high:
+                remaining.append((block_high, high))
+        pieces = remaining
+    return pieces
+
+
+def layout_group_preserving(
+    design_input: DesignInput,
+    basis: DesignBasis,
+    intent: DesignIntent,
+    standardized: dict[str, StandardBuilding],
+    site_inner: Polygon,
+    *,
+    road_corridor: Polygon | None = None,
+    group_order: tuple[str, ...] | None = None,
+) -> BuildingLayout:
+    """Candidate B: keep the 17 intent groups together while regularising rows.
+
+    Each ``intent.groups`` group is laid out on its own local 31 m
+    (11 m depth + 20 m north-south spacing) row lattice: the phase of that
+    lattice is chosen per group to minimise its members' displacement, so no
+    global row grid is imposed and groups may sit at different row positions.
+    Within a row buildings keep the 13 m side spacing; row bands are 20 m apart.
+    Footprints stay inside the boundary setback and 3 m clear of the fixed 44
+    road corridors; every building avoids overlap, side-spacing and <20 m
+    x-overlapping row conflicts against buildings already placed (focus group
+    and earlier groups).  The focus G-01 layout (7 buildings / 16 units) is
+    preserved byte-identically.  Nothing is dropped.
+    """
+    width_by_id = {
+        item.trace_id: (
+            30.0
+            if item.is_facility
+            else basis.building_width(int(item.unit_count or 0))
+        )
+        for item in design_input.buildings
+    }
+    input_by_id = {item.trace_id: item for item in design_input.buildings}
+    depth = basis.staircase_depth_m
+    side_gap = basis.side_spacing_m
+    ns_spacing = basis.north_south_spacing_m
+    pitch = depth + ns_spacing
+    minx, miny, maxx, maxy = site_inner.bounds
+
+    baseline = layout_focus_region(
+        design_input,
+        intent,
+        basis,
+        standardized,
+        site_inner,
+        find_focus_design_rect(design_input, intent, basis),
+    )
+    corridor = (
+        road_corridor
+        if road_corridor is not None
+        else _frozen_road_corridor(design_input, basis, intent, baseline)
+    )
+    buildable = site_inner.difference(
+        corridor.buffer(
+            basis.building_road_clearance_m
+            + _FULL_SITE_CLEARANCE_MARGIN_M
+        )
+    )
+    focus_placed = {
+        item.building_id: item for item in baseline.focus_buildings
+    }
+    focus_ids = set(focus_placed)
+    focus_union = unary_union(
+        [item.footprint for item in focus_placed.values()]
+    )
+    free_area = buildable.difference(focus_union.buffer(side_gap))
+
+    group_by_id: dict[str, str] = {}
+    group_order_list: list[str] = []
+    group_members: dict[str, list[BuildingInput]] = {}
+    for group in intent.groups:
+        group_order_list.append(group.group_id)
+        members = [
+            input_by_id[trace_id]
+            for trace_id in group.building_ids
+            if trace_id in input_by_id
+        ]
+        group_members[group.group_id] = members
+        for member in members:
+            group_by_id[member.trace_id] = group.group_id
+
+    placed: dict[str, StandardBuilding] = dict(focus_placed)
+    strip_cache: dict[float, list[tuple[float, float]]] = {}
+    base_range_cache: dict[tuple[float, float], list[tuple[float, float]]] = {}
+    forbidden_cache: dict[
+        tuple[float, float, float], list[tuple[float, float]]
+    ] = {}
+    allowed_cache: dict[
+        tuple[float, float, float], list[tuple[float, float]]
+    ] = {}
+
+    def row_strips(y: float, row_depth: float = depth):
+        key = (round(y, 3), round(row_depth, 3))
+        if key not in strip_cache:
+            prepared = prep(_trimmed_row_geometry(free_area, y, row_depth))
+            strip_cache[key] = _free_strip_intervals(
+                prepared,
+                y,
+                row_depth,
+                (minx, maxx),
+                step=1.0,
+            )
+        return strip_cache[key]
+
+    def base_start_ranges(
+        y: float, width: float, row_depth: float = depth
+    ) -> list[tuple[float, float]]:
+        key = (round(y, 3), round(width, 3), round(row_depth, 3))
+        if key not in base_range_cache:
+            ranges = []
+            for first, last in row_strips(y, row_depth):
+                if last - first >= width - 1e-9:
+                    ranges.append((first, last - width))
+            base_range_cache[key] = ranges
+        return base_range_cache[key]
+
+    def forbidden_start_intervals(
+        y: float, width: float, row_depth: float = depth
+    ) -> list[tuple[float, float]]:
+        key = (round(y, 3), round(width, 3), round(row_depth, 3))
+        if key in forbidden_cache:
+            return forbidden_cache[key]
+        forbidden: list[tuple[float, float]] = []
+        row_bottom = y
+        row_top = y + row_depth
+        for other in placed.values():
+            bounds = other.footprint.bounds
+            if bounds[1] < row_top - 1e-9 and row_bottom < bounds[3] - 1e-9:
+                # row bands overlap: need 13 m side spacing / no overlap
+                forbidden.append(
+                    (bounds[0] - side_gap - width, bounds[2] + side_gap)
+                )
+                continue
+            vertical_gap = max(
+                0.0, row_bottom - bounds[3], bounds[1] - row_top
+            )
+            if vertical_gap < ns_spacing - 1e-6:
+                # different rows closer than 20 m: x ranges must not overlap
+                forbidden.append((bounds[0] - width, bounds[2]))
+        forbidden_cache[key] = forbidden
+        return forbidden
+
+    def allowed_start_ranges(
+        y: float, width: float, row_depth: float = depth
+    ) -> list[tuple[float, float]]:
+        key = (round(y, 3), round(width, 3), round(row_depth, 3))
+        if key not in allowed_cache:
+            allowed_cache[key] = _subtract_start_intervals(
+                base_start_ranges(y, width, row_depth),
+                forbidden_start_intervals(y, width, row_depth),
+            )
+        return allowed_cache[key]
+
+    def pack_row(y: float, items: list[BuildingInput], row_depth: float = depth):
+        """Left-to-right greedy placement of one row; None when impossible."""
+        ordered = sorted(
+            items, key=lambda item: (item.centroid[0], item.trace_id)
+        )
+        cursor = -math.inf
+        positions: dict[str, float] = {}
+        for item in ordered:
+            width = width_by_id[item.trace_id]
+            desired = item.centroid[0] - width / 2.0
+            best = None
+            for low, high in allowed_start_ranges(y, width, row_depth):
+                start = min(max(desired, low), high)
+                if cursor != -math.inf and cursor > start:
+                    start = cursor
+                if start > high + 1e-9:
+                    continue
+                cost = abs(start - desired)
+                if best is None or cost < best[0] - 1e-9:
+                    best = (cost, start)
+            if best is None:
+                return None
+            start = best[1]
+            positions[item.trace_id] = start
+            cursor = start + width + side_gap
+        return positions
+
+    phases = [
+        index * _GROUP_ROW_PHASE_STEP_M
+        for index in range(int(round(pitch / _GROUP_ROW_PHASE_STEP_M)))
+    ]
+    # the preserved focus rows define extra phases: a group that contains focus
+    # members (G-01) must be able to share its row lattice so all its rows stay
+    # whole pitch steps apart
+    anchor_phases = sorted(
+        {round(float(row["y"]) % pitch, 9) for row in baseline.rows}
+    )
+    # coarse-to-fine phase search keeps the layout fast and deterministic
+    coarse_phases = sorted(
+        {
+            index * 4.0 * _GROUP_ROW_PHASE_STEP_M
+            for index in range(
+                int(round(pitch / (4.0 * _GROUP_ROW_PHASE_STEP_M)))
+            )
+        }
+        | set(anchor_phases)
+    )
+
+    def refine_phases(phase: float) -> list[float]:
+        candidates = {
+            round((phase + delta) % pitch, 6)
+            for delta in (-3.0, -2.0, -1.0, 1.0, 2.0, 3.0)
+        }
+        candidates |= {
+            round((phase + delta) % pitch, 9)
+            for delta in (-0.5, -0.25, 0.25, 0.5)
+        }
+        return sorted(
+            value for value in candidates if value not in coarse_phases
+        )
+
+    def rows_for_phase(phase: float) -> list[float]:
+        first_k = math.ceil((miny - phase) / pitch - 1e-9)
+        last_k = math.floor((maxy - depth - phase) / pitch + 1e-9)
+        return [phase + k * pitch for k in range(first_k, last_k + 1)]
+
+    def try_group(items: list[BuildingInput], phase: float):
+        rows = rows_for_phase(phase)
+        rows_by_y: dict[float, list[BuildingInput]] = {y: [] for y in rows}
+        for item in sorted(
+            items,
+            key=lambda value: (
+                value.centroid[1],
+                -width_by_id[value.trace_id],
+                value.trace_id,
+            ),
+        ):
+            center_y = item.centroid[1]
+            ranked = sorted(
+                rows,
+                key=lambda y: (abs(y + depth / 2.0 - center_y), y),
+            )
+            placed_row = None
+            for y in ranked:
+                trial = rows_by_y[y] + [item]
+                if pack_row(y, trial) is not None:
+                    rows_by_y[y] = trial
+                    placed_row = y
+                    break
+            if placed_row is None:
+                return None
+        total = 0.0
+        centres: dict[str, tuple[float, float]] = {}
+        row_y_by_id: dict[str, float] = {}
+        for y, row_items in rows_by_y.items():
+            if not row_items:
+                continue
+            positions = pack_row(y, row_items)
+            if positions is None:
+                return None
+            for item in row_items:
+                width = width_by_id[item.trace_id]
+                center_x = positions[item.trace_id] + width / 2.0
+                centre_y = y + depth / 2.0
+                centres[item.trace_id] = (center_x, centre_y)
+                row_y_by_id[item.trace_id] = y
+                total += math.hypot(
+                    center_x - item.centroid[0],
+                    centre_y - item.centroid[1],
+                )
+        return total, centres, row_y_by_id
+
+    def commit(
+        item: BuildingInput,
+        center: tuple[float, float],
+        row_y: float,
+        group_id: str,
+    ) -> None:
+        building = _standard_building(
+            item,
+            basis,
+            center=center,
+            angle=0.0,
+            row_index=0,
+            subgroup_id=group_id,
+        )
+        placed[item.trace_id] = building
+
+    # ---- facility placement is independent of group order -----------------
+    facility = next(
+        (item for item in design_input.buildings if item.is_facility),
+        None,
+    )
+    facility_group = group_by_id.get(facility.trace_id) if facility else None
+    facility_placement = None
+    if facility is not None:
+        facility_width = 30.0
+        facility_depth = 20.0
+
+        def facility_option(y: float):
+            ranges = allowed_start_ranges(
+                y, facility_width, facility_depth
+            )
+            if not ranges:
+                return None
+            desired = facility.centroid[0] - facility_width / 2.0
+            best = None
+            for low, high in ranges:
+                start = min(max(desired, low), high)
+                center = (
+                    start + facility_width / 2.0,
+                    y + facility_depth / 2.0,
+                )
+                cost = math.hypot(
+                    center[0] - facility.centroid[0],
+                    center[1] - facility.centroid[1],
+                )
+                if best is None or cost < best[0] - 1e-9:
+                    best = (cost, center, y)
+            return best
+
+        best_facility = None
+        for offset in range(0, int(maxy - miny - facility_depth) + 1, 2):
+            option = facility_option(miny + offset)
+            if option is not None and (
+                best_facility is None or option[0] < best_facility[0] - 1e-9
+            ):
+                best_facility = option
+        if best_facility is not None:
+            base_y = best_facility[2]
+            for delta in range(-8, 9):
+                y = base_y + delta * 0.25
+                if y < miny or y + facility_depth > maxy + 1e-9:
+                    continue
+                option = facility_option(y)
+                if option is not None and (
+                    option[0] < best_facility[0] - 1e-9
+                ):
+                    best_facility = option
+        if best_facility is None:
+            raise ValueError(
+                "layout_group_preserving cannot place the facility inside "
+                "the fixed-road buildable area"
+            )
+        facility_placement = (best_facility[1], best_facility[2])
+
+    # ---- group order ------------------------------------------------------
+    # Default is south-to-north by source group centroid: on the reference
+    # case it gave the best measured group cohesion (max group centroid
+    # displacement 140.1 m, mean 32.6 m; that maximum is dominated by the
+    # groups whose source pocket is occupied by the preserved focus block).
+    group_ids = list(group_order_list)
+
+    def group_centroid_y(group_id: str) -> float:
+        members = group_members[group_id]
+        if not members:
+            return 0.0
+        return sum(member.centroid[1] for member in members) / len(members)
+
+    if group_order is not None:
+        orders = [tuple(group_order)]
+    else:
+        # groups that own preserved focus buildings go first so their movable
+        # members can share the focus row lattice; the rest go south-to-north
+        focus_groups = sorted(
+            group_id
+            for group_id in group_ids
+            if any(
+                member.trace_id in focus_ids
+                for member in group_members[group_id]
+            )
+        )
+        rest = [group_id for group_id in group_ids if group_id not in focus_groups]
+        orders = [
+            tuple(focus_groups)
+            + tuple(
+                sorted(
+                    rest,
+                    key=lambda value: (
+                        round(group_centroid_y(value), 6),
+                        value,
+                    ),
+                )
+            )
+        ]
+
+    def run_order(order: tuple[str, ...]):
+        placed.clear()
+        placed.update(focus_placed)
+        forbidden_cache.clear()
+        allowed_cache.clear()
+        if facility is not None and facility_placement is not None:
+            commit(
+                facility,
+                facility_placement[0],
+                facility_placement[1],
+                facility_group or "G-FACILITY",
+            )
+        for group_id in order:
+            items = [
+                item
+                for item in group_members[group_id]
+                if item.trace_id not in placed
+            ]
+            if not items:
+                continue
+            forbidden_cache.clear()
+            allowed_cache.clear()
+
+            def evaluate_phases(candidates):
+                best = None
+                for phase in candidates:
+                    option = try_group(items, phase)
+                    if option is None:
+                        continue
+                    key = (round(option[0], 9), phase)
+                    if best is None or key < best[0]:
+                        best = (key, phase, option)
+                return best
+
+            best_option = evaluate_phases(coarse_phases)
+            if best_option is not None:
+                refined = evaluate_phases(refine_phases(best_option[1]))
+                if refined is not None and refined[0] < best_option[0]:
+                    best_option = refined
+            else:
+                best_option = evaluate_phases(phases)
+            if best_option is not None:
+                _, phase, option = best_option
+                _, centres, row_y_by_id = option
+                item_by_id = {item.trace_id: item for item in items}
+                # A group may use any local row phase, but two of its rows must
+                # not end up two pitches apart with overlapping x extents: that
+                # is an over-spacing (51 m) gap at the global row check.  Merge
+                # such group rows into one row when the combined row still
+                # packs inside the road-free strip.
+                merged = True
+                while merged:
+                    merged = False
+                    trace_ids = list(row_y_by_id)
+                    for index, first_id in enumerate(trace_ids):
+                        for second_id in trace_ids[index + 1 :]:
+                            first_y = row_y_by_id[first_id]
+                            second_y = row_y_by_id[second_id]
+                            if abs(second_y - first_y) <= pitch + 1e-6:
+                                continue
+                            first_width = width_by_id[first_id]
+                            second_width = width_by_id[second_id]
+                            first_left = centres[first_id][0] - first_width / 2.0
+                            first_right = centres[first_id][0] + first_width / 2.0
+                            second_left = (
+                                centres[second_id][0] - second_width / 2.0
+                            )
+                            second_right = (
+                                centres[second_id][0] + second_width / 2.0
+                            )
+                            if (
+                                min(first_right, second_right)
+                                - max(first_left, second_left)
+                                <= 0.0
+                            ):
+                                continue
+                            # only a pair with no occupied row between them
+                            # becomes consecutive in the global row index
+                            low_y = min(first_y, second_y)
+                            high_y = max(first_y, second_y)
+                            between = any(
+                                low_y + 1e-6
+                                < round(other.footprint.bounds[1], 6)
+                                < high_y - 1e-6
+                                for other in placed.values()
+                            ) or any(
+                                low_y + 1e-6 < value < high_y - 1e-6
+                                for value in row_y_by_id.values()
+                            )
+                            if between:
+                                continue
+                            for mover, target in (
+                                (second_id, first_id),
+                                (first_id, second_id),
+                            ):
+                                target_y = row_y_by_id[target]
+                                row_ids = [
+                                    trace_id
+                                    for trace_id in row_y_by_id
+                                    if abs(
+                                        row_y_by_id[trace_id] - target_y
+                                    )
+                                    <= 1e-6
+                                ]
+                                trial_ids = row_ids + [mover]
+                                positions = pack_row(
+                                    target_y,
+                                    [
+                                        item_by_id[trace_id]
+                                        for trace_id in trial_ids
+                                    ],
+                                )
+                                if positions is None:
+                                    continue
+                                row_y_by_id[mover] = target_y
+                                for trace_id in trial_ids:
+                                    width = width_by_id[trace_id]
+                                    centres[trace_id] = (
+                                        positions[trace_id] + width / 2.0,
+                                        target_y + depth / 2.0,
+                                    )
+                                merged = True
+                                break
+                            if merged:
+                                break
+                        if merged:
+                            break
+                for item in items:
+                    commit(
+                        item,
+                        centres[item.trace_id],
+                        row_y_by_id[item.trace_id],
+                        group_id,
+                    )
+                continue
+            # fallback: place each building individually at its nearest
+            # feasible row phase (group rows are still used, not shared)
+            for item in items:
+                def scan_rows(phase: float):
+                    spot = None
+                    for y in rows_for_phase(phase):
+                        positions = pack_row(y, [item])
+                        if positions is None:
+                            continue
+                        start = positions[item.trace_id]
+                        center = (
+                            start + width_by_id[item.trace_id] / 2.0,
+                            y + depth / 2.0,
+                        )
+                        cost = math.hypot(
+                            center[0] - item.centroid[0],
+                            center[1] - item.centroid[1],
+                        )
+                        key = (round(cost, 9), round(y, 6))
+                        if spot is None or key < spot[0]:
+                            spot = (key, center, y)
+                    return spot
+
+                best_spot = None
+                coarse_phase = None
+                for phase in coarse_phases:
+                    spot = scan_rows(phase)
+                    if spot is not None and (
+                        best_spot is None or spot[0] < best_spot[0]
+                    ):
+                        best_spot = spot
+                        coarse_phase = phase
+                if coarse_phase is not None:
+                    for phase in refine_phases(coarse_phase):
+                        spot = scan_rows(phase)
+                        if spot is not None and spot[0] < best_spot[0]:
+                            best_spot = spot
+                if best_spot is None:
+                    raise ValueError(
+                        "layout_group_preserving cannot place building "
+                        f"{item.trace_id} of group {group_id} anywhere "
+                        "inside the fixed-road buildable area"
+                    )
+                _, center, row_y = best_spot
+                commit(item, center, row_y, group_id)
+
+        # ---- global row repair: no over-spaced consecutive rows -----------
+        # Two occupied rows that end up next to each other in the global row
+        # order must be exactly one 20 m pitch apart wherever their x extents
+        # overlap (otherwise the row check reports a 51 m gap).  Relocate or
+        # merge the offending building when the road-free strip allows it.
+        def consecutive_over_spacing_pairs():
+            rows: dict[float, list[StandardBuilding]] = {}
+            for building in placed.values():
+                rows.setdefault(
+                    round(building.footprint.bounds[1], 6), []
+                ).append(building)
+            ordered_rows = sorted(rows)
+            pairs = []
+            for lower_y, upper_y in zip(ordered_rows, ordered_rows[1:]):
+                if upper_y - lower_y <= pitch + 0.01:
+                    continue
+                for first in rows[lower_y]:
+                    first_bounds = first.footprint.bounds
+                    for second in rows[upper_y]:
+                        second_bounds = second.footprint.bounds
+                        x_overlap = min(
+                            first_bounds[2], second_bounds[2]
+                        ) - max(first_bounds[0], second_bounds[0])
+                        if x_overlap <= 0.0:
+                            continue
+                        gap = max(
+                            second_bounds[1] - first_bounds[3],
+                            first_bounds[1] - second_bounds[3],
+                        )
+                        if gap > ns_spacing + 0.01:
+                            pairs.append((lower_y, upper_y, first, second))
+            return pairs
+
+        for _ in range(120):
+            pairs = consecutive_over_spacing_pairs()
+            if not pairs:
+                break
+            applied = False
+            for lower_y, upper_y, first, second in pairs:
+                movers = [
+                    candidate
+                    for candidate in (second, first)
+                    if candidate.building_id not in focus_ids
+                    and not candidate.is_facility
+                ]
+                for mover in movers:
+                    target_candidates = []
+                    for target_y in (
+                        lower_y + pitch,
+                        upper_y - pitch,
+                        lower_y,
+                    ):
+                        if target_y < miny - 1e-9:
+                            continue
+                        if target_y + depth > maxy + 1e-9:
+                            continue
+                        if abs(target_y - upper_y) <= 1e-6:
+                            continue
+                        if target_y not in target_candidates:
+                            target_candidates.append(target_y)
+                    for target_y in target_candidates:
+                        row_ids = [
+                            other.building_id
+                            for other in placed.values()
+                            if abs(
+                                other.footprint.bounds[1] - target_y
+                            )
+                            <= 1e-6
+                        ]
+                        if mover.building_id in row_ids:
+                            continue
+                        before = len(pairs)
+                        original = {
+                            trace_id: placed[trace_id]
+                            for trace_id in row_ids + [mover.building_id]
+                            if trace_id in placed
+                        }
+                        for trace_id in original:
+                            placed.pop(trace_id, None)
+                        positions = pack_row(
+                            target_y,
+                            [
+                                input_by_id[trace_id]
+                                for trace_id in row_ids + [mover.building_id]
+                            ],
+                        )
+                        if positions is None:
+                            placed.update(original)
+                            continue
+                        for trace_id in row_ids + [mover.building_id]:
+                            item = input_by_id[trace_id]
+                            width = width_by_id[trace_id]
+                            commit(
+                                item,
+                                (
+                                    positions[trace_id] + width / 2.0,
+                                    target_y + depth / 2.0,
+                                ),
+                                target_y,
+                                group_by_id.get(trace_id, "G-00"),
+                            )
+                        after = len(consecutive_over_spacing_pairs())
+                        if after < before:
+                            applied = True
+                            break
+                        for trace_id in row_ids + [mover.building_id]:
+                            placed.pop(trace_id, None)
+                        placed.update(original)
+                    if applied:
+                        break
+                if applied:
+                    break
+            if not applied:
+                break
+        group_centroid_displacements = []
+        building_displacements = []
+        for group_id, members in group_members.items():
+            present = [
+                placed[member.trace_id]
+                for member in members
+                if member.trace_id in placed
+            ]
+            if not present:
+                continue
+            source_cx = sum(
+                item.source_centroid[0] for item in present
+            ) / len(present)
+            source_cy = sum(
+                item.source_centroid[1] for item in present
+            ) / len(present)
+            design_cx = sum(
+                item.design_centroid[0] for item in present
+            ) / len(present)
+            design_cy = sum(
+                item.design_centroid[1] for item in present
+            ) / len(present)
+            group_centroid_displacements.append(
+                math.hypot(design_cx - source_cx, design_cy - source_cy)
+            )
+            building_displacements.extend(
+                item.displacement_m for item in present
+            )
+        key = (
+            round(max(group_centroid_displacements, default=0.0), 6),
+            round(max(building_displacements, default=0.0), 6),
+            round(sum(building_displacements), 6),
+        )
+        return dict(placed), key
+
+    best_result = None
+    for order in orders:
+        result, key = run_order(order)
+        if best_result is None or key < best_result[0]:
+            best_result = (key, result)
+    placed = dict(best_result[1])
+
+    # ---- rows, row_index and green strips --------------------------------
+    row_ys = sorted(
+        {
+            round(building.footprint.bounds[1], 6)
+            for building in placed.values()
+        }
+    )
+    row_order = {y: index + 1 for index, y in enumerate(row_ys)}
+    indexed: dict[str, StandardBuilding] = {}
+    for trace_id, building in placed.items():
+        subgroup = group_by_id.get(trace_id, "G-00")
+        indexed[trace_id] = _standard_building(
+            input_by_id[trace_id],
+            basis,
+            center=building.design_centroid,
+            angle=0.0,
+            row_index=row_order[round(building.footprint.bounds[1], 6)],
+            subgroup_id=subgroup,
+        )
+
+    segments: dict[tuple[int, str], list[str]] = {}
+    for trace_id, building in indexed.items():
+        key = (int(building.row_index), str(building.subgroup_id))
+        segments.setdefault(key, []).append(trace_id)
+    row_records: list[dict[str, Any]] = []
+    green_strips: list[Polygon] = []
+    for (row_index, subgroup_id), building_ids in sorted(
+        segments.items(), key=lambda entry: (entry[0][0], entry[0][1])
+    ):
+        ordered_ids = sorted(
+            building_ids,
+            key=lambda trace_id: (
+                indexed[trace_id].footprint.bounds[0],
+                trace_id,
+            ),
+        )
+        row_y = min(
+            indexed[trace_id].footprint.bounds[1]
+            for trace_id in ordered_ids
+        )
+        row_bottom = row_y
+        row_height = max(
+            indexed[trace_id].footprint.bounds[3] - row_bottom
+            for trace_id in ordered_ids
+        )
+        row_records.append(
+            {
+                "row": row_index,
+                "subgroup_id": subgroup_id,
+                "y": row_y,
+                "building_ids": ordered_ids,
+                "north_south_gap_m": ns_spacing,
+            }
+        )
+        strip = box(
+            min(
+                indexed[trace_id].footprint.bounds[0]
+                for trace_id in ordered_ids
+            ),
+            row_y + row_height + ns_spacing / 2.0 - 4.0,
+            max(
+                indexed[trace_id].footprint.bounds[2]
+                for trace_id in ordered_ids
+            ),
+            row_y + row_height + ns_spacing / 2.0 + 4.0,
+        ).intersection(site_inner)
+        if not strip.is_empty and strip.area >= 1.0:
+            green_strips.append(strip)
+
+    all_buildings = tuple(
+        indexed[item.trace_id] for item in design_input.buildings
+    )
+    focus_buildings = tuple(
+        indexed[item.building_id]
+        for item in baseline.focus_buildings
+        if item.building_id in indexed
+    )
+    return BuildingLayout(
+        buildings=all_buildings,
+        focus_buildings=focus_buildings,
+        rows=tuple(row_records),
+        green_strips=tuple(green_strips),
+        dropped_focus_building_ids=(),
+    )
+
+def group_preserving_layout_report(
+    layout: BuildingLayout,
+    basis: DesignBasis,
+    design_input: DesignInput,
+    intent: DesignIntent,
+    site_inner: Polygon,
+    road_corridor: Polygon,
+) -> dict[str, Any]:
+    """Measured candidate-B metrics: group cohesion, row rules and clearances."""
+    buildings = list(layout.buildings)
+    by_group: dict[str, list[StandardBuilding]] = {}
+    for item in buildings:
+        by_group.setdefault(str(item.subgroup_id), []).append(item)
+    expected_ids: set[str] = set()
+    for group in intent.groups:
+        expected_ids.update(group.building_ids)
+
+    # ---- conservation ----------------------------------------------------
+    unit_total = sum(item.unit_count for item in buildings)
+    households = sum(item.households for item in buildings)
+    placed_ids = {item.building_id for item in buildings}
+
+    # ---- per building / per group displacement ---------------------------
+    displacements = [
+        {
+            "building_id": item.building_id,
+            "group_id": str(item.subgroup_id),
+            "row": item.row_index,
+            "displacement_m": item.displacement_m,
+            "dx_m": item.design_centroid[0] - item.source_centroid[0],
+            "dy_m": item.design_centroid[1] - item.source_centroid[1],
+        }
+        for item in buildings
+    ]
+    groups_report = []
+    for group in intent.groups:
+        members = [
+            item
+            for item in by_group.get(group.group_id, [])
+            if item.building_id in group.building_ids
+        ]
+        if not members:
+            groups_report.append(
+                {
+                    "group_id": group.group_id,
+                    "present": False,
+                    "building_count": 0,
+                    "max_building_displacement_m": None,
+                    "centroid_displacement_m": None,
+                }
+            )
+            continue
+        source_cx = sum(item.source_centroid[0] for item in members) / len(
+            members
+        )
+        source_cy = sum(item.source_centroid[1] for item in members) / len(
+            members
+        )
+        design_cx = sum(item.design_centroid[0] for item in members) / len(
+            members
+        )
+        design_cy = sum(item.design_centroid[1] for item in members) / len(
+            members
+        )
+        source_bbox = list(group.bbox)
+        design_bounds = unary_union(
+            [item.footprint for item in members]
+        ).bounds
+        groups_report.append(
+            {
+                "group_id": group.group_id,
+                "present": True,
+                "building_count": len(members),
+                "unit_count": sum(item.unit_count for item in members),
+                "max_building_displacement_m": round(
+                    max(item.displacement_m for item in members), 3
+                ),
+                "mean_building_displacement_m": round(
+                    sum(item.displacement_m for item in members)
+                    / len(members),
+                    3,
+                ),
+                "centroid_displacement_m": round(
+                    math.hypot(design_cx - source_cx, design_cy - source_cy),
+                    3,
+                ),
+                "centroid_dx_m": round(design_cx - source_cx, 3),
+                "centroid_dy_m": round(design_cy - source_cy, 3),
+                "source_bbox": [round(value, 3) for value in source_bbox],
+                "design_bbox": [round(value, 3) for value in design_bounds],
+                "bbox_center_dx_m": round(
+                    (design_bounds[0] + design_bounds[2]) / 2.0
+                    - (source_bbox[0] + source_bbox[2]) / 2.0,
+                    3,
+                ),
+                "bbox_center_dy_m": round(
+                    (design_bounds[1] + design_bounds[3]) / 2.0
+                    - (source_bbox[1] + source_bbox[3]) / 2.0,
+                    3,
+                ),
+                "bbox_width_change_m": round(
+                    (design_bounds[2] - design_bounds[0])
+                    - (source_bbox[2] - source_bbox[0]),
+                    3,
+                ),
+                "bbox_height_change_m": round(
+                    (design_bounds[3] - design_bounds[1])
+                    - (source_bbox[3] - source_bbox[1]),
+                    3,
+                ),
+            }
+        )
+
+    # ---- boundary / overlap / side spacing / road clearance --------------
+    tolerant = site_inner.buffer(0.01)
+    boundary_violations = [
+        item.building_id
+        for item in buildings
+        if not tolerant.contains(item.footprint)
+    ]
+    overlap_pairs = []
+    for index, first in enumerate(buildings):
+        for second in buildings[index + 1 :]:
+            area = first.footprint.intersection(second.footprint).area
+            if area > 0.01:
+                overlap_pairs.append(
+                    [first.building_id, second.building_id, round(area, 3)]
+                )
+    side_spacing_violations = []
+    for index, first in enumerate(buildings):
+        first_bounds = first.footprint.bounds
+        for second in buildings[index + 1 :]:
+            second_bounds = second.footprint.bounds
+            if (
+                min(first_bounds[3], second_bounds[3])
+                - max(first_bounds[1], second_bounds[1])
+                <= 0.0
+            ):
+                continue
+            gap = max(
+                second_bounds[0] - first_bounds[2],
+                first_bounds[0] - second_bounds[2],
+            )
+            if gap < basis.side_spacing_m - 1e-6:
+                side_spacing_violations.append(
+                    {
+                        "a": first.building_id,
+                        "b": second.building_id,
+                        "gap_m": round(gap, 3),
+                    }
+                )
+    clearance_buffer = road_corridor.buffer(
+        basis.building_road_clearance_m
+    )
+    road_clearances = [
+        (item.building_id, item.footprint.distance(road_corridor))
+        for item in buildings
+    ]
+    road_clearance_violations = [
+        item.building_id
+        for item in buildings
+        if item.footprint.intersection(clearance_buffer).area > 0.01
+    ]
+
+    # ---- 20 m north-south row spacing ------------------------------------
+    within_group = []
+    cross_group = []
+    for index, first in enumerate(buildings):
+        first_bounds = first.footprint.bounds
+        for second in buildings[index + 1 :]:
+            second_bounds = second.footprint.bounds
+            x_overlap = min(first_bounds[2], second_bounds[2]) - max(
+                first_bounds[0], second_bounds[0]
+            )
+            if x_overlap <= 0.0:
+                continue
+            gap = max(
+                second_bounds[1] - first_bounds[3],
+                first_bounds[1] - second_bounds[3],
+            )
+            if gap >= basis.north_south_spacing_m - 0.01:
+                continue
+            record = {
+                "a": first.building_id,
+                "b": second.building_id,
+                "a_group": str(first.subgroup_id),
+                "b_group": str(second.subgroup_id),
+                "gap_m": round(gap, 3),
+            }
+            if first.subgroup_id == second.subgroup_id:
+                within_group.append(record)
+            else:
+                cross_group.append(record)
+
+    # ---- consecutive row ordinals must be exactly 20 m apart -------------
+    consecutive_ns = []
+    for index, first in enumerate(buildings):
+        first_bounds = first.footprint.bounds
+        for second in buildings[index + 1 :]:
+            if abs(
+                int(first.row_index or 0) - int(second.row_index or 0)
+            ) != 1:
+                continue
+            second_bounds = second.footprint.bounds
+            x_overlap = min(first_bounds[2], second_bounds[2]) - max(
+                first_bounds[0], second_bounds[0]
+            )
+            if x_overlap <= 0.0:
+                continue
+            gap = max(
+                second_bounds[1] - first_bounds[3],
+                first_bounds[1] - second_bounds[3],
+            )
+            consecutive_ns.append(
+                {
+                    "a": first.building_id,
+                    "b": second.building_id,
+                    "rows": [
+                        min(
+                            int(first.row_index or 0),
+                            int(second.row_index or 0),
+                        ),
+                        max(
+                            int(first.row_index or 0),
+                            int(second.row_index or 0),
+                        ),
+                    ],
+                    "gap_m": round(gap, 3),
+                }
+            )
+    consecutive_under = [
+        item
+        for item in consecutive_ns
+        if item["gap_m"] < basis.north_south_spacing_m - 0.01
+    ]
+    consecutive_over = [
+        item
+        for item in consecutive_ns
+        if item["gap_m"] > basis.north_south_spacing_m + 0.01
+    ]
+
+    relocated_groups = sorted(
+        item["group_id"]
+        for item in groups_report
+        if item["present"]
+        and (
+            (item["max_building_displacement_m"] or 0.0) > 45.0
+            or (item["centroid_displacement_m"] or 0.0) > 25.0
+        )
+    )
+    return {
+        "building_count": len(buildings),
+        "unique_building_ids": len(placed_ids),
+        "unit_count_total": unit_total,
+        "households_total": households,
+        "facility_count": sum(1 for item in buildings if item.is_facility),
+        "expected_building_count": len(expected_ids),
+        "dropped_building_ids": sorted(expected_ids - placed_ids),
+        "group_count": len(intent.groups),
+        "present_group_count": sum(
+            1 for item in groups_report if item["present"]
+        ),
+        "row_count": len({item.row_index for item in buildings}),
+        "row_records": len(layout.rows),
+        "focus_building_count": len(layout.focus_buildings),
+        "focus_unit_count": sum(
+            item.unit_count for item in layout.focus_buildings
+        ),
+        "focus_building_ids": sorted(
+            item.building_id for item in layout.focus_buildings
+        ),
+        "boundary_violations": sorted(boundary_violations),
+        "overlap_pairs": overlap_pairs,
+        "side_spacing_violations": side_spacing_violations,
+        "road_clearance_min_m": (
+            min(value for _, value in road_clearances)
+            if road_clearances
+            else None
+        ),
+        "road_clearance_required_m": basis.building_road_clearance_m,
+        "road_clearance_violations": sorted(road_clearance_violations),
+        "within_group_ns_violations": within_group,
+        "cross_group_ns_violations": cross_group,
+        "consecutive_row_ns_pairs": len(consecutive_ns),
+        "consecutive_row_ns_min_gap_m": (
+            min(item["gap_m"] for item in consecutive_ns)
+            if consecutive_ns
+            else None
+        ),
+        "consecutive_row_ns_max_gap_m": (
+            max(item["gap_m"] for item in consecutive_ns)
+            if consecutive_ns
+            else None
+        ),
+        "consecutive_row_under_spacing_violations": consecutive_under,
+        "consecutive_row_over_spacing_violations": consecutive_over,
+        "group_centroid_displacement_max_m": max(
+            (
+                item["centroid_displacement_m"]
+                for item in groups_report
+                if item["centroid_displacement_m"] is not None
+            ),
+            default=0.0,
+        ),
+        "group_centroid_displacement_mean_m": (
+            sum(
+                item["centroid_displacement_m"]
+                for item in groups_report
+                if item["centroid_displacement_m"] is not None
+            )
+            / max(
+                1,
+                sum(
+                    1
+                    for item in groups_report
+                    if item["centroid_displacement_m"] is not None
+                ),
+            )
+        ),
+        "building_displacement_max_m": max(
+            (item.displacement_m for item in buildings), default=0.0
+        ),
+        "building_displacement_sum_m": sum(
+            item.displacement_m for item in buildings
+        ),
+        "groups_outside_source_proximity": relocated_groups,
+        "groups": groups_report,
+        "displacements": displacements,
+    }

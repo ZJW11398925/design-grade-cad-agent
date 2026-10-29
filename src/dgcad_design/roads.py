@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import Any
 
 from shapely.geometry import LineString, MultiPolygon, Point, Polygon, box
@@ -3248,3 +3248,1406 @@ def build_road_layout(
         ),
         main_boundary_repairs=main_boundary_repairs,
     )
+
+
+# ---------------------------------------------------------------------------
+# M4d-2 candidate A — group access rebuilt against the fixed M4d-1 layout
+# ---------------------------------------------------------------------------
+#
+# M4d-1 moved all 55 buildings onto one row lattice while the 44-road network
+# stayed frozen.  The frozen group branches still point at the *focus* group
+# positions, so their declarations no longer describe the full-site layout:
+# coverage is 0/17 and their terminals are 17 unresolved dead ends.  Candidate A
+# keeps the frozen network and the fixed M4d-1 layout and rebuilds every
+# declared access relation as a *new* connector:
+#
+# * the preferred connector starts at the exact terminal vertex of the group's
+#   frozen access branch (a shared-vertex junction; the frozen road is not
+#   moved and its old terminal stops being a dead end);
+# * when the frozen terminal is enclosed by the fixed road network (a pocket it
+#   cannot leave without crossing a centreline), the connector instead starts
+#   at an existing vertex of the fixed network next to the group, and the old
+#   terminal gets a short new *relink* connector to the nearest fixed-network
+#   vertex so it stops being a dangling stub; both junctions are shared
+#   vertices of the existing centreline, so no crossing-only node is created;
+# * the connector ends on the 3.4-3.5 m terminal ring of the relocated group
+#   footprint, straight when the corridor is clean, otherwise through a
+#   deterministic A* grid route in the free space between buildings and roads;
+# * its corridor is flat-capped so the declared terminal does not carve into
+#   the served facade.
+#
+# The old ``serves_group_ids`` declaration is *superseded* (metadata only, never
+# deleted) and moved to the new connector; every frozen road keeps its id,
+# class, width and exact centreline coordinates.
+
+#: Declared terminal band: the connector centreline ends this far outside the
+#: served group footprint (the same band the M4c-1e access evidence validates).
+CO_DESIGN_TERMINAL_MIN_M = 3.4
+CO_DESIGN_TERMINAL_MAX_M = 3.5
+
+#: A new connector corridor may overlap a building footprint by at most this.
+CO_DESIGN_CORRIDOR_OVERLAP_MAX_M2 = 0.01
+
+#: Centreline / corridor clearance every *other* building keeps from a new
+#: connector.  The served facade is governed by the declared terminal band.
+CO_DESIGN_CLEARANCE_M = 3.0
+
+#: Connector length window: shorter is degenerate, longer is not published (the
+#: group is reported as unresolved instead of inventing a route).
+CO_DESIGN_CONNECTOR_MIN_LENGTH_M = 2.0
+CO_DESIGN_CONNECTOR_MAX_LENGTH_M = 260.0
+
+#: Deterministic A* grid resolution and terminal-ring sampling step.
+CO_DESIGN_ROUTE_CELL_M = 1.5
+CO_DESIGN_TERMINAL_STEP_M = 1.5
+
+#: Boundary setback and other-road clearance kept by a new connector.
+CO_DESIGN_BOUNDARY_MARGIN_M = 0.5
+CO_DESIGN_ROAD_CLEAR_MARGIN_M = 1.0
+
+#: Candidate/attempt caps that bound the deterministic search runtime.
+CO_DESIGN_TERMINAL_LIMIT_OLD = 400
+CO_DESIGN_TERMINAL_LIMIT_VERTEX = 48
+CO_DESIGN_VERTEX_CANDIDATE_LIMIT = 16
+CO_DESIGN_VERTEX_MAX_DISTANCE_M = 160.0
+CO_DESIGN_GRID_VERTEX_LIMIT = 4
+CO_DESIGN_GRID_TERMINAL_LIMIT = 12
+CO_DESIGN_RELINK_TERMINAL_MIN_LENGTH_M = 1.0
+CO_DESIGN_RELINK_VERTEX_LIMIT = 16
+CO_DESIGN_RELINK_GRID_VERTEX_LIMIT = 4
+
+CO_DESIGN_ROAD_ID_PREFIX = "CD-A-"
+CO_DESIGN_RELINK_ID_PREFIX = "CD-R-"
+
+#: A new connector's sidewalk band is trimmed at every building footprint.
+#: Sidewalk overlap is a building/pavement conflict (the round sidewalk cap of a
+#: connector ending in the declared 3.4-3.5 m terminal band would otherwise run
+#: into the served facade); the corridor, centreline and terminal are untouched.
+#: The tolerance matches the FULL_SITE_ROAD_CLEARANCE sidewalk-overlap tolerance.
+CO_DESIGN_SIDEWALK_OVERLAP_TOLERANCE_M2 = 0.01
+
+CO_DESIGN_SIDEWALK_NOTE = (
+    "new connector sidewalks are trimmed at building footprints: a connector "
+    "ends 3.4-3.5 m from the served facade, so its sidewalk band (half width + "
+    "2 m) would otherwise cross the facade even though the road corridor is "
+    "clear; the corridor, centreline, terminal band and junctions are unchanged "
+    "and the clipped area is reported"
+)
+
+CO_DESIGN_CLEARANCE_NOTE = (
+    "the declared terminal band is a centreline rule: a connector ends 3.4-3.5 m "
+    "outside the served footprint.  A flat-capped 4 m access corridor therefore "
+    "keeps 3.45 - 2.00 = 1.45 m from the served facade (a 7 m branch is tangent "
+    "at 0 m), so the basis 3.0 m corridor-polygon clearance cannot hold at the "
+    "served facade; it is reported here, never claimed.  Every building the new "
+    "connector does not serve keeps >= 3.0 m corridor clearance."
+)
+
+
+def _co_design_corridor(line: LineString, width: float) -> Polygon:
+    """Flat-capped corridor: the declared terminal does not carve a facade."""
+    return line.buffer(
+        width / 2.0,
+        cap_style="flat",
+        join_style="round",
+        quad_segs=8,
+    )
+
+
+def _co_design_terminal_candidates(group_union: Any) -> list[Point]:
+    """Sample the 3.4-3.5 m terminal ring around a group footprint union."""
+    ring = group_union.buffer(CO_DESIGN_TERMINAL_MAX_M - 1e-6)
+    points: list[Point] = []
+    for polygon in _polygon_list(ring):
+        if polygon.is_empty or polygon.exterior is None:
+            continue
+        points.extend(
+            _sample_ring(
+                LineString(polygon.exterior.coords),
+                CO_DESIGN_TERMINAL_STEP_M,
+            )
+        )
+    return points
+
+
+def _co_design_intersection_ok(geometry: Any, allowed_points: list[Point]) -> bool:
+    """True when a centreline/road intersection only touches allowed vertices."""
+    if geometry.is_empty:
+        return True
+    if float(getattr(geometry, "length", 0.0) or 0.0) > 1e-9:
+        return False
+    points = _point_list(geometry)
+    if not points:
+        return False
+    return all(
+        any(point.distance(allowed) <= 1e-9 for allowed in allowed_points)
+        for point in points
+    )
+
+
+def _co_design_measure(
+    centerline: LineString,
+    width: float,
+    footprints: list[Polygon],
+    footprint_tree: STRtree,
+    road_centerline_union: Any,
+    allowed_points: list[Point],
+    *,
+    group_union: Any | None = None,
+    group_indices: tuple[int, ...] = (),
+    terminal_xy: tuple[float, float] | None = None,
+) -> tuple[dict[str, Any] | None, str | None]:
+    """Validate one new connector; ``(measure, None)`` when it is clean.
+
+    When ``group_union`` is given the connector must serve that group (terminal
+    band, outside every footprint, no route crossing).  When it is omitted the
+    connector is a relink segment: it only has to be a clean free-space link
+    between two allowed network vertices.
+    """
+    served_index: int | None = None
+    terminal: Point | None = None
+    if group_union is not None:
+        if terminal_xy is None:
+            return None, "missing_terminal"
+        terminal = Point(float(terminal_xy[0]), float(terminal_xy[1]))
+        distance = float(terminal.distance(group_union))
+        if not (
+            CO_DESIGN_TERMINAL_MIN_M - 1e-9
+            <= distance
+            <= CO_DESIGN_TERMINAL_MAX_M + 1e-9
+        ):
+            return None, "terminal_distance_out_of_band"
+        for hit in footprint_tree.query(terminal):
+            if footprints[int(hit)].contains(terminal):
+                return None, "terminal_inside_footprint"
+        if float(centerline.intersection(group_union).length) > (
+            ACCESS_ROUTE_FOOTPRINT_CROSS_MAX_M
+        ):
+            return None, "route_crosses_group"
+        served_index = min(
+            group_indices,
+            key=lambda index: terminal.distance(footprints[index]),
+        )
+    road_intersection = centerline.intersection(road_centerline_union)
+    if not _co_design_intersection_ok(road_intersection, allowed_points):
+        return None, "route_crosses_other_road"
+    corridor = _co_design_corridor(centerline, width)
+    overlap = 0.0
+    for hit in footprint_tree.query(corridor):
+        overlap += float(corridor.intersection(footprints[int(hit)]).area)
+        if overlap > CO_DESIGN_CORRIDOR_OVERLAP_MAX_M2:
+            return None, "corridor_overlaps_building"
+    corridor_clearance: float | None = None
+    for hit in footprint_tree.query(
+        corridor.buffer(CO_DESIGN_CLEARANCE_M + 2.0)
+    ):
+        index = int(hit)
+        if index == served_index:
+            continue
+        value = float(corridor.distance(footprints[index]))
+        if corridor_clearance is None or value < corridor_clearance:
+            corridor_clearance = value
+        if value < CO_DESIGN_CLEARANCE_M - 1e-9:
+            return None, "corridor_clearance_violation"
+    centerline_clearance: float | None = None
+    for hit in footprint_tree.query(
+        centerline.buffer(CO_DESIGN_CLEARANCE_M + 1.0)
+    ):
+        index = int(hit)
+        if index == served_index:
+            continue
+        value = float(centerline.distance(footprints[index]))
+        if centerline_clearance is None or value < centerline_clearance:
+            centerline_clearance = value
+        if value < CO_DESIGN_CLEARANCE_M - 1e-9:
+            return None, "centerline_clearance_violation"
+    served_clearance: float | None = None
+    if served_index is not None:
+        served_clearance = float(corridor.distance(footprints[served_index]))
+    return (
+        {
+            "corridor": corridor,
+            "terminal_distance_m": (
+                None if terminal is None else float(terminal.distance(group_union))
+            ),
+            "corridor_overlap_m2": float(overlap),
+            "corridor_clearance_served_m": served_clearance,
+            "corridor_clearance_other_m": corridor_clearance,
+            "centerline_clearance_m": centerline_clearance,
+            "served_footprint_index": served_index,
+        },
+        None,
+    )
+
+
+def _co_design_terminal_order(
+    group_union: Any,
+    anchor: Point,
+    limit: int,
+) -> list[Point]:
+    terminals = _co_design_terminal_candidates(group_union)
+    ordered = sorted(
+        range(len(terminals)),
+        key=lambda index: (terminals[index].distance(anchor), index),
+    )
+    return [terminals[index] for index in ordered[:limit]]
+
+
+def _co_design_straight_candidate(
+    anchor_xy: tuple[float, float],
+    group_union: Any,
+    group_indices: tuple[int, ...],
+    width: float,
+    footprints: list[Polygon],
+    footprint_tree: STRtree,
+    road_centerline_union: Any,
+    *,
+    terminal_limit: int,
+) -> dict[str, Any] | None:
+    """Shortest clean straight connector from ``anchor_xy`` to the group ring."""
+    anchor = Point(float(anchor_xy[0]), float(anchor_xy[1]))
+    best: dict[str, Any] | None = None
+    for order, terminal in enumerate(
+        _co_design_terminal_order(group_union, anchor, terminal_limit)
+    ):
+        terminal_xy = (float(terminal.x), float(terminal.y))
+        if anchor.distance(terminal) < CO_DESIGN_CONNECTOR_MIN_LENGTH_M:
+            continue
+        centerline = LineString([anchor_xy, terminal_xy])
+        measure, _reason = _co_design_measure(
+            centerline,
+            width,
+            footprints,
+            footprint_tree,
+            road_centerline_union,
+            [anchor],
+            group_union=group_union,
+            group_indices=group_indices,
+            terminal_xy=terminal_xy,
+        )
+        if measure is None:
+            continue
+        if best is None or centerline.length < best["length_m"] - 1e-12:
+            best = {
+                **measure,
+                "centerline": centerline,
+                "terminal_xy": terminal_xy,
+                "length_m": float(centerline.length),
+                "route_kind": "straight",
+                "order": order,
+            }
+    return best
+
+
+def _co_design_grid_route(
+    start: Point,
+    goal: Point,
+    free_region: Any,
+    *,
+    cell_m: float,
+    max_length_m: float,
+) -> LineString | None:
+    """Deterministic A* route between two free points inside ``free_region``."""
+    import heapq
+
+    from shapely.prepared import prep as _prep
+
+    if free_region.is_empty:
+        return None
+    prepared = _prep(free_region)
+    minx, miny, maxx, maxy = free_region.bounds
+    cols = math.ceil((maxx - minx) / cell_m) + 1
+    rows = math.ceil((maxy - miny) / cell_m) + 1
+
+    def grid_point(col: int, row: int) -> Point:
+        return Point(minx + col * cell_m, miny + row * cell_m)
+
+    cache: dict[tuple[int, int], bool] = {}
+
+    def cell_free(col: int, row: int) -> bool:
+        key = (col, row)
+        cached = cache.get(key)
+        if cached is None:
+            cached = bool(prepared.covers(grid_point(col, row)))
+            cache[key] = cached
+        return cached
+
+    def cell_of(point: Point) -> tuple[int, int]:
+        return (
+            max(0, min(cols - 1, int((point.x - minx) / cell_m))),
+            max(0, min(rows - 1, int((point.y - miny) / cell_m))),
+        )
+
+    start_cell = cell_of(start)
+    goal_cell = cell_of(goal)
+    if not cell_free(*start_cell) or not cell_free(*goal_cell):
+        return None
+    neighbors = (
+        (-1, -1), (-1, 0), (-1, 1),
+        (0, -1), (0, 1),
+        (1, -1), (1, 0), (1, 1),
+    )
+
+    def heuristic(cell: tuple[int, int]) -> float:
+        return grid_point(*cell).distance(goal)
+
+    heap: list[tuple[float, float, int, tuple[int, int]]] = [
+        (heuristic(start_cell), 0.0, 0, start_cell)
+    ]
+    cost: dict[tuple[int, int], float] = {start_cell: 0.0}
+    parent: dict[tuple[int, int], tuple[int, int]] = {}
+    visited: set[tuple[int, int]] = set()
+    serial = 1
+    found = False
+    while heap:
+        _, current_cost, _, current = heapq.heappop(heap)
+        if current in visited:
+            continue
+        if current_cost > cost.get(current, float("inf")) + 1e-12:
+            continue
+        visited.add(current)
+        if current == goal_cell:
+            found = True
+            break
+        if current_cost > max_length_m:
+            break
+        col, row = current
+        for delta_col, delta_row in neighbors:
+            neighbour = (col + delta_col, row + delta_row)
+            if not (0 <= neighbour[0] < cols and 0 <= neighbour[1] < rows):
+                continue
+            if not cell_free(*neighbour):
+                continue
+            step = cell_m * (
+                math.sqrt(2.0) if delta_col and delta_row else 1.0
+            )
+            candidate = current_cost + step
+            if candidate < cost.get(neighbour, float("inf")) - 1e-12:
+                cost[neighbour] = candidate
+                parent[neighbour] = current
+                heapq.heappush(
+                    heap,
+                    (
+                        candidate + heuristic(neighbour),
+                        candidate,
+                        serial,
+                        neighbour,
+                    ),
+                )
+                serial += 1
+    if not found:
+        return None
+    ordered: list[tuple[int, int]] = [goal_cell]
+    while ordered[-1] != start_cell:
+        if ordered[-1] not in parent:
+            return None
+        ordered.append(parent[ordered[-1]])
+    ordered.reverse()
+    coordinates = [
+        (float(start.x), float(start.y)),
+        *[
+            (float(grid_point(col, row).x), float(grid_point(col, row).y))
+            for col, row in ordered[1:-1]
+        ],
+        (float(goal.x), float(goal.y)),
+    ]
+    line = LineString(
+        _simplify_detour_coords(coordinates, deviation_m=0.05)
+    )
+    if line.length > max_length_m:
+        return None
+    return line
+
+
+def _co_design_grid_candidate(
+    anchor_xy: tuple[float, float],
+    group_union: Any,
+    group_indices: tuple[int, ...],
+    width: float,
+    footprints: list[Polygon],
+    footprint_tree: STRtree,
+    road_centerline_union: Any,
+    free_region: Any,
+    *,
+    cell_m: float,
+    terminal_limit: int,
+) -> dict[str, Any] | None:
+    """Shortest clean A* detour from ``anchor_xy`` to the group terminal ring."""
+    anchor = Point(float(anchor_xy[0]), float(anchor_xy[1]))
+    if free_region.is_empty or not free_region.covers(anchor):
+        return None
+    reach = CO_DESIGN_CLEARANCE_M + width / 2.0 + 1.0
+    best: dict[str, Any] | None = None
+    for order, terminal in enumerate(
+        _co_design_terminal_order(group_union, anchor, terminal_limit)
+    ):
+        terminal_distance = float(terminal.distance(group_union))
+        boundary_point = nearest_points(group_union.boundary, terminal)[0]
+        dx = float(terminal.x) - float(boundary_point.x)
+        dy = float(terminal.y) - float(boundary_point.y)
+        norm = math.hypot(dx, dy)
+        gate_offset = reach - terminal_distance
+        if norm < 1e-9 or gate_offset <= 0.0:
+            continue
+        gate = Point(
+            float(terminal.x) + dx / norm * gate_offset,
+            float(terminal.y) + dy / norm * gate_offset,
+        )
+        if not free_region.covers(gate):
+            continue
+        if anchor.distance(gate) <= CO_DESIGN_CONNECTOR_MIN_LENGTH_M:
+            continue
+        route = _co_design_grid_route(
+            anchor,
+            gate,
+            free_region,
+            cell_m=cell_m,
+            max_length_m=CO_DESIGN_CONNECTOR_MAX_LENGTH_M,
+        )
+        if route is None:
+            continue
+        terminal_xy = (float(terminal.x), float(terminal.y))
+        coordinates = [
+            (float(x_value), float(y_value))
+            for x_value, y_value in list(route.coords)
+        ]
+        coordinates.append(terminal_xy)
+        centerline = LineString(coordinates)
+        if not (
+            CO_DESIGN_CONNECTOR_MIN_LENGTH_M
+            <= centerline.length
+            <= CO_DESIGN_CONNECTOR_MAX_LENGTH_M
+        ):
+            continue
+        measure, _reason = _co_design_measure(
+            centerline,
+            width,
+            footprints,
+            footprint_tree,
+            road_centerline_union,
+            [anchor],
+            group_union=group_union,
+            group_indices=group_indices,
+            terminal_xy=terminal_xy,
+        )
+        if measure is None:
+            continue
+        if best is None or centerline.length < best["length_m"] - 1e-12:
+            best = {
+                **measure,
+                "centerline": centerline,
+                "terminal_xy": terminal_xy,
+                "length_m": float(centerline.length),
+                "route_kind": "grid",
+                "order": order,
+            }
+    return best
+
+
+def _co_design_road_vertices(
+    roads: list[RoadDesign],
+) -> list[dict[str, Any]]:
+    """Every existing centreline vertex of the fixed network, deduplicated."""
+    vertices: dict[tuple[float, float], dict[str, Any]] = {}
+    for order, road in enumerate(roads):
+        for x_value, y_value in road.centerline.coords:
+            key = (float(x_value), float(y_value))
+            record = vertices.get(key)
+            if record is None:
+                record = {
+                    "xy": key,
+                    "point": Point(key[0], key[1]),
+                    "road_ids": [],
+                    "order": order,
+                }
+                vertices[key] = record
+            if road.edge_id not in record["road_ids"]:
+                record["road_ids"].append(road.edge_id)
+    return list(vertices.values())
+
+
+def _co_design_original_roads_unchanged(
+    frozen_road_layout: RoadLayout,
+    roads: tuple[RoadDesign, ...],
+) -> tuple[bool, list[dict[str, Any]]]:
+    """Check the frozen 44 roads kept their id, class, width and exact coords."""
+    by_id = {road.edge_id: road for road in roads}
+    problems: list[dict[str, Any]] = []
+    for original in frozen_road_layout.roads:
+        candidate = by_id.get(original.edge_id)
+        if candidate is None:
+            problems.append(
+                {"road_id": original.edge_id, "issue": "missing"}
+            )
+            continue
+        original_coords = [
+            (float(x), float(y)) for x, y in original.centerline.coords
+        ]
+        candidate_coords = [
+            (float(x), float(y)) for x, y in candidate.centerline.coords
+        ]
+        if (
+            candidate.class_name != original.class_name
+            or abs(float(candidate.width_m) - float(original.width_m)) > 1e-12
+            or candidate_coords != original_coords
+        ):
+            problems.append(
+                {"road_id": original.edge_id, "issue": "geometry_changed"}
+            )
+    return (not problems), problems
+
+
+def rebuild_group_access(
+    design_input: DesignInput,
+    basis: DesignBasis,
+    intent: DesignIntent,
+    building_layout: BuildingLayout,
+    frozen_road_layout: RoadLayout,
+    *,
+    route_cell_m: float = CO_DESIGN_ROUTE_CELL_M,
+    candidate_id: str | None = None,
+) -> tuple[RoadLayout, dict[str, Any]]:
+    """Candidate A: rebuild every group's access against a fixed building layout.
+
+    Input: the M4d-1 full-site ``building_layout`` plus the frozen 44-road
+    network.  Output: a new ``RoadLayout`` that keeps all 44 frozen roads
+    (id/class/width/exact centreline coordinates) and adds one declared
+    connector per group (plus relink connectors where a frozen group terminal is
+    enclosed by the fixed network), together with the collision-free evidence
+    used to build them.  Groups whose geometry cannot be connected honestly are
+    left out and listed in ``failures`` / ``unresolved_group_ids`` (never faked).
+    ``candidate_id`` is only a label for the evidence payload (the same builder
+    serves candidates A and B); it is echoed, never guessed.
+    """
+    buildings = list(building_layout.buildings)
+    footprints = [item.footprint for item in buildings]
+    footprint_tree = STRtree(footprints)
+    footprint_index = {
+        item.building_id: index for index, item in enumerate(buildings)
+    }
+    originals = list(frozen_road_layout.roads)
+    road_widths = basis.road_widths
+    sidewalk_width = basis.sidewalk_width_m
+    buildings_union = unary_union(footprints) if footprints else None
+    vertices = _co_design_road_vertices(originals)
+
+    # Roads whose frozen declaration must move to the new connector.
+    declaring_road: dict[str, RoadDesign] = {}
+    for road in originals:
+        for group_id in getattr(road, "serves_group_ids", ()) or ():
+            declaring_road.setdefault(group_id, road)
+
+    built_roads: list[RoadDesign] = []
+    connector_records: list[dict[str, Any]] = []
+    relink_records: list[dict[str, Any]] = []
+    failures: list[dict[str, Any]] = []
+    relink_failures: list[dict[str, Any]] = []
+    relink_skipped: list[dict[str, Any]] = []
+    pending_relinks: list[tuple[str, RoadDesign, tuple[float, float]]] = []
+    junctions: list[dict[str, Any]] = [
+        dict(item) for item in frozen_road_layout.explicit_junctions
+    ]
+    free_region_cache: dict[tuple[float, tuple[str, ...]], Any] = {}
+
+    def road_centerline_union() -> Any:
+        return unary_union(
+            [road.centerline for road in originals]
+            + [road.centerline for road in built_roads]
+        )
+
+    def free_region_for(width: float, skip_ids: tuple[str, ...]) -> Any:
+        key = (width, tuple(sorted(skip_ids)))
+        cached = free_region_cache.get(key)
+        if cached is not None:
+            return cached
+        half = width / 2.0
+        obstacles = [
+            footprint.buffer(
+                CO_DESIGN_CLEARANCE_M + half + 0.05,
+                join_style="mitre",
+            )
+            for footprint in footprints
+        ]
+        obstacles.extend(
+            road.centerline.buffer(
+                half + CO_DESIGN_ROAD_CLEAR_MARGIN_M
+            )
+            for road in originals + built_roads
+            if road.edge_id not in skip_ids
+        )
+        inner = design_input.site_boundary.buffer(
+            -(CO_DESIGN_BOUNDARY_MARGIN_M + half)
+        )
+        region = inner.difference(unary_union(obstacles))
+        free_region_cache[key] = region
+        return region
+
+    def try_straight_access(
+        anchor_xy: tuple[float, float],
+        group_union: Any,
+        group_indices: tuple[int, ...],
+        terminal_limit: int,
+    ) -> dict[str, Any] | None:
+        union_now = road_centerline_union()
+        for class_name, width_key in GROUP_ACCESS_CLASS_OPTIONS:
+            width = float(road_widths[width_key])
+            result = _co_design_straight_candidate(
+                anchor_xy,
+                group_union,
+                group_indices,
+                width,
+                footprints,
+                footprint_tree,
+                union_now,
+                terminal_limit=terminal_limit,
+            )
+            if result is not None:
+                return {
+                    **result,
+                    "class_name": class_name,
+                    "width_m": width,
+                }
+        return None
+
+    def try_grid_access(
+        anchor_xy: tuple[float, float],
+        anchor_road_ids: tuple[str, ...],
+        group_union: Any,
+        group_indices: tuple[int, ...],
+        terminal_limit: int,
+    ) -> dict[str, Any] | None:
+        union_now = road_centerline_union()
+        for class_name, width_key in reversed(GROUP_ACCESS_CLASS_OPTIONS):
+            width = float(road_widths[width_key])
+            region = free_region_for(width, anchor_road_ids)
+            result = _co_design_grid_candidate(
+                anchor_xy,
+                group_union,
+                group_indices,
+                width,
+                footprints,
+                footprint_tree,
+                union_now,
+                region,
+                cell_m=route_cell_m,
+                terminal_limit=terminal_limit,
+            )
+            if result is not None:
+                return {
+                    **result,
+                    "class_name": class_name,
+                    "width_m": width,
+                }
+        return None
+
+    # ---- phase 1: extend the group's own frozen terminal -------------------
+    for group in intent.groups:
+        group_ids = [
+            building_id
+            for building_id in group.building_ids
+            if building_id in footprint_index
+        ]
+        if not group_ids:
+            failures.append(
+                {
+                    "group_id": group.group_id,
+                    "reason": "no placed building belongs to the group",
+                }
+            )
+            continue
+        group_indices = tuple(
+            footprint_index[building_id] for building_id in group_ids
+        )
+        group_union = unary_union(
+            [footprints[index] for index in group_indices]
+        )
+        anchor_road = declaring_road.get(group.group_id)
+        if anchor_road is None:
+            failures.append(
+                {
+                    "group_id": group.group_id,
+                    "reason": (
+                        "the frozen network has no road declaring this group, "
+                        "so there is no fixed terminal to extend"
+                    ),
+                }
+            )
+            continue
+        anchor_coords = list(anchor_road.centerline.coords)
+        old_terminal_xy = (
+            float(anchor_coords[-1][0]),
+            float(anchor_coords[-1][1]),
+        )
+        choice = try_straight_access(
+            old_terminal_xy,
+            group_union,
+            group_indices,
+            CO_DESIGN_TERMINAL_LIMIT_OLD,
+        )
+        anchor_record: dict[str, Any] = {
+            "kind": "frozen_group_terminal",
+            "xy": [old_terminal_xy[0], old_terminal_xy[1]],
+            "road_ids": [anchor_road.edge_id],
+        }
+        if choice is None:
+            choice = try_grid_access(
+                old_terminal_xy,
+                (anchor_road.edge_id,),
+                group_union,
+                group_indices,
+                CO_DESIGN_GRID_TERMINAL_LIMIT,
+            )
+        if choice is None:
+            # ---- phase 2: fixed-network vertex next to the group -----------
+            candidate_vertices = [
+                vertex
+                for vertex in vertices
+                if CO_DESIGN_CONNECTOR_MIN_LENGTH_M
+                <= vertex["point"].distance(group_union)
+                <= CO_DESIGN_VERTEX_MAX_DISTANCE_M
+                and vertex["point"].distance(
+                    Point(old_terminal_xy[0], old_terminal_xy[1])
+                )
+                > 1e-9
+            ]
+            candidate_vertices.sort(
+                key=lambda vertex: (
+                    round(vertex["point"].distance(group_union), 9),
+                    vertex["order"],
+                    vertex["xy"],
+                )
+            )
+            for vertex in candidate_vertices[:CO_DESIGN_VERTEX_CANDIDATE_LIMIT]:
+                choice = try_straight_access(
+                    vertex["xy"],
+                    group_union,
+                    group_indices,
+                    CO_DESIGN_TERMINAL_LIMIT_VERTEX,
+                )
+                if choice is not None:
+                    anchor_record = {
+                        "kind": "fixed_network_vertex",
+                        "xy": [vertex["xy"][0], vertex["xy"][1]],
+                        "road_ids": list(vertex["road_ids"]),
+                    }
+                    break
+            if choice is None:
+                for vertex in candidate_vertices[:CO_DESIGN_GRID_VERTEX_LIMIT]:
+                    choice = try_grid_access(
+                        vertex["xy"],
+                        tuple(vertex["road_ids"]),
+                        group_union,
+                        group_indices,
+                        CO_DESIGN_GRID_TERMINAL_LIMIT,
+                    )
+                    if choice is not None:
+                        anchor_record = {
+                            "kind": "fixed_network_vertex",
+                            "xy": [vertex["xy"][0], vertex["xy"][1]],
+                            "road_ids": list(vertex["road_ids"]),
+                        }
+                        break
+        if choice is None:
+            failures.append(
+                {
+                    "group_id": group.group_id,
+                    "reason": (
+                        "no straight or A* grid connector reaches the 3.4-3.5 m "
+                        "terminal band from the frozen terminal or any nearby "
+                        "fixed-network vertex without crossing a building, "
+                        "another centreline or the 3.0 m clearance band"
+                    ),
+                }
+            )
+            continue
+        new_road_id = (
+            f"{CO_DESIGN_ROAD_ID_PREFIX}{group.group_id.replace('-', '')}"
+        )
+        centerline: LineString = choice["centerline"]
+        terminal_xy = tuple(choice["terminal_xy"])
+        start_junction_id = _add_or_merge_junction(
+            junctions,
+            (float(anchor_record["xy"][0]), float(anchor_record["xy"][1])),
+            tuple(anchor_record["road_ids"]) + (new_road_id,),
+        )
+        built_roads.append(
+            RoadDesign(
+                edge_id=new_road_id,
+                class_name=str(choice["class_name"]),
+                width_m=float(choice["width_m"]),
+                centerline=centerline,
+                corridor=choice["corridor"],
+                is_new_connector=True,
+                reason=(
+                    "candidate A full-site group access: a new connector from "
+                    f"the {anchor_record['kind']} to the 3.4-3.5 m terminal band "
+                    f"of group {group.group_id}; route kind "
+                    f"{choice['route_kind']}, class {choice['class_name']} "
+                    f"({float(choice['width_m']):.1f} m), flat-capped corridor"
+                ),
+                source_edge_ids=(),
+                start_junction_id=start_junction_id,
+                end_junction_id=None,
+                serves_group_ids=(group.group_id,),
+                access_terminal_xy=(
+                    float(terminal_xy[0]),
+                    float(terminal_xy[1]),
+                ),
+            )
+        )
+        free_region_cache.clear()
+        connector_records.append(
+            {
+                "group_id": group.group_id,
+                "road_id": new_road_id,
+                "class_name": str(choice["class_name"]),
+                "width_m": float(choice["width_m"]),
+                "length_m": float(centerline.length),
+                "route_kind": choice["route_kind"],
+                "attach_kind": anchor_record["kind"],
+                "attach_road_ids": list(anchor_record["road_ids"]),
+                "attach_xy": list(anchor_record["xy"]),
+                "terminal_xy": [
+                    float(terminal_xy[0]),
+                    float(terminal_xy[1]),
+                ],
+                "terminal_distance_m": float(choice["terminal_distance_m"]),
+                "corridor_overlap_m2": float(choice["corridor_overlap_m2"]),
+                "corridor_clearance_served_m": float(
+                    choice["corridor_clearance_served_m"]
+                ),
+                "corridor_clearance_other_m": choice[
+                    "corridor_clearance_other_m"
+                ],
+                "centerline_clearance_m": choice["centerline_clearance_m"],
+                "served_footprint_index": choice.get("served_footprint_index"),
+                "vertex_count": len(centerline.coords),
+            }
+        )
+        if anchor_record["kind"] != "frozen_group_terminal":
+            pending_relinks.append(
+                (group.group_id, anchor_road, old_terminal_xy)
+            )
+
+    # ---- phase 3: relink frozen group terminals left dangling --------------
+    relink_width = float(road_widths["access_road"])
+    for group_id, anchor_road, old_terminal_xy in pending_relinks:
+        relink_id = (
+            f"{CO_DESIGN_RELINK_ID_PREFIX}{group_id.replace('-', '')}"
+        )
+        anchor = Point(float(old_terminal_xy[0]), float(old_terminal_xy[1]))
+        endpoint_count = 0
+        for road in originals + built_roads:
+            coords = list(road.centerline.coords)
+            for endpoint in (coords[0], coords[-1]):
+                if (
+                    float(endpoint[0]) == anchor.x
+                    and float(endpoint[1]) == anchor.y
+                ):
+                    endpoint_count += 1
+        if endpoint_count != 1:
+            relink_skipped.append(
+                {
+                    "group_id": group_id,
+                    "reason": (
+                        "the frozen group terminal is already reconnected by "
+                        "another new connector, so it is no longer a dangling "
+                        "dead end"
+                    ),
+                }
+            )
+            continue
+        own_vertices = {
+            (float(x), float(y)) for x, y in anchor_road.centerline.coords
+        }
+        candidate_vertices = [
+            vertex
+            for vertex in vertices
+            if (round(vertex["xy"][0], 9), round(vertex["xy"][1], 9))
+            not in own_vertices
+            and vertex["point"].distance(anchor)
+            >= CO_DESIGN_RELINK_TERMINAL_MIN_LENGTH_M
+        ]
+        candidate_vertices.sort(
+            key=lambda vertex: (
+                round(vertex["point"].distance(anchor), 9),
+                vertex["order"],
+                vertex["xy"],
+            )
+        )
+        best: dict[str, Any] | None = None
+        union_now = road_centerline_union()
+        for vertex in candidate_vertices[:CO_DESIGN_RELINK_VERTEX_LIMIT]:
+            target = vertex["point"]
+            centerline = LineString(
+                [
+                    (float(anchor.x), float(anchor.y)),
+                    (float(target.x), float(target.y)),
+                ]
+            )
+            measure, _reason = _co_design_measure(
+                centerline,
+                relink_width,
+                footprints,
+                footprint_tree,
+                union_now,
+                [anchor, target],
+            )
+            if measure is None:
+                continue
+            if best is None or centerline.length < best["length_m"] - 1e-12:
+                best = {
+                    **measure,
+                    "vertex": vertex,
+                    "centerline": centerline,
+                    "length_m": float(centerline.length),
+                    "route_kind": "straight",
+                }
+        if best is None:
+            for vertex in candidate_vertices[:CO_DESIGN_RELINK_GRID_VERTEX_LIMIT]:
+                target = vertex["point"]
+                skip_ids = tuple(
+                    sorted({anchor_road.edge_id, *vertex["road_ids"]})
+                )
+                region = free_region_for(relink_width, skip_ids)
+                if not region.covers(anchor) or not region.covers(target):
+                    continue
+                route = _co_design_grid_route(
+                    anchor,
+                    target,
+                    region,
+                    cell_m=route_cell_m,
+                    max_length_m=CO_DESIGN_CONNECTOR_MAX_LENGTH_M,
+                )
+                if route is None:
+                    continue
+                centerline = LineString(list(route.coords))
+                if centerline.length > CO_DESIGN_CONNECTOR_MAX_LENGTH_M:
+                    continue
+                measure, _reason = _co_design_measure(
+                    centerline,
+                    relink_width,
+                    footprints,
+                    footprint_tree,
+                    union_now,
+                    [anchor, target],
+                )
+                if measure is None:
+                    continue
+                if (
+                    best is None
+                    or centerline.length < best["length_m"] - 1e-12
+                ):
+                    best = {
+                        **measure,
+                        "vertex": vertex,
+                        "centerline": centerline,
+                        "length_m": float(centerline.length),
+                        "route_kind": "grid",
+                    }
+        if best is None:
+            relink_failures.append(
+                {
+                    "group_id": group_id,
+                    "reason": (
+                        "the frozen group terminal is enclosed by the fixed "
+                        "road network and no clean relink connector to a "
+                        "fixed-network vertex could be built"
+                    ),
+                }
+            )
+            continue
+        target_vertex = best["vertex"]
+        target_xy = (
+            float(target_vertex["xy"][0]),
+            float(target_vertex["xy"][1]),
+        )
+        start_junction_id = _add_or_merge_junction(
+            junctions,
+            old_terminal_xy,
+            (anchor_road.edge_id, relink_id),
+        )
+        end_junction_id = _add_or_merge_junction(
+            junctions,
+            target_xy,
+            tuple(target_vertex["road_ids"]) + (relink_id,),
+        )
+        centerline = best["centerline"]
+        built_roads.append(
+            RoadDesign(
+                edge_id=relink_id,
+                class_name="access",
+                width_m=relink_width,
+                centerline=centerline,
+                corridor=best["corridor"],
+                is_new_connector=True,
+                reason=(
+                    "candidate A full-site group access: short relink that "
+                    f"reconnects the frozen group branch {anchor_road.edge_id} "
+                    f"terminal ({group_id}) to a fixed-network vertex, so the "
+                    "relocated group branch is no longer a dangling dead end; "
+                    "the frozen branch itself is unchanged"
+                ),
+                source_edge_ids=(),
+                start_junction_id=start_junction_id,
+                end_junction_id=end_junction_id,
+                serves_group_ids=(),
+                access_terminal_xy=None,
+            )
+        )
+        free_region_cache.clear()
+        relink_records.append(
+            {
+                "group_id": group_id,
+                "road_id": relink_id,
+                "class_name": "access",
+                "width_m": relink_width,
+                "length_m": float(centerline.length),
+                "route_kind": best["route_kind"],
+                "attach_road_id": anchor_road.edge_id,
+                "attach_xy": [float(old_terminal_xy[0]), float(old_terminal_xy[1])],
+                "target_road_ids": list(target_vertex["road_ids"]),
+                "target_xy": [target_xy[0], target_xy[1]],
+                "corridor_overlap_m2": float(best["corridor_overlap_m2"]),
+                "corridor_clearance_other_m": best[
+                    "corridor_clearance_other_m"
+                ],
+                "centerline_clearance_m": best["centerline_clearance_m"],
+                "vertex_count": len(centerline.coords),
+            }
+        )
+
+    # ---- supersede the frozen declarations of the rebuilt groups -----------
+    served_group_ids = {
+        record["group_id"] for record in connector_records
+    }
+    superseded: list[dict[str, Any]] = []
+    updated_originals: dict[str, RoadDesign] = {}
+    for group_id in sorted(served_group_ids):
+        road = declaring_road.get(group_id)
+        if road is None:
+            continue
+        new_road_id = (
+            f"{CO_DESIGN_ROAD_ID_PREFIX}{group_id.replace('-', '')}"
+        )
+        updated_originals[road.edge_id] = replace(
+            road,
+            serves_group_ids=(),
+            access_terminal_xy=None,
+            reason=(
+                "fixed M4d-1 network branch: its group-access declaration for "
+                f"{group_id} was superseded by {new_road_id} after the "
+                "full-site relocation moved the group away from this terminal; "
+                "the road geometry is unchanged"
+            ),
+        )
+        superseded.append(
+            {
+                "group_id": group_id,
+                "road_id": road.edge_id,
+                "previous_serves_group_ids": [group_id],
+                "previous_access_terminal_xy": (
+                    None
+                    if road.access_terminal_xy is None
+                    else [
+                        float(road.access_terminal_xy[0]),
+                        float(road.access_terminal_xy[1]),
+                    ]
+                ),
+                "new_road_id": new_road_id,
+            }
+        )
+
+    # ---- assemble the new road layout ------------------------------------
+    new_roads: list[RoadDesign] = [
+        updated_originals.get(road.edge_id, road) for road in originals
+    ] + built_roads
+    roads_tuple = tuple(new_roads)
+    corridor_union = unary_union([road.corridor for road in roads_tuple])
+    new_road_ids = {road.edge_id for road in built_roads}
+    sidewalk_parts: list[Any] = []
+    sidewalk_clipped_road_ids: list[str] = []
+    sidewalk_clipped_area_m2 = 0.0
+    for road in roads_tuple:
+        part = road.centerline.buffer(
+            road.width_m / 2 + sidewalk_width,
+            cap_style="round" if road.class_name != "main" else "flat",
+            join_style="round",
+        )
+        if road.edge_id in new_road_ids and buildings_union is not None:
+            clipped = part.difference(buildings_union)
+            if not clipped.is_empty and clipped.area < part.area - 1e-12:
+                sidewalk_clipped_road_ids.append(road.edge_id)
+                sidewalk_clipped_area_m2 += float(part.area - clipped.area)
+            part = clipped
+        sidewalk_parts.append(part)
+    sidewalk_union = unary_union(sidewalk_parts).difference(corridor_union)
+    if sidewalk_union.geom_type == "GeometryCollection":
+        sidewalk_union = unary_union(
+            [
+                item
+                for item in sidewalk_union.geoms
+                if item.geom_type in {"Polygon", "MultiPolygon"}
+            ]
+        )
+    # honest post-clip check: which building footprints still overlap a
+    # sidewalk?  (should be none; anything left is reported, never hidden)
+    sidewalk_overlap_building_ids: list[str] = []
+    if buildings_union is not None:
+        for index, footprint in enumerate(footprints):
+            area = float(footprint.intersection(sidewalk_union).area)
+            if area > CO_DESIGN_SIDEWALK_OVERLAP_TOLERANCE_M2:
+                sidewalk_overlap_building_ids.append(
+                    buildings[index].building_id
+                )
+    if corridor_union.geom_type == "Polygon":
+        corridor_union_pieces = 1
+    elif corridor_union.geom_type == "MultiPolygon":
+        corridor_union_pieces = len(corridor_union.geoms)
+    else:
+        corridor_union_pieces = 0
+    noded_topology = noded_road_topology(roads_tuple, tuple(junctions))
+    junction_nodes = tuple(
+        f"JN-{index:02d}"
+        for index in range(1, noded_topology.junction_count + 1)
+    )
+    dead_end_nodes = tuple(
+        f"DE-{index:02d}"
+        for index in range(1, noded_topology.dead_end_count + 1)
+    )
+    if buildings_union is not None:
+        overlap_new_access = float(
+            unary_union(
+                [
+                    road.corridor
+                    for road in roads_tuple
+                    if road.class_name in {"branch", "access"}
+                ]
+            )
+            .intersection(buildings_union)
+            .area
+        )
+        overlap_main_after = float(
+            unary_union(
+                [
+                    road.corridor
+                    for road in roads_tuple
+                    if road.class_name == "main"
+                ]
+            )
+            .intersection(buildings_union)
+            .area
+        )
+        overlap_total = float(corridor_union.intersection(buildings_union).area)
+    else:
+        overlap_new_access = 0.0
+        overlap_main_after = 0.0
+        overlap_total = 0.0
+
+    access_roads = [road for road in built_roads if road.serves_group_ids]
+    relink_roads = [road for road in built_roads if not road.serves_group_ids]
+    min_centerline_clearance: float | None = None
+    min_corridor_clearance: float | None = None
+    min_corridor_clearance_other: float | None = None
+    for record, road in zip(connector_records, access_roads):
+        served_index = record.get("served_footprint_index")
+        for index, footprint in enumerate(footprints):
+            if index == served_index:
+                continue
+            distance = float(road.centerline.distance(footprint))
+            if (
+                min_centerline_clearance is None
+                or distance < min_centerline_clearance
+            ):
+                min_centerline_clearance = distance
+            clearance = float(road.corridor.distance(footprint))
+            if (
+                min_corridor_clearance is None
+                or clearance < min_corridor_clearance
+            ):
+                min_corridor_clearance = clearance
+        other = record["corridor_clearance_other_m"]
+        if other is not None:
+            min_corridor_clearance_other = (
+                float(other)
+                if min_corridor_clearance_other is None
+                else min(min_corridor_clearance_other, float(other))
+            )
+    for road in relink_roads:
+        for footprint in footprints:
+            distance = float(road.centerline.distance(footprint))
+            if (
+                min_centerline_clearance is None
+                or distance < min_centerline_clearance
+            ):
+                min_centerline_clearance = distance
+            clearance = float(road.corridor.distance(footprint))
+            if (
+                min_corridor_clearance is None
+                or clearance < min_corridor_clearance
+            ):
+                min_corridor_clearance = clearance
+            if (
+                min_corridor_clearance_other is None
+                or clearance < min_corridor_clearance_other
+            ):
+                min_corridor_clearance_other = clearance
+
+    original_unchanged, original_problems = _co_design_original_roads_unchanged(
+        frozen_road_layout, roads_tuple
+    )
+    unresolved_group_ids = sorted(
+        failure["group_id"] for failure in failures
+    )
+    new_connector_corridors = [road.corridor for road in built_roads]
+    report: dict[str, Any] = {
+        "schema_id": "dgcad.co-design-group-access.v0.3",
+        "terminal_band_m": [
+            CO_DESIGN_TERMINAL_MIN_M,
+            CO_DESIGN_TERMINAL_MAX_M,
+        ],
+        "connector_count": len(access_roads),
+        "branch_count": sum(
+            1 for road in access_roads if road.class_name == "branch"
+        ),
+        "access_count": sum(
+            1 for road in access_roads if road.class_name == "access"
+        ),
+        "connector_total_length_m": float(
+            sum(road.centerline.length for road in access_roads)
+        ),
+        "connectors": connector_records,
+        "relink_count": len(relink_roads),
+        "relink_total_length_m": float(
+            sum(road.centerline.length for road in relink_roads)
+        ),
+        "relinks": relink_records,
+        "relink_failures": relink_failures,
+        "relink_skipped": relink_skipped,
+        "failures": failures,
+        "unresolved_group_ids": unresolved_group_ids,
+        "superseded_declarations": superseded,
+        "road_count": len(roads_tuple),
+        "frozen_road_count": len(originals),
+        "new_road_count": len(built_roads),
+        "original_roads_unchanged": bool(original_unchanged),
+        "original_road_problems": original_problems,
+        "corridor_overlap_m2": {
+            "new_connector_total_m2": float(
+                unary_union(new_connector_corridors)
+                .intersection(buildings_union)
+                .area
+                if new_connector_corridors and buildings_union is not None
+                else 0.0
+            ),
+            "max_connector_m2": max(
+                (
+                    float(record["corridor_overlap_m2"])
+                    for record in connector_records
+                ),
+                default=0.0,
+            ),
+            "tolerance_m2": CO_DESIGN_CORRIDOR_OVERLAP_MAX_M2,
+        },
+        "sidewalk": {
+            "clipped_road_ids": sidewalk_clipped_road_ids,
+            "clipped_road_count": len(sidewalk_clipped_road_ids),
+            "clipped_area_m2": float(sidewalk_clipped_area_m2),
+            "overlap_building_ids": sidewalk_overlap_building_ids,
+            "overlap_tolerance_m2": CO_DESIGN_SIDEWALK_OVERLAP_TOLERANCE_M2,
+            "note": CO_DESIGN_SIDEWALK_NOTE,
+        },
+        "clearance_m": {
+            "required_m": CO_DESIGN_CLEARANCE_M,
+            "min_centerline_m": min_centerline_clearance,
+            "min_corridor_m": min_corridor_clearance,
+            "min_corridor_other_buildings_m": min_corridor_clearance_other,
+            "min_served_face_corridor_m": min(
+                (
+                    float(record["corridor_clearance_served_m"])
+                    for record in connector_records
+                    if record["corridor_clearance_served_m"] is not None
+                ),
+                default=None,
+            ),
+            "served_face_corridor_m": {
+                record["group_id"]: record["corridor_clearance_served_m"]
+                for record in connector_records
+            },
+            "note": CO_DESIGN_CLEARANCE_NOTE,
+        },
+        "topology": {
+            "component_count": noded_topology.component_count,
+            "crossing_only_count": sum(
+                1
+                for item in noded_topology.connector_states
+                if item.get("state") == "crossing_only"
+            ),
+            "detached_count": sum(
+                1
+                for item in noded_topology.connector_states
+                if item.get("state") == "detached"
+            ),
+            "max_endpoint_gap_m": noded_topology.max_endpoint_gap_m,
+            "junction_count": noded_topology.junction_count,
+            "dead_end_count": noded_topology.dead_end_count,
+            "connector_states": [
+                dict(item)
+                for item in noded_topology.connector_states
+                if item["road_id"] not in {road.edge_id for road in originals}
+            ],
+        },
+    }
+
+    if candidate_id is not None:
+        report["candidate_id"] = candidate_id
+
+    simplification = dict(frozen_road_layout.simplification)
+    simplification.update(
+        {
+            "co_design_connector_count": len(access_roads),
+            "co_design_connector_total_length_m": report[
+                "connector_total_length_m"
+            ],
+            "co_design_relink_count": len(relink_roads),
+            "co_design_relink_total_length_m": report[
+                "relink_total_length_m"
+            ],
+            "co_design_group_access_count": len(access_roads),
+            "co_design_unresolved_group_ids": unresolved_group_ids,
+            "co_design_superseded_declaration_count": len(superseded),
+            "co_design_terminal_band_m": list(report["terminal_band_m"]),
+            "co_design_original_roads_unchanged": bool(original_unchanged),
+            "co_design_sidewalk_overlap_building_ids": list(
+                sidewalk_overlap_building_ids
+            ),
+            "co_design_sidewalk_clipped_road_count": len(
+                sidewalk_clipped_road_ids
+            ),
+            "co_design_note": report["clearance_m"]["note"],
+            "co_design_sidewalk_note": report["sidewalk"]["note"],
+        }
+    )
+    if candidate_id is not None:
+        simplification["co_design_candidate"] = candidate_id
+    layout = replace(
+        frozen_road_layout,
+        roads=roads_tuple,
+        corridor_union=corridor_union,
+        sidewalk_union=sidewalk_union,
+        junction_nodes=junction_nodes,
+        dead_end_nodes=dead_end_nodes,
+        corridor_generator=(
+            f"{frozen_road_layout.corridor_generator}"
+            "+co_design_flat_cap_connectors"
+        ),
+        corridor_union_pieces=corridor_union_pieces,
+        noded_topology=noded_topology,
+        explicit_junctions=tuple(junctions),
+        simplification=simplification,
+        road_building_overlap_m2_new_access=overlap_new_access,
+        road_building_overlap_m2_main_after=overlap_main_after,
+        road_building_overlap_m2_total=overlap_total,
+        group_access_unserved=tuple(unresolved_group_ids),
+    )
+    return layout, report

@@ -93,5 +93,10 @@ python scripts/design/build_full_site_evidence.py
   candidate outside buildings/roads, **not designed green** and not a
   landscape design; the designed-green ratio is reported separately and is
   below the 0.30 target.
-- M4d-2 (road/access co-design) is required before this can become the
-  canonical design.
+- M4d-2 (road/access co-design) is a **research draft** in
+  `docs/e2e/design-co-design-001/`: A fails the served-face clearance
+  (2.825 m) and is excluded; B is hard-valid with 12 group splits and honest
+  displacement residuals (group-centroid max 140.12 m, single-building max
+  278.46 m). A/B DXF 584/587 are delivered, but the CAD host is unverified and
+  the served-facade/terminal-band conflict remains open; this sheet is not
+  canonical.
