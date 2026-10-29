@@ -32,11 +32,14 @@ is resolved by the boundary repair), the geojson overlap fields are split
 design-diff alignment/dead-end records, `criterion_met`-verified dead-end
 resolutions and regenerated preview/overlay are published. The base draft now
 has **27 checks = 9 pass + 11 info + 7 deferred (+3 DXF = 30)**, **58 nodes /
-68 edges / cyclomatic 11**, DXF **211 entities** and **396 tests**. M4c-3
-(0.22.0) adds the first **multi-candidate experiment** (A/B1/B2/C), documented in
-`docs/e2e/design-candidates-001/`: all four pass the hard gates; the default
-preference recommends **B1**, road-first recommends **A**, and no single score is
-produced. B1 is only the M4c-2 diversion candidate baseline.
+68 edges / cyclomatic 11**, DXF **211 entities** and **414 tests**. M4c-3
+(0.22.0) adds the first **multi-candidate experiment** (A/B1/B2/C); **M4c-3a**
+(0.23.0) fixes its evaluation integrity (all-44-road class/terminal evidence,
+basis fingerprint binding, `HISTORICAL_BOUNDARY_ARCHIVE`, 11 single-unit
+objectives with auxiliary excluded). Four candidates pass the hard gates; the
+default preference recommends **B1**, road-first recommends **A**, and no single
+score is produced. The current B1 is the boundary-repaired candidate
+(margin 0.6735); its pre-repair form is archival only.
 
 This is the first round of Milestone 4c. The Agent does not ask the designer to
 review sketch geometry. It takes the sketch's spatial intent, makes design
@@ -113,7 +116,7 @@ evidence to explicit service relations:
   `max_endpoint_gap_m` 0.0**. Evidence: `design-roads.geojson` (44 centerlines
   + 24 junction records) publishes `serves_group_ids`/`access_terminal_xy`,
   split overlap fields, `main_boundary_repairs`, `source_segment_map` (25 roads),
-  main-alignment and dead-end-resolution records; its SHA-256 is `a8c1baf5…`.
+  main-alignment and dead-end-resolution records; its SHA-256 is `c5fc7262…`.
 
 ## Main-road alignment and Phase 0 — added in M4c-2, corrected in 0.22.0
 
@@ -169,31 +172,43 @@ still preserved:
   main roads' minimum corridor clearance is about **1.229 m**, and full-site road
   clearance (`FULL_SITE_ROAD_CLEARANCE`) remains deferred.
 
-## Multi-candidate experiment — added in M4c-3
+## Multi-candidate experiment — added in M4c-3, integrity-fixed in M4c-3a
 
-`docs/e2e/design-candidates-001/` holds the first controlled multi-candidate
-decision experiment for the MAIN-19 / SK-BLD-0006 / SK-BLD-0029 conflict. Change
-metrics are measured against the **raw source-aligned design**
-(`alignment_mode='none'`; main-length baseline 1,984.2812597774587 m; reference
-total overlap 36.20414480381279 m²), not against the already-aligned base.
+`docs/e2e/design-candidates-001/` holds the controlled multi-candidate decision
+experiment for the MAIN-19 / SK-BLD-0006 / SK-BLD-0029 conflict. Change metrics
+are measured against the **boundary-safe, dead-end-resolved reference**
+(`alignment_mode='none'`; boundary repair still changes geometry; main-length
+baseline 1,984.2812597774587 m; reference total overlap 36.20414480381279 m²),
+not against the already-aligned base.
 
-| id | strategy | hard | total overlap | road max disp | main length | building shift |
-|---|---|---|---|---|---|---|
-| A | road_priority | pass | 0.8595377847886573 m² | 2.825827798091072 m | 1,981.9609886916392 m | SK-BLD-0006 3.1720857962227718 m |
-| B1 | building_priority_diversion | pass | 0.9943558185246756 m² | 66.23545861756291 m | 2,107.733378663747 m | 0 |
-| B2 | building_priority_alternate | pass | 0.9943558185246756 m² | 71.7722361902286 m | 2,115.0219491017956 m | 0 |
-| C | coordinated | pass | 0.8595377847886573 m² | 76.69965271965492 m | 1,995.4961054524852 m | SK-BLD-0006 1.5 m |
+| id | strategy | hard | total overlap | main dev | branch/access dev | terminal max | building shift | main length |
+|---|---|---|---|---|---|---|---|---|
+| A | road_priority | pass | 0.8595377847886573 m² | 2.320271085819647 m | 2.825827798091072 m (BR-G-08) | 2.826209246611442 m (G-08) | SK-BLD-0006 3.1720857962227718 m | 1,981.9609886916392 m |
+| B1 | building_priority_diversion | pass | 0.9943558185246756 m² | 66.23545861756291 m | 7.352131796880056 m (BR-G-09 follows) | 0 | 0 | 2,107.733378663747 m |
+| B2 | building_priority_alternate | pass | 0.9943558185246756 m² | 71.7722361902286 m | 13.645240022712755 m (BR-G-09 follows) | 0 | 0 | 2,115.0219491017956 m |
+| C | coordinated | pass | 0.8595377847886573 m² | 11.99363782892846 m | 76.69965271965492 m (BR-G-08) | 75.3147044566895 m (G-08) | SK-BLD-0006 1.5 m | 1,995.4961054524852 m |
 
 All four pass the hard gates (**main-road overlap ≤ 0.01 m²; total
 road/building overlap ≤ the boundary-safe reference 0.86–0.99 m²**; 1 noded
 component; corridor inside the boundary with margin 0.6735131264650868; access
-17/17 declared; capacity and basis unchanged). The **default preference**
-(building change → road change → source preservation → green change) recommends
-**B1**; the **road-first preference** recommends **A**. The default Pareto front
-is [B1,B2,C,A], every candidate has a reason, and **no single opaque score** is
-produced. B1 is only the M4c-2 diversion as a candidate baseline — not the
-selected or professional design, the candidate set is not exhaustive, and no
-candidate is human-confirmed or code-compliant.
+17/17 declared; capacity/basis unchanged). M4c-3a compares **all 44 roads** by
+class and per-group terminal; C's 1.5 m building shift hides a **76.700 m
+BR-G-08 re-route and 75.315 m G-08 terminal shift**, so C is **not** a small
+local change. Every candidate carries `parent_basis_id = design-assumption-v0.2`
+and fingerprint `2a2d7807…` (missing/mismatch fails `basis_ok`).
+`HISTORICAL_BOUNDARY_ARCHIVE` keeps the MAIN-19 66.235 m M4c-2 diversion and
+MAIN-08/16/18 repairs separate from current candidates; the current B1 is
+boundary-repaired (margin 0.6735) and hard-passes, while its pre-repair form is
+archival.
+
+The comparison uses **11 single-unit objectives** (building count/displaced
+count/displacement; main length delta; main and branch/access route deviation;
+access terminal delta; source coverage/distance/heading; designed-green delta);
+auxiliary metrics never enter Pareto/preference, and **no single opaque score**
+is produced. The default preference recommends **B1**, road-first recommends
+**A**; Pareto [B1,B2,C,A]; every candidate has a reason. B1 is only a candidate
+baseline — not the selected or professional design; the candidate set is not
+exhaustive and no candidate is human-confirmed or code-compliant.
 
 ## What the Agent changed
 
@@ -261,7 +276,7 @@ recorded as deferred**, to be extended group by group.
 
 ## Plan and CAD output
 
-`design-proposal.dxf` (**211 entities** in the Phase-0 base; was 206 in 0.20.0 and 208 before M4c-1b; audit 0/0, readback 211/211 pass). Phase 0 changed the content (boundary repairs/alignment; still 211 entities); the file byte SHA-256 also changes per save because ezdxf regenerates `$TDUPDATE`/GUIDs (0.19.0 `34a65926…`, 0.20.0 `fcc42d32…`, 0.21.0 `0f76c006…`, 0.22.0 `65fde1ca…`) — compare content, not bytes:
+`design-proposal.dxf` (**211 entities** in the Phase-0 base; was 206 in 0.20.0 and 208 before M4c-1b; audit 0/0, readback 211/211 pass). Phase 0 changed the content (boundary repairs/alignment; still 211 entities); the file byte SHA-256 also changes per save because ezdxf regenerates `$TDUPDATE`/GUIDs (0.19.0 `34a65926…`, 0.20.0 `fcc42d32…`, 0.21.0 `0f76c006…`, 0.22.0 `65fde1ca…`, current 0.23.0 `f88c29e1…`) — compare content, not bytes:
 
 - layers: site boundary, building outline, unit line, main/branch/access road,
   sidewalk, green, entrance, dimensions, title, legend, north, scale, key plan;
@@ -305,7 +320,9 @@ Visuals are generated from the current evidence by
 `scripts/design/render_visuals.py`: `design-preview.svg` and
 `design-overlay.svg` are always written; `design-preview.svg`/`.png` are the same
 scene and the PNG is refreshed only when matplotlib is importable (the project
-adds no dependency). Candidate evidence is regenerated by
+adds no dependency). The overlay's **before** layer uses the alignment records'
+original/adjusted geometry, not a pre-M4c-2 full history; visuals are
+re-rendered after the final evidence. Candidate evidence is regenerated by
 `build_candidate_experiment.py`; one candidate can be turned into an editable
 DXF with `run_candidate_synthesis.py --candidate-id <id>` when the model exposes
 design elements (otherwise the summary records `dxf: pending_interface`).
@@ -331,7 +348,7 @@ design elements (otherwise the summary records `dxf: pending_interface`).
   0.9943558185246756), `main_boundary_repairs` (3), `source_segment_map`
   (25 roads), `main_alignment_records` (1: MAIN-19) and
   `dead_end_resolution_records` (7 resolutions bound to `criterion_met` and a
-  geometry re-check); SHA-256 `a8c1baf5…`
+  geometry re-check); SHA-256 `c5fc7262…`
 - `draft-manifest.json` — persistent autonomous draft, revision 1
 - `scene-snapshot.json` — proposal-preview design objects
 - `design-proposal.dxf`, `cad-ir.json`, `readback-manifest.json`,
@@ -369,9 +386,10 @@ design elements (otherwise the summary records `dxf: pending_interface`).
 - The main-road/building overlap is **resolved** (`MAIN_ROAD_BUILDING_OVERLAP`
   pass; `main_before` 38.19068149970835 → `main_after` 0.0 m²); full-site road
   clearance is still deferred (`FULL_SITE_ROAD_CLEARANCE`).
-- The multi-candidate experiment is a decision aid: B1 is only the M4c-2
-  diversion as a candidate baseline, the candidate set is not exhaustive, no
-  candidate is human-confirmed or code-compliant, and the soft objectives are
-  not a complete quality model.
+- The multi-candidate experiment is a decision aid: the current B1 is the
+  boundary-repaired candidate (margin 0.6735), its pre-repair 66.235 m form is
+  `HISTORICAL_BOUNDARY_ARCHIVE` only, the candidate set is not exhaustive, no
+  candidate is human-confirmed or code-compliant, and the 11 single-unit
+  objectives are not a complete quality model.
 - The full-site north-south spacing is not yet enforced; the focus block is.
 - `EP-R1-SKETCH-001` is not complete.

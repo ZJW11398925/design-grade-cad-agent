@@ -780,6 +780,20 @@ def render_candidate_comparison_svg(
         parts.append(_text(x0 + 16, y0 + 26, text_lines[0], size=14,
                            weight="bold"))
         models = _candidate_models(candidate)
+        detail_lines = [
+            str(line) for line in
+            ((_candidate_metrics(candidate).get("detail_lines")) or ())
+        ][:6]
+        if detail_lines:
+            # Small-font supplementary lines (e.g. per-class deviation and a
+            # specific terminal displacement) sit above the metric block; the
+            # metric block keeps its coordinates, so a candidate without
+            # detail lines renders byte-identically to the previous behaviour.
+            detail_top = y0 + panel_h - 74 - len(detail_lines) * 15 - 4
+            for offset, content in enumerate(detail_lines):
+                parts.append(
+                    _text(x0 + 16, detail_top + offset * 15, content,
+                          size=10.5, fill="#455a64"))
         panel_bounds = _model_bounds(models)
         if panel_bounds is not None:
             transform, frame = _transform_for(panel_bounds, panel_w - 32, pad=20)

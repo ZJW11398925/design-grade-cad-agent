@@ -1,28 +1,31 @@
-"""Independent multi-candidate design evaluator (M4c-3).
+"""Independent multi-candidate design evaluator (M4c-3a).
 
 This module never *generates* a candidate and never trusts a candidate's
-self-reported metrics. It re-computes the hard gates from the candidate geometry
-(road corridors vs building footprints, noded topology, site boundary, declared
-group access, capacity, basis invariance) and derives the soft trade-off metrics
-by comparing the candidate layouts against a reference layout.
+self-reported metrics or verdicts. It re-computes the hard gates from the
+candidate geometry (road corridors vs building footprints, noded topology, site
+boundary, declared group access, capacity, basis fingerprint) and derives the
+trade-off objectives by comparing the candidate against a fixed reference.
 
-The comparison contract deliberately refuses a single black-box score:
+The comparison contract uses **independent, single-unit objectives** — never a
+composite count+metre or length+displacement score:
 
 1. hard gates first — a candidate that fails any hard gate is excluded;
-2. among the surviving candidates the Pareto front on
-   (road change, building change, source preservation, green change) is kept
-   visible;
-3. a recommendation is made only by explicit, ordered preferences, and every
-   candidate (including the recommended one and the excluded ones) gets a reason.
+2. among the surviving candidates the Pareto front over the eleven independent
+   objectives is kept visible; auxiliary diagnostics (open-space/unbuilt/green
+   deltas, space utilization, group-integrity details) never enter the front;
+3. a recommendation is made only by explicit, ordered preferences, compared
+   objective by objective, and every candidate gets a reason.
 
-See ``contracts/design-candidates-v0.1.yaml`` for the machine-readable contract.
+See ``contracts/design-candidates-v0.2.yaml`` for the machine-readable contract.
 """
 from __future__ import annotations
 
+import hashlib
+import json
 from dataclasses import dataclass, field
 from typing import Any, Iterable
 
-from shapely.geometry import LineString, Point
+from shapely.geometry import Point
 
 from .access import (
     TERMINAL_DISTANCE_MAX_M,
@@ -36,7 +39,7 @@ from .green import GreenLayout
 from .roads import RoadLayout
 from .topology import topology_violations
 
-SCHEMA_ID = "dgcad.design-candidates-evaluation.v0.1"
+SCHEMA_ID = "dgcad.design-candidates-evaluation.v0.2"
 
 #: Hard gates, in contract order. Every one must be True for ``hard_pass``.
 HARD_CHECKS = (
@@ -48,7 +51,7 @@ HARD_CHECKS = (
     "basis_ok",
 )
 
-#: Soft evidence keys, in contract order.
+#: Soft evidence containers (kept for the evidence/README tables).
 SOFT_METRICS = (
     "source_preservation",
     "road_change",
@@ -58,15 +61,127 @@ SOFT_METRICS = (
     "space_utilization",
 )
 
-#: Soft objectives used for Pareto/preference ordering (trade-off directions).
-SOFT_OBJECTIVES = (
-    "building_change",
-    "road_change",
-    "source_preservation",
-    "green_change",
+#: The eleven independent objectives used for the Pareto front and comparison.
+#: Each objective is a single physical quantity with its own unit/direction; the
+#: evaluator never adds objectives of different units together.
+OBJECTIVES: dict[str, dict[str, str]] = {
+    "building_count_change": {
+        "direction": "minimize",
+        "unit": "count",
+        "definition": "change in building count versus the reference",
+    },
+    "building_displaced_count": {
+        "direction": "minimize",
+        "unit": "count",
+        "definition": "number of building footprints displaced versus the reference",
+    },
+    "building_displacement_max_m": {
+        "direction": "minimize",
+        "unit": "m",
+        "definition": "largest building footprint displacement versus the reference",
+    },
+    "main_length_delta_abs_m": {
+        "direction": "minimize",
+        "unit": "m",
+        "definition": "absolute change of total main-road length",
+    },
+    "main_route_deviation_max_m": {
+        "direction": "minimize",
+        "unit": "m",
+        "definition": "largest main-road centreline deviation versus the reference",
+    },
+    "branch_access_route_deviation_max_m": {
+        "direction": "minimize",
+        "unit": "m",
+        "definition": "largest branch/access centreline deviation versus the reference",
+    },
+    "access_terminal_max_delta_m": {
+        "direction": "minimize",
+        "unit": "m",
+        "definition": "largest declared access-terminal movement versus the reference",
+    },
+    "source_preservation_coverage": {
+        "direction": "maximize",
+        "unit": "ratio",
+        "definition": "mean source-main-segment coverage by design main roads",
+    },
+    "source_preservation_distance_m": {
+        "direction": "minimize",
+        "unit": "m",
+        "definition": "mean source-to-design segment distance",
+    },
+    "source_preservation_heading_deg": {
+        "direction": "minimize",
+        "unit": "deg",
+        "definition": "mean absolute heading delta to the source main segments",
+    },
+    "green_designed_ratio_delta": {
+        "direction": "maximize",
+        "unit": "ratio",
+        "definition": "change of the designed-green ratio versus the reference",
+    },
+}
+OBJECTIVE_ORDER = tuple(OBJECTIVES)
+
+#: Diagnostics that are reported but never enter the Pareto front.
+AUXILIARY_METRICS = (
+    "green_open_space_ratio_delta",
+    "green_unbuilt_ratio_delta",
+    "space_utilization",
+    "group_integrity_detail",
+    "road_added_vertices",
 )
 
-#: Hard overlap budget for any road corridor against any building footprint.
+#: Historical, already-repaired boundary facts (pre-repair evidence). These are
+#: archival: they describe past versions and are NOT current-candidate verdicts.
+HISTORICAL_BOUNDARY_ARCHIVE = (
+    {
+        "road_id": "MAIN-19",
+        "version": "M4c-2",
+        "kind": "main_road_diversion",
+        "max_displacement_m": 66.23545861756293,
+        "outside_area_m2": None,
+        "status": "resolved_by_main_alignment",
+        "evidence": "docs/e2e/design-synthesis-001/design-summary.json"
+        "#road_alignment.records[MAIN-19]",
+    },
+    {
+        "road_id": "MAIN-08",
+        "version": "M4c-3",
+        "kind": "source_corridor_boundary_repair",
+        "max_displacement_m": 44.1586496117478,
+        "outside_area_m2": 341.6908310814502,
+        "status": "resolved_by_boundary_repair",
+        "evidence": "docs/e2e/design-synthesis-001/design-summary.json"
+        "#road_alignment.boundary_repairs[MAIN-08]",
+    },
+    {
+        "road_id": "MAIN-16",
+        "version": "M4c-3",
+        "kind": "source_corridor_boundary_repair",
+        "max_displacement_m": 1.7423799066510406,
+        "outside_area_m2": 2.417804558565924,
+        "status": "resolved_by_boundary_repair",
+        "evidence": "docs/e2e/design-synthesis-001/design-summary.json"
+        "#road_alignment.boundary_repairs[MAIN-16]",
+    },
+    {
+        "road_id": "MAIN-18",
+        "version": "M4c-3",
+        "kind": "source_corridor_boundary_repair",
+        "max_displacement_m": 2.4984359701101364,
+        "outside_area_m2": 8.290901115044374,
+        "status": "resolved_by_boundary_repair",
+        "evidence": "docs/e2e/design-synthesis-001/design-summary.json"
+        "#road_alignment.boundary_repairs[MAIN-18]",
+    },
+)
+
+#: Current-candidate boundary violations are computed per evaluation and are not
+#: a pre-set list; this constant stays empty on purpose.
+KNOWN_BOUNDARY_VIOLATIONS: tuple[dict[str, Any], ...] = ()
+
+#: Hard overlap budget for the main-road corridor against any building footprint.
 HARD_OVERLAP_MAX_M2 = 0.01
 
 #: Tolerance for corridor-edge containment inside the published site boundary.
@@ -75,26 +190,39 @@ BOUNDARY_TOLERANCE_M = 0.01
 #: Displacement below this is treated as "not moved".
 DISPLACEMENT_EPSILON_M = 1e-6
 
-#: Known boundary violation of the M4c-2 diversion baseline (B1). It is recorded
-#: as evidence and can never be treated as a hard-passing candidate.
-KNOWN_BOUNDARY_VIOLATIONS = (
-    {
-        "candidate_id": "B1",
-        "road_id": "MAIN-08",
-        "strategy": "diversion",
-        "max_displacement_m": 66.23545861756293,
-        "status": "known_boundary_violation",
-        "note": "the M4c-2 diversion routes the MAIN-08 corridor outside the "
-        "published site boundary; it is a candidate baseline, not a hard pass",
-    },
+#: Default preference order over the independent objectives (building
+#: preservation and access stability first, then road disruption, then fidelity
+#: to the source sketch, then green benefit). Mixed-unit scores are not allowed.
+DEFAULT_PRIORITIES = (
+    {"objective": "building_count_change", "direction": "minimize"},
+    {"objective": "building_displaced_count", "direction": "minimize"},
+    {"objective": "building_displacement_max_m", "direction": "minimize"},
+    {"objective": "access_terminal_max_delta_m", "direction": "minimize"},
+    {"objective": "main_route_deviation_max_m", "direction": "minimize"},
+    {"objective": "main_length_delta_abs_m", "direction": "minimize"},
+    {"objective": "source_preservation_coverage", "direction": "maximize"},
+    {"objective": "green_designed_ratio_delta", "direction": "maximize"},
 )
 
-DEFAULT_PRIORITIES = (
-    {"objective": "building_change", "direction": "minimize"},
-    {"objective": "road_change", "direction": "minimize"},
-    {"objective": "source_preservation", "direction": "maximize"},
-    {"objective": "green_change", "direction": "maximize"},
+#: Human-readable rationale for the default preference order.
+DEFAULT_PRIORITY_RATIONALE = (
+    "building count loss is scored first because it is irreversible and violates "
+    "the design basis; the number of displaced buildings is second because moving "
+    "buildings is a discrete design decision; the largest building displacement is "
+    "third because it measures how far those buildings move; access-terminal "
+    "movement is fourth because declared group access must stay stable; main-road "
+    "route deviation and length change follow because road geometry is less "
+    "consequential than buildings; source preservation and designed-green gain "
+    "are last because they are fidelity/quality signals, not survival signals. "
+    "Each step compares one single-unit objective; no composite score exists."
 )
+
+
+def basis_fingerprint(basis: DesignBasis) -> str:
+    """Canonical sha256 of the full basis payload (basis binding for candidates)."""
+    payload = basis.to_dict() if callable(getattr(basis, "to_dict", None)) else basis
+    canonical = json.dumps(payload, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
 
 # --------------------------------------------------------------------- helpers
@@ -251,6 +379,25 @@ def _max_centerline_displacement(
     reference_by_id = {road.edge_id: road for road in reference.roads}
     maximum = 0.0
     for road in candidate.roads:
+        other = reference_by_id.get(road.edge_id)
+        if other is None:
+            continue
+        maximum = max(
+            maximum,
+            float(road.centerline.hausdorff_distance(other.centerline)),
+        )
+    return maximum
+
+
+def _max_displacement_for_classes(
+    candidate: RoadLayout, reference: RoadLayout, class_names: Iterable[str]
+) -> float:
+    allowed = set(class_names)
+    reference_by_id = {road.edge_id: road for road in reference.roads}
+    maximum = 0.0
+    for road in candidate.roads:
+        if road.class_name not in allowed:
+            continue
         other = reference_by_id.get(road.edge_id)
         if other is None:
             continue
@@ -571,7 +718,54 @@ def evaluate_candidate(
     }
 
     basis_ok = True
-    basis_detail: dict[str, Any] = {"changed_fields": []}
+    basis_detail: dict[str, Any] = {
+        "missing": [],
+        "expected_parent_basis_id": None,
+        "expected_basis_fingerprint": None,
+        "actual_parent_basis_id": None,
+        "actual_basis_fingerprint": None,
+        "changed_fields": [],
+    }
+    expected_payload = basis.to_dict() if callable(getattr(basis, "to_dict", None)) else {}
+    expected_basis_id = str(
+        getattr(basis, "basis_id", None) or expected_payload.get("basis_id", "")
+    )
+    expected_fingerprint = basis_fingerprint(basis)
+    basis_detail["expected_parent_basis_id"] = expected_basis_id
+    basis_detail["expected_basis_fingerprint"] = expected_fingerprint
+    spec = getattr(candidate, "spec", None)
+    changes = getattr(candidate, "changes", None)
+
+    def _pick_candidate_field(name: str) -> str | None:
+        for source in (candidate, spec):
+            if source is None:
+                continue
+            value = getattr(source, name, None)
+            if value:
+                return str(value)
+        if isinstance(changes, dict):
+            for key in ("spec", "basis"):
+                nested = changes.get(key)
+                if isinstance(nested, dict) and nested.get(name):
+                    return str(nested[name])
+            if changes.get(name):
+                return str(changes[name])
+        return None
+
+    actual_parent = _pick_candidate_field("parent_basis_id")
+    actual_fingerprint = _pick_candidate_field("basis_fingerprint")
+    basis_detail["actual_parent_basis_id"] = actual_parent
+    basis_detail["actual_basis_fingerprint"] = actual_fingerprint
+    if not actual_parent:
+        basis_ok = False
+        basis_detail["missing"].append("parent_basis_id")
+    elif actual_parent != expected_basis_id:
+        basis_ok = False
+    if not actual_fingerprint:
+        basis_ok = False
+        basis_detail["missing"].append("basis_fingerprint")
+    elif actual_fingerprint != expected_fingerprint:
+        basis_ok = False
     candidate_basis = getattr(candidate, "basis", None)
     if candidate_basis is not None:
         candidate_data = (
@@ -580,17 +774,15 @@ def evaluate_candidate(
             else candidate_basis
         )
         if isinstance(candidate_data, dict):
-            expected = basis.to_dict()
             changed = [
                 key
                 for key in ("parameter_sources", "floors", "dwelling_gfa_m2",
                             "household_per_staircase_per_floor", "far_min", "far_max")
-                if key in candidate_data and candidate_data[key] != expected.get(key)
+                if key in candidate_data and candidate_data[key] != expected_payload.get(key)
             ]
             if changed:
                 basis_ok = False
                 basis_detail["changed_fields"] = changed
-    changes = getattr(candidate, "changes", None)
     if isinstance(changes, dict) and changes.get("basis_changes"):
         basis_ok = False
         basis_detail["declared_basis_changes"] = changes["basis_changes"]
@@ -609,6 +801,12 @@ def evaluate_candidate(
             - _total_length(reference_road),
             "max_displacement_m": _max_centerline_displacement(
                 road_layout, reference_road
+            ),
+            "main_route_deviation_max_m": _max_displacement_for_classes(
+                road_layout, reference_road, ("main",)
+            ),
+            "branch_access_route_deviation_max_m": _max_displacement_for_classes(
+                road_layout, reference_road, ("branch", "access")
             ),
             "added_vertices": _vertex_count(road_layout)
             - _vertex_count(reference_road),
@@ -689,6 +887,75 @@ def evaluate_candidate(
     else:
         failed = [name for name in HARD_CHECKS if not hard[name]]
         reasons.append("hard gate failure: " + ", ".join(failed))
+
+    # ---- explicit, single-unit objectives (no composite score) --------------
+    source = soft.get("source_preservation") or {}
+    road = soft.get("road_change") or {}
+    building_change = soft.get("building_change") or {}
+    group_integrity = soft.get("group_integrity") or {}
+    green = soft.get("green_change") or {}
+    raw_objectives = {
+        "building_count_change": (
+            abs(float(building_change.get("building_delta", 0.0)))
+            if building_change
+            else None
+        ),
+        "building_displaced_count": (
+            float(building_change.get("displaced_count", 0))
+            if building_change
+            else None
+        ),
+        "building_displacement_max_m": (
+            float(building_change.get("max_displacement_m", 0.0))
+            if building_change
+            else None
+        ),
+        "main_length_delta_abs_m": (
+            abs(float(road.get("main_length_delta_m", 0.0))) if road else None
+        ),
+        "main_route_deviation_max_m": (
+            float(road.get("main_route_deviation_max_m", 0.0)) if road else None
+        ),
+        "branch_access_route_deviation_max_m": (
+            float(road.get("branch_access_route_deviation_max_m", 0.0))
+            if road
+            else None
+        ),
+        "access_terminal_max_delta_m": group_integrity.get(
+            "terminal_max_delta_m"
+        ),
+        "source_preservation_coverage": source.get("mean_coverage_ratio"),
+        "source_preservation_distance_m": source.get("mean_distance_m"),
+        "source_preservation_heading_deg": source.get("mean_heading_delta_deg"),
+        "green_designed_ratio_delta": green.get("designed_green_ratio_delta"),
+    }
+    soft["objectives"] = {
+        name: (None if value is None else float(value))
+        for name, value in raw_objectives.items()
+    }
+    soft["objective_metadata"] = {
+        name: dict(OBJECTIVES[name]) for name in OBJECTIVE_ORDER
+    }
+    soft["auxiliary"] = {
+        "not_in_pareto": True,
+        "green_open_space_ratio_delta": green.get(
+            "candidate_open_space_ratio_delta"
+        ),
+        "green_unbuilt_ratio_delta": green.get("unbuilt_ratio_delta"),
+        "space_utilization": soft.get("space_utilization"),
+        "group_integrity_detail": {
+            "groups_served": group_integrity.get("groups_served"),
+            "reference_groups_served": group_integrity.get(
+                "reference_groups_served"
+            ),
+            "declared_relations_preserved": group_integrity.get(
+                "declared_relations_preserved"
+            ),
+        },
+        "road_added_vertices": road.get("added_vertices") if road else None,
+        "note": "auxiliary diagnostics are reported for the README but never "
+        "enter the Pareto front or the preference comparison",
+    }
     return CandidateEvaluation(
         candidate_id=candidate_id,
         strategy=strategy,
@@ -701,25 +968,19 @@ def evaluate_candidate(
 
 
 # --------------------------------------------------------------------- pareto
+def _normalized_objective(evaluation: CandidateEvaluation, objective: str) -> float:
+    """Objective value normalised so that smaller is always better."""
+    values = (evaluation.soft or {}).get("objectives") or {}
+    value = values.get(objective)
+    if value is None:
+        return float("inf")  # missing objective is fail-closed (worst)
+    value = float(value)
+    direction = OBJECTIVES[objective]["direction"]
+    return -value if direction == "maximize" else value
+
+
 def _objective_vector(evaluation: CandidateEvaluation) -> tuple[float, ...]:
-    road = evaluation.soft.get("road_change") or {}
-    building = evaluation.soft.get("building_change") or {}
-    source = evaluation.soft.get("source_preservation") or {}
-    green = evaluation.soft.get("green_change") or {}
-    coverage = source.get("mean_coverage_ratio")
-    if coverage is None:
-        coverage = 0.0
-    green_delta = green.get("designed_green_ratio_delta")
-    if green_delta is None:
-        green_delta = 0.0
-    return (
-        float(building.get("displaced_count", 0))
-        + float(building.get("max_displacement_m", 0.0)),
-        abs(float(road.get("main_length_delta_m", 0.0)))
-        + float(road.get("max_displacement_m", 0.0)),
-        -float(coverage),
-        -float(green_delta),
-    )
+    return tuple(_normalized_objective(evaluation, name) for name in OBJECTIVE_ORDER)
 
 
 def _dominates(left: tuple[float, ...], right: tuple[float, ...]) -> bool:
@@ -731,7 +992,11 @@ def _dominates(left: tuple[float, ...], right: tuple[float, ...]) -> bool:
 def pareto_front(
     evaluations: Iterable[CandidateEvaluation],
 ) -> tuple[CandidateEvaluation, ...]:
-    """Non-dominated candidates among the hard-passing evaluations."""
+    """Non-dominated candidates among the hard-passing evaluations.
+
+    Dominance is computed over the eleven independent objectives; auxiliary
+    diagnostics never enter the front.
+    """
     passing = [item for item in evaluations if item.hard_pass]
     vectors = {item.candidate_id: _objective_vector(item) for item in passing}
     front = []
@@ -746,21 +1011,29 @@ def pareto_front(
     return tuple(front)
 
 
+def _priority_value(evaluation: CandidateEvaluation, objective: str) -> float:
+    return _normalized_objective(evaluation, objective)
+
+
 def compare(
     evaluations: Iterable[CandidateEvaluation],
     preferences: list[dict[str, str]] | None = None,
 ) -> dict[str, Any]:
-    """Recommend one candidate by explicit ordered preferences (no hidden score)."""
+    """Recommend one candidate by explicit ordered single-unit preferences."""
     evaluations = list(evaluations)
     priorities = list(preferences or DEFAULT_PRIORITIES)
     for priority in priorities:
-        if priority.get("objective") not in SOFT_OBJECTIVES:
-            raise ValueError(
-                f"unknown soft objective: {priority.get('objective')!r}"
-            )
+        objective = priority.get("objective")
+        if objective not in OBJECTIVES:
+            raise ValueError(f"unknown evaluation objective: {objective!r}")
         if priority.get("direction") not in ("minimize", "maximize"):
             raise ValueError(
                 f"unknown preference direction: {priority.get('direction')!r}"
+            )
+        if priority["direction"] != OBJECTIVES[objective]["direction"]:
+            raise ValueError(
+                f"preference direction for {objective!r} conflicts with the "
+                f"contract direction {OBJECTIVES[objective]['direction']!r}"
             )
     front = pareto_front(evaluations)
     reasons: dict[str, list[str]] = {}
@@ -778,36 +1051,25 @@ def compare(
             "reasons": reasons,
             "excluded": excluded,
             "preferences": priorities,
+            "objectives": {name: dict(OBJECTIVES[name]) for name in OBJECTIVE_ORDER},
+            "auxiliary_metrics_not_in_pareto": list(AUXILIARY_METRICS),
+            "priority_rationale": (
+                DEFAULT_PRIORITY_RATIONALE if preferences is None else None
+            ),
             "note": "no candidate passes the hard gates; nothing is recommended",
         }
     front_ids = {item.candidate_id for item in front}
 
-    def priority_value(evaluation: CandidateEvaluation, objective: str) -> float:
-        if objective == "building_change":
-            building = evaluation.soft.get("building_change") or {}
-            return float(building.get("displaced_count", 0)) + float(
-                building.get("max_displacement_m", 0.0)
-            )
-        if objective == "road_change":
-            road = evaluation.soft.get("road_change") or {}
-            return abs(float(road.get("main_length_delta_m", 0.0))) + float(
-                road.get("max_displacement_m", 0.0)
-            )
-        if objective == "source_preservation":
-            source = evaluation.soft.get("source_preservation") or {}
-            coverage = source.get("mean_coverage_ratio")
-            return -float(coverage if coverage is not None else 0.0)
-        green = evaluation.soft.get("green_change") or {}
-        return -float(green.get("designed_green_ratio_delta") or 0.0)
-
     def sort_key(evaluation: CandidateEvaluation) -> tuple[float, ...]:
         return tuple(
-            priority_value(evaluation, priority["objective"]) for priority in priorities
+            _priority_value(evaluation, priority["objective"])
+            for priority in priorities
         )
 
     ordered = sorted(front, key=sort_key)
     recommendation = ordered[0]
     front_vectors = {item.candidate_id: _objective_vector(item) for item in front}
+    recommendation_values = (recommendation.soft or {}).get("objectives") or {}
     for evaluation in evaluations:
         if evaluation.candidate_id == recommendation.candidate_id:
             reasons[evaluation.candidate_id] = [
@@ -815,7 +1077,8 @@ def compare(
                 + ", ".join(priority["objective"] for priority in priorities)
                 + ")",
             ]
-        elif evaluation.candidate_id in front_ids:
+            continue
+        if evaluation.candidate_id in front_ids:
             dominated_by = [
                 other.candidate_id
                 for other in front
@@ -828,11 +1091,31 @@ def compare(
                 reasons[evaluation.candidate_id] = [
                     "dominated by " + ", ".join(sorted(dominated_by)),
                 ]
-            else:
+                continue
+            values = (evaluation.soft or {}).get("objectives") or {}
+            first_difference = None
+            for priority in priorities:
+                objective = priority["objective"]
+                candidate_value = values.get(objective)
+                recommended_value = recommendation_values.get(objective)
+                if candidate_value != recommended_value:
+                    first_difference = (
+                        objective,
+                        candidate_value,
+                        recommended_value,
+                    )
+                    break
+            if first_difference is None:
                 reasons[evaluation.candidate_id] = [
-                    "on the Pareto front but lexicographically worse than "
-                    + recommendation.candidate_id
-                    + " under the declared preferences"
+                    "on the Pareto front with identical objective values; "
+                    "not preferred under the declared order"
+                ]
+            else:
+                objective, candidate_value, recommended_value = first_difference
+                reasons[evaluation.candidate_id] = [
+                    f"on the Pareto front but worse on {objective} "
+                    f"({candidate_value} vs {recommended_value}); objective-level "
+                    "comparison, no composite score"
                 ]
         elif evaluation.hard_pass:
             reasons[evaluation.candidate_id] = [
@@ -844,6 +1127,12 @@ def compare(
         "reasons": reasons,
         "excluded": excluded,
         "preferences": priorities,
-        "note": "hard gates first; no single black-box score is produced; the "
-        "Pareto front and every rejection reason are reported",
+        "objectives": {name: dict(OBJECTIVES[name]) for name in OBJECTIVE_ORDER},
+        "auxiliary_metrics_not_in_pareto": list(AUXILIARY_METRICS),
+        "priority_rationale": (
+            DEFAULT_PRIORITY_RATIONALE if preferences is None else None
+        ),
+        "note": "hard gates first; the eleven single-unit objectives are compared "
+        "directly, the Pareto front and every rejection reason are reported, and "
+        "no single black-box score is produced",
     }

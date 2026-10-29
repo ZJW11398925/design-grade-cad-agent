@@ -1,9 +1,9 @@
 {
   "comparison": {
     "path": "D:\\agent-cad\\docs\\e2e\\design-candidates-001\\comparison.svg",
-    "bytes": 180958,
-    "sha256": "8cde7f38965a2d495de28226fc88c42833423b3dd4c90be036bc4c3eb1d74005",
-    "line_count": 610,
+    "bytes": 183000,
+    "sha256": "4ba6ef866deecb26dee8a805823943369754195cc68107ad76649aa1b606e06c",
+    "line_count": 626,
     "candidate_ids": [
       "A",
       "B1",

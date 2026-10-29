@@ -37,7 +37,7 @@ from .buildings import (
     layout_focus_region,
     standardize_all,
 )
-from .evaluation import _boundary_metrics
+from .evaluation import _boundary_metrics, basis_fingerprint
 from .green import GreenLayout, build_green_layout
 from .input import DesignInput, load_design_input
 from .intent import DesignIntent, build_design_intent
@@ -58,6 +58,8 @@ class CandidateSpec:
     candidate_id: str
     strategy: str
     description: str
+    parent_basis_id: str = ""
+    basis_fingerprint: str = ""
 
 
 @dataclass(frozen=True)
@@ -77,6 +79,8 @@ class CandidateModels:
             "candidate_id": self.spec.candidate_id,
             "strategy": self.spec.strategy,
             "description": self.spec.description,
+            "parent_basis_id": self.spec.parent_basis_id,
+            "basis_fingerprint": self.spec.basis_fingerprint,
             "changes": self.changes,
             "metrics": {
                 "main_overlap_after_m2": self.changes[
@@ -102,7 +106,9 @@ def _build_catalogue() -> tuple[CandidateSpec, ...]:
             description=(
                 "roads keep their raw source alignment; conflicting buildings "
                 "are translated by the minimum distance that clears the main "
-                "corridors (road priority)"
+                "corridors (road priority). The SK-BLD-0006 shift also re-routes "
+                "its BR-G-08 access branch by 2.826 m - every affected road, "
+                "including branches/access, is recorded in geometry_change"
             ),
         ),
         CandidateSpec(
@@ -128,7 +134,10 @@ def _build_catalogue() -> tuple[CandidateSpec, ...]:
             strategy=STRATEGY_COORDINATED,
             description=(
                 "a small SK-BLD-0006 shift (west) plus a medium local main-road "
-                "adjustment remove the conflict together (coordinated)"
+                "adjustment remove the conflict together (coordinated); the "
+                "coordinated shift also re-routes the G-08 access branch "
+                "(BR-G-08) - every affected road including branches/access is "
+                "recorded in geometry_change"
             ),
         ),
     )
@@ -360,53 +369,267 @@ def _validate_shifted_building(
 
 LENGTH_CHANGE_TOLERANCE_M = 1e-6
 VERTEX_DISPLACEMENT_TOLERANCE_M = 0.01
+AFFECTED_ROAD_TOLERANCE_M = 0.01
+GEOMETRY_DIFFERENCE_BUFFER_M = 1e-6
 
 
 def _road_route_changes(
     candidate_layout: RoadLayout,
-    baseline_main: dict[str, LineString],
+    reference_layout: RoadLayout,
 ) -> list[dict[str, Any]]:
-    """Main-road edits versus the raw source alignment.
+    """All-road edits versus the raw reference layout (compatibility view).
 
-    A record is emitted for a geometric move (>0.01 m vertex displacement) *and*
-    for a pure length change (>1e-6 m) such as a trimmed dangling tail, which
-    leaves every remaining vertex on the baseline but still changes the road.
+    Includes main, branch and access roads; a record is emitted for a geometric
+    move, a re-route, or a pure length change such as a trimmed dangling tail.
     """
-    changes: list[dict[str, Any]] = []
-    for road in candidate_layout.roads:
-        if road.class_name != "main":
-            continue
-        baseline = baseline_main[road.edge_id]
-        max_displacement = max(
-            (
-                baseline.distance(Point(float(x), float(y)))
-                for x, y in road.centerline.coords
-            ),
-            default=0.0,
-        )
-        length_delta = road.centerline.length - baseline.length
-        geometry_changed = max_displacement > VERTEX_DISPLACEMENT_TOLERANCE_M
-        length_changed = abs(length_delta) > LENGTH_CHANGE_TOLERANCE_M
-        if not (geometry_changed or length_changed):
-            continue
-        if geometry_changed and length_changed:
-            kind = "length_change"
-        elif geometry_changed:
-            kind = "route_change"
-        elif length_delta < 0.0:
-            kind = "trim"
+    changes, _, _ = _road_geometry_changes(
+        reference_layout, candidate_layout
+    )
+    return changes
+
+
+def _road_change_kind(
+    *,
+    length_delta_m: float,
+    removed_length_m: float,
+    added_length_m: float,
+    hausdorff_m: float,
+    max_vertex_displacement_m: float,
+) -> str:
+    geometry_changed = (
+        hausdorff_m > AFFECTED_ROAD_TOLERANCE_M
+        or max_vertex_displacement_m > AFFECTED_ROAD_TOLERANCE_M
+    )
+    length_changed = abs(length_delta_m) > LENGTH_CHANGE_TOLERANCE_M
+    if (
+        added_length_m <= AFFECTED_ROAD_TOLERANCE_M
+        and removed_length_m > AFFECTED_ROAD_TOLERANCE_M
+        and length_delta_m < 0.0
+    ):
+        return "trim"
+    if (
+        removed_length_m <= AFFECTED_ROAD_TOLERANCE_M
+        and added_length_m > AFFECTED_ROAD_TOLERANCE_M
+        and length_delta_m > 0.0
+    ):
+        return "extend"
+    if geometry_changed and length_changed:
+        return "length_change"
+    if geometry_changed:
+        return "reroute"
+    if length_changed and length_delta_m < 0.0:
+        return "trim"
+    if length_changed and length_delta_m > 0.0:
+        return "extend"
+    return "length_change"
+
+
+def _road_geometry_changes(
+    reference_layout: RoadLayout,
+    candidate_layout: RoadLayout,
+) -> tuple[list[dict[str, Any]], dict[str, float], dict[str, int]]:
+    """Per-road geometry diff for *all* road classes against the raw reference.
+
+    The reference is the boundary-safe ``alignment_mode="none"`` layout; every
+    road id is compared with its candidate counterpart by Hausdorff distance,
+    length delta and removed/added length so a pure trim/extension or a
+    branch/access re-route cannot be missed.
+    """
+    reference_by_id = {
+        road.edge_id: road for road in reference_layout.roads
+    }
+    candidate_by_id = {
+        road.edge_id: road for road in candidate_layout.roads
+    }
+    roads: list[dict[str, Any]] = []
+    class_max_deviation = {"main": 0.0, "branch": 0.0, "access": 0.0}
+    class_affected_count = {"main": 0, "branch": 0, "access": 0}
+    for road_id in sorted(candidate_by_id):
+        candidate_road = candidate_by_id[road_id]
+        class_name = candidate_road.class_name
+        reference_road = reference_by_id.get(road_id)
+        if reference_road is None:
+            removed_length = 0.0
+            added_length = float(candidate_road.centerline.length)
+            length_delta = added_length
+            hausdorff = added_length
+            max_vertex = added_length
+            kind = "replace"
         else:
-            kind = "extend"
-        changes.append(
+            reference_line = reference_road.centerline
+            candidate_line = candidate_road.centerline
+            length_delta = (
+                candidate_line.length - reference_line.length
+            )
+            hausdorff = float(
+                reference_line.hausdorff_distance(candidate_line)
+            )
+            max_vertex = max(
+                max(
+                    (
+                        reference_line.distance(
+                            Point(float(x), float(y))
+                        )
+                        for x, y in candidate_line.coords
+                    ),
+                    default=0.0,
+                ),
+                max(
+                    (
+                        candidate_line.distance(
+                            Point(float(x), float(y))
+                        )
+                        for x, y in reference_line.coords
+                    ),
+                    default=0.0,
+                ),
+            )
+            if (
+                hausdorff <= AFFECTED_ROAD_TOLERANCE_M
+                and max_vertex <= AFFECTED_ROAD_TOLERANCE_M
+                and abs(length_delta) <= LENGTH_CHANGE_TOLERANCE_M
+            ):
+                continue
+            removed_length = float(
+                reference_line.difference(
+                    candidate_line.buffer(
+                        GEOMETRY_DIFFERENCE_BUFFER_M
+                    )
+                ).length
+            )
+            added_length = float(
+                candidate_line.difference(
+                    reference_line.buffer(
+                        GEOMETRY_DIFFERENCE_BUFFER_M
+                    )
+                ).length
+            )
+            kind = _road_change_kind(
+                length_delta_m=length_delta,
+                removed_length_m=removed_length,
+                added_length_m=added_length,
+                hausdorff_m=hausdorff,
+                max_vertex_displacement_m=max_vertex,
+            )
+        if class_name in class_max_deviation:
+            class_max_deviation[class_name] = max(
+                class_max_deviation[class_name], float(hausdorff)
+            )
+            class_affected_count[class_name] += 1
+        roads.append(
             {
-                "road_id": road.edge_id,
+                "road_id": road_id,
+                "class_name": class_name,
                 "kind": kind,
-                "max_displacement_m": float(max_displacement),
-                "max_vertex_displacement_m": float(max_displacement),
                 "length_delta_m": float(length_delta),
+                "max_displacement_m": float(hausdorff),
+                "max_vertex_displacement_m": float(max_vertex),
+                "hausdorff_m": float(hausdorff),
+                "removed_length_m": float(removed_length),
+                "added_length_m": float(added_length),
             }
         )
-    changes.sort(key=lambda item: (-item["max_displacement_m"], item["road_id"]))
+    for reference_road in reference_layout.roads:
+        if reference_road.edge_id in candidate_by_id:
+            continue
+        roads.append(
+            {
+                "road_id": reference_road.edge_id,
+                "class_name": reference_road.class_name,
+                "kind": "replace",
+                "length_delta_m": -float(
+                    reference_road.centerline.length
+                ),
+                "max_displacement_m": float(
+                    reference_road.centerline.length
+                ),
+                "max_vertex_displacement_m": float(
+                    reference_road.centerline.length
+                ),
+                "hausdorff_m": float(
+                    reference_road.centerline.length
+                ),
+                "removed_length_m": float(
+                    reference_road.centerline.length
+                ),
+                "added_length_m": 0.0,
+            }
+        )
+    roads.sort(key=lambda item: (-item["hausdorff_m"], item["road_id"]))
+    return roads, class_max_deviation, class_affected_count
+
+
+def _group_terminal_changes(
+    reference_layout: RoadLayout,
+    candidate_layout: RoadLayout,
+) -> list[dict[str, Any]]:
+    """Terminal displacement per access group (17 declared relations)."""
+
+    def serving_roads(layout: RoadLayout) -> dict[str, Any]:
+        mapping: dict[str, Any] = {}
+        for road in layout.roads:
+            for group_id in road.serves_group_ids:
+                mapping[group_id] = road
+        return mapping
+
+    reference_serving = serving_roads(reference_layout)
+    candidate_serving = serving_roads(candidate_layout)
+    changes: list[dict[str, Any]] = []
+    for group_id in sorted(set(reference_serving) | set(candidate_serving)):
+        reference_road = reference_serving.get(group_id)
+        candidate_road = candidate_serving.get(group_id)
+        terminal_before = (
+            list(reference_road.access_terminal_xy)
+            if reference_road is not None
+            and reference_road.access_terminal_xy is not None
+            else None
+        )
+        terminal_after = (
+            list(candidate_road.access_terminal_xy)
+            if candidate_road is not None
+            and candidate_road.access_terminal_xy is not None
+            else None
+        )
+        delta_m = None
+        hausdorff_m = None
+        if terminal_before is not None and terminal_after is not None:
+            delta_m = float(
+                Point(terminal_before).distance(Point(terminal_after))
+            )
+        if reference_road is not None and candidate_road is not None:
+            hausdorff_m = float(
+                reference_road.centerline.hausdorff_distance(
+                    candidate_road.centerline
+                )
+            )
+        changes.append(
+            {
+                "group_id": group_id,
+                "road_id": (
+                    candidate_road.edge_id
+                    if candidate_road is not None
+                    else (
+                        reference_road.edge_id
+                        if reference_road is not None
+                        else None
+                    )
+                ),
+                "road_id_before": (
+                    reference_road.edge_id
+                    if reference_road is not None
+                    else None
+                ),
+                "road_id_after": (
+                    candidate_road.edge_id
+                    if candidate_road is not None
+                    else None
+                ),
+                "terminal_before": terminal_before,
+                "terminal_after": terminal_after,
+                "delta_m": delta_m,
+                "hausdorff_m": hausdorff_m,
+            }
+        )
     return changes
 
 
@@ -512,6 +735,13 @@ def build_candidate(
     """
     if isinstance(basis, (str, Path)):
         basis = DesignBasis.load(str(basis))
+    parent_basis_id = str(getattr(basis, "basis_id", "") or "")
+    basis_fingerprint_value = basis_fingerprint(basis)
+    bound_spec = replace(
+        spec,
+        parent_basis_id=parent_basis_id,
+        basis_fingerprint=basis_fingerprint_value,
+    )
     context = _context(case_dir, basis)
     design_input = context.design_input
     intent = context.intent
@@ -571,7 +801,29 @@ def build_candidate(
         design_input.site_boundary,
     )
 
-    route_changes = _road_route_changes(road_layout, baseline_main)
+    route_changes = _road_route_changes(
+        road_layout, context.raw_layout
+    )
+    (
+        geometry_road_records,
+        class_max_deviation,
+        class_affected_count,
+    ) = _road_geometry_changes(context.raw_layout, road_layout)
+    group_terminal_changes = _group_terminal_changes(
+        context.raw_layout, road_layout
+    )
+    road_max_deviation = max(
+        (item["hausdorff_m"] for item in geometry_road_records),
+        default=0.0,
+    )
+    main_road_max_deviation = max(
+        (
+            item["hausdorff_m"]
+            for item in geometry_road_records
+            if item["class_name"] == "main"
+        ),
+        default=0.0,
+    )
     main_length = sum(
         road.centerline.length
         for road in road_layout.roads
@@ -598,7 +850,11 @@ def build_candidate(
         "spec": {
             "candidate_id": spec.candidate_id,
             "strategy": spec.strategy,
+            "parent_basis_id": parent_basis_id,
+            "basis_fingerprint": basis_fingerprint_value,
         },
+        "parent_basis_id": parent_basis_id,
+        "basis_fingerprint": basis_fingerprint_value,
         "boundary": {
             "hard_boundary_ok": bool(boundary_metrics["ok"]),
             "boundary_violation_m": float(
@@ -622,12 +878,34 @@ def build_candidate(
         ),
         "road_route_changes": route_changes,
         "road_route_change_count": len(route_changes),
-        "road_max_displacement_m": float(
-            max(
-                (item["max_displacement_m"] for item in route_changes),
-                default=0.0,
-            )
+        "road_max_displacement_m": float(road_max_deviation),
+        "main_road_max_displacement_m": float(
+            main_road_max_deviation
         ),
+        "geometry_change": {
+            "reference": (
+                "raw source alignment plus boundary repair "
+                "(alignment_mode='none' road layout)"
+            ),
+            "tolerance_m": AFFECTED_ROAD_TOLERANCE_M,
+            "affected_road_count": len(geometry_road_records),
+            "affected_road_count_by_class": dict(
+                class_affected_count
+            ),
+            "class_max_deviation_m": dict(class_max_deviation),
+            "max_route_deviation_main_m": float(
+                class_max_deviation["main"]
+            ),
+            "max_route_deviation_branch_m": float(
+                class_max_deviation["branch"]
+            ),
+            "max_route_deviation_access_m": float(
+                class_max_deviation["access"]
+            ),
+            "roads": geometry_road_records,
+            "group_terminal_changes": group_terminal_changes,
+        },
+        "group_terminal_changes": group_terminal_changes,
         "main_length_m": float(main_length),
         "main_length_baseline_m": float(baseline_length),
         "main_length_delta_m": float(main_length - baseline_length),
@@ -666,7 +944,7 @@ def build_candidate(
         ),
     }
     return CandidateModels(
-        spec=spec,
+        spec=bound_spec,
         building_layout=building_layout,
         road_layout=road_layout,
         green_layout=green_layout,

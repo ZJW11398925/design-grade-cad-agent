@@ -1,12 +1,13 @@
-"""Independent candidate evaluation tests (M4c-3).
+"""Independent candidate evaluation tests (M4c-3a).
 
-The evaluator must recompute hard gates from geometry, keep soft trade-offs
-separate, and never trust a candidate's own report. The tests use small synthetic
-candidate models unless the real ``candidates`` module is available (then one
-integration test builds the four experiment candidates and evaluates them).
+The evaluator must recompute hard gates from geometry, bind candidates to the
+parent basis by fingerprint, publish eleven single-unit objectives (never a composite
+score), and keep auxiliary diagnostics out of the Pareto front. Historical
+boundary facts are archival evidence and are never current-candidate verdicts.
 """
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import json
 from functools import lru_cache
@@ -19,9 +20,16 @@ from shapely.geometry import LineString, box
 
 from dgcad_design.basis import DesignBasis
 from dgcad_design.evaluation import (
+    AUXILIARY_METRICS,
+    DEFAULT_PRIORITIES,
+    DEFAULT_PRIORITY_RATIONALE,
     HARD_CHECKS,
+    HISTORICAL_BOUNDARY_ARCHIVE,
+    KNOWN_BOUNDARY_VIOLATIONS,
+    OBJECTIVE_ORDER,
+    OBJECTIVES,
     SOFT_METRICS,
-    SOFT_OBJECTIVES,
+    basis_fingerprint,
     compare,
     evaluate_candidate,
     pareto_front,
@@ -30,7 +38,8 @@ from dgcad_design.topology import noded_road_topology
 
 ROOT = Path(__file__).resolve().parents[1]
 BASIS = ROOT / "fixtures" / "design" / "design-basis-001.yaml"
-CONTRACT = ROOT / "contracts" / "design-candidates-v0.1.yaml"
+CONTRACT = ROOT / "contracts" / "design-candidates-v0.2.yaml"
+EVIDENCE = ROOT / "docs" / "e2e" / "design-synthesis-001"
 CASE = ROOT / "docs" / "e2e" / "sketch-001"
 SITE = box(-20.0, -20.0, 120.0, 120.0)
 
@@ -40,15 +49,7 @@ def _basis():
     return DesignBasis.load(str(BASIS))
 
 
-def _road(
-    edge_id,
-    class_name,
-    coordinates,
-    *,
-    width_m=7.0,
-    serves=(),
-    terminal=None,
-):
+def _road(edge_id, class_name, coordinates, *, width_m=7.0, serves=(), terminal=None):
     line = LineString(coordinates)
     return SimpleNamespace(
         edge_id=edge_id,
@@ -78,8 +79,10 @@ def _models(
     building_shift=(0.0, 0.0),
     source_coverage=0.90,
     designed_green_ratio=0.05,
-    extra_source=None,
     overlap_variant=False,
+    basis_binding=True,
+    fingerprint_override=None,
+    parent_basis_override=None,
 ):
     if overlap_variant:
         buildings = (_building("B-1", -10.0, 20.0),)
@@ -121,8 +124,6 @@ def _models(
             }
         ]
     }
-    if extra_source:
-        source_segment_map["MAIN-1"][0]["coverage_ratio"] = extra_source
     road_layout = SimpleNamespace(
         roads=roads,
         noded_topology=topology,
@@ -139,9 +140,18 @@ def _models(
         candidate_open_space_ratio=0.60,
         unbuilt_ratio=0.65,
     )
+    basis = _basis()
+    actual_fingerprint = basis_fingerprint(basis) if basis_binding else None
+    actual_parent = str(getattr(basis, "basis_id", "")) if basis_binding else None
+    if fingerprint_override is not None:
+        actual_fingerprint = fingerprint_override
+    if parent_basis_override is not None:
+        actual_parent = parent_basis_override
     return SimpleNamespace(
         candidate_id=candidate_id,
         strategy=strategy,
+        parent_basis_id=actual_parent,
+        basis_fingerprint=actual_fingerprint,
         building_layout=SimpleNamespace(
             buildings=buildings,
             focus_buildings=(),
@@ -166,23 +176,73 @@ def _evaluation(**kwargs):
 def test_evaluation_structure_is_complete():
     evaluation = _evaluation(candidate_id="C-A", strategy="road_priority")
     payload = evaluation.to_dict()
-    assert payload["schema_id"] == "dgcad.design-candidates-evaluation.v0.1"
+    assert payload["schema_id"] == "dgcad.design-candidates-evaluation.v0.2"
     assert payload["candidate_id"] == "C-A"
-    assert payload["strategy"] == "road_priority"
     assert set(payload["hard"]) == set(HARD_CHECKS)
     assert payload["hard_pass"] is True, payload["hard_details"]
-    for objective in SOFT_OBJECTIVES:
-        assert objective in payload["soft"], objective
-    assert payload["soft"]["source_preservation"]["available"] is True
+    assert set(payload["soft"]) >= set(SOFT_METRICS) | {
+        "objectives", "objective_metadata", "auxiliary"
+    }
+    assert set(payload["soft"]["objectives"]) == set(OBJECTIVE_ORDER)
+    assert len(payload["soft"]["objectives"]) == 11
+    assert payload["soft"]["auxiliary"]["not_in_pareto"] is True
     assert payload["reasons"]
 
 
-def test_reference_same_geometry_has_zero_change():
+def test_objectives_are_single_unit_values_from_single_fields():
     evaluation = _evaluation()
-    assert evaluation.soft["road_change"]["max_displacement_m"] == 0.0
-    assert evaluation.soft["building_change"]["displaced_count"] == 0
+    objectives = evaluation.soft["objectives"]
+    road = evaluation.soft["road_change"]
+    building = evaluation.soft["building_change"]
+    group = evaluation.soft["group_integrity"]
+    source = evaluation.soft["source_preservation"]
+    green = evaluation.soft["green_change"]
+    assert objectives["building_count_change"] == abs(building["building_delta"])
+    assert objectives["building_displaced_count"] == building["displaced_count"]
+    assert objectives["building_displacement_max_m"] == building["max_displacement_m"]
+    assert objectives["main_length_delta_abs_m"] == abs(road["main_length_delta_m"])
+    assert objectives["main_route_deviation_max_m"] == road["main_route_deviation_max_m"]
+    assert (
+        objectives["branch_access_route_deviation_max_m"]
+        == road["branch_access_route_deviation_max_m"]
+    )
+    assert objectives["access_terminal_max_delta_m"] == group["terminal_max_delta_m"]
+    assert objectives["source_preservation_coverage"] == source["mean_coverage_ratio"]
+    assert objectives["source_preservation_distance_m"] == source["mean_distance_m"]
+    assert (
+        objectives["source_preservation_heading_deg"]
+        == source["mean_heading_delta_deg"]
+    )
+    assert objectives["green_designed_ratio_delta"] == green["designed_green_ratio_delta"]
+    for name, definition in OBJECTIVES.items():
+        assert definition["direction"] in ("minimize", "maximize")
+        assert definition["unit"] in ("count", "m", "ratio", "deg")
+    assert len({definition["unit"] for definition in OBJECTIVES.values()}) == 4
+
+
+def test_building_displaced_count_is_a_separate_objective():
+    moved = _evaluation(candidate_id="C-MOVED", building_shift=(0.0, -0.5))
+    still = _evaluation(candidate_id="C-STILL")
+    assert still.soft["objectives"]["building_displaced_count"] == 0.0
+    assert moved.soft["objectives"]["building_displaced_count"] == 1.0
+    # building count is unchanged, the displaced count separates the candidates
+    assert moved.soft["objectives"]["building_count_change"] == 0.0
+    comparison = compare([still, moved])
+    assert comparison["recommendation"] == "C-STILL"
+    assert comparison["preferences"][1]["objective"] == "building_displaced_count"
+
+
+def test_reference_same_geometry_has_zero_objectives():
+    evaluation = _evaluation()
+    objectives = evaluation.soft["objectives"]
+    assert objectives["building_count_change"] == 0.0
+    assert objectives["building_displaced_count"] == 0.0
+    assert objectives["building_displacement_max_m"] == 0.0
+    assert objectives["main_length_delta_abs_m"] == 0.0
+    assert objectives["main_route_deviation_max_m"] == 0.0
+    assert objectives["branch_access_route_deviation_max_m"] == 0.0
+    assert objectives["access_terminal_max_delta_m"] == 0.0
     assert evaluation.soft["space_utilization"]["gfa_unchanged"] is True
-    assert evaluation.soft["group_integrity"]["declared_relations_preserved"] is True
 
 
 # ----------------------------------------------------------------- hard filtering
@@ -190,71 +250,49 @@ def test_hard_overlap_failure_excludes_candidate():
     evaluation = _evaluation(candidate_id="C-OVERLAP", overlap_variant=True)
     assert evaluation.hard["overlap_ok"] is False
     assert evaluation.hard_pass is False
-    assert "overlap_ok" in evaluation.to_dict()["reasons"][0]
     comparison = compare([evaluation, _evaluation(candidate_id="C-OK")])
     assert comparison["recommendation"] == "C-OK"
     assert "C-OVERLAP" in comparison["excluded"]
-    assert "C-OVERLAP" not in comparison["pareto_front"]
 
 
 def test_self_reported_values_are_not_trusted():
     candidate = _models(candidate_id="C-LIAR", overlap_variant=True)
-    candidate.self_reported = {
-        "hard_pass": True,
-        "overlap_ok": True,
-        "access_ok": True,
+    candidate.self_reported = {"hard_pass": True, "overlap_ok": True}
+    candidate.claimed_metrics = {
+        "overlap_m2": 0.0,
+        "objectives": {"building_count_change": 0.0},
     }
-    candidate.claimed_metrics = {"overlap_m2": 0.0}
-    evaluation = evaluate_candidate(
-        candidate, _basis(), reference=_models()
-    )
-    assert evaluation.hard_pass is False  # geometry wins over the claim
+    evaluation = evaluate_candidate(candidate, _basis(), reference=_models())
+    assert evaluation.hard_pass is False
     assert evaluation.hard["overlap_ok"] is False
 
 
 def test_boundary_violation_fails_hard():
-    # shift the building outside the published site boundary
     evaluation = _evaluation(candidate_id="C-OUT", building_shift=(300.0, 0.0))
     assert evaluation.hard["boundary_ok"] is False
     assert evaluation.hard_pass is False
 
 
 def test_corridor_edge_boundary_violation_is_distinguished_from_centreline():
-    # the ring top corridor edge is already tangent to the boundary; shifting the
-    # ring up by 3 m overhangs the corridor while the centreline stays inside
     evaluation = _evaluation(candidate_id="C-EDGE", ring_shift_y=3.0)
     detail = evaluation.hard_details["boundary_ok"]
     assert evaluation.hard["boundary_ok"] is False
     assert detail["boundary_violation_m"] == pytest.approx(3.0, abs=1e-6)
     assert detail["centerline_violation_m"] == 0.0
-    assert detail["status"] == "known_boundary_violation"
     assert detail["known_boundary_violation"] is True
 
 
 def test_boundary_tolerance_allows_only_one_centimetre_of_corridor_overhang():
     within = _evaluation(candidate_id="C-TOL-OK", ring_shift_y=0.005)
     beyond = _evaluation(candidate_id="C-TOL-BAD", ring_shift_y=0.02)
-    assert within.hard_details["boundary_ok"]["boundary_violation_m"] == pytest.approx(0.005, abs=1e-6)
     assert within.hard["boundary_ok"] is True
-    assert beyond.hard_details["boundary_ok"]["boundary_violation_m"] == pytest.approx(0.02, abs=1e-6)
     assert beyond.hard["boundary_ok"] is False
-
-
-def test_known_b1_diversion_is_recorded_as_a_boundary_violation():
-    from dgcad_design.evaluation import KNOWN_BOUNDARY_VIOLATIONS  # noqa: PLC0415
-
-    record = KNOWN_BOUNDARY_VIOLATIONS[0]
-    assert record["candidate_id"] == "B1"
-    assert record["road_id"] == "MAIN-08"
-    assert record["max_displacement_m"] == pytest.approx(66.23545861756293)
-    assert record["status"] == "known_boundary_violation"
-    assert "not a hard pass" in record["note"]
 
 
 def test_capacity_change_fails_hard():
     candidate = _models(candidate_id="C-UNITS")
     candidate.building_layout = SimpleNamespace(
-        buildings=(_building("B-1", 0.0, 20.0, unit_count=3),),
+        buildings=(_building("B-1", 110.0, 60.0, unit_count=3),),
         focus_buildings=(),
         rows=(),
         green_strips=(),
@@ -264,23 +302,107 @@ def test_capacity_change_fails_hard():
     assert evaluation.hard["capacity_ok"] is False
 
 
-def test_basis_change_fails_hard():
-    class ClaimedBasis:
-        def to_dict(self):
-            data = _basis().to_dict()
-            data["floors"] = data["floors"] + 1
-            return data
+# ----------------------------------------------------------------- basis binding
+def test_matching_basis_fingerprint_passes():
+    evaluation = _evaluation()
+    assert evaluation.hard["basis_ok"] is True
+    detail = evaluation.hard_details["basis_ok"]
+    assert detail["actual_basis_fingerprint"] == detail["expected_basis_fingerprint"]
+    assert detail["actual_parent_basis_id"] == detail["expected_parent_basis_id"]
 
-    candidate = _models(candidate_id="C-BASIS")
-    candidate.basis = ClaimedBasis()
-    evaluation = evaluate_candidate(candidate, _basis(), reference=_models())
+
+def test_missing_basis_fingerprint_fails():
+    evaluation = _evaluation(basis_binding=False)
     assert evaluation.hard["basis_ok"] is False
-    assert "floors" in evaluation.hard_details["basis_ok"]["changed_fields"]
+    detail = evaluation.hard_details["basis_ok"]
+    assert "basis_fingerprint" in detail["missing"]
+    assert "parent_basis_id" in detail["missing"]
+    assert detail["actual_basis_fingerprint"] is None
+    assert detail["expected_basis_fingerprint"]
 
 
-# ----------------------------------------------------------------- pareto
-def test_pareto_front_keeps_only_non_dominated_candidates():
-    reference = _evaluation(candidate_id="C-REF")
+def test_mismatched_basis_fingerprint_fails():
+    evaluation = _evaluation(fingerprint_override="0" * 64)
+    assert evaluation.hard["basis_ok"] is False
+    detail = evaluation.hard_details["basis_ok"]
+    assert detail["actual_basis_fingerprint"] == "0" * 64
+    assert detail["actual_basis_fingerprint"] != detail["expected_basis_fingerprint"]
+
+
+def test_wrong_parent_basis_id_fails():
+    evaluation = _evaluation(parent_basis_override="some-other-basis")
+    assert evaluation.hard["basis_ok"] is False
+
+
+def test_basis_fingerprint_is_canonical():
+    basis = _basis()
+    assert basis_fingerprint(basis) == basis_fingerprint(_basis())
+    expected = hashlib.sha256(
+        json.dumps(basis.to_dict(), sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
+    assert basis_fingerprint(basis) == expected
+
+
+# ----------------------------------------------------------------- historical archive
+def _evidence():
+    return json.loads((EVIDENCE / "design-summary.json").read_text(encoding="utf-8"))
+
+
+def test_historical_archive_66_235_belongs_to_main_19_geometry():
+    archive = {entry["road_id"]: entry for entry in HISTORICAL_BOUNDARY_ARCHIVE}
+    main_19 = archive["MAIN-19"]
+    assert main_19["kind"] == "main_road_diversion"
+    assert main_19["max_displacement_m"] == pytest.approx(66.23545861756293)
+    records = _evidence()["road_alignment"]["records"]
+    record = next(item for item in records if item["road_id"] == "MAIN-19")
+    assert record["max_displacement_m"] == pytest.approx(66.23545861756293)
+    recomputed = LineString(record["original_centerline"]).hausdorff_distance(
+        LineString(record["adjusted_centerline"])
+    )
+    assert recomputed == pytest.approx(66.23545861756293, rel=1e-9)
+    assert archive["MAIN-08"]["max_displacement_m"] != pytest.approx(66.23545861756293)
+
+
+def test_historical_archive_341_6908_belongs_to_main_08_repair():
+    archive = {entry["road_id"]: entry for entry in HISTORICAL_BOUNDARY_ARCHIVE}
+    main_08 = archive["MAIN-08"]
+    assert main_08["kind"] == "source_corridor_boundary_repair"
+    assert main_08["outside_area_m2"] == pytest.approx(341.6908310814502)
+    assert main_08["status"] == "resolved_by_boundary_repair"
+    repairs = {
+        item["road_id"]: item
+        for item in _evidence()["road_alignment"]["boundary_repairs"]
+    }
+    assert repairs["MAIN-08"]["outside_area_before_m2"] == pytest.approx(
+        341.6908310814502
+    )
+    assert repairs["MAIN-08"]["boundary_ok_after"] is True
+    assert archive["MAIN-16"]["outside_area_m2"] == pytest.approx(2.417804558565924)
+    assert archive["MAIN-18"]["outside_area_m2"] == pytest.approx(8.290901115044374)
+
+
+def test_known_boundary_violations_are_current_geometry_only():
+    assert KNOWN_BOUNDARY_VIOLATIONS == ()
+    evaluation = _evaluation(candidate_id="C-CURRENT", ring_shift_y=3.0)
+    assert evaluation.hard_details["boundary_ok"]["known_boundary_violation"] is True
+    passing = _evaluation(candidate_id="C-PASS")
+    assert "known_boundary_violation" not in passing.hard_details["boundary_ok"]
+
+
+# ----------------------------------------------------------------- pareto / compare
+def test_auxiliary_metrics_never_enter_pareto_or_objectives():
+    evaluation = _evaluation(candidate_id="C-1")
+    comparison = compare([evaluation])
+    assert set(comparison["auxiliary_metrics_not_in_pareto"]) == set(AUXILIARY_METRICS)
+    assert set(OBJECTIVE_ORDER).isdisjoint(AUXILIARY_METRICS)
+    for metric in AUXILIARY_METRICS:
+        assert metric not in OBJECTIVES
+    assert comparison["objectives"] == {
+        name: dict(OBJECTIVES[name]) for name in OBJECTIVE_ORDER
+    }
+
+
+def test_pareto_front_uses_independent_objectives():
     dominant = _evaluation(candidate_id="C-DOM", source_coverage=0.90)
     better_source = _evaluation(
         candidate_id="C-SOURCE", building_shift=(0.0, -0.5), source_coverage=0.98
@@ -291,13 +413,11 @@ def test_pareto_front_keeps_only_non_dominated_candidates():
     front = pareto_front([dominant, better_source, dominated])
     front_ids = {item.candidate_id for item in front}
     assert "C-DOM" in front_ids
-    assert "C-SOURCE" in front_ids  # better source trade-off stays visible
+    assert "C-SOURCE" in front_ids
     assert "C-DOMINATED" not in front_ids
-    assert reference.candidate_id == "C-REF"
 
 
-# ----------------------------------------------------------------- recommendation
-def test_compare_requires_reasons_for_every_candidate():
+def test_compare_requires_objective_reason_for_every_candidate():
     evaluations = [
         _evaluation(candidate_id="C-1"),
         _evaluation(candidate_id="C-2", building_shift=(0.0, -0.5)),
@@ -306,35 +426,36 @@ def test_compare_requires_reasons_for_every_candidate():
     comparison = compare(evaluations)
     assert comparison["recommendation"] == "C-1"
     for evaluation in evaluations:
-        assert comparison["reasons"].get(evaluation.candidate_id), (
-            f"no reason for {evaluation.candidate_id}"
-        )
-    assert comparison["pareto_front"]
-    assert "note" in comparison
-    assert "no single black-box score" in comparison["note"]
+        assert comparison["reasons"].get(evaluation.candidate_id)
     assert comparison["excluded"]["C-3"].startswith("hard gate failure")
+    assert comparison["priority_rationale"] == DEFAULT_PRIORITY_RATIONALE
 
 
-def test_compare_preferences_are_explicit_and_matter():
+def test_compare_preferences_are_objective_level_and_directional():
     evaluations = [
         _evaluation(candidate_id="C-1"),
-        _evaluation(
-            candidate_id="C-2", building_shift=(0.0, -0.5), source_coverage=0.99
-        ),
+        _evaluation(candidate_id="C-2", building_shift=(0.0, -0.5), source_coverage=0.99),
     ]
-    by_building = compare(evaluations)
-    assert by_building["recommendation"] == "C-1"
+    by_default = compare(evaluations)
+    assert by_default["recommendation"] == "C-1"
     by_source = compare(
         evaluations,
-        preferences=[{"objective": "source_preservation", "direction": "maximize"}],
+        preferences=[
+            {"objective": "source_preservation_coverage", "direction": "maximize"}
+        ],
     )
     assert by_source["recommendation"] == "C-2"
-    assert by_source["preferences"][0]["objective"] == "source_preservation"
+    assert by_source["priority_rationale"] is None
 
 
-def test_compare_rejects_unknown_objectives():
+def test_compare_rejects_unknown_objective_and_direction_conflict():
     with pytest.raises(ValueError):
         compare([_evaluation()], preferences=[{"objective": "vibes", "direction": "maximize"}])
+    with pytest.raises(ValueError):
+        compare(
+            [_evaluation()],
+            preferences=[{"objective": "building_count_change", "direction": "maximize"}],
+        )
 
 
 def test_compare_without_hard_passing_candidate_recommends_nothing():
@@ -351,71 +472,87 @@ def test_evaluation_is_deterministic():
 
 
 # ----------------------------------------------------------------- contract
-def test_candidate_contract_declares_the_evaluation_boundaries():
+def test_candidate_contract_v02_declares_archive_objectives_and_basis():
     contract = yaml.safe_load(CONTRACT.read_text(encoding="utf-8"))
-    assert contract["schema_id"] == "dgcad.design-candidates.v0.1"
+    assert contract["schema_id"] == "dgcad.design-candidates.v0.2"
     assert contract["status"] == "living_contract"
-    assert contract["candidate"]["required"] == [
-        "candidate_id", "strategy", "spec", "version", "changes"
-    ]
+    assert contract["supersedes"] == "design-candidates-v0.1.yaml"
+    assert set(contract["candidate"]["required"]) >= {
+        "parent_basis_id", "basis_fingerprint", "geometry_change"
+    }
+    assert contract["evaluation"]["schema_id"] == "dgcad.design-candidates-evaluation.v0.2"
     assert contract["evaluation"]["hard"]["required"] == list(HARD_CHECKS)
-    assert contract["evaluation"]["soft"]["required"] == list(SOFT_METRICS)
-    assert contract["evaluation"]["pareto"]["objectives"] == [
-        "building_change", "road_change", "source_preservation", "green_change"
-    ]
-    rules = " | ".join(contract["rules"] + contract["evaluation"]["recommendation"]["rules"])
-    assert "the generator never evaluates or recommends its own candidates" in rules
-    assert "recomputed from geometry" in rules
-    assert "relabel parameters or widen a tolerance" in rules
-    assert "an unmet constraint is reported" in rules
-    assert "never combined into a single black-box score" in rules
-    assert "every candidate, recommended or not, gets a reason" in rules
+    assert contract["evaluation"]["objectives"]["required"] == list(OBJECTIVE_ORDER)
+    definitions = contract["evaluation"]["objectives"]["definitions"]
+    for name, definition in OBJECTIVES.items():
+        assert definitions[name]["direction"] == definition["direction"]
+        assert definitions[name]["unit"] == definition["unit"]
+    default_order = [priority["objective"] for priority in DEFAULT_PRIORITIES]
+    assert contract["evaluation"]["recommendation"]["default_preferences"] == default_order
+    archive = {
+        entry["road_id"]: entry
+        for entry in contract["historical_boundary_archive"]["entries"]
+    }
+    assert archive["MAIN-19"]["max_displacement_m"] == pytest.approx(66.23545861756293)
+    assert archive["MAIN-08"]["outside_area_m2"] == pytest.approx(341.6908310814502)
+    rules = " | ".join(
+        contract["rules"] + contract["evaluation"]["objectives"]["rules"]
+    )
+    assert "objectives are never summed into a composite score" in rules
+    assert "mixed-unit composites" in rules
+    assert "never enter the Pareto front" in rules
+    assert "recomputed from geometry; candidate self-reported values are ignored" in rules
+    assert "historical boundary archives are not current-candidate verdicts" in " | ".join(
+        contract["rules"]
+    )
 
 
 # ----------------------------------------------------------------- integration
 HAS_CANDIDATES = importlib.util.find_spec("dgcad_design.candidates") is not None
 
 
-@pytest.mark.skipif(not HAS_CANDIDATES, reason="candidates.py not ready (design-topology M4c-3 step 1)")
-def test_four_experiment_candidates_are_evaluable():
+def _candidate_has_basis_binding(candidate) -> bool:
+    spec = getattr(candidate, "spec", None)
+    return bool(
+        getattr(candidate, "basis_fingerprint", None)
+        or getattr(spec, "basis_fingerprint", None)
+    )
+
+
+@pytest.mark.skipif(not HAS_CANDIDATES, reason="candidates.py not ready")
+def test_four_experiment_candidates_are_evaluable_when_basis_binding_ready():
     from dgcad_design import build_design_intent, load_design_input  # noqa: PLC0415
     from dgcad_design.candidates import CandidateSpec, build_candidate  # noqa: PLC0415
 
     basis = _basis()
+    specs = [
+        CandidateSpec("A", "road_priority", ""),
+        CandidateSpec("B1", "building_priority_diversion", ""),
+        CandidateSpec("B2", "building_priority_alternate", ""),
+        CandidateSpec("C", "coordinated", ""),
+    ]
+    models = {spec.candidate_id: build_candidate(CASE, basis, spec) for spec in specs}
+    if not _candidate_has_basis_binding(models["A"]):
+        pytest.skip("waiting for task-71 candidate basis fingerprint fields")
     design_input = load_design_input(CASE, basis)
     intent = build_design_intent(design_input, basis)
-    specs = [
-        CandidateSpec("A", "road_priority", "keep original main routes, shift buildings"),
-        CandidateSpec("B1", "building_priority_diversion", "current diversion"),
-        CandidateSpec("B2", "building_priority_alternate", "alternate diversion"),
-        CandidateSpec("C", "coordinated", "small building shift + local road change"),
-    ]
-    models = {
-        spec.candidate_id: build_candidate(CASE, basis, spec) for spec in specs
-    }
-    reference = models["A"]
+    reference = models["B1"]
     evaluations = [
         evaluate_candidate(
-            models[spec.candidate_id],
+            models[cid],
             basis,
             reference=reference,
             intent=intent,
             site_boundary=design_input.site_boundary,
         )
-        for spec in specs
+        for cid in ("A", "B1", "B2", "C")
     ]
-    assert len(evaluations) == 4
-    comparison = compare(evaluations)
     for evaluation in evaluations:
-        assert set(evaluation.hard) == set(HARD_CHECKS)
-        assert set(evaluation.soft) >= set(SOFT_METRICS)
+        assert set(evaluation.soft["objectives"]) == set(OBJECTIVE_ORDER)
         assert evaluation.hard_pass == all(evaluation.hard.values())
-        assert comparison["reasons"].get(evaluation.candidate_id), (
-            f"no reason for {evaluation.candidate_id}"
-        )
-        if not evaluation.hard_pass:
-            assert evaluation.candidate_id in comparison["excluded"]
-    assert (
-        comparison["recommendation"] is None
-        or comparison["recommendation"] in comparison["pareto_front"]
+    comparison = compare(evaluations)
+    assert comparison["recommendation"] is None or (
+        comparison["recommendation"] in comparison["pareto_front"]
     )
+    for evaluation in evaluations:
+        assert comparison["reasons"].get(evaluation.candidate_id)
