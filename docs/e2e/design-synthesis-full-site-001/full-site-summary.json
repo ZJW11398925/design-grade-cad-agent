@@ -1,0 +1,564 @@
+{
+  "schema_id": "dgcad.full-site-evidence.v0.1",
+  "case_id": "CASE-SKETCH-001",
+  "draft_id": "DRAFT-CASE-SKETCH-001-FULL-SITE-R1",
+  "revision": 1,
+  "status": "autonomous_full_site_draft",
+  "design_authority": "rule_derived",
+  "human_confirmed": false,
+  "design_basis_id": "design-assumption-v0.2",
+  "sheet_id": "A-102",
+  "plan_scale": "1:2000",
+  "layout_source": "full_site_layout",
+  "layout_note": null,
+  "building_count": 55,
+  "focus_building_count": 7,
+  "unit_count": 109,
+  "households": 2398,
+  "site_area_m2": 204122.7864634952,
+  "metrics": {
+    "site_area_m2": 204122.7864634952,
+    "building_count": 55,
+    "unit_count": 109,
+    "staircase_count": 109,
+    "households": 2398,
+    "total_gfa_m2": 319536.0,
+    "far": 1.5654107291796402,
+    "parking_spaces": 2398,
+    "parking_entrances": 5,
+    "road_access_coverage": 0.0,
+    "road_groups_served": 0,
+    "road_groups_total": 17,
+    "road_access_relation_error_count": 17,
+    "unbuilt_ratio": 0.6375220419595249,
+    "candidate_open_space_ratio": 0.6191508737508923,
+    "designed_green_ratio": 0.15931157257280934,
+    "focus_group_id": "G-01",
+    "focus_building_count": 7,
+    "focus_unit_count": 16,
+    "full_site_green_parcel_count": 10,
+    "full_site_designed_green_area_m2": 124633.20046173329,
+    "full_site_designed_green_ratio": 0.6105795566533792,
+    "full_site_green_target_ratio": 0.3,
+    "full_site_green_gap_m2": 0.0,
+    "full_site_green_account_kind": "open_space_tiling_auxiliary_not_designed_green",
+    "road_clearance_required_m": 3.0,
+    "min_road_clearance_m": 3.0163622902759215,
+    "road_clearance_violation_count": 0,
+    "min_ns_spacing_m": 19.999999999999943,
+    "ns_spacing_violation_count": 0,
+    "road_access_note": "the declared group-access relations (serves_group_ids and access terminals) were generated for the focus layout; relocating the other 48 buildings leaves 17 relation errors and 17 unserved groups.  This is a known M4d integration gap, reported, not hidden."
+  },
+  "road_access": {
+    "coverage": 0.0,
+    "groups_served": 0,
+    "groups_total": 17,
+    "relation_error_count": 17,
+    "note": "the declared group-access relations (serves_group_ids and access terminals) were generated for the focus layout; relocating the other 48 buildings leaves 17 relation errors and 17 unserved groups.  This is a known M4d integration gap, reported, not hidden."
+  },
+  "road_clearance": {
+    "required_m": 3.0,
+    "min_m": 3.0163622902759215,
+    "violation_count": 0
+  },
+  "north_south_spacing": {
+    "min_m": 19.999999999999943,
+    "violation_count": 0
+  },
+  "full_site_green": {
+    "parcel_count": 10,
+    "area_m2": 124633.20046173329,
+    "ratio": 0.6105795566533792,
+    "target_ratio": 0.3,
+    "gap_m2": 0.0,
+    "account_kind": "open_space_tiling_auxiliary_not_designed_green",
+    "note": "this block is an open-space tiling account (parcels outside buildings/roads/sidewalks); it is NOT designed green and is not used to pass DESIGNED_GREEN_RATIO"
+  },
+  "non_claims": [
+    "this is a schematic design proposal, not a construction or permit drawing",
+    "no Chinese code, fire-access, daylight or accessibility compliance is claimed",
+    "the full-site row placement is rule-derived from the declared basis and fixed roads, not a designer-confirmed site plan",
+    "the full-site building placement is not a designer-confirmed layout",
+    "road corridors are schematic offsets, not professional alignment or junction design",
+    "the garage layout is not designed; only the entrance requirement is checked",
+    "the designed-green parcels are a schematic allocation of the open space left by buildings and roads, not a landscape design",
+    "the declared group-access relations were generated for the focus layout; the full-site relocation invalidates them, so access coverage is reported as a known M4d gap, not designed"
+  ],
+  "scene_id": "scene-CASE-SKETCH-001-FULL-SITE-R1",
+  "scene_object_count": 487,
+  "dxf": {
+    "path": "full-site-proposal.dxf",
+    "sha256": "3167a73a82a5ece051bc1e1efda3f0246ef17bac9538cee5ae3f5fa2745ae554",
+    "entity_count": 547,
+    "audit_errors": 0,
+    "audit_fixes": 0
+  },
+  "readback": {
+    "verdict": "pass",
+    "codes": [],
+    "entity_count": 547,
+    "expected_entity_count": 547,
+    "confirmation_scopes": [
+      "design_draft"
+    ],
+    "manifest_sha256": "05f8c508902e85979ab427be4765a845a0dfc518b6ec8e9efc6d09bdb6a2e21c"
+  },
+  "cad_ir_validation": {
+    "verdict": "pass_with_scope_limits",
+    "issues": [
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0002",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0003",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0004",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0005",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0006",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0007",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0008",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0009",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0010",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0011",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0012",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0013",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0014",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0015",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0016",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0017",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0018",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0020",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0021",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0022",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0023",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0024",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0025",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0026",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0028",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0029",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0031",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0032",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0033",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0034",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0035",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0036",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0038",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0039",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0040",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0041",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0042",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0043",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0044",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0045",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0048",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0049",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0050",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0051",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0052",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0054",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0055",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0056",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0057",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0061",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-MRG-0001",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-MRG-0002",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-MRG-0003",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-MRG-0004",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-MRG-0005",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      }
+    ],
+    "coverage_limits": [
+      "current delivery profile and entity set only (LWPOLYLINE/CIRCLE/TEXT)",
+      "no standards or design-office profile compliance",
+      "no IFC",
+      "no third-party CAD round-trip in this pipeline",
+      "no arcs/splines; modelspace only"
+    ]
+  },
+  "privacy": {
+    "ok": true,
+    "code": "PRIVACY_SCAN_PASS",
+    "file": "full-site-proposal.dxf",
+    "findings": []
+  }
+}

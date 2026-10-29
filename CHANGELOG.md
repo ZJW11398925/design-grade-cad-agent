@@ -2,6 +2,57 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.24.0 — 2026-10-29
+
+### Added
+
+- **M4d-1 — full-site layout engine, full-site checks, and an experimental
+  full-site sheet.** A new `layout_full_site` packs **all 55 buildings** into a
+  regularized full-site layout against the frozen 44-road design network
+  (**18 rows / 8 superblocks / 36 row records**, row ordinals contiguous
+  1..18, adjacent-row pitch 31.0 m), preserving **109 units / 2,398
+  households** and the focus group G-01 (7 buildings / 16 units). Measured
+  geometry: all footprints inside the declared boundary-setback; pairwise
+  overlap ≤ 0.01 m²; adjacent 20 m rows (min **19.999999999999943 m**, 44
+  adjacent pairs, 0 under/over); 3 m building-road clearance (min
+  **3.0163622902759215 m**); source→design displacement sum **2,328.95 m**,
+  max **147.25 m**, mean **42.34 m**.
+- **New full-site checks** in contract `design-synthesis-v0.9` (**32 entries =
+  29 design + 3 DXF**; v0.8 superseded): `FULL_SITE_BOUNDARY_SETBACK`,
+  `FULL_SITE_BUILDING_OVERLAP`, `FULL_SITE_ROAD_CLEARANCE`,
+  `FULL_SITE_NS_SPACING` and a computable `DESIGNED_GREEN_RATIO`. Full-site
+  checks are **deferred** while the default pipeline still uses the focus
+  layout (no full-site `row_index`), never silently passing; the default focus
+  design now reports **29 checks = 9 pass + 11 info + 9 deferred**.
+- **Full-site experimental sheet** `docs/e2e/design-synthesis-full-site-001/`:
+  `full-site-layout`, DXF **547 entities** (all 55 buildings), readback
+  **547/547**, XDATA 11, privacy pass, preview SVG/PNG and a 29-check report
+  (**11 pass + 11 info + 5 deferred + 2 fail**).
+- **Honest integration gap:** the frozen access network was declared for the
+  focus layout, so the full-site layout fails `ROAD_ACCESS_COVERAGE`
+  (0.0; 17 relation errors) and `DEAD_END_RESOLUTION` (17 unresolved).
+  Regenerating the road network from the full-site layout does not fix it — it
+  breaks `FULL_SITE_ROAD_CLEARANCE` (min 0 m; 17 buildings below 3 m). M4d-2
+  must co-design road geometry and declared access before the full-site sheet
+  can become canonical. The focus design remains the canonical draft; the
+  full-site sheet is a **research draft**, not a complete or professional
+  design.
+- **Designed-green honesty:** the new full-site green account
+  (0.6105795566533792; 124,633.20 m²; 10 parcels of open space outside
+  buildings/roads/sidewalks) is published as an **auxiliary open-space
+  tiling**, not as designed green. Designed green (cluster strips /
+  supplementary) is 0.0654 on the focus sheet and 0.1593 on the full-site
+  sheet, both below the declared 0.30 target, so `DESIGNED_GREEN_RATIO` stays
+  **deferred** and reports both accounts separately.
+
+### Verified
+
+- Full test suite: **467 passed** (414 → 467: 16 full-site layout tests, 25
+  full-site constraint tests, 12 full-site evidence tests; no test removed).
+- Independent verification by `site-verifier` (55-building conservation,
+  geometry, clearance/spacing, access-gap honesty, green-account honesty,
+  DXF/readback/privacy) and contract checks; CI 4/4.
+
 ## 0.23.0 — 2026-10-29
 
 ### Fixed

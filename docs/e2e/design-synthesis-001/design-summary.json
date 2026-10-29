@@ -203,6 +203,27 @@
     "focus_households": 352,
     "focus_area_m2": 4224.0,
     "focus_min_ns_gap_m": 20.0,
+    "full_site_layout_ready": false,
+    "full_site_building_count": 55,
+    "full_site_row_count": 4,
+    "full_site_missing_row_index_count": 48,
+    "full_site_min_ns_gap_m": null,
+    "full_site_ns_spacing_violation_count": 0,
+    "full_site_outside_setback_ids": [
+      "SK-BLD-0010"
+    ],
+    "full_site_overlap_pair_count": 4,
+    "full_site_max_overlap_m2": 267.0458413396409,
+    "full_site_min_road_clearance_m": 0.0,
+    "full_site_road_clearance_violation_count": 21,
+    "full_site_achievable_uniform_clearance_m": 0.0,
+    "full_site_sidewalk_overlap_count": 19,
+    "full_site_designed_green_area_m2": 125467.05925281439,
+    "full_site_designed_green_ratio": 0.6146646409574298,
+    "full_site_designed_green_target_ratio": 0.3,
+    "full_site_designed_green_gap_m2": 0.0,
+    "full_site_designed_green_parcel_count": 11,
+    "full_site_green_residual_area_m2": 114.89884222886907,
     "road_area_m2": 26882.20505326313,
     "sidewalk_area_m2": 9764.76834535878,
     "candidate_open_space_area_m2": 125819.46553768215,
@@ -1344,11 +1365,256 @@
         }
       },
       {
+        "id": "FULL_SITE_BOUNDARY_SETBACK",
+        "status": "deferred",
+        "value": [
+          "SK-BLD-0010"
+        ],
+        "required": 5.0,
+        "message": "all 55 building footprints must lie inside the published site boundary reduced by the declared setback, tolerance 0.01 m. the full-site layout is not integrated yet: 48 of 55 buildings carry no row_index (source positions are coarse context, not a full-site design), so this check is deferred; the measured value is recorded as a diagnostic only and is never a pass",
+        "detail": {
+          "tolerance_m": 0.01,
+          "outside_count": 1,
+          "outside": [
+            {
+              "building_id": "SK-BLD-0010",
+              "outside_area_m2": 0.13513411413167903,
+              "distance_to_setback_boundary_m": 0.0
+            }
+          ]
+        }
+      },
+      {
+        "id": "FULL_SITE_BUILDING_OVERLAP",
+        "status": "deferred",
+        "value": [
+          {
+            "a": "SK-BLD-0007",
+            "b": "SK-BLD-0023",
+            "overlap_area_m2": 267.0458413396409
+          },
+          {
+            "a": "SK-BLD-0017",
+            "b": "SK-BLD-0032",
+            "overlap_area_m2": 222.19345195252993
+          },
+          {
+            "a": "SK-BLD-0015",
+            "b": "SK-BLD-0026",
+            "overlap_area_m2": 30.89355074022247
+          },
+          {
+            "a": "SK-BLD-0033",
+            "b": "SK-BLD-0034",
+            "overlap_area_m2": 5.443324708566365
+          }
+        ],
+        "required": "none",
+        "message": "any two of the 55 building footprints may overlap by at most 0.01 m2. the full-site layout is not integrated yet: 48 of 55 buildings carry no row_index (source positions are coarse context, not a full-site design), so this check is deferred; the measured value is recorded as a diagnostic only and is never a pass",
+        "detail": {
+          "tolerance_m2": 0.01,
+          "pair_count": 4,
+          "max_overlap_m2": 267.0458413396409
+        }
+      },
+      {
         "id": "FULL_SITE_ROAD_CLEARANCE",
         "status": "deferred",
+        "value": 0.0,
+        "required": 3.0,
+        "message": "every building footprint must be at least 3.0 m from every road corridor edge (corridor union as designed; the roads are fixed). The minimum measured clearance and every violating building/road pair are recorded; the comparison epsilon is floating-point noise only (1e-09 m) and the requirement is never reduced. the full-site layout is not integrated yet: 48 of 55 buildings carry no row_index (source positions are coarse context, not a full-site design), so this check is deferred; the measured value is recorded as a diagnostic only and is never a pass",
+        "detail": {
+          "min_clearance_m": 0.0,
+          "min_building_id": "SK-BLD-MRG-0001",
+          "achievable_uniform_clearance_m": 0.0,
+          "epsilon_m": 1e-09,
+          "road_count": 44,
+          "violation_count": 21,
+          "violations": [
+            {
+              "building_id": "SK-BLD-MRG-0003",
+              "clearance_m": 0.0038121515266400017,
+              "shortfall_m": 2.99618784847336,
+              "nearest_road_id": "BR-G-17",
+              "nearest_road_clearance_m": 0.0038121515266400017
+            },
+            {
+              "building_id": "SK-BLD-MRG-0001",
+              "clearance_m": 0.0,
+              "shortfall_m": 3.0,
+              "nearest_road_id": "BR-G-16",
+              "nearest_road_clearance_m": 0.0
+            },
+            {
+              "building_id": "SK-BLD-MRG-0002",
+              "clearance_m": 0.0,
+              "shortfall_m": 3.0,
+              "nearest_road_id": "BR-G-11",
+              "nearest_road_clearance_m": 0.0
+            },
+            {
+              "building_id": "SK-BLD-0002",
+              "clearance_m": 0.0,
+              "shortfall_m": 3.0,
+              "nearest_road_id": "BR-G-05",
+              "nearest_road_clearance_m": 0.0
+            },
+            {
+              "building_id": "SK-BLD-0004",
+              "clearance_m": 0.0035411368848656706,
+              "shortfall_m": 2.9964588631151345,
+              "nearest_road_id": "BR-G-07",
+              "nearest_road_clearance_m": 0.0035411368848656706
+            },
+            {
+              "building_id": "SK-BLD-0005",
+              "clearance_m": 0.0013529748184367201,
+              "shortfall_m": 2.998647025181563,
+              "nearest_road_id": "BR-G-06",
+              "nearest_road_clearance_m": 0.0013529748184367201
+            },
+            {
+              "building_id": "SK-BLD-0006",
+              "clearance_m": 0.0,
+              "shortfall_m": 3.0,
+              "nearest_road_id": "BR-G-08",
+              "nearest_road_clearance_m": 0.0
+            },
+            {
+              "building_id": "SK-BLD-0010",
+              "clearance_m": 3.263800928685284e-05,
+              "shortfall_m": 2.9999673619907132,
+              "nearest_road_id": "BR-G-02",
+              "nearest_road_clearance_m": 3.263800928685284e-05
+            },
+            {
+              "building_id": "SK-BLD-0011",
+              "clearance_m": 0.0,
+              "shortfall_m": 3.0,
+              "nearest_road_id": "BR-G-14",
+              "nearest_road_clearance_m": 0.0
+            },
+            {
+              "building_id": "SK-BLD-0026",
+              "clearance_m": 1.500025678005045,
+              "shortfall_m": 1.499974321994955,
+              "nearest_road_id": "ACC-G-12",
+              "nearest_road_clearance_m": 1.500025678005045
+            },
+            {
+              "building_id": "SK-BLD-0028",
+              "clearance_m": 0.0,
+              "shortfall_m": 3.0,
+              "nearest_road_id": "BR-G-07",
+              "nearest_road_clearance_m": 0.0
+            },
+            {
+              "building_id": "SK-BLD-0029",
+              "clearance_m": 0.0031249886406923798,
+              "shortfall_m": 2.9968750113593075,
+              "nearest_road_id": "BR-G-09",
+              "nearest_road_clearance_m": 0.0031249886406923798
+            },
+            {
+              "building_id": "SK-BLD-0031",
+              "clearance_m": 2.75006950383601,
+              "shortfall_m": 0.24993049616398988,
+              "nearest_road_id": "MAIN-20",
+              "nearest_road_clearance_m": 2.75006950383601
+            },
+            {
+              "building_id": "SK-BLD-0036",
+              "clearance_m": 1.0814238354853623,
+              "shortfall_m": 1.9185761645146377,
+              "nearest_road_id": "MAIN-18",
+              "nearest_road_clearance_m": 1.0814238354853623
+            },
+            {
+              "building_id": "SK-BLD-0038",
+              "clearance_m": 2.661724890455552,
+              "shortfall_m": 0.33827510954444806,
+              "nearest_road_id": "MAIN-08",
+              "nearest_road_clearance_m": 2.661724890455552
+            },
+            {
+              "building_id": "SK-BLD-0039",
+              "clearance_m": 0.0,
+              "shortfall_m": 3.0,
+              "nearest_road_id": "BR-G-14",
+              "nearest_road_clearance_m": 0.0
+            },
+            {
+              "building_id": "SK-BLD-0042",
+              "clearance_m": 0.0028021323188886084,
+              "shortfall_m": 2.9971978676811113,
+              "nearest_road_id": "BR-G-04",
+              "nearest_road_clearance_m": 0.0028021323188886084
+            },
+            {
+              "building_id": "SK-BLD-0048",
+              "clearance_m": 0.004109307817377645,
+              "shortfall_m": 2.9958906921826225,
+              "nearest_road_id": "BR-G-15",
+              "nearest_road_clearance_m": 0.004109307817377645
+            },
+            {
+              "building_id": "SK-BLD-0055",
+              "clearance_m": 3.263800354258948e-05,
+              "shortfall_m": 2.9999673619964575,
+              "nearest_road_id": "BR-G-10",
+              "nearest_road_clearance_m": 3.263800354258948e-05
+            },
+            {
+              "building_id": "SK-BLD-0057",
+              "clearance_m": 0.004123313107790557,
+              "shortfall_m": 2.9958766868922093,
+              "nearest_road_id": "BR-G-03",
+              "nearest_road_clearance_m": 0.004123313107790557
+            },
+            {
+              "building_id": "SK-BLD-0061",
+              "clearance_m": 0.0,
+              "shortfall_m": 3.0,
+              "nearest_road_id": "BR-G-01",
+              "nearest_road_clearance_m": 0.0
+            }
+          ],
+          "sidewalk_overlap_building_ids": [
+            "SK-BLD-MRG-0003",
+            "SK-BLD-MRG-0001",
+            "SK-BLD-MRG-0002",
+            "SK-BLD-0002",
+            "SK-BLD-0004",
+            "SK-BLD-0005",
+            "SK-BLD-0006",
+            "SK-BLD-0010",
+            "SK-BLD-0011",
+            "SK-BLD-0026",
+            "SK-BLD-0028",
+            "SK-BLD-0029",
+            "SK-BLD-0036",
+            "SK-BLD-0039",
+            "SK-BLD-0042",
+            "SK-BLD-0048",
+            "SK-BLD-0055",
+            "SK-BLD-0057",
+            "SK-BLD-0061"
+          ]
+        }
+      },
+      {
+        "id": "FULL_SITE_NS_SPACING",
+        "status": "deferred",
         "value": null,
-        "required": "full-site road/building clearance design",
-        "message": "the known main-road conflict is resolved, but a full-site road-building clearance design and check (all buildings, all roads, not only the focus group) are still deferred"
+        "required": 20.0,
+        "message": "adjacent full-site rows (global row_index ascending y) must keep 20.0 m +/- 0.01 m between x-overlapping footprints; under-spacing and over-spacing are both recorded as violations. the full-site layout is not integrated yet: 48 of 55 buildings carry no row_index (source positions are coarse context, not a full-site design), so this check is deferred; the measured value is recorded as a diagnostic only and is never a pass",
+        "detail": {
+          "tolerance_m": 0.01,
+          "row_count": 4,
+          "row_pairs": [],
+          "violation_count": 0,
+          "violations": []
+        }
       },
       {
         "id": "DEAD_END_JUSTIFICATION",
@@ -1614,14 +1880,24 @@
         "status": "deferred",
         "value": 0.06538561066069971,
         "required": 0.3,
-        "message": "only classified cluster/strip green counts; usable-area, continuity and green-quality criteria are not defined, so the declared target is not met under this definition yet"
-      },
-      {
-        "id": "FULL_SITE_NS_SPACING",
-        "status": "deferred",
-        "value": null,
-        "required": 20.0,
-        "message": "the full-site layout is a coarse context; the 20 m gap is enforced in the focus group and must be extended group by group"
+        "message": "designed green is not designed yet. The full-site tiling account is an open-space allocation (parcels outside buildings/roads/sidewalks) and is not counted as designed green; the existing cluster/strip/supplementary designed green ratio is below the declared target 0.30, so the check stays deferred. Both accounts are reported in the detail (designed_green vs open_space_account); no green-quality, landscape or continuity claim is made",
+        "detail": {
+          "designed_green_area_m2": 13346.693042679242,
+          "designed_green_ratio": 0.06538561066069971,
+          "target_ratio": 0.3,
+          "target_area_m2": 61236.83593904856,
+          "open_space_account_area_m2": 125467.05925281439,
+          "open_space_account_ratio": 0.6146646409574298,
+          "open_space_account_parcel_count": 11,
+          "open_space_account_criteria": {
+            "boundary_setback_m": 5.0,
+            "obstacle_buffer_m": 0.5,
+            "min_parcel_area_m2": 100.0,
+            "min_parcel_width_m": 3.0
+          },
+          "open_space_account_residual_m2": 114.89884222886907,
+          "note": "the open-space tiling account is published as an auxiliary diagnostic, not as designed green"
+        }
       },
       {
         "id": "FAR_FINAL_VERIFICATION",
@@ -1652,6 +1928,27 @@
       "focus_households": 352,
       "focus_area_m2": 4224.0,
       "focus_min_ns_gap_m": 20.0,
+      "full_site_layout_ready": false,
+      "full_site_building_count": 55,
+      "full_site_row_count": 4,
+      "full_site_missing_row_index_count": 48,
+      "full_site_min_ns_gap_m": null,
+      "full_site_ns_spacing_violation_count": 0,
+      "full_site_outside_setback_ids": [
+        "SK-BLD-0010"
+      ],
+      "full_site_overlap_pair_count": 4,
+      "full_site_max_overlap_m2": 267.0458413396409,
+      "full_site_min_road_clearance_m": 0.0,
+      "full_site_road_clearance_violation_count": 21,
+      "full_site_achievable_uniform_clearance_m": 0.0,
+      "full_site_sidewalk_overlap_count": 19,
+      "full_site_designed_green_area_m2": 125467.05925281439,
+      "full_site_designed_green_ratio": 0.6146646409574298,
+      "full_site_designed_green_target_ratio": 0.3,
+      "full_site_designed_green_gap_m2": 0.0,
+      "full_site_designed_green_parcel_count": 11,
+      "full_site_green_residual_area_m2": 114.89884222886907,
       "road_area_m2": 26882.20505326313,
       "sidewalk_area_m2": 9764.76834535878,
       "candidate_open_space_area_m2": 125819.46553768215,
@@ -6316,7 +6613,7 @@
   "scene_object_count": 208,
   "dxf": {
     "path": "design-proposal.dxf",
-    "sha256": "f88c29e1e9edfed8a2dff7422d89b56ec8da20e7ddc5bd963f14fd1ed100d8b2",
+    "sha256": "6f3af4596faf315a5732e13b06f387f0a3a5ee5adfbd2c6bdd4c8f5d6b8c9b72",
     "entity_count": 211,
     "audit_errors": 0,
     "audit_fixes": 0
@@ -6329,7 +6626,7 @@
     "confirmation_scopes": [
       "design_draft"
     ],
-    "manifest_sha256": "e01d325ffaa954844a3b3835179272296e67f10f4ab4736880907442274e48d2"
+    "manifest_sha256": "59bf413506f59416a95d621df340b24c0331e5eda5b61b2106cf331864b2f05b"
   },
   "cad_ir_validation": {
     "verdict": "pass_with_scope_limits",

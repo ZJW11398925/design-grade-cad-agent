@@ -248,7 +248,7 @@ def test_design_synthesis_end_to_end(tmp_path):
         0.0, abs=0.01
     )
     assert summary["full_site_road_clearance"]["status"] == "deferred"
-    assert len(checks) == 27
+    assert len(checks) == 29
     pass_ids = {
         "FOCUS_NS_SPACING",
         "FOCUS_BOUNDARY_SETBACK",
@@ -277,8 +277,10 @@ def test_design_synthesis_end_to_end(tmp_path):
         "PARKING_CAPACITY",
         "PARKING_DRIVEWAY_CONNECTION",
         "PARKING_LAYOUT",
-        "FULL_SITE_ROAD_CLEARANCE",
         "DESIGNED_GREEN_RATIO",
+        "FULL_SITE_BOUNDARY_SETBACK",
+        "FULL_SITE_BUILDING_OVERLAP",
+        "FULL_SITE_ROAD_CLEARANCE",
         "FULL_SITE_NS_SPACING",
         "FAR_FINAL_VERIFICATION",
     }
@@ -442,7 +444,7 @@ def test_committed_design_evidence_is_consistent():
     assert summary["focus_design_rect"] is not None
     assert summary["diff"]["focus_design_rect"] == summary["focus_design_rect"]
     checks = {check["id"]: check for check in summary["consistency"]["checks"]}
-    assert len(checks) == 27
+    assert len(checks) == 29
     assert checks["DESIGNED_GREEN_RATIO"]["status"] == "deferred"
     assert checks["PARKING_CAPACITY"]["status"] == "deferred"
     assert checks["PARKING_LAYOUT"]["status"] == "deferred"

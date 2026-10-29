@@ -1,5 +1,14 @@
 schema_id: dgcad.design-synthesis.v0.8
-status: living_contract
+status: superseded
+superseded_by: design-synthesis-v0.9.yaml
+superseded_note: >-
+  Historical contract, kept as evidence. v0.9 extends the design from the focus
+  block to the full site: all 55 buildings are placed in global rows and the
+  full-site boundary setback, building overlap, 20 m north-south row spacing and
+  3 m road-corridor clearance become pass/fail checks; a full-site designed
+  green layer is generated and the declared 0.30 green target becomes a
+  pass/fail check with an explicit gap. The 27 checks and 30 verification names
+  of v0.8 are superseded by 29 checks and 32 verification names in v0.9.
 supersedes: design-synthesis-v0.7.yaml
 scope: CASE-SKETCH-001 autonomous design synthesis pilot
 purpose: >-
