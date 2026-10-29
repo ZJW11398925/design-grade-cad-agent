@@ -144,17 +144,17 @@ def test_r1_design_network_is_exactly_connected():
 
 def test_r1_noded_graph_numbers():
     topology = _r1_layout().noded_topology
-    assert topology.node_count == 57
-    assert topology.edge_count == 66
-    assert topology.noded_segment_count == 66
-    assert topology.cyclomatic == 10
-    assert topology.degree_histogram == {1: 19, 2: 3, 3: 33, 4: 2}
+    assert topology.node_count == 58
+    assert topology.edge_count == 68
+    assert topology.noded_segment_count == 68
+    assert topology.cyclomatic == 11
+    assert topology.degree_histogram == {1: 19, 2: 3, 3: 33, 4: 3}
     assert topology.dead_end_count == 19
-    assert topology.junction_count == 35
+    assert topology.junction_count == 36
     assert topology.components[0]["road_ids"] == sorted(
         road.edge_id for road in _r1_layout().roads
     )
-    assert len(_r1_layout().junction_nodes) == 35
+    assert len(_r1_layout().junction_nodes) == 36
     assert len(_r1_layout().dead_end_nodes) == 19
 
 
@@ -202,12 +202,12 @@ def test_r1_main_alignment_and_network_areas_are_stable():
         for road in layout.roads
         if road.class_name == "main"
     )
-    assert main_length == pytest.approx(2126.392617984018, rel=1e-12)
+    assert main_length == pytest.approx(2107.733378663747, rel=1e-12)
     assert layout.road_area_m2 == pytest.approx(
-        27369.822509945796, rel=1e-12
+        26882.20505326313, rel=1e-12
     )
     assert layout.sidewalk_area_m2 == pytest.approx(
-        9889.900380276495, rel=1e-12
+        9764.76834535878, rel=1e-12
     )
 
 

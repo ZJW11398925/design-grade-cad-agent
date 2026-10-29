@@ -2,6 +2,96 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.22.0 — 2026-10-29
+
+### Changed
+
+- **M4c-3 — first multi-candidate design-decision experiment.** This release
+  fixes the M4c-2 evidence issues, adds site-boundary containment as a hard
+  check, and runs the first controlled design experiment: four candidate
+  solutions to the MAIN-19 conflict, independently evaluated with hard gates,
+  soft objectives and a Pareto/preference decision (no opaque score). Tests
+  347 → **396**.
+
+  - **Phase 0 corrections (from review):**
+    - `local_detour_infeasible` is replaced by the honest
+      `local_search_exhausted` wording: the recorded 11.565 m gap < 12 m
+      corridor only proves that the **between-buildings passage** is
+      infeasible; the limited local search family found no end-point-preserving
+      local solution. The M4c-2 66.235 m diversion remains a candidate
+      baseline, not a proof of optimality.
+    - **Boundary containment is now a hard check** (`ROAD_BOUNDARY_CONTAINMENT`,
+      27 design checks = 9 pass + 11 info + 7 deferred; contract
+      `design-synthesis-v0.8.yaml`, v0.7 superseded): main-road corridor edge
+      (centreline ± width/2) must lie inside the published site boundary
+      (tolerance ≤ 0.01 m). The base design was repaired accordingly:
+      MAIN-08/16/18 corridor overhangs fixed (MAIN-08 341.69 m² → 0, margin
+      2.446 m), MAIN-19 diversion retained and boundary-compliant.
+    - `design-roads.geojson` overlap fields are split and labelled:
+      `main_before` (38.1907 m² known conflict), `main_after` (0.0),
+      `new_access` and `total_after` (0.9944 m² — access-road overlap after
+      the boundary repairs), plus the split `alignment_records_before`
+      (34.4218 m²) / `boundary_replaced_before` (3.7689 m²) fields,
+      with a cross-consistency test. `source_segment_map` (design road →
+      source main-edge segments, coverage/distance/heading) and
+      `main_boundary_repairs` are published.
+    - `design-diff.json` now records the main-road alignment and dead-end
+      resolutions in `road_alignment` / `dead_end_resolutions`, and lists them
+      in `changed` / `why`.
+    - Dead-end `resolved` is bound to `criterion_met is True` **and** a
+      geometry re-check (trimmed→no longer degree-1; bridged→shared-vertex
+      junction and no building crossing; site-edge→inside the ≤5 m band and no
+      source vertex outside), with negative tests for forged/unmet records.
+    - Visuals are regenerated from the current geometry:
+      `design-preview.svg`/`.png` (55 buildings, 44 roads, 27 greens, legend,
+      north arrow, scale bar) and `design-overlay.svg` (MAIN-08/MAIN-19
+      before/after + displacement), replacing the stale M4c-1 PNG.
+  - **First candidate experiment (MAIN-19 / SK-BLD-0006 / SK-BLD-0029):**
+    four deterministic candidates from the same source, basis and evidence,
+    with soft metrics measured against the **raw source-aligned design**
+    (`alignment_mode="none"`), not against the already-aligned M4c-2 base:
+    - **A road priority** — original main alignment, SK-BLD-0006 shifted
+      3.172 m; road max displacement 2.83 m; main length 1,981.96 m.
+    - **B1 building priority (M4c-2 diversion)** — buildings fixed, MAIN-19
+      diversion 66.235 m; main length 2,107.73 m.
+    - **B2 building priority (alternate)** — buildings fixed, a different
+      diversion fold, 71.772 m main displacement; main length 2,115.02 m.
+    - **C coordinated** — SK-BLD-0006 shifted 1.50 m plus a medium local road
+      adjustment (11.99 m retract-and-bridge on MAIN-15); main length
+      1,995.50 m.
+    All four pass the hard gates (overlap ≤ 0.01 m², one noded component,
+    corridor inside the site boundary, access 17/17 declared, 55 buildings /
+    109 units, 2,398 households) and all four are non-dominated on the soft
+    objectives. **Decision:** under the default building-preservation-first
+    preferences the recommendation is **B1**; under road-first preferences it
+    is **A** — the explicit trade-off is published instead of a single score.
+    The M4c-2 66.235 m diversion is recorded as a **known boundary-violating
+    baseline** prior to its boundary-compliant repair; it is a candidate, not
+    the predetermined answer.
+  - **Independent evaluation** (`evaluation.py`, contract
+    `design-candidates-v0.1.yaml`): hard gates are re-computed from geometry
+    (candidate self-reports are ignored); soft objectives cover source-trend
+    preservation (via `source_segment_map`), road change, building change,
+    group integrity, green change and space utilization. `compare()` applies
+    explicit ordered preferences and reports the Pareto front plus a reason for
+    every candidate; no single black-box score is produced.
+  - Evidence: `docs/e2e/design-candidates-001/` (candidates, per-candidate
+    summary/plan, evaluation.json, comparison.svg, README with recommendation
+    and rejected alternatives); base design evidence regenerated (DXF content
+    changes, 211 entities, audit 0/0, readback 211/211, XDATA 11, privacy pass;
+    `design-roads.geojson` SHA-256 changes; main length 2,107.733 m; road area
+    26,882.21 m²; sidewalk 9,764.77 m²; open space candidate 61.64 % / unbuilt
+    64.07 % / designed green 6.54 % deferred).
+
+### Verified
+
+- **396 passed** (`python -m pytest -q`; 347 → 396: boundary repairs,
+  candidates, independent evaluation, candidate contract, visuals, phase-0
+  negative tests and geometry re-baselines; no test removed).
+- Independent reviews: `arch-core` candidate-contract/evaluation consistency;
+  `adversary` adversarial verification of candidate independence, hard-gate
+  recomputation and decision honesty; `cad-pipeline` visuals/evidence chain.
+
 ## 0.21.0 — 2026-10-28
 
 ### Changed

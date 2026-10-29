@@ -76,7 +76,7 @@
             "status": "proposed",
             "proximity_connected": true,
             "driveway_designed": false,
-            "distance_m": 0.0,
+            "distance_m": 2.5794492433084418e-14,
             "nearest_road_id": "MAIN-08",
             "reason": "proximity only; driveway geometry not designed (0.000 m from the nearest centreline, within half the 12.0 m road width + 1.0 m)"
           },
@@ -203,10 +203,10 @@
             "nearest_building_id": "SK-BLD-0061",
             "terminal_to_building_m": 3.4999989999999825,
             "terminal_centerline_distance_m": 3.4999989999999825,
-            "terminal_corridor_edge_clearance_m": 0.0034667589656397274,
+            "terminal_corridor_edge_clearance_m": 0.0,
             "route_crossing_length_m": 0.0,
             "relation_errors": [],
-            "reason": "road BR-G-01 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0034667589656397274"
+            "reason": "road BR-G-01 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0"
           },
           {
             "group_id": "G-02",
@@ -281,10 +281,10 @@
             "nearest_building_id": "SK-BLD-0042",
             "terminal_to_building_m": 3.499998999999994,
             "terminal_centerline_distance_m": 3.499998999999994,
-            "terminal_corridor_edge_clearance_m": 0.0014157355375424385,
+            "terminal_corridor_edge_clearance_m": 0.0028021323188886084,
             "route_crossing_length_m": 0.0,
             "relation_errors": [],
-            "reason": "road BR-G-04 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0014157355375424385"
+            "reason": "road BR-G-04 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0028021323188886084"
           },
           {
             "group_id": "G-05",
@@ -506,10 +506,10 @@
             "nearest_building_id": "SK-BLD-0039",
             "terminal_to_building_m": 3.4979873463090696,
             "terminal_centerline_distance_m": 3.4979873463090696,
-            "terminal_corridor_edge_clearance_m": 0.0007563784182462494,
+            "terminal_corridor_edge_clearance_m": 0.0,
             "route_crossing_length_m": 0.0,
             "relation_errors": [],
-            "reason": "road BR-G-14 declares this group; terminal is 3.498 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0007563784182462494"
+            "reason": "road BR-G-14 declares this group; terminal is 3.498 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0"
           },
           {
             "group_id": "G-15",
@@ -578,6 +578,56 @@
       }
     },
     {
+      "id": "ROAD_BOUNDARY_CONTAINMENT",
+      "status": "pass",
+      "value": 0.6735131264650868,
+      "required": 0.0,
+      "message": "every main-road corridor edge (centreline ± width/2) must lie inside the published site boundary; this is a geometric containment check, not a source-alignment claim. Repaired source overhangs are recorded per road, and the repaired MAIN-08 route is functional but not a polished alignment",
+      "detail": {
+        "boundary_ok": true,
+        "boundary_margin_m": 0.6735131264650868,
+        "repair_count": 3,
+        "repairs": [
+          {
+            "road_id": "MAIN-08",
+            "boundary_ok_before": false,
+            "boundary_ok_after": true,
+            "outside_area_before_m2": 341.6908310814502,
+            "outside_area_after_m2": 0.0,
+            "boundary_margin_after_m": 2.446306837399009,
+            "vertices_before": 14,
+            "vertices_after": 108,
+            "max_vertex_displacement_m": 44.1586496117478,
+            "reason": "the source main-road corridor overhung the published site boundary (site-edge terminus / north boundary); the blocked stretches were re-routed inside the boundary-safe free space, free stretches and endpoints preserved"
+          },
+          {
+            "road_id": "MAIN-16",
+            "boundary_ok_before": false,
+            "boundary_ok_after": true,
+            "outside_area_before_m2": 2.417804558565924,
+            "outside_area_after_m2": 0.0,
+            "boundary_margin_after_m": 0.7176286428079739,
+            "vertices_before": 2,
+            "vertices_after": 6,
+            "max_vertex_displacement_m": 1.7423799066510406,
+            "reason": "the source main-road corridor overhung the published site boundary (site-edge terminus / north boundary); the blocked stretches were re-routed inside the boundary-safe free space, free stretches and endpoints preserved"
+          },
+          {
+            "road_id": "MAIN-18",
+            "boundary_ok_before": false,
+            "boundary_ok_after": true,
+            "outside_area_before_m2": 8.290901115044374,
+            "outside_area_after_m2": 0.0,
+            "boundary_margin_after_m": 0.6735131264650868,
+            "vertices_before": 2,
+            "vertices_after": 6,
+            "max_vertex_displacement_m": 2.4984359701101364,
+            "reason": "the source main-road corridor overhung the published site boundary (site-edge terminus / north boundary); the blocked stretches were re-routed inside the boundary-safe free space, free stretches and endpoints preserved"
+          }
+        ]
+      }
+    },
+    {
       "id": "MAIN_ROAD_BUILDING_OVERLAP",
       "status": "pass",
       "value": 0.0,
@@ -588,14 +638,6 @@
         "remaining_conflicts": [],
         "alignment_records": [
           {
-            "road_id": "MAIN-08",
-            "alignment_strategy": "local_detour",
-            "max_displacement_m": 4.90654356307025,
-            "overlap_before_m2": 3.768898302095937,
-            "overlap_after_m2": 0.0,
-            "constraint_satisfied": true
-          },
-          {
             "road_id": "MAIN-19",
             "alignment_strategy": "diversion",
             "max_displacement_m": 66.23545861756293,
@@ -604,290 +646,19 @@
             "constraint_satisfied": true
           }
         ],
-        "overlap_before_m2": 38.19068149970834
+        "overlap_before_m2": 34.421783197612406
       }
     },
     {
       "id": "ROAD_ALIGNMENT_EVIDENCE",
       "status": "info",
-      "value": 2,
+      "value": 1,
       "required": "recorded source-to-aligned main-road changes",
       "message": "every adjusted main road publishes its source edges, alignment strategy, original and adjusted centreline, maximum displacement, vertex budget and overlap before/after; source edges remain evidence and no road id was silently deleted",
       "detail": {
-        "record_count": 2,
+        "record_count": 1,
         "max_displacement_m": 66.23545861756293,
         "records": [
-          {
-            "road_id": "MAIN-08",
-            "source_edge_ids": [
-              "SK-RDC-U-0001",
-              "SK-RDC-U-0002",
-              "SK-RDC-U-0003",
-              "SK-RDC-U-0004",
-              "SK-RDC-U-0006",
-              "SK-RDC-U-0007",
-              "SK-RDC-U-0008",
-              "SK-RDC-U-0010",
-              "SK-RDC-U-0012",
-              "SK-RDC-U-0014",
-              "SK-RDC-U-0015",
-              "SK-RDC-U-0022",
-              "SK-RDC-U-0023",
-              "SK-RDC-U-0024",
-              "SK-RDC-U-0030",
-              "SK-RDC-U-0035",
-              "SK-RDC-U-0039",
-              "SK-RDC-U-0041",
-              "SK-RDC-U-0043",
-              "SK-RDC-U-0054",
-              "SK-RDC-U-0063",
-              "SK-RDC-U-0065",
-              "SK-RDC-U-0072",
-              "SK-RDC-U-0076",
-              "SK-RDC-U-0077",
-              "SK-RDC-U-0086",
-              "SK-RDC-U-0108",
-              "SK-RDC-U-0114",
-              "SK-RDC-U-0123",
-              "SK-RDC-U-0148",
-              "SK-RDC-U-0149",
-              "SK-RDC-U-0151",
-              "SK-RDC-U-0198",
-              "SK-RDC-U-0232",
-              "SK-RDC-U-0240",
-              "SK-RDC-U-0244",
-              "SK-RDC-U-0249",
-              "SK-RDC-U-0251",
-              "SK-RDC-U-0256",
-              "SK-RDC-U-0259",
-              "SK-RDC-U-0265",
-              "SK-RDC-U-0273",
-              "SK-RDC-U-0275",
-              "SK-RDC-U-0280",
-              "SK-RDC-U-0282",
-              "SK-RDC-U-0290",
-              "SK-RDC-U-0294",
-              "SK-RDC-U-0297",
-              "SK-RDC-U-0301",
-              "SK-RDC-U-0303",
-              "SK-RDC-U-0305",
-              "SK-RDC-U-0308",
-              "SK-RDC-U-0309",
-              "SK-RDC-U-0310",
-              "SK-RDC-U-0311",
-              "SK-RDC-U-0312",
-              "SK-RDC-U-0313",
-              "SK-RDC-U-0315",
-              "SK-RDC-U-0318",
-              "SK-RDC-U-0321",
-              "SK-RDC-U-0327",
-              "SK-RDC-U-0328",
-              "SK-RDC-U-0329",
-              "SK-RDC-U-0332",
-              "SK-RDC-U-0333"
-            ],
-            "alignment_strategy": "local_detour",
-            "local_detour_infeasible": false,
-            "conflict_building_ids": [
-              "SK-BLD-0038",
-              "SK-BLD-0061"
-            ],
-            "obstacle_building_ids": [],
-            "per_building_overlap_before_m2": {
-              "SK-BLD-0038": 3.6837010812969346,
-              "SK-BLD-0061": 0.08519722079900238
-            },
-            "residual_conflict_building_ids": [],
-            "original_centerline": [
-              [
-                248.974569319114,
-                422.4774405250205
-              ],
-              [
-                248.5643970467596,
-                467.5963904840032
-              ],
-              [
-                247.33388022969646,
-                501.2305168170631
-              ],
-              [
-                239.95077932731746,
-                516.8170631665299
-              ],
-              [
-                235.4388843314192,
-                521.3289581624282
-              ],
-              [
-                234.208367514356,
-                533.6341263330598
-              ],
-              [
-                222.31337161607874,
-                568.4987694831829
-              ],
-              [
-                215.34044298605411,
-                585.3158326497129
-              ],
-              [
-                213.69975389663657,
-                593.929450369155
-              ],
-              [
-                206.72682526661197,
-                616.078753076292
-              ],
-              [
-                203.85561936013124,
-                627.9737489745693
-              ],
-              [
-                122.64150943396226,
-                627.5635767022148
-              ],
-              [
-                120.18047579983592,
-                621.0008203445446
-              ],
-              [
-                109.5159967186218,
-                601.7227235438884
-              ]
-            ],
-            "adjusted_centerline": [
-              [
-                248.974569319114,
-                422.4774405250205
-              ],
-              [
-                248.5643970467596,
-                467.5963904840032
-              ],
-              [
-                247.33388022969646,
-                501.2305168170631
-              ],
-              [
-                239.95077932731746,
-                516.8170631665299
-              ],
-              [
-                235.4388843314192,
-                521.3289581624282
-              ],
-              [
-                234.208367514356,
-                533.6341263330598
-              ],
-              [
-                222.31337161607874,
-                568.4987694831829
-              ],
-              [
-                215.34044298605411,
-                585.3158326497129
-              ],
-              [
-                213.69975389663657,
-                593.929450369155
-              ],
-              [
-                212.6737721519513,
-                597.188451205214
-              ],
-              [
-                212.6422449372493,
-                600.1151987475289
-              ],
-              [
-                211.91406283764397,
-                609.8242920281373
-              ],
-              [
-                211.52949179541312,
-                612.4474745686899
-              ],
-              [
-                210.2011751685687,
-                615.2456590367432
-              ],
-              [
-                208.44702920797616,
-                617.1308389600265
-              ],
-              [
-                206.92030856190172,
-                618.1397459735492
-              ],
-              [
-                205.97698086311843,
-                619.1852513193367
-              ],
-              [
-                203.85561936013124,
-                627.9737489745693
-              ],
-              [
-                143.89728365662145,
-                627.6709290972788
-              ],
-              [
-                143.01143080960313,
-                627.9267572611824
-              ],
-              [
-                134.63664134919276,
-                631.5907279691389
-              ],
-              [
-                131.36187638054852,
-                632.5142250992704
-              ],
-              [
-                127.28920921183332,
-                631.9888934778525
-              ],
-              [
-                124.55125881620258,
-                630.4158517787226
-              ],
-              [
-                123.12767486051915,
-                628.9429276931216
-              ],
-              [
-                122.39894312925537,
-                627.84802033375
-              ],
-              [
-                121.5893697167249,
-                626.1230719621786
-              ],
-              [
-                117.59239646685973,
-                616.9871339008226
-              ],
-              [
-                116.92035730800029,
-                615.1075292246879
-              ],
-              [
-                109.5159967186218,
-                601.7227235438884
-              ]
-            ],
-            "max_displacement_m": 4.90654356307025,
-            "overlap_before_m2": 3.768898302095937,
-            "overlap_after_m2": 0.0,
-            "constraint_satisfied": true,
-            "minimal_residual_overlap_m2": 0.0,
-            "conflicting_building_gap_m": 4.482068672289278,
-            "vertices_added": 16,
-            "vertices_removed": 0,
-            "reason": "local detour keeps the main corridor edge at least 3.0 m clear of building footprints; endpoints and junctions outside the conflict are preserved"
-          },
           {
             "road_id": "MAIN-19",
             "source_edge_ids": [
@@ -958,7 +729,7 @@
               "SK-RDC-U-0333"
             ],
             "alignment_strategy": "diversion",
-            "local_detour_infeasible": true,
+            "local_search_exhausted": true,
             "conflict_building_ids": [
               "SK-BLD-0006"
             ],
@@ -1113,7 +884,7 @@
             "conflicting_building_gap_m": 11.565220076201857,
             "vertices_added": 29,
             "vertices_removed": 0,
-            "reason": "local detour provably infeasible: the original conflict footprint and the diversion obstacle footprint are 11.57 m apart, narrower than the 12.0 m main corridor, so no endpoint-preserving centreline can clear both; the road is routed around the combined clearance envelope instead (max displacement 66.24 m, which exceeds the 30 m local-detour guideline but is required by the zero-overlap hard check)"
+            "reason": "the current local search family (<=30 m displacement, finite lateral/diversion candidates) found no endpoint-preserving local solution; the 11.57 m gap between the original conflict footprint and the diversion obstacle footprint is only 11.57 m (< 12.0 m main corridor), which proves the passage between the two buildings is infeasible but does not prove that a wider search cannot find another local route; the recorded diversion (max displacement 66.24 m) is a legal candidate, not an impossibility proof"
           }
         ]
       }
@@ -1172,6 +943,7 @@
             "displacement_m": 9.727353166421203,
             "boundary_distance_m": 23.247475964542968,
             "criterion_met": true,
+            "boundary_margin_m": null,
             "extended_to_site_boundary": false,
             "extension_length_m": null,
             "extension_direction_cross": null,
@@ -1198,6 +970,7 @@
             "displacement_m": 0.24620779365789502,
             "boundary_distance_m": 39.7597735275719,
             "criterion_met": true,
+            "boundary_margin_m": null,
             "extended_to_site_boundary": false,
             "extension_length_m": null,
             "extension_direction_cross": null,
@@ -1216,14 +989,15 @@
             ],
             "strategy": "bridged",
             "adjusted_xy": [
-              112.6568909584876,
-              607.4004939005688
+              112.96407454212755,
+              607.9557873017642
             ],
             "bridge_road_id": "MAIN-08",
             "junction_id": "J-22",
-            "displacement_m": 13.677655946265997,
+            "displacement_m": 13.685886953184026,
             "boundary_distance_m": 22.27025369267285,
             "criterion_met": true,
+            "boundary_margin_m": null,
             "extended_to_site_boundary": false,
             "extension_length_m": null,
             "extension_direction_cross": null,
@@ -1231,25 +1005,26 @@
             "boundary_band_m": null,
             "vertices_added": 2,
             "vertices_removed": 0,
-            "reason": "dangling main stub bridged 13.678 m to MAIN-08 with an explicit shared-vertex junction (bridge corridor does not touch a building footprint)"
+            "reason": "dangling main stub bridged 13.686 m to MAIN-08 with an explicit shared-vertex junction (bridge corridor does not touch a building footprint)"
           },
           {
             "node_id": "DE-MAIN-18",
             "road_id": "MAIN-18",
             "original_xy": [
-              245.6931911402789,
-              16.81706316652994
+              245.73765149901087,
+              19.268734294755518
             ],
             "strategy": "site_edge_terminus",
             "adjusted_xy": [
-              245.6931911402789,
-              16.81706316652994
+              245.73765149901087,
+              19.268734294755518
             ],
             "bridge_road_id": null,
             "junction_id": null,
             "displacement_m": 0.0,
-            "boundary_distance_m": 4.047925766932525,
+            "boundary_distance_m": 6.500000000000001,
             "criterion_met": true,
+            "boundary_margin_m": 0.6735131264650868,
             "extended_to_site_boundary": false,
             "extension_length_m": null,
             "extension_direction_cross": null,
@@ -1257,7 +1032,7 @@
             "boundary_band_m": null,
             "vertices_added": 0,
             "vertices_removed": 0,
-            "reason": "endpoint lies 4.048 m from the published site boundary, inside the <= 5 m site-edge band; the source network is clipped at the published boundary (no source vertex lies outside it), so this is a legitimate site-edge terminus - not a road continuing outside the site"
+            "reason": "endpoint is 6.500 m from the published site boundary, so the 12 m main corridor edge is +0.674 m from the boundary (inside/at the boundary); the source network is clipped at the boundary and the road ends at its corridor-safe boundary line - a legitimate site-edge terminus, not a road continuing outside the site"
           },
           {
             "node_id": "DE-MAIN-20",
@@ -1276,6 +1051,7 @@
             "displacement_m": 5.233264199174163,
             "boundary_distance_m": 71.67803914491597,
             "criterion_met": true,
+            "boundary_margin_m": null,
             "extended_to_site_boundary": false,
             "extension_length_m": null,
             "extension_direction_cross": null,
@@ -1294,14 +1070,15 @@
             ],
             "strategy": "bridged",
             "adjusted_xy": [
-              248.92002611837324,
-              428.4771926065029
+              248.85053751012998,
+              428.47615839722954
             ],
             "bridge_road_id": "MAIN-08",
             "junction_id": "J-24",
-            "displacement_m": 9.642090864979577,
+            "displacement_m": 9.577103188382027,
             "boundary_distance_m": 94.58007001972193,
             "criterion_met": true,
+            "boundary_margin_m": null,
             "extended_to_site_boundary": false,
             "extension_length_m": null,
             "extension_direction_cross": null,
@@ -1309,7 +1086,7 @@
             "boundary_band_m": null,
             "vertices_added": 2,
             "vertices_removed": 0,
-            "reason": "dangling main stub bridged 9.642 m to MAIN-08 with an explicit shared-vertex junction (bridge corridor does not touch a building footprint)"
+            "reason": "dangling main stub bridged 9.577 m to MAIN-08 with an explicit shared-vertex junction (bridge corridor does not touch a building footprint)"
           },
           {
             "node_id": "DE-MAIN-25",
@@ -1320,22 +1097,23 @@
             ],
             "strategy": "site_edge_terminus",
             "adjusted_xy": [
-              387.92401822144296,
-              340.8357133079421
+              382.2805578342904,
+              340.8531583264971
             ],
             "bridge_road_id": null,
             "junction_id": null,
-            "displacement_m": 5.643487350037444,
-            "boundary_distance_m": 0.0,
+            "displacement_m": 0.0,
+            "boundary_distance_m": 5.643487350037428,
             "criterion_met": true,
-            "extended_to_site_boundary": true,
-            "extension_length_m": 5.643487350037444,
-            "extension_direction_cross": 0.7572412110751457,
-            "extension_angle_deg": 49.22158907463808,
+            "boundary_margin_m": 1.1000400835865636,
+            "extended_to_site_boundary": false,
+            "extension_length_m": null,
+            "extension_direction_cross": null,
+            "extension_angle_deg": null,
             "boundary_band_m": null,
-            "vertices_added": 1,
+            "vertices_added": 0,
             "vertices_removed": 0,
-            "reason": "dangling main stub extended 5.643 m along the shortest direction to the published site boundary (not a straight continuation of the terminal segment; measured direction difference normalized cross 0.757); the endpoint now lies exactly on the boundary and the source network is clipped at that boundary, i.e. this is a site-edge terminus, not a road continuing outside the site"
+            "reason": "endpoint is 5.643 m from the published site boundary, so the 12 m main corridor edge is +1.100 m from the boundary (inside/at the boundary); the source network is clipped at the boundary and the road ends at its corridor-safe boundary line - a legitimate site-edge terminus, not a road continuing outside the site"
           }
         ]
       }
@@ -1359,7 +1137,7 @@
     {
       "id": "CANDIDATE_OPEN_SPACE_RATIO",
       "status": "info",
-      "value": 0.6206629224807475,
+      "value": 0.616391083609783,
       "required": "none",
       "message": "candidate open-space share under the recorded filters (5 m boundary setback, 0.5 m obstacle buffer, supplementary polygons >= 100 m2, area = sum of recorded classifications); it is not designed green",
       "detail": {
@@ -1373,7 +1151,7 @@
     {
       "id": "UNBUILT_RATIO",
       "status": "info",
-      "value": 0.644515172436534,
+      "value": 0.6407354465472117,
       "required": "none",
       "message": "geometric unbuilt-area ratio: area of (site boundary - 5 m setback) minus (buildings + road corridors + sidewalks), computed as a polygon-union area"
     },
@@ -1420,12 +1198,12 @@
     "focus_households": 352,
     "focus_area_m2": 4224.0,
     "focus_min_ns_gap_m": 20.0,
-    "road_area_m2": 27369.822509945796,
-    "sidewalk_area_m2": 9889.900380276495,
-    "candidate_open_space_area_m2": 126691.44519134649,
-    "candidate_open_space_ratio": 0.6206629224807475,
-    "unbuilt_area_m2": 131560.2329157454,
-    "unbuilt_ratio": 0.644515172436534,
+    "road_area_m2": 26882.20505326313,
+    "sidewalk_area_m2": 9764.76834535878,
+    "candidate_open_space_area_m2": 125819.46553768215,
+    "candidate_open_space_ratio": 0.616391083609783,
+    "unbuilt_area_m2": 130788.70473514873,
+    "unbuilt_ratio": 0.6407354465472117,
     "open_space_filters": {
       "boundary_setback_m": 5.0,
       "obstacle_buffer_m": 0.5,
@@ -1439,26 +1217,26 @@
     "road_topology": {
       "schema_id": "dgcad.design-road-topology.v0.1",
       "road_count": 44,
-      "noded_segment_count": 66,
-      "node_count": 57,
-      "edge_count": 66,
+      "noded_segment_count": 68,
+      "node_count": 58,
+      "edge_count": 68,
       "component_count": 1,
-      "cyclomatic": 10,
+      "cyclomatic": 11,
       "degree_histogram": {
         "1": 19,
         "2": 3,
         "3": 33,
-        "4": 2
+        "4": 3
       },
       "dead_end_count": 19,
-      "junction_count": 35,
+      "junction_count": 36,
       "explicit_junction_count": 24,
       "max_endpoint_gap_m": 0.0,
       "closed_ring_count": 3,
       "components": [
         {
-          "node_count": 57,
-          "edge_count": 66,
+          "node_count": 58,
+          "edge_count": 68,
           "road_ids": [
             "ACC-FOCUS-01",
             "ACC-G-12",
@@ -1622,18 +1400,24 @@
     "entrance_proximity_connected_count": 2,
     "entrance_driveway_designed_count": 0,
     "road_relation_error_count": 0,
+    "main_boundary_ok": true,
+    "main_boundary_margin_m": 0.6735131264650868,
+    "main_boundary_repair_count": 3,
+    "source_segment_map_road_count": 25,
     "dead_end_unresolved_count": 0,
     "dead_end_resolved_count": 7,
     "main_road_building_overlap_m2": 0.0,
-    "main_road_building_overlap_before_m2": 38.19068149970834,
+    "main_road_building_overlap_before_m2": 38.19068149970835,
+    "main_road_overlap_before_records_m2": 34.421783197612406,
+    "main_road_overlap_before_boundary_replaced_m2": 3.7688983020959412,
     "main_road_building_overlap_status": "resolved",
-    "main_alignment_adjusted_count": 2,
+    "main_alignment_adjusted_count": 1,
     "main_alignment_max_displacement_m": 66.23545861756293,
-    "road_building_overlap_m2_new_access": 0.5484725364968939,
+    "road_building_overlap_m2_new_access": 0.9943558185246757,
     "road_building_overlap_m2_main_before": 38.19068149970835,
     "road_building_overlap_m2_main_after": 0.0,
-    "road_building_overlap_m2_total": 0.5484725364968938,
-    "junction_count": 35,
+    "road_building_overlap_m2_total": 0.9943558185246756,
+    "junction_count": 36,
     "dead_end_count": 19,
     "explicit_junction_count": 24,
     "closed_ring_count": 3,

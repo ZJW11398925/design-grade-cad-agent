@@ -1,0 +1,491 @@
+{
+  "schema_id": "dgcad.design-candidate-summary.v0.1",
+  "candidate_id": "A",
+  "strategy": "road_priority",
+  "description": "roads keep their raw source alignment; conflicting buildings are translated by the minimum distance that clears the main corridors (road priority)",
+  "changes": {
+    "spec": {
+      "candidate_id": "A",
+      "strategy": "road_priority"
+    },
+    "boundary": {
+      "hard_boundary_ok": true,
+      "boundary_violation_m": 0.0,
+      "boundary_margin_m": 0.6735131264650868,
+      "centerline_violation_m": 0.0,
+      "outside_building_ids": []
+    },
+    "hard_boundary_ok": true,
+    "building_shifts": [
+      {
+        "building_id": "SK-BLD-0006",
+        "dx_m": -3.1713680485506717,
+        "dy_m": 0.06747591592660848,
+        "distance_m": 3.1720857962227678
+      }
+    ],
+    "displaced_buildings": [
+      "SK-BLD-0006"
+    ],
+    "building_shift_total_m": 3.1720857962227678,
+    "road_route_changes": [
+      {
+        "road_id": "MAIN-15",
+        "kind": "trim",
+        "max_displacement_m": 4.023783696255615e-15,
+        "max_vertex_displacement_m": 4.023783696255615e-15,
+        "length_delta_m": -2.3202710858196465
+      }
+    ],
+    "road_route_change_count": 1,
+    "road_max_displacement_m": 4.023783696255615e-15,
+    "main_length_m": 1981.9609886916392,
+    "main_length_baseline_m": 1984.2812597774587,
+    "main_length_delta_m": -2.3202710858195132,
+    "hard_overlap_after_m2": 0.0,
+    "main_overlap_before_m2": 3.768898302095937,
+    "main_overlap_resolved": true,
+    "topology": {
+      "component_count": 1,
+      "node_count": 58,
+      "edge_count": 68,
+      "cyclomatic": 11,
+      "dead_end_count": 19,
+      "junction_count": 36,
+      "explicit_junction_count": 24,
+      "closed_ring_count": 3,
+      "max_endpoint_gap_m": 0.0,
+      "violation_codes": []
+    },
+    "access": {
+      "declared_total": 17,
+      "coverage": 1.0,
+      "served_groups": 17,
+      "group_count": 17,
+      "dead_ends_unresolved": 0,
+      "dead_ends_resolved": 2
+    },
+    "building_count": 55,
+    "unit_count_total": 109,
+    "household_count_total": 2398,
+    "designed_green_ratio": 0.06538561066069971,
+    "assumed_nominal_capacity_spaces": 1000
+  },
+  "main_length_m": 1981.9609886916392,
+  "evaluation": {
+    "schema_id": "dgcad.design-candidates-evaluation.v0.1",
+    "candidate_id": "A",
+    "strategy": "road_priority",
+    "hard": {
+      "overlap_ok": true,
+      "topology_ok": true,
+      "boundary_ok": true,
+      "access_ok": true,
+      "capacity_ok": true,
+      "basis_ok": true
+    },
+    "hard_pass": true,
+    "hard_details": {
+      "overlap_ok": {
+        "main_road_building_overlap_m2": 0.0,
+        "total_road_building_overlap_m2": 0.8595377847886573,
+        "reference_total_overlap_m2": 36.20414480381279,
+        "total_overlap_delta_m2": -35.34460701902413,
+        "budget_m2": 0.01,
+        "main_road_overlap": {
+          "area_m2": 0.0,
+          "conflicts": [],
+          "status": "resolved"
+        }
+      },
+      "topology_ok": {
+        "component_count": 1,
+        "node_count": 58,
+        "edge_count": 68,
+        "dead_end_count": 19,
+        "violations": []
+      },
+      "boundary_ok": {
+        "ok": true,
+        "boundary_violation_m": 0.0,
+        "boundary_margin_m": 0.6735131264650868,
+        "centerline_violation_m": 0.0,
+        "tolerance_m": 0.01,
+        "outside_building_ids": [],
+        "roads": [
+          {
+            "road_id": "MAIN-01",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 3.6011918404166883
+          },
+          {
+            "road_id": "MAIN-02",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 3.0317906573743962
+          },
+          {
+            "road_id": "MAIN-03",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 7.993812518083441
+          },
+          {
+            "road_id": "MAIN-04",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 2.607495827880914
+          },
+          {
+            "road_id": "MAIN-05",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 9.80039852711746
+          },
+          {
+            "road_id": "MAIN-06",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 99.30073995682154
+          },
+          {
+            "road_id": "MAIN-07",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 93.86852329285618
+          },
+          {
+            "road_id": "MAIN-08",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 2.446306837399009
+          },
+          {
+            "road_id": "MAIN-09",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 5.97880854689851
+          },
+          {
+            "road_id": "MAIN-10",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 69.25050869233844
+          },
+          {
+            "road_id": "MAIN-11",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 104.74636144533395
+          },
+          {
+            "road_id": "MAIN-12",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 80.22553207853475
+          },
+          {
+            "road_id": "MAIN-13",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 123.38020444502409
+          },
+          {
+            "road_id": "MAIN-14",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 105.31886244487147
+          },
+          {
+            "road_id": "MAIN-15",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 98.17561497398063
+          },
+          {
+            "road_id": "MAIN-16",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 0.7176286428079739
+          },
+          {
+            "road_id": "MAIN-17",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 6.840171565233131
+          },
+          {
+            "road_id": "MAIN-18",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 0.6735131264650868
+          },
+          {
+            "road_id": "MAIN-19",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 72.73332992750498
+          },
+          {
+            "road_id": "MAIN-20",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 64.78712713553158
+          },
+          {
+            "road_id": "MAIN-21",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 74.31384881605351
+          },
+          {
+            "road_id": "MAIN-22",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 84.92971813439142
+          },
+          {
+            "road_id": "MAIN-23",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 96.33664457973678
+          },
+          {
+            "road_id": "MAIN-24",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 67.26593818416124
+          },
+          {
+            "road_id": "MAIN-25",
+            "road_class": "main",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 1.1000400835865636
+          },
+          {
+            "road_id": "BR-FOCUS",
+            "road_class": "branch",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 6.431403810780851
+          },
+          {
+            "road_id": "BR-G-01",
+            "road_class": "branch",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 6.644379982107828
+          },
+          {
+            "road_id": "BR-G-02",
+            "road_class": "branch",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 76.93024618262976
+          },
+          {
+            "road_id": "BR-G-03",
+            "road_class": "branch",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 100.39052817769469
+          },
+          {
+            "road_id": "BR-G-04",
+            "road_class": "branch",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 71.35230862152761
+          },
+          {
+            "road_id": "BR-G-05",
+            "road_class": "branch",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 10.589204937883155
+          },
+          {
+            "road_id": "BR-G-06",
+            "road_class": "branch",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 109.70748238669033
+          },
+          {
+            "road_id": "BR-G-07",
+            "road_class": "branch",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 80.26992897087419
+          },
+          {
+            "road_id": "BR-G-08",
+            "road_class": "branch",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 96.68616588170585
+          },
+          {
+            "road_id": "BR-G-09",
+            "road_class": "branch",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 93.64794499800975
+          },
+          {
+            "road_id": "BR-G-10",
+            "road_class": "branch",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 81.02675472806537
+          },
+          {
+            "road_id": "BR-G-11",
+            "road_class": "branch",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 89.21369130647065
+          },
+          {
+            "road_id": "ACC-G-12",
+            "road_class": "access",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 68.36784243883216
+          },
+          {
+            "road_id": "BR-G-13",
+            "road_class": "branch",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 98.20031433115203
+          },
+          {
+            "road_id": "BR-G-14",
+            "road_class": "branch",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 3.002803050049387
+          },
+          {
+            "road_id": "BR-G-15",
+            "road_class": "branch",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 49.11981231949549
+          },
+          {
+            "road_id": "BR-G-16",
+            "road_class": "branch",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 78.45343324708499
+          },
+          {
+            "road_id": "BR-G-17",
+            "road_class": "branch",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 51.917353686756634
+          },
+          {
+            "road_id": "ACC-FOCUS-01",
+            "road_class": "access",
+            "corridor_violation_m": 0.0,
+            "centerline_violation_m": 0.0,
+            "corridor_margin_m": 11.81300243540661
+          }
+        ],
+        "status": "contained"
+      },
+      "access_ok": {
+        "groups_total": 17,
+        "groups_served": 17,
+        "unserved_group_ids": [],
+        "relation_error_count": 0,
+        "dead_ends_unresolved": 0,
+        "road_access_coverage": 1.0
+      },
+      "capacity_ok": {
+        "units": 109,
+        "expected_units": 109,
+        "buildings": 55,
+        "expected_buildings": 55
+      },
+      "basis_ok": {
+        "changed_fields": []
+      }
+    },
+    "soft": {
+      "source_preservation": {
+        "available": true,
+        "design_road_count": 25,
+        "segment_count": 78,
+        "mean_coverage_ratio": 0.7409376425469033,
+        "mean_distance_m": 3.7874445450221,
+        "mean_heading_delta_deg": 9.288384452972128
+      },
+      "road_change": {
+        "main_length_delta_m": -2.3202710858195132,
+        "total_length_delta_m": -2.32968547696737,
+        "max_displacement_m": 2.825827798091072,
+        "added_vertices": 0
+      },
+      "building_change": {
+        "displaced_count": 1,
+        "displaced_building_ids": [
+          "SK-BLD-0006"
+        ],
+        "max_displacement_m": 3.1720857962227718,
+        "mean_displacement_m": 3.1720857962227718,
+        "unit_delta": 0,
+        "building_delta": 0
+      },
+      "group_integrity": {
+        "groups_served": 17,
+        "reference_groups_served": 17,
+        "declared_relations_preserved": true,
+        "terminal_max_delta_m": 2.826209246611442
+      },
+      "green_change": {
+        "designed_green_ratio_delta": 0.0,
+        "candidate_open_space_ratio_delta": -1.4801040880474403e-05,
+        "unbuilt_ratio_delta": -3.558573071216209e-06
+      },
+      "space_utilization": {
+        "approx_floor_area_m2": 323135.99999999994,
+        "approx_floor_area_delta_m2": 0.0,
+        "gfa_unchanged": true
+      }
+    },
+    "reasons": [
+      "all hard gates pass"
+    ]
+  }
+}

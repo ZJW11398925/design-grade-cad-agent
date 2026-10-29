@@ -1,0 +1,5496 @@
+{
+  "type": "FeatureCollection",
+  "schema_id": "dgcad.design-roads.v0.1",
+  "road_count": 44,
+  "coordinate_frame": "design-local-metric",
+  "junction_count": 24,
+  "road_class_counts": {
+    "main": 25,
+    "branch": 17,
+    "access": 2
+  },
+  "road_building_overlap_m2_new_access": 0.8595377847886574,
+  "road_building_overlap_m2_main_before": 3.768898302095937,
+  "road_building_overlap_m2_alignment_records_before": 0,
+  "road_building_overlap_m2_boundary_replaced_before": 3.768898302095937,
+  "road_building_overlap_m2_main_after": 0.0,
+  "road_building_overlap_m2_total_after": 0.8595377847886573,
+  "main_boundary_ok": true,
+  "main_boundary_margin_m": 0.6735131264650868,
+  "main_boundary_repairs": [
+    {
+      "road_id": "MAIN-08",
+      "boundary_ok_before": false,
+      "boundary_ok_after": true,
+      "outside_area_before_m2": 341.6908310814502,
+      "outside_area_after_m2": 0.0,
+      "boundary_margin_after_m": 2.446306837399009,
+      "vertices_before": 14,
+      "vertices_after": 108,
+      "max_vertex_displacement_m": 44.1586496117478,
+      "reason": "the source main-road corridor overhung the published site boundary (site-edge terminus / north boundary); the blocked stretches were re-routed inside the boundary-safe free space, free stretches and endpoints preserved"
+    },
+    {
+      "road_id": "MAIN-16",
+      "boundary_ok_before": false,
+      "boundary_ok_after": true,
+      "outside_area_before_m2": 2.417804558565924,
+      "outside_area_after_m2": 0.0,
+      "boundary_margin_after_m": 0.7176286428079739,
+      "vertices_before": 2,
+      "vertices_after": 6,
+      "max_vertex_displacement_m": 1.7423799066510406,
+      "reason": "the source main-road corridor overhung the published site boundary (site-edge terminus / north boundary); the blocked stretches were re-routed inside the boundary-safe free space, free stretches and endpoints preserved"
+    },
+    {
+      "road_id": "MAIN-18",
+      "boundary_ok_before": false,
+      "boundary_ok_after": true,
+      "outside_area_before_m2": 8.290901115044374,
+      "outside_area_after_m2": 0.0,
+      "boundary_margin_after_m": 0.6735131264650868,
+      "vertices_before": 2,
+      "vertices_after": 6,
+      "max_vertex_displacement_m": 2.4984359701101364,
+      "reason": "the source main-road corridor overhung the published site boundary (site-edge terminus / north boundary); the blocked stretches were re-routed inside the boundary-safe free space, free stretches and endpoints preserved"
+    }
+  ],
+  "source_segment_map": {
+    "MAIN-01": [
+      {
+        "source_edge_id": "SK-RDC-U-0290",
+        "overlap_length_m": 15.975670298728858,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0297",
+        "overlap_length_m": 15.059523995640497,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0309",
+        "overlap_length_m": 7.706437337184566,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0318",
+        "overlap_length_m": 10.457382103348595,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0251",
+        "overlap_length_m": 28.447154855454798,
+        "distance_m": 0.0,
+        "coverage_ratio": 0.9999999999999999,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0321",
+        "overlap_length_m": 7.337384667759746,
+        "distance_m": 0.0,
+        "coverage_ratio": 0.9999999999999999,
+        "heading_delta_deg": 0.0
+      }
+    ],
+    "MAIN-02": [
+      {
+        "source_edge_id": "SK-RDC-U-0077",
+        "overlap_length_m": 29.1712951381371,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0123",
+        "overlap_length_m": 15.996718621821174,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0280",
+        "overlap_length_m": 13.95188790130841,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0282",
+        "overlap_length_m": 10.287068255934724,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0311",
+        "overlap_length_m": 5.872773200687602,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0108",
+        "overlap_length_m": 25.69394546901694,
+        "distance_m": 0.0,
+        "coverage_ratio": 0.9999999999999999,
+        "heading_delta_deg": 2.842170943040401e-14
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0313",
+        "overlap_length_m": 13.788134794070231,
+        "distance_m": 0.0,
+        "coverage_ratio": 0.9999999999999999,
+        "heading_delta_deg": 2.842170943040401e-14
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0315",
+        "overlap_length_m": 11.426077339773684,
+        "distance_m": 0.0,
+        "coverage_ratio": 0.9999999999999999,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0148",
+        "overlap_length_m": 13.57911842267994,
+        "distance_m": 0.0,
+        "coverage_ratio": 0.9999999999999996,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0244",
+        "overlap_length_m": 9.171730834699687,
+        "distance_m": 0.0,
+        "coverage_ratio": 0.9999999999999994,
+        "heading_delta_deg": 0.0
+      }
+    ],
+    "MAIN-03": [
+      {
+        "source_edge_id": "SK-RDC-U-0305",
+        "overlap_length_m": 0.0,
+        "distance_m": 1.3990576129135553e-14,
+        "coverage_ratio": 0.0,
+        "heading_delta_deg": 3.232969447708456e-13
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0077",
+        "overlap_length_m": 0.0,
+        "distance_m": 0.5000000000000209,
+        "coverage_ratio": 0.0,
+        "heading_delta_deg": 70.71991076029376
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0318",
+        "overlap_length_m": 0.0,
+        "distance_m": 9.512375898609829,
+        "coverage_ratio": 0.0,
+        "heading_delta_deg": 72.80592095220857
+      }
+    ],
+    "MAIN-04": [
+      {
+        "source_edge_id": "SK-RDC-U-0249",
+        "overlap_length_m": 22.198620390048934,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 2.842170943040401e-14
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0308",
+        "overlap_length_m": 7.163350777921627,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0327",
+        "overlap_length_m": 5.13944384173161,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0065",
+        "overlap_length_m": 25.53960635940627,
+        "distance_m": 0.0,
+        "coverage_ratio": 0.9999999999999999,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0329",
+        "overlap_length_m": 9.005126497169854,
+        "distance_m": 0.0,
+        "coverage_ratio": 0.9999999999999998,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0310",
+        "overlap_length_m": 5.872773200687561,
+        "distance_m": 0.0,
+        "coverage_ratio": 0.9999999999999996,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0198",
+        "overlap_length_m": 0.0,
+        "distance_m": 0.0,
+        "coverage_ratio": 0.0,
+        "heading_delta_deg": 1.4389925836154234
+      }
+    ],
+    "MAIN-05": [
+      {
+        "source_edge_id": "SK-RDC-U-0294",
+        "overlap_length_m": 29.673884453818513,
+        "distance_m": 0.0,
+        "coverage_ratio": 0.9917711552617736,
+        "heading_delta_deg": 5.684341886080802e-14
+      }
+    ],
+    "MAIN-06": [
+      {
+        "source_edge_id": "SK-RDC-U-0108",
+        "overlap_length_m": 0.0,
+        "distance_m": 0.49999999999999806,
+        "coverage_ratio": 0.0,
+        "heading_delta_deg": 19.42555562441487
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0010",
+        "overlap_length_m": 0.0,
+        "distance_m": 23.32371111726395,
+        "coverage_ratio": 0.0,
+        "heading_delta_deg": 1.6385475500371456
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0313",
+        "overlap_length_m": 0.0,
+        "distance_m": 26.191212070960745,
+        "coverage_ratio": 0.0,
+        "heading_delta_deg": 25.477287733208982
+      }
+    ],
+    "MAIN-07": [
+      {
+        "source_edge_id": "SK-RDC-U-0001",
+        "overlap_length_m": 111.15668580803936,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0004",
+        "overlap_length_m": 85.31583264971286,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      }
+    ],
+    "MAIN-08": [
+      {
+        "source_edge_id": "SK-RDC-U-0259",
+        "overlap_length_m": 15.198529379531516,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 19.405941941079817
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0022",
+        "overlap_length_m": 45.11778765053171,
+        "distance_m": 0.0,
+        "coverage_ratio": 0.9999329203296609,
+        "heading_delta_deg": 0.663644527922159
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0063",
+        "overlap_length_m": 36.817545887090304,
+        "distance_m": 0.20699815530944574,
+        "coverage_ratio": 0.9994462186924427,
+        "heading_delta_deg": 1.1916273771759194
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0043",
+        "overlap_length_m": 33.637057137807645,
+        "distance_m": 0.07237496022783942,
+        "coverage_ratio": 0.9994185061574103,
+        "heading_delta_deg": 0.9107516621996723
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0256",
+        "overlap_length_m": 8.758893288156003,
+        "distance_m": 0.10668033374308875,
+        "coverage_ratio": 0.9989064939245846,
+        "heading_delta_deg": 0.30914767319326586
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0301",
+        "overlap_length_m": 18.181848339687633,
+        "distance_m": 0.13228308527199426,
+        "coverage_ratio": 0.9987082077070788,
+        "heading_delta_deg": 2.49050466774014
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0114",
+        "overlap_length_m": 17.218829330105038,
+        "distance_m": 0.07237496022783942,
+        "coverage_ratio": 0.998380735421747,
+        "heading_delta_deg": 5.684341886080802e-14
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0265",
+        "overlap_length_m": 12.317785179987254,
+        "distance_m": 0.16177255325852877,
+        "coverage_ratio": 0.9960574439248485,
+        "heading_delta_deg": 0.2478913043747326
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0312",
+        "overlap_length_m": 6.314743942419696,
+        "distance_m": 0.16177255325852877,
+        "coverage_ratio": 0.9896503059581208,
+        "heading_delta_deg": 0.07773995908206643
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0086",
+        "overlap_length_m": 0.0,
+        "distance_m": 6.6553231790562404e-15,
+        "coverage_ratio": 0.0,
+        "heading_delta_deg": 81.48414557007527
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0328",
+        "overlap_length_m": 0.0,
+        "distance_m": 6.028612349881795,
+        "coverage_ratio": 0.0,
+        "heading_delta_deg": 29.404868104115266
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0006",
+        "overlap_length_m": 0.0,
+        "distance_m": 12.993459459172414,
+        "coverage_ratio": 0.0,
+        "heading_delta_deg": 45.289370163441646
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0275",
+        "overlap_length_m": 0.0,
+        "distance_m": 19.76259789757647,
+        "coverage_ratio": 0.0,
+        "heading_delta_deg": 85.38848544116951
+      }
+    ],
+    "MAIN-09": [
+      {
+        "source_edge_id": "SK-RDC-U-0259",
+        "overlap_length_m": 15.198529379531516,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      }
+    ],
+    "MAIN-10": [
+      {
+        "source_edge_id": "SK-RDC-U-0002",
+        "overlap_length_m": 0.0,
+        "distance_m": 43.80074775484498,
+        "coverage_ratio": 0.0,
+        "heading_delta_deg": 30.047104329910184
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0332",
+        "overlap_length_m": 0.0,
+        "distance_m": 44.80048293465765,
+        "coverage_ratio": 0.0,
+        "heading_delta_deg": 14.036241413704541
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0004",
+        "overlap_length_m": 0.0,
+        "distance_m": 48.9158079640204,
+        "coverage_ratio": 0.0,
+        "heading_delta_deg": 87.69093730336346
+      }
+    ],
+    "MAIN-11": [
+      {
+        "source_edge_id": "SK-RDC-U-0002",
+        "overlap_length_m": 0.0,
+        "distance_m": 7.974587612383561e-16,
+        "coverage_ratio": 0.0,
+        "heading_delta_deg": 41.77428304697801
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0332",
+        "overlap_length_m": 0.0,
+        "distance_m": 0.5,
+        "coverage_ratio": 0.0,
+        "heading_delta_deg": 2.3090626966367154
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0007",
+        "overlap_length_m": 0.0,
+        "distance_m": 5.8318033398552345,
+        "coverage_ratio": 0.0,
+        "heading_delta_deg": 0.1940770829481835
+      }
+    ],
+    "MAIN-12": [
+      {
+        "source_edge_id": "SK-RDC-U-0010",
+        "overlap_length_m": 0.0,
+        "distance_m": 4.328918572105871,
+        "coverage_ratio": 0.0,
+        "heading_delta_deg": 1.087763840384099
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0108",
+        "overlap_length_m": 0.0,
+        "distance_m": 11.472341940367278,
+        "coverage_ratio": 0.0,
+        "heading_delta_deg": 14.963539177105815
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0313",
+        "overlap_length_m": 0.0,
+        "distance_m": 36.04434661110986,
+        "coverage_ratio": 0.0,
+        "heading_delta_deg": 21.015271285899928
+      }
+    ],
+    "MAIN-13": [
+      {
+        "source_edge_id": "SK-RDC-U-0303",
+        "overlap_length_m": 8.995780229475525,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0008",
+        "overlap_length_m": 72.71488803909055,
+        "distance_m": 0.0,
+        "coverage_ratio": 0.9999999999999998,
+        "heading_delta_deg": 1.8132097659623412
+      }
+    ],
+    "MAIN-14": [
+      {
+        "source_edge_id": "SK-RDC-U-0332",
+        "overlap_length_m": 5.332239540607077,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0007",
+        "overlap_length_m": 75.13321571921168,
+        "distance_m": 0.0,
+        "coverage_ratio": 0.9999999999999998,
+        "heading_delta_deg": 4.440892098500626e-16
+      }
+    ],
+    "MAIN-15": [
+      {
+        "source_edge_id": "SK-RDC-U-0149",
+        "overlap_length_m": 11.81165032470985,
+        "distance_m": 0.0,
+        "coverage_ratio": 0.8358134737367812,
+        "heading_delta_deg": 16.189207735803663
+      }
+    ],
+    "MAIN-16": [
+      {
+        "source_edge_id": "SK-RDC-U-0273",
+        "overlap_length_m": 10.254306808859711,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 16.58530201516362
+      }
+    ],
+    "MAIN-17": [
+      {
+        "source_edge_id": "SK-RDC-U-0012",
+        "overlap_length_m": 65.73130643572945,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 1.4210854715202004e-14
+      }
+    ],
+    "MAIN-18": [
+      {
+        "source_edge_id": "SK-RDC-U-0151",
+        "overlap_length_m": 14.506121899007038,
+        "distance_m": 0.0,
+        "coverage_ratio": 0.9850506575440131,
+        "heading_delta_deg": 13.478890007723884
+      }
+    ],
+    "MAIN-19": [
+      {
+        "source_edge_id": "SK-RDC-U-0030",
+        "overlap_length_m": 38.56491968348861,
+        "distance_m": 0.0,
+        "coverage_ratio": 0.9999999999999998,
+        "heading_delta_deg": 4.263256414560601e-14
+      }
+    ],
+    "MAIN-20": [
+      {
+        "source_edge_id": "SK-RDC-U-0240",
+        "overlap_length_m": 8.701067857094522,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      }
+    ],
+    "MAIN-21": [
+      {
+        "source_edge_id": "SK-RDC-U-0003",
+        "overlap_length_m": 93.5417629087241,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 1.4210854715202004e-14
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0014",
+        "overlap_length_m": 59.20705685239091,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0015",
+        "overlap_length_m": 57.460728983272766,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 2.842170943040401e-14
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0035",
+        "overlap_length_m": 38.25392485205592,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 2.842170943040401e-14
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0076",
+        "overlap_length_m": 24.203639855507685,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0333",
+        "overlap_length_m": 4.989961058489117,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      }
+    ],
+    "MAIN-22": [
+      {
+        "source_edge_id": "SK-RDC-U-0232",
+        "overlap_length_m": 9.353366899910892,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      }
+    ],
+    "MAIN-23": [
+      {
+        "source_edge_id": "SK-RDC-U-0023",
+        "overlap_length_m": 43.47826086956519,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      }
+    ],
+    "MAIN-24": [
+      {
+        "source_edge_id": "SK-RDC-U-0041",
+        "overlap_length_m": 33.836104960853675,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0054",
+        "overlap_length_m": 30.363831867632097,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0072",
+        "overlap_length_m": 24.733081922364775,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 2.842170943040401e-14
+      }
+    ],
+    "MAIN-25": [
+      {
+        "source_edge_id": "SK-RDC-U-0024",
+        "overlap_length_m": 41.03568083656838,
+        "distance_m": 0.0,
+        "coverage_ratio": 1.0,
+        "heading_delta_deg": 0.0
+      },
+      {
+        "source_edge_id": "SK-RDC-U-0039",
+        "overlap_length_m": 34.95739233422068,
+        "distance_m": 0.0,
+        "coverage_ratio": 0.9999999999999998,
+        "heading_delta_deg": 4.9387640348926585
+      }
+    ]
+  },
+  "junctions": [
+    {
+      "id": "J-01",
+      "x": 38.77648241969884,
+      "y": 459.9878719213419,
+      "road_ids": [
+        "MAIN-03",
+        "ACC-FOCUS-01"
+      ]
+    },
+    {
+      "id": "J-02",
+      "x": 100.27619111433694,
+      "y": 521.4470917005077,
+      "road_ids": [
+        "MAIN-05",
+        "ACC-FOCUS-01"
+      ]
+    },
+    {
+      "id": "J-03",
+      "x": 230.2314794820882,
+      "y": 544.5565975589823,
+      "road_ids": [
+        "MAIN-08",
+        "BR-FOCUS"
+      ]
+    },
+    {
+      "id": "J-04",
+      "x": 208.86886985106338,
+      "y": 508.2052470130977,
+      "road_ids": [
+        "BR-FOCUS",
+        "ACC-FOCUS-01"
+      ]
+    },
+    {
+      "id": "J-05",
+      "x": 212.3812191496179,
+      "y": 597.1423303550619,
+      "road_ids": [
+        "MAIN-08",
+        "BR-G-01"
+      ]
+    },
+    {
+      "id": "J-06",
+      "x": 303.46987300823696,
+      "y": 245.19913780563147,
+      "road_ids": [
+        "MAIN-21",
+        "BR-G-02"
+      ]
+    },
+    {
+      "id": "J-07",
+      "x": 107.59832496189854,
+      "y": 150.8221719334051,
+      "road_ids": [
+        "MAIN-07",
+        "BR-G-03"
+      ]
+    },
+    {
+      "id": "J-08",
+      "x": 248.53610730780463,
+      "y": 443.6833708832958,
+      "road_ids": [
+        "MAIN-08",
+        "BR-G-04"
+      ]
+    },
+    {
+      "id": "J-09",
+      "x": 28.406922783604482,
+      "y": 438.58239795244253,
+      "road_ids": [
+        "ACC-FOCUS-01",
+        "BR-G-05"
+      ]
+    },
+    {
+      "id": "J-10",
+      "x": 164.59134421979272,
+      "y": 127.39728977513853,
+      "road_ids": [
+        "MAIN-14",
+        "BR-G-06"
+      ]
+    },
+    {
+      "id": "J-11",
+      "x": 104.593929,
+      "y": 129.614438,
+      "road_ids": [
+        "MAIN-10",
+        "BR-G-07"
+      ]
+    },
+    {
+      "id": "J-12",
+      "x": 157.5946621012439,
+      "y": 116.57288013178712,
+      "road_ids": [
+        "MAIN-15",
+        "BR-G-08"
+      ]
+    },
+    {
+      "id": "J-13",
+      "x": 235.54800129990508,
+      "y": 110.13259924156182,
+      "road_ids": [
+        "MAIN-19",
+        "BR-G-09"
+      ]
+    },
+    {
+      "id": "J-14",
+      "x": 303.0414612543109,
+      "y": 225.66356182660087,
+      "road_ids": [
+        "MAIN-21",
+        "BR-G-10"
+      ]
+    },
+    {
+      "id": "J-15",
+      "x": 103.36341263330598,
+      "y": 250.4758924613709,
+      "road_ids": [
+        "MAIN-07",
+        "BR-G-11"
+      ]
+    },
+    {
+      "id": "J-16",
+      "x": 218.92489752827902,
+      "y": 456.2491040141503,
+      "road_ids": [
+        "ACC-FOCUS-01",
+        "ACC-G-12"
+      ]
+    },
+    {
+      "id": "J-17",
+      "x": 111.156686,
+      "y": 127.973749,
+      "road_ids": [
+        "MAIN-10",
+        "BR-G-13"
+      ]
+    },
+    {
+      "id": "J-18",
+      "x": 221.14177145017504,
+      "y": 17.859495522780733,
+      "road_ids": [
+        "MAIN-16",
+        "BR-G-14"
+      ]
+    },
+    {
+      "id": "J-19",
+      "x": 303.93765381460213,
+      "y": 375.71780147662014,
+      "road_ids": [
+        "MAIN-24",
+        "BR-G-15"
+      ]
+    },
+    {
+      "id": "J-20",
+      "x": 103.36341263330598,
+      "y": 334.399530903572,
+      "road_ids": [
+        "MAIN-07",
+        "BR-G-16"
+      ]
+    },
+    {
+      "id": "J-21",
+      "x": 305.24201319734954,
+      "y": 310.3681366628302,
+      "road_ids": [
+        "MAIN-21",
+        "BR-G-17"
+      ]
+    },
+    {
+      "id": "J-22",
+      "x": 112.96407454212755,
+      "y": 607.9557873017642,
+      "road_ids": [
+        "MAIN-09",
+        "MAIN-08"
+      ]
+    },
+    {
+      "id": "J-23",
+      "x": 234.9163896163396,
+      "y": 83.7291614958417,
+      "road_ids": [
+        "MAIN-20",
+        "MAIN-17"
+      ]
+    },
+    {
+      "id": "J-24",
+      "x": 248.85053751012998,
+      "y": 428.47615839722954,
+      "road_ids": [
+        "MAIN-22",
+        "MAIN-08"
+      ]
+    }
+  ],
+  "features": [
+    {
+      "type": "Feature",
+      "id": "MAIN-01",
+      "properties": {
+        "edge_id": "MAIN-01",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            34.454470877768664,
+            460.62346185397865
+          ],
+          [
+            38.96636587366694,
+            470.0574241181296
+          ],
+          [
+            42.24774405250205,
+            477.0303527481542
+          ],
+          [
+            45.52912223133716,
+            483.5931091058244
+          ],
+          [
+            53.32239540607055,
+            497.53896636587365
+          ],
+          [
+            66.85808039376538,
+            522.5594749794914
+          ],
+          [
+            74.24118129614438,
+            535.6849876948318
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-02",
+      "properties": {
+        "edge_id": "MAIN-02",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            34.454470877768664,
+            460.62346185397865
+          ],
+          [
+            20.91878589007383,
+            434.78260869565213
+          ],
+          [
+            16.81706316652994,
+            425.3486464315012
+          ],
+          [
+            16.81706316652994,
+            409.35192780968003
+          ],
+          [
+            22.149302707136997,
+            406.8908941755537
+          ],
+          [
+            30.352748154224773,
+            402.78917145200984
+          ],
+          [
+            41.01722723543888,
+            398.68744872846594
+          ],
+          [
+            53.732567678424935,
+            392.9450369155045
+          ],
+          [
+            66.0377358490566,
+            387.20262510254304
+          ],
+          [
+            78.75307629204265,
+            381.87038556193596
+          ],
+          [
+            103.36341263330598,
+            374.48728465955696
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-03",
+      "properties": {
+        "edge_id": "MAIN-03",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            34.454470877768664,
+            460.62346185397865
+          ],
+          [
+            38.77648241969884,
+            459.9878719213419
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-04",
+      "properties": {
+        "edge_id": "MAIN-04",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            74.24118129614438,
+            535.6849876948318
+          ],
+          [
+            77.1123872026251,
+            542.247744052502
+          ],
+          [
+            89.82772764561115,
+            564.397046759639
+          ],
+          [
+            92.28876127973749,
+            568.9089417555373
+          ],
+          [
+            94.74979491386382,
+            574.2411812961443
+          ],
+          [
+            99.2616899097621,
+            582.0344544708777
+          ],
+          [
+            109.5159967186218,
+            601.7227235438884
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-05",
+      "properties": {
+        "edge_id": "MAIN-05",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            100.27619111433694,
+            521.4470917005077
+          ],
+          [
+            74.24118129614438,
+            535.6849876948318
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-06",
+      "properties": {
+        "edge_id": "MAIN-06",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            144.3578513694241,
+            376.4394010741933
+          ],
+          [
+            103.36341263330598,
+            374.48728465955696
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-07",
+      "properties": {
+        "edge_id": "MAIN-07",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            110.9410270180822,
+            129.35850663855445
+          ],
+          [
+            107.59832496189854,
+            150.8221719334051
+          ],
+          [
+            103.36341263330598,
+            178.01476620180475
+          ],
+          [
+            103.36341263330598,
+            250.4758924613709
+          ],
+          [
+            103.36341263330598,
+            263.3305988515176
+          ],
+          [
+            103.36341263330598,
+            334.399530903572
+          ],
+          [
+            103.36341263330598,
+            374.48728465955696
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-08",
+      "properties": {
+        "edge_id": "MAIN-08",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            248.974569319114,
+            422.4774405250205
+          ],
+          [
+            248.85053751012998,
+            428.47615839722954
+          ],
+          [
+            248.53610730780463,
+            443.6833708832958
+          ],
+          [
+            247.37045599908757,
+            500.05933923884305
+          ],
+          [
+            247.31282511953268,
+            500.84481654122266
+          ],
+          [
+            247.26829391525965,
+            501.1969168330663
+          ],
+          [
+            247.13731975559148,
+            501.6454778179514
+          ],
+          [
+            240.60326810228912,
+            515.439586863812
+          ],
+          [
+            238.90191851234746,
+            517.8572919402507
+          ],
+          [
+            235.99187957930292,
+            520.7752383950614
+          ],
+          [
+            235.58702108122552,
+            521.3939647955098
+          ],
+          [
+            235.46261513419375,
+            521.7101997871406
+          ],
+          [
+            235.35616013549853,
+            522.1463495196573
+          ],
+          [
+            234.29030389625098,
+            532.3584683705772
+          ],
+          [
+            233.6208224868974,
+            535.2596340009397
+          ],
+          [
+            230.2314794820882,
+            544.5565975589823
+          ],
+          [
+            215.81956604738278,
+            584.088457808595
+          ],
+          [
+            215.01718180845953,
+            586.9696994004037
+          ],
+          [
+            213.86324434029902,
+            592.8549314307669
+          ],
+          [
+            213.12420096480037,
+            595.7576773291053
+          ],
+          [
+            212.67377215195128,
+            597.188451205214
+          ],
+          [
+            212.3812191496179,
+            597.1423303550619
+          ],
+          [
+            212.39513887574768,
+            595.3423124155968
+          ],
+          [
+            211.55585672775234,
+            593.2937384905381
+          ],
+          [
+            209.82868276187946,
+            591.5665645246653
+          ],
+          [
+            208.80441869316755,
+            591.1423004559533
+          ],
+          [
+            208.26441869316756,
+            591.1423004559533
+          ],
+          [
+            207.6498602519404,
+            590.8877420147262
+          ],
+          [
+            206.9025953166767,
+            590.1404770794625
+          ],
+          [
+            205.69989055574368,
+            589.6423004559533
+          ],
+          [
+            201.2529468305914,
+            589.6423004559533
+          ],
+          [
+            199.80441869316755,
+            589.0423004559533
+          ],
+          [
+            199.26441869316756,
+            588.5023004559533
+          ],
+          [
+            198.39530181071322,
+            588.1423004559533
+          ],
+          [
+            179.40441869316754,
+            588.1423004559533
+          ],
+          [
+            176.8437585213877,
+            587.0816402841735
+          ],
+          [
+            175.32868276187946,
+            585.5665645246653
+          ],
+          [
+            174.30441869316755,
+            585.1423004559533
+          ],
+          [
+            173.76441869316756,
+            585.1423004559533
+          ],
+          [
+            173.1498602519404,
+            584.8877420147262
+          ],
+          [
+            172.4025953166767,
+            584.1404770794625
+          ],
+          [
+            171.19989055574368,
+            583.6423004559533
+          ],
+          [
+            169.7529468305914,
+            583.6423004559533
+          ],
+          [
+            168.30441869316755,
+            584.2423004559533
+          ],
+          [
+            167.76441869316756,
+            584.7823004559533
+          ],
+          [
+            166.89530181071322,
+            585.1423004559533
+          ],
+          [
+            165.2529468305914,
+            585.1423004559533
+          ],
+          [
+            163.80441869316755,
+            585.7423004559533
+          ],
+          [
+            163.26441869316756,
+            586.2823004559533
+          ],
+          [
+            162.39530181071322,
+            586.6423004559533
+          ],
+          [
+            161.80077194018583,
+            586.6423004559533
+          ],
+          [
+            161.12415462445563,
+            586.9225645246653
+          ],
+          [
+            160.3286827618795,
+            587.7180363872415
+          ],
+          [
+            159.30441869316755,
+            588.1423004559533
+          ],
+          [
+            158.76441869316756,
+            588.1423004559533
+          ],
+          [
+            158.1498602519404,
+            588.3968588971804
+          ],
+          [
+            157.32868276187946,
+            589.2180363872413
+          ],
+          [
+            156.30441869316755,
+            589.6423004559533
+          ],
+          [
+            155.76441869316756,
+            589.6423004559533
+          ],
+          [
+            155.1498602519404,
+            589.8968588971804
+          ],
+          [
+            154.4025953166767,
+            590.6441238324442
+          ],
+          [
+            153.19989055574368,
+            591.1423004559533
+          ],
+          [
+            151.7529468305914,
+            591.1423004559533
+          ],
+          [
+            150.30441869316755,
+            591.7423004559533
+          ],
+          [
+            149.76441869316756,
+            592.2823004559533
+          ],
+          [
+            148.89530181071322,
+            592.6423004559533
+          ],
+          [
+            148.30077194018583,
+            592.6423004559533
+          ],
+          [
+            147.62415462445563,
+            592.9225645246653
+          ],
+          [
+            146.8286827618795,
+            593.7180363872415
+          ],
+          [
+            145.80441869316755,
+            594.1423004559533
+          ],
+          [
+            145.26441869316756,
+            594.1423004559533
+          ],
+          [
+            144.6498602519404,
+            594.3968588971804
+          ],
+          [
+            143.9025953166767,
+            595.1441238324442
+          ],
+          [
+            142.69989055574368,
+            595.6423004559533
+          ],
+          [
+            141.2529468305914,
+            595.6423004559533
+          ],
+          [
+            139.80441869316755,
+            596.2423004559533
+          ],
+          [
+            139.26441869316756,
+            596.7823004559533
+          ],
+          [
+            138.39530181071322,
+            597.1423004559533
+          ],
+          [
+            137.80077194018583,
+            597.1423004559533
+          ],
+          [
+            137.12415462445563,
+            597.4225645246653
+          ],
+          [
+            136.3286827618795,
+            598.2180363872415
+          ],
+          [
+            135.30441869316755,
+            598.6423004559533
+          ],
+          [
+            134.76441869316756,
+            598.6423004559533
+          ],
+          [
+            134.1498602519404,
+            598.8968588971804
+          ],
+          [
+            133.32868276187946,
+            599.7180363872413
+          ],
+          [
+            132.30441869316755,
+            600.1423004559533
+          ],
+          [
+            131.76441869316756,
+            600.1423004559533
+          ],
+          [
+            131.1498602519404,
+            600.3968588971804
+          ],
+          [
+            130.4025953166767,
+            601.1441238324442
+          ],
+          [
+            129.19989055574368,
+            601.6423004559533
+          ],
+          [
+            127.75294683059141,
+            601.6423004559533
+          ],
+          [
+            126.30441869316756,
+            602.2423004559533
+          ],
+          [
+            125.76441869316756,
+            602.7823004559533
+          ],
+          [
+            124.89530181071325,
+            603.1423004559533
+          ],
+          [
+            124.30077194018584,
+            603.1423004559533
+          ],
+          [
+            123.62415462445563,
+            603.4225645246653
+          ],
+          [
+            122.82868276187949,
+            604.2180363872413
+          ],
+          [
+            121.80441869316756,
+            604.6423004559533
+          ],
+          [
+            121.26441869316756,
+            604.6423004559533
+          ],
+          [
+            120.6498602519404,
+            604.8968588971804
+          ],
+          [
+            118.32868276187948,
+            607.2180363872413
+          ],
+          [
+            117.90441869316756,
+            608.2423004559533
+          ],
+          [
+            117.90441869316756,
+            608.7823004559533
+          ],
+          [
+            117.64986025194041,
+            609.3968588971804
+          ],
+          [
+            116.9025953166767,
+            610.1441238324442
+          ],
+          [
+            116.40441869316756,
+            611.3468285933772
+          ],
+          [
+            116.40441869316756,
+            614.6198383475771
+          ],
+          [
+            116.80441869316756,
+            615.4784055804142
+          ],
+          [
+            117.16441869316756,
+            615.780900192429
+          ],
+          [
+            117.25267645404075,
+            615.7082599886842
+          ],
+          [
+            112.96407454212755,
+            607.9557873017642
+          ],
+          [
+            109.5159967186218,
+            601.7227235438884
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-09",
+      "properties": {
+        "edge_id": "MAIN-09",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            112.96407454212755,
+            607.9557873017642
+          ],
+          [
+            124.6923707957342,
+            600.9023789991796
+          ],
+          [
+            109.5159967186218,
+            601.7227235438884
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-10",
+      "properties": {
+        "edge_id": "MAIN-10",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            110.9410270180822,
+            129.35850663855445
+          ],
+          [
+            104.593929,
+            129.614438
+          ],
+          [
+            111.156686,
+            127.973749
+          ],
+          [
+            110.9410270180822,
+            129.35850663855445
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-11",
+      "properties": {
+        "edge_id": "MAIN-11",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            155.45529122231335,
+            127.56357670221492
+          ],
+          [
+            110.9410270180822,
+            129.35850663855445
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-12",
+      "properties": {
+        "edge_id": "MAIN-12",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            144.3578513694241,
+            376.4394010741933
+          ],
+          [
+            114.027892,
+            377.358491
+          ],
+          [
+            163.658737,
+            377.358491
+          ],
+          [
+            144.3578513694241,
+            376.4394010741933
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-13",
+      "properties": {
+        "edge_id": "MAIN-13",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            248.974569319114,
+            378.9991796554553
+          ],
+          [
+            240.77112387202624,
+            375.30762920426577
+          ],
+          [
+            185.808039,
+            377.358491
+          ],
+          [
+            168.17063166529942,
+            375.71780147662014
+          ],
+          [
+            144.3578513694241,
+            376.4394010741933
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-14",
+      "properties": {
+        "edge_id": "MAIN-14",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            155.45529122231335,
+            127.56357670221492
+          ],
+          [
+            160.78753076292043,
+            127.56357670221492
+          ],
+          [
+            164.59134421979272,
+            127.39728977513853
+          ],
+          [
+            235.84905660377356,
+            124.2821985233798
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-15",
+      "properties": {
+        "edge_id": "MAIN-15",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            157.5946621012439,
+            116.57288013178712
+          ],
+          [
+            155.455291,
+            118.949959
+          ],
+          [
+            155.45529122231335,
+            127.56357670221492
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-16",
+      "properties": {
+        "edge_id": "MAIN-16",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            231.3371616078753,
+            20.098441345365053
+          ],
+          [
+            230.7611616078753,
+            19.930441345365054
+          ],
+          [
+            229.97716804675494,
+            19.820710940544505
+          ],
+          [
+            224.2731240881716,
+            19.85307613821298
+          ],
+          [
+            222.34177145017503,
+            19.059495522780733
+          ],
+          [
+            221.14177145017504,
+            17.859495522780733
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-17",
+      "properties": {
+        "edge_id": "MAIN-17",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            235.0287120590648,
+            85.72600492206726
+          ],
+          [
+            234.9163896163396,
+            83.7291614958417
+          ],
+          [
+            231.3371616078753,
+            20.098441345365053
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-18",
+      "properties": {
+        "edge_id": "MAIN-18",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            231.3371616078753,
+            20.098441345365053
+          ],
+          [
+            232.50699181576152,
+            19.831051583562484
+          ],
+          [
+            234.08683418612486,
+            19.661223459635387
+          ],
+          [
+            243.6731059765965,
+            19.762264988666026
+          ],
+          [
+            244.86718777221574,
+            19.56873429475552
+          ],
+          [
+            245.73765149901087,
+            19.268734294755518
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-19",
+      "properties": {
+        "edge_id": "MAIN-19",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            235.84905660377356,
+            124.2821985233798
+          ],
+          [
+            235.54800129990508,
+            110.13259924156182
+          ],
+          [
+            235.0287120590648,
+            85.72600492206726
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-20",
+      "properties": {
+        "edge_id": "MAIN-20",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            235.0287120590648,
+            85.72600492206726
+          ],
+          [
+            243.64232977850696,
+            84.4954881050041
+          ],
+          [
+            234.9163896163396,
+            83.7291614958417
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-21",
+      "properties": {
+        "edge_id": "MAIN-21",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            235.84905660377356,
+            124.2821985233798
+          ],
+          [
+            240.77112387202624,
+            125.1025430680886
+          ],
+          [
+            298.1952420016407,
+            127.15340442986053
+          ],
+          [
+            302.2969647251846,
+            186.21821164889252
+          ],
+          [
+            302.70713699753895,
+            210.41837571780147
+          ],
+          [
+            303.0414612543109,
+            225.66356182660087
+          ],
+          [
+            303.46987300823696,
+            245.19913780563147
+          ],
+          [
+            304.7579983593109,
+            303.93765381460213
+          ],
+          [
+            305.24201319734954,
+            310.3681366628302
+          ],
+          [
+            307.6292042657916,
+            342.0836751435603
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-22",
+      "properties": {
+        "edge_id": "MAIN-22",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            248.974569319114,
+            422.4774405250205
+          ],
+          [
+            239.95077932731746,
+            424.93847415914684
+          ],
+          [
+            248.85053751012998,
+            428.47615839722954
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-23",
+      "properties": {
+        "edge_id": "MAIN-23",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            248.974569319114,
+            378.9991796554553
+          ],
+          [
+            248.974569319114,
+            422.4774405250205
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-24",
+      "properties": {
+        "edge_id": "MAIN-24",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            248.974569319114,
+            378.9991796554553
+          ],
+          [
+            273.58490566037733,
+            376.53814602132894
+          ],
+          [
+            303.93765381460213,
+            375.71780147662014
+          ],
+          [
+            307.6292042657916,
+            342.0836751435603
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "MAIN-25",
+      "properties": {
+        "edge_id": "MAIN-25",
+        "class_name": "main",
+        "width_m": 12.0,
+        "is_new_connector": false,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [
+          "SK-RDC-U-0001",
+          "SK-RDC-U-0002",
+          "SK-RDC-U-0003",
+          "SK-RDC-U-0004",
+          "SK-RDC-U-0006",
+          "SK-RDC-U-0007",
+          "SK-RDC-U-0008",
+          "SK-RDC-U-0010",
+          "SK-RDC-U-0012",
+          "SK-RDC-U-0014",
+          "SK-RDC-U-0015",
+          "SK-RDC-U-0022",
+          "SK-RDC-U-0023",
+          "SK-RDC-U-0024",
+          "SK-RDC-U-0030",
+          "SK-RDC-U-0035",
+          "SK-RDC-U-0039",
+          "SK-RDC-U-0041",
+          "SK-RDC-U-0043",
+          "SK-RDC-U-0054",
+          "SK-RDC-U-0063",
+          "SK-RDC-U-0065",
+          "SK-RDC-U-0072",
+          "SK-RDC-U-0076",
+          "SK-RDC-U-0077",
+          "SK-RDC-U-0086",
+          "SK-RDC-U-0108",
+          "SK-RDC-U-0114",
+          "SK-RDC-U-0123",
+          "SK-RDC-U-0148",
+          "SK-RDC-U-0149",
+          "SK-RDC-U-0151",
+          "SK-RDC-U-0198",
+          "SK-RDC-U-0232",
+          "SK-RDC-U-0240",
+          "SK-RDC-U-0244",
+          "SK-RDC-U-0249",
+          "SK-RDC-U-0251",
+          "SK-RDC-U-0256",
+          "SK-RDC-U-0259",
+          "SK-RDC-U-0265",
+          "SK-RDC-U-0273",
+          "SK-RDC-U-0275",
+          "SK-RDC-U-0280",
+          "SK-RDC-U-0282",
+          "SK-RDC-U-0290",
+          "SK-RDC-U-0294",
+          "SK-RDC-U-0297",
+          "SK-RDC-U-0301",
+          "SK-RDC-U-0303",
+          "SK-RDC-U-0305",
+          "SK-RDC-U-0308",
+          "SK-RDC-U-0309",
+          "SK-RDC-U-0310",
+          "SK-RDC-U-0311",
+          "SK-RDC-U-0312",
+          "SK-RDC-U-0313",
+          "SK-RDC-U-0315",
+          "SK-RDC-U-0318",
+          "SK-RDC-U-0321",
+          "SK-RDC-U-0327",
+          "SK-RDC-U-0328",
+          "SK-RDC-U-0329",
+          "SK-RDC-U-0332",
+          "SK-RDC-U-0333"
+        ],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            307.6292042657916,
+            342.0836751435603
+          ],
+          [
+            348.6464315012305,
+            343.3141919606234
+          ],
+          [
+            379.819524,
+            343.724364
+          ],
+          [
+            382.2805578342904,
+            340.8531583264971
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-FOCUS",
+      "properties": {
+        "edge_id": "BR-FOCUS",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-03",
+        "end_junction_id": "J-04",
+        "source_edge_ids": [],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            230.2314794820882,
+            544.5565975589823
+          ],
+          [
+            208.86886985106338,
+            508.2052470130977
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-01",
+      "properties": {
+        "edge_id": "BR-G-01",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-05",
+        "end_junction_id": null,
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-01"
+        ],
+        "access_terminal_xy": [
+          204.5930225394812,
+          612.77806003196
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            212.3812191496179,
+            597.1423303550619
+          ],
+          [
+            204.5930225394812,
+            612.77806003196
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-02",
+      "properties": {
+        "edge_id": "BR-G-02",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-06",
+        "end_junction_id": null,
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-02"
+        ],
+        "access_terminal_xy": [
+          307.19812484872534,
+          245.11737789684884
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            303.46987300823696,
+            245.19913780563147
+          ],
+          [
+            307.19812484872534,
+            245.11737789684884
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-03",
+      "properties": {
+        "edge_id": "BR-G-03",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-07",
+        "end_junction_id": null,
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-03"
+        ],
+        "access_terminal_xy": [
+          120.89913495183204,
+          152.89360960686366
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            107.59832496189854,
+            150.8221719334051
+          ],
+          [
+            120.89913495183204,
+            152.89360960686366
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-04",
+      "properties": {
+        "edge_id": "BR-G-04",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-08",
+        "end_junction_id": null,
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-04"
+        ],
+        "access_terminal_xy": [
+          259.5373634518321,
+          443.91083710686365
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            248.53610730780463,
+            443.6833708832958
+          ],
+          [
+            259.5373634518321,
+            443.91083710686365
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-05",
+      "properties": {
+        "edge_id": "BR-G-05",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-09",
+        "end_junction_id": null,
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-05"
+        ],
+        "access_terminal_xy": [
+          32.495631311261754,
+          436.70291090117996
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            28.406922783604482,
+            438.58239795244253
+          ],
+          [
+            32.495631311261754,
+            436.70291090117996
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-06",
+      "properties": {
+        "edge_id": "BR-G-06",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-10",
+        "end_junction_id": null,
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-06"
+        ],
+        "access_terminal_xy": [
+          165.5664030478256,
+          149.70176046639037
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            164.59134421979272,
+            127.39728977513853
+          ],
+          [
+            165.5664030478256,
+            149.70176046639037
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-07",
+      "properties": {
+        "edge_id": "BR-G-07",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-11",
+        "end_junction_id": null,
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-07"
+        ],
+        "access_terminal_xy": [
+          89.97410178701078,
+          116.26699318587342
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            104.593929,
+            129.614438
+          ],
+          [
+            89.97410178701078,
+            116.26699318587342
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-08",
+      "properties": {
+        "edge_id": "BR-G-08",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-12",
+        "end_junction_id": null,
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-08"
+        ],
+        "access_terminal_xy": [
+          155.3253612862601,
+          114.53050928388357
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            157.5946621012439,
+            116.57288013178712
+          ],
+          [
+            155.3253612862601,
+            114.53050928388357
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-09",
+      "properties": {
+        "edge_id": "BR-G-09",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-13",
+        "end_junction_id": null,
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-09"
+        ],
+        "access_terminal_xy": [
+          240.71892729306938,
+          110.0225795395796
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            235.54800129990508,
+            110.13259924156182
+          ],
+          [
+            240.71892729306938,
+            110.0225795395796
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-10",
+      "properties": {
+        "edge_id": "BR-G-10",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-14",
+        "end_junction_id": null,
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-10"
+        ],
+        "access_terminal_xy": [
+          288.78095757412234,
+          225.97629217046463
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            303.0414612543109,
+            225.66356182660087
+          ],
+          [
+            288.78095757412234,
+            225.97629217046463
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-11",
+      "properties": {
+        "edge_id": "BR-G-11",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-15",
+        "end_junction_id": null,
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-11"
+        ],
+        "access_terminal_xy": [
+          93.79980775460419,
+          250.4758924613709
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            103.36341263330598,
+            250.4758924613709
+          ],
+          [
+            93.79980775460419,
+            250.4758924613709
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ACC-G-12",
+      "properties": {
+        "edge_id": "ACC-G-12",
+        "class_name": "access",
+        "width_m": 4.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-16",
+        "end_junction_id": null,
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-12"
+        ],
+        "access_terminal_xy": [
+          169.009433,
+          446.5880463635157
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            218.92489752827902,
+            456.2491040141503
+          ],
+          [
+            169.009433,
+            446.5880463635157
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-13",
+      "properties": {
+        "edge_id": "BR-G-13",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-17",
+        "end_junction_id": null,
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-13"
+        ],
+        "access_terminal_xy": [
+          110.49081434251151,
+          116.8054439913529
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            111.156686,
+            127.973749
+          ],
+          [
+            110.49081434251151,
+            116.8054439913529
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-14",
+      "properties": {
+        "edge_id": "BR-G-14",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-18",
+        "end_junction_id": null,
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-14"
+        ],
+        "access_terminal_xy": [
+          142.31938469454892,
+          27.521785862260035
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            221.14177145017504,
+            17.859495522780733
+          ],
+          [
+            142.31938469454892,
+            27.521785862260035
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-15",
+      "properties": {
+        "edge_id": "BR-G-15",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-19",
+        "end_junction_id": null,
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-15"
+        ],
+        "access_terminal_xy": [
+          317.5303273351603,
+          398.8005544214012
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            303.93765381460213,
+            375.71780147662014
+          ],
+          [
+            317.5303273351603,
+            398.8005544214012
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-16",
+      "properties": {
+        "edge_id": "BR-G-16",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-20",
+        "end_junction_id": null,
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-16"
+        ],
+        "access_terminal_xy": [
+          84.56365553809306,
+          334.399530903572
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            103.36341263330598,
+            334.399530903572
+          ],
+          [
+            84.56365553809306,
+            334.399530903572
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "BR-G-17",
+      "properties": {
+        "edge_id": "BR-G-17",
+        "class_name": "branch",
+        "width_m": 7.0,
+        "is_new_connector": true,
+        "start_junction_id": "J-21",
+        "end_junction_id": null,
+        "source_edge_ids": [],
+        "serves_group_ids": [
+          "G-17"
+        ],
+        "access_terminal_xy": [
+          332.40709373542757,
+          308.32345318146946
+        ]
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            305.24201319734954,
+            310.3681366628302
+          ],
+          [
+            332.40709373542757,
+            308.32345318146946
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ACC-FOCUS-01",
+      "properties": {
+        "edge_id": "ACC-FOCUS-01",
+        "class_name": "access",
+        "width_m": 4.0,
+        "is_new_connector": true,
+        "start_junction_id": null,
+        "end_junction_id": null,
+        "source_edge_ids": [],
+        "serves_group_ids": [],
+        "access_terminal_xy": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            109.71914464003737,
+            388.968827
+          ],
+          [
+            25.183548658487517,
+            431.5701457188652
+          ],
+          [
+            28.406922783604482,
+            438.58239795244253
+          ],
+          [
+            33.06490513825656,
+            448.7155521885142
+          ],
+          [
+            38.77648241969884,
+            459.9878719213419
+          ],
+          [
+            50.37499071193469,
+            482.87858799704566
+          ],
+          [
+            73.44209185944966,
+            524.7192549696471
+          ],
+          [
+            100.27619111433694,
+            521.4470917005077
+          ],
+          [
+            208.86886985106338,
+            508.2052470130977
+          ],
+          [
+            218.92489752827902,
+            456.2491040141503
+          ],
+          [
+            222.121001,
+            439.73590274359185
+          ],
+          [
+            222.121001,
+            424.69315375983496
+          ],
+          [
+            186.97287305887204,
+            388.968827
+          ],
+          [
+            109.71914464003737,
+            388.968827
+          ]
+        ]
+      }
+    }
+  ],
+  "road_access_coverage": 1.0,
+  "road_access_relation_error_count": 0,
+  "main_road_building_overlap": {
+    "area_m2": 0.0,
+    "conflicts": [],
+    "status": "resolved"
+  },
+  "main_alignment_records": [],
+  "dead_end_resolution_records": [
+    {
+      "node_id": "DE-MAIN-03",
+      "road_id": "MAIN-03",
+      "original_xy": [
+        48.40032813781788,
+        458.5726004922067
+      ],
+      "strategy": "trimmed",
+      "adjusted_xy": [
+        38.77648241969884,
+        459.9878719213419
+      ],
+      "bridge_road_id": null,
+      "junction_id": null,
+      "displacement_m": 9.727353166421203,
+      "boundary_distance_m": 23.247475964542968,
+      "criterion_met": true,
+      "boundary_margin_m": null,
+      "extended_to_site_boundary": false,
+      "extension_length_m": null,
+      "extension_direction_cross": null,
+      "extension_angle_deg": null,
+      "boundary_band_m": null,
+      "vertices_added": 0,
+      "vertices_removed": 1,
+      "reason": "dangling tail trimmed back to the last explicit junction; the road keeps its id and stays connected at that junction"
+    },
+    {
+      "node_id": "DE-MAIN-05",
+      "road_id": "MAIN-05",
+      "original_xy": [
+        100.49220672682526,
+        521.3289581624282
+      ],
+      "strategy": "trimmed",
+      "adjusted_xy": [
+        100.27619111433694,
+        521.4470917005077
+      ],
+      "bridge_road_id": null,
+      "junction_id": null,
+      "displacement_m": 0.24620779365789502,
+      "boundary_distance_m": 39.7597735275719,
+      "criterion_met": true,
+      "boundary_margin_m": null,
+      "extended_to_site_boundary": false,
+      "extension_length_m": null,
+      "extension_direction_cross": null,
+      "extension_angle_deg": null,
+      "boundary_band_m": null,
+      "vertices_added": 0,
+      "vertices_removed": 1,
+      "reason": "dangling tail trimmed back to the last explicit junction; the road keeps its id and stays connected at that junction"
+    },
+    {
+      "node_id": "DE-MAIN-09",
+      "road_id": "MAIN-09",
+      "original_xy": [
+        124.6923707957342,
+        600.9023789991796
+      ],
+      "strategy": "bridged",
+      "adjusted_xy": [
+        112.96407454212755,
+        607.9557873017642
+      ],
+      "bridge_road_id": "MAIN-08",
+      "junction_id": "J-22",
+      "displacement_m": 13.685886953184026,
+      "boundary_distance_m": 22.27025369267285,
+      "criterion_met": true,
+      "boundary_margin_m": null,
+      "extended_to_site_boundary": false,
+      "extension_length_m": null,
+      "extension_direction_cross": null,
+      "extension_angle_deg": null,
+      "boundary_band_m": null,
+      "vertices_added": 2,
+      "vertices_removed": 0,
+      "reason": "dangling main stub bridged 13.686 m to MAIN-08 with an explicit shared-vertex junction (bridge corridor does not touch a building footprint)"
+    },
+    {
+      "node_id": "DE-MAIN-15",
+      "road_id": "MAIN-15",
+      "original_xy": [
+        159.14684167350285,
+        114.84823625922887
+      ],
+      "strategy": "trimmed",
+      "adjusted_xy": [
+        157.5946621012439,
+        116.57288013178712
+      ],
+      "bridge_road_id": null,
+      "junction_id": null,
+      "displacement_m": 2.3202710858196465,
+      "boundary_distance_m": 100.56652845594445,
+      "criterion_met": true,
+      "boundary_margin_m": null,
+      "extended_to_site_boundary": false,
+      "extension_length_m": null,
+      "extension_direction_cross": null,
+      "extension_angle_deg": null,
+      "boundary_band_m": null,
+      "vertices_added": 0,
+      "vertices_removed": 1,
+      "reason": "dangling tail trimmed back to the last explicit junction; the road keeps its id and stays connected at that junction"
+    },
+    {
+      "node_id": "DE-MAIN-18",
+      "road_id": "MAIN-18",
+      "original_xy": [
+        245.73765149901087,
+        19.268734294755518
+      ],
+      "strategy": "site_edge_terminus",
+      "adjusted_xy": [
+        245.73765149901087,
+        19.268734294755518
+      ],
+      "bridge_road_id": null,
+      "junction_id": null,
+      "displacement_m": 0.0,
+      "boundary_distance_m": 6.500000000000001,
+      "criterion_met": true,
+      "boundary_margin_m": 0.6735131264650868,
+      "extended_to_site_boundary": false,
+      "extension_length_m": null,
+      "extension_direction_cross": null,
+      "extension_angle_deg": null,
+      "boundary_band_m": null,
+      "vertices_added": 0,
+      "vertices_removed": 0,
+      "reason": "endpoint is 6.500 m from the published site boundary, so the 12 m main corridor edge is +0.674 m from the boundary (inside/at the boundary); the source network is clipped at the boundary and the road ends at its corridor-safe boundary line - a legitimate site-edge terminus, not a road continuing outside the site"
+    },
+    {
+      "node_id": "DE-MAIN-20",
+      "road_id": "MAIN-20",
+      "original_xy": [
+        243.64232977850696,
+        84.4954881050041
+      ],
+      "strategy": "bridged",
+      "adjusted_xy": [
+        234.9163896163396,
+        83.7291614958417
+      ],
+      "bridge_road_id": "MAIN-17",
+      "junction_id": "J-23",
+      "displacement_m": 8.759525568524586,
+      "boundary_distance_m": 71.67803914491597,
+      "criterion_met": true,
+      "boundary_margin_m": null,
+      "extended_to_site_boundary": false,
+      "extension_length_m": null,
+      "extension_direction_cross": null,
+      "extension_angle_deg": null,
+      "boundary_band_m": null,
+      "vertices_added": 2,
+      "vertices_removed": 0,
+      "reason": "dangling main stub bridged 8.760 m to MAIN-17 with an explicit shared-vertex junction (bridge corridor does not touch a building footprint)"
+    },
+    {
+      "node_id": "DE-MAIN-22",
+      "road_id": "MAIN-22",
+      "original_xy": [
+        239.95077932731746,
+        424.93847415914684
+      ],
+      "strategy": "bridged",
+      "adjusted_xy": [
+        248.85053751012998,
+        428.47615839722954
+      ],
+      "bridge_road_id": "MAIN-08",
+      "junction_id": "J-24",
+      "displacement_m": 9.577103188382027,
+      "boundary_distance_m": 94.58007001972193,
+      "criterion_met": true,
+      "boundary_margin_m": null,
+      "extended_to_site_boundary": false,
+      "extension_length_m": null,
+      "extension_direction_cross": null,
+      "extension_angle_deg": null,
+      "boundary_band_m": null,
+      "vertices_added": 2,
+      "vertices_removed": 0,
+      "reason": "dangling main stub bridged 9.577 m to MAIN-08 with an explicit shared-vertex junction (bridge corridor does not touch a building footprint)"
+    },
+    {
+      "node_id": "DE-MAIN-25",
+      "road_id": "MAIN-25",
+      "original_xy": [
+        382.2805578342904,
+        340.8531583264971
+      ],
+      "strategy": "site_edge_terminus",
+      "adjusted_xy": [
+        382.2805578342904,
+        340.8531583264971
+      ],
+      "bridge_road_id": null,
+      "junction_id": null,
+      "displacement_m": 0.0,
+      "boundary_distance_m": 5.643487350037428,
+      "criterion_met": true,
+      "boundary_margin_m": 1.1000400835865636,
+      "extended_to_site_boundary": false,
+      "extension_length_m": null,
+      "extension_direction_cross": null,
+      "extension_angle_deg": null,
+      "boundary_band_m": null,
+      "vertices_added": 0,
+      "vertices_removed": 0,
+      "reason": "endpoint is 5.643 m from the published site boundary, so the 12 m main corridor edge is +1.100 m from the boundary (inside/at the boundary); the source network is clipped at the boundary and the road ends at its corridor-safe boundary line - a legitimate site-edge terminus, not a road continuing outside the site"
+    }
+  ],
+  "group_access": [
+    {
+      "group_id": "G-01",
+      "building_ids": [
+        "SK-BLD-0007",
+        "SK-BLD-0015",
+        "SK-BLD-0021",
+        "SK-BLD-0025",
+        "SK-BLD-0032",
+        "SK-BLD-0034",
+        "SK-BLD-0035",
+        "SK-BLD-0038",
+        "SK-BLD-0061"
+      ],
+      "served": true,
+      "declared": true,
+      "served_by_relation": true,
+      "access_road_id": "BR-G-01",
+      "terminal_xy": [
+        204.5930225394812,
+        612.77806003196
+      ],
+      "nearest_building_id": "SK-BLD-0061",
+      "terminal_to_building_m": 3.4999989999999825,
+      "terminal_centerline_distance_m": 3.4999989999999825,
+      "terminal_corridor_edge_clearance_m": 0.0,
+      "route_crossing_length_m": 0.0,
+      "relation_errors": [],
+      "reason": "road BR-G-01 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0"
+    },
+    {
+      "group_id": "G-02",
+      "building_ids": [
+        "SK-BLD-0009",
+        "SK-BLD-0010",
+        "SK-BLD-0014",
+        "SK-BLD-0016",
+        "SK-BLD-0020",
+        "SK-BLD-0022",
+        "SK-BLD-0024"
+      ],
+      "served": true,
+      "declared": true,
+      "served_by_relation": true,
+      "access_road_id": "BR-G-02",
+      "terminal_xy": [
+        307.19812484872534,
+        245.11737789684884
+      ],
+      "nearest_building_id": "SK-BLD-0010",
+      "terminal_to_building_m": 3.4999990000000007,
+      "terminal_centerline_distance_m": 3.4999990000000007,
+      "terminal_corridor_edge_clearance_m": 3.263800928684811e-05,
+      "route_crossing_length_m": 0.0,
+      "relation_errors": [],
+      "reason": "road BR-G-02 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 3.263800928684811e-05"
+    },
+    {
+      "group_id": "G-03",
+      "building_ids": [
+        "SK-BLD-0049",
+        "SK-BLD-0050",
+        "SK-BLD-0052",
+        "SK-BLD-0054",
+        "SK-BLD-0056",
+        "SK-BLD-0057"
+      ],
+      "served": true,
+      "declared": true,
+      "served_by_relation": true,
+      "access_road_id": "BR-G-03",
+      "terminal_xy": [
+        120.89913495183204,
+        152.89360960686366
+      ],
+      "nearest_building_id": "SK-BLD-0057",
+      "terminal_to_building_m": 3.499999000000005,
+      "terminal_centerline_distance_m": 3.499999000000005,
+      "terminal_corridor_edge_clearance_m": 0.004123313107790557,
+      "route_crossing_length_m": 0.0,
+      "relation_errors": [],
+      "reason": "road BR-G-03 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.004123313107790557"
+    },
+    {
+      "group_id": "G-04",
+      "building_ids": [
+        "SK-BLD-0040",
+        "SK-BLD-0041",
+        "SK-BLD-0042",
+        "SK-BLD-0043",
+        "SK-BLD-0044"
+      ],
+      "served": true,
+      "declared": true,
+      "served_by_relation": true,
+      "access_road_id": "BR-G-04",
+      "terminal_xy": [
+        259.5373634518321,
+        443.91083710686365
+      ],
+      "nearest_building_id": "SK-BLD-0042",
+      "terminal_to_building_m": 3.499998999999994,
+      "terminal_centerline_distance_m": 3.499998999999994,
+      "terminal_corridor_edge_clearance_m": 0.0028021323188886084,
+      "route_crossing_length_m": 0.0,
+      "relation_errors": [],
+      "reason": "road BR-G-04 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0028021323188886084"
+    },
+    {
+      "group_id": "G-05",
+      "building_ids": [
+        "SK-BLD-0002",
+        "SK-BLD-0017",
+        "SK-BLD-0033"
+      ],
+      "served": true,
+      "declared": true,
+      "served_by_relation": true,
+      "access_road_id": "BR-G-05",
+      "terminal_xy": [
+        32.495631311261754,
+        436.70291090117996
+      ],
+      "nearest_building_id": "SK-BLD-0002",
+      "terminal_to_building_m": 3.4999990000000043,
+      "terminal_centerline_distance_m": 3.4999990000000043,
+      "terminal_corridor_edge_clearance_m": 0.0,
+      "route_crossing_length_m": 0.0,
+      "relation_errors": [],
+      "reason": "road BR-G-05 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0"
+    },
+    {
+      "group_id": "G-06",
+      "building_ids": [
+        "SK-BLD-0003",
+        "SK-BLD-0005",
+        "SK-BLD-0008"
+      ],
+      "served": true,
+      "declared": true,
+      "served_by_relation": true,
+      "access_road_id": "BR-G-06",
+      "terminal_xy": [
+        165.5664030478256,
+        149.70176046639037
+      ],
+      "nearest_building_id": "SK-BLD-0005",
+      "terminal_to_building_m": 3.4999989999999888,
+      "terminal_centerline_distance_m": 3.4999989999999888,
+      "terminal_corridor_edge_clearance_m": 0.0013529748184366338,
+      "route_crossing_length_m": 0.0,
+      "relation_errors": [],
+      "reason": "road BR-G-06 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0013529748184366338"
+    },
+    {
+      "group_id": "G-07",
+      "building_ids": [
+        "SK-BLD-0004",
+        "SK-BLD-0013",
+        "SK-BLD-0018"
+      ],
+      "served": true,
+      "declared": true,
+      "served_by_relation": true,
+      "access_road_id": "BR-G-07",
+      "terminal_xy": [
+        89.97410178701078,
+        116.26699318587342
+      ],
+      "nearest_building_id": "SK-BLD-0004",
+      "terminal_to_building_m": 3.4999990000000003,
+      "terminal_centerline_distance_m": 3.4999990000000003,
+      "terminal_corridor_edge_clearance_m": 0.0035411368848656706,
+      "route_crossing_length_m": 0.0,
+      "relation_errors": [],
+      "reason": "road BR-G-07 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0035411368848656706"
+    },
+    {
+      "group_id": "G-08",
+      "building_ids": [
+        "SK-BLD-0006",
+        "SK-BLD-0011",
+        "SK-BLD-0012"
+      ],
+      "served": true,
+      "declared": true,
+      "served_by_relation": true,
+      "access_road_id": "BR-G-08",
+      "terminal_xy": [
+        155.3253612862601,
+        114.53050928388357
+      ],
+      "nearest_building_id": "SK-BLD-0006",
+      "terminal_to_building_m": 3.499999,
+      "terminal_centerline_distance_m": 3.499999,
+      "terminal_corridor_edge_clearance_m": 0.0038982407497163657,
+      "route_crossing_length_m": 0.0,
+      "relation_errors": [],
+      "reason": "road BR-G-08 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0038982407497163657"
+    },
+    {
+      "group_id": "G-09",
+      "building_ids": [
+        "SK-BLD-0029",
+        "SK-BLD-0031",
+        "SK-BLD-0036"
+      ],
+      "served": true,
+      "declared": true,
+      "served_by_relation": true,
+      "access_road_id": "BR-G-09",
+      "terminal_xy": [
+        240.71892729306938,
+        110.0225795395796
+      ],
+      "nearest_building_id": "SK-BLD-0029",
+      "terminal_to_building_m": 3.4999990000000083,
+      "terminal_centerline_distance_m": 3.4999990000000083,
+      "terminal_corridor_edge_clearance_m": 0.00015261703314783936,
+      "route_crossing_length_m": 0.0,
+      "relation_errors": [],
+      "reason": "road BR-G-09 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.00015261703314783936"
+    },
+    {
+      "group_id": "G-10",
+      "building_ids": [
+        "SK-BLD-0045",
+        "SK-BLD-0051",
+        "SK-BLD-0055"
+      ],
+      "served": true,
+      "declared": true,
+      "served_by_relation": true,
+      "access_road_id": "BR-G-10",
+      "terminal_xy": [
+        288.78095757412234,
+        225.97629217046463
+      ],
+      "nearest_building_id": "SK-BLD-0055",
+      "terminal_to_building_m": 3.4999990000000145,
+      "terminal_centerline_distance_m": 3.4999990000000145,
+      "terminal_corridor_edge_clearance_m": 3.263800354259445e-05,
+      "route_crossing_length_m": 0.0,
+      "relation_errors": [],
+      "reason": "road BR-G-10 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 3.263800354259445e-05"
+    },
+    {
+      "group_id": "G-11",
+      "building_ids": [
+        "SK-BLD-MRG-0002",
+        "SK-BLD-MRG-0004",
+        "SK-BLD-MRG-0005"
+      ],
+      "served": true,
+      "declared": true,
+      "served_by_relation": true,
+      "access_road_id": "BR-G-11",
+      "terminal_xy": [
+        93.79980775460419,
+        250.4758924613709
+      ],
+      "nearest_building_id": "SK-BLD-MRG-0002",
+      "terminal_to_building_m": 3.4999990000000025,
+      "terminal_centerline_distance_m": 3.4999990000000025,
+      "terminal_corridor_edge_clearance_m": 0.0,
+      "route_crossing_length_m": 0.0,
+      "relation_errors": [],
+      "reason": "road BR-G-11 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0"
+    },
+    {
+      "group_id": "G-12",
+      "building_ids": [
+        "SK-BLD-0023",
+        "SK-BLD-0026"
+      ],
+      "served": true,
+      "declared": true,
+      "served_by_relation": true,
+      "access_road_id": "ACC-G-12",
+      "terminal_xy": [
+        169.009433,
+        446.5880463635157
+      ],
+      "nearest_building_id": "SK-BLD-0026",
+      "terminal_to_building_m": 3.499999000000002,
+      "terminal_centerline_distance_m": 3.499999000000002,
+      "terminal_corridor_edge_clearance_m": 1.500025678005045,
+      "route_crossing_length_m": 0.0,
+      "relation_errors": [],
+      "reason": "road ACC-G-12 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 1.500025678005045"
+    },
+    {
+      "group_id": "G-13",
+      "building_ids": [
+        "SK-BLD-0028"
+      ],
+      "served": true,
+      "declared": true,
+      "served_by_relation": true,
+      "access_road_id": "BR-G-13",
+      "terminal_xy": [
+        110.49081434251151,
+        116.8054439913529
+      ],
+      "nearest_building_id": "SK-BLD-0028",
+      "terminal_to_building_m": 3.4999990000000034,
+      "terminal_centerline_distance_m": 3.4999990000000034,
+      "terminal_corridor_edge_clearance_m": 0.002338690685246725,
+      "route_crossing_length_m": 0.0,
+      "relation_errors": [],
+      "reason": "road BR-G-13 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.002338690685246725"
+    },
+    {
+      "group_id": "G-14",
+      "building_ids": [
+        "SK-BLD-0039"
+      ],
+      "served": true,
+      "declared": true,
+      "served_by_relation": true,
+      "access_road_id": "BR-G-14",
+      "terminal_xy": [
+        142.31938469454892,
+        27.521785862260035
+      ],
+      "nearest_building_id": "SK-BLD-0039",
+      "terminal_to_building_m": 3.4979873463090696,
+      "terminal_centerline_distance_m": 3.4979873463090696,
+      "terminal_corridor_edge_clearance_m": 0.0,
+      "route_crossing_length_m": 0.0,
+      "relation_errors": [],
+      "reason": "road BR-G-14 declares this group; terminal is 3.498 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0"
+    },
+    {
+      "group_id": "G-15",
+      "building_ids": [
+        "SK-BLD-0048"
+      ],
+      "served": true,
+      "declared": true,
+      "served_by_relation": true,
+      "access_road_id": "BR-G-15",
+      "terminal_xy": [
+        317.5303273351603,
+        398.8005544214012
+      ],
+      "nearest_building_id": "SK-BLD-0048",
+      "terminal_to_building_m": 3.4999989999999905,
+      "terminal_centerline_distance_m": 3.4999989999999905,
+      "terminal_corridor_edge_clearance_m": 0.004109307817377645,
+      "route_crossing_length_m": 0.0,
+      "relation_errors": [],
+      "reason": "road BR-G-15 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.004109307817377645"
+    },
+    {
+      "group_id": "G-16",
+      "building_ids": [
+        "SK-BLD-MRG-0001"
+      ],
+      "served": true,
+      "declared": true,
+      "served_by_relation": true,
+      "access_road_id": "BR-G-16",
+      "terminal_xy": [
+        84.56365553809306,
+        334.399530903572
+      ],
+      "nearest_building_id": "SK-BLD-MRG-0001",
+      "terminal_to_building_m": 3.4999990000000025,
+      "terminal_centerline_distance_m": 3.4999990000000025,
+      "terminal_corridor_edge_clearance_m": 0.0,
+      "route_crossing_length_m": 0.0,
+      "relation_errors": [],
+      "reason": "road BR-G-16 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0"
+    },
+    {
+      "group_id": "G-17",
+      "building_ids": [
+        "SK-BLD-MRG-0003"
+      ],
+      "served": true,
+      "declared": true,
+      "served_by_relation": true,
+      "access_road_id": "BR-G-17",
+      "terminal_xy": [
+        332.40709373542757,
+        308.32345318146946
+      ],
+      "nearest_building_id": "SK-BLD-MRG-0003",
+      "terminal_to_building_m": 3.499998999999997,
+      "terminal_centerline_distance_m": 3.499998999999997,
+      "terminal_corridor_edge_clearance_m": 0.0038121515266400017,
+      "route_crossing_length_m": 0.0,
+      "relation_errors": [],
+      "reason": "road BR-G-17 declares this group; terminal is 3.500 m from the group footprint (band 3.4-3.5 m), outside every footprint, route crossing 0.000 m; corridor-edge clearance 0.0038121515266400017"
+    }
+  ],
+  "dead_end_justification": [
+    {
+      "node_id": "DE-01",
+      "coordinate": [
+        32.495631311261754,
+        436.70291090117996
+      ],
+      "road_id": "BR-G-05",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0002",
+      "distance_m": 3.499999000000004,
+      "classification": "group_terminal_justified",
+      "justified": true,
+      "resolution": null,
+      "resolved": false,
+      "resolution_verified": false
+    },
+    {
+      "node_id": "DE-02",
+      "coordinate": [
+        84.56365553809306,
+        334.399530903572
+      ],
+      "road_id": "BR-G-16",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-MRG-0001",
+      "distance_m": 3.4999990000000025,
+      "classification": "group_terminal_justified",
+      "justified": true,
+      "resolution": null,
+      "resolved": false,
+      "resolution_verified": false
+    },
+    {
+      "node_id": "DE-03",
+      "coordinate": [
+        89.97410178701078,
+        116.26699318587342
+      ],
+      "road_id": "BR-G-07",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0028",
+      "distance_m": 3.1876831467565885,
+      "classification": "group_terminal_justified",
+      "justified": true,
+      "resolution": null,
+      "resolved": false,
+      "resolution_verified": false
+    },
+    {
+      "node_id": "DE-04",
+      "coordinate": [
+        93.79980775460419,
+        250.4758924613709
+      ],
+      "road_id": "BR-G-11",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-MRG-0002",
+      "distance_m": 3.4999990000000025,
+      "classification": "group_terminal_justified",
+      "justified": true,
+      "resolution": null,
+      "resolved": false,
+      "resolution_verified": false
+    },
+    {
+      "node_id": "DE-05",
+      "coordinate": [
+        110.49081434251151,
+        116.8054439913529
+      ],
+      "road_id": "BR-G-13",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0028",
+      "distance_m": 3.4999990000000034,
+      "classification": "group_terminal_justified",
+      "justified": true,
+      "resolution": null,
+      "resolved": false,
+      "resolution_verified": false
+    },
+    {
+      "node_id": "DE-06",
+      "coordinate": [
+        120.89913495183204,
+        152.89360960686366
+      ],
+      "road_id": "BR-G-03",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0057",
+      "distance_m": 3.499999000000005,
+      "classification": "group_terminal_justified",
+      "justified": true,
+      "resolution": null,
+      "resolved": false,
+      "resolution_verified": false
+    },
+    {
+      "node_id": "DE-07",
+      "coordinate": [
+        142.31938469454892,
+        27.521785862260035
+      ],
+      "road_id": "BR-G-14",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0039",
+      "distance_m": 3.4979873463090696,
+      "classification": "group_terminal_justified",
+      "justified": true,
+      "resolution": null,
+      "resolved": false,
+      "resolution_verified": false
+    },
+    {
+      "node_id": "DE-08",
+      "coordinate": [
+        155.3253612862601,
+        114.53050928388357
+      ],
+      "road_id": "BR-G-08",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0006",
+      "distance_m": 3.499999,
+      "classification": "group_terminal_justified",
+      "justified": true,
+      "resolution": null,
+      "resolved": false,
+      "resolution_verified": false
+    },
+    {
+      "node_id": "DE-09",
+      "coordinate": [
+        165.5664030478256,
+        149.70176046639037
+      ],
+      "road_id": "BR-G-06",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0005",
+      "distance_m": 3.4999989999999888,
+      "classification": "group_terminal_justified",
+      "justified": true,
+      "resolution": null,
+      "resolved": false,
+      "resolution_verified": false
+    },
+    {
+      "node_id": "DE-10",
+      "coordinate": [
+        169.009433,
+        446.5880463635157
+      ],
+      "road_id": "ACC-G-12",
+      "road_class": "access",
+      "nearest_building_id": "SK-BLD-0026",
+      "distance_m": 3.499999000000002,
+      "classification": "group_terminal_justified",
+      "justified": true,
+      "resolution": null,
+      "resolved": false,
+      "resolution_verified": false
+    },
+    {
+      "node_id": "DE-11",
+      "coordinate": [
+        204.5930225394812,
+        612.77806003196
+      ],
+      "road_id": "BR-G-01",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0061",
+      "distance_m": 3.4999989999999825,
+      "classification": "group_terminal_justified",
+      "justified": true,
+      "resolution": null,
+      "resolved": false,
+      "resolution_verified": false
+    },
+    {
+      "node_id": "DE-12",
+      "coordinate": [
+        240.71892729306938,
+        110.0225795395796
+      ],
+      "road_id": "BR-G-09",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0029",
+      "distance_m": 3.4999990000000083,
+      "classification": "group_terminal_justified",
+      "justified": true,
+      "resolution": null,
+      "resolved": false,
+      "resolution_verified": false
+    },
+    {
+      "node_id": "DE-13",
+      "coordinate": [
+        245.73765149901087,
+        19.268734294755518
+      ],
+      "road_id": "MAIN-18",
+      "road_class": "main",
+      "nearest_building_id": "SK-BLD-0036",
+      "distance_m": 7.201434092501929,
+      "classification": "unclassified",
+      "justified": false,
+      "resolution": "site_edge_terminus",
+      "resolved": true,
+      "resolution_verified": true
+    },
+    {
+      "node_id": "DE-14",
+      "coordinate": [
+        259.5373634518321,
+        443.91083710686365
+      ],
+      "road_id": "BR-G-04",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0042",
+      "distance_m": 3.499998999999994,
+      "classification": "group_terminal_justified",
+      "justified": true,
+      "resolution": null,
+      "resolved": false,
+      "resolution_verified": false
+    },
+    {
+      "node_id": "DE-15",
+      "coordinate": [
+        288.78095757412234,
+        225.97629217046463
+      ],
+      "road_id": "BR-G-10",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0055",
+      "distance_m": 3.4999990000000145,
+      "classification": "group_terminal_justified",
+      "justified": true,
+      "resolution": null,
+      "resolved": false,
+      "resolution_verified": false
+    },
+    {
+      "node_id": "DE-16",
+      "coordinate": [
+        307.19812484872534,
+        245.11737789684884
+      ],
+      "road_id": "BR-G-02",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0010",
+      "distance_m": 3.4999990000000016,
+      "classification": "group_terminal_justified",
+      "justified": true,
+      "resolution": null,
+      "resolved": false,
+      "resolution_verified": false
+    },
+    {
+      "node_id": "DE-17",
+      "coordinate": [
+        317.5303273351603,
+        398.8005544214012
+      ],
+      "road_id": "BR-G-15",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-0048",
+      "distance_m": 3.4999989999999905,
+      "classification": "group_terminal_justified",
+      "justified": true,
+      "resolution": null,
+      "resolved": false,
+      "resolution_verified": false
+    },
+    {
+      "node_id": "DE-18",
+      "coordinate": [
+        332.40709373542757,
+        308.32345318146946
+      ],
+      "road_id": "BR-G-17",
+      "road_class": "branch",
+      "nearest_building_id": "SK-BLD-MRG-0003",
+      "distance_m": 3.499998999999997,
+      "classification": "group_terminal_justified",
+      "justified": true,
+      "resolution": null,
+      "resolved": false,
+      "resolution_verified": false
+    },
+    {
+      "node_id": "DE-19",
+      "coordinate": [
+        382.2805578342904,
+        340.8531583264971
+      ],
+      "road_id": "MAIN-25",
+      "road_class": "main",
+      "nearest_building_id": "SK-BLD-MRG-0003",
+      "distance_m": 37.06084035186662,
+      "classification": "main_stub_unfinished",
+      "justified": false,
+      "resolution": "site_edge_terminus",
+      "resolved": true,
+      "resolution_verified": true
+    }
+  ]
+}

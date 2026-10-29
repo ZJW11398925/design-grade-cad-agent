@@ -1,18 +1,18 @@
-"""Contract-completeness tests for the design-synthesis contract (M4c-2, v0.7).
+"""Contract-completeness tests for the design-synthesis contract (M4c-3, v0.8).
 
 The living contract must never drift back into "prose only": every machine-relevant
 list is parsed from YAML (never string-grepped) and bound to the live
 ``dgcad_design`` modules. A rename, reorder, dropped basis key, taxonomy break, or
-access/alignment-rule change fails here instead of publishing a stale contract.
+access/alignment/boundary-rule change fails here instead of publishing a stale
+contract.
 
-M4c-2 additions (v0.7):
-* ``main_road_building_overlap`` and ``dead_end_resolution`` become pass checks
-  (overlap <= 0.01 m2 after main-road alignment; zero unresolved dead ends);
-* ``road_alignment_evidence`` joins as an informational check (adjusted main-road
-  count and per-road displacement);
-* the contract now carries 29 verification names: 26 design check ids
+M4c-3 additions (v0.8):
+* ``road_boundary_containment`` becomes a pass/fail check: the main-road corridor
+  edge (centreline plus half width) must stay inside the published site boundary
+  within 0.01 m — this machines the M4c-2 boundary defect;
+* the contract now carries 30 verification names: 27 design check ids
   (``.upper()`` with two documented abbreviations) + 3 DXF-level items, and the
-  26 design check ids must exist in the committed evidence after regeneration.
+  27 design check ids must exist in the committed evidence after regeneration.
 """
 from __future__ import annotations
 
@@ -44,10 +44,11 @@ V4 = CONTRACTS / "design-synthesis-v0.4.yaml"
 V5 = CONTRACTS / "design-synthesis-v0.5.yaml"
 V6 = CONTRACTS / "design-synthesis-v0.6.yaml"
 V7 = CONTRACTS / "design-synthesis-v0.7.yaml"
+V8 = CONTRACTS / "design-synthesis-v0.8.yaml"
 GATE_REGISTER = CONTRACTS / "evidence-gate-register-v0.2.yaml"
 EVIDENCE = ROOT / "docs" / "e2e" / "design-synthesis-001"
 
-#: verification.required names expected in v0.7, in contract order.
+#: verification.required names expected in v0.8, in contract order.
 EXPECTED_VERIFICATION = [
     "far_arithmetic_scenario",
     "parking_requirement_arithmetic",
@@ -64,6 +65,7 @@ EXPECTED_VERIFICATION = [
     "road_connectivity",
     "road_corridor_coverage",
     "road_access_coverage",
+    "road_boundary_containment",
     "main_road_building_overlap",
     "road_alignment_evidence",
     "full_site_road_clearance",
@@ -83,7 +85,7 @@ EXPECTED_VERIFICATION = [
 #: Verification names that are proven at the DXF layer, not by a consistency check.
 DXF_LEVEL_ITEMS = {"dxf_audit", "dxf_readback", "dxf_privacy"}
 
-#: Expected consistency check ids for the 26 design-level verification names
+#: Expected consistency check ids for the 27 design-level verification names
 #: (contract order). Uppercasing is the rule, with the two documented legacy
 #: abbreviations in ``consistency.py`` (FOCUS_NS_SPACING, FULL_SITE_NS_SPACING).
 EXPECTED_DESIGN_CHECK_IDS = [
@@ -102,6 +104,7 @@ EXPECTED_DESIGN_CHECK_IDS = [
     "ROAD_CONNECTIVITY",
     "ROAD_CORRIDOR_COVERAGE",
     "ROAD_ACCESS_COVERAGE",
+    "ROAD_BOUNDARY_CONTAINMENT",
     "MAIN_ROAD_BUILDING_OVERLAP",
     "ROAD_ALIGNMENT_EVIDENCE",
     "FULL_SITE_ROAD_CLEARANCE",
@@ -125,14 +128,14 @@ def _load(path: Path) -> dict:
 
 
 def _topology_block() -> dict:
-    return _load(V7)["road_design"]["topology"]
+    return _load(V8)["road_design"]["topology"]
 
 
 def _check_id(name: str) -> str:
     return CHECK_ID_OVERRIDES.get(name, name.upper())
 
 
-def test_contract_v7_topology_required_matches_live_module_in_order():
+def test_contract_v8_topology_required_matches_live_module_in_order():
     required = _topology_block()["required"]
     assert len(required) == len(REQUIRED_FIELDS)
     assert set(required) == set(REQUIRED_FIELDS)
@@ -142,18 +145,18 @@ def test_contract_v7_topology_required_matches_live_module_in_order():
     assert dataclass_fields == list(REQUIRED_FIELDS)
 
 
-def test_contract_v7_topology_schema_id_matches_live_module():
+def test_contract_v8_topology_schema_id_matches_live_module():
     assert _topology_block()["schema_id"] == SCHEMA_ID
     assert SCHEMA_ID == "dgcad.design-road-topology.v0.1"
 
 
-def test_contract_v7_connector_states_cover_live_module_states():
+def test_contract_v8_connector_states_cover_live_module_states():
     declared = _topology_block()["connector_states"]
     assert declared == list(CONNECTOR_STATES)
     assert len(set(declared)) == len(CONNECTOR_STATES)
 
 
-def test_contract_v7_fail_closed_covers_every_violation_family():
+def test_contract_v8_fail_closed_covers_every_violation_family():
     text = " | ".join(_topology_block()["fail_closed"])
     assert "component_count" in text
     assert "max_endpoint_gap_m" in text
@@ -163,8 +166,8 @@ def test_contract_v7_fail_closed_covers_every_violation_family():
     assert ENDPOINT_GAP_TOLERANCE_M == 1e-9
 
 
-def test_supersede_chain_v01_to_v07():
-    versions = [_load(path) for path in (V1, V2, V3, V4, V5, V6, V7)]
+def test_supersede_chain_v01_to_v08():
+    versions = [_load(path) for path in (V1, V2, V3, V4, V5, V6, V7, V8)]
     expected_superseded_by = [
         "design-synthesis-v0.2.yaml",
         "design-synthesis-v0.3.yaml",
@@ -172,18 +175,19 @@ def test_supersede_chain_v01_to_v07():
         "design-synthesis-v0.5.yaml",
         "design-synthesis-v0.6.yaml",
         "design-synthesis-v0.7.yaml",
+        "design-synthesis-v0.8.yaml",
     ]
-    for version, expected in zip(versions[:6], expected_superseded_by):
+    for version, expected in zip(versions[:7], expected_superseded_by):
         assert version["status"] == "superseded"
         assert version["superseded_by"] == expected
-    v7 = versions[6]
-    assert v7["status"] == "living_contract"
-    assert v7["schema_id"] == "dgcad.design-synthesis.v0.7"
-    assert v7["supersedes"] == "design-synthesis-v0.6.yaml"
+    v8 = versions[7]
+    assert v8["status"] == "living_contract"
+    assert v8["schema_id"] == "dgcad.design-synthesis.v0.8"
+    assert v8["supersedes"] == "design-synthesis-v0.7.yaml"
 
 
-def test_contract_v7_basis_provenance_binds_live_module():
-    basis = _load(V7)["basis"]
+def test_contract_v8_basis_provenance_binds_live_module():
+    basis = _load(V8)["basis"]
     assert "parameter_sources" in basis["required"]
     assert basis["parameter_authorities"] == list(PARAMETER_AUTHORITIES)
     assert basis["parameter_source_keys"] == list(PARAMETER_SOURCE_KEYS)
@@ -192,24 +196,24 @@ def test_contract_v7_basis_provenance_binds_live_module():
     assert "confirmed: true requires an approval_ref" in rules
 
 
-def test_contract_v7_verification_ids_are_exact_and_map_to_check_ids():
-    required = _load(V7)["verification"]["required"]
+def test_contract_v8_verification_ids_are_exact_and_map_to_check_ids():
+    required = _load(V8)["verification"]["required"]
     assert required == EXPECTED_VERIFICATION
-    assert len(required) == 29
+    assert len(required) == 30
     assert len(set(required)) == len(required)
     design_names = [name for name in required if name not in DXF_LEVEL_ITEMS]
-    assert len(design_names) == 26
+    assert len(design_names) == 27
     assert [_check_id(name) for name in design_names] == EXPECTED_DESIGN_CHECK_IDS
-    assert len(set(EXPECTED_DESIGN_CHECK_IDS)) == 26
+    assert len(set(EXPECTED_DESIGN_CHECK_IDS)) == 27
 
 
-def test_contract_v7_design_checks_match_committed_evidence():
-    """The 26 design check ids must exist in the committed evidence.
+def test_contract_v8_design_checks_match_committed_evidence():
+    """The 27 design check ids must exist in the committed evidence.
 
-    Green only after the M4c-2 evidence regeneration (Lead task-57); allowed to
+    Green only after the M4c-3 evidence regeneration (Lead task-66); allowed to
     fail while the contract is ahead of the committed evidence.
     """
-    required = _load(V7)["verification"]["required"]
+    required = _load(V8)["verification"]["required"]
     design_names = [name for name in required if name not in DXF_LEVEL_ITEMS]
     expected = {_check_id(name) for name in design_names}
     evidence = json.loads(
@@ -218,47 +222,71 @@ def test_contract_v7_design_checks_match_committed_evidence():
     assert {check["id"] for check in evidence["checks"]} == expected
 
 
-def test_contract_v7_verification_rules_declare_alignment_and_resolution():
-    rules = " | ".join(_load(V7)["verification"]["rules"])
+def test_contract_v8_verification_rules_declare_boundary_and_alignment():
+    rules = " | ".join(_load(V8)["verification"]["rules"])
     assert "pass is reserved for checks that verify generated geometry against a declared constraint" in rules
     assert "a deferred check is not a pass" in rules
     assert "main-road corridor-edge clearance must be at least 3.0 m" in rules
+    assert "the main-road corridor edge (centreline plus half width) must lie inside the published site boundary with a tolerance of at most 0.01 m" in rules
+    assert "corridor-edge containment and centreline containment are reported separately" in rules
     assert "main-road/building overlap must be at most 0.01 m2 after alignment" in rules
-    assert "each resolved conflict records before/after overlap per road and building" in rules
+    assert "dead_end_resolution is a pass only when every dead end is resolved" in rules
     assert "source main edges remain in the evidence after alignment" in rules
-    assert "every adjustment records its road_id, maximum displacement and before/after overlap" in rules
-    assert "road_alignment_evidence is informational" in rules
     assert "main alignment must not change the declared access service relations" in rules
     assert "no road may be silently deleted" in rules
-    assert "dead_end_resolution is a pass only when every dead end is resolved" in rules
-    assert "unresolved dead ends must be 0" in rules
-    assert "all dead ends are classified and resolved, not all justified" in rules
-    assert "an access service relation must be declared through serves_group_ids" in rules
     assert "the declared access terminal must lie in the [3.4, 3.5] m centreline band" in rules
     assert "full-site road clearance is deferred until every group is designed" in rules
-    assert "parking entrance proximity is not a driveway connection" in rules
 
 
-def test_contract_v7_constraints_include_alignment_and_resolution():
-    constraints = _load(V7)["constraints"]["required"]
+def test_contract_v8_constraints_include_boundary_containment():
+    constraints = _load(V8)["constraints"]["required"]
     for name in (
-        "designed_green_ratio",
-        "parking_capacity",
-        "far_final_verification",
         "road_access_coverage",
+        "road_boundary_containment",
         "main_road_building_overlap",
         "road_alignment_evidence",
         "full_site_road_clearance",
         "dead_end_resolution",
     ):
         assert name in constraints
-    rules = " | ".join(_load(V7)["constraints"]["rules"])
+    rules = " | ".join(_load(V8)["constraints"]["rules"])
+    assert "main-road corridor edges must stay inside the published site boundary within 0.01 m" in rules
     assert "main-road alignment is recorded as evidence" in rules
-    assert "dead-end resolutions must reach 0 unresolved" in rules
 
 
-def test_evidence_gate_register_points_design_package_at_v07():
+def test_contract_v8_verification_rules_keep_access_and_resolution_rules():
+    rules = " | ".join(_load(V8)["verification"]["rules"])
+    assert "an access service relation must be declared through serves_group_ids, not inferred from proximity" in rules
+    assert "must lie on its serving road centreline or one of its endpoints within 1e-6 m" in rules
+    assert "names a group with no buildings is an orphan relation error" in rules
+    assert "road access coverage counts groups whose declared serving road passes validation" in rules
+    assert "main-road/building overlap must be at most 0.01 m2 after alignment" in rules
+    assert "each resolved conflict records before/after overlap per road and building" in rules
+    assert "road_alignment_evidence is informational" in rules
+    assert "dead ends are classified as justified group terminals, resolved site-edge termini, bridged or trimmed" in rules
+    assert "all dead ends are classified and resolved, not all justified" in rules
+    assert "parking entrance proximity is not a driveway connection" in rules
+    assert "the 1.0 m2 per-route budget continues to constrain only newly generated group-access roads" in rules
+
+
+def test_contract_v8_constraints_include_the_deferred_metrics():
+    constraints = _load(V8)["constraints"]["required"]
+    for name in (
+        "designed_green_ratio",
+        "parking_capacity",
+        "far_final_verification",
+        "parking_entrance_proximity",
+        "parking_driveway_connection",
+        "dead_end_justification",
+        "dead_end_resolution",
+    ):
+        assert name in constraints
+    rules = " | ".join(_load(V8)["constraints"]["rules"])
+    assert "a deferred check is never a pass" in rules
+
+
+def test_evidence_gate_register_points_design_package_at_v08():
     gate = _load(GATE_REGISTER)
     design = [p for p in gate["packages"] if p["package_id"] == "EP-R1-DESIGN-001"]
     assert len(design) == 1
-    assert design[0]["contract"] == "contracts/design-synthesis-v0.7.yaml"
+    assert design[0]["contract"] == "contracts/design-synthesis-v0.8.yaml"

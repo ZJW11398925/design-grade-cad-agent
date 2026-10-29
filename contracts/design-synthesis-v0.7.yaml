@@ -1,5 +1,11 @@
 schema_id: dgcad.design-synthesis.v0.7
-status: living_contract
+status: superseded
+superseded_by: design-synthesis-v0.8.yaml
+superseded_note: >-
+  Historical contract, kept as evidence. v0.8 adds the pass/fail
+  road_boundary_containment check: the main-road corridor edge (centreline plus
+  half width) must stay inside the published site boundary within 0.01 m. This
+  machines the M4c-2 boundary defect. Do not edit; cite v0.8 for living rules.
 supersedes: design-synthesis-v0.6.yaml
 scope: CASE-SKETCH-001 autonomous design synthesis pilot
 purpose: >-

@@ -20,4 +20,5 @@ docs/e2e/**/*.dxf linguist-generated=true
 docs/e2e/**/*.png linguist-generated=true
 docs/e2e/**/*.txt linguist-generated=true
 docs/e2e/**/*.html linguist-generated=true
+docs/e2e/**/*.svg linguist-generated=true
 docs/e2e/**/*.scr linguist-generated=true

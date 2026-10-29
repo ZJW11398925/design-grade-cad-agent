@@ -1,0 +1,105 @@
+schema_id: dgcad.design-candidates.v0.1
+status: living_contract
+scope: CASE-SKETCH-001 multi-candidate design experiment (M4c-3)
+purpose: >-
+  Define how design candidates are declared, evaluated and compared. A candidate
+  is a complete alternative design model built from the same design input and
+  basis; it declares its strategy and parameter changes and never claims a
+  verdict about itself. Evaluation recomputes hard gates from geometry, keeps the
+  soft trade-offs separate, and recommends a candidate only through explicit,
+  ordered preferences over the visible Pareto front. There is no single
+  black-box score.
+
+candidate:
+  required:
+    - candidate_id
+    - strategy
+    - spec
+    - version
+    - changes
+  spec:
+    required:
+      - description
+      - parameters
+      - parent_basis_id
+  rules:
+    - "every candidate starts from the same design input and design basis"
+    - "a candidate declares its strategy and its parameter/layout changes"
+    - "a candidate never declares its own pass or recommendation"
+    - "road and building ids are preserved; deletions must be declared in changes"
+    - "the source sketch and its evidence are not rewritten by a candidate"
+
+evaluation:
+  required:
+    - candidate_id
+    - strategy
+    - hard
+    - hard_pass
+    - soft
+  hard:
+    required:
+      - overlap_ok
+      - topology_ok
+      - boundary_ok
+      - access_ok
+      - capacity_ok
+      - basis_ok
+    budget:
+      main_road_building_overlap_max_m2: 0.01
+      total_road_building_overlap: "must not exceed the reference baseline (no new overlap introduced)"
+      topology_component_count: 1
+      access_terminal_band_m: [3.4, 3.5]
+      boundary: >-
+        the main-road corridor edge (centreline plus half width) must lie inside
+        the published site boundary with tolerance <= 0.01 m; buildings must be
+        covered by the boundary and main centrelines must stay inside. The same
+        definition applies to every candidate and to the reference/base.
+      boundary_metrics:
+        boundary_violation_m: "penetration depth of the main-road corridor outside the published boundary (0 when contained)"
+        boundary_margin_m: "signed corridor-edge margin: positive inside, negative when the corridor violates the boundary"
+        centerline_violation_m: "distance of the worst main centreline vertex outside the boundary (0 when inside)"
+      boundary_tolerance_m: 0.01
+    rules:
+      - "the main-road/building overlap is gated at 0.01 m2 (the M4c-2 known conflict)"
+      - "total corridor overlap must not grow versus the reference baseline; pre-existing new-access corridor overlap is reported in the hard details, never hidden"
+      - "corridor-edge containment and centreline containment are reported separately; a corridor overhang is not the same defect as a road routed outside"
+      - "a candidate with a boundary violation is recorded as known_boundary_violation and can never be a hard pass"
+      - "the M4c-2 66.235 m diversion (B1) is recorded as a known_boundary_violation baseline, not as a hard-passing candidate"
+  soft:
+    required:
+      - source_preservation
+      - road_change
+      - building_change
+      - group_integrity
+      - green_change
+      - space_utilization
+  pareto:
+    objectives: [building_change, road_change, source_preservation, green_change]
+    rule: "non-dominated candidates among the hard-passing candidates"
+  recommendation:
+    required:
+      - recommendation
+      - pareto_front
+      - reasons
+      - excluded
+      - preferences
+    rules:
+      - "hard gates filter first; a hard-failing candidate is never recommended"
+      - "soft objectives are never combined into a single black-box score"
+      - "the recommendation follows explicit ordered preferences over the Pareto front"
+      - "the Pareto front stays visible even when one candidate is recommended"
+      - "every candidate, recommended or not, gets a reason"
+
+rules:
+  - "the generator never evaluates or recommends its own candidates"
+  - "hard checks are recomputed from geometry; candidate self-reported values are ignored"
+  - "a candidate may not relabel parameters or widen a tolerance to fabricate a pass"
+  - "an unmet constraint is reported as a failure, never hidden or deferred into a pass"
+  - "the reference layout is fixed before candidates are compared"
+  - "soft metrics are trade-off evidence, not a quality score"
+
+non_claims:
+  - "the recommendation is a decision aid, not an autonomous final decision"
+  - "soft metrics are not comparable across different cases or bases"
+  - "no cost, constructability, permit or code compliance is evaluated"
+  - "no candidate is human-confirmed; all candidates stay rule_derived/design_draft"

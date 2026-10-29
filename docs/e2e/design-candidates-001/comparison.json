@@ -1,0 +1,107 @@
+{
+  "comparison": {
+    "path": "D:\\agent-cad\\docs\\e2e\\design-candidates-001\\comparison.svg",
+    "bytes": 180958,
+    "sha256": "8cde7f38965a2d495de28226fc88c42833423b3dd4c90be036bc4c3eb1d74005",
+    "line_count": 610,
+    "candidate_ids": [
+      "A",
+      "B1",
+      "B2",
+      "C"
+    ],
+    "shown": 4,
+    "width": 1600,
+    "height": 1272.0
+  },
+  "plans": {
+    "A": {
+      "path": "D:\\agent-cad\\docs\\e2e\\design-candidates-001\\A\\plan.svg",
+      "bytes": 138925,
+      "sha256": "c1f4f94b0fb7de21c4fe6e3a557ead74a4815a00b1598d74cdb2a885dc9174f6",
+      "line_count": 205,
+      "bounds": [
+        0.0,
+        0.0,
+        388.02297,
+        644.360131
+      ],
+      "counts": {
+        "buildings": 55,
+        "roads": 44,
+        "green": 28,
+        "main_roads": 25,
+        "centerlines": 44
+      },
+      "scale": 3.896676529227123,
+      "width": 1600,
+      "height": 2598.862998837414
+    },
+    "B1": {
+      "path": "D:\\agent-cad\\docs\\e2e\\design-candidates-001\\B1\\plan.svg",
+      "bytes": 142757,
+      "sha256": "e9e0e1036143084aa05f8aef41a2b41d07a98fa9db740d08086cca5e572291dd",
+      "line_count": 204,
+      "bounds": [
+        0.0,
+        0.0,
+        388.02297,
+        644.360131
+      ],
+      "counts": {
+        "buildings": 55,
+        "roads": 44,
+        "green": 27,
+        "main_roads": 25,
+        "centerlines": 44
+      },
+      "scale": 3.896676529227123,
+      "width": 1600,
+      "height": 2598.862998837414
+    },
+    "B2": {
+      "path": "D:\\agent-cad\\docs\\e2e\\design-candidates-001\\B2\\plan.svg",
+      "bytes": 144508,
+      "sha256": "562be26610edacdfa14f4255b6ceaba9eff88809988731ee9b62fc8ec6f31935",
+      "line_count": 204,
+      "bounds": [
+        0.0,
+        0.0,
+        388.02297,
+        644.360131
+      ],
+      "counts": {
+        "buildings": 55,
+        "roads": 44,
+        "green": 27,
+        "main_roads": 25,
+        "centerlines": 44
+      },
+      "scale": 3.896676529227123,
+      "width": 1600,
+      "height": 2598.862998837414
+    },
+    "C": {
+      "path": "D:\\agent-cad\\docs\\e2e\\design-candidates-001\\C\\plan.svg",
+      "bytes": 139692,
+      "sha256": "ddc3ad5418fd4fbe4c6fb2e07547fb2b150d7b524fa8da21b827cdf78b6e9753",
+      "line_count": 205,
+      "bounds": [
+        0.0,
+        0.0,
+        388.02297,
+        644.360131
+      ],
+      "counts": {
+        "buildings": 55,
+        "roads": 44,
+        "green": 28,
+        "main_roads": 25,
+        "centerlines": 44
+      },
+      "scale": 3.896676529227123,
+      "width": 1600,
+      "height": 2598.862998837414
+    }
+  }
+}
