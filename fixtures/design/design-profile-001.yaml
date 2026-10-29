@@ -96,6 +96,10 @@ layers:
     color: 94
     linetype: CONTINUOUS
     lineweight: 18
+  L-OPEN-SPACE:
+    color: 8
+    linetype: CONTINUOUS
+    lineweight: 13
   ANNO-DIM:
     color: 7
     linetype: CONTINUOUS

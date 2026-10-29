@@ -239,14 +239,16 @@ def test_contract_v9_verification_rules_declare_full_site_rules():
     assert "main-road/building overlap must be at most 0.01 m2 after alignment" in rules
     assert "dead_end_resolution is a pass only when every dead end is resolved" in rules
     assert "the declared access terminal must lie in the [3.4, 3.5] m centreline band" in rules
-    assert "the full-site geometry checks are pass/fail only when the full-site layout is integrated" in rules
-    assert "all 55 building footprints must lie inside the published site boundary reduced by the declared boundary setback" in rules
+    assert "the full-site geometry checks are pass/fail only when the full-site layout is complete" in rules
+    assert "the layout id set equals the expected building set" in rules
+    assert "all building footprints must lie inside the published site boundary reduced by the declared boundary setback" in rules
     assert "any two building footprints may overlap by at most 0.01 m2" in rules
     assert "under-spacing and over-spacing are both recorded as violations" in rules
     assert "every building footprint must be at least 3.0 m from every road corridor edge" in rules
     assert "an infeasible fixed-road state fails honestly" in rules
-    assert "a shortfall is reported as gap_m2 / gap_ratio" in rules
-    assert "the sketch-evidence cluster/strip green account and the generated full-site designed-green account are separate accounts" in rules
+    assert "DESIGNED_GREEN_RATIO stays deferred until a real designed green layer exists" in rules
+    assert "potential open space is not designed green" in rules
+    assert "the sketch-evidence cluster/strip green account, the potential-open-space account and the unbuilt geometric union are three separate accounts" in rules
     assert "full-site road clearance is deferred until every group is designed" not in rules
 
 
@@ -267,7 +269,7 @@ def test_contract_v9_constraints_include_full_site_names():
     rules = " | ".join(_load(V9)["constraints"]["rules"])
     assert "main-road corridor edges must stay inside the published site boundary within 0.01 m" in rules
     assert "main-road alignment is recorded as evidence" in rules
-    assert "designed_green_ratio is a pass/fail check against the declared target" in rules
+    assert "designed_green_ratio stays deferred until a real designed green layer exists" in rules
     assert "the declared 20.0 m north-south row rhythm has a 0.01 m tolerance" in rules
     assert "the 3.0 m road-corridor clearance uses a floating-point epsilon only" in rules
 

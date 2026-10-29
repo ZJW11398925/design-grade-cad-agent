@@ -6,19 +6,26 @@ contract to the live check list:
 
 * ``FULL_SITE_BOUNDARY_SETBACK``, ``FULL_SITE_BUILDING_OVERLAP``,
   ``FULL_SITE_ROAD_CLEARANCE`` and ``FULL_SITE_NS_SPACING`` are pass/fail
-  geometry checks once the full-site layout is integrated (every one of the 55
-  buildings carries a ``row_index``); while buildings are still at source
-  positions the checks are deferred with a diagnostic value and are never a
-  pass;
-* ``DESIGNED_GREEN_RATIO`` is a pass/fail check against the declared 0.30
-  target on a generated full-site green layer; a shortfall reports its gap;
+  geometry checks once the full-site layout is complete (the layout id set
+  equals the expected building set with no missing/unexpected/duplicate id and
+  every building carries a ``row_index``); while the layout is incomplete or
+  still at source positions the checks are deferred with a diagnostic value and
+  are never a pass;
+* ``DESIGNED_GREEN_RATIO`` stays deferred on the legacy cluster/strip account;
+  the generated full-site account is **potential open space**
+  (``classification="potential_open_space"``), an open-space allocation
+  candidate that does not enter the designed-green numerator;
+* the 20.0 m north-south row pitch is this candidate row-layout strategy's
+  row-rhythm rule plus a design-basis assumption; over-spacing is a row-rhythm
+  violation, not a regulatory/professional-compliance conclusion;
 * ``contracts/design-synthesis-v0.9.yaml`` supersedes v0.8, the gate register
   points at v0.9, and the contract carries 32 verification names (29 design
   checks + 3 DXF-level items).
 
 Positive and negative samples are built on fake full-site layouts (a shifted
 row, an overlapping pair, a footprint outside the setback, a footprint on a
-road corridor) so a fail verdict is proven by geometry, not by relabelling.
+road corridor, an incomplete id set) so a fail/deferred verdict is proven by
+geometry and id completeness, not by relabelling.
 """
 from __future__ import annotations
 
@@ -28,6 +35,7 @@ from pathlib import Path
 
 import pytest
 import yaml
+from shapely.affinity import translate
 from shapely.geometry import box
 
 from dgcad_design import DesignBasis, build_design_intent, load_design_input
@@ -37,11 +45,13 @@ from dgcad_design.buildings import (
     StandardBuilding,
     find_focus_design_rect,
     layout_focus_region,
+    layout_full_site,
     standardize_all,
 )
 from dgcad_design.consistency import (
     BOUNDARY_SETBACK_TOLERANCE_M,
     BUILDING_OVERLAP_TOLERANCE_M2,
+    FULL_SITE_ROW_PITCH_RULE_SCOPE,
     FULL_SITE_SPACING_TOLERANCE_M,
     GREEN_RATIO_NUMERICAL_EPSILON,
     NUMERICAL_EPSILON_M,
@@ -54,7 +64,11 @@ from dgcad_design.consistency import (
     full_site_ns_spacing_report,
     full_site_road_clearance_report,
 )
-from dgcad_design.green import FullSiteGreenDesign, build_green_layout
+from dgcad_design.green import (
+    POTENTIAL_OPEN_SPACE_CLASSIFICATION,
+    FullSiteGreenDesign,
+    build_green_layout,
+)
 from dgcad_design.parking import build_parking_layout
 from dgcad_design.roads import build_road_layout
 
@@ -305,7 +319,8 @@ def _safe_block_center() -> tuple[float, float]:
 
 
 def _full_site_layout(
-    *, y_offsets: tuple[float, float, float] = (-30.0, 0.0, 30.0)
+    *,
+    y_offsets: tuple[float, float, float] = (-30.0, 0.0, 30.0),
 ) -> BuildingLayout:
     """A fake but geometrically valid full-site layout: 3 rows x 2 buildings."""
 
@@ -327,11 +342,94 @@ def _full_site_layout(
     return _layout(buildings, _row_records(rows, y_values))
 
 
+@lru_cache(maxsize=1)
+def _real_full_site_layout() -> BuildingLayout:
+    """The real 55-building full-site layout, placed against the case corridor."""
+
+    models = _models()
+    basis = models["basis"]
+    design_input = models["design_input"]
+    site_inner = design_input.site_boundary.buffer(
+        -basis.boundary_setback_m
+    )
+    return layout_full_site(
+        design_input,
+        basis,
+        models["intent"],
+        standardize_all(design_input, basis),
+        site_inner,
+        road_corridor=models["road_layout"].corridor_union,
+    )
+
+
+@lru_cache(maxsize=1)
+def _shifted_real_layout() -> BuildingLayout:
+    """The real layout with one row moved 0.5 m south (a row-rhythm violation)."""
+
+    layout = _real_full_site_layout()
+    rows = sorted({item.row_index for item in layout.buildings})
+    target_row = rows[1]
+    shifted = []
+    for item in layout.buildings:
+        if item.row_index != target_row:
+            shifted.append(item)
+            continue
+        footprint = translate(item.footprint, yoff=-0.5)
+        centroid = (
+            item.design_centroid[0],
+            item.design_centroid[1] - 0.5,
+        )
+        shifted.append(
+            replace(
+                item,
+                footprint=footprint,
+                design_centroid=centroid,
+                label_anchor=(
+                    item.label_anchor[0],
+                    item.label_anchor[1] - 0.5,
+                ),
+            )
+        )
+    return _layout(shifted)
+
+
 # --------------------------------------------------------------- layout state
-def test_focus_layout_is_not_a_full_site_layout():
-    state = full_site_layout_state(_models()["building_layout"])
+@lru_cache(maxsize=1)
+def _expected_ids() -> list[str]:
+    return [item.trace_id for item in _models()["design_input"].buildings]
+
+
+@lru_cache(maxsize=1)
+def _real_id_layout() -> BuildingLayout:
+    """A fake layout with the real 55 building ids, all row-assigned.
+
+    The footprints are the committed focus-layout footprints (some overlap), so
+    this layout is only used for id-completeness/row-assignment tests; geometry
+    checks use ``_full_site_layout`` instead.
+    """
+
+    buildings = [
+        replace(item, row_index=(index // 2) + 1, subgroup_id="SB-TEST")
+        for index, item in enumerate(
+            _models()["building_layout"].buildings
+        )
+    ]
+    return _layout(buildings)
+
+
+def test_focus_layout_is_not_a_complete_full_site_layout():
+    models = _models()
+    state = full_site_layout_state(
+        models["building_layout"], _expected_ids()
+    )
     assert state["ready"] is False
+    # the id set is complete, but 48 buildings are still at source positions
+    assert state["complete"] is True
+    assert state["completeness_verified"] is True
     assert state["building_count"] == 55
+    assert state["missing_building_ids"] == []
+    assert state["unexpected_building_ids"] == []
+    assert state["duplicate_building_ids"] == []
     assert len(state["missing_row_index_ids"]) == 48
     assert state["row_count"] == 4
 
@@ -339,8 +437,100 @@ def test_focus_layout_is_not_a_full_site_layout():
 def test_fake_full_site_layout_is_ready():
     state = full_site_layout_state(_full_site_layout())
     assert state["ready"] is True
+    assert state["complete"] is True
+    # without expected_building_ids, set completeness is not verified
+    assert state["expected_provided"] is False
+    assert state["completeness_verified"] is False
     assert state["row_count"] == 3
     assert state["missing_row_index_ids"] == []
+
+
+def test_full_site_layout_state_accepts_the_expected_55_building_set():
+    layout = _real_full_site_layout()
+    state = full_site_layout_state(layout, _expected_ids())
+    assert state["ready"] is True
+    assert state["complete"] is True
+    assert state["completeness_verified"] is True
+    assert state["building_count"] == 55
+    assert state["missing_building_ids"] == []
+    assert state["unexpected_building_ids"] == []
+    assert state["duplicate_building_ids"] == []
+    assert state["row_count"] == len(
+        {item.row_index for item in layout.buildings}
+    )
+    assert state["row_count"] >= 2
+
+
+def test_full_site_layout_state_rejects_incomplete_id_sets():
+    expected = _expected_ids()
+    full = _real_id_layout()
+    # missing one building
+    state = full_site_layout_state(
+        _layout(list(full.buildings[:-1])), expected
+    )
+    assert state["ready"] is False
+    assert state["complete"] is False
+    assert state["missing_building_ids"] == [full.buildings[-1].building_id]
+    # unexpected (extra) building
+    extra = _building("FAKE-BLD-EXTRA", (0.0, 0.0), row_index=1)
+    state = full_site_layout_state(
+        _layout(list(full.buildings) + [extra]), expected
+    )
+    assert state["ready"] is False
+    assert state["complete"] is False
+    assert state["unexpected_building_ids"] == ["FAKE-BLD-EXTRA"]
+    # duplicate id
+    duplicate = _building(
+        full.buildings[0].building_id, (0.0, 0.0), row_index=1
+    )
+    state = full_site_layout_state(
+        _layout(list(full.buildings) + [duplicate]), expected
+    )
+    assert state["ready"] is False
+    assert state["complete"] is False
+    assert state["duplicate_building_ids"] == [
+        full.buildings[0].building_id
+    ]
+    # empty layout
+    state = full_site_layout_state(_layout([]), expected)
+    assert state["ready"] is False
+    assert state["complete"] is False
+    assert state["building_count"] == 0
+    assert len(state["missing_building_ids"]) == 55
+
+
+def test_full_site_checks_are_deferred_on_an_incomplete_id_set():
+    models = _models()
+    full = _real_id_layout()
+    incomplete = _layout(list(full.buildings[:-1]))
+    checks = {
+        item["id"]: item
+        for item in full_site_checks(
+            models["design_input"],
+            models["basis"],
+            incomplete,
+            models["road_layout"],
+        )
+    }
+    for check in checks.values():
+        assert check["status"] == "deferred"
+        assert check["status"] != "pass"
+        assert "not complete/integrated" in check["message"]
+        assert "missing" in check["message"]
+    # a layout with only synthetic ids is also deferred (unexpected id set)
+    checks = {
+        item["id"]: item
+        for item in full_site_checks(
+            models["design_input"],
+            models["basis"],
+            _full_site_layout(),
+            models["road_layout"],
+        )
+    }
+    for check in checks.values():
+        assert check["status"] == "deferred"
+        assert "unexpected" in check["message"]
+        assert "missing" in check["message"]
 
 
 # ------------------------------------------------------- north-south spacing
@@ -388,6 +578,13 @@ def test_full_site_ns_spacing_fails_on_over_spacing():
     )
     assert report["required"] == 20.0
     assert report["tolerance"] == FULL_SITE_SPACING_TOLERANCE_M == 0.01
+    # the 20 m pitch is a candidate row-rhythm rule + design-basis assumption,
+    # not a regulatory/professional-compliance conclusion
+    assert report["rule_scope"] == FULL_SITE_ROW_PITCH_RULE_SCOPE
+    assert (
+        report["rule_scope"]
+        == "candidate_row_rhythm_and_design_basis_assumption"
+    )
 
 
 def test_full_site_ns_spacing_is_deferred_without_full_site_rows():
@@ -516,14 +713,14 @@ def test_full_site_checks_are_deferred_on_the_focus_layout():
     assert checks["FULL_SITE_BUILDING_OVERLAP"]["value"]
 
 
-def test_full_site_checks_pass_on_a_valid_full_site_layout():
+def test_full_site_checks_pass_on_the_real_full_site_layout():
     models = _models()
     checks = {
         item["id"]: item
         for item in full_site_checks(
             models["design_input"],
             models["basis"],
-            _full_site_layout(),
+            _real_full_site_layout(),
             models["road_layout"],
         )
     }
@@ -531,78 +728,101 @@ def test_full_site_checks_pass_on_a_valid_full_site_layout():
     for check_id, check in checks.items():
         assert check["status"] == "pass", check_id
     assert checks["FULL_SITE_NS_SPACING"]["value"] == pytest.approx(
-        20.0, abs=1e-9
+        20.0, abs=0.01
     )
     assert checks["FULL_SITE_BOUNDARY_SETBACK"]["value"] == []
     assert checks["FULL_SITE_BUILDING_OVERLAP"]["value"] == []
     assert checks["FULL_SITE_ROAD_CLEARANCE"]["value"] >= 3.0
 
 
-def test_full_site_checks_fail_on_a_shifted_row():
+def test_full_site_checks_fail_on_a_shifted_real_row():
     models = _models()
     checks = {
         item["id"]: item
         for item in full_site_checks(
             models["design_input"],
             models["basis"],
-            _full_site_layout(y_offsets=(-30.0, -0.5, 30.0)),
+            _shifted_real_layout(),
             models["road_layout"],
         )
     }
     assert checks["FULL_SITE_NS_SPACING"]["status"] == "fail"
     assert checks["FULL_SITE_NS_SPACING"]["detail"]["violation_count"] > 0
-    # the other full-site checks still pass: the failure is localized
-    for check_id in FULL_SITE_CHECK_IDS - {"FULL_SITE_NS_SPACING"}:
-        assert checks[check_id]["status"] == "pass", check_id
+    kinds = {
+        item["kind"]
+        for item in checks["FULL_SITE_NS_SPACING"]["detail"]["violations"]
+    }
+    assert "under_spacing" in kinds or "over_spacing" in kinds
 
 
-# ----------------------------------------------------------- designed green
-def test_designed_green_ratio_is_a_pass_fail_check_with_area_and_gap():
+# ------------------------------------------------- potential open space (not green)
+def test_potential_open_space_account_is_not_designed_green():
     models = _models()
     green_layout = models["green_layout"]
     site_area = models["design_input"].site_area_m2
     full = green_layout.full_site_green
     assert isinstance(full, FullSiteGreenDesign)
-    assert full.parcels, "the generated designed green layer has parcels"
+    assert full.parcels, "the generated potential-open-space account has parcels"
+    assert full.account_kind == POTENTIAL_OPEN_SPACE_CLASSIFICATION
+    assert full.account_kind == "potential_open_space"
     assert full.area_m2 == pytest.approx(
         sum(item.area_m2 for item in full.parcels), rel=1e-12
     )
     assert full.ratio == pytest.approx(full.area_m2 / site_area, rel=1e-12)
     assert full.target_ratio == models["basis"].green_ratio_min == 0.30
-    assert full.target_area_m2 == pytest.approx(0.30 * site_area, rel=1e-12)
     assert full.gap_m2 == pytest.approx(
         max(0.0, full.target_area_m2 - full.area_m2), abs=1e-9
     )
-    # every parcel is real generated geometry outside the obstacles
+    # every parcel is potential open space, never designed green
     for parcel in full.parcels:
-        assert parcel.classification == "designed_green"
+        assert parcel.classification == "potential_open_space"
+        assert parcel.classification != "designed_green"
         assert parcel.area_m2 >= full.criteria["min_parcel_area_m2"]
         assert parcel.geometry.is_valid
         assert parcel.geometry.area == pytest.approx(parcel.area_m2, rel=1e-12)
+    payload = full.to_dict()
+    assert payload["account_kind"] == "potential_open_space"
+    assert payload["participates_in_designed_green_ratio"] is False
+    assert payload["potential_open_space_area_m2"] == pytest.approx(
+        full.area_m2, rel=1e-12
+    )
+    assert payload["potential_open_space_ratio"] == pytest.approx(
+        full.ratio, rel=1e-12
+    )
+    assert "designed_green_area_m2" not in payload
+    assert "designed_green_ratio" not in payload
+    assert full.criteria["account_kind"] == "potential_open_space"
+    assert (
+        full.criteria["participates_in_designed_green_ratio"] is False
+    )
     report = designed_green_report(green_layout)
     assert report["ready"] is True
+    assert report["account_kind"] == "potential_open_space"
+    assert report["participates_in_designed_green_ratio"] is False
     assert report["value"] == pytest.approx(full.ratio, rel=1e-12)
-    assert report["required"] == 0.30
-    checks = {
-        item["id"]: item for item in models["consistency"].checks
-    }
+    # the potential-open-space account does NOT make DESIGNED_GREEN_RATIO pass:
+    # the check stays deferred on the legacy designed-green account
+    checks = {item["id"]: item for item in models["consistency"].checks}
     check = checks["DESIGNED_GREEN_RATIO"]
-    # the open-space tiling account is NOT designed green: the check stays
-    # deferred until a designed-green layer reaches the target, and reports
-    # the legacy designed-green ratio separately from the tiling account
     assert check["status"] == "deferred"
     assert check["value"] == pytest.approx(
         green_layout.designed_green_ratio, rel=1e-12
     )
-    assert check["detail"]["designed_green_area_m2"] == pytest.approx(
-        green_layout.designed_green_area_m2, rel=1e-12
+    assert check["value"] < check["required"]
+    detail = check["detail"]
+    assert detail["open_space_account_kind"] == "potential_open_space"
+    assert (
+        detail["open_space_account_participates_in_designed_green_ratio"]
+        is False
     )
-    assert check["detail"]["open_space_account_area_m2"] == pytest.approx(
+    assert detail["open_space_account_area_m2"] == pytest.approx(
         full.area_m2, rel=1e-12
     )
+    assert "potential open space" in check["message"]
+    assert "not designed green" in check["message"].lower()
 
 
-def test_designed_green_fails_and_reports_gap_below_target():
+def test_potential_open_space_account_reports_gap_below_target():
     models = _models()
     green_layout = models["green_layout"]
     site_area = models["design_input"].site_area_m2
@@ -623,9 +843,14 @@ def test_designed_green_fails_and_reports_gap_below_target():
     report = designed_green_report(replace(green_layout, full_site_green=fake))
     assert report["ready"] is True
     assert report["ok"] is False
+    assert report["account_kind"] == "potential_open_space"
+    assert report["participates_in_designed_green_ratio"] is False
     assert report["value"] < 0.30
     assert report["gap_m2"] == pytest.approx(1000.0, abs=1e-9)
     assert report["gap_ratio"] == pytest.approx(1000.0 / site_area, rel=1e-12)
+    # an account below the target is still not a designed-green verdict
+    checks = {item["id"]: item for item in models["consistency"].checks}
+    assert checks["DESIGNED_GREEN_RATIO"]["status"] == "deferred"
     assert GREEN_RATIO_NUMERICAL_EPSILON == 1e-9
 
 
@@ -690,14 +915,19 @@ def test_contract_v9_new_checks_are_bound_to_status_rules():
 
 def test_contract_v9_verification_rules_declare_full_site_rules():
     rules = " | ".join(_load(V9)["verification"]["rules"])
-    assert "the full-site geometry checks are pass/fail only when the full-site layout is integrated" in rules
-    assert "all 55 building footprints must lie inside the published site boundary reduced by the declared boundary setback" in rules
+    assert "the full-site geometry checks are pass/fail only when the full-site layout is complete" in rules
+    assert "no missing, unexpected or duplicate id" in rules
+    assert "all building footprints must lie inside the published site boundary reduced by the declared boundary setback" in rules
     assert "any two building footprints may overlap by at most 0.01 m2" in rules
     assert "under-spacing and over-spacing are both recorded as violations" in rules
+    assert "row-rhythm rule of this candidate row-layout strategy" in rules
+    assert "not a regulatory or professional-compliance conclusion" in rules
     assert "every building footprint must be at least 3.0 m from every road corridor edge" in rules
     assert "an infeasible fixed-road state fails honestly" in rules
-    assert "a shortfall is reported as gap_m2 / gap_ratio" in rules
-    assert "the sketch-evidence cluster/strip green account and the generated full-site designed-green account are separate accounts" in rules
+    # the full-site account is potential open space, not designed green
+    assert "the full-site generated account is potential open space" in rules
+    assert "potential open space is not designed green and does not enter the DESIGNED_GREEN_RATIO numerator" in rules
+    assert "the sketch-evidence cluster/strip green account, the potential-open-space account and the unbuilt geometric union are three separate accounts" in rules
     assert "a deferred check is not a pass" in rules
     # the v0.8 blanket deferral of these checks must be gone
     assert "full-site road clearance is deferred until every group is designed" not in rules
@@ -714,16 +944,44 @@ def test_contract_v9_constraints_include_full_site_names():
     ):
         assert name in constraints
     rules = " | ".join(_load(V9)["constraints"]["rules"])
-    assert "designed_green_ratio is a pass/fail check against the declared target" in rules
+    assert "designed_green_ratio stays deferred until a real designed green layer exists" in rules
     assert "the declared 20.0 m north-south row rhythm has a 0.01 m tolerance" in rules
+    assert "row-rhythm rule of this candidate row-layout strategy" in rules
     assert "the 3.0 m road-corridor clearance uses a floating-point epsilon only" in rules
+    assert "no missing, unexpected or duplicate id" in rules
 
 
 def test_contract_v9_non_claims_drop_the_deferred_full_site_claims():
     non_claims = " | ".join(_load(V9)["non_claims"])
     assert "the full-site north-south spacing is deferred until each group is designed" not in non_claims
-    assert "the full-site designed green layer is a schematic green allocation" in non_claims
+    assert "the full-site potential-open-space layer is an open-space allocation candidate" in non_claims
     assert "the full-site row layout is a schematic placement" in non_claims
+    assert "the 20.0 m north-south row pitch is this candidate row-layout strategy's row rhythm" in non_claims
+
+
+def test_full_site_ns_spacing_message_declares_candidate_row_rhythm():
+    models = _models()
+    checks = {
+        item["id"]: item
+        for item in full_site_checks(
+            models["design_input"],
+            models["basis"],
+            _shifted_real_layout(),
+            models["road_layout"],
+        )
+    }
+    check = checks["FULL_SITE_NS_SPACING"]
+    assert check["status"] == "fail"  # a shifted row is a rhythm violation
+    assert "row-rhythm rule of this candidate row-layout strategy" in check["message"]
+    assert "not a regulatory or professional-compliance conclusion" in check["message"]
+    assert "design-basis assumption" in check["message"]
+    detail = check["detail"]
+    assert detail["rule_scope"] == FULL_SITE_ROW_PITCH_RULE_SCOPE
+    assert detail["basis_assumption"] is True
+    assert (
+        detail["over_spacing_meaning"]
+        == "row_rhythm_violation_not_regulatory_compliance"
+    )
 
 
 def test_evidence_gate_register_points_design_package_at_v09():

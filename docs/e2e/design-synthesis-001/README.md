@@ -33,7 +33,7 @@ design-diff alignment/dead-end records, `criterion_met`-verified dead-end
 resolutions and regenerated preview/overlay are published. The base draft now
 has **29 checks = 9 pass + 11 info + 9 deferred (+3 DXF = 32)** under
 `design-synthesis-v0.9` (v0.8 superseded), **58 nodes / 68 edges / cyclomatic
-11**, DXF **211 entities** and **467 tests**. `DESIGNED_GREEN_RATIO` is
+11**, DXF **211 entities** and **472 tests**. `DESIGNED_GREEN_RATIO` is
 **deferred** (designed green 6.54% <30%; the 61.46% open-space tiling is
 auxiliary only, not designed green); the four `FULL_SITE_*` checks (boundary
 setback, building overlap, N-S spacing, road clearance) remain **deferred on
@@ -279,19 +279,23 @@ layout was exercised separately in `docs/e2e/design-synthesis-full-site-001/`:
 all **55 buildings / 109 units / 2,398 households** in **18 rows / 36 row
 records / 8 superblocks** against the frozen 44-road network, with
 `FULL_SITE_BOUNDARY_SETBACK`, `FULL_SITE_BUILDING_OVERLAP`,
-`FULL_SITE_NS_SPACING` (min 19.999999999999943 m) and
-`FULL_SITE_ROAD_CLEARANCE` (min 3.0163622902759215 m) passing;
-`DESIGNED_GREEN_RATIO` is **deferred** (designed green **15.93%** <30%; the
-0.6105795566533792 / 124,633.20046173329 m² / 10 parcels open-space tiling is
-auxiliary only), and **`ROAD_ACCESS_COVERAGE` fails 0.0 (17 relation errors)**
-while **`DEAD_END_RESOLUTION` fails 17 unresolved**. The frozen network plus old
-access declarations make access and clearance mutually incompatible, so the
-full-site sheet is a research draft, not canonical. The focus sheet keeps those
-four `FULL_SITE_*` checks deferred.
+`FULL_SITE_NS_SPACING` (min 19.999999999999943 m; the 20 m rule is the
+candidate row-rhythm + design-basis assumption, not a universal/regulatory
+constraint) and `FULL_SITE_ROAD_CLEARANCE` (min 3.0163622902759215 m)
+passing; `DESIGNED_GREEN_RATIO` is **deferred** (designed green **15.93%**
+<30%; the 61.06% account is `POTENTIAL OPEN SPACE ... NOT LANDSCAPE DESIGN`
+on `L-OPEN-SPACE`, auxiliary only), and **`ROAD_ACCESS_COVERAGE` fails 0.0 (17
+relation errors)** while **`DEAD_END_RESOLUTION` fails 17 unresolved**. Under
+the fixed network / uniform row grid / current search family, caps 25–130 m
+found no complete layout; the unbounded search produced the 147.25 m candidate,
+not a proven global minimum. The full-site DXF is **553 entities/readback
+553/553** with title `DESIGNED GREEN 15.93% - INCOMPLETE`; the focus sheet keeps
+four `FULL_SITE_*` checks deferred and remains canonical. 3.016362 /
+19.999999999999943 are model-coordinate internal consistency, not survey-grade.
 
 ## Plan and CAD output
 
-`design-proposal.dxf` (**211 entities** in the Phase-0 base; was 206 in 0.20.0 and 208 before M4c-1b; audit 0/0, readback 211/211 pass). Phase 0 changed the content (boundary repairs/alignment; still 211 entities); the file byte SHA-256 also changes per save because ezdxf regenerates `$TDUPDATE`/GUIDs (0.19.0 `34a65926…`, 0.20.0 `fcc42d32…`, 0.21.0 `0f76c006…`, 0.22.0 `65fde1ca…`, 0.23.0 `f88c29e1…`, current 0.24.0 `1cb17865…`) — compare content, not bytes. The full-site experiment has its own **547-entity** DXF (`full-site-proposal.dxf`, SHA-256 `4041be6f…`).
+`design-proposal.dxf` (**211 entities** in the Phase-0 base; was 206 in 0.20.0 and 208 before M4c-1b; audit 0/0, readback 211/211 pass). Phase 0 changed the content (boundary repairs/alignment; still 211 entities); the file byte SHA-256 also changes per save because ezdxf regenerates `$TDUPDATE`/GUIDs (0.19.0 `34a65926…`, 0.20.0 `fcc42d32…`, 0.21.0 `0f76c006…`, 0.22.0 `65fde1ca…`, 0.23.0 `f88c29e1…`, current 0.24.1 `1cb17865…`) — compare content, not bytes. The full-site experiment has its own **553-entity** DXF (`full-site-proposal.dxf`, SHA-256 `d86ba8d2…`).
 
 - layers: site boundary, building outline, unit line, main/branch/access road,
   sidewalk, green, entrance, dimensions, title, legend, north, scale, key plan;

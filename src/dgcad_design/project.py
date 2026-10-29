@@ -931,6 +931,7 @@ def _full_site_metrics(
         "road_groups_served": road_access.groups_served,
         "road_groups_total": road_access.groups_total,
         "road_access_relation_error_count": len(road_access.relation_errors),
+        "dead_ends_unresolved": road_access.dead_ends_unresolved,
         "unbuilt_ratio": green_layout.unbuilt_ratio,
         "candidate_open_space_ratio": (
             green_layout.candidate_open_space_ratio
@@ -946,19 +947,40 @@ def _full_site_metrics(
     if full_site_green is not None:
         metrics.update(
             {
-                "full_site_green_parcel_count": len(
-                    full_site_green.parcels
-                ),
+                "full_site_green_parcel_count": len(green_layout.greens),
                 "full_site_designed_green_area_m2": (
-                    full_site_green.area_m2
+                    green_layout.designed_green_area_m2
                 ),
-                "full_site_designed_green_ratio": full_site_green.ratio,
-                "full_site_green_target_ratio": (
-                    full_site_green.target_ratio
+                "full_site_designed_green_ratio": (
+                    green_layout.designed_green_ratio
                 ),
-                "full_site_green_gap_m2": full_site_green.gap_m2,
+                "full_site_green_target_ratio": green_layout.target_ratio,
+                "full_site_green_gap_m2": max(
+                    0.0,
+                    green_layout.target_ratio
+                    * (
+                        green_layout.designed_green_area_m2
+                        / green_layout.designed_green_ratio
+                    )
+                    - green_layout.designed_green_area_m2,
+                )
+                if green_layout.designed_green_ratio
+                else None,
                 "full_site_green_account_kind": (
                     "open_space_tiling_auxiliary_not_designed_green"
+                ),
+                "full_site_open_space_account_area_m2": (
+                    full_site_green.area_m2
+                ),
+                "full_site_open_space_account_ratio": full_site_green.ratio,
+                "full_site_open_space_account_target_ratio": (
+                    full_site_green.target_ratio
+                ),
+                "full_site_open_space_account_gap_m2": (
+                    full_site_green.gap_m2
+                ),
+                "full_site_open_space_account_parcel_count": len(
+                    full_site_green.parcels
                 ),
             }
         )
@@ -1186,10 +1208,12 @@ def _full_site_non_claims(
             "because the full-site layout engine is not available or did not fit",
         )
     if metrics:
-        if metrics.get("full_site_designed_green_ratio") is not None:
+        if metrics.get("full_site_open_space_account_ratio") is not None:
             claims.append(
-                "the designed-green parcels are a schematic allocation of the "
-                "open space left by buildings and roads, not a landscape design"
+                "the full-site potential-open-space account is an open-space "
+                "allocation candidate outside buildings and roads, not designed "
+                "green and not a landscape design; the designed-green ratio is "
+                "reported separately and is below the declared target"
             )
         if metrics.get("road_access_coverage", 1.0) < 1.0:
             claims.append(
@@ -1313,9 +1337,25 @@ def run_full_site_evidence(
                     "full_site_green_target_ratio"
                 ),
                 "gap_m2": metrics.get("full_site_green_gap_m2"),
-                "account_kind": (
-                    "open_space_tiling_auxiliary_not_designed_green"
-                ),
+                "account_kind": "designed_green",
+                "open_space_account": {
+                    "account_kind": "potential_open_space",
+                    "area_m2": metrics.get(
+                        "full_site_open_space_account_area_m2"
+                    ),
+                    "ratio": metrics.get(
+                        "full_site_open_space_account_ratio"
+                    ),
+                    "target_ratio": metrics.get(
+                        "full_site_open_space_account_target_ratio"
+                    ),
+                    "gap_m2": metrics.get(
+                        "full_site_open_space_account_gap_m2"
+                    ),
+                    "parcel_count": metrics.get(
+                        "full_site_open_space_account_parcel_count"
+                    ),
+                },
                 "note": (
                     "this block is an open-space tiling account (parcels "
                     "outside buildings/roads/sidewalks); it is NOT designed "

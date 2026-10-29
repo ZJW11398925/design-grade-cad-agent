@@ -20,11 +20,15 @@ purpose: >-
   are placed in global rows (row_index ascending y) and the full-site geometry
   is verified as pass/fail against the declared constraints - boundary setback,
   pairwise building overlap, north-south row spacing and road-corridor
-  clearance - while the full-site layout is integrated. A full-site designed
-  green layer is generated outside buildings, road corridors and sidewalks and
-  the declared green target is verified with an explicit gap when it is missed.
-  A check whose geometry does not exist yet (the full-site layout is not
-  integrated) stays deferred and is never a pass.
+  clearance), and the full-site layout id set is verified against the expected
+  building set (no missing, unexpected or duplicate id) before any full-site
+  check can pass or fail. A full-site **potential-open-space** account (an
+  open-space allocation candidate outside buildings, road corridors and
+  sidewalks) is generated and reported as an auxiliary diagnostic; it is not
+  designed green, it does not enter the DESIGNED_GREEN_RATIO numerator, and the
+  declared green target stays deferred until a real designed green layer is
+  generated. A check whose geometry does not exist yet (the full-site layout is
+  not complete/integrated) stays deferred and is never a pass.
 
 states:
   source_evidence:
@@ -137,14 +141,14 @@ constraints:
   rules:
     - "a hard constraint failure blocks the draft from being presented as complete"
     - "full-site constraints that have no full-site geometry yet are recorded as deferred, not as pass"
-    - "designed_green_ratio is a pass/fail check against the declared target; a miss reports its gap and is a failure, never a deferred pass"
+    - "designed_green_ratio stays deferred until a real designed green layer exists; the generated full-site account is potential open space (an open-space allocation candidate) and does not enter its numerator, and a deferred check is never a pass"
     - "parking_capacity may be deferred, but a deferred check is never a pass"
     - "the Agent may change building, road, green and parking organization to satisfy the constraints"
     - "dropped or moved objects are recorded in the design diff, never silently deleted"
     - "road connectivity is measured on the noded centreline graph; the corridor union is coverage, not connectivity"
     - "far is a basis arithmetic scenario; far_final_verification is deferred until the basis is confirmed"
-    - "the full-site boundary setback, building overlap, north-south row spacing and road clearance are pass/fail checks once the full-site layout is integrated (every building carries a row_index); before that they are deferred with a diagnostic measurement"
-    - "the declared 20.0 m north-south row rhythm has a 0.01 m tolerance; under-spacing and over-spacing are both violations"
+    - "the full-site boundary setback, building overlap, north-south row spacing and road clearance are pass/fail checks once the full-site layout is complete (the layout id set equals the expected building set with no missing, unexpected or duplicate id, and every building carries a row_index); before that they are deferred with a diagnostic measurement"
+    - "the declared 20.0 m north-south row rhythm has a 0.01 m tolerance; under-spacing and over-spacing are both violations. This 20.0 m row pitch is the row-rhythm rule of this candidate row-layout strategy and a design-basis assumption, so an over-spacing verdict is a row-rhythm violation, not a regulatory or professional-compliance conclusion"
     - "the 3.0 m road-corridor clearance uses a floating-point epsilon only (1e-9 m); the requirement is never reduced and an infeasible fixed-road state fails honestly"
     - "road access coverage, entrance proximity, driveway connection, dead-end justification/resolution, main-road overlap, road alignment evidence and full-site road clearance are access checks; an unserved group or an unresolved dead end is reported, never silently dropped"
     - "main-road alignment is recorded as evidence and must remove the building overlap (at most 0.01 m2); dead-end resolutions must reach 0 unresolved; main-road corridor edges must stay inside the published site boundary within 0.01 m"
@@ -288,14 +292,14 @@ verification:
     - "road_alignment_evidence is informational: it records the adjusted main-road count and per-road displacement and is not a gate"
     - "main alignment must not change the declared access service relations or the [3.4, 3.5] m terminal band"
     - "no road may be silently deleted: road ids are preserved and any removal is declared through the resolution record"
-    - "the full-site geometry checks are pass/fail only when the full-site layout is integrated (every one of the 55 buildings carries a row_index); while any building is still at its source position they are deferred with a diagnostic value and are never a pass"
-    - "all 55 building footprints must lie inside the published site boundary reduced by the declared boundary setback, tolerance 0.01 m"
+    - "the full-site geometry checks are pass/fail only when the full-site layout is complete (the layout id set equals the expected building set with no missing, unexpected or duplicate id, and every one of the buildings carries a row_index); while any building is still at its source position or the id set is incomplete they are deferred with a diagnostic value and are never a pass"
+    - "all building footprints must lie inside the published site boundary reduced by the declared boundary setback, tolerance 0.01 m"
     - "any two building footprints may overlap by at most 0.01 m2; the offending pairs and their overlap areas are recorded"
-    - "adjacent full-site rows (global row_index ascending y) must keep the declared 20.0 m north-south spacing within 0.01 m between x-overlapping footprints; under-spacing and over-spacing are both recorded as violations and the tolerance is never widened"
+    - "adjacent full-site rows (global row_index ascending y) must keep the declared 20.0 m north-south spacing within 0.01 m between x-overlapping footprints; under-spacing and over-spacing are both recorded as violations and the tolerance is never widened. This 20.0 m row pitch is the row-rhythm rule of this candidate row-layout strategy and a design-basis assumption: over-spacing is a row-rhythm violation, not a regulatory or professional-compliance conclusion"
     - "every building footprint must be at least 3.0 m from every road corridor edge (the corridor union as designed; roads are fixed); the minimum measured clearance, the achievable uniform clearance and every violating building/road pair are recorded, and an infeasible fixed-road state fails honestly"
-    - "the full-site designed green ratio is the generated green-parcel area divided by the published site area; the declared target is 0.30, a shortfall is reported as gap_m2 / gap_ratio, and the check fails when the target is missed"
-    - "the full-site designed green layer is generated outside all building footprints, road corridors and sidewalks with the declared obstacle buffer, minimum parcel area and minimum parcel width; narrower or smaller leftovers are residual open space and are not counted as green"
-    - "the sketch-evidence cluster/strip green account and the generated full-site designed-green account are separate accounts; neither is the unbuilt geometric union"
+    - "the full-site generated account is potential open space (classification potential_open_space): an open-space allocation candidate outside all building footprints, road corridors and sidewalks with the declared obstacle buffer, minimum parcel area and minimum parcel width; narrower or smaller leftovers are residual open space"
+    - "potential open space is not designed green and does not enter the DESIGNED_GREEN_RATIO numerator; DESIGNED_GREEN_RATIO stays deferred until a real designed green layer exists and reports the legacy cluster/strip designed-green ratio separately from the potential-open-space account"
+    - "the sketch-evidence cluster/strip green account, the potential-open-space account and the unbuilt geometric union are three separate accounts; none of them is a landscape design"
     - "parking entrance proximity is not a driveway connection; driveway geometry is deferred"
     - "access is a declared geometric relation, not a proximity guess"
 
@@ -307,5 +311,6 @@ non_claims:
   - "road corridors are schematic, not professional alignment"
   - "the garage layout is not designed"
   - "the full-site row layout is a schematic placement, not an architectural or fire-access layout"
-  - "the full-site designed green layer is a schematic green allocation, not a landscape design; no continuity, usability, planting or green-quality criterion is claimed"
+  - "the full-site potential-open-space layer is an open-space allocation candidate, not designed green or a landscape design; no continuity, usability, planting or green-quality criterion is claimed"
+  - "the 20.0 m north-south row pitch is this candidate row-layout strategy's row rhythm plus a design-basis assumption, not a code or professional-standard requirement"
   - "EP-R1-SKETCH-001 is not complete"

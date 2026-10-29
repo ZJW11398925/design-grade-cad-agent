@@ -20,21 +20,29 @@ OPEN_SPACE_FILTERS = {
     "min_supplementary_polygon_m2": 100.0,
 }
 
-#: Rules behind the *full-site designed green* account.  The designed green
-#: layer is generated as disjoint parcels of the open space that is left after
-#: all building footprints, road corridors and sidewalks are removed (plus the
-#: declared obstacle buffer).  A parcel is designed green only if it is large
-#: enough and wide enough to be a usable green area; narrower or smaller
-#: leftovers stay in ``residual_open_space_area_m2`` and are not counted.
-#: These are a schematic allocation rule, not a landscape design: no plaza,
-#: hardscape, path, planting-species, continuity or green-quality criterion is
-#: claimed.
-FULL_SITE_GREEN_CRITERIA = {
+#: Rules behind the *full-site potential-open-space* account.  The account is
+#: generated as disjoint parcels of the open space that is left after all
+#: building footprints, road corridors and sidewalks are removed (plus the
+#: declared obstacle buffer).  A parcel is potential open space only if it is
+#: large enough and wide enough to be a usable open-space allocation; narrower
+#: or smaller leftovers stay in ``residual_open_space_area_m2`` and are not
+#: counted.
+#:
+#: This is an *open-space allocation candidate*, NOT designed green: no plaza,
+#: hardscape, path, planting, continuity or green-quality criterion is claimed,
+#: and the account never enters the DESIGNED_GREEN_RATIO numerator.
+FULL_SITE_OPEN_SPACE_CRITERIA = {
     "boundary_setback_m": 5.0,
     "obstacle_buffer_m": 0.5,
     "min_parcel_area_m2": 100.0,
     "min_parcel_width_m": 3.0,
 }
+
+#: Classification of every parcel in the full-site potential-open-space account.
+#: It is deliberately not ``designed_green``: the account is a schematic
+#: open-space allocation candidate and is reported as an auxiliary diagnostic.
+POTENTIAL_OPEN_SPACE_CLASSIFICATION = "potential_open_space"
+
 
 
 def _geometry_payload(geometry) -> dict[str, Any]:
@@ -84,19 +92,22 @@ class GreenDesign:
 
 @dataclass(frozen=True)
 class FullSiteGreenDesign:
-    """Generated full-site designed-green account (all 55 buildings / 44 roads).
+    """Generated full-site potential-open-space account (all buildings / roads).
 
     ``parcels`` are disjoint polygons of the open space left after removing all
     building footprints, road corridors and sidewalks (plus the declared
     obstacle buffer) and after dropping parcels that are too small or too
-    narrow to be usable green.  ``area_m2`` is the sum of the parcel areas;
-    ``ratio`` uses the published site area as denominator (the same denominator
-    as the candidate and unbuilt accounts).  ``gap_m2`` is the shortfall to the
-    declared ``target_ratio`` and is ``0.0`` only when the target is met.
+    narrow to be a usable open-space allocation.  ``area_m2`` is the sum of the
+    parcel areas; ``ratio`` uses the published site area as denominator (the
+    same denominator as the candidate and unbuilt accounts).  ``gap_m2`` is the
+    shortfall to the declared ``target_ratio`` and is ``0.0`` only when the
+    target is met.
 
-    This is a schematic *allocation* of open space as green parcels.  It is not
-    a landscape design and claims no continuity, usability, planting or
-    green-quality criterion.
+    This is an **open-space allocation candidate** (``account_kind =
+    "potential_open_space"``), not designed green.  It does not enter the
+    ``DESIGNED_GREEN_RATIO`` numerator, which stays deferred until a real
+    designed green layer exists.  No continuity, usability, planting or
+    green-quality criterion is claimed.
     """
 
     parcels: tuple[GreenDesign, ...]
@@ -109,12 +120,15 @@ class FullSiteGreenDesign:
     residual_area_m2: float
     open_space_area_m2: float
     criteria: dict[str, Any]
+    account_kind: str = POTENTIAL_OPEN_SPACE_CLASSIFICATION
 
     def to_dict(self) -> dict[str, Any]:
         return {
+            "account_kind": self.account_kind,
+            "participates_in_designed_green_ratio": False,
             "parcel_count": len(self.parcels),
-            "designed_green_area_m2": self.area_m2,
-            "designed_green_ratio": self.ratio,
+            "potential_open_space_area_m2": self.area_m2,
+            "potential_open_space_ratio": self.ratio,
             "target_ratio": self.target_ratio,
             "target_area_m2": self.target_area_m2,
             "gap_m2": self.gap_m2,
@@ -146,10 +160,12 @@ class GreenLayout:
     checks, not by this data model.
 
     ``full_site_green`` is a separate, generated full-site account: disjoint
-    designed green parcels of the open space left outside every building
-    footprint, road corridor and sidewalk, with the gap to the declared
-    ``green_ratio_min`` target.  It is not the same account as
-    ``candidate_open_space_*`` or ``unbuilt_*`` and it is not a landscape
+    **potential-open-space** parcels (classification ``potential_open_space``)
+    of the open space left outside every building footprint, road corridor and
+    sidewalk, with the gap to the declared ``green_ratio_min`` target.  It is
+    an open-space allocation candidate, NOT designed green: it does not enter
+    the ``DESIGNED_GREEN_RATIO`` numerator, it is not the same account as
+    ``candidate_open_space_*`` or ``unbuilt_*``, and it is not a landscape
     design.
     """
 
@@ -212,7 +228,7 @@ def _parcel_min_width_ok(polygon: Polygon, min_width_m: float) -> bool:
 
     The erosion test is a conservative usable-width criterion: a parcel that
     disappears after eroding by half the declared minimum width is too narrow
-    to be a designed green parcel and stays in the residual open space.
+    to be a potential-open-space parcel and stays in the residual open space.
     """
 
     if min_width_m <= 0:
@@ -228,19 +244,25 @@ def design_full_site_green(
     *,
     open_space=None,
 ) -> FullSiteGreenDesign:
-    """Generate the full-site designed-green parcels (all buildings / roads).
+    """Generate the full-site potential-open-space parcels (all buildings/roads).
+
+    The function name is kept for API compatibility with the pipeline; the
+    account it returns is **potential open space**, not designed green.
 
     The open space is ``site_boundary.buffer(-boundary_setback)`` minus every
     building footprint, road corridor and sidewalk, minus the declared obstacle
     buffer.  Each connected component that is at least
-    ``FULL_SITE_GREEN_CRITERIA["min_parcel_area_m2"]`` and at least
-    ``FULL_SITE_GREEN_CRITERIA["min_parcel_width_m"]`` wide becomes one designed
-    green parcel with recorded geometry, area and label anchor.  Everything
-    else is reported as residual open space and is **not** counted as green.
+    ``FULL_SITE_OPEN_SPACE_CRITERIA["min_parcel_area_m2"]`` and at least
+    ``FULL_SITE_OPEN_SPACE_CRITERIA["min_parcel_width_m"]`` wide becomes one
+    ``potential_open_space`` parcel with recorded geometry, area and label
+    anchor.  Everything else is reported as residual open space and is **not**
+    counted.
 
     The target ratio is ``basis.green_ratio_min``; the gap to the target is
-    reported as ``gap_m2`` / ``gap_ratio`` and is never hidden.  This function
-    does not widen a tolerance or relabel the unbuilt account as green.
+    reported as ``gap_m2`` / ``gap_ratio`` and is never hidden.  This account
+    is an auxiliary open-space allocation diagnostic: it never enters the
+    ``DESIGNED_GREEN_RATIO`` numerator, and the function does not widen a
+    tolerance or relabel the unbuilt account as green.
     """
 
     site_inner = design_input.site_boundary.buffer(
@@ -256,12 +278,14 @@ def design_full_site_green(
             obstacles.buffer(obstacle_buffer_m)
         )
     criteria = {
+        "account_kind": POTENTIAL_OPEN_SPACE_CLASSIFICATION,
+        "participates_in_designed_green_ratio": False,
         "boundary_setback_m": basis.boundary_setback_m,
         "obstacle_buffer_m": obstacle_buffer_m,
-        "min_parcel_area_m2": FULL_SITE_GREEN_CRITERIA[
+        "min_parcel_area_m2": FULL_SITE_OPEN_SPACE_CRITERIA[
             "min_parcel_area_m2"
         ],
-        "min_parcel_width_m": FULL_SITE_GREEN_CRITERIA[
+        "min_parcel_width_m": FULL_SITE_OPEN_SPACE_CRITERIA[
             "min_parcel_width_m"
         ],
     }
@@ -284,7 +308,7 @@ def design_full_site_green(
             GreenDesign(
                 green_id=f"GREEN-FS-{len(parcels) + 1:03d}",
                 geometry=polygon,
-                classification="designed_green",
+                classification=POTENTIAL_OPEN_SPACE_CLASSIFICATION,
                 area_m2=float(polygon.area),
                 label_anchor=_anchor(polygon),
             )
@@ -305,6 +329,7 @@ def design_full_site_green(
         residual_area_m2=float(residual_area),
         open_space_area_m2=float(open_space.area),
         criteria=criteria,
+        account_kind=POTENTIAL_OPEN_SPACE_CLASSIFICATION,
     )
 
 

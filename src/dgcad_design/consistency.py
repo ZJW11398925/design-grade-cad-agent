@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections import Counter
 from dataclasses import dataclass
 from typing import Any
 
@@ -8,7 +9,11 @@ from shapely.ops import unary_union
 
 from .basis import DesignBasis
 from .buildings import BuildingLayout, row_spacing_report
-from .green import OPEN_SPACE_FILTERS, GreenLayout
+from .green import (
+    OPEN_SPACE_FILTERS,
+    POTENTIAL_OPEN_SPACE_CLASSIFICATION,
+    GreenLayout,
+)
 from .input import DesignInput
 from .intent import DesignIntent
 from .parking import ParkingLayout
@@ -18,9 +23,16 @@ from .access import RoadAccessLayout, build_road_access
 
 
 #: Declared full-site row rhythm tolerance (metre).  The 20.0 m north-south
-#: spacing is a declared design-basis constraint, not a measurement tolerance:
+#: spacing is a declared design-basis assumption, not a measurement tolerance:
 #: under- and over-spacing are both recorded as violations.
 FULL_SITE_SPACING_TOLERANCE_M = 0.01
+#: Scope of the 20.0 m north-south row pitch.  It is the row-rhythm rule of the
+#: candidate row-layout strategy plus a design-basis assumption; an over-spacing
+#: verdict is a row-rhythm violation, not a regulatory or professional
+#: compliance conclusion.
+FULL_SITE_ROW_PITCH_RULE_SCOPE = (
+    "candidate_row_rhythm_and_design_basis_assumption"
+)
 #: Containment tolerance for the boundary-setback check (metre).
 BOUNDARY_SETBACK_TOLERANCE_M = 0.01
 #: Maximum allowed pairwise building-footprint overlap area (m2).
@@ -67,37 +79,69 @@ def _design_subgroups(
 
 def full_site_layout_state(
     building_layout: BuildingLayout,
+    expected_building_ids: list[str] | tuple[str, ...] | set[str] | None = None,
 ) -> dict[str, Any]:
-    """Whether ``building_layout`` is a full-site layout.
+    """Whether ``building_layout`` is a complete full-site layout.
 
-    The full-site layout contract is: every building (all 55) is placed and
-    carries an integer ``row_index`` (global 1-based row ordinal, ascending y)
-    and a ``subgroup_id``.  When the layout is still the focus layout, the 48
-    non-focus buildings sit at their *source* positions with ``row_index is
-    None``; those positions are source evidence, not a full-site design, so the
-    full-site checks must stay deferred instead of passing or failing.
+    The full-site layout contract is: every expected building is placed exactly
+    once and carries an integer ``row_index`` (global 1-based row ordinal,
+    ascending y) and a ``subgroup_id``.
+
+    ``expected_building_ids`` is the completeness reference (``check_design``
+    passes ``design_input.buildings``).  When given, the layout id set must be
+    **exactly** the expected set - no missing, unexpected or duplicate id - or
+    ``ready`` is False and the offending ids are recorded in
+    ``missing_building_ids`` / ``unexpected_building_ids`` /
+    ``duplicate_building_ids``.  When omitted, the structural checks (non-empty,
+    no duplicates, every ``row_index`` present) still run, but set completeness
+    is **not verified** (``completeness_verified`` is False): only passing
+    ``expected_building_ids`` proves the 55-building set.
+
+    A layout that still has the 48 non-focus buildings at their *source*
+    positions (``row_index is None``) is not a full-site design, so the
+    full-site checks stay deferred instead of passing or failing.
     """
 
     buildings = tuple(building_layout.buildings)
-    missing = [
+    ids = [item.building_id for item in buildings]
+    counts = Counter(ids)
+    duplicates = sorted(
+        building_id for building_id, count in counts.items() if count > 1
+    )
+    expected_provided = expected_building_ids is not None
+    expected = (
+        None if expected_building_ids is None else set(expected_building_ids)
+    )
+    actual = set(ids)
+    missing = [] if expected is None else sorted(expected - actual)
+    unexpected = [] if expected is None else sorted(actual - expected)
+    missing_row_index = [
         item.building_id for item in buildings if item.row_index is None
     ]
+    complete = bool(buildings) and not duplicates and not missing and not unexpected
     rows: dict[int, list[Any]] = {}
     for item in buildings:
         if item.row_index is not None:
             rows.setdefault(int(item.row_index), []).append(item)
     return {
-        "ready": bool(buildings) and not missing,
+        "ready": complete and not missing_row_index,
+        "complete": complete,
+        "completeness_verified": expected_provided,
+        "expected_provided": expected_provided,
         "building_count": len(buildings),
+        "duplicate_building_ids": duplicates,
+        "missing_building_ids": missing,
+        "unexpected_building_ids": unexpected,
         "row_count": len(rows),
         "rows": {key: rows[key] for key in sorted(rows)},
-        "missing_row_index_ids": missing,
+        "missing_row_index_ids": missing_row_index,
     }
 
 
 def full_site_ns_spacing_report(
     building_layout: BuildingLayout,
     basis: DesignBasis,
+    expected_building_ids: list[str] | tuple[str, ...] | set[str] | None = None,
 ) -> dict[str, Any]:
     """North-south gap between adjacent global rows, all buildings.
 
@@ -105,12 +149,20 @@ def full_site_ns_spacing_report(
     publishes ``row_index`` ascending y).  For every building pair with a
     positive x-overlap the vertical gap is ``north.miny - south.maxy``; the
     declared rhythm is ``basis.north_south_spacing_m`` and the tolerance is
-    :data:`FULL_SITE_SPACING_TOLERANCE_M`.  Both under-spacing (a hard
-    constraint violation) and over-spacing (a rhythm violation) are recorded;
-    the tolerance is not widened to hide either.
+    :data:`FULL_SITE_SPACING_TOLERANCE_M`.
+
+    The 20.0 m row pitch is the **row-rhythm rule of this candidate row-layout
+    strategy plus a design-basis assumption**; under-spacing is a hard
+    row-rhythm violation and over-spacing is a row-rhythm violation too, but
+    neither is a regulatory or professional-compliance conclusion.  The
+    tolerance is not widened to hide either.
+
+    ``expected_building_ids`` is forwarded to
+    :func:`full_site_layout_state`: without it, layout-set completeness is not
+    verified.
     """
 
-    state = full_site_layout_state(building_layout)
+    state = full_site_layout_state(building_layout, expected_building_ids)
     required = float(basis.north_south_spacing_m)
     if not state["ready"]:
         return {
@@ -119,8 +171,12 @@ def full_site_ns_spacing_report(
             "value": None,
             "required": required,
             "tolerance": FULL_SITE_SPACING_TOLERANCE_M,
+            "rule_scope": FULL_SITE_ROW_PITCH_RULE_SCOPE,
             "row_count": state["row_count"],
             "missing_row_index_ids": state["missing_row_index_ids"],
+            "missing_building_ids": state["missing_building_ids"],
+            "unexpected_building_ids": state["unexpected_building_ids"],
+            "duplicate_building_ids": state["duplicate_building_ids"],
             "row_pairs": [],
             "violations": [],
             "violation_count": 0,
@@ -197,6 +253,7 @@ def full_site_ns_spacing_report(
         "value": min_gap_all,
         "required": required,
         "tolerance": FULL_SITE_SPACING_TOLERANCE_M,
+        "rule_scope": FULL_SITE_ROW_PITCH_RULE_SCOPE,
         "row_count": len(keys),
         "row_pairs": row_pairs,
         "violations": violations,
@@ -363,10 +420,14 @@ def full_site_road_clearance_report(
 def designed_green_report(
     green_layout: GreenLayout,
 ) -> dict[str, Any]:
-    """Full-site designed-green ratio against the declared target.
+    """Full-site potential-open-space account vs the declared green target.
 
-    The account is ``green_layout.full_site_green`` (generated green parcels
-    outside all buildings, road corridors and sidewalks).  A missing account is
+    The account is ``green_layout.full_site_green``: generated
+    **potential-open-space** parcels (classification
+    ``potential_open_space``) outside all buildings, road corridors and
+    sidewalks.  It is an open-space allocation candidate, NOT designed green:
+    it never enters the ``DESIGNED_GREEN_RATIO`` numerator, which stays
+    deferred until a real designed green layer exists.  A missing account is
     reported as not ready and must stay deferred, never pass.
     """
 
@@ -378,6 +439,8 @@ def designed_green_report(
             "ok": None,
             "value": None,
             "required": target,
+            "account_kind": POTENTIAL_OPEN_SPACE_CLASSIFICATION,
+            "participates_in_designed_green_ratio": False,
             "area_m2": None,
             "target_area_m2": None,
             "gap_m2": None,
@@ -392,6 +455,8 @@ def designed_green_report(
         "ok": full.ratio >= target - GREEN_RATIO_NUMERICAL_EPSILON,
         "value": full.ratio,
         "required": target,
+        "account_kind": POTENTIAL_OPEN_SPACE_CLASSIFICATION,
+        "participates_in_designed_green_ratio": False,
         "area_m2": full.area_m2,
         "target_area_m2": full.target_area_m2,
         "gap_m2": full.gap_m2,
@@ -400,6 +465,7 @@ def designed_green_report(
         "parcels": [
             {
                 "green_id": item.green_id,
+                "classification": item.classification,
                 "area_m2": item.area_m2,
                 "bounds": list(item.geometry.bounds),
                 "vertex_count": (
@@ -431,15 +497,19 @@ def full_site_checks(
 ) -> tuple[dict[str, Any], ...]:
     """The four full-site geometry checks, in contract order.
 
-    Status rule: ``deferred`` while the full-site layout is not integrated (at
-    least one building still has ``row_index is None``); otherwise ``pass`` /
-    ``fail`` from the measured geometry.  A deferred check records its
-    diagnostic measurement but is never a pass.
+    Status rule: ``deferred`` while the full-site layout is not complete (the
+    layout id set must equal ``design_input.buildings`` exactly - no missing,
+    unexpected or duplicate id - and every building must carry a ``row_index``);
+    otherwise ``pass`` / ``fail`` from the measured geometry.  A deferred check
+    records its diagnostic measurement but is never a pass.
     """
 
-    state = full_site_layout_state(building_layout)
+    expected_ids = [item.trace_id for item in design_input.buildings]
+    state = full_site_layout_state(building_layout, expected_ids)
     ready = bool(state["ready"])
-    spacing = full_site_ns_spacing_report(building_layout, basis)
+    spacing = full_site_ns_spacing_report(
+        building_layout, basis, expected_ids
+    )
     boundary = full_site_boundary_report(
         design_input, basis, building_layout
     )
@@ -447,16 +517,43 @@ def full_site_checks(
     clearance = full_site_road_clearance_report(
         basis, building_layout, road_layout
     )
-    layout_note = (
-        "the full-site layout is not integrated yet: "
-        f"{len(state['missing_row_index_ids'])} of "
-        f"{state['building_count']} buildings carry no row_index (source "
-        "positions are coarse context, not a full-site design), so this check "
-        "is deferred; the measured value is recorded as a diagnostic only and "
-        "is never a pass"
-        if not ready
-        else "full-site layout: every building carries a row_index"
-    )
+    if ready:
+        layout_note = (
+            "full-site layout: the layout id set equals the expected "
+            f"{state['building_count']}-building set and every building "
+            "carries a row_index"
+        )
+    else:
+        reasons: list[str] = []
+        if not state["building_count"]:
+            reasons.append("the layout has no buildings")
+        if state["missing_building_ids"]:
+            reasons.append(
+                f"{len(state['missing_building_ids'])} expected building ids "
+                "are missing"
+            )
+        if state["unexpected_building_ids"]:
+            reasons.append(
+                f"{len(state['unexpected_building_ids'])} unexpected building "
+                "ids are present"
+            )
+        if state["duplicate_building_ids"]:
+            reasons.append(
+                f"{len(state['duplicate_building_ids'])} building ids are "
+                "duplicated"
+            )
+        if state["missing_row_index_ids"]:
+            reasons.append(
+                f"{len(state['missing_row_index_ids'])} of "
+                f"{state['building_count']} buildings carry no row_index "
+                "(source positions are coarse context, not a full-site design)"
+            )
+        layout_note = (
+            "the full-site layout is not complete/integrated yet: "
+            + "; ".join(reasons)
+            + ", so this check is deferred; the measured value is recorded as "
+            "a diagnostic only and is never a pass"
+        )
 
     def _status(report: dict[str, Any]) -> str:
         if not ready:
@@ -534,10 +631,19 @@ def full_site_checks(
                 f"keep {spacing['required']} m +/- "
                 f"{FULL_SITE_SPACING_TOLERANCE_M} m between x-overlapping "
                 "footprints; under-spacing and over-spacing are both recorded "
-                "as violations. " + layout_note
+                "as violations. The 20.0 m row pitch is the row-rhythm rule of "
+                "this candidate row-layout strategy plus a design-basis "
+                "assumption: over-spacing is a row-rhythm violation, not a "
+                "regulatory or professional-compliance conclusion. "
+                + layout_note
             ),
             "detail": {
                 "tolerance_m": spacing["tolerance"],
+                "rule_scope": spacing["rule_scope"],
+                "basis_assumption": True,
+                "over_spacing_meaning": (
+                    "row_rhythm_violation_not_regulatory_compliance"
+                ),
                 "row_count": spacing["row_count"],
                 "row_pairs": spacing["row_pairs"],
                 "violation_count": spacing["violation_count"],
@@ -597,8 +703,15 @@ def check_design(
     ]
     spacing = row_spacing_report(building_layout, basis)
     green_designed = designed_green_report(green_layout)
-    full_site_state = full_site_layout_state(building_layout)
-    full_site_spacing = full_site_ns_spacing_report(building_layout, basis)
+    expected_building_ids = [
+        item.trace_id for item in design_input.buildings
+    ]
+    full_site_state = full_site_layout_state(
+        building_layout, expected_building_ids
+    )
+    full_site_spacing = full_site_ns_spacing_report(
+        building_layout, basis, expected_building_ids
+    )
     full_site_boundary = full_site_boundary_report(
         design_input, basis, building_layout
     )
@@ -1051,14 +1164,16 @@ def check_design(
             "value": green_layout.designed_green_ratio,
             "required": green_layout.target_ratio,
             "message": (
-                "designed green is not designed yet. The full-site tiling "
-                "account is an open-space allocation (parcels outside "
-                "buildings/roads/sidewalks) and is not counted as designed "
-                "green; the existing cluster/strip/supplementary designed "
-                "green ratio is below the declared target 0.30, so the check "
-                "stays deferred. Both accounts are reported in the detail "
-                "(designed_green vs open_space_account); no green-quality, "
-                "landscape or continuity claim is made"
+                "designed green is not designed yet. The full-site account is "
+                "potential open space (classification potential_open_space: an "
+                "open-space allocation candidate outside "
+                "buildings/roads/sidewalks); it is NOT designed green and does "
+                "not enter this check's numerator. The existing "
+                "cluster/strip/supplementary designed green ratio is below the "
+                "declared target 0.30, so the check stays deferred. Both "
+                "accounts are reported in the detail (designed_green vs "
+                "open_space_account); no green-quality, landscape or "
+                "continuity claim is made"
             ),
             "detail": {
                 "designed_green_area_m2": green_layout.designed_green_area_m2,
@@ -1071,6 +1186,10 @@ def check_design(
                     if green_layout.designed_green_ratio
                     else None
                 ),
+                "open_space_account_kind": green_designed["account_kind"],
+                "open_space_account_participates_in_designed_green_ratio": (
+                    green_designed["participates_in_designed_green_ratio"]
+                ),
                 "open_space_account_area_m2": green_designed["area_m2"],
                 "open_space_account_ratio": green_designed["value"],
                 "open_space_account_parcel_count": green_designed[
@@ -1081,8 +1200,9 @@ def check_design(
                     "residual_area_m2"
                 ],
                 "note": (
-                    "the open-space tiling account is published as an "
-                    "auxiliary diagnostic, not as designed green"
+                    "the potential-open-space account is published as an "
+                    "auxiliary open-space allocation diagnostic, not as "
+                    "designed green"
                 ),
             },
         },
@@ -1132,11 +1252,25 @@ def check_design(
         "focus_area_m2": focus_area,
         "focus_min_ns_gap_m": spacing["min_gap_m"],
         "full_site_layout_ready": full_site_state["ready"],
+        "full_site_layout_complete": full_site_state["complete"],
+        "full_site_layout_completeness_verified": full_site_state[
+            "completeness_verified"
+        ],
         "full_site_building_count": full_site_state["building_count"],
+        "full_site_duplicate_building_ids": full_site_state[
+            "duplicate_building_ids"
+        ],
+        "full_site_missing_building_ids": full_site_state[
+            "missing_building_ids"
+        ],
+        "full_site_unexpected_building_ids": full_site_state[
+            "unexpected_building_ids"
+        ],
         "full_site_row_count": full_site_state["row_count"],
         "full_site_missing_row_index_count": len(
             full_site_state["missing_row_index_ids"]
         ),
+        "full_site_row_pitch_rule_scope": full_site_spacing["rule_scope"],
         "full_site_min_ns_gap_m": full_site_spacing["min_gap_m"],
         "full_site_ns_spacing_violation_count": full_site_spacing[
             "violation_count"
@@ -1156,14 +1290,18 @@ def check_design(
         "full_site_sidewalk_overlap_count": len(
             full_site_clearance["sidewalk_overlap_building_ids"]
         ),
-        "full_site_designed_green_area_m2": green_designed["area_m2"],
-        "full_site_designed_green_ratio": green_designed["value"],
-        "full_site_designed_green_target_ratio": green_designed["required"],
-        "full_site_designed_green_gap_m2": green_designed["gap_m2"],
-        "full_site_designed_green_parcel_count": green_designed[
+        "full_site_open_space_account_kind": green_designed["account_kind"],
+        "full_site_open_space_account_participates_in_designed_green_ratio": (
+            green_designed["participates_in_designed_green_ratio"]
+        ),
+        "full_site_open_space_account_area_m2": green_designed["area_m2"],
+        "full_site_open_space_account_ratio": green_designed["value"],
+        "full_site_open_space_account_target_ratio": green_designed["required"],
+        "full_site_open_space_account_gap_m2": green_designed["gap_m2"],
+        "full_site_open_space_account_parcel_count": green_designed[
             "parcel_count"
         ],
-        "full_site_green_residual_area_m2": green_designed[
+        "full_site_open_space_account_residual_area_m2": green_designed[
             "residual_area_m2"
         ],
         "road_area_m2": road_layout.road_area_m2,
@@ -1220,6 +1358,7 @@ def check_design(
             road_layout.source_segment_map
         ),
         "dead_end_unresolved_count": road_access.dead_ends_unresolved,
+        "dead_ends_unresolved": road_access.dead_ends_unresolved,
         "dead_end_resolved_count": len(road_access.dead_end_resolutions),
         "main_road_building_overlap_m2": road_access.main_road_overlap.get(
             "area_m2"

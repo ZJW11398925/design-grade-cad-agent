@@ -107,6 +107,52 @@ def _read_doc(evidence):
     )
 
 
+def _open_space_ratio(metrics) -> float | None:
+    """Auxiliary open-space tiling ratio (renamed during M4d-1a)."""
+    for key in (
+        "full_site_potential_open_space_ratio",
+        "full_site_open_space_account_ratio",
+        "full_site_open_space_ratio",
+        "full_site_designed_green_ratio",
+    ):
+        value = metrics.get(key)
+        if isinstance(value, (int, float)):
+            return float(value)
+    return None
+
+
+def _open_space_target(metrics) -> float | None:
+    for key in (
+        "full_site_green_target_ratio",
+        "full_site_open_space_account_target_ratio",
+        "target_ratio",
+    ):
+        value = metrics.get(key)
+        if isinstance(value, (int, float)):
+            return float(value)
+    return None
+
+
+def _open_space_parcel_count(metrics) -> int | None:
+    for key in (
+        "full_site_open_space_account_parcel_count",
+        "full_site_green_parcel_count",
+    ):
+        value = metrics.get(key)
+        if isinstance(value, int):
+            return value
+    return None
+
+
+def _open_space_block(summary):
+    """The auxiliary potential-open-space account (never the designed-green one)."""
+    block = summary.get("full_site_open_space_account")
+    if block:
+        return block
+    full_site_green = summary.get("full_site_green") or {}
+    return full_site_green.get("open_space_account") or full_site_green
+
+
 def test_full_site_evidence_contains_all_55_buildings(evidence, models):
     summary, output_dir, doc = _read_doc(evidence)
     msp = doc.modelspace()
@@ -239,6 +285,35 @@ def test_full_site_title_block_stays_non_claiming(evidence):
     assert "SHEET A-102" in joined
     assert "human_confirmed" not in joined
     assert "HUMAN_CONFIRMED" not in joined
+
+
+def test_full_site_title_declares_incomplete_green_semantics(evidence):
+    """The sheet must not present the 61% open-space tiling as designed green."""
+    summary, _, doc = _read_doc(evidence)
+    texts = _texts(doc.modelspace())
+    joined = " | ".join(texts)
+    metrics = summary["metrics"]
+    designed = metrics["designed_green_ratio"]
+    potential = _open_space_ratio(metrics)
+    target = _open_space_target(metrics)
+    assert potential is not None
+    assert target is not None
+    # Legacy designed green (cluster+strip) is incomplete, and the sheet says so.
+    assert designed < target
+    assert (
+        f"DESIGNED GREEN {designed * 100:.2f}% - INCOMPLETE" in joined
+    )
+    assert (
+        f"POTENTIAL OPEN SPACE {potential * 100:.2f}% - NOT LANDSCAPE DESIGN"
+        in joined
+    )
+    assert "INCOMPLETE: ROAD ACCESS 0/17" in joined
+    assert "DEAD ENDS 17 UNRESOLVED" in joined
+    assert "DESIGNED GREEN < 30%" in joined
+    # Never present the auxiliary open-space account as green.
+    assert "GREEN 61.1" not in joined
+    assert "DESIGNED GREEN 61" not in joined
+    assert f"GREEN {potential * 100:.1f}%" not in joined
 
 
 def test_full_site_drawing_is_deterministic(models, tmp_path):
@@ -376,13 +451,25 @@ def test_full_site_metrics_match_the_measured_geometry(models):
     assert metrics["road_clearance_violation_count"] == 0
     assert metrics["min_ns_spacing_m"] == pytest.approx(20.0, abs=0.01)
     assert metrics["ns_spacing_violation_count"] == 0
-    assert metrics["full_site_designed_green_ratio"] >= (
-        metrics["full_site_green_target_ratio"] - 1e-9
-    )
-    assert metrics["full_site_green_gap_m2"] == pytest.approx(
-        0.0, abs=1e-6
-    )
-    assert metrics["full_site_green_parcel_count"] > 0
+    # The legacy designed-green account stays the incomplete one; the open-space
+    # tiling is an auxiliary account and is never used to claim the target.
+    target = _open_space_target(metrics)
+    potential = _open_space_ratio(metrics)
+    assert target is not None
+    assert potential is not None
+    assert metrics["designed_green_ratio"] < target
+    assert potential >= target
+    assert potential != pytest.approx(metrics["designed_green_ratio"])
+    gap = metrics.get("full_site_open_space_account_gap_m2")
+    if gap is None:
+        gap = metrics.get("full_site_green_gap_m2")
+    if gap is not None:
+        assert gap == pytest.approx(0.0, abs=1e-6)
+    designed_gap = metrics.get("full_site_green_gap_m2")
+    if designed_gap is not None:
+        assert designed_gap > 0.0
+    assert _open_space_parcel_count(metrics) is not None
+    assert _open_space_parcel_count(metrics) > 0
 
 
 def test_full_site_roads_are_the_committed_design_network(models):
@@ -411,24 +498,55 @@ def test_full_site_roads_are_the_committed_design_network(models):
             assert abs(y1 - y2) <= 1e-6, road.edge_id
 
 
-def test_full_site_dxf_draws_the_designed_green_allocation(evidence, models):
-    if models["metrics"].get("full_site_designed_green_ratio") is None:
-        pytest.skip("full-site designed-green allocation not available")
+def test_full_site_potential_open_space_is_not_drawn_as_designed_green(
+    evidence, models
+):
     summary, _, doc = _read_doc(evidence)
-    texts = _texts(doc.modelspace())
-    assert any("DESIGNED GREEN" in text for text in texts)
-    green_entities = [
+    msp = doc.modelspace()
+    potential_entities = [
         entity
-        for entity in doc.modelspace()
+        for entity in msp
+        if entity.dxf.layer == "L-OPEN-SPACE"
+        and _xdata(entity)
+        and str(_xdata(entity)[1][1]) == "green_space"
+    ]
+    assert potential_entities
+    # No open-space tiling polygon may be drawn on the designed-green layer.
+    green_space_on_l_green = [
+        entity
+        for entity in msp
         if entity.dxf.layer == "L-GREEN"
         and _xdata(entity)
         and str(_xdata(entity)[1][1]) == "green_space"
     ]
-    assert green_entities
-    assert summary["full_site_green"] is not None
-    assert summary["full_site_green"]["parcel_count"] == (
-        models["metrics"]["full_site_green_parcel_count"]
+    assert green_space_on_l_green == []
+    assert "L-OPEN-SPACE" in {
+        layer.dxf.name for layer in doc.layers
+    }
+    assert "L-OPEN-SPACE" in models["profile"].layers
+
+    texts = _texts(msp)
+    potential_labels = [
+        text for text in texts if text.startswith("POTENTIAL OPEN SPACE ")
+    ]
+    assert potential_labels
+    assert not any(
+        text.startswith("DESIGNED GREEN ") and text.endswith("m2")
+        for text in texts
     )
-    assert summary["full_site_green"]["ratio"] == pytest.approx(
-        models["metrics"]["full_site_designed_green_ratio"]
-    )
+    assert "POTENTIAL OPEN SPACE (NOT LANDSCAPE DESIGN)" in texts
+    assert "DESIGNED GREEN" in texts
+    legend_labels = [
+        text for text in texts if "NOT LANDSCAPE DESIGN" in text
+    ]
+    assert legend_labels
+    block = _open_space_block(summary)
+    assert block is not None
+    parcel_count = block.get("parcel_count")
+    if parcel_count is None:
+        parcel_count = block.get("potential_open_space_parcel_count")
+    assert parcel_count == _open_space_parcel_count(models["metrics"])
+    ratio = block.get("ratio")
+    if ratio is None:
+        ratio = block.get("potential_open_space_ratio")
+    assert ratio == pytest.approx(_open_space_ratio(models["metrics"]))
