@@ -2,6 +2,86 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.23.0 — 2026-10-29
+
+### Fixed
+
+- **M4c-3a — evaluation integrity for the multi-candidate experiment.** This is
+  a bounded semantic fix (no architecture/CAD-IR change) for the five review
+  findings on M4c-3. Version 0.23.0; contract
+  `design-candidates-v0.2.yaml` (v0.1 superseded); `design-synthesis-v0.8`
+  unchanged.
+
+  - **Unified geometry-change evidence (P1-a).** The candidate change record
+    now compares **all 44 roads** (main, branch and access) against the
+    boundary-safe source reference: per road `kind`
+    (trim/extend/length_change/reroute/replace), length delta, max vertex
+    displacement, symmetric Hausdorff distance, removed/added length; per class
+    max deviation; and per-group terminal before/after/delta. This exposes the
+    effects the previous main-road-only record missed:
+    - **A** moves SK-BLD-0006 3.172 m, which re-routes **BR-G-08 by 2.826 m**
+      (G-08 terminal shifts 2.826 m);
+    - **B1/B2** keep all buildings and divert MAIN-19 (66.235 / 71.772 m); the
+      attached **BR-G-09 follows by 7.352 / 13.645 m** (G-08 stays 0);
+    - **C** moves SK-BLD-0006 only 1.50 m but re-routes **BR-G-08 by
+      76.700 m** and shifts the **G-08 terminal by 75.315 m** — C is not a
+      small local change; its candidate description now says so explicitly.
+    The evaluator independently recomputes the same per-class quantities from
+    geometry (candidate self-reports are not trusted).
+  - **Historical boundary archive (P1-b).** The previous
+    `KNOWN_BOUNDARY_VIOLATIONS` wrongly attached 66.235 m (a MAIN-19 diversion)
+    to MAIN-08. It is replaced by `HISTORICAL_BOUNDARY_ARCHIVE`:
+    MAIN-19 / M4c-2 main-road diversion (66.23545861756293 m,
+    resolved by the final alignment) and the M4c-3 source-corridor boundary
+    repairs MAIN-08/16/18 (outside areas 341.6908310814502 / 2.417804558565924 /
+    8.290901115044374 m²). Tests associate the numbers with the actual
+    geometry, not just the fields. The current B1 candidate is the
+    boundary-repaired version (margin 0.6735131264650868 m) and is judged only
+    on its own geometry; the pre-repair form is archival.
+  - **Basis binding (P1-c).** Every candidate now carries
+    `parent_basis_id = design-assumption-v0.2` and a canonical
+    `basis_fingerprint = sha256(json.dumps(basis.to_dict(), sort_keys=True,
+    separators=(",",":")))` (2a2d7807…). `basis_ok` **fails** when either is
+    missing or mismatched — a candidate without basis identity is never a hard
+    pass — and both fields are published in `candidates.json` and each
+    candidate summary.
+  - **Explicit single-unit objectives (P2).** The mixed-unit composites
+    (building count + metres; main length + deviation) are removed. The Pareto
+    front and preference comparison now use eleven independent objectives:
+    `building_count_change`, `building_displaced_count`,
+    `building_displacement_max_m`, `main_length_delta_abs_m`,
+    `main_route_deviation_max_m`, `branch_access_route_deviation_max_m`,
+    `access_terminal_max_delta_m`, `source_preservation_coverage`,
+    `source_preservation_distance_m`, `source_preservation_heading_deg`,
+    `green_designed_ratio_delta`. Auxiliary diagnostics (green open-space /
+    unbuilt deltas, GFA/FAR invariants, added vertices, group-integrity detail)
+    are reported but **never enter the Pareto front or the preference
+    comparison**; the candidate README table has one column per objective.
+    The default preference order is building-count → displaced-count →
+    building-displacement → access-terminal → main-route-deviation →
+    main-length-delta → source coverage → designed-green (rationale in
+    `DEFAULT_PRIORITY_RATIONALE`); the road-first order starts from route
+    deviation/length and leaves building displacement late.
+  - **Re-run decisions.** Evidence regenerated
+    (`docs/e2e/design-candidates-001/`, schema v0.2): all four candidates still
+    pass the hard gates; the default preference recommends **B1** and the
+    road-first preference recommends **A**; the Pareto front remains
+    **[B1, B2, C, A]**. C remains non-dominated on the explicit objectives, but
+    its BR-G-08 / G-08 numbers (76.700 / 75.315 m) are now visible in the table
+    and candidate description rather than hidden behind a 1.5 m building shift.
+
+### Verified
+
+- New targeted tests cover: wrong historical road association (MAIN-19 vs
+  MAIN-08), change-record vs evaluator consistency (BR-G-08), large access
+  terminal movement, missing/mismatched basis fingerprint, and objective
+  single-sourcing/auxiliary exclusion.
+- Full test suite: **414 passed** (`python -m pytest -q`; 396 → 414: new
+  candidate geometry-change tests, evaluation/contract v0.2 tests, basis-binding
+  and negative tests; no test removed).
+- Independent reviews: `arch-core` (candidate contract/evaluation), `adversary`
+  (adversarial verification of the five fixes), `docs` checks; CI 4/4.
+
 ## 0.22.0 — 2026-10-29
 
 ### Changed

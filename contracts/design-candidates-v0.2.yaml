@@ -1,0 +1,165 @@
+schema_id: dgcad.design-candidates.v0.2
+status: living_contract
+supersedes: design-candidates-v0.1.yaml
+scope: CASE-SKETCH-001 multi-candidate design experiment (M4c-3a)
+purpose: >-
+  Define how design candidates are declared, evaluated and compared. M4c-3a makes
+  the evaluation complete and auditable: every candidate must carry its parent
+  basis and a canonical basis fingerprint; hard gates are recomputed from geometry
+  and never trusted from the candidate; the comparison uses eleven independent,
+  single-unit objectives and never a composite score; auxiliary diagnostics are
+  reported but never enter the Pareto front. Historical boundary facts are kept in
+  an archive and are never confused with current-candidate verdicts.
+
+candidate:
+  required:
+    - candidate_id
+    - strategy
+    - spec
+    - version
+    - changes
+    - geometry_change
+    - parent_basis_id
+    - basis_fingerprint
+  spec:
+    required:
+      - description
+      - parameters
+      - parent_basis_id
+      - basis_fingerprint
+  basis_binding:
+    fingerprint: "sha256(json.dumps(basis.to_dict(), sort_keys=True, separators=(',', ':')))"
+    rules:
+      - "the candidate publishes the parent basis id and the canonical basis fingerprint"
+      - "a candidate without parent_basis_id or basis_fingerprint fails the basis_ok hard gate"
+      - "a candidate fingerprint that differs from the evaluator's basis fails the basis_ok hard gate"
+  rules:
+    - "every candidate starts from the same design input and design basis"
+    - "a candidate declares its strategy, its parameter/layout changes and its geometry_change"
+    - "a candidate never declares its own hard verdict or objective values"
+    - "road and building ids are preserved; deletions must be declared in changes"
+
+evaluation:
+  schema_id: dgcad.design-candidates-evaluation.v0.2
+  required:
+    - candidate_id
+    - strategy
+    - hard
+    - hard_pass
+    - soft
+  hard:
+    required:
+      - overlap_ok
+      - topology_ok
+      - boundary_ok
+      - access_ok
+      - capacity_ok
+      - basis_ok
+    budget:
+      main_road_building_overlap_max_m2: 0.01
+      total_road_building_overlap: "must not exceed the reference baseline (no new overlap introduced)"
+      topology_component_count: 1
+      access_terminal_band_m: [3.4, 3.5]
+      boundary: >-
+        the main-road corridor edge (centreline plus half width) must lie inside
+        the published site boundary with tolerance <= 0.01 m; buildings must be
+        covered by the boundary and main centrelines must stay inside. The same
+        definition applies to every candidate and to the reference/base.
+    rules:
+      - "the main-road/building overlap is gated at 0.01 m2"
+      - "total corridor overlap must not grow versus the reference baseline; pre-existing new-access corridor overlap is reported, never hidden"
+      - "corridor-edge containment and centreline containment are reported separately"
+      - "basis_ok requires a matching parent_basis_id and basis_fingerprint, not a default pass"
+
+  objectives:
+    required:
+      - building_count_change
+      - building_displaced_count
+      - building_displacement_max_m
+      - main_length_delta_abs_m
+      - main_route_deviation_max_m
+      - branch_access_route_deviation_max_m
+      - access_terminal_max_delta_m
+      - source_preservation_coverage
+      - source_preservation_distance_m
+      - source_preservation_heading_deg
+      - green_designed_ratio_delta
+    definitions:
+      building_count_change: {direction: minimize, unit: count}
+      building_displaced_count: {direction: minimize, unit: count}
+      building_displacement_max_m: {direction: minimize, unit: m}
+      main_length_delta_abs_m: {direction: minimize, unit: m}
+      main_route_deviation_max_m: {direction: minimize, unit: m}
+      branch_access_route_deviation_max_m: {direction: minimize, unit: m}
+      access_terminal_max_delta_m: {direction: minimize, unit: m}
+      source_preservation_coverage: {direction: maximize, unit: ratio}
+      source_preservation_distance_m: {direction: minimize, unit: m}
+      source_preservation_heading_deg: {direction: minimize, unit: deg}
+      green_designed_ratio_delta: {direction: maximize, unit: ratio}
+    rules:
+      - "each objective is a single physical quantity with its own unit; objectives are never summed into a composite score"
+      - "the mixed-unit composites (count + metres, length + displacement) are forbidden"
+      - "the soft block publishes every objective as a scalar under soft.objectives for the README columns"
+      - "auxiliary diagnostics (green open-space/unbuilt deltas, space utilization, group-integrity details, added vertices) are reported but never enter the Pareto front"
+  pareto:
+    objectives: "the eleven independent objectives above; auxiliary metrics are excluded"
+    rule: "non-dominated candidates among the hard-passing candidates"
+  recommendation:
+    required:
+      - recommendation
+      - pareto_front
+      - reasons
+      - excluded
+      - preferences
+      - objectives
+      - auxiliary_metrics_not_in_pareto
+    default_preferences:
+      - building_count_change
+      - building_displaced_count
+      - building_displacement_max_m
+      - access_terminal_max_delta_m
+      - main_route_deviation_max_m
+      - main_length_delta_abs_m
+      - source_preservation_coverage
+      - green_designed_ratio_delta
+    rationale: >-
+      building count loss is scored first (irreversible unit/building loss), then
+      the number of displaced buildings, then the largest building displacement,
+      then declared access stability, then road disruption (deviation before
+      length), then source fidelity and finally green gain. Each step is an
+      objective-by-objective comparison, never a total.
+    rules:
+      - "hard gates filter first; a hard-failing candidate is never recommended"
+      - "the recommendation follows explicit ordered single-unit preferences over the Pareto front"
+      - "a preference direction must match the objective's contract direction"
+      - "every candidate, recommended or not, gets an objective-level reason"
+      - "the Pareto front stays visible even when one candidate is recommended"
+
+historical_boundary_archive:
+  description: >-
+    Already-repaired boundary facts from earlier versions. They are evidence about
+    the past, not verdicts about a current candidate.
+  entries:
+    - {road_id: MAIN-19, version: M4c-2, kind: main_road_diversion, max_displacement_m: 66.23545861756293, status: resolved_by_main_alignment}
+    - {road_id: MAIN-08, version: M4c-3, kind: source_corridor_boundary_repair, outside_area_m2: 341.6908310814502, max_displacement_m: 44.1586496117478, status: resolved_by_boundary_repair}
+    - {road_id: MAIN-16, version: M4c-3, kind: source_corridor_boundary_repair, outside_area_m2: 2.417804558565924, max_displacement_m: 1.7423799066510406, status: resolved_by_boundary_repair}
+    - {road_id: MAIN-18, version: M4c-3, kind: source_corridor_boundary_repair, outside_area_m2: 8.290901115044374, max_displacement_m: 2.4984359701101364, status: resolved_by_boundary_repair}
+  rules:
+    - "the 66.235 m displacement belongs to MAIN-19's M4c-2 diversion, not to MAIN-08"
+    - "the M4c-3 boundary repairs are MAIN-08 / MAIN-16 / MAIN-18 (source-corridor overhangs)"
+    - "B1 pre-repair is historical baseline evidence; the current candidates are the boundary-repaired candidates"
+    - "known_boundary_violation / a boundary hard failure applies only to a current candidate's own geometry"
+
+rules:
+  - "the generator never evaluates or recommends its own candidates"
+  - "hard checks and objective values are recomputed from geometry; candidate self-reported values are ignored"
+  - "a candidate may not relabel parameters, reuse another basis, or widen a tolerance to fabricate a pass"
+  - "an unmet constraint is reported as a failure, never hidden or deferred into a pass"
+  - "the reference layout is fixed before candidates are compared"
+  - "historical boundary archives are not current-candidate verdicts"
+
+non_claims:
+  - "the recommendation is a decision aid, not an autonomous final decision"
+  - "objectives are not comparable across different cases or bases"
+  - "no cost, constructability, permit or code compliance is evaluated"
+  - "no candidate is human-confirmed; all candidates stay rule_derived/design_draft"

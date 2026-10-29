@@ -1,9 +1,9 @@
 {
-  "schema_id": "dgcad.design-candidates-evaluation.v0.1",
+  "schema_id": "dgcad.design-candidates-evaluation.v0.2",
   "reference": "boundary-safe, dead-end-resolved reference (source alignment, alignment_mode='none'; boundary repair and dead-end resolution still apply), not the already-aligned M4c-2 base",
   "evaluations": [
     {
-      "schema_id": "dgcad.design-candidates-evaluation.v0.1",
+      "schema_id": "dgcad.design-candidates-evaluation.v0.2",
       "candidate_id": "A",
       "strategy": "road_priority",
       "hard": {
@@ -369,6 +369,11 @@
           "expected_buildings": 55
         },
         "basis_ok": {
+          "missing": [],
+          "expected_parent_basis_id": "design-assumption-v0.2",
+          "expected_basis_fingerprint": "2a2d7807d218f21b0d5f8546c4ea766f631788f7d48d01d9831d93513344227e",
+          "actual_parent_basis_id": "design-assumption-v0.2",
+          "actual_basis_fingerprint": "2a2d7807d218f21b0d5f8546c4ea766f631788f7d48d01d9831d93513344227e",
           "changed_fields": []
         }
       },
@@ -385,6 +390,8 @@
           "main_length_delta_m": -2.3202710858195132,
           "total_length_delta_m": -2.32968547696737,
           "max_displacement_m": 2.825827798091072,
+          "main_route_deviation_max_m": 2.320271085819647,
+          "branch_access_route_deviation_max_m": 2.825827798091072,
           "added_vertices": 0
         },
         "building_change": {
@@ -412,6 +419,93 @@
           "approx_floor_area_m2": 323135.99999999994,
           "approx_floor_area_delta_m2": 0.0,
           "gfa_unchanged": true
+        },
+        "objectives": {
+          "building_count_change": 0.0,
+          "building_displaced_count": 1.0,
+          "building_displacement_max_m": 3.1720857962227718,
+          "main_length_delta_abs_m": 2.3202710858195132,
+          "main_route_deviation_max_m": 2.320271085819647,
+          "branch_access_route_deviation_max_m": 2.825827798091072,
+          "access_terminal_max_delta_m": 2.826209246611442,
+          "source_preservation_coverage": 0.7409376425469033,
+          "source_preservation_distance_m": 3.7874445450221,
+          "source_preservation_heading_deg": 9.288384452972128,
+          "green_designed_ratio_delta": 0.0
+        },
+        "objective_metadata": {
+          "building_count_change": {
+            "direction": "minimize",
+            "unit": "count",
+            "definition": "change in building count versus the reference"
+          },
+          "building_displaced_count": {
+            "direction": "minimize",
+            "unit": "count",
+            "definition": "number of building footprints displaced versus the reference"
+          },
+          "building_displacement_max_m": {
+            "direction": "minimize",
+            "unit": "m",
+            "definition": "largest building footprint displacement versus the reference"
+          },
+          "main_length_delta_abs_m": {
+            "direction": "minimize",
+            "unit": "m",
+            "definition": "absolute change of total main-road length"
+          },
+          "main_route_deviation_max_m": {
+            "direction": "minimize",
+            "unit": "m",
+            "definition": "largest main-road centreline deviation versus the reference"
+          },
+          "branch_access_route_deviation_max_m": {
+            "direction": "minimize",
+            "unit": "m",
+            "definition": "largest branch/access centreline deviation versus the reference"
+          },
+          "access_terminal_max_delta_m": {
+            "direction": "minimize",
+            "unit": "m",
+            "definition": "largest declared access-terminal movement versus the reference"
+          },
+          "source_preservation_coverage": {
+            "direction": "maximize",
+            "unit": "ratio",
+            "definition": "mean source-main-segment coverage by design main roads"
+          },
+          "source_preservation_distance_m": {
+            "direction": "minimize",
+            "unit": "m",
+            "definition": "mean source-to-design segment distance"
+          },
+          "source_preservation_heading_deg": {
+            "direction": "minimize",
+            "unit": "deg",
+            "definition": "mean absolute heading delta to the source main segments"
+          },
+          "green_designed_ratio_delta": {
+            "direction": "maximize",
+            "unit": "ratio",
+            "definition": "change of the designed-green ratio versus the reference"
+          }
+        },
+        "auxiliary": {
+          "not_in_pareto": true,
+          "green_open_space_ratio_delta": -1.4801040880474403e-05,
+          "green_unbuilt_ratio_delta": -3.558573071216209e-06,
+          "space_utilization": {
+            "approx_floor_area_m2": 323135.99999999994,
+            "approx_floor_area_delta_m2": 0.0,
+            "gfa_unchanged": true
+          },
+          "group_integrity_detail": {
+            "groups_served": 17,
+            "reference_groups_served": 17,
+            "declared_relations_preserved": true
+          },
+          "road_added_vertices": 0,
+          "note": "auxiliary diagnostics are reported for the README but never enter the Pareto front or the preference comparison"
         }
       },
       "reasons": [
@@ -419,7 +513,7 @@
       ]
     },
     {
-      "schema_id": "dgcad.design-candidates-evaluation.v0.1",
+      "schema_id": "dgcad.design-candidates-evaluation.v0.2",
       "candidate_id": "B1",
       "strategy": "building_priority_diversion",
       "hard": {
@@ -785,6 +879,11 @@
           "expected_buildings": 55
         },
         "basis_ok": {
+          "missing": [],
+          "expected_parent_basis_id": "design-assumption-v0.2",
+          "expected_basis_fingerprint": "2a2d7807d218f21b0d5f8546c4ea766f631788f7d48d01d9831d93513344227e",
+          "actual_parent_basis_id": "design-assumption-v0.2",
+          "actual_basis_fingerprint": "2a2d7807d218f21b0d5f8546c4ea766f631788f7d48d01d9831d93513344227e",
           "changed_fields": []
         }
       },
@@ -801,6 +900,8 @@
           "main_length_delta_m": 123.45211888628819,
           "total_length_delta_m": 125.915922747894,
           "max_displacement_m": 66.23545861756291,
+          "main_route_deviation_max_m": 66.23545861756291,
+          "branch_access_route_deviation_max_m": 7.352131796880056,
           "added_vertices": 28
         },
         "building_change": {
@@ -826,6 +927,93 @@
           "approx_floor_area_m2": 323135.99999999994,
           "approx_floor_area_delta_m2": 0.0,
           "gfa_unchanged": true
+        },
+        "objectives": {
+          "building_count_change": 0.0,
+          "building_displaced_count": 0.0,
+          "building_displacement_max_m": 0.0,
+          "main_length_delta_abs_m": 123.45211888628819,
+          "main_route_deviation_max_m": 66.23545861756291,
+          "branch_access_route_deviation_max_m": 7.352131796880056,
+          "access_terminal_max_delta_m": 0.0,
+          "source_preservation_coverage": 0.7430425980118164,
+          "source_preservation_distance_m": 3.7874445450221,
+          "source_preservation_heading_deg": 10.013372786913282,
+          "green_designed_ratio_delta": 0.0
+        },
+        "objective_metadata": {
+          "building_count_change": {
+            "direction": "minimize",
+            "unit": "count",
+            "definition": "change in building count versus the reference"
+          },
+          "building_displaced_count": {
+            "direction": "minimize",
+            "unit": "count",
+            "definition": "number of building footprints displaced versus the reference"
+          },
+          "building_displacement_max_m": {
+            "direction": "minimize",
+            "unit": "m",
+            "definition": "largest building footprint displacement versus the reference"
+          },
+          "main_length_delta_abs_m": {
+            "direction": "minimize",
+            "unit": "m",
+            "definition": "absolute change of total main-road length"
+          },
+          "main_route_deviation_max_m": {
+            "direction": "minimize",
+            "unit": "m",
+            "definition": "largest main-road centreline deviation versus the reference"
+          },
+          "branch_access_route_deviation_max_m": {
+            "direction": "minimize",
+            "unit": "m",
+            "definition": "largest branch/access centreline deviation versus the reference"
+          },
+          "access_terminal_max_delta_m": {
+            "direction": "minimize",
+            "unit": "m",
+            "definition": "largest declared access-terminal movement versus the reference"
+          },
+          "source_preservation_coverage": {
+            "direction": "maximize",
+            "unit": "ratio",
+            "definition": "mean source-main-segment coverage by design main roads"
+          },
+          "source_preservation_distance_m": {
+            "direction": "minimize",
+            "unit": "m",
+            "definition": "mean source-to-design segment distance"
+          },
+          "source_preservation_heading_deg": {
+            "direction": "minimize",
+            "unit": "deg",
+            "definition": "mean absolute heading delta to the source main segments"
+          },
+          "green_designed_ratio_delta": {
+            "direction": "maximize",
+            "unit": "ratio",
+            "definition": "change of the designed-green ratio versus the reference"
+          }
+        },
+        "auxiliary": {
+          "not_in_pareto": true,
+          "green_open_space_ratio_delta": -0.006742434694128385,
+          "green_unbuilt_ratio_delta": -0.006450254739690742,
+          "space_utilization": {
+            "approx_floor_area_m2": 323135.99999999994,
+            "approx_floor_area_delta_m2": 0.0,
+            "gfa_unchanged": true
+          },
+          "group_integrity_detail": {
+            "groups_served": 17,
+            "reference_groups_served": 17,
+            "declared_relations_preserved": true
+          },
+          "road_added_vertices": 28,
+          "note": "auxiliary diagnostics are reported for the README but never enter the Pareto front or the preference comparison"
         }
       },
       "reasons": [
@@ -833,7 +1021,7 @@
       ]
     },
     {
-      "schema_id": "dgcad.design-candidates-evaluation.v0.1",
+      "schema_id": "dgcad.design-candidates-evaluation.v0.2",
       "candidate_id": "B2",
       "strategy": "building_priority_alternate",
       "hard": {
@@ -1199,6 +1387,11 @@
           "expected_buildings": 55
         },
         "basis_ok": {
+          "missing": [],
+          "expected_parent_basis_id": "design-assumption-v0.2",
+          "expected_basis_fingerprint": "2a2d7807d218f21b0d5f8546c4ea766f631788f7d48d01d9831d93513344227e",
+          "actual_parent_basis_id": "design-assumption-v0.2",
+          "actual_basis_fingerprint": "2a2d7807d218f21b0d5f8546c4ea766f631788f7d48d01d9831d93513344227e",
           "changed_fields": []
         }
       },
@@ -1215,6 +1408,8 @@
           "main_length_delta_m": 130.74068932433693,
           "total_length_delta_m": 139.34187725826996,
           "max_displacement_m": 71.7722361902286,
+          "main_route_deviation_max_m": 71.7722361902286,
+          "branch_access_route_deviation_max_m": 13.645240022712755,
           "added_vertices": 47
         },
         "building_change": {
@@ -1240,6 +1435,93 @@
           "approx_floor_area_m2": 323135.99999999994,
           "approx_floor_area_delta_m2": 0.0,
           "gfa_unchanged": true
+        },
+        "objectives": {
+          "building_count_change": 0.0,
+          "building_displaced_count": 0.0,
+          "building_displacement_max_m": 0.0,
+          "main_length_delta_abs_m": 130.74068932433693,
+          "main_route_deviation_max_m": 71.7722361902286,
+          "branch_access_route_deviation_max_m": 13.645240022712755,
+          "access_terminal_max_delta_m": 0.0,
+          "source_preservation_coverage": 0.7494665330615209,
+          "source_preservation_distance_m": 3.6927584313965474,
+          "source_preservation_heading_deg": 9.64843591747395,
+          "green_designed_ratio_delta": -1.3139820660409973e-05
+        },
+        "objective_metadata": {
+          "building_count_change": {
+            "direction": "minimize",
+            "unit": "count",
+            "definition": "change in building count versus the reference"
+          },
+          "building_displaced_count": {
+            "direction": "minimize",
+            "unit": "count",
+            "definition": "number of building footprints displaced versus the reference"
+          },
+          "building_displacement_max_m": {
+            "direction": "minimize",
+            "unit": "m",
+            "definition": "largest building footprint displacement versus the reference"
+          },
+          "main_length_delta_abs_m": {
+            "direction": "minimize",
+            "unit": "m",
+            "definition": "absolute change of total main-road length"
+          },
+          "main_route_deviation_max_m": {
+            "direction": "minimize",
+            "unit": "m",
+            "definition": "largest main-road centreline deviation versus the reference"
+          },
+          "branch_access_route_deviation_max_m": {
+            "direction": "minimize",
+            "unit": "m",
+            "definition": "largest branch/access centreline deviation versus the reference"
+          },
+          "access_terminal_max_delta_m": {
+            "direction": "minimize",
+            "unit": "m",
+            "definition": "largest declared access-terminal movement versus the reference"
+          },
+          "source_preservation_coverage": {
+            "direction": "maximize",
+            "unit": "ratio",
+            "definition": "mean source-main-segment coverage by design main roads"
+          },
+          "source_preservation_distance_m": {
+            "direction": "minimize",
+            "unit": "m",
+            "definition": "mean source-to-design segment distance"
+          },
+          "source_preservation_heading_deg": {
+            "direction": "minimize",
+            "unit": "deg",
+            "definition": "mean absolute heading delta to the source main segments"
+          },
+          "green_designed_ratio_delta": {
+            "direction": "maximize",
+            "unit": "ratio",
+            "definition": "change of the designed-green ratio versus the reference"
+          }
+        },
+        "auxiliary": {
+          "not_in_pareto": true,
+          "green_open_space_ratio_delta": -0.005613804632567332,
+          "green_unbuilt_ratio_delta": -0.005278130101926459,
+          "space_utilization": {
+            "approx_floor_area_m2": 323135.99999999994,
+            "approx_floor_area_delta_m2": 0.0,
+            "gfa_unchanged": true
+          },
+          "group_integrity_detail": {
+            "groups_served": 17,
+            "reference_groups_served": 17,
+            "declared_relations_preserved": true
+          },
+          "road_added_vertices": 47,
+          "note": "auxiliary diagnostics are reported for the README but never enter the Pareto front or the preference comparison"
         }
       },
       "reasons": [
@@ -1247,7 +1529,7 @@
       ]
     },
     {
-      "schema_id": "dgcad.design-candidates-evaluation.v0.1",
+      "schema_id": "dgcad.design-candidates-evaluation.v0.2",
       "candidate_id": "C",
       "strategy": "coordinated",
       "hard": {
@@ -1613,6 +1895,11 @@
           "expected_buildings": 55
         },
         "basis_ok": {
+          "missing": [],
+          "expected_parent_basis_id": "design-assumption-v0.2",
+          "expected_basis_fingerprint": "2a2d7807d218f21b0d5f8546c4ea766f631788f7d48d01d9831d93513344227e",
+          "actual_parent_basis_id": "design-assumption-v0.2",
+          "actual_basis_fingerprint": "2a2d7807d218f21b0d5f8546c4ea766f631788f7d48d01d9831d93513344227e",
           "changed_fields": []
         }
       },
@@ -1629,6 +1916,8 @@
           "main_length_delta_m": 11.214845675026481,
           "total_length_delta_m": 9.784224319991608,
           "max_displacement_m": 76.69965271965492,
+          "main_route_deviation_max_m": 11.99363782892846,
+          "branch_access_route_deviation_max_m": 76.69965271965492,
           "added_vertices": 11
         },
         "building_change": {
@@ -1656,6 +1945,93 @@
           "approx_floor_area_m2": 323135.99999999994,
           "approx_floor_area_delta_m2": 0.0,
           "gfa_unchanged": true
+        },
+        "objectives": {
+          "building_count_change": 0.0,
+          "building_displaced_count": 1.0,
+          "building_displacement_max_m": 1.5,
+          "main_length_delta_abs_m": 11.214845675026481,
+          "main_route_deviation_max_m": 11.99363782892846,
+          "branch_access_route_deviation_max_m": 76.69965271965492,
+          "access_terminal_max_delta_m": 75.3147044566895,
+          "source_preservation_coverage": 0.7119665330615209,
+          "source_preservation_distance_m": 3.7489978204081877,
+          "source_preservation_heading_deg": 10.75823119442741,
+          "green_designed_ratio_delta": 0.0
+        },
+        "objective_metadata": {
+          "building_count_change": {
+            "direction": "minimize",
+            "unit": "count",
+            "definition": "change in building count versus the reference"
+          },
+          "building_displaced_count": {
+            "direction": "minimize",
+            "unit": "count",
+            "definition": "number of building footprints displaced versus the reference"
+          },
+          "building_displacement_max_m": {
+            "direction": "minimize",
+            "unit": "m",
+            "definition": "largest building footprint displacement versus the reference"
+          },
+          "main_length_delta_abs_m": {
+            "direction": "minimize",
+            "unit": "m",
+            "definition": "absolute change of total main-road length"
+          },
+          "main_route_deviation_max_m": {
+            "direction": "minimize",
+            "unit": "m",
+            "definition": "largest main-road centreline deviation versus the reference"
+          },
+          "branch_access_route_deviation_max_m": {
+            "direction": "minimize",
+            "unit": "m",
+            "definition": "largest branch/access centreline deviation versus the reference"
+          },
+          "access_terminal_max_delta_m": {
+            "direction": "minimize",
+            "unit": "m",
+            "definition": "largest declared access-terminal movement versus the reference"
+          },
+          "source_preservation_coverage": {
+            "direction": "maximize",
+            "unit": "ratio",
+            "definition": "mean source-main-segment coverage by design main roads"
+          },
+          "source_preservation_distance_m": {
+            "direction": "minimize",
+            "unit": "m",
+            "definition": "mean source-to-design segment distance"
+          },
+          "source_preservation_heading_deg": {
+            "direction": "minimize",
+            "unit": "deg",
+            "definition": "mean absolute heading delta to the source main segments"
+          },
+          "green_designed_ratio_delta": {
+            "direction": "maximize",
+            "unit": "ratio",
+            "definition": "change of the designed-green ratio versus the reference"
+          }
+        },
+        "auxiliary": {
+          "not_in_pareto": true,
+          "green_open_space_ratio_delta": -6.814340088201476e-05,
+          "green_unbuilt_ratio_delta": -9.452760234074375e-05,
+          "space_utilization": {
+            "approx_floor_area_m2": 323135.99999999994,
+            "approx_floor_area_delta_m2": 0.0,
+            "gfa_unchanged": true
+          },
+          "group_integrity_detail": {
+            "groups_served": 17,
+            "reference_groups_served": 17,
+            "declared_relations_preserved": true
+          },
+          "road_added_vertices": 11,
+          "note": "auxiliary diagnostics are reported for the README but never enter the Pareto front or the preference comparison"
         }
       },
       "reasons": [
@@ -1674,38 +2050,119 @@
       ],
       "reasons": {
         "A": [
-          "on the Pareto front but lexicographically worse than B1 under the declared preferences"
+          "on the Pareto front but worse on building_displaced_count (1.0 vs 0.0); objective-level comparison, no composite score"
         ],
         "B1": [
-          "hard gates pass and it is first under the declared preference order (building_change, road_change, source_preservation, green_change)"
+          "hard gates pass and it is first under the declared preference order (building_count_change, building_displaced_count, building_displacement_max_m, access_terminal_max_delta_m, main_route_deviation_max_m, main_length_delta_abs_m, source_preservation_coverage, green_designed_ratio_delta)"
         ],
         "B2": [
-          "on the Pareto front but lexicographically worse than B1 under the declared preferences"
+          "on the Pareto front but worse on main_route_deviation_max_m (71.7722361902286 vs 66.23545861756291); objective-level comparison, no composite score"
         ],
         "C": [
-          "on the Pareto front but lexicographically worse than B1 under the declared preferences"
+          "on the Pareto front but worse on building_displaced_count (1.0 vs 0.0); objective-level comparison, no composite score"
         ]
       },
       "excluded": {},
       "preferences": [
         {
-          "objective": "building_change",
+          "objective": "building_count_change",
           "direction": "minimize"
         },
         {
-          "objective": "road_change",
+          "objective": "building_displaced_count",
           "direction": "minimize"
         },
         {
-          "objective": "source_preservation",
+          "objective": "building_displacement_max_m",
+          "direction": "minimize"
+        },
+        {
+          "objective": "access_terminal_max_delta_m",
+          "direction": "minimize"
+        },
+        {
+          "objective": "main_route_deviation_max_m",
+          "direction": "minimize"
+        },
+        {
+          "objective": "main_length_delta_abs_m",
+          "direction": "minimize"
+        },
+        {
+          "objective": "source_preservation_coverage",
           "direction": "maximize"
         },
         {
-          "objective": "green_change",
+          "objective": "green_designed_ratio_delta",
           "direction": "maximize"
         }
       ],
-      "note": "hard gates first; no single black-box score is produced; the Pareto front and every rejection reason are reported"
+      "objectives": {
+        "building_count_change": {
+          "direction": "minimize",
+          "unit": "count",
+          "definition": "change in building count versus the reference"
+        },
+        "building_displaced_count": {
+          "direction": "minimize",
+          "unit": "count",
+          "definition": "number of building footprints displaced versus the reference"
+        },
+        "building_displacement_max_m": {
+          "direction": "minimize",
+          "unit": "m",
+          "definition": "largest building footprint displacement versus the reference"
+        },
+        "main_length_delta_abs_m": {
+          "direction": "minimize",
+          "unit": "m",
+          "definition": "absolute change of total main-road length"
+        },
+        "main_route_deviation_max_m": {
+          "direction": "minimize",
+          "unit": "m",
+          "definition": "largest main-road centreline deviation versus the reference"
+        },
+        "branch_access_route_deviation_max_m": {
+          "direction": "minimize",
+          "unit": "m",
+          "definition": "largest branch/access centreline deviation versus the reference"
+        },
+        "access_terminal_max_delta_m": {
+          "direction": "minimize",
+          "unit": "m",
+          "definition": "largest declared access-terminal movement versus the reference"
+        },
+        "source_preservation_coverage": {
+          "direction": "maximize",
+          "unit": "ratio",
+          "definition": "mean source-main-segment coverage by design main roads"
+        },
+        "source_preservation_distance_m": {
+          "direction": "minimize",
+          "unit": "m",
+          "definition": "mean source-to-design segment distance"
+        },
+        "source_preservation_heading_deg": {
+          "direction": "minimize",
+          "unit": "deg",
+          "definition": "mean absolute heading delta to the source main segments"
+        },
+        "green_designed_ratio_delta": {
+          "direction": "maximize",
+          "unit": "ratio",
+          "definition": "change of the designed-green ratio versus the reference"
+        }
+      },
+      "auxiliary_metrics_not_in_pareto": [
+        "green_open_space_ratio_delta",
+        "green_unbuilt_ratio_delta",
+        "space_utilization",
+        "group_integrity_detail",
+        "road_added_vertices"
+      ],
+      "priority_rationale": null,
+      "note": "hard gates first; the eleven single-unit objectives are compared directly, the Pareto front and every rejection reason are reported, and no single black-box score is produced"
     },
     "road_first_preferences": {
       "recommendation": "A",
@@ -1717,77 +2174,190 @@
       ],
       "reasons": {
         "A": [
-          "hard gates pass and it is first under the declared preference order (road_change, building_change, source_preservation, green_change)"
+          "hard gates pass and it is first under the declared preference order (main_route_deviation_max_m, main_length_delta_abs_m, branch_access_route_deviation_max_m, access_terminal_max_delta_m, building_count_change, building_displacement_max_m, source_preservation_coverage, green_designed_ratio_delta)"
         ],
         "B1": [
-          "on the Pareto front but lexicographically worse than A under the declared preferences"
+          "on the Pareto front but worse on main_route_deviation_max_m (66.23545861756291 vs 2.320271085819647); objective-level comparison, no composite score"
         ],
         "B2": [
-          "on the Pareto front but lexicographically worse than A under the declared preferences"
+          "on the Pareto front but worse on main_route_deviation_max_m (71.7722361902286 vs 2.320271085819647); objective-level comparison, no composite score"
         ],
         "C": [
-          "on the Pareto front but lexicographically worse than A under the declared preferences"
+          "on the Pareto front but worse on main_route_deviation_max_m (11.99363782892846 vs 2.320271085819647); objective-level comparison, no composite score"
         ]
       },
       "excluded": {},
       "preferences": [
         {
-          "objective": "road_change",
+          "objective": "main_route_deviation_max_m",
           "direction": "minimize"
         },
         {
-          "objective": "building_change",
+          "objective": "main_length_delta_abs_m",
           "direction": "minimize"
         },
         {
-          "objective": "source_preservation",
+          "objective": "branch_access_route_deviation_max_m",
+          "direction": "minimize"
+        },
+        {
+          "objective": "access_terminal_max_delta_m",
+          "direction": "minimize"
+        },
+        {
+          "objective": "building_count_change",
+          "direction": "minimize"
+        },
+        {
+          "objective": "building_displacement_max_m",
+          "direction": "minimize"
+        },
+        {
+          "objective": "source_preservation_coverage",
           "direction": "maximize"
         },
         {
-          "objective": "green_change",
+          "objective": "green_designed_ratio_delta",
           "direction": "maximize"
         }
       ],
-      "note": "hard gates first; no single black-box score is produced; the Pareto front and every rejection reason are reported"
+      "objectives": {
+        "building_count_change": {
+          "direction": "minimize",
+          "unit": "count",
+          "definition": "change in building count versus the reference"
+        },
+        "building_displaced_count": {
+          "direction": "minimize",
+          "unit": "count",
+          "definition": "number of building footprints displaced versus the reference"
+        },
+        "building_displacement_max_m": {
+          "direction": "minimize",
+          "unit": "m",
+          "definition": "largest building footprint displacement versus the reference"
+        },
+        "main_length_delta_abs_m": {
+          "direction": "minimize",
+          "unit": "m",
+          "definition": "absolute change of total main-road length"
+        },
+        "main_route_deviation_max_m": {
+          "direction": "minimize",
+          "unit": "m",
+          "definition": "largest main-road centreline deviation versus the reference"
+        },
+        "branch_access_route_deviation_max_m": {
+          "direction": "minimize",
+          "unit": "m",
+          "definition": "largest branch/access centreline deviation versus the reference"
+        },
+        "access_terminal_max_delta_m": {
+          "direction": "minimize",
+          "unit": "m",
+          "definition": "largest declared access-terminal movement versus the reference"
+        },
+        "source_preservation_coverage": {
+          "direction": "maximize",
+          "unit": "ratio",
+          "definition": "mean source-main-segment coverage by design main roads"
+        },
+        "source_preservation_distance_m": {
+          "direction": "minimize",
+          "unit": "m",
+          "definition": "mean source-to-design segment distance"
+        },
+        "source_preservation_heading_deg": {
+          "direction": "minimize",
+          "unit": "deg",
+          "definition": "mean absolute heading delta to the source main segments"
+        },
+        "green_designed_ratio_delta": {
+          "direction": "maximize",
+          "unit": "ratio",
+          "definition": "change of the designed-green ratio versus the reference"
+        }
+      },
+      "auxiliary_metrics_not_in_pareto": [
+        "green_open_space_ratio_delta",
+        "green_unbuilt_ratio_delta",
+        "space_utilization",
+        "group_integrity_detail",
+        "road_added_vertices"
+      ],
+      "priority_rationale": null,
+      "note": "hard gates first; the eleven single-unit objectives are compared directly, the Pareto front and every rejection reason are reported, and no single black-box score is produced"
     }
   },
   "preferences_used": {
     "default": [
       {
-        "objective": "building_change",
+        "objective": "building_count_change",
         "direction": "minimize"
       },
       {
-        "objective": "road_change",
+        "objective": "building_displaced_count",
         "direction": "minimize"
       },
       {
-        "objective": "source_preservation",
+        "objective": "building_displacement_max_m",
+        "direction": "minimize"
+      },
+      {
+        "objective": "access_terminal_max_delta_m",
+        "direction": "minimize"
+      },
+      {
+        "objective": "main_route_deviation_max_m",
+        "direction": "minimize"
+      },
+      {
+        "objective": "main_length_delta_abs_m",
+        "direction": "minimize"
+      },
+      {
+        "objective": "source_preservation_coverage",
         "direction": "maximize"
       },
       {
-        "objective": "green_change",
+        "objective": "green_designed_ratio_delta",
         "direction": "maximize"
       }
     ],
     "road_first": [
       {
-        "objective": "road_change",
+        "objective": "main_route_deviation_max_m",
         "direction": "minimize"
       },
       {
-        "objective": "building_change",
+        "objective": "main_length_delta_abs_m",
         "direction": "minimize"
       },
       {
-        "objective": "source_preservation",
+        "objective": "branch_access_route_deviation_max_m",
+        "direction": "minimize"
+      },
+      {
+        "objective": "access_terminal_max_delta_m",
+        "direction": "minimize"
+      },
+      {
+        "objective": "building_count_change",
+        "direction": "minimize"
+      },
+      {
+        "objective": "building_displacement_max_m",
+        "direction": "minimize"
+      },
+      {
+        "objective": "source_preservation_coverage",
         "direction": "maximize"
       },
       {
-        "objective": "green_change",
+        "objective": "green_designed_ratio_delta",
         "direction": "maximize"
       }
     ]
   },
-  "note": "hard gates are recomputed from geometry, not read from the candidate; no single black-box score is produced"
+  "note": "hard gates and the ten single-unit objectives are recomputed from geometry, not read from the candidate; auxiliary metrics are reported but never enter the Pareto front; no single black-box score is produced"
 }

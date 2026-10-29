@@ -348,6 +348,61 @@ def test_candidate_comparison_truncates_to_four(tmp_path):
     assert "only the first 4" in svg
 
 
+def test_candidate_comparison_renders_detail_lines(tmp_path):
+    detail_lines = [
+        "main deviation: 0 m (unchanged)",
+        "branch/access deviation: max 12.5 m (2 roads)",
+        "G-08 terminal displacement: 3.5 m",
+        "buildings moved: 3",
+    ]
+    candidate = _candidate("D1", 12.5, hard=True, overlap=0.55, main_len=2126.0)
+    candidate["metrics"]["detail_lines"] = detail_lines
+    artifact = render_candidate_comparison_svg([candidate],
+                                               path=tmp_path / "detail.svg",
+                                               title="Detail comparison")
+    svg = _read_svg(Path(artifact["path"]))
+    for line in detail_lines:
+        assert line in svg, line
+    assert svg.count('font-size="10.5"') == len(detail_lines)
+    _assert_valid_svg(Path(artifact["path"]))
+
+    again = render_candidate_comparison_svg([candidate],
+                                            path=tmp_path / "detail2.svg",
+                                            title="Detail comparison")
+    assert Path(artifact["path"]).read_bytes() == Path(again["path"]).read_bytes()
+
+
+def test_candidate_comparison_detail_lines_are_backward_compatible(tmp_path):
+    # no detail_lines key vs an explicit empty list must render byte-identically
+    without = _candidate("B1", 0.0, hard=True, overlap=1.0, main_len=2100.0)
+    empty = _candidate("B1", 0.0, hard=True, overlap=1.0, main_len=2100.0)
+    empty["metrics"]["detail_lines"] = []
+    first = render_candidate_comparison_svg([without], path=tmp_path / "a.svg")
+    second = render_candidate_comparison_svg([empty], path=tmp_path / "b.svg")
+    assert Path(first["path"]).read_bytes() == Path(second["path"]).read_bytes()
+    assert 'font-size="10.5"' not in _read_svg(Path(first["path"]))
+
+    # a candidate with detail lines differs only by those rendered lines
+    detail = _candidate("B1", 0.0, hard=True, overlap=1.0, main_len=2100.0)
+    detail["metrics"]["detail_lines"] = ["G-08 terminal displacement: 3.5 m"]
+    third = render_candidate_comparison_svg([detail], path=tmp_path / "c.svg")
+    plain_svg = _read_svg(Path(first["path"]))
+    detail_svg = _read_svg(Path(third["path"]))
+    assert "G-08 terminal displacement: 3.5 m" in detail_svg
+    assert "G-08 terminal displacement" not in plain_svg
+
+
+def test_candidate_comparison_detail_lines_limited_to_six(tmp_path):
+    candidate = _candidate("L1", 0.0, hard=True, overlap=0.0, main_len=2000.0)
+    candidate["metrics"]["detail_lines"] = [f"detail-{i}" for i in range(10)]
+    artifact = render_candidate_comparison_svg([candidate],
+                                               path=tmp_path / "limited.svg")
+    svg = _read_svg(Path(artifact["path"]))
+    assert svg.count('font-size="10.5"') == 6
+    assert "detail-5" in svg
+    assert "detail-6" not in svg
+
+
 # ---------------------------------------------------------------------------
 # D. script import / dry-run
 # ---------------------------------------------------------------------------

@@ -218,7 +218,7 @@ First round (`docs/e2e/design-synthesis-001/`):
 - [x] Mark all design objects `rule_derived` in `proposal_preview`; no `human_confirmed`; title block says Agent-generated and not code-compliant.
 - [x] Record the design diff, dropped buildings and the persistent draft manifest.
 
-Next in 4c (4c-1a/1c/1d/1b/1e/2/3 complete; sequence: full-site expansion → real CAD host/external evidence → R1 closure):
+Next in 4c (4c-1a/1c/1d/1b/1e/2/3/3a complete; sequence: M4d full-site expansion + real CAD host/R1 in parallel):
 
 - **First fix the road topology** — **done in 4c-1a** without OSMnx: explicit shared-coordinate junctions + dependency-free noded check + evidence regeneration (the OSMnx base was rejected as a tolerance-created connectivity proof; OSMnx remains an optional preprocessor, see 4c-1a below).
 - Expand the standardized layout from the focus block to all groups; enforce 20 m north-south spacing site-wide.
@@ -290,9 +290,17 @@ Next in 4c (4c-1a/1c/1d/1b/1e/2/3 complete; sequence: full-site expansion → re
 ### Milestone 4c-3 — Phase 0 + First Multi-Candidate Experiment (complete, 0.22.0; branch `feat/m4c-3-multi-candidate`; evidence correction + decision experiment)
 
 - [x] Phase 0 (evidence corrections): `local_search_exhausted` alignment semantics; boundary containment hard check and repairs; split overlap fields; `source_segment_map` (25 roads); `design-diff.json` `road_alignment`/`dead_end_resolutions` and changed/why; dead-end `resolved` bound to `criterion_met` plus a geometry re-check (negative tests for forged/unmet records); `main_boundary_repairs` (3); regenerated `design-preview.svg`/`.png` and `design-overlay.svg`.
-- [x] Base design after Phase 0: 44 roads (25/17/2), 1 component, **58 nodes / 68 edges / cyclomatic 11 / 19 dead ends / 36 junctions (24 explicit) / 3 rings / gap 0.0**; main length 2,107.733378663747 m; road area 26,882.20505326313 m²; sidewalk 9,764.76834535878 m²; DXF content **211 entities** (audit 0/0, readback 211/211, XDATA 11, privacy pass); new-access overlap 0.9943558185246757 m², main 0.0, total 0.9943558185246756; access 17/17 declared; green candidate 61.64% / unbuilt 64.07% / designed 6.54% (deferred); `design-roads.geojson` SHA-256 `a8c1baf5…`.
+- [x] Base design after Phase 0: 44 roads (25/17/2), 1 component, **58 nodes / 68 edges / cyclomatic 11 / 19 dead ends / 36 junctions (24 explicit) / 3 rings / gap 0.0**; main length 2,107.733378663747 m; road area 26,882.20505326313 m²; sidewalk 9,764.76834535878 m²; DXF content **211 entities** (audit 0/0, readback 211/211, XDATA 11, privacy pass); new-access overlap 0.9943558185246757 m², main 0.0, total 0.9943558185246756; access 17/17 declared; green candidate 61.64% / unbuilt 64.07% / designed 6.54% (deferred); `design-roads.geojson` SHA-256 `c5fc7262…`.
 - [x] First multi-candidate experiment (`docs/e2e/design-candidates-001/`): four deterministic candidates for the MAIN-19/SK-BLD-0006/SK-BLD-0029 conflict, evaluated against the **boundary-safe, dead-end-resolved reference** (source alignment `alignment_mode='none'`; boundary repair and dead-end resolution still apply; main-length baseline 1,984.2812597774587 m; reference total overlap 36.20414480381279 m²). **All four hard-pass**: A road priority (total overlap 0.8595377847886573 m²; building shift 3.1720857962227718 m; road max 2.825827798091072 m; main length 1,981.9609886916392 m); B1 building priority/M4c-2 diversion (overlap 0.9943558185246756 m²; road max 66.23545861756291 m; main 2,107.733378663747 m); B2 alternate fold (overlap 0.9943558185246756 m²; road max 71.7722361902286 m; main 2,115.0219491017956 m); C coordinated (overlap 0.8595377847886573 m²; building 1.5 m + road max 76.69965271965492 m; main 1,995.4961054524852 m). Default preference recommends **B1**, road-first recommends **A**; Pareto [B1,B2,C,A]; every candidate gets a reason and no single black-box score is produced. B1 is only the M4c-2 diversion candidate baseline — not the selected or professional design.
-- [x] Contracts: `design-synthesis-v0.8.yaml` (v0.7 superseded) and new `design-candidates-v0.1.yaml`; gate-register pointer re-pointed. Tests 347 → **396** (`test_candidates` 11, `test_evaluation` 18, `test_visuals` 10, re-baselined design/topology/access tests). Merged to `main` as **PR #45** (merge commit `569944f`, main CI 4/4 green).
+- [x] Contracts: `design-synthesis-v0.8.yaml` (v0.7 superseded) and new `design-candidates-v0.1.yaml` (superseded by v0.2 in 4c-3a); gate-register pointer re-pointed. Tests 347 → **396** (`test_candidates` 11, `test_evaluation` 18, `test_visuals` 10, re-baselined design/topology/access tests). Merged to `main` as **PR #45** (merge commit `569944f`, main CI 4/4 green).
+
+### Milestone 4c-3a — Multi-Candidate Evaluation Integrity (complete, 0.23.0; branch `feat/m4c-3a-evaluation-completeness`; no base-design change)
+
+- [x] Contract `design-candidates-v0.2.yaml` (v0.1 superseded); `design-synthesis-v0.8` unchanged. Every candidate requires `parent_basis_id = design-assumption-v0.2` and canonical `basis_fingerprint = 2a2d7807…`; missing/mismatch fails `basis_ok`. Evidence schema v0.2: `candidates.json` with basis + `geometry_change` (`class_max_deviation_m`, per-road records, `group_terminal_changes`); `evaluation.json` with 11 objectives, auxiliary `not_in_pareto`, and two decisions.
+- [x] All-44-road geometry evidence by class and group terminal: **A** main 2.320271085819647 m / branch 2.825827798091072 m (BR-G-08) / access 0; G-08 terminal 2.826209246611442 m; building 3.1720857962227718 m. **B1** main 66.23545861756291 m / branch 7.352131796880056 m (BR-G-09 follows) / access 0; terminal 0. **B2** main 71.7722361902286 m / branch 13.645240022712755 m / access 0; terminal 0. **C** main 11.99363782892846 m / branch 76.69965271965492 m (BR-G-08) / access 0; G-08 terminal 75.3147044566895 m — **C is not a small local change**.
+- [x] `HISTORICAL_BOUNDARY_ARCHIVE`: MAIN-19 66.23545861756293 m (M4c-2 diversion, `resolved_by_main_alignment`) and MAIN-08/16/18 source-corridor repairs 341.6908310814502 / 2.417804558565924 / 8.290901115044374 m², kept separate from current candidate verdicts. The current B1 is boundary-repaired and hard-passes (margin 0.6735131264650868); its pre-repair form is archival, never a pass.
+- [x] Comparison uses 11 single-unit objectives (building_count_change, building_displaced_count, building_displacement_max_m, main_length_delta_abs_m, main_route_deviation_max_m, branch_access_route_deviation_max_m, access_terminal_max_delta_m, source_preservation_coverage/distance_m/heading_deg, green_designed_ratio_delta); auxiliary metrics never enter Pareto/preference; no composite score. Default recommends **B1**, road-first recommends **A**, Pareto [B1,B2,C,A]; reasons in `evaluation.json`/README.
+- [x] Tests 396 → **414** (new candidate geometry-change, evaluation v0.2, basis/negative tests; no deletion). PR/merge pending at docs time.
 
 ### M4c-0 — Open-Source Design Capability Reuse Sprint (complete; partial answer)
 
@@ -315,7 +323,7 @@ rebuilding, using the same CASE-SKETCH-001 focus block.
   deferred full-site spacing.
   (M4c-1c/1d annotation: this block predates the honest-semantics split — the
   63.0% figure is the candidate open-space ratio, not designed green, and the
-  current check semantics are 27 = 9 pass + 11 info + 7 deferred (0.22.0), with
+  current check semantics are 27 = 9 pass + 11 info + 7 deferred (0.23.0), with
   designed green 6.54% deferred.)
 - [x] Reuse matrix with versions, licenses, hosts, tested APIs, metrics,
   verdicts and rejected uses: `docs/e2e/open-source-reuse-001/reuse-matrix.yaml`.
@@ -345,8 +353,8 @@ the M4c-1b evidence is removed.
 
 1. ~~Repair the design road topology~~ — **done in 4c-1a/1b/1e** (explicit shared-coordinate junctions, dependency-free noded check, 44-road access network, declared service relations, evidence regenerated).
 2. ~~M4c-2 main-road alignment~~ — **done in 0.21.0 and Phase-0 corrected in 0.22.0** (overlap split 38.19068149970835 → 0; boundary-containment hard pass with margin 0.6735131264650868; `FULL_SITE_ROAD_CLEARANCE` remains deferred).
-3. ~~First multi-candidate experiment~~ — **done in 0.22.0** (A/B1/B2/C all hard-pass; default recommendation B1, road-first A; Pareto [B1,B2,C,A]; no single score).
-4. **Full-site expansion** — all groups, full-site road clearance, 20 m spacing, garage/driveway geometry; then a real CAD host/freecad/autocad GUI lane and a real design-office profile, and R1 evidence closure.
+3. ~~First multi-candidate experiment~~ — **done in 0.22.0, evaluation integrity fixed in M4c-3a/0.23.0** (A/B1/B2/C all hard-pass; all-44-road class/terminal evidence; basis binding; 11 single-unit objectives with auxiliary excluded; default B1, road-first A; Pareto [B1,B2,C,A]; no single score).
+4. **M4d — full-site expansion** — all groups, full-site road clearance, 20 m spacing, garage/driveway geometry; run in parallel with a real CAD host round-trip (LibreCAD/FreeCAD/AutoCAD GUI), a real design-office profile, and R1 evidence closure.
 5. **Measure design quality, not only sketch fidelity** — intent preservation, completeness, internal consistency, verified constraint satisfaction and CAD editability; Hausdorff/IoU remain secondary.
 6. **Professional building and road design** — apply the unit-type library, resolve six unit-count conflicts and the kindergarten classification; separate 支路/入户路, then review road class and cross-sections.
 7. **Agent ↔ real CAD loop** — hand the draft to the CAD bridge; verify host read/edit/readback/diff/local rebuild; keep LibreCAD, FreeCAD and AutoCAD GUI as independent evidence lanes.

@@ -24,7 +24,12 @@ from dgcad_design.buildings import (
 )
 from dgcad_design.candidates import build_all_candidates
 from dgcad_design.consistency import check_design
-from dgcad_design.evaluation import DEFAULT_PRIORITIES, compare, evaluate_candidate
+from dgcad_design.evaluation import (
+    DEFAULT_PRIORITIES,
+    basis_fingerprint as compute_basis_fingerprint,
+    compare,
+    evaluate_candidate,
+)
 from dgcad_design.green import build_green_layout
 from dgcad_design.input import load_design_input
 from dgcad_design.intent import build_design_intent
@@ -40,10 +45,14 @@ BASIS = ROOT / "fixtures" / "design" / "design-basis-001.yaml"
 OUT = ROOT / "docs" / "e2e" / "design-candidates-001"
 
 ROAD_FIRST_PREFERENCES = [
-    {"objective": "road_change", "direction": "minimize"},
-    {"objective": "building_change", "direction": "minimize"},
-    {"objective": "source_preservation", "direction": "maximize"},
-    {"objective": "green_change", "direction": "maximize"},
+    {"objective": "main_route_deviation_max_m", "direction": "minimize"},
+    {"objective": "main_length_delta_abs_m", "direction": "minimize"},
+    {"objective": "branch_access_route_deviation_max_m", "direction": "minimize"},
+    {"objective": "access_terminal_max_delta_m", "direction": "minimize"},
+    {"objective": "building_count_change", "direction": "minimize"},
+    {"objective": "building_displacement_max_m", "direction": "minimize"},
+    {"objective": "source_preservation_coverage", "direction": "maximize"},
+    {"objective": "green_designed_ratio_delta", "direction": "maximize"},
 ]
 
 
@@ -78,6 +87,7 @@ def main() -> int:
     basis = DesignBasis.from_dict(
         yaml.safe_load(BASIS.read_text(encoding="utf-8"))
     )
+    basis_fingerprint = compute_basis_fingerprint(basis)
     design_input = load_design_input(CASE, basis)
     intent = build_design_intent(design_input, basis)
     standardized = standardize_all(design_input, basis)
@@ -137,18 +147,24 @@ def main() -> int:
     _write(
         OUT / "candidates.json",
         {
-            "schema_id": "dgcad.design-candidates.v0.1",
+            "schema_id": "dgcad.design-candidates.v0.2",
             "source_case": str(CASE.relative_to(ROOT)).replace("\\", "/"),
             "reference": (
                 "boundary-safe, dead-end-resolved reference (source alignment, "
                 "alignment_mode='none'; boundary repair and dead-end resolution "
                 "still apply), not the already-aligned M4c-2 base"
             ),
+            "basis": {
+                "parent_basis_id": candidates["A"].spec.parent_basis_id,
+                "basis_fingerprint": candidates["A"].spec.basis_fingerprint,
+            },
             "candidates": [
                 {
                     "candidate_id": candidate.spec.candidate_id,
                     "strategy": candidate.spec.strategy,
                     "description": candidate.spec.description,
+                    "parent_basis_id": candidate.spec.parent_basis_id,
+                    "basis_fingerprint": candidate.spec.basis_fingerprint,
                     "changes": candidate.changes,
                     "main_length_m": _main_length(candidate),
                     "total_road_building_overlap_m2": _overlap(candidate, basis),
@@ -197,7 +213,7 @@ def main() -> int:
             ),
         )
         summary_payload = {
-            "schema_id": "dgcad.design-candidate-summary.v0.1",
+            "schema_id": "dgcad.design-candidate-summary.v0.2",
             "candidate_id": candidate_id,
             "strategy": candidate.spec.strategy,
             "description": candidate.spec.description,
@@ -241,9 +257,23 @@ def main() -> int:
             },
         )
         soft = eval_payload.get("soft") or {}
-        road_change = soft.get("road_change") or {}
+        objectives = soft.get("objectives") or {}
         hard_details = eval_payload.get("hard_details") or {}
         overlap_details = (hard_details.get("overlap_ok") or {})
+        route_deviation = max(
+            float(objectives.get("main_route_deviation_max_m") or 0.0),
+            float(objectives.get("branch_access_route_deviation_max_m") or 0.0),
+        )
+        g08 = next(
+            (
+                float(item["delta_m"])
+                for item in candidate.changes["geometry_change"][
+                    "group_terminal_changes"
+                ]
+                if item["group_id"] == "G-08"
+            ),
+            0.0,
+        )
         comparison_inputs.append(
             SimpleNamespace(
                 candidate_id=candidate_id,
@@ -252,11 +282,19 @@ def main() -> int:
                 metrics={
                     "hard_pass": eval_payload.get("hard_pass"),
                     "strategy": candidate.spec.strategy,
-                    "max_displacement_m": road_change.get("max_displacement_m"),
+                    "max_displacement_m": route_deviation,
                     "main_length_m": _main_length(candidate),
                     "road_building_overlap_m2_total": overlap_details.get(
                         "total_road_building_overlap_m2"
                     ),
+                    "detail_lines": [
+                        f"main dev: {float(objectives.get('main_route_deviation_max_m') or 0.0):.2f} m",
+                        f"branch/access dev: {float(objectives.get('branch_access_route_deviation_max_m') or 0.0):.2f} m",
+                        f"G-08 terminal: {g08:.2f} m",
+                        "buildings moved: "
+                        f"{float(objectives.get('building_displaced_count') or 0.0):.0f}, "
+                        f"max disp {float(objectives.get('building_displacement_max_m') or 0.0):.2f} m",
+                    ],
                 },
             )
         )
@@ -269,7 +307,7 @@ def main() -> int:
     _write(
         OUT / "evaluation.json",
         {
-            "schema_id": "dgcad.design-candidates-evaluation.v0.1",
+            "schema_id": "dgcad.design-candidates-evaluation.v0.2",
             "reference": (
                 "boundary-safe, dead-end-resolved reference (source alignment, "
             "alignment_mode='none'; boundary repair and dead-end resolution "
@@ -285,8 +323,10 @@ def main() -> int:
                 "road_first": ROAD_FIRST_PREFERENCES,
             },
             "note": (
-                "hard gates are recomputed from geometry, not read from the "
-                "candidate; no single black-box score is produced"
+                "hard gates and the ten single-unit objectives are recomputed "
+                "from geometry, not read from the candidate; auxiliary metrics "
+                "are reported but never enter the Pareto front; no single "
+                "black-box score is produced"
             ),
         },
     )
@@ -299,51 +339,51 @@ def main() -> int:
     )
 
     rows = []
+
+    def _fmt(value, digits=2):
+        return "n/a" if value is None else f"{float(value):.{digits}f}"
+
     for evaluation in evaluations:
         payload = evaluation.to_dict()
         soft = payload.get("soft") or {}
+        objectives = soft.get("objectives") or {}
         over = (payload.get("hard_details") or {}).get("overlap_ok") or {}
         bound = (payload.get("hard_details") or {}).get("boundary_ok") or {}
-        road = soft.get("road_change") or {}
-        building = soft.get("building_change") or {}
         rows.append(
-            "| {cid} | {strategy} | {hard} | {overlap:.3f} | {boundary:.3f} | "
-            "{road_disp} | {road_len_delta} | {building_disp} | {green_delta} |".format(
+            "| {cid} | {hard} | {overlap:.3f} | {boundary:.3f} | {main_dev} | "
+            "{branch_dev} | {terminal} | {bld_count} | {bld_moved} | {bld_disp} | "
+            "{main_len} | {source_cov} | {source_dist} | {source_heading} | {green} |".format(
                 cid=payload["candidate_id"],
-                strategy=payload["strategy"],
                 hard="pass" if payload["hard_pass"] else "FAIL",
                 overlap=float(over.get("total_road_building_overlap_m2") or 0.0),
                 boundary=float(bound.get("boundary_margin_m") or 0.0),
-                road_disp=(
+                main_dev=_fmt(objectives.get("main_route_deviation_max_m")),
+                branch_dev=_fmt(
+                    objectives.get("branch_access_route_deviation_max_m")
+                ),
+                terminal=_fmt(objectives.get("access_terminal_max_delta_m")),
+                bld_count=_fmt(objectives.get("building_count_change"), 0),
+                bld_moved=_fmt(objectives.get("building_displaced_count"), 0),
+                bld_disp=_fmt(objectives.get("building_displacement_max_m")),
+                main_len=_fmt(objectives.get("main_length_delta_abs_m")),
+                source_cov=(
                     "n/a"
-                    if road.get("max_displacement_m") is None
-                    else f"{road['max_displacement_m']:.2f} m"
+                    if objectives.get("source_preservation_coverage") is None
+                    else f"{float(objectives['source_preservation_coverage']):.3f}"
                 ),
-                road_len_delta=(
-                    "n/a"
-                    if road.get("main_length_delta_m") is None
-                    else f"{road['main_length_delta_m']:.2f} m"
+                source_dist=_fmt(
+                    objectives.get("source_preservation_distance_m")
                 ),
-                building_disp=(
-                    "0"
-                    if not building.get("displaced_count")
-                    else f"{building['displaced_count']} / "
-                    f"{building['max_displacement_m']:.2f} m"
+                source_heading=_fmt(
+                    objectives.get("source_preservation_heading_deg")
                 ),
-                green_delta=(
-                    "n/a"
-                    if (soft.get("green_change") or {}).get(
-                        "candidate_open_space_ratio_delta"
-                    )
-                    is None
-                    else f"{(soft['green_change']['candidate_open_space_ratio_delta'] * 100):.3f} pp"
-                ),
+                green=_fmt(objectives.get("green_designed_ratio_delta"), 4),
             )
         )
 
     default_rec = default_decision["recommendation"]
     road_first_rec = road_first_decision["recommendation"]
-    readme = f"""# M4c-3 — first multi-candidate design decision experiment
+    readme = f"""# M4c-3a — candidate comparison with explicit single-unit objectives
 
 Generated by `python scripts/design/build_candidate_experiment.py` from the same
 source, design basis and evidence. Four candidates address the **MAIN-19 /
@@ -352,45 +392,65 @@ candidate (B1), not the predetermined answer.
 
 Reference for change metrics: **boundary-safe, dead-end-resolved reference**
 (source alignment, `alignment_mode='none'`; boundary repair and dead-end
-resolution still apply), not the already-aligned M4c-2 base. Hard gates are
-recomputed by
-`src/dgcad_design/evaluation.py` from geometry; candidate self-reports are ignored.
+resolution still apply), not the already-aligned M4c-2 base. Hard gates and the
+objectives are recomputed by `src/dgcad_design/evaluation.py` from geometry;
+candidate self-reports are ignored. Every candidate is bound to the same
+design basis by `parent_basis_id` + `basis_fingerprint`
+(`{basis_fingerprint}`).
 
 ## Candidates
 
 | id | strategy | description |
 |---|---|---|
-| A | road_priority | keep the raw main alignment, shift SK-BLD-0006 by the minimum clearing distance |
-| B1 | building_priority_diversion | keep buildings, use the M4c-2 MAIN-19 diversion (66.235 m) |
-| B2 | building_priority_alternate | keep buildings, alternate diversion fold (different displacement/length) |
-| C | coordinated | shift SK-BLD-0006 1.50 m plus a medium local road adjustment |
+{chr(10).join(
+    f"| {c.spec.candidate_id} | {c.spec.strategy} | {c.spec.description} |"
+    for c in candidates.values()
+)}
 
-## Hard gates and soft metrics
+## Hard gates and objectives (single-unit, no composite score)
 
-| id | strategy | hard | overlap m2 | boundary margin m | road max disp | main length delta | building disp | green delta |
-|---|---|---|---|---|---|---|---|---|
+| id | hard | overlap m2 | boundary margin m | main deviation m | branch/access deviation m | terminal max delta m | building count change | buildings moved | building disp max m | main length delta abs m | source coverage | source distance m | source heading deg | designed green delta |
+|---|---|---|---|---|---|---|---|---|---|---|---|
 {chr(10).join(rows)}
 
-All hard gates (overlap, topology, site-boundary containment, declared access,
-capacity, basis) must pass before soft comparison. `boundary margin` is the
-minimum main-road corridor-edge distance inside the published site boundary.
+Auxiliary diagnostics (**never** in the Pareto front or preference comparison):
+green open-space ratio delta, unbuilt ratio delta, GFA/FAR invariants, added
+vertices, group-integrity detail. The `group_integrity` evidence also records
+`declared_relations_preserved` and per-group terminal shifts; per-group data is
+in `changes["geometry_change"]["group_terminal_changes"]`.
+
+Notable measured effects (from `geometry_change`): A moves SK-BLD-0006 by
+3.172 m and re-routes its **BR-G-08** access branch by **2.826 m** (G-08
+terminal shifts 2.826 m); C moves SK-BLD-0006 only 1.50 m but re-routes
+**BR-G-08 by 76.700 m** and shifts the G-08 terminal by **75.315 m**; B1/B2
+keep all buildings but re-route MAIN-19 (66.235 / 71.772 m), and the attached
+BR-G-09 follows (7.352 / 13.645 m). C is therefore not a "small local change"
+and must be read through those numbers, not through its 1.5 m building shift.
 
 ## Decision
 
-- **Default preferences** (building preservation first: building_change →
-  road_change → source_preservation → green_change):
-  **{default_rec}** recommended.
-- **Road-first preferences** (road_change → building_change →
-  source_preservation → green_change): **{road_first_rec}** recommended.
+- **Default preferences** (building_count_change → building_displaced_count →
+  building_displacement_max_m → access_terminal_max_delta_m →
+  main_route_deviation_max_m →
+  main_length_delta_abs_m → source_preservation_coverage →
+  green_designed_ratio_delta): **{default_rec}** recommended.
+- **Road-first preferences** (main_route_deviation_max_m →
+  main_length_delta_abs_m → branch_access_route_deviation_max_m →
+  access_terminal_max_delta_m → building_count_change →
+  building_displacement_max_m → source_preservation_coverage →
+  green_designed_ratio_delta): **{road_first_rec}** recommended.
 
 Pareto front (default): {", ".join(default_decision["pareto_front"])}.
 Every rejection reason (default): {json.dumps(default_decision["reasons"], ensure_ascii=False)}.
 Road-first reasons: {json.dumps(road_first_decision["reasons"], ensure_ascii=False)}.
 
-There is **no single opaque score**. The table exposes the trade-off: B1/B2
-leave all buildings untouched but change the main road; A moves one building
-(SK-BLD-0006) while returning to the source road trend; C shifts the building
-half-way and makes a medium road change.
+There is **no single opaque score**. Each objective compares one quantity with
+one unit; auxiliary metrics are reported but excluded from the Pareto front and
+from the preference comparison. Historical boundary facts are archived in
+`HISTORICAL_BOUNDARY_ARCHIVE` (MAIN-19 66.235 m diversion; MAIN-08/16/18
+source-corridor repairs of 341.6908 / 2.4178 / 8.2909 m²); the current B1
+candidate is boundary-compliant (margin 0.6735 m) and is judged only on its own
+geometry.
 
 ## Reproduce
 
@@ -408,13 +468,14 @@ Per-candidate evidence files: `candidate-summary.json`, `design-summary.json`,
 
 - **Proves**: under the same constraints, the Agent can produce four distinct,
   hard-valid design responses to one real conflict, and an independent
-  evaluator can rank them under two explicit preference orders and explain the
-  trade-off.
+  evaluator can compare them on explicit single-unit objectives, report the
+  Pareto front and both preference-order decisions, and expose the hidden
+  branch/access effects.
 - **Does not prove**: that the preferred candidate is a professional design, that
-  the candidate set is exhaustive, or that the soft objectives are complete.
-  B1's original 66.235 m diversion is retained as a boundary-violating
-  historical baseline (`KNOWN_BOUNDARY_VIOLATIONS`) and is not a hard pass in
-  its pre-repair form. The full site, garage geometry, road profiles, daylight
+  the candidate set is exhaustive, or that the objectives are complete. The
+  source-segment mapping still falls back to the nearest source edges when no
+  segment is covered, so source coverage is initial evidence, not proof of
+  intent preservation. The full site, garage geometry, road profiles, daylight
   and code compliance remain out of scope.
 """
     (OUT / "README.md").write_text(readme, encoding="utf-8", newline="\n")

@@ -5,6 +5,10 @@
 <text x="24" y="50" font-size="11" fill="#555555" text-anchor="start" font-weight="normal">4 candidate(s); showing 4 in a 2x2 grid</text>
 <rect x="24" y="104" width="764" height="560" fill="#fcfcfc" stroke="#cccccc" stroke-width="1"/>
 <text x="40" y="130" font-size="14" fill="#111111" text-anchor="start" font-weight="bold">A  [road_priority]</text>
+<text x="40" y="526" font-size="10.5" fill="#455a64" text-anchor="start" font-weight="normal">main dev: 2.32 m</text>
+<text x="40" y="541" font-size="10.5" fill="#455a64" text-anchor="start" font-weight="normal">branch/access dev: 2.83 m</text>
+<text x="40" y="556" font-size="10.5" fill="#455a64" text-anchor="start" font-weight="normal">G-08 terminal: 2.83 m</text>
+<text x="40" y="571" font-size="10.5" fill="#455a64" text-anchor="start" font-weight="normal">buildings moved: 1, max disp 3.17 m</text>
 <g transform="translate(40,164)">
 <path d="M 673.64,631.49 L 674.03,595.24 L 619.66,594.65 L 619.27,630.9 L 673.64,631.49 Z" fill="#e8e8e8" stroke="#4d4d4d" stroke-width="0.7"/>
 <path d="M 171.12,872.45 L 171.12,852.51 L 40.64,852.51 L 40.64,872.45 L 171.12,872.45 Z" fill="#e8e8e8" stroke="#4d4d4d" stroke-width="0.7"/>
@@ -156,6 +160,10 @@
 <text x="40" y="641" font-size="12" fill="#333333" text-anchor="start" font-weight="normal">overlap: 0.86 m2</text>
 <rect x="812" y="104" width="764" height="560" fill="#fcfcfc" stroke="#cccccc" stroke-width="1"/>
 <text x="828" y="130" font-size="14" fill="#111111" text-anchor="start" font-weight="bold">B1  [building_priority_diversion]</text>
+<text x="828" y="526" font-size="10.5" fill="#455a64" text-anchor="start" font-weight="normal">main dev: 66.24 m</text>
+<text x="828" y="541" font-size="10.5" fill="#455a64" text-anchor="start" font-weight="normal">branch/access dev: 7.35 m</text>
+<text x="828" y="556" font-size="10.5" fill="#455a64" text-anchor="start" font-weight="normal">G-08 terminal: 0.00 m</text>
+<text x="828" y="571" font-size="10.5" fill="#455a64" text-anchor="start" font-weight="normal">buildings moved: 0, max disp 0.00 m</text>
 <g transform="translate(828,164)">
 <path d="M 673.64,631.49 L 674.03,595.24 L 619.66,594.65 L 619.27,630.9 L 673.64,631.49 Z" fill="#e8e8e8" stroke="#4d4d4d" stroke-width="0.7"/>
 <path d="M 171.12,872.45 L 171.12,852.51 L 40.64,852.51 L 40.64,872.45 L 171.12,872.45 Z" fill="#e8e8e8" stroke="#4d4d4d" stroke-width="0.7"/>
@@ -307,6 +315,10 @@
 <text x="828" y="641" font-size="12" fill="#333333" text-anchor="start" font-weight="normal">overlap: 0.994 m2</text>
 <rect x="24" y="688" width="764" height="560" fill="#fcfcfc" stroke="#cccccc" stroke-width="1"/>
 <text x="40" y="714" font-size="14" fill="#111111" text-anchor="start" font-weight="bold">B2  [building_priority_alternate]</text>
+<text x="40" y="1110" font-size="10.5" fill="#455a64" text-anchor="start" font-weight="normal">main dev: 71.77 m</text>
+<text x="40" y="1125" font-size="10.5" fill="#455a64" text-anchor="start" font-weight="normal">branch/access dev: 13.65 m</text>
+<text x="40" y="1140" font-size="10.5" fill="#455a64" text-anchor="start" font-weight="normal">G-08 terminal: 0.00 m</text>
+<text x="40" y="1155" font-size="10.5" fill="#455a64" text-anchor="start" font-weight="normal">buildings moved: 0, max disp 0.00 m</text>
 <g transform="translate(40,748)">
 <path d="M 673.64,631.49 L 674.03,595.24 L 619.66,594.65 L 619.27,630.9 L 673.64,631.49 Z" fill="#e8e8e8" stroke="#4d4d4d" stroke-width="0.7"/>
 <path d="M 171.12,872.45 L 171.12,852.51 L 40.64,852.51 L 40.64,872.45 L 171.12,872.45 Z" fill="#e8e8e8" stroke="#4d4d4d" stroke-width="0.7"/>
@@ -458,6 +470,10 @@
 <text x="40" y="1225" font-size="12" fill="#333333" text-anchor="start" font-weight="normal">overlap: 0.994 m2</text>
 <rect x="812" y="688" width="764" height="560" fill="#fcfcfc" stroke="#cccccc" stroke-width="1"/>
 <text x="828" y="714" font-size="14" fill="#111111" text-anchor="start" font-weight="bold">C  [coordinated]</text>
+<text x="828" y="1110" font-size="10.5" fill="#455a64" text-anchor="start" font-weight="normal">main dev: 11.99 m</text>
+<text x="828" y="1125" font-size="10.5" fill="#455a64" text-anchor="start" font-weight="normal">branch/access dev: 76.70 m</text>
+<text x="828" y="1140" font-size="10.5" fill="#455a64" text-anchor="start" font-weight="normal">G-08 terminal: 75.31 m</text>
+<text x="828" y="1155" font-size="10.5" fill="#455a64" text-anchor="start" font-weight="normal">buildings moved: 1, max disp 1.50 m</text>
 <g transform="translate(828,748)">
 <path d="M 673.64,631.49 L 674.03,595.24 L 619.66,594.65 L 619.27,630.9 L 673.64,631.49 Z" fill="#e8e8e8" stroke="#4d4d4d" stroke-width="0.7"/>
 <path d="M 171.12,872.45 L 171.12,852.51 L 40.64,852.51 L 40.64,872.45 L 171.12,872.45 Z" fill="#e8e8e8" stroke="#4d4d4d" stroke-width="0.7"/>

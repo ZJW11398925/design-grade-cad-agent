@@ -1,13 +1,17 @@
 {
-  "schema_id": "dgcad.design-candidate-summary.v0.1",
+  "schema_id": "dgcad.design-candidate-summary.v0.2",
   "candidate_id": "A",
   "strategy": "road_priority",
-  "description": "roads keep their raw source alignment; conflicting buildings are translated by the minimum distance that clears the main corridors (road priority)",
+  "description": "roads keep their raw source alignment; conflicting buildings are translated by the minimum distance that clears the main corridors (road priority). The SK-BLD-0006 shift also re-routes its BR-G-08 access branch by 2.826 m - every affected road, including branches/access, is recorded in geometry_change",
   "changes": {
     "spec": {
       "candidate_id": "A",
-      "strategy": "road_priority"
+      "strategy": "road_priority",
+      "parent_basis_id": "design-assumption-v0.2",
+      "basis_fingerprint": "2a2d7807d218f21b0d5f8546c4ea766f631788f7d48d01d9831d93513344227e"
     },
+    "parent_basis_id": "design-assumption-v0.2",
+    "basis_fingerprint": "2a2d7807d218f21b0d5f8546c4ea766f631788f7d48d01d9831d93513344227e",
     "boundary": {
       "hard_boundary_ok": true,
       "boundary_violation_m": 0.0,
@@ -30,15 +34,643 @@
     "building_shift_total_m": 3.1720857962227678,
     "road_route_changes": [
       {
+        "road_id": "BR-G-08",
+        "class_name": "branch",
+        "kind": "length_change",
+        "length_delta_m": 0.004224173167481471,
+        "max_displacement_m": 2.825827798091072,
+        "max_vertex_displacement_m": 2.82582779809108,
+        "hausdorff_m": 2.825827798091072,
+        "removed_length_m": 3.0488079048252157,
+        "added_length_m": 3.053032077992697
+      },
+      {
         "road_id": "MAIN-15",
+        "class_name": "main",
         "kind": "trim",
-        "max_displacement_m": 4.023783696255615e-15,
-        "max_vertex_displacement_m": 4.023783696255615e-15,
-        "length_delta_m": -2.3202710858196465
+        "length_delta_m": -2.3202710858196465,
+        "max_displacement_m": 2.320271085819647,
+        "max_vertex_displacement_m": 2.320271085819647,
+        "hausdorff_m": 2.320271085819647,
+        "removed_length_m": 2.3202700858196352,
+        "added_length_m": 0.0
+      },
+      {
+        "road_id": "BR-G-09",
+        "class_name": "branch",
+        "kind": "length_change",
+        "length_delta_m": -0.013638564315063384,
+        "max_displacement_m": 0.3434736221565722,
+        "max_vertex_displacement_m": 0.3434736221565722,
+        "hausdorff_m": 0.3434736221565722,
+        "removed_length_m": 5.185734847410197,
+        "added_length_m": 5.172096283095134
       }
     ],
-    "road_route_change_count": 1,
-    "road_max_displacement_m": 4.023783696255615e-15,
+    "road_route_change_count": 3,
+    "road_max_displacement_m": 2.825827798091072,
+    "main_road_max_displacement_m": 2.320271085819647,
+    "geometry_change": {
+      "reference": "raw source alignment plus boundary repair (alignment_mode='none' road layout)",
+      "tolerance_m": 0.01,
+      "affected_road_count": 3,
+      "affected_road_count_by_class": {
+        "main": 1,
+        "branch": 2,
+        "access": 0
+      },
+      "class_max_deviation_m": {
+        "main": 2.320271085819647,
+        "branch": 2.825827798091072,
+        "access": 0.0
+      },
+      "max_route_deviation_main_m": 2.320271085819647,
+      "max_route_deviation_branch_m": 2.825827798091072,
+      "max_route_deviation_access_m": 0.0,
+      "roads": [
+        {
+          "road_id": "BR-G-08",
+          "class_name": "branch",
+          "kind": "length_change",
+          "length_delta_m": 0.004224173167481471,
+          "max_displacement_m": 2.825827798091072,
+          "max_vertex_displacement_m": 2.82582779809108,
+          "hausdorff_m": 2.825827798091072,
+          "removed_length_m": 3.0488079048252157,
+          "added_length_m": 3.053032077992697
+        },
+        {
+          "road_id": "MAIN-15",
+          "class_name": "main",
+          "kind": "trim",
+          "length_delta_m": -2.3202710858196465,
+          "max_displacement_m": 2.320271085819647,
+          "max_vertex_displacement_m": 2.320271085819647,
+          "hausdorff_m": 2.320271085819647,
+          "removed_length_m": 2.3202700858196352,
+          "added_length_m": 0.0
+        },
+        {
+          "road_id": "BR-G-09",
+          "class_name": "branch",
+          "kind": "length_change",
+          "length_delta_m": -0.013638564315063384,
+          "max_displacement_m": 0.3434736221565722,
+          "max_vertex_displacement_m": 0.3434736221565722,
+          "hausdorff_m": 0.3434736221565722,
+          "removed_length_m": 5.185734847410197,
+          "added_length_m": 5.172096283095134
+        }
+      ],
+      "group_terminal_changes": [
+        {
+          "group_id": "G-01",
+          "road_id": "BR-G-01",
+          "road_id_before": "BR-G-01",
+          "road_id_after": "BR-G-01",
+          "terminal_before": [
+            204.5930225394812,
+            612.77806003196
+          ],
+          "terminal_after": [
+            204.5930225394812,
+            612.77806003196
+          ],
+          "delta_m": 0.0,
+          "hausdorff_m": 0.0
+        },
+        {
+          "group_id": "G-02",
+          "road_id": "BR-G-02",
+          "road_id_before": "BR-G-02",
+          "road_id_after": "BR-G-02",
+          "terminal_before": [
+            307.19812484872534,
+            245.11737789684884
+          ],
+          "terminal_after": [
+            307.19812484872534,
+            245.11737789684884
+          ],
+          "delta_m": 0.0,
+          "hausdorff_m": 0.0
+        },
+        {
+          "group_id": "G-03",
+          "road_id": "BR-G-03",
+          "road_id_before": "BR-G-03",
+          "road_id_after": "BR-G-03",
+          "terminal_before": [
+            120.89913495183204,
+            152.89360960686366
+          ],
+          "terminal_after": [
+            120.89913495183204,
+            152.89360960686366
+          ],
+          "delta_m": 0.0,
+          "hausdorff_m": 0.0
+        },
+        {
+          "group_id": "G-04",
+          "road_id": "BR-G-04",
+          "road_id_before": "BR-G-04",
+          "road_id_after": "BR-G-04",
+          "terminal_before": [
+            259.5373634518321,
+            443.91083710686365
+          ],
+          "terminal_after": [
+            259.5373634518321,
+            443.91083710686365
+          ],
+          "delta_m": 0.0,
+          "hausdorff_m": 0.0
+        },
+        {
+          "group_id": "G-05",
+          "road_id": "BR-G-05",
+          "road_id_before": "BR-G-05",
+          "road_id_after": "BR-G-05",
+          "terminal_before": [
+            32.495631311261754,
+            436.70291090117996
+          ],
+          "terminal_after": [
+            32.495631311261754,
+            436.70291090117996
+          ],
+          "delta_m": 0.0,
+          "hausdorff_m": 0.0
+        },
+        {
+          "group_id": "G-06",
+          "road_id": "BR-G-06",
+          "road_id_before": "BR-G-06",
+          "road_id_after": "BR-G-06",
+          "terminal_before": [
+            165.5664030478256,
+            149.70176046639037
+          ],
+          "terminal_after": [
+            165.5664030478256,
+            149.70176046639037
+          ],
+          "delta_m": 0.0,
+          "hausdorff_m": 0.0
+        },
+        {
+          "group_id": "G-07",
+          "road_id": "BR-G-07",
+          "road_id_before": "BR-G-07",
+          "road_id_after": "BR-G-07",
+          "terminal_before": [
+            89.97410178701078,
+            116.26699318587342
+          ],
+          "terminal_after": [
+            89.97410178701078,
+            116.26699318587342
+          ],
+          "delta_m": 0.0,
+          "hausdorff_m": 0.0
+        },
+        {
+          "group_id": "G-08",
+          "road_id": "BR-G-08",
+          "road_id_before": "BR-G-08",
+          "road_id_after": "BR-G-08",
+          "terminal_before": [
+            157.25025335673936,
+            112.46114966732631
+          ],
+          "terminal_after": [
+            155.3253612862601,
+            114.53050928388357
+          ],
+          "delta_m": 2.826209246611442,
+          "hausdorff_m": 2.825827798091072
+        },
+        {
+          "group_id": "G-09",
+          "road_id": "BR-G-09",
+          "road_id_before": "BR-G-09",
+          "road_id_after": "BR-G-09",
+          "terminal_before": [
+            240.7398633050156,
+            110.36541450355081
+          ],
+          "terminal_after": [
+            240.71892729306938,
+            110.0225795395796
+          ],
+          "delta_m": 0.3434736221565722,
+          "hausdorff_m": 0.3434736221565722
+        },
+        {
+          "group_id": "G-10",
+          "road_id": "BR-G-10",
+          "road_id_before": "BR-G-10",
+          "road_id_after": "BR-G-10",
+          "terminal_before": [
+            288.78095757412234,
+            225.97629217046463
+          ],
+          "terminal_after": [
+            288.78095757412234,
+            225.97629217046463
+          ],
+          "delta_m": 0.0,
+          "hausdorff_m": 0.0
+        },
+        {
+          "group_id": "G-11",
+          "road_id": "BR-G-11",
+          "road_id_before": "BR-G-11",
+          "road_id_after": "BR-G-11",
+          "terminal_before": [
+            93.79980775460419,
+            250.4758924613709
+          ],
+          "terminal_after": [
+            93.79980775460419,
+            250.4758924613709
+          ],
+          "delta_m": 0.0,
+          "hausdorff_m": 0.0
+        },
+        {
+          "group_id": "G-12",
+          "road_id": "ACC-G-12",
+          "road_id_before": "ACC-G-12",
+          "road_id_after": "ACC-G-12",
+          "terminal_before": [
+            169.009433,
+            446.5880463635157
+          ],
+          "terminal_after": [
+            169.009433,
+            446.5880463635157
+          ],
+          "delta_m": 0.0,
+          "hausdorff_m": 0.0
+        },
+        {
+          "group_id": "G-13",
+          "road_id": "BR-G-13",
+          "road_id_before": "BR-G-13",
+          "road_id_after": "BR-G-13",
+          "terminal_before": [
+            110.49081434251151,
+            116.8054439913529
+          ],
+          "terminal_after": [
+            110.49081434251151,
+            116.8054439913529
+          ],
+          "delta_m": 0.0,
+          "hausdorff_m": 0.0
+        },
+        {
+          "group_id": "G-14",
+          "road_id": "BR-G-14",
+          "road_id_before": "BR-G-14",
+          "road_id_after": "BR-G-14",
+          "terminal_before": [
+            142.31938469454892,
+            27.521785862260035
+          ],
+          "terminal_after": [
+            142.31938469454892,
+            27.521785862260035
+          ],
+          "delta_m": 0.0,
+          "hausdorff_m": 0.0
+        },
+        {
+          "group_id": "G-15",
+          "road_id": "BR-G-15",
+          "road_id_before": "BR-G-15",
+          "road_id_after": "BR-G-15",
+          "terminal_before": [
+            317.5303273351603,
+            398.8005544214012
+          ],
+          "terminal_after": [
+            317.5303273351603,
+            398.8005544214012
+          ],
+          "delta_m": 0.0,
+          "hausdorff_m": 0.0
+        },
+        {
+          "group_id": "G-16",
+          "road_id": "BR-G-16",
+          "road_id_before": "BR-G-16",
+          "road_id_after": "BR-G-16",
+          "terminal_before": [
+            84.56365553809306,
+            334.399530903572
+          ],
+          "terminal_after": [
+            84.56365553809306,
+            334.399530903572
+          ],
+          "delta_m": 0.0,
+          "hausdorff_m": 0.0
+        },
+        {
+          "group_id": "G-17",
+          "road_id": "BR-G-17",
+          "road_id_before": "BR-G-17",
+          "road_id_after": "BR-G-17",
+          "terminal_before": [
+            332.40709373542757,
+            308.32345318146946
+          ],
+          "terminal_after": [
+            332.40709373542757,
+            308.32345318146946
+          ],
+          "delta_m": 0.0,
+          "hausdorff_m": 0.0
+        }
+      ]
+    },
+    "group_terminal_changes": [
+      {
+        "group_id": "G-01",
+        "road_id": "BR-G-01",
+        "road_id_before": "BR-G-01",
+        "road_id_after": "BR-G-01",
+        "terminal_before": [
+          204.5930225394812,
+          612.77806003196
+        ],
+        "terminal_after": [
+          204.5930225394812,
+          612.77806003196
+        ],
+        "delta_m": 0.0,
+        "hausdorff_m": 0.0
+      },
+      {
+        "group_id": "G-02",
+        "road_id": "BR-G-02",
+        "road_id_before": "BR-G-02",
+        "road_id_after": "BR-G-02",
+        "terminal_before": [
+          307.19812484872534,
+          245.11737789684884
+        ],
+        "terminal_after": [
+          307.19812484872534,
+          245.11737789684884
+        ],
+        "delta_m": 0.0,
+        "hausdorff_m": 0.0
+      },
+      {
+        "group_id": "G-03",
+        "road_id": "BR-G-03",
+        "road_id_before": "BR-G-03",
+        "road_id_after": "BR-G-03",
+        "terminal_before": [
+          120.89913495183204,
+          152.89360960686366
+        ],
+        "terminal_after": [
+          120.89913495183204,
+          152.89360960686366
+        ],
+        "delta_m": 0.0,
+        "hausdorff_m": 0.0
+      },
+      {
+        "group_id": "G-04",
+        "road_id": "BR-G-04",
+        "road_id_before": "BR-G-04",
+        "road_id_after": "BR-G-04",
+        "terminal_before": [
+          259.5373634518321,
+          443.91083710686365
+        ],
+        "terminal_after": [
+          259.5373634518321,
+          443.91083710686365
+        ],
+        "delta_m": 0.0,
+        "hausdorff_m": 0.0
+      },
+      {
+        "group_id": "G-05",
+        "road_id": "BR-G-05",
+        "road_id_before": "BR-G-05",
+        "road_id_after": "BR-G-05",
+        "terminal_before": [
+          32.495631311261754,
+          436.70291090117996
+        ],
+        "terminal_after": [
+          32.495631311261754,
+          436.70291090117996
+        ],
+        "delta_m": 0.0,
+        "hausdorff_m": 0.0
+      },
+      {
+        "group_id": "G-06",
+        "road_id": "BR-G-06",
+        "road_id_before": "BR-G-06",
+        "road_id_after": "BR-G-06",
+        "terminal_before": [
+          165.5664030478256,
+          149.70176046639037
+        ],
+        "terminal_after": [
+          165.5664030478256,
+          149.70176046639037
+        ],
+        "delta_m": 0.0,
+        "hausdorff_m": 0.0
+      },
+      {
+        "group_id": "G-07",
+        "road_id": "BR-G-07",
+        "road_id_before": "BR-G-07",
+        "road_id_after": "BR-G-07",
+        "terminal_before": [
+          89.97410178701078,
+          116.26699318587342
+        ],
+        "terminal_after": [
+          89.97410178701078,
+          116.26699318587342
+        ],
+        "delta_m": 0.0,
+        "hausdorff_m": 0.0
+      },
+      {
+        "group_id": "G-08",
+        "road_id": "BR-G-08",
+        "road_id_before": "BR-G-08",
+        "road_id_after": "BR-G-08",
+        "terminal_before": [
+          157.25025335673936,
+          112.46114966732631
+        ],
+        "terminal_after": [
+          155.3253612862601,
+          114.53050928388357
+        ],
+        "delta_m": 2.826209246611442,
+        "hausdorff_m": 2.825827798091072
+      },
+      {
+        "group_id": "G-09",
+        "road_id": "BR-G-09",
+        "road_id_before": "BR-G-09",
+        "road_id_after": "BR-G-09",
+        "terminal_before": [
+          240.7398633050156,
+          110.36541450355081
+        ],
+        "terminal_after": [
+          240.71892729306938,
+          110.0225795395796
+        ],
+        "delta_m": 0.3434736221565722,
+        "hausdorff_m": 0.3434736221565722
+      },
+      {
+        "group_id": "G-10",
+        "road_id": "BR-G-10",
+        "road_id_before": "BR-G-10",
+        "road_id_after": "BR-G-10",
+        "terminal_before": [
+          288.78095757412234,
+          225.97629217046463
+        ],
+        "terminal_after": [
+          288.78095757412234,
+          225.97629217046463
+        ],
+        "delta_m": 0.0,
+        "hausdorff_m": 0.0
+      },
+      {
+        "group_id": "G-11",
+        "road_id": "BR-G-11",
+        "road_id_before": "BR-G-11",
+        "road_id_after": "BR-G-11",
+        "terminal_before": [
+          93.79980775460419,
+          250.4758924613709
+        ],
+        "terminal_after": [
+          93.79980775460419,
+          250.4758924613709
+        ],
+        "delta_m": 0.0,
+        "hausdorff_m": 0.0
+      },
+      {
+        "group_id": "G-12",
+        "road_id": "ACC-G-12",
+        "road_id_before": "ACC-G-12",
+        "road_id_after": "ACC-G-12",
+        "terminal_before": [
+          169.009433,
+          446.5880463635157
+        ],
+        "terminal_after": [
+          169.009433,
+          446.5880463635157
+        ],
+        "delta_m": 0.0,
+        "hausdorff_m": 0.0
+      },
+      {
+        "group_id": "G-13",
+        "road_id": "BR-G-13",
+        "road_id_before": "BR-G-13",
+        "road_id_after": "BR-G-13",
+        "terminal_before": [
+          110.49081434251151,
+          116.8054439913529
+        ],
+        "terminal_after": [
+          110.49081434251151,
+          116.8054439913529
+        ],
+        "delta_m": 0.0,
+        "hausdorff_m": 0.0
+      },
+      {
+        "group_id": "G-14",
+        "road_id": "BR-G-14",
+        "road_id_before": "BR-G-14",
+        "road_id_after": "BR-G-14",
+        "terminal_before": [
+          142.31938469454892,
+          27.521785862260035
+        ],
+        "terminal_after": [
+          142.31938469454892,
+          27.521785862260035
+        ],
+        "delta_m": 0.0,
+        "hausdorff_m": 0.0
+      },
+      {
+        "group_id": "G-15",
+        "road_id": "BR-G-15",
+        "road_id_before": "BR-G-15",
+        "road_id_after": "BR-G-15",
+        "terminal_before": [
+          317.5303273351603,
+          398.8005544214012
+        ],
+        "terminal_after": [
+          317.5303273351603,
+          398.8005544214012
+        ],
+        "delta_m": 0.0,
+        "hausdorff_m": 0.0
+      },
+      {
+        "group_id": "G-16",
+        "road_id": "BR-G-16",
+        "road_id_before": "BR-G-16",
+        "road_id_after": "BR-G-16",
+        "terminal_before": [
+          84.56365553809306,
+          334.399530903572
+        ],
+        "terminal_after": [
+          84.56365553809306,
+          334.399530903572
+        ],
+        "delta_m": 0.0,
+        "hausdorff_m": 0.0
+      },
+      {
+        "group_id": "G-17",
+        "road_id": "BR-G-17",
+        "road_id_before": "BR-G-17",
+        "road_id_after": "BR-G-17",
+        "terminal_before": [
+          332.40709373542757,
+          308.32345318146946
+        ],
+        "terminal_after": [
+          332.40709373542757,
+          308.32345318146946
+        ],
+        "delta_m": 0.0,
+        "hausdorff_m": 0.0
+      }
+    ],
     "main_length_m": 1981.9609886916392,
     "main_length_baseline_m": 1984.2812597774587,
     "main_length_delta_m": -2.3202710858195132,
@@ -73,7 +705,7 @@
   },
   "main_length_m": 1981.9609886916392,
   "evaluation": {
-    "schema_id": "dgcad.design-candidates-evaluation.v0.1",
+    "schema_id": "dgcad.design-candidates-evaluation.v0.2",
     "candidate_id": "A",
     "strategy": "road_priority",
     "hard": {
@@ -439,6 +1071,11 @@
         "expected_buildings": 55
       },
       "basis_ok": {
+        "missing": [],
+        "expected_parent_basis_id": "design-assumption-v0.2",
+        "expected_basis_fingerprint": "2a2d7807d218f21b0d5f8546c4ea766f631788f7d48d01d9831d93513344227e",
+        "actual_parent_basis_id": "design-assumption-v0.2",
+        "actual_basis_fingerprint": "2a2d7807d218f21b0d5f8546c4ea766f631788f7d48d01d9831d93513344227e",
         "changed_fields": []
       }
     },
@@ -455,6 +1092,8 @@
         "main_length_delta_m": -2.3202710858195132,
         "total_length_delta_m": -2.32968547696737,
         "max_displacement_m": 2.825827798091072,
+        "main_route_deviation_max_m": 2.320271085819647,
+        "branch_access_route_deviation_max_m": 2.825827798091072,
         "added_vertices": 0
       },
       "building_change": {
@@ -482,6 +1121,93 @@
         "approx_floor_area_m2": 323135.99999999994,
         "approx_floor_area_delta_m2": 0.0,
         "gfa_unchanged": true
+      },
+      "objectives": {
+        "building_count_change": 0.0,
+        "building_displaced_count": 1.0,
+        "building_displacement_max_m": 3.1720857962227718,
+        "main_length_delta_abs_m": 2.3202710858195132,
+        "main_route_deviation_max_m": 2.320271085819647,
+        "branch_access_route_deviation_max_m": 2.825827798091072,
+        "access_terminal_max_delta_m": 2.826209246611442,
+        "source_preservation_coverage": 0.7409376425469033,
+        "source_preservation_distance_m": 3.7874445450221,
+        "source_preservation_heading_deg": 9.288384452972128,
+        "green_designed_ratio_delta": 0.0
+      },
+      "objective_metadata": {
+        "building_count_change": {
+          "direction": "minimize",
+          "unit": "count",
+          "definition": "change in building count versus the reference"
+        },
+        "building_displaced_count": {
+          "direction": "minimize",
+          "unit": "count",
+          "definition": "number of building footprints displaced versus the reference"
+        },
+        "building_displacement_max_m": {
+          "direction": "minimize",
+          "unit": "m",
+          "definition": "largest building footprint displacement versus the reference"
+        },
+        "main_length_delta_abs_m": {
+          "direction": "minimize",
+          "unit": "m",
+          "definition": "absolute change of total main-road length"
+        },
+        "main_route_deviation_max_m": {
+          "direction": "minimize",
+          "unit": "m",
+          "definition": "largest main-road centreline deviation versus the reference"
+        },
+        "branch_access_route_deviation_max_m": {
+          "direction": "minimize",
+          "unit": "m",
+          "definition": "largest branch/access centreline deviation versus the reference"
+        },
+        "access_terminal_max_delta_m": {
+          "direction": "minimize",
+          "unit": "m",
+          "definition": "largest declared access-terminal movement versus the reference"
+        },
+        "source_preservation_coverage": {
+          "direction": "maximize",
+          "unit": "ratio",
+          "definition": "mean source-main-segment coverage by design main roads"
+        },
+        "source_preservation_distance_m": {
+          "direction": "minimize",
+          "unit": "m",
+          "definition": "mean source-to-design segment distance"
+        },
+        "source_preservation_heading_deg": {
+          "direction": "minimize",
+          "unit": "deg",
+          "definition": "mean absolute heading delta to the source main segments"
+        },
+        "green_designed_ratio_delta": {
+          "direction": "maximize",
+          "unit": "ratio",
+          "definition": "change of the designed-green ratio versus the reference"
+        }
+      },
+      "auxiliary": {
+        "not_in_pareto": true,
+        "green_open_space_ratio_delta": -1.4801040880474403e-05,
+        "green_unbuilt_ratio_delta": -3.558573071216209e-06,
+        "space_utilization": {
+          "approx_floor_area_m2": 323135.99999999994,
+          "approx_floor_area_delta_m2": 0.0,
+          "gfa_unchanged": true
+        },
+        "group_integrity_detail": {
+          "groups_served": 17,
+          "reference_groups_served": 17,
+          "declared_relations_preserved": true
+        },
+        "road_added_vertices": 0,
+        "note": "auxiliary diagnostics are reported for the README but never enter the Pareto front or the preference comparison"
       }
     },
     "reasons": [

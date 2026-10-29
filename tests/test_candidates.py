@@ -9,6 +9,7 @@ connections, preserve road ids and keep the 17 declared access relations.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 from functools import lru_cache
 from pathlib import Path
@@ -16,10 +17,11 @@ from pathlib import Path
 import pytest
 from shapely.geometry import Point
 
-from dgcad_design import DesignBasis, load_design_input
+from dgcad_design import DesignBasis, build_design_intent, load_design_input
 from dgcad_design.candidates import (
     CANDIDATE_SPECS,
     CandidateModels,
+    CandidateSpec,
     build_all_candidates,
     build_candidate,
     candidate_by_id,
@@ -40,6 +42,12 @@ def _candidates() -> dict[str, CandidateModels]:
 
 def _by_id(candidate_id: str) -> CandidateModels:
     return _candidates()[candidate_id]
+
+
+@lru_cache(maxsize=1)
+def _intent():
+    design_input = load_design_input(CASE, BASIS)
+    return build_design_intent(design_input, BASIS)
 
 
 def _main19(models: CandidateModels):
@@ -131,18 +139,30 @@ def test_candidate_a_moves_buildings_and_keeps_raw_roads():
     assert changes["displaced_buildings"] == ["SK-BLD-0006"]
     assert changes["building_shift_total_m"] > 0.0
     # the main roads keep their raw source geometry (no main-road alignment);
-    # shifting SK-BLD-0006 does trim the adjacent MAIN-15 stub by 2.320271 m,
-    # which the route-change record now captures as a pure trim (C1)
+    # shifting SK-BLD-0006 trims the adjacent MAIN-15 stub by 2.320271 m and
+    # re-routes the BR-G-08 access branch by 2.826 m: both are recorded (C1 +
+    # M4c-3a all-road evidence)
     route_changes = changes["road_route_changes"]
-    assert len(route_changes) == 1
-    trim = route_changes[0]
-    assert trim["road_id"] == "MAIN-15"
+    assert changes["road_route_change_count"] == len(route_changes)
+    trim = next(
+        item for item in route_changes if item["road_id"] == "MAIN-15"
+    )
+    assert trim["class_name"] == "main"
     assert trim["kind"] == "trim"
     assert trim["length_delta_m"] == pytest.approx(
         -2.3202710858196465, rel=1e-9
     )
-    assert trim["max_vertex_displacement_m"] <= 1e-6
-    assert changes["road_max_displacement_m"] <= 1e-6
+    branch = next(
+        item for item in route_changes if item["road_id"] == "BR-G-08"
+    )
+    assert branch["class_name"] == "branch"
+    assert branch["hausdorff_m"] == pytest.approx(2.825828, abs=1e-3)
+    assert changes["road_max_displacement_m"] == pytest.approx(
+        2.825828, abs=1e-3
+    )
+    assert changes["main_road_max_displacement_m"] == pytest.approx(
+        2.320271, abs=1e-3
+    )
     assert models.road_layout.main_alignment_records == ()
     assert changes["hard_overlap_after_m2"] <= 0.01
     for shift in changes["building_shifts"]:
@@ -180,6 +200,25 @@ def test_b1_is_the_reference_building_priority_design():
     assert changes["hard_boundary_ok"] is True
     assert changes["boundary"]["boundary_violation_m"] <= 0.01
     assert changes["boundary"]["boundary_margin_m"] >= 0.0
+    geometry = changes["geometry_change"]
+    assert geometry["class_max_deviation_m"]["main"] == pytest.approx(
+        66.235459, abs=1e-3
+    )
+    # BR-G-09 attaches to the diverted MAIN-19, so it follows the main-road move
+    branch_g09 = next(
+        item
+        for item in geometry["roads"]
+        if item["road_id"] == "BR-G-09"
+    )
+    assert branch_g09["class_name"] == "branch"
+    assert branch_g09["hausdorff_m"] == pytest.approx(7.352132, abs=1e-3)
+    # the G-08 access branch itself is untouched in the building-priority design
+    group_g08 = next(
+        item
+        for item in changes["group_terminal_changes"]
+        if item["group_id"] == "G-08"
+    )
+    assert group_g08["delta_m"] == pytest.approx(0.0, abs=1e-9)
 
 
 def test_b2_is_a_visibly_different_alternate_route():
@@ -204,6 +243,17 @@ def test_b2_is_a_visibly_different_alternate_route():
         assert candidate.changes["hard_boundary_ok"] is True
         assert candidate.changes["boundary"]["boundary_violation_m"] <= 0.0
         assert candidate.changes["boundary"]["boundary_margin_m"] >= 0.0
+        group_g08 = next(
+            item
+            for item in candidate.changes["group_terminal_changes"]
+            if item["group_id"] == "G-08"
+        )
+        assert group_g08["delta_m"] == pytest.approx(0.0, abs=1e-9)
+    # B2's alternate route changes the attached branch more than B1's
+    assert (
+        b2.changes["geometry_change"]["class_max_deviation_m"]["branch"]
+        > b1.changes["geometry_change"]["class_max_deviation_m"]["branch"]
+    )
 
 
 # ---------------------------------------------------- candidate C coordinated
@@ -221,10 +271,25 @@ def test_candidate_c_is_coordinated():
         < a_changes["building_shift_total_m"]
     )
     assert (
-        changes["road_max_displacement_m"]
-        < b1_changes["road_max_displacement_m"]
+        changes["main_road_max_displacement_m"]
+        < b1_changes["main_road_max_displacement_m"]
     )
     assert changes["hard_overlap_after_m2"] <= 0.01
+    geometry = changes["geometry_change"]
+    assert geometry["class_max_deviation_m"]["main"] == pytest.approx(
+        11.993638, abs=1e-3
+    )
+    branch = next(
+        item for item in geometry["roads"] if item["road_id"] == "BR-G-08"
+    )
+    assert branch["class_name"] == "branch"
+    assert branch["hausdorff_m"] == pytest.approx(76.699653, abs=1e-3)
+    group_g08 = next(
+        item
+        for item in changes["group_terminal_changes"]
+        if item["group_id"] == "G-08"
+    )
+    assert group_g08["delta_m"] == pytest.approx(75.314704, abs=1e-3)
     assert changes["hard_boundary_ok"] is True
     assert changes["boundary"]["boundary_violation_m"] <= 0.0
     assert changes["boundary"]["boundary_margin_m"] >= 0.0
@@ -271,6 +336,40 @@ def test_all_candidates_share_hard_invariants():
         assert changes["household_count_total"] == reference_households
         assert candidate.parking_layout is not None
         assert candidate.green_layout is not None
+        geometry = changes["geometry_change"]
+        for key in (
+            "affected_road_count",
+            "affected_road_count_by_class",
+            "class_max_deviation_m",
+            "max_route_deviation_main_m",
+            "max_route_deviation_branch_m",
+            "max_route_deviation_access_m",
+            "roads",
+            "group_terminal_changes",
+        ):
+            assert key in geometry, (candidate_id, key)
+        assert set(geometry["class_max_deviation_m"]) == {
+            "main",
+            "branch",
+            "access",
+        }
+        assert geometry["affected_road_count"] == len(geometry["roads"])
+        assert (
+            changes["road_route_change_count"]
+            == len(changes["road_route_changes"])
+            == len(geometry["roads"])
+        )
+        assert changes["road_max_displacement_m"] == pytest.approx(
+            max(
+                (
+                    item["hausdorff_m"]
+                    for item in geometry["roads"]
+                ),
+                default=0.0,
+            ),
+            abs=1e-12,
+        )
+        assert len(changes["group_terminal_changes"]) == 17
         for lane in candidate.road_layout.roads:
             if lane.class_name != "main":
                 continue
@@ -287,6 +386,117 @@ def test_candidates_are_deterministic():
     rebuilt = build_candidate(CASE, BASIS, spec)
     cached = _by_id("B2")
     assert _signature(rebuilt) == _signature(cached)
+
+
+# ------------------------------------- M4c-3a all-road geometry evidence
+def test_geometry_change_records_every_road_class():
+    models = _candidates()
+    expected = {
+        # candidate: (main max, branch max, access max)
+        "A": (2.320271, 2.825828, 0.0),
+        "B1": (66.235459, 7.352132, 0.0),
+        "B2": (71.772236, 13.645240, 0.0),
+        "C": (11.993638, 76.699653, 0.0),
+    }
+    for candidate_id, (main_max, branch_max, access_max) in expected.items():
+        geometry = models[candidate_id].changes["geometry_change"]
+        class_max = geometry["class_max_deviation_m"]
+        assert class_max["main"] == pytest.approx(main_max, abs=1e-3)
+        assert class_max["branch"] == pytest.approx(
+            branch_max, abs=1e-3
+        )
+        assert class_max["access"] == pytest.approx(access_max, abs=1e-9)
+        assert geometry["max_route_deviation_main_m"] == pytest.approx(
+            main_max, abs=1e-3
+        )
+        assert geometry["max_route_deviation_branch_m"] == pytest.approx(
+            branch_max, abs=1e-3
+        )
+        assert geometry["max_route_deviation_access_m"] == pytest.approx(
+            0.0, abs=1e-9
+        )
+        for record in geometry["roads"]:
+            assert set(record) >= {
+                "road_id",
+                "class_name",
+                "kind",
+                "length_delta_m",
+                "max_vertex_displacement_m",
+                "hausdorff_m",
+                "removed_length_m",
+                "added_length_m",
+            }
+            assert record["class_name"] in {"main", "branch", "access"}
+            assert record["hausdorff_m"] > 0.01
+            assert record["max_vertex_displacement_m"] >= 0.0
+            assert record["removed_length_m"] >= 0.0
+            assert record["added_length_m"] >= 0.0
+
+
+def test_route_changes_include_branch_and_access_roads():
+    for candidate_id in ("A", "B1", "B2", "C"):
+        changes = _by_id(candidate_id).changes
+        classes = {
+            item["class_name"] for item in changes["road_route_changes"]
+        }
+        assert classes <= {"main", "branch", "access"}
+        assert changes["road_route_change_count"] == len(
+            changes["road_route_changes"]
+        )
+        if candidate_id in {"B1", "B2"}:
+            assert "branch" in classes
+        if candidate_id in {"A", "C"}:
+            assert "branch" in classes
+        # the all-road Hausdorff is what evaluation compares
+        assert changes["road_max_displacement_m"] >= (
+            changes["main_road_max_displacement_m"]
+        )
+
+
+def test_group_terminal_changes_track_g08_endpoint():
+    models = _candidates()
+    expected_g08 = {
+        "A": 2.826209,
+        "B1": 0.0,
+        "B2": 0.0,
+        "C": 75.314704,
+    }
+    for candidate_id, expected_delta in expected_g08.items():
+        changes = models[candidate_id].changes
+        assert len(changes["group_terminal_changes"]) == 17
+        group_ids = {
+            item["group_id"]
+            for item in changes["group_terminal_changes"]
+        }
+        assert group_ids == {
+            group.group_id for group in _intent().groups
+        }
+        g08 = next(
+            item
+            for item in changes["group_terminal_changes"]
+            if item["group_id"] == "G-08"
+        )
+        assert g08["road_id"] == "BR-G-08"
+        assert g08["delta_m"] == pytest.approx(
+            expected_delta, abs=1e-3
+        )
+        assert g08["terminal_before"] is not None
+        assert g08["terminal_after"] is not None
+        if candidate_id in {"A", "C"}:
+            assert g08["delta_m"] > 1.0
+            assert g08["hausdorff_m"] == pytest.approx(
+                2.825828 if candidate_id == "A" else 76.699653,
+                abs=1e-3,
+            )
+
+
+def test_candidate_descriptions_name_the_branch_effects():
+    a_models = _by_id("A")
+    c_models = _by_id("C")
+    assert "BR-G-08" in a_models.spec.description
+    assert "2.826" in a_models.spec.description
+    assert "BR-G-08" in c_models.spec.description
+    assert "G-08" in c_models.spec.description
 
 
 # ------------------------------------------------ Phase 0 evidence fixes
@@ -339,6 +549,56 @@ def test_source_segment_map_is_published():
     payload = models.road_layout.to_dict()
     assert "source_segment_map" in payload
     assert len(payload["source_segment_map"]) == 25
+
+
+def test_candidates_bind_to_parent_basis_fingerprint():
+    models = _candidates()
+    payload = BASIS.to_dict()
+    canonical = json.dumps(payload, sort_keys=True, separators=(",", ":"))
+    expected_fingerprint = hashlib.sha256(
+        canonical.encode("utf-8")
+    ).hexdigest()
+    expected_parent = BASIS.basis_id
+    fingerprints = set()
+    for candidate_id, candidate in models.items():
+        spec = candidate.spec
+        assert spec.parent_basis_id == expected_parent, candidate_id
+        assert spec.basis_fingerprint == expected_fingerprint, candidate_id
+        assert len(spec.basis_fingerprint) == 64, candidate_id
+        int(spec.basis_fingerprint, 16)
+        changes = candidate.changes
+        assert changes["parent_basis_id"] == expected_parent
+        assert changes["basis_fingerprint"] == expected_fingerprint
+        assert changes["spec"]["parent_basis_id"] == expected_parent
+        assert (
+            changes["spec"]["basis_fingerprint"]
+            == expected_fingerprint
+        )
+        exported = candidate.to_dict()
+        assert exported["parent_basis_id"] == expected_parent
+        assert exported["basis_fingerprint"] == expected_fingerprint
+        fingerprints.add(spec.basis_fingerprint)
+    assert len(fingerprints) == 1
+
+
+def test_candidate_spec_construction_is_backward_compatible():
+    spec = CandidateSpec(
+        candidate_id="TEST",
+        strategy="coordinated",
+        description="test spec",
+    )
+    assert spec.parent_basis_id == ""
+    assert spec.basis_fingerprint == ""
+    catalogue_spec = candidate_by_id("A")
+    assert catalogue_spec.basis_fingerprint == ""
+    assert catalogue_spec.parent_basis_id == ""
+    built = build_candidate(CASE, BASIS, catalogue_spec)
+    payload = BASIS.to_dict()
+    canonical = json.dumps(payload, sort_keys=True, separators=(",", ":"))
+    expected = hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+    assert built.spec.candidate_id == "A"
+    assert built.spec.parent_basis_id == BASIS.basis_id
+    assert built.spec.basis_fingerprint == expected
 
 
 def test_candidate_models_to_dict_summary():
