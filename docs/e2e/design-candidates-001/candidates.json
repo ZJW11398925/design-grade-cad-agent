@@ -1,0 +1,310 @@
+{
+  "schema_id": "dgcad.design-candidates.v0.1",
+  "source_case": "docs/e2e/sketch-001",
+  "reference": "boundary-safe, dead-end-resolved reference (source alignment, alignment_mode='none'; boundary repair and dead-end resolution still apply), not the already-aligned M4c-2 base",
+  "candidates": [
+    {
+      "candidate_id": "A",
+      "strategy": "road_priority",
+      "description": "roads keep their raw source alignment; conflicting buildings are translated by the minimum distance that clears the main corridors (road priority)",
+      "changes": {
+        "spec": {
+          "candidate_id": "A",
+          "strategy": "road_priority"
+        },
+        "boundary": {
+          "hard_boundary_ok": true,
+          "boundary_violation_m": 0.0,
+          "boundary_margin_m": 0.6735131264650868,
+          "centerline_violation_m": 0.0,
+          "outside_building_ids": []
+        },
+        "hard_boundary_ok": true,
+        "building_shifts": [
+          {
+            "building_id": "SK-BLD-0006",
+            "dx_m": -3.1713680485506717,
+            "dy_m": 0.06747591592660848,
+            "distance_m": 3.1720857962227678
+          }
+        ],
+        "displaced_buildings": [
+          "SK-BLD-0006"
+        ],
+        "building_shift_total_m": 3.1720857962227678,
+        "road_route_changes": [
+          {
+            "road_id": "MAIN-15",
+            "kind": "trim",
+            "max_displacement_m": 4.023783696255615e-15,
+            "max_vertex_displacement_m": 4.023783696255615e-15,
+            "length_delta_m": -2.3202710858196465
+          }
+        ],
+        "road_route_change_count": 1,
+        "road_max_displacement_m": 4.023783696255615e-15,
+        "main_length_m": 1981.9609886916392,
+        "main_length_baseline_m": 1984.2812597774587,
+        "main_length_delta_m": -2.3202710858195132,
+        "hard_overlap_after_m2": 0.0,
+        "main_overlap_before_m2": 3.768898302095937,
+        "main_overlap_resolved": true,
+        "topology": {
+          "component_count": 1,
+          "node_count": 58,
+          "edge_count": 68,
+          "cyclomatic": 11,
+          "dead_end_count": 19,
+          "junction_count": 36,
+          "explicit_junction_count": 24,
+          "closed_ring_count": 3,
+          "max_endpoint_gap_m": 0.0,
+          "violation_codes": []
+        },
+        "access": {
+          "declared_total": 17,
+          "coverage": 1.0,
+          "served_groups": 17,
+          "group_count": 17,
+          "dead_ends_unresolved": 0,
+          "dead_ends_resolved": 2
+        },
+        "building_count": 55,
+        "unit_count_total": 109,
+        "household_count_total": 2398,
+        "designed_green_ratio": 0.06538561066069971,
+        "assumed_nominal_capacity_spaces": 1000
+      },
+      "main_length_m": 1981.9609886916392,
+      "total_road_building_overlap_m2": 0.8595377847886573
+    },
+    {
+      "candidate_id": "B1",
+      "strategy": "building_priority_diversion",
+      "description": "buildings stay fixed; the M4c-2 diversion (east fold, 0.5 m clearance offset) resolves MAIN-19, local detour resolves MAIN-08 (building priority)",
+      "changes": {
+        "spec": {
+          "candidate_id": "B1",
+          "strategy": "building_priority_diversion"
+        },
+        "boundary": {
+          "hard_boundary_ok": true,
+          "boundary_violation_m": 0.0,
+          "boundary_margin_m": 0.6735131264650868,
+          "centerline_violation_m": 0.0,
+          "outside_building_ids": []
+        },
+        "hard_boundary_ok": true,
+        "building_shifts": [],
+        "displaced_buildings": [],
+        "building_shift_total_m": 0.0,
+        "road_route_changes": [
+          {
+            "road_id": "MAIN-19",
+            "kind": "length_change",
+            "max_displacement_m": 66.23545861756293,
+            "max_vertex_displacement_m": 66.23545861756293,
+            "length_delta_m": 126.97838025563846
+          },
+          {
+            "road_id": "MAIN-20",
+            "kind": "length_change",
+            "max_displacement_m": 5.233264199174163,
+            "max_vertex_displacement_m": 5.233264199174163,
+            "length_delta_m": -3.5262613693504257
+          }
+        ],
+        "road_route_change_count": 2,
+        "road_max_displacement_m": 66.23545861756293,
+        "main_length_m": 2107.733378663747,
+        "main_length_baseline_m": 1984.2812597774587,
+        "main_length_delta_m": 123.45211888628819,
+        "hard_overlap_after_m2": 0.0,
+        "main_overlap_before_m2": 38.19068149970835,
+        "main_overlap_resolved": true,
+        "topology": {
+          "component_count": 1,
+          "node_count": 58,
+          "edge_count": 68,
+          "cyclomatic": 11,
+          "dead_end_count": 19,
+          "junction_count": 36,
+          "explicit_junction_count": 24,
+          "closed_ring_count": 3,
+          "max_endpoint_gap_m": 0.0,
+          "violation_codes": []
+        },
+        "access": {
+          "declared_total": 17,
+          "coverage": 1.0,
+          "served_groups": 17,
+          "group_count": 17,
+          "dead_ends_unresolved": 0,
+          "dead_ends_resolved": 2
+        },
+        "building_count": 55,
+        "unit_count_total": 109,
+        "household_count_total": 2398,
+        "designed_green_ratio": 0.06538561066069971,
+        "assumed_nominal_capacity_spaces": 1000
+      },
+      "main_length_m": 2107.733378663747,
+      "total_road_building_overlap_m2": 0.9943558185246756
+    },
+    {
+      "candidate_id": "B2",
+      "strategy": "building_priority_alternate",
+      "description": "buildings stay fixed; an alternate diversion fold with a 6 m clearance offset gives a visibly different MAIN-19 route and displacement (building priority, alternate)",
+      "changes": {
+        "spec": {
+          "candidate_id": "B2",
+          "strategy": "building_priority_alternate"
+        },
+        "boundary": {
+          "hard_boundary_ok": true,
+          "boundary_violation_m": 0.0,
+          "boundary_margin_m": 0.6735131264650868,
+          "centerline_violation_m": 0.0,
+          "outside_building_ids": []
+        },
+        "hard_boundary_ok": true,
+        "building_shifts": [],
+        "displaced_buildings": [],
+        "building_shift_total_m": 0.0,
+        "road_route_changes": [
+          {
+            "road_id": "MAIN-19",
+            "kind": "length_change",
+            "max_displacement_m": 71.77223619022861,
+            "max_vertex_displacement_m": 71.77223619022861,
+            "length_delta_m": 135.348507510694
+          },
+          {
+            "road_id": "MAIN-20",
+            "kind": "length_change",
+            "max_displacement_m": 4.15170738216757,
+            "max_vertex_displacement_m": 4.15170738216757,
+            "length_delta_m": -4.607818186357019
+          }
+        ],
+        "road_route_change_count": 2,
+        "road_max_displacement_m": 71.77223619022861,
+        "main_length_m": 2115.0219491017956,
+        "main_length_baseline_m": 1984.2812597774587,
+        "main_length_delta_m": 130.74068932433693,
+        "hard_overlap_after_m2": 0.0,
+        "main_overlap_before_m2": 38.19068149970835,
+        "main_overlap_resolved": true,
+        "topology": {
+          "component_count": 1,
+          "node_count": 61,
+          "edge_count": 74,
+          "cyclomatic": 14,
+          "dead_end_count": 19,
+          "junction_count": 39,
+          "explicit_junction_count": 24,
+          "closed_ring_count": 3,
+          "max_endpoint_gap_m": 0.0,
+          "violation_codes": []
+        },
+        "access": {
+          "declared_total": 17,
+          "coverage": 1.0,
+          "served_groups": 17,
+          "group_count": 17,
+          "dead_ends_unresolved": 0,
+          "dead_ends_resolved": 2
+        },
+        "building_count": 55,
+        "unit_count_total": 109,
+        "household_count_total": 2398,
+        "designed_green_ratio": 0.0653724708400393,
+        "assumed_nominal_capacity_spaces": 1000
+      },
+      "main_length_m": 2115.0219491017956,
+      "total_road_building_overlap_m2": 0.9943558185246756
+    },
+    {
+      "candidate_id": "C",
+      "strategy": "coordinated",
+      "description": "a small SK-BLD-0006 shift (west) plus a medium local main-road adjustment remove the conflict together (coordinated)",
+      "changes": {
+        "spec": {
+          "candidate_id": "C",
+          "strategy": "coordinated"
+        },
+        "boundary": {
+          "hard_boundary_ok": true,
+          "boundary_violation_m": 0.0,
+          "boundary_margin_m": 0.6735131264650868,
+          "centerline_violation_m": 0.0,
+          "outside_building_ids": []
+        },
+        "hard_boundary_ok": true,
+        "building_shifts": [
+          {
+            "building_id": "SK-BLD-0006",
+            "dx_m": -1.5,
+            "dy_m": 0.0,
+            "distance_m": 1.5
+          }
+        ],
+        "displaced_buildings": [
+          "SK-BLD-0006"
+        ],
+        "building_shift_total_m": 1.5,
+        "road_route_changes": [
+          {
+            "road_id": "MAIN-15",
+            "kind": "length_change",
+            "max_displacement_m": 11.993637828928458,
+            "max_vertex_displacement_m": 11.993637828928458,
+            "length_delta_m": 10.485712344374566
+          },
+          {
+            "road_id": "MAIN-19",
+            "kind": "length_change",
+            "max_displacement_m": 1.7962231073121366,
+            "max_vertex_displacement_m": 1.7962231073121366,
+            "length_delta_m": 0.7291333306517203
+          }
+        ],
+        "road_route_change_count": 2,
+        "road_max_displacement_m": 11.993637828928458,
+        "main_length_m": 1995.4961054524852,
+        "main_length_baseline_m": 1984.2812597774587,
+        "main_length_delta_m": 11.214845675026481,
+        "hard_overlap_after_m2": 0.0,
+        "main_overlap_before_m2": 21.694260604156835,
+        "main_overlap_resolved": true,
+        "topology": {
+          "component_count": 1,
+          "node_count": 59,
+          "edge_count": 70,
+          "cyclomatic": 12,
+          "dead_end_count": 19,
+          "junction_count": 38,
+          "explicit_junction_count": 25,
+          "closed_ring_count": 3,
+          "max_endpoint_gap_m": 0.0,
+          "violation_codes": []
+        },
+        "access": {
+          "declared_total": 17,
+          "coverage": 1.0,
+          "served_groups": 17,
+          "group_count": 17,
+          "dead_ends_unresolved": 0,
+          "dead_ends_resolved": 2
+        },
+        "building_count": 55,
+        "unit_count_total": 109,
+        "household_count_total": 2398,
+        "designed_green_ratio": 0.06538561066069971,
+        "assumed_nominal_capacity_spaces": 1000
+      },
+      "main_length_m": 1995.4961054524852,
+      "total_road_building_overlap_m2": 0.8595377847886573
+    }
+  ]
+}

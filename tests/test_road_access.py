@@ -359,21 +359,180 @@ def test_main_road_building_overlap_empty_when_clear():
 
 
 # ----------------------------------------------------------------- M4c-2 alignment / resolutions
-def test_dead_end_resolutions_are_passed_through_and_count_as_resolved():
-    roads = [
-        _road("MAIN-U", "main", [(500.0, 500.0), (540.0, 500.0)]),
-        _road("BR-J", "branch", [(-2.0, 5.0), (-40.0, 5.0)]),
-    ]
-    building = _building("B-NEAR", 0.0, 0.0)
-    resolutions = [
-        {"node_id": "DE-01", "strategy": "bridged"},
-        {"node_id": "DE-02", "resolution": "site_edge_terminus"},
-    ]
+def test_dead_end_resolution_binds_criterion_and_geometry():
+    # A site-edge terminus is only "resolved" when criterion_met is True AND the
+    # geometry proves it: the road's corridor is clipped at the boundary (its
+    # corridor reaches the boundary but does not leave it) and the centreline is
+    # inside.
+    road = _road("MAIN-S", "main", [(-96.5, 5.0), (50.0, 5.0)], width_m=7.0)
+    site = box(-100.0, 0.0, 100.0, 100.0)
+    resolutions = [{
+        "node_id": "DE-01",
+        "road_id": "MAIN-S",
+        "strategy": "site_edge_terminus",
+        "criterion_met": True,
+        "original_xy": [-96.5, 5.0],
+        "adjusted_xy": [-96.5, 5.0],
+        "extended_to_site_boundary": False,
+    }]
+    layout = build_road_access(
+        SimpleNamespace(buildings=()),
+        SimpleNamespace(roads=(road,), dead_end_resolutions=tuple(resolutions)),
+        SimpleNamespace(groups=()),
+        SimpleNamespace(entrances=()),
+        _basis(),
+        site_boundary=site,
+    )
+    by_id = {record.node_id: record for record in layout.dead_ends}
+    assert by_id["DE-01"].resolution == "site_edge_terminus"
+    assert by_id["DE-01"].resolved is True
+    assert by_id["DE-01"].resolution_verified is True
+    assert by_id["DE-02"].resolved is False  # the far end has no resolution
+    assert layout.dead_ends_unresolved == 1
+    assert layout.dead_ends_resolved == 1
+    payload = layout.to_dict()
+    assert payload["dead_ends_resolved"] == 1
+    assert payload["dead_ends"][0]["resolution_verified"] is True
+
+
+def test_forged_criterion_met_false_is_unresolved():
+    road = _road("MAIN-S", "main", [(-98.0, 5.0), (50.0, 5.0)])
+    site = box(-100.0, 0.0, 100.0, 100.0)
+    resolutions = [{
+        "node_id": "DE-01",
+        "road_id": "MAIN-S",
+        "strategy": "site_edge_terminus",
+        "criterion_met": False,  # forged/self-reported failure must not resolve
+        "adjusted_xy": [-98.0, 5.0],
+    }]
+    layout = build_road_access(
+        SimpleNamespace(buildings=()),
+        SimpleNamespace(roads=(road,), dead_end_resolutions=tuple(resolutions)),
+        SimpleNamespace(groups=()),
+        SimpleNamespace(entrances=()),
+        _basis(),
+        site_boundary=site,
+    )
+    by_id = {record.node_id: record for record in layout.dead_ends}
+    assert by_id["DE-01"].resolution == "site_edge_terminus"
+    assert by_id["DE-01"].resolved is False
+    assert by_id["DE-01"].resolution_verified is False
+    assert layout.dead_ends_unresolved == 2
+
+
+def test_forged_resolution_coordinates_are_unresolved():
+    road = _road("MAIN-S", "main", [(-98.0, 5.0), (50.0, 5.0)])
+    site = box(-100.0, 0.0, 100.0, 100.0)
+    resolutions = [{
+        "node_id": "DE-01",
+        "road_id": "MAIN-S",
+        "strategy": "site_edge_terminus",
+        "criterion_met": True,
+        "adjusted_xy": [-98.0, 40.0],  # not on the resolving road
+    }]
+    layout = build_road_access(
+        SimpleNamespace(buildings=()),
+        SimpleNamespace(roads=(road,), dead_end_resolutions=tuple(resolutions)),
+        SimpleNamespace(groups=()),
+        SimpleNamespace(entrances=()),
+        _basis(),
+        site_boundary=site,
+    )
+    by_id = {record.node_id: record for record in layout.dead_ends}
+    assert by_id["DE-01"].resolved is False
+    assert by_id["DE-01"].resolution_verified is False
+
+
+def test_trimmed_resolution_still_degree_one_is_unresolved():
+    road = _road("MAIN-U", "main", [(500.0, 500.0), (540.0, 500.0)])
+    resolutions = [{
+        "node_id": "DE-01",
+        "road_id": "MAIN-U",
+        "strategy": "trimmed",
+        "criterion_met": True,
+        "adjusted_xy": [500.0, 500.0],  # unchanged: still a degree-1 endpoint
+    }]
+    layout = build_road_access(
+        SimpleNamespace(buildings=()),
+        SimpleNamespace(roads=(road,), dead_end_resolutions=tuple(resolutions)),
+        SimpleNamespace(groups=()),
+        SimpleNamespace(entrances=()),
+        _basis(),
+    )
+    by_id = {record.node_id: record for record in layout.dead_ends}
+    assert by_id["DE-01"].resolved is False
+
+
+def test_bridged_resolution_crossing_a_building_is_unresolved():
+    main = _road("MAIN-X", "main", [(0.0, 0.0), (100.0, 0.0)])
+    target = _road("MAIN-Y", "main", [(-50.0, -50.0), (50.0, -50.0)])
+    building = _building("B-BLOCK", -5.0, -40.0)  # sits on the bridge segment
+    resolutions = [{
+        "node_id": "DE-01",
+        "road_id": "MAIN-X",
+        "strategy": "bridged",
+        "criterion_met": True,
+        "adjusted_xy": [0.0, 0.0],
+        "junction_id": "J-1",
+        "bridge_road_id": "MAIN-Y",
+    }]
     layout = build_road_access(
         SimpleNamespace(buildings=(building,)),
         SimpleNamespace(
-            roads=tuple(roads),
+            roads=(main, target),
             dead_end_resolutions=tuple(resolutions),
+            explicit_junctions=({"id": "J-1", "x": 0.0, "y": -50.0,
+                                 "road_ids": ["MAIN-X", "MAIN-Y"]},),
+        ),
+        SimpleNamespace(groups=()),
+        SimpleNamespace(entrances=()),
+        _basis(),
+    )
+    by_id = {record.node_id: record for record in layout.dead_ends}
+    assert by_id["DE-01"].resolution == "bridged"
+    assert by_id["DE-01"].resolved is False
+    assert by_id["DE-01"].resolution_verified is False
+
+
+def test_bridged_resolution_with_clear_span_is_verified():
+    main = _road("MAIN-X", "main", [(0.0, 0.0), (100.0, 0.0)])
+    target = _road("MAIN-Y", "main", [(-50.0, -50.0), (50.0, -50.0)])
+    building = _building("B-AWAY", 200.0, 200.0)
+    resolutions = [{
+        "node_id": "DE-02",  # (0, 0): the MAIN-X stub next to the junction
+        "road_id": "MAIN-X",
+        "strategy": "bridged",
+        "criterion_met": True,
+        "original_xy": [0.0, 0.0],
+        "adjusted_xy": [0.0, 0.0],
+        "junction_id": "J-1",
+        "bridge_road_id": "MAIN-Y",
+    }]
+    layout = build_road_access(
+        SimpleNamespace(buildings=(building,)),
+        SimpleNamespace(
+            roads=(main, target),
+            dead_end_resolutions=tuple(resolutions),
+            explicit_junctions=({"id": "J-1", "x": 0.0, "y": -50.0,
+                                 "road_ids": ["MAIN-X", "MAIN-Y"]},),
+        ),
+        SimpleNamespace(groups=()),
+        SimpleNamespace(entrances=()),
+        _basis(),
+    )
+    by_id = {record.node_id: record for record in layout.dead_ends}
+    assert by_id["DE-02"].resolution == "bridged"
+    assert by_id["DE-02"].resolved is True
+    assert by_id["DE-02"].resolution_verified is True
+    assert layout.dead_ends_unresolved < len(layout.dead_ends)
+
+
+def test_alignment_records_are_passed_through():
+    road = _road("MAIN-1", "main", [(0.0, 0.0), (100.0, 0.0)])
+    layout = build_road_access(
+        SimpleNamespace(buildings=()),
+        SimpleNamespace(
+            roads=(road,),
             main_alignment_records=(
                 {"road_id": "MAIN-19", "max_displacement_m": 4.2,
                  "overlap_before_m2": 38.19, "overlap_after_m2": 0.0},
@@ -383,18 +542,10 @@ def test_dead_end_resolutions_are_passed_through_and_count_as_resolved():
         SimpleNamespace(entrances=()),
         _basis(),
     )
-    by_node = {record.node_id: record for record in layout.dead_ends}
-    assert by_node["DE-01"].resolution == "bridged"
-    assert by_node["DE-01"].resolved is True
-    assert by_node["DE-02"].resolution == "site_edge_terminus"
-    # the two far MAIN-U stubs have no resolution and are not justified
-    assert layout.dead_ends_unresolved == 2
-    assert layout.dead_ends_resolved == 2
-    assert {record.node_id for record in layout.dead_ends if record.resolved} == {"DE-01", "DE-02"}
+    assert layout.road_alignment_count == 1
     payload = layout.to_dict()
-    assert payload["road_alignment_count"] == 1
-    assert payload["dead_ends_resolved"] == 2
     assert payload["main_alignment_records"][0]["road_id"] == "MAIN-19"
+    assert payload["road_alignment_count"] == 1
 
 
 def test_unresolved_dead_ends_count_only_without_resolution_and_justification():
@@ -467,7 +618,14 @@ def _r1_models():
     )
     road_layout = build_road_layout(design_input, basis, intent, building_layout)
     parking = build_parking_layout(design_input, intent, road_layout, basis)
-    access = build_road_access(building_layout, road_layout, intent, parking, basis)
+    access = build_road_access(
+        building_layout,
+        road_layout,
+        intent,
+        parking,
+        basis,
+        site_boundary=design_input.site_boundary,
+    )
     return basis, building_layout, road_layout, parking, access
 
 

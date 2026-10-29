@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any
 
 from shapely.geometry import LineString, MultiPolygon, Point, Polygon, box
@@ -123,6 +123,10 @@ class RoadLayout:
     dead_end_resolutions: tuple[dict[str, Any], ...] = ()
     road_building_overlap_m2_main_after: float = 0.0
     main_overlap_resolved: bool = False
+    source_segment_map: dict[str, list[dict[str, Any]]] = field(
+        default_factory=dict
+    )
+    main_boundary_repairs: tuple[dict[str, Any], ...] = ()
 
     @property
     def road_area_m2(self) -> float:
@@ -158,10 +162,17 @@ class RoadLayout:
             "main_alignment_records": [
                 dict(record) for record in self.main_alignment_records
             ],
+            "main_boundary_repairs": [
+                dict(record) for record in self.main_boundary_repairs
+            ],
             "dead_end_resolutions": [
                 dict(record) for record in self.dead_end_resolutions
             ],
             "group_access_unserved": list(self.group_access_unserved),
+            "source_segment_map": {
+                design_road_id: [dict(item) for item in entries]
+                for design_road_id, entries in self.source_segment_map.items()
+            },
             "simplification": self.simplification,
             "widths": {
                 name: sorted(
@@ -625,6 +636,8 @@ def _align_main_lines(
     *,
     tolerance_m2: float = 1e-4,
     max_passes: int = 12,
+    diversion_side: str = "auto",
+    diversion_margin_m: float = 0.5,
 ) -> tuple[list[LineString], tuple[dict[str, Any], ...]]:
     """Local main-road detours that remove every corridor/building overlap.
 
@@ -679,7 +692,7 @@ def _align_main_lines(
             for footprint_index in original_conflict_indices
         ]
         alignment_strategy = "local_detour"
-        local_detour_infeasible = False
+        local_search_exhausted = False
         relevant_conflict_indices = list(original_conflict_indices)
         if after_area > tolerance_m2:
             # a zero-overlap local detour was not reachable: first try the
@@ -722,6 +735,8 @@ def _align_main_lines(
                             for footprint_index in diversion_indices
                         ],
                         target_distance,
+                        preferred_side=diversion_side,
+                        margin_m=diversion_margin_m,
                     )
                     if diversion is None:
                         break
@@ -769,7 +784,7 @@ def _align_main_lines(
                     )
                     final_corridor = diversion_corridor
                     alignment_strategy = "diversion"
-                    local_detour_infeasible = True
+                    local_search_exhausted = True
         if current.equals(originals[index]) and before_area <= tolerance_m2:
             adjusted[index] = current
             continue
@@ -828,16 +843,21 @@ def _align_main_lines(
         ]
         constraint_satisfied = after_area <= tolerance_m2
         if constraint_satisfied and alignment_strategy == "diversion":
+            gap_text = (
+                f"{building_gap if building_gap is not None else 0.0:.2f}"
+            )
             reason = (
-                "local detour provably infeasible: the original conflict "
-                "footprint and the diversion obstacle footprint are "
-                f"{building_gap if building_gap is not None else 0.0:.2f} m"
-                f" apart, narrower than the {width:.1f} m main corridor, so no "
-                "endpoint-preserving centreline can clear both; the road is "
-                "routed around the combined clearance envelope instead "
-                f"(max displacement {max_displacement:.2f} m, which exceeds "
-                "the 30 m local-detour guideline but is required by the "
-                "zero-overlap hard check)"
+                "the current local search family (<=30 m displacement, finite "
+                "lateral/diversion candidates) found no endpoint-preserving "
+                "local solution; the "
+                f"{gap_text} m gap between the original conflict footprint and "
+                "the diversion obstacle footprint is only "
+                f"{gap_text} m (< {width:.1f} m main corridor), which proves "
+                "the passage between the two buildings is infeasible but does "
+                "not prove that a wider search cannot find another local "
+                "route; the recorded diversion "
+                f"(max displacement {max_displacement:.2f} m) is a legal "
+                "candidate, not an impossibility proof"
             )
         elif constraint_satisfied:
             reason = (
@@ -856,7 +876,7 @@ def _align_main_lines(
                 "road_id": f"MAIN-{index + 1:02d}",
                 "source_edge_ids": [],
                 "alignment_strategy": alignment_strategy,
-                "local_detour_infeasible": local_detour_infeasible,
+                "local_search_exhausted": local_search_exhausted,
                 "conflict_building_ids": conflict_building_ids,
                 "obstacle_building_ids": obstacle_building_ids,
                 "per_building_overlap_before_m2": (
@@ -1401,6 +1421,7 @@ def _diversion_around_conflict(
     step_m: float = 1.0,
     margin_m: float = 0.5,
     deviation_m: float = 0.05,
+    preferred_side: str = "auto",
 ) -> LineString | None:
     """Route around a building cluster when a local detour is impossible.
 
@@ -1480,7 +1501,28 @@ def _diversion_around_conflict(
         list(reversed(boundary_coords[: start_index + 1]))
         + list(reversed(boundary_coords[end_index:]))
     )
-    arc = min((forward, backward), key=lambda item: LineString(item).length)
+    arcs = [forward, backward]
+    if preferred_side == "auto":
+        arc = min(arcs, key=lambda item: LineString(item).length)
+    else:
+        side_keys = {"east", "west", "north", "south"}
+        if preferred_side not in side_keys:
+            raise ValueError(
+                f"unknown diversion side {preferred_side!r}; "
+                f"expected 'auto' or one of {sorted(side_keys)}"
+            )
+
+        def _side_score(coordinates: list[tuple[float, float]]) -> float:
+            probe = LineString(coordinates).interpolate(0.5)
+            if preferred_side == "east":
+                return -probe.x
+            if preferred_side == "west":
+                return probe.x
+            if preferred_side == "north":
+                return -probe.y
+            return probe.y
+
+        arc = min(arcs, key=_side_score)
     prefix = [
         (float(x), float(y))
         for (x, y), vertex_distance in zip(line.coords, _cumulative(line))
@@ -1522,12 +1564,730 @@ def _cumulative(line: LineString) -> list[float]:
     return cumulative
 
 
+def _segment_heading_deg(line: LineString) -> float:
+    coordinates = list(line.coords)
+    dx = coordinates[-1][0] - coordinates[0][0]
+    dy = coordinates[-1][1] - coordinates[0][1]
+    return float(math.degrees(math.atan2(dy, dx)))
+
+
+def _heading_delta_deg(
+    source_line: LineString, design_line: LineString
+) -> float:
+    """Coarse heading difference between a source edge and a design road."""
+    midpoint = source_line.interpolate(source_line.length / 2.0)
+    nearest = nearest_points(design_line, midpoint)[0]
+    coordinates = list(design_line.coords)
+    best: tuple[float, LineString] | None = None
+    for start, end in zip(coordinates, coordinates[1:]):
+        segment = LineString([start, end])
+        distance = segment.distance(nearest)
+        if best is None or distance < best[0]:
+            best = (distance, segment)
+    assert best is not None
+    delta = abs(_segment_heading_deg(source_line) - _segment_heading_deg(best[1]))
+    delta = delta % 180.0
+    if delta > 90.0:
+        delta = 180.0 - delta
+    return float(delta)
+
+
+def _source_segment_map(
+    main_geoms: list[LineString],
+    design_input: DesignInput,
+    width: float,
+    *,
+    endpoint_tolerance_m: float = 2.5,
+) -> dict[str, list[dict[str, Any]]]:
+    """Coarse source-main-edge -> design-main-road mapping.
+
+    A source main edge counts as covered by a design main road when both of its
+    endpoints project onto that design centreline within
+    ``endpoint_tolerance_m``; the projected span then gives the overlap length and
+    coverage ratio (so crossing edges, whose endpoints lie far from the line, do
+    not pollute the mapping).  When no source edge is covered the three nearest
+    source main edges are reported with ``distance_m`` instead.  The heading
+    difference is measured against the local design segment.  Purely evidence;
+    geometry is not modified.
+    """
+    source_main = [
+        road
+        for road in design_input.roads
+        if road.class_candidate == "main_road"
+    ]
+    mapping: dict[str, list[dict[str, Any]]] = {}
+    for index, line in enumerate(main_geoms, start=1):
+        covered: list[dict[str, Any]] = []
+        nearest: list[tuple[float, Any]] = []
+        for road in source_main:
+            source_line = road.centerline
+            source_length = float(source_line.length)
+            start = Point(
+                float(source_line.coords[0][0]),
+                float(source_line.coords[0][1]),
+            )
+            end = Point(
+                float(source_line.coords[-1][0]),
+                float(source_line.coords[-1][1]),
+            )
+            start_distance = float(line.distance(start))
+            end_distance = float(line.distance(end))
+            midpoint_distance = float(
+                source_line.interpolate(0.5).distance(line)
+            )
+            nearest.append((midpoint_distance, road))
+            if (
+                source_length <= 0.0
+                or start_distance > endpoint_tolerance_m
+                or end_distance > endpoint_tolerance_m
+            ):
+                continue
+            start_span = float(line.project(start))
+            end_span = float(line.project(end))
+            overlap_length = min(
+                abs(start_span - end_span), source_length
+            )
+            coverage_ratio = (
+                overlap_length / source_length if source_length > 0 else 0.0
+            )
+            covered.append(
+                {
+                    "source_edge_id": road.edge_id,
+                    "overlap_length_m": float(overlap_length),
+                    "distance_m": float(min(start_distance, end_distance)),
+                    "coverage_ratio": float(min(1.0, coverage_ratio)),
+                    "heading_delta_deg": _heading_delta_deg(
+                        source_line, line
+                    ),
+                }
+            )
+        if covered:
+            covered.sort(
+                key=lambda item: (
+                    -item["coverage_ratio"],
+                    item["distance_m"],
+                    item["source_edge_id"],
+                )
+            )
+            entries = covered
+        else:
+            entries = [
+                {
+                    "source_edge_id": road.edge_id,
+                    "overlap_length_m": 0.0,
+                    "distance_m": float(distance),
+                    "coverage_ratio": 0.0,
+                    "heading_delta_deg": _heading_delta_deg(
+                        road.centerline, line
+                    ),
+                }
+                for distance, road in sorted(
+                    nearest,
+                    key=lambda item: (item[0], item[1].edge_id),
+                )[:3]
+            ]
+        mapping[f"MAIN-{index:02d}"] = entries
+    # every source main edge must appear somewhere in the coarse map: edges whose
+    # design corridor was re-routed get a nearest-distance entry on the closest
+    # design main road (coverage_ratio 0)
+    mapped_ids = {
+        entry["source_edge_id"]
+        for entries in mapping.values()
+        for entry in entries
+    }
+    for road in source_main:
+        if road.edge_id in mapped_ids:
+            continue
+        nearest_index = min(
+            range(len(main_geoms)),
+            key=lambda index: (
+                road.centerline.distance(main_geoms[index]),
+                index,
+            ),
+        )
+        key = f"MAIN-{nearest_index + 1:02d}"
+        mapping[key].append(
+            {
+                "source_edge_id": road.edge_id,
+                "overlap_length_m": 0.0,
+                "distance_m": float(
+                    road.centerline.distance(
+                        main_geoms[nearest_index]
+                    )
+                ),
+                "coverage_ratio": 0.0,
+                "heading_delta_deg": _heading_delta_deg(
+                    road.centerline, main_geoms[nearest_index]
+                ),
+            }
+        )
+        mapping[key].sort(
+            key=lambda item: (
+                -item["coverage_ratio"],
+                item["distance_m"],
+                item["source_edge_id"],
+            )
+        )
+    return mapping
+
+
+def _project_point_into_region(point: Point, region: Polygon) -> Point:
+    if region.covers(point):
+        return point
+    return nearest_points(region.boundary, point)[0]
+
+
+def _grid_route_between(
+    start: Point,
+    end: Point,
+    free_region: Polygon | MultiPolygon,
+    *,
+    cell_size_m: float = 1.5,
+    expand_m: float = 25.0,
+) -> LineString | None:
+    """Deterministic A* grid route between two points inside ``free_region``.
+
+    The region already excludes the site-boundary overhang and the buffered
+    building footprints, so the returned centreline keeps the road corridor
+    inside the published site boundary and clear of buildings.
+    """
+    minx = min(start.x, end.x) - expand_m
+    maxx = max(start.x, end.x) + expand_m
+    miny = min(start.y, end.y) - expand_m
+    maxy = max(start.y, end.y) + expand_m
+    cols = max(2, int(math.ceil((maxx - minx) / cell_size_m)) + 1)
+    rows = max(2, int(math.ceil((maxy - miny) / cell_size_m)) + 1)
+
+    def grid_point(col: int, row: int) -> Point:
+        return Point(minx + col * cell_size_m, miny + row * cell_size_m)
+
+    free: dict[tuple[int, int], bool] = {}
+    for col in range(cols):
+        for row in range(rows):
+            point = grid_point(col, row)
+            free[(col, row)] = (
+                free_region.covers(point)
+                or free_region.distance(point) <= 1e-9
+            )
+
+    def nearest_cell(point: Point) -> tuple[int, int] | None:
+        best: tuple[float, int, int] | None = None
+        for col in range(cols):
+            for row in range(rows):
+                if not free[(col, row)]:
+                    continue
+                distance = grid_point(col, row).distance(point)
+                if best is None or distance < best[0]:
+                    best = (distance, col, row)
+        if best is None:
+            return None
+        return (best[1], best[2])
+
+    start_cell = nearest_cell(start)
+    end_cell = nearest_cell(end)
+    if start_cell is None or end_cell is None:
+        return None
+    import heapq
+
+    neighbors = (
+        (-1, -1), (-1, 0), (-1, 1),
+        (0, -1), (0, 1),
+        (1, -1), (1, 0), (1, 1),
+    )
+    queue: list[tuple[float, int, tuple[int, int]]] = [
+        (0.0, 0, start_cell)
+    ]
+    cost: dict[tuple[int, int], float] = {start_cell: 0.0}
+    parent: dict[tuple[int, int], tuple[int, int]] = {}
+    visited: set[tuple[int, int]] = set()
+    serial = 1
+    while queue:
+        _, _, current = heapq.heappop(queue)
+        if current in visited:
+            continue
+        visited.add(current)
+        if current == end_cell:
+            break
+        col, row = current
+        for delta_col, delta_row in neighbors:
+            neighbour = (col + delta_col, row + delta_row)
+            if not (0 <= neighbour[0] < cols and 0 <= neighbour[1] < rows):
+                continue
+            if not free[neighbour]:
+                continue
+            step = cell_size_m * (
+                math.sqrt(2) if delta_col and delta_row else 1.0
+            )
+            candidate_cost = cost[current] + step
+            if (
+                neighbour not in cost
+                or candidate_cost < cost[neighbour] - 1e-12
+            ):
+                cost[neighbour] = candidate_cost
+                parent[neighbour] = current
+                heapq.heappush(
+                    queue,
+                    (
+                        candidate_cost
+                        + grid_point(*neighbour).distance(end),
+                        serial,
+                        neighbour,
+                    ),
+                )
+                serial += 1
+    if end_cell not in visited and end_cell not in cost:
+        return None
+    ordered: list[tuple[int, int]] = [end_cell]
+    while ordered[-1] != start_cell:
+        if ordered[-1] not in parent:
+            return None
+        ordered.append(parent[ordered[-1]])
+    ordered.reverse()
+    coordinates = [
+        (float(start.x), float(start.y)),
+        *[
+            (float(grid_point(col, row).x), float(grid_point(col, row).y))
+            for col, row in ordered[1:-1]
+        ],
+        (float(end.x), float(end.y)),
+    ]
+    return LineString(_simplify_detour_coords(coordinates, deviation_m=0.15))
+
+
+def _route_line_inside_region(
+    line: LineString,
+    free_region: Polygon | MultiPolygon,
+    *,
+    sample_step_m: float = 1.0,
+    cell_size_m: float = 1.5,
+    merge_gap_m: float = 15.0,
+) -> LineString:
+    """Keep free stretches of ``line`` and grid-route every blocked stretch.
+
+    Nearby blocked runs are merged into one gap first; routing the outer anchors
+    of a merged gap avoids getting trapped in narrow free pockets near buildings
+    and the boundary.
+    """
+    length = line.length
+    samples: list[Point] = []
+    distance = 0.0
+    while distance <= length:
+        samples.append(line.interpolate(distance))
+        distance += sample_step_m
+    if samples[-1].distance(line.interpolate(length)) > 1e-9:
+        samples.append(line.interpolate(length))
+    flags = [free_region.covers(point) for point in samples]
+    if all(flags):
+        return line
+    raw_runs: list[list[int]] = []
+    index = 0
+    while index < len(samples):
+        if flags[index]:
+            index += 1
+            continue
+        run_start = index
+        while index < len(samples) and not flags[index]:
+            index += 1
+        raw_runs.append([run_start, index - 1])
+    merged_runs: list[list[int]] = []
+    for run in raw_runs:
+        if (
+            merged_runs
+            and (run[0] - merged_runs[-1][1] - 1) * sample_step_m
+            <= merge_gap_m
+        ):
+            merged_runs[-1][1] = run[1]
+        else:
+            merged_runs.append(run)
+    coordinates: list[tuple[float, float]] = []
+    cursor = 0
+    for run_start, run_end in merged_runs:
+        for free_index in range(cursor, run_start):
+            coordinates.append(
+                (float(samples[free_index].x), float(samples[free_index].y))
+            )
+        anchor_before = (
+            samples[run_start - 1] if run_start > 0 else None
+        )
+        anchor_after = (
+            samples[run_end + 1] if run_end + 1 < len(samples) else None
+        )
+        if anchor_before is None:
+            anchor_before = _project_point_into_region(
+                samples[run_start], free_region
+            )
+        if anchor_after is None:
+            anchor_after = _project_point_into_region(
+                samples[run_end], free_region
+            )
+        routed = _grid_route_between(
+            anchor_before,
+            anchor_after,
+            free_region,
+            cell_size_m=cell_size_m,
+        )
+        if routed is None:
+            routed = LineString(
+                [
+                    (float(anchor_before.x), float(anchor_before.y)),
+                    (float(anchor_after.x), float(anchor_after.y)),
+                ]
+            )
+        for x_value, y_value in list(routed.coords):
+            coordinates.append((float(x_value), float(y_value)))
+        cursor = run_end + 1
+    for free_index in range(cursor, len(samples)):
+        coordinates.append(
+            (float(samples[free_index].x), float(samples[free_index].y))
+        )
+    simplified = _simplify_detour_coords(coordinates, deviation_m=0.1)
+    if len(simplified) < 2:
+        return line
+    return LineString(simplified)
+
+
+def _smooth_line_corners(
+    line: LineString,
+    *,
+    radius_m: float = 1.5,
+) -> LineString:
+    """Chamfer sharp corners so the mitre corridor does not spike outwards."""
+    coordinates = list(line.coords)
+    if len(coordinates) <= 2:
+        return line
+    result: list[tuple[float, float]] = [
+        (float(coordinates[0][0]), float(coordinates[0][1]))
+    ]
+    for index in range(1, len(coordinates) - 1):
+        previous = result[-1]
+        current = coordinates[index]
+        following = coordinates[index + 1]
+        v1x, v1y = current[0] - previous[0], current[1] - previous[1]
+        v2x, v2y = following[0] - current[0], following[1] - current[1]
+        l1 = (v1x * v1x + v1y * v1y) ** 0.5
+        l2 = (v2x * v2x + v2y * v2y) ** 0.5
+        if l1 < 1e-9 or l2 < 1e-9:
+            continue
+        distance = min(radius_m, l1 * 0.4, l2 * 0.4)
+        first = (
+            current[0] - v1x / l1 * distance,
+            current[1] - v1y / l1 * distance,
+        )
+        second = (
+            current[0] + v2x / l2 * distance,
+            current[1] + v2y / l2 * distance,
+        )
+        for candidate in (first, second):
+            if result[-1] != candidate:
+                result.append((float(candidate[0]), float(candidate[1])))
+    final = (float(coordinates[-1][0]), float(coordinates[-1][1]))
+    if result[-1] != final:
+        result.append(final)
+    return LineString(result)
+
+
+def _repair_main_lines_for_boundary(
+    main_geoms: list[LineString],
+    building_footprints: list[Polygon],
+    site_boundary: Polygon,
+    half_width: float,
+    *,
+    margin_m: float = 0.5,
+    tolerance_m2: float = 0.01,
+) -> tuple[list[LineString], tuple[dict[str, Any], ...]]:
+    """Make every main-road corridor sit inside the published site boundary.
+
+    Free space = published boundary eroded by ``half_width + margin_m`` minus the
+    building footprints buffered by ``half_width + margin_m``.  Main roads whose
+    corridor already fits are untouched; otherwise the blocked stretches are
+    re-routed on a deterministic grid while free stretches and all endpoints
+    (shared main-road vertices) are preserved.  Endpoints that cannot stay
+    outside the eroded boundary are pulled inside; they become corridor-edge
+    (site-edge) termini resolved later.
+    """
+    safe = site_boundary.buffer(-(half_width + margin_m))
+    width = 2.0 * half_width
+    records: list[dict[str, Any]] = []
+    repaired: list[LineString] = []
+    boundary_with_tolerance = site_boundary.buffer(0.01)
+    footprint_union = unary_union(building_footprints)
+    for index, line in enumerate(main_geoms, start=1):
+        corridor = _corridor(line, width, round_caps=False)
+        boundary_ok = boundary_with_tolerance.covers(corridor)
+        if boundary_ok:
+            # only a boundary overhang triggers this repair; building overlaps
+            # are handled later by the alignment / candidate strategies
+            repaired.append(line)
+            continue
+        def _is_valid(candidate_line: LineString) -> bool:
+            candidate_corridor = _corridor(
+                candidate_line, width, round_caps=False
+            )
+            return boundary_with_tolerance.covers(
+                candidate_corridor
+            ) and (
+                candidate_corridor.intersection(footprint_union).area
+                <= tolerance_m2
+            )
+
+        candidate = line
+        for extra_clearance in (0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0):
+            if _is_valid(candidate):
+                break
+            blocked = unary_union(
+                [
+                    footprint.buffer(
+                        half_width + margin_m + extra_clearance
+                    )
+                    for footprint in building_footprints
+                ]
+            )
+            free_region = safe.difference(blocked)
+            for cell_size in (1.5, 1.0, 0.75):
+                trial = _route_line_inside_region(
+                    line, free_region, cell_size_m=cell_size
+                )
+                trial = _smooth_line_corners(trial)
+                if _is_valid(trial):
+                    candidate = trial
+                    break
+            if _is_valid(candidate):
+                break
+        if not _is_valid(candidate):
+            # last resort: re-route the whole road between its endpoints; this
+            # is also what a "go around the blocked cluster" plan amounts to
+            start = Point(
+                float(line.coords[0][0]), float(line.coords[0][1])
+            )
+            end = Point(
+                float(line.coords[-1][0]), float(line.coords[-1][1])
+            )
+            for extra_clearance in (0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0):
+                if _is_valid(candidate):
+                    break
+                blocked = unary_union(
+                    [
+                        footprint.buffer(
+                            half_width + margin_m + extra_clearance
+                        )
+                        for footprint in building_footprints
+                    ]
+                )
+                free_region = safe.difference(blocked)
+                for snap in (False, True):
+                    route_start = (
+                        _project_point_into_region(start, free_region)
+                        if snap
+                        else start
+                    )
+                    route_end = (
+                        _project_point_into_region(end, free_region)
+                        if snap
+                        else end
+                    )
+                    for cell_size in (2.0, 1.5, 1.0):
+                        trial = _grid_route_between(
+                            route_start,
+                            route_end,
+                            free_region,
+                            cell_size_m=cell_size,
+                            expand_m=140.0,
+                        )
+                        if trial is None:
+                            continue
+                        trial = _smooth_line_corners(trial)
+                        if _is_valid(trial):
+                            candidate = trial
+                            break
+                    if _is_valid(candidate):
+                        break
+                if _is_valid(candidate):
+                    break
+        if not _is_valid(candidate):
+            # waypoint fallback: force the route through a free sample of the
+            # original alignment so it stays near the source corridor
+            for extra_clearance in (0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0):
+                if _is_valid(candidate):
+                    break
+                blocked = unary_union(
+                    [
+                        footprint.buffer(
+                            half_width + margin_m + extra_clearance
+                        )
+                        for footprint in building_footprints
+                    ]
+                )
+                free_region = safe.difference(blocked)
+                best_route: LineString | None = None
+                for fraction in (0.25, 0.4, 0.55, 0.7, 0.85):
+                    via = _project_point_into_region(
+                        line.interpolate(line.length * fraction),
+                        free_region,
+                    )
+                    start_route = _grid_route_between(
+                        _project_point_into_region(start, free_region)
+                        if not free_region.covers(start)
+                        else start,
+                        via,
+                        free_region,
+                        cell_size_m=1.5,
+                        expand_m=140.0,
+                    )
+                    end_route = _grid_route_between(
+                        via,
+                        _project_point_into_region(end, free_region)
+                        if not free_region.covers(end)
+                        else end,
+                        free_region,
+                        cell_size_m=1.5,
+                        expand_m=140.0,
+                    )
+                    if start_route is None or end_route is None:
+                        continue
+                    combined = LineString(
+                        list(start_route.coords)
+                        + list(end_route.coords)[1:]
+                    )
+                    combined = _smooth_line_corners(combined)
+                    if _is_valid(combined):
+                        if (
+                            best_route is None
+                            or combined.length < best_route.length
+                        ):
+                            best_route = combined
+                if best_route is not None:
+                    candidate = best_route
+                    break
+        repaired.append(candidate)
+        after_corridor = _corridor(candidate, width, round_caps=False)
+        records.append(
+            {
+                "road_id": f"MAIN-{index:02d}",
+                "boundary_ok_before": bool(boundary_ok),
+                "boundary_ok_after": bool(
+                    boundary_with_tolerance.covers(after_corridor)
+                ),
+                "outside_area_before_m2": float(
+                    corridor.difference(site_boundary).area
+                ),
+                "outside_area_after_m2": float(
+                    after_corridor.difference(site_boundary).area
+                ),
+                "boundary_margin_after_m": float(
+                    site_boundary.exterior.distance(after_corridor)
+                ),
+                "vertices_before": len(list(line.coords)),
+                "vertices_after": len(list(candidate.coords)),
+                "max_vertex_displacement_m": float(
+                    max(
+                        (
+                            line.distance(Point(float(x), float(y)))
+                            for x, y in candidate.coords
+                        ),
+                        default=0.0,
+                    )
+                ),
+                "reason": (
+                    "the source main-road corridor overhung the published site "
+                    "boundary (site-edge terminus / north boundary); the "
+                    "blocked stretches were re-routed inside the boundary-safe "
+                    "free space, free stretches and endpoints preserved"
+                ),
+            }
+        )
+    return repaired, tuple(records)
+
+
+def _retract_endpoint_clear_of_obstacles(
+    line: LineString,
+    end_index: int,
+    building_footprints: list[Polygon],
+    site_boundary: Polygon,
+    width: float,
+    *,
+    step_m: float = 0.5,
+    tolerance_m2: float = 0.01,
+) -> tuple[LineString, tuple[float, float], float] | None:
+    """Pull a dangling endpoint back along its own road until the corridor clears.
+
+    Used when a moved building leaves a fringe road whose corridor now touches a
+    footprint: the dead end is retracted instead of crossing the building, which
+    is also the precondition for a clean bridge afterwards.
+    """
+    coordinates = list(line.coords)
+    if len(coordinates) < 2:
+        return None
+    footprint_union = unary_union(building_footprints)
+    site_with_tolerance = site_boundary.buffer(0.01)
+    if end_index == 1:
+        tip = Point(float(coordinates[-1][0]), float(coordinates[-1][1]))
+        adjacent = Point(
+            float(coordinates[-2][0]), float(coordinates[-2][1])
+        )
+    else:
+        tip = Point(float(coordinates[0][0]), float(coordinates[0][1]))
+        adjacent = Point(
+            float(coordinates[1][0]), float(coordinates[1][1])
+        )
+    inward = (adjacent.x - tip.x, adjacent.y - tip.y)
+    norm = (inward[0] ** 2 + inward[1] ** 2) ** 0.5
+    if norm < 1e-12:
+        return None
+    unit = (inward[0] / norm, inward[1] / norm)
+    distance = step_m
+    while distance < line.length - 1.0:
+        new_tip = (
+            tip.x + unit[0] * distance,
+            tip.y + unit[1] * distance,
+        )
+        if end_index == 1:
+            new_coordinates = coordinates[:-1] + [new_tip]
+        else:
+            new_coordinates = [new_tip] + coordinates[1:]
+        candidate = LineString(new_coordinates)
+        corridor = _corridor(candidate, width, round_caps=False)
+        new_tip_point = Point(float(new_tip[0]), float(new_tip[1]))
+        clearance_ok = (
+            footprint_union.distance(new_tip_point)
+            >= width / 2.0 + 0.25
+        )
+        if (
+            clearance_ok
+            and corridor.intersection(footprint_union).area
+            <= tolerance_m2
+            and site_with_tolerance.covers(corridor)
+        ):
+            return candidate, new_tip, float(distance)
+        distance += step_m
+    return None
+
+
 def build_road_layout(
     design_input: DesignInput,
     basis: DesignBasis,
     intent: DesignIntent,
     building_layout: BuildingLayout,
+    *,
+    alignment_mode: str = "auto",
+    diversion_side: str = "auto",
+    diversion_margin_m: float = 0.5,
 ) -> RoadLayout:
+    """Build the complete design road network.
+
+    ``alignment_mode``:
+      * ``"auto"`` (default) — repair main-road/building conflicts locally and
+        fall back to minimum-overlap shifts and diversions (the M4c-2 design);
+      * ``"none"`` — keep the merged source main-road geometry unchanged
+        (candidate A: the buildings are moved instead).
+    ``diversion_side`` selects the side used when a main road is diverted around
+    a conflict cluster: ``"auto"`` (shortest), ``"east"``/``"west"``/
+    ``"north"``/``"south"``.  It only affects the fallback diversion.
+    """
+    if alignment_mode not in {"auto", "none"}:
+        raise ValueError(
+            f"unknown alignment_mode {alignment_mode!r}; "
+            "expected 'auto' or 'none'"
+        )
     main_lines, source_main_ids = _main_lines(design_input)
     main_union = unary_union(main_lines) if main_lines else None
     # mutable main geometries: explicit junction vertices are inserted here
@@ -1696,17 +2456,30 @@ def build_road_layout(
         .intersection(unary_union(building_footprints))
         .area
     )
-    main_geoms, main_alignment_records = _align_main_lines(
+    main_alignment_records: tuple[dict[str, Any], ...] = ()
+    # ---- boundary-safe base geometry: every main corridor must sit inside the
+    # ---- published site boundary (arch-core hard gate)
+    main_geoms, main_boundary_repairs = _repair_main_lines_for_boundary(
         main_geoms,
         building_footprints,
-        [item.building_id for item in all_buildings],
-        road_widths["main_road"],
-        road_widths["main_road"] / 2 + basis.building_road_clearance_m,
+        design_input.site_boundary,
+        road_widths["main_road"] / 2.0,
     )
-    main_alignment_records = tuple(
-        {**record, "source_edge_ids": list(source_main_ids)}
-        for record in main_alignment_records
-    )
+    if alignment_mode == "auto":
+        main_geoms, main_alignment_records = _align_main_lines(
+            main_geoms,
+            building_footprints,
+            [item.building_id for item in all_buildings],
+            road_widths["main_road"],
+            road_widths["main_road"] / 2
+            + basis.building_road_clearance_m,
+            diversion_side=diversion_side,
+            diversion_margin_m=diversion_margin_m,
+        )
+        main_alignment_records = tuple(
+            {**record, "source_edge_ids": list(source_main_ids)}
+            for record in main_alignment_records
+        )
 
     explicit_junctions: list[dict[str, Any]] = []
     connector_specs: list[
@@ -1970,6 +2743,7 @@ def build_road_layout(
             "displacement_m": 0.0,
             "boundary_distance_m": boundary_distance,
             "criterion_met": True,
+            "boundary_margin_m": None,
             "extended_to_site_boundary": False,
             "extension_length_m": None,
             "extension_direction_cross": None,
@@ -1979,18 +2753,58 @@ def build_road_layout(
             "vertices_removed": 0,
             "reason": "",
         }
-        if boundary_distance <= 5.0:
+        corridor_geometry = _corridor(
+            main_geoms[line_index],
+            road_widths["main_road"],
+            round_caps=False,
+        )
+        boundary_with_tolerance = design_input.site_boundary.buffer(0.01)
+        corridor_inside_boundary = boundary_with_tolerance.covers(
+            corridor_geometry
+        )
+        if corridor_inside_boundary:
+            corridor_edge_margin = float(
+                design_input.site_boundary.exterior.distance(
+                    corridor_geometry
+                )
+            )
+        else:
+            penetration = 0.0
+            for polygon in _polygon_list(
+                corridor_geometry.difference(design_input.site_boundary)
+            ):
+                for x_value, y_value in polygon.exterior.coords:
+                    penetration = max(
+                        penetration,
+                        float(
+                            design_input.site_boundary.exterior.distance(
+                                Point(float(x_value), float(y_value))
+                            )
+                        ),
+                    )
+            corridor_edge_margin = -float(penetration)
+        near_boundary = (
+            boundary_distance
+            <= road_widths["main_road"] / 2.0 + 2.5
+            or (corridor_inside_boundary and corridor_edge_margin <= 2.5)
+        )
+        if near_boundary:
+            # the corridor edge sits at (or just inside) the published
+            # boundary: this dangling end is the corridor-edge terminus of a
+            # site-clipped road, not a planning dead end
             resolution.update(
                 strategy="site_edge_terminus",
                 adjusted_xy=[float(xy[0]), float(xy[1])],
+                boundary_margin_m=float(corridor_edge_margin),
                 reason=(
-                    "endpoint lies "
+                    "endpoint is "
                     f"{boundary_distance:.3f} m from the published site "
-                    "boundary, inside the <= 5 m site-edge band; the source "
-                    "network is clipped at the published boundary (no source "
-                    "vertex lies outside it), so this is a legitimate "
-                    "site-edge terminus - not a road continuing outside the "
-                    "site"
+                    "boundary, so the 12 m main corridor edge is "
+                    f"{corridor_edge_margin:+.3f} m from the boundary "
+                    "(inside/at the boundary); the source network is clipped "
+                    "at the boundary and the road ends at its corridor-safe "
+                    "boundary line - a legitimate site-edge terminus, not a "
+                    "road continuing outside the site"
                 ),
             )
         else:
@@ -2077,90 +2891,94 @@ def build_road_layout(
                         ),
                     )
                 else:
-                    extension = _extend_to_site_boundary(
+                    retracted = _retract_endpoint_clear_of_obstacles(
                         main_geoms[line_index],
                         end_index,
-                        point,
+                        building_footprints,
                         design_input.site_boundary,
-                        buildings_union,
                         road_widths["main_road"],
-                        focus_clearance_footprints,
-                        focus_clearance_m,
-                        [
-                            line
-                            for other_index, line in enumerate(main_geoms)
-                            if other_index != line_index
-                        ]
-                        + connector_lines
-                        + [access_loop],
                     )
-                    if extension is not None:
+                    bridged_after_retract = None
+                    if retracted is not None:
                         (
-                            new_line,
-                            boundary_xy,
-                            extension_length,
-                            direction_cross,
-                        ) = extension
-                        main_geoms[line_index] = new_line
-                        resolution.update(
-                            strategy="site_edge_terminus",
-                            adjusted_xy=[
-                                float(boundary_xy[0]),
-                                float(boundary_xy[1]),
-                            ],
-                            displacement_m=float(extension_length),
-                            vertices_added=1,
-                            boundary_distance_m=0.0,
-                            extended_to_site_boundary=True,
-                            extension_length_m=float(extension_length),
-                            extension_direction_cross=float(
-                                direction_cross
-                            ),
-                            extension_angle_deg=float(
-                                math.degrees(
-                                    math.asin(min(direction_cross, 1.0))
+                            retracted_line,
+                            retracted_xy,
+                            retract_distance,
+                        ) = retracted
+                        main_geoms[line_index] = retracted_line
+                        retracted_point = Point(
+                            float(retracted_xy[0]),
+                            float(retracted_xy[1]),
+                        )
+                        bridged_after_retract = _find_main_bridge(
+                            source_id,
+                            line_index,
+                            end_index,
+                            retracted_point,
+                            main_geoms,
+                            connector_lines,
+                            access_loop,
+                            buildings_union,
+                            road_widths["main_road"],
+                            focus_clearance_footprints,
+                            focus_clearance_m,
+                        )
+                        if bridged_after_retract is not None:
+                            (
+                                bridge_length,
+                                target_index,
+                                candidate_xy,
+                            ) = bridged_after_retract
+                            source_coordinates = list(
+                                main_geoms[line_index].coords
+                            )
+                            if end_index == 0:
+                                main_geoms[line_index] = LineString(
+                                    [candidate_xy] + source_coordinates
                                 )
-                            ),
-                            reason=(
-                                "dangling main stub extended "
-                                f"{extension_length:.3f} m along the "
-                                "shortest direction to the published site "
-                                "boundary (not a straight continuation of the "
-                                "terminal segment; measured direction "
-                                f"difference normalized cross "
-                                f"{direction_cross:.3f}); the endpoint now "
-                                "lies exactly on the boundary and the source "
-                                "network is clipped at that boundary, i.e. "
-                                "this is a site-edge terminus, not a road "
-                                "continuing outside the site"
-                            ),
-                        )
-                    elif boundary_distance <= 6.0:
-                        resolution.update(
-                            strategy="site_edge_terminus",
-                            adjusted_xy=[float(xy[0]), float(xy[1])],
-                            boundary_band_m=6.0,
-                            reason=(
-                                "no bridge target within 40 m, no junction to "
-                                "trim to and no clean geometric extension; "
-                                f"endpoint is {boundary_distance:.3f} m from "
-                                "the published site boundary, inside the 6 m "
-                                "site-edge design band (measured value, band "
-                                "widened from 5 m for this terminus) - treated "
-                                "as a legitimate site-edge terminus"
-                            ),
-                        )
-                    else:
+                            else:
+                                main_geoms[line_index] = LineString(
+                                    source_coordinates + [candidate_xy]
+                                )
+                            target_id = f"MAIN-{target_index + 1:02d}"
+                            main_geoms[target_index] = _insert_vertex_at(
+                                main_geoms[target_index], candidate_xy
+                            )
+                            junction_id = _add_or_merge_junction(
+                                explicit_junctions,
+                                candidate_xy,
+                                (source_id, target_id),
+                            )
+                            resolution.update(
+                                strategy="bridged",
+                                adjusted_xy=[
+                                    float(candidate_xy[0]),
+                                    float(candidate_xy[1]),
+                                ],
+                                bridge_road_id=target_id,
+                                junction_id=junction_id,
+                                displacement_m=float(
+                                    retract_distance + bridge_length
+                                ),
+                                vertices_added=2,
+                                reason=(
+                                    "dangling stub first retracted "
+                                    f"{retract_distance:.3f} m to clear a "
+                                    "building footprint, then bridged "
+                                    f"{bridge_length:.3f} m to {target_id} "
+                                    "with an explicit shared-vertex junction"
+                                ),
+                            )
+                    if bridged_after_retract is None:
                         resolution.update(
                             strategy="site_edge_terminus",
                             adjusted_xy=[float(xy[0]), float(xy[1])],
                             criterion_met=False,
                             reason=(
                                 "unresolved: no bridge target within 40 m, no "
-                                "junction to trim to, no clean boundary "
-                                "extension, and "
-                                f"{boundary_distance:.3f} m is outside the "
-                                "site-edge band"
+                                "junction to trim to and no clean retraction; "
+                                f"the endpoint is {boundary_distance:.3f} m "
+                                "from the published boundary"
                             ),
                         )
         dead_end_resolutions.append(resolution)
@@ -2314,6 +3132,34 @@ def build_road_layout(
         for index in range(1, noded_topology.dead_end_count + 1)
     )
 
+    # ---- published-boundary containment (arch-core hard gate) --------------
+    boundary_tolerance = design_input.site_boundary.buffer(0.01)
+    main_corridor_union = unary_union(
+        [road.corridor for road in roads if road.class_name == "main"]
+    )
+    main_boundary_ok = bool(boundary_tolerance.covers(main_corridor_union))
+    if main_boundary_ok:
+        main_boundary_margin_m = float(
+            design_input.site_boundary.exterior.distance(
+                main_corridor_union
+            )
+        )
+    else:
+        penetration = 0.0
+        for polygon in _polygon_list(
+            main_corridor_union.difference(design_input.site_boundary)
+        ):
+            for x_value, y_value in polygon.exterior.coords:
+                penetration = max(
+                    penetration,
+                    float(
+                        design_input.site_boundary.exterior.distance(
+                            Point(float(x_value), float(y_value))
+                        )
+                    ),
+                )
+        main_boundary_margin_m = -float(penetration)
+
     simplification = {
         "source_edge_count": len(design_input.roads),
         "source_main_edge_count": len(source_main_ids),
@@ -2339,6 +3185,10 @@ def build_road_layout(
         "road_building_overlap_m2_main_after": overlap_main_after,
         "road_building_overlap_m2_total": overlap_total,
         "main_overlap_resolved": bool(overlap_main_after <= 0.01),
+        "main_boundary_ok": bool(main_boundary_ok),
+        "main_boundary_margin_m": float(main_boundary_margin_m),
+        "main_boundary_repair_count": len(main_boundary_repairs),
+        "main_boundary_repairs": [dict(item) for item in main_boundary_repairs],
         "main_alignment_road_count": len(main_alignment_records),
         "main_alignment_vertices_added": sum(
             record["vertices_added"] for record in main_alignment_records
@@ -2393,4 +3243,8 @@ def build_road_layout(
         main_alignment_records=main_alignment_records,
         dead_end_resolutions=tuple(dead_end_resolutions),
         group_access_unserved=tuple(unserved_group_ids),
+        source_segment_map=_source_segment_map(
+            main_geoms, design_input, road_widths["main_road"]
+        ),
+        main_boundary_repairs=main_boundary_repairs,
     )

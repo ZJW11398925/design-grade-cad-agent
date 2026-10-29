@@ -314,6 +314,28 @@ def _design_diff(
             "capacity_basis": "spaces_per_entrance assumption (not verified)",
             "garage_layout": parking_layout.garage_layout,
         },
+        "road_alignment": {
+            "records": [
+                dict(record)
+                for record in road_layout.main_alignment_records
+            ],
+            "boundary_repairs": [
+                dict(item) for item in road_layout.main_boundary_repairs
+            ],
+            "main_boundary_ok": road_layout.simplification.get(
+                "main_boundary_ok"
+            ),
+            "main_boundary_margin_m": road_layout.simplification.get(
+                "main_boundary_margin_m"
+            ),
+            "source_segment_map": {
+                road_id: [dict(item) for item in segments]
+                for road_id, segments in road_layout.source_segment_map.items()
+            },
+        },
+        "dead_end_resolutions": [
+            dict(item) for item in road_layout.dead_end_resolutions
+        ],
         "changed": [
             "building footprints replaced by standardized staircase modules",
             "focus-group buildings reorganized into rows",
@@ -321,18 +343,29 @@ def _design_diff(
             "green strips inserted between building rows",
             "road widths assigned from the declared class",
             "garage entrances added to meet the parking requirement",
+            "main roads adjusted to remove the known road/building overlap "
+            "(MAIN-19 diversion, MAIN-08 local detour) and repaired for site "
+            "boundary containment (MAIN-08/16/18 corridor overhangs)",
+            "seven previously unresolved dead ends resolved: 2 trimmed, "
+            "3 bridged and 2 site-edge termini",
         ],
         "preserved": [
             "building IDs and inferred staircase counts",
             "the focus group's location and its relation to the main road",
             "the main road as the organization spine",
             "cluster green spaces that remain clear of buildings and roads",
+            "all 44 road ids, class widths and the 17 declared group-access "
+            "relations",
         ],
         "why": [
             "the declared design basis fixes the unit module, floor count, "
             "road widths, FAR range, parking ratio and 20 m north-south gap",
             "a regular row layout makes the 20 m gap verifiable and gives each "
             "group a clear internal green strip",
+            "the main-road geometry change is recorded per road (source edges, "
+            "alignment strategy, displacement, overlap before/after) and by "
+            "boundary repair, and every dead-end resolution is recorded with "
+            "its strategy and verification",
             "the schema is a proposal: no human confirmation or code-compliance "
             "claim is made",
         ],
@@ -369,12 +402,40 @@ def _design_roads_geojson(
         "road_building_overlap_m2_new_access": (
             road_layout.road_building_overlap_m2_new_access
         ),
-        "road_building_overlap_m2_main": (
+        "road_building_overlap_m2_main_before": (
             road_layout.road_building_overlap_m2_main
         ),
-        "road_building_overlap_m2_total": (
+        "road_building_overlap_m2_alignment_records_before": sum(
+            record.get("overlap_before_m2") or 0.0
+            for record in road_layout.main_alignment_records
+        ),
+        "road_building_overlap_m2_boundary_replaced_before": max(
+            0.0,
+            road_layout.road_building_overlap_m2_main
+            - sum(
+                record.get("overlap_before_m2") or 0.0
+                for record in road_layout.main_alignment_records
+            ),
+        ),
+        "road_building_overlap_m2_main_after": (
+            road_layout.road_building_overlap_m2_main_after
+        ),
+        "road_building_overlap_m2_total_after": (
             road_layout.road_building_overlap_m2_total
         ),
+        "main_boundary_ok": road_layout.simplification.get(
+            "main_boundary_ok"
+        ),
+        "main_boundary_margin_m": road_layout.simplification.get(
+            "main_boundary_margin_m"
+        ),
+        "main_boundary_repairs": [
+            dict(item) for item in road_layout.main_boundary_repairs
+        ],
+        "source_segment_map": {
+            road_id: [dict(item) for item in segments]
+            for road_id, segments in road_layout.source_segment_map.items()
+        },
         "junctions": [
             dict(junction)
             for junction in road_layout.explicit_junctions
@@ -487,6 +548,7 @@ def run_design_synthesis(
         intent,
         parking_layout,
         basis,
+        site_boundary=design_input.site_boundary,
     )
     consistency = check_design(
         design_input,
@@ -576,15 +638,52 @@ def run_design_synthesis(
                 dict(record)
                 for record in road_access.dead_end_resolutions
             ],
-            "main_overlap_before_m2": sum(
+            "main_overlap_before_m2": (
+                road_layout.road_building_overlap_m2_main
+            ),
+            "alignment_records_overlap_before_m2": sum(
                 record.get("overlap_before_m2") or 0.0
                 for record in road_access.main_alignment_records
+            ),
+            "boundary_replaced_overlap_before_m2": max(
+                0.0,
+                road_layout.road_building_overlap_m2_main
+                - sum(
+                    record.get("overlap_before_m2") or 0.0
+                    for record in road_access.main_alignment_records
+                ),
             ),
             "main_overlap_after_m2": (
                 road_access.main_road_overlap.get("area_m2")
             ),
             "main_overlap_status": (
                 road_access.main_road_overlap.get("status")
+            ),
+            "main_boundary_ok": road_layout.simplification.get(
+                "main_boundary_ok"
+            ),
+            "main_boundary_margin_m": road_layout.simplification.get(
+                "main_boundary_margin_m"
+            ),
+            "boundary_repairs": [
+                dict(item) for item in road_layout.main_boundary_repairs
+            ],
+            "source_segment_map": {
+                road_id: [dict(item) for item in segments]
+                for road_id, segments in road_layout.source_segment_map.items()
+            },
+        },
+        "road_boundary": {
+            "ok": road_layout.simplification.get("main_boundary_ok"),
+            "margin_m": road_layout.simplification.get(
+                "main_boundary_margin_m"
+            ),
+            "repair_count": road_layout.simplification.get(
+                "main_boundary_repair_count"
+            ),
+            "definition": (
+                "main-road corridor edge (centreline +/- width/2) inside the "
+                "published site boundary, tolerance 0.01 m"
             ),
         },
         "main_road_building_overlap": dict(road_access.main_road_overlap),

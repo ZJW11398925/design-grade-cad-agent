@@ -140,16 +140,16 @@ def test_design_synthesis_end_to_end(tmp_path):
     # honesty semantics: candidate open space != designed green;
     # strict unbuilt is a geometric union; capacity is an assumption
     assert metrics["candidate_open_space_ratio"] == pytest.approx(
-        0.6206629224807475, rel=1e-12
+        0.616391083609783, rel=1e-12
     )
     assert metrics["candidate_open_space_area_m2"] == pytest.approx(
-        126691.44519134649, rel=1e-9
+        125819.46553768215, rel=1e-9
     )
     assert metrics["unbuilt_ratio"] == pytest.approx(
-        0.644515172436534, rel=1e-9
+        0.6407354465472117, rel=1e-9
     )
     assert metrics["unbuilt_area_m2"] == pytest.approx(
-        131560.2329157454, rel=1e-9
+        130788.70473514873, rel=1e-9
     )
     assert metrics["unbuilt_ratio"] > metrics["candidate_open_space_ratio"]
     assert metrics["open_space_filters"] == {
@@ -198,10 +198,20 @@ def test_design_synthesis_end_to_end(tmp_path):
         0.0, abs=0.01
     )
     assert metrics["main_road_building_overlap_before_m2"] == pytest.approx(
-        38.19068149970834, rel=1e-12
+        38.19068149970835, rel=1e-12
+    )
+    assert metrics["main_road_overlap_before_records_m2"] == pytest.approx(
+        34.421783197612406, rel=1e-12
+    )
+    assert metrics[
+        "main_road_overlap_before_boundary_replaced_m2"
+    ] == pytest.approx(3.768898302095937, rel=1e-9)
+    assert metrics["main_road_building_overlap_before_m2"] == pytest.approx(
+        metrics["main_road_overlap_before_records_m2"]
+        + metrics["main_road_overlap_before_boundary_replaced_m2"]
     )
     assert metrics["main_road_building_overlap_status"] == "resolved"
-    assert metrics["main_alignment_adjusted_count"] == 2
+    assert metrics["main_alignment_adjusted_count"] == 1
     assert metrics["main_alignment_max_displacement_m"] > 0.0
     assert metrics["dead_end_unresolved_count"] == 0
     assert metrics["dead_end_resolved_count"] == 7
@@ -231,14 +241,14 @@ def test_design_synthesis_end_to_end(tmp_path):
         0.0, abs=0.01
     )
     assert summary["main_road_building_overlap"]["conflicts"] == []
-    assert len(summary["road_alignment"]["records"]) == 2
+    assert len(summary["road_alignment"]["records"]) == 1
     assert len(summary["road_alignment"]["dead_end_resolutions"]) == 7
     assert summary["road_alignment"]["main_overlap_status"] == "resolved"
     assert summary["road_alignment"]["main_overlap_after_m2"] == pytest.approx(
         0.0, abs=0.01
     )
     assert summary["full_site_road_clearance"]["status"] == "deferred"
-    assert len(checks) == 26
+    assert len(checks) == 27
     pass_ids = {
         "FOCUS_NS_SPACING",
         "FOCUS_BOUNDARY_SETBACK",
@@ -246,6 +256,7 @@ def test_design_synthesis_end_to_end(tmp_path):
         "FOCUS_ROAD_CLEARANCE",
         "ROAD_CONNECTIVITY",
         "ROAD_ACCESS_COVERAGE",
+        "ROAD_BOUNDARY_CONTAINMENT",
         "MAIN_ROAD_BUILDING_OVERLAP",
         "DEAD_END_RESOLUTION",
     }
@@ -284,7 +295,7 @@ def test_design_synthesis_end_to_end(tmp_path):
     assert checks["DEAD_END_RESOLUTION"]["status"] == "pass"
     assert checks["DEAD_END_RESOLUTION"]["value"] == "0 unresolved"
     assert checks["ROAD_ALIGNMENT_EVIDENCE"]["status"] == "info"
-    assert checks["ROAD_ALIGNMENT_EVIDENCE"]["value"] == 2
+    assert checks["ROAD_ALIGNMENT_EVIDENCE"]["value"] == 1
     assert checks["PARKING_DRIVEWAY_CONNECTION"]["status"] == "deferred"
     assert checks["FULL_SITE_ROAD_CLEARANCE"]["status"] == "deferred"
     for name in ("FAR_ARITHMETIC_SCENARIO", "UNIT_COUNT_BASIS_INVARIANT"):
@@ -394,10 +405,10 @@ def test_design_diff_records_design_changes_and_drops():
     assert diff["parking"]["assumed_nominal_capacity_spaces"] == 1000
     assert diff["parking"]["garage_layout"] == "not_designed"
     assert diff["green"]["candidate_open_space_ratio"] == pytest.approx(
-        0.6206629224807475, rel=1e-12
+        0.616391083609783, rel=1e-12
     )
     assert diff["green"]["unbuilt_ratio"] == pytest.approx(
-        0.644515172436534, rel=1e-9
+        0.6407354465472117, rel=1e-9
     )
     assert diff["green"]["open_space_filters"] == {
         "boundary_setback_m": 5.0,
@@ -431,7 +442,7 @@ def test_committed_design_evidence_is_consistent():
     assert summary["focus_design_rect"] is not None
     assert summary["diff"]["focus_design_rect"] == summary["focus_design_rect"]
     checks = {check["id"]: check for check in summary["consistency"]["checks"]}
-    assert len(checks) == 26
+    assert len(checks) == 27
     assert checks["DESIGNED_GREEN_RATIO"]["status"] == "deferred"
     assert checks["PARKING_CAPACITY"]["status"] == "deferred"
     assert checks["PARKING_LAYOUT"]["status"] == "deferred"
@@ -450,7 +461,7 @@ def test_committed_design_evidence_is_consistent():
     assert checks["DEAD_END_RESOLUTION"]["status"] == "pass"
     assert checks["DEAD_END_RESOLUTION"]["value"] == "0 unresolved"
     assert checks["ROAD_ALIGNMENT_EVIDENCE"]["status"] == "info"
-    assert checks["ROAD_ALIGNMENT_EVIDENCE"]["value"] == 2
+    assert checks["ROAD_ALIGNMENT_EVIDENCE"]["value"] == 1
     assert {
         name for name, item in checks.items() if item["status"] == "pass"
     } == {
@@ -460,14 +471,15 @@ def test_committed_design_evidence_is_consistent():
         "FOCUS_ROAD_CLEARANCE",
         "ROAD_CONNECTIVITY",
         "ROAD_ACCESS_COVERAGE",
+        "ROAD_BOUNDARY_CONTAINMENT",
         "MAIN_ROAD_BUILDING_OVERLAP",
         "DEAD_END_RESOLUTION",
     }
     assert summary["metrics"]["candidate_open_space_ratio"] == pytest.approx(
-        0.6206629224807475, rel=1e-12
+        0.616391083609783, rel=1e-12
     )
     assert summary["metrics"]["unbuilt_ratio"] == pytest.approx(
-        0.644515172436534, rel=1e-9
+        0.6407354465472117, rel=1e-9
     )
     assert summary["metrics"]["designed_green_ratio"] == pytest.approx(
         0.06538561066069971, rel=1e-9
@@ -538,8 +550,40 @@ def test_committed_design_roads_artifact_recomputes_topology():
     assert payload["main_road_building_overlap"]["area_m2"] == pytest.approx(
         0.0, abs=0.01
     )
-    assert len(payload["main_alignment_records"]) == 2
+    assert len(payload["main_alignment_records"]) == 1
     assert len(payload["dead_end_resolution_records"]) == 7
+    assert payload["road_building_overlap_m2_main_before"] == pytest.approx(
+        summary["metrics"]["main_road_building_overlap_before_m2"]
+    )
+    assert payload["road_building_overlap_m2_main_after"] == pytest.approx(
+        summary["metrics"]["main_road_building_overlap_m2"]
+    )
+    assert payload["road_building_overlap_m2_new_access"] == pytest.approx(
+        summary["metrics"]["road_building_overlap_m2_new_access"]
+    )
+    assert payload["road_building_overlap_m2_total_after"] == pytest.approx(
+        summary["metrics"]["road_building_overlap_m2_total"]
+    )
+    assert payload["road_building_overlap_m2_total_after"] == pytest.approx(
+        payload["road_building_overlap_m2_new_access"]
+        + payload["road_building_overlap_m2_main_after"]
+    )
+    assert payload[
+        "road_building_overlap_m2_main_before"
+    ] == pytest.approx(
+        payload["road_building_overlap_m2_alignment_records_before"]
+        + payload["road_building_overlap_m2_boundary_replaced_before"]
+    )
+    assert payload[
+        "road_building_overlap_m2_alignment_records_before"
+    ] == pytest.approx(
+        summary["metrics"]["main_road_overlap_before_records_m2"]
+    )
+    assert payload[
+        "road_building_overlap_m2_boundary_replaced_before"
+    ] == pytest.approx(
+        summary["metrics"]["main_road_overlap_before_boundary_replaced_m2"]
+    )
     declared_groups = [
         group_id
         for feature in features

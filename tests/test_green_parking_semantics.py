@@ -89,10 +89,10 @@ def _green() -> GreenLayout:
 def test_candidate_open_space_ratio_is_filtered_and_not_designed_green():
     green = _green()
     assert green.candidate_open_space_ratio == pytest.approx(
-        0.6206629224807475, rel=1e-12
+        0.616391083609783, rel=1e-12
     )
     assert green.candidate_open_space_area_m2 == pytest.approx(
-        126691.44519134649, rel=1e-9
+        125819.46553768215, rel=1e-9
     )
     # the candidate account is the sum of the classified areas
     assert green.candidate_open_space_area_m2 == pytest.approx(
@@ -131,13 +131,13 @@ def test_unbuilt_account_is_plain_geometric_union_area():
         expected_unbuilt_area, rel=1e-12
     )
     assert green.unbuilt_area_m2 == pytest.approx(
-        131560.2329157454, rel=1e-9
+        130788.70473514873, rel=1e-9
     )
     assert green.unbuilt_ratio == pytest.approx(
         green.unbuilt_area_m2 / _site_area(), rel=1e-12
     )
     assert green.unbuilt_ratio == pytest.approx(
-        0.644515172436534, rel=1e-9
+        0.6407354465472117, rel=1e-9
     )
     # dual accounting: the strict geometric account is larger than the filtered
     # classified one (no 0.5 m buffer, no 100 m2 drop)
@@ -160,12 +160,12 @@ def test_designed_green_ratio_is_smaller_and_defined_by_designed_area():
         green.supplementary_area_m2 / green.candidate_open_space_area_m2
     )
     assert supplementary_share == pytest.approx(
-        0.894651978888383, rel=1e-3
+        0.8939218746030837, rel=1e-3
     )
     designed_share = (
         green.designed_green_area_m2 / green.candidate_open_space_area_m2
     )
-    assert designed_share == pytest.approx(0.10534802111161704, rel=1e-3)
+    assert designed_share == pytest.approx(0.10607812539691636, rel=1e-3)
     assert green.designed_green_ratio < green.candidate_open_space_ratio
 
 

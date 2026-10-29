@@ -24,7 +24,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field, fields, is_dataclass
 from typing import Any
 
-from shapely.geometry import Point
+from shapely.geometry import LineString, Point
 from shapely.ops import unary_union
 
 from .basis import DesignBasis
@@ -72,6 +72,16 @@ RELATION_TERMINAL_DISTANCE = "terminal_distance_out_of_band"
 RELATION_TERMINAL_INSIDE_FOOTPRINT = "terminal_inside_building_footprint"
 RELATION_ROUTE_CROSSING = "route_crosses_building_footprint"
 ORPHAN_DECLARED_GROUP = "orphan_declared_group"
+
+#: A site-edge terminus counts when its endpoint is at most this far from the
+#: published site boundary.
+SITE_EDGE_BOUNDARY_BAND_M = 5.0
+
+#: Geometric tolerance for resolution verification (endpoint coincidence).
+RESOLUTION_GEOMETRY_TOLERANCE_M = 1e-6
+
+#: A bridge segment may brush a building footprint by at most this length.
+BRIDGE_CROSSING_MAX_M = 0.1
 
 DEAD_END_CLASSIFICATIONS = (
     "group_terminal_justified",
@@ -162,6 +172,7 @@ class DeadEndRecord:
     justified: bool
     resolution: str | None = None
     resolved: bool = False
+    resolution_verified: bool = False
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -175,6 +186,7 @@ class DeadEndRecord:
             "justified": self.justified,
             "resolution": self.resolution,
             "resolved": self.resolved,
+            "resolution_verified": self.resolution_verified,
         }
 
 
@@ -470,48 +482,170 @@ def _record_to_dict(item: Any) -> dict[str, Any]:
     return {key: value for key, value in vars(item).items() if not key.startswith("_")}
 
 
-def _dead_end_resolution_map(road_layout: RoadLayout) -> dict[Any, str]:
-    """Map dead-end resolution strategy by node id and (fallback) coordinate."""
-    mapping: dict[Any, str] = {}
+def _resolution_records(road_layout: RoadLayout) -> dict[Any, dict[str, Any]]:
+    """Map node id / coordinate keys to the full, normalised resolution record."""
+    mapping: dict[Any, dict[str, Any]] = {}
     for item in getattr(road_layout, "dead_end_resolutions", ()) or ():
         if isinstance(item, dict):
-            node_id = item.get("node_id")
-            strategy = item.get("resolution") or item.get("strategy") or item.get("kind")
-            candidates = [
-                item.get("coordinate"),
-                item.get("original_xy"),
-                item.get("adjusted_xy"),
-                (item.get("x"), item.get("y")),
-            ]
+            record = dict(item)
+        elif is_dataclass(item):
+            record = {
+                field_item.name: getattr(item, field_item.name)
+                for field_item in fields(item)
+            }
         else:
-            node_id = getattr(item, "node_id", None)
-            strategy = (
-                getattr(item, "resolution", None)
-                or getattr(item, "strategy", None)
-                or getattr(item, "kind", None)
-            )
-            candidates = [
-                getattr(item, "coordinate", None),
-                getattr(item, "original_xy", None),
-                getattr(item, "adjusted_xy", None),
-            ]
+            record = {
+                key: value
+                for key, value in vars(item).items()
+                if not key.startswith("_")
+            }
+        strategy = (
+            record.get("resolution")
+            or record.get("strategy")
+            or record.get("kind")
+        )
         if not strategy:
             continue
+        record["strategy"] = str(strategy)
+        node_id = record.get("node_id")
         if node_id:
-            mapping[("id", str(node_id))] = str(strategy)
-        for coordinate in candidates:
-            if coordinate is None:
-                continue
-            if len(coordinate) == 2 and None not in coordinate:
-                mapping[("xy", (round(float(coordinate[0]), 6), round(float(coordinate[1]), 6)))] = str(strategy)
+            mapping[("id", str(node_id))] = record
+        for key in ("coordinate", "original_xy", "adjusted_xy"):
+            value = record.get(key)
+            if (
+                isinstance(value, (list, tuple))
+                and len(value) == 2
+                and None not in value
+            ):
+                mapping.setdefault(
+                    (
+                        "xy",
+                        (
+                            round(float(value[0]), 6),
+                            round(float(value[1]), 6),
+                        ),
+                    ),
+                    record,
+                )
     return mapping
 
 
+def _explicit_junctions(road_layout: RoadLayout) -> dict[str, tuple[float, float]]:
+    """Map junction id -> coordinate from the explicit junction records."""
+    junctions: dict[str, tuple[float, float]] = {}
+    for item in getattr(road_layout, "explicit_junctions", ()) or ():
+        if isinstance(item, dict):
+            junction_id = item.get("id")
+            x_value, y_value = item.get("x"), item.get("y")
+        else:
+            junction_id = getattr(item, "id", None)
+            x_value, y_value = getattr(item, "x", None), getattr(item, "y", None)
+        if junction_id is not None and x_value is not None and y_value is not None:
+            junctions[str(junction_id)] = (float(x_value), float(y_value))
+    return junctions
+
+
+def _resolution_verified(
+    record: dict[str, Any],
+    road_layout: RoadLayout,
+    building_layout: BuildingLayout,
+    dead_end_coordinates: tuple[tuple[float, float], ...],
+    site_boundary: Any | None,
+) -> bool:
+    """Phase 0: a resolution must be criterion_met AND geometrically true.
+
+    * ``trimmed``: the adjusted endpoint is no longer a degree-1 node and it is
+      attached to a junction or another design road;
+    * ``bridged``: the named junction exists, the bridge segment does not cross a
+      building footprint, and it lands on the declared bridge road;
+    * ``site_edge_terminus``: the endpoint is within the boundary band (exactly on
+      the boundary when extended), and no design road vertex lies outside the
+      published site boundary.
+
+    The record itself is never trusted beyond its claimed strategy/coordinates;
+    every predicate below is re-computed from the design geometry.
+    """
+    if record.get("criterion_met") is not True:
+        return False
+    adjusted = record.get("adjusted_xy")
+    if adjusted is None or len(adjusted) != 2:
+        return False
+    point = Point(float(adjusted[0]), float(adjusted[1]))
+    own_road = next(
+        (road for road in road_layout.roads if road.edge_id == record.get("road_id")),
+        None,
+    )
+    if own_road is None:
+        return False
+    if own_road.centerline.distance(point) > RESOLUTION_GEOMETRY_TOLERANCE_M:
+        return False
+    strategy = record.get("strategy")
+    junctions = _explicit_junctions(road_layout)
+    if strategy == "trimmed":
+        if any(
+            point.distance(Point(*coordinate)) <= RESOLUTION_GEOMETRY_TOLERANCE_M
+            for coordinate in dead_end_coordinates
+        ):
+            return False  # the trimmed endpoint is still degree-1
+        if any(
+            point.distance(Point(*coordinate)) <= RESOLUTION_GEOMETRY_TOLERANCE_M
+            for coordinate in junctions.values()
+        ):
+            return True
+        return any(
+            road.edge_id != own_road.edge_id
+            and road.centerline.distance(point) <= RESOLUTION_GEOMETRY_TOLERANCE_M
+            for road in road_layout.roads
+        )
+    if strategy == "bridged":
+        junction_id = record.get("junction_id")
+        if junction_id is None or str(junction_id) not in junctions:
+            return False
+        junction_point = Point(*junctions[str(junction_id)])
+        bridge = LineString([(point.x, point.y), (junction_point.x, junction_point.y)])
+        for building in building_layout.buildings:
+            if bridge.intersection(building.footprint).length > BRIDGE_CROSSING_MAX_M:
+                return False
+        bridge_road_id = record.get("bridge_road_id")
+        if bridge_road_id is not None:
+            return any(
+                road.edge_id == bridge_road_id
+                and road.centerline.distance(junction_point)
+                <= RESOLUTION_GEOMETRY_TOLERANCE_M
+                for road in road_layout.roads
+            )
+        return True
+    if strategy == "site_edge_terminus":
+        if site_boundary is None:
+            return False  # cannot verify the published boundary
+        allowed = site_boundary.buffer(SITE_EDGE_BOUNDARY_BAND_M)
+        if not allowed.covers(point):
+            return False  # the terminus itself is outside the published boundary
+        corridor = getattr(own_road, "corridor", None)
+        if corridor is None:
+            return False
+        # the resolving road's corridor must stay inside the boundary (the road
+        # ends at a corridor-safe boundary line, it does not continue outside)
+        containment = site_boundary.buffer(RESOLUTION_GEOMETRY_TOLERANCE_M)
+        outside = corridor.difference(containment)
+        if not outside.is_empty:
+            return False
+        # and the corridor must actually reach the boundary: a road stopping far
+        # inside the site is not a site-edge terminus
+        if float(corridor.boundary.distance(site_boundary.boundary)) > SITE_EDGE_BOUNDARY_BAND_M:
+            return False
+        for x_value, y_value in own_road.centerline.coords:
+            if not containment.covers(Point(float(x_value), float(y_value))):
+                return False
+        return True
+    return False
+
+
 def _entrance_access(
-    parking_layout: ParkingLayout, road_layout: RoadLayout
+    parking_layout: ParkingLayout | None, road_layout: RoadLayout
 ) -> tuple[EntranceAccess, ...]:
     records: list[EntranceAccess] = []
-    for entrance in parking_layout.entrances:
+    for entrance in getattr(parking_layout, "entrances", ()) or ():
         point = entrance.point
         if not road_layout.roads:
             records.append(
@@ -584,9 +718,12 @@ def _touched_by_other_road(
 
 
 def _dead_ends(
-    road_layout: RoadLayout, building_layout: BuildingLayout, clearance_m: float
+    road_layout: RoadLayout,
+    building_layout: BuildingLayout,
+    clearance_m: float,
+    site_boundary: Any | None = None,
 ) -> tuple[DeadEndRecord, ...]:
-    resolution_map = _dead_end_resolution_map(road_layout)
+    resolution_map = _resolution_records(road_layout)
     counts: dict[tuple[float, float], int] = {}
     owner: dict[tuple[float, float], tuple[Any, tuple[float, float]]] = {}
     for road in road_layout.roads:
@@ -610,6 +747,9 @@ def _dead_ends(
             Point(key[0], key[1]), owner[key][0].edge_id, road_layout
         )
     )
+    dead_end_coordinates = tuple(
+        (float(key[0]), float(key[1])) for key in dead_end_keys
+    )
     for index, key in enumerate(dead_end_keys, start=1):
         road, coordinate = owner[key]
         point = Point(coordinate[0], coordinate[1])
@@ -627,11 +767,23 @@ def _dead_ends(
         else:
             classification = "unclassified"
         node_id = f"DE-{index:02d}"
-        resolution = resolution_map.get(("id", node_id))
-        if resolution is None:
-            resolution = resolution_map.get(
+        record = resolution_map.get(("id", node_id))
+        if record is None:
+            record = resolution_map.get(
                 ("xy", (round(coordinate[0], 6), round(coordinate[1], 6)))
             )
+        resolution = None if record is None else str(record.get("strategy"))
+        verified = (
+            False
+            if record is None
+            else _resolution_verified(
+                record,
+                road_layout,
+                building_layout,
+                dead_end_coordinates,
+                site_boundary,
+            )
+        )
         records.append(
             DeadEndRecord(
                 node_id=node_id,
@@ -643,7 +795,8 @@ def _dead_ends(
                 classification=classification,
                 justified=classification == "group_terminal_justified",
                 resolution=resolution,
-                resolved=resolution is not None,
+                resolved=verified,
+                resolution_verified=verified,
             )
         )
     return tuple(records)
@@ -655,8 +808,14 @@ def build_road_access(
     intent: DesignIntent,
     parking_layout: ParkingLayout,
     basis: DesignBasis,
+    site_boundary: Any | None = None,
 ) -> RoadAccessLayout:
-    """Compute declared group access, entrance proximity and dead-end classes."""
+    """Compute declared group access, entrance proximity and dead-end classes.
+
+    ``site_boundary`` is the published site polygon; it is required to verify a
+    ``site_edge_terminus`` dead-end resolution geometrically (Phase 0). When it is
+    omitted, site-edge resolutions are reported as unverified (never as resolved).
+    """
     groups: list[GroupAccess] = []
     for group in intent.groups:
         present_ids, group_union = _group_footprints(
@@ -724,7 +883,10 @@ def build_road_access(
         groups=tuple(groups),
         entrances=_entrance_access(parking_layout, road_layout),
         dead_ends=_dead_ends(
-            road_layout, building_layout, basis.building_road_clearance_m
+            road_layout,
+            building_layout,
+            basis.building_road_clearance_m,
+            site_boundary,
         ),
         main_road_overlap=main_road_building_overlap(building_layout, road_layout),
         orphan_declarations=orphan_declarations,

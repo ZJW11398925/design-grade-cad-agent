@@ -1,16 +1,11 @@
-"""M4c-2 main-road alignment and dead-end resolution.
+"""M4c-3 boundary-safe base design + alignment / dead-end evidence.
 
-Real geometry change: MAIN-19 / SK-BLD-0006 (34.42 m2) and MAIN-08 /
-SK-BLD-0038 / SK-BLD-0061 (3.77 m2) are repaired with local detours, and the
-seven unresolved main-road dead ends are each given a recorded strategy
-(site-edge terminus / bridged / trimmed).
-
-One conflict is provably infeasible and is reported instead of silently passed:
-MAIN-19 runs through the 11.57 m gap between SK-BLD-0006 and SK-BLD-0029, which
-is narrower than the 12 m main corridor, so no endpoint-preserving centreline can
-clear both footprints.  The minimum-overlap lateral shift (3.04 m displacement,
-4.65 m2 residual) is recorded in ``main_alignment_records`` with
-``constraint_satisfied=False`` and ``main_overlap_resolved=False``.
+The published-boundary hard gate (arch-core ``evaluation``): every main-road
+corridor (centreline +/- width/2) must stay inside ``site_boundary`` with at most
+0.01 m tolerance.  The base design repairs the source corridor overhangs
+(MAIN-08/16/18) by re-routing inside the boundary-safe free space, keeps the
+MAIN-19 building-cluster diversion (the *original* 66.235 m diversion was a known
+boundary violation and is not a hard pass), and resolves all seven dead ends.
 """
 from __future__ import annotations
 
@@ -39,11 +34,18 @@ BASIS = ROOT / "fixtures" / "design" / "design-basis-001.yaml"
 EVIDENCE = ROOT / "docs" / "e2e" / "design-synthesis-001" / "design-roads.geojson"
 
 MAIN_WIDTH_M = 12.0
-MAIN_OVERLAP_BEFORE_M2 = 38.19068149970835
-MAIN_OVERLAP_AFTER_M2 = 0.0
-MAIN_19_RESIDUAL_M2 = 0.0
-MAIN_19_GAP_M = 11.565220076201857
-MAIN_08_BEFORE_M2 = 3.768898302095937
+MAIN19_GAP_M = 11.565220076201857
+MAIN19_BEFORE_M2 = 34.421783197612406
+MAIN19_DISPLACEMENT_M = 66.23545861756293
+MAIN08_OUTSIDE_BEFORE_M2 = 341.6908310814502
+MAIN08_REPAIR_MARGIN_M = 2.446306837399009
+MAIN16_OUTSIDE_BEFORE_M2 = 2.417804558565924
+MAIN18_OUTSIDE_BEFORE_M2 = 8.290901115044374
+BASE_BOUNDARY_MARGIN_M = 0.6735131264650868
+MAIN18_DEAD_END_XY = (245.73765149901087, 19.268734294755518)
+MAIN25_DEAD_END_XY = (382.2805578342904, 340.8531583264971)
+MAIN18_MARGIN_M = 0.6735131264650868
+MAIN25_MARGIN_M = 1.1000400835865636
 
 EXPECTED_ROAD_IDS = {
     "MAIN-01", "MAIN-02", "MAIN-03", "MAIN-04", "MAIN-05", "MAIN-06",
@@ -58,19 +60,9 @@ EXPECTED_ROAD_IDS = {
     "BR-G-13", "BR-G-14", "BR-G-15", "BR-G-16", "BR-G-17",
     "ACC-FOCUS-01",
 }
-
 EXPECTED_DEAD_END_ROADS = {
     "MAIN-03", "MAIN-05", "MAIN-09", "MAIN-18", "MAIN-20", "MAIN-22",
     "MAIN-25",
-}
-EXPECTED_ORIGINAL_DEAD_END_XY = {
-    "MAIN-03": (48.40032813781788, 458.5726004922067),
-    "MAIN-05": (100.49220672682526, 521.3289581624282),
-    "MAIN-09": (124.6923707957342, 600.9023789991796),
-    "MAIN-18": (245.6931911402789, 16.81706316652994),
-    "MAIN-20": (243.64232977850696, 84.4954881050041),
-    "MAIN-22": (239.95077932731746, 424.93847415914684),
-    "MAIN-25": (382.2805578342904, 340.8531583264971),
 }
 EXPECTED_STRATEGIES = {
     "MAIN-03": "trimmed",
@@ -102,6 +94,10 @@ def _layout():
     return _r1_design()[4]
 
 
+def _site_boundary():
+    return _r1_design()[1].site_boundary
+
+
 def _road_by_id(edge_id: str):
     for road in _layout().roads:
         if road.edge_id == edge_id:
@@ -118,6 +114,32 @@ def _footprint_union():
 
 def _committed_evidence() -> dict:
     return json.loads(EVIDENCE.read_text(encoding="utf-8"))
+
+
+def _main_corridor_inside_boundary(road) -> bool:
+    return _site_boundary().buffer(0.01).covers(road.corridor)
+
+
+def _boundary_margin(road) -> float:
+    boundary = _site_boundary()
+    corridor = road.corridor
+    if _main_corridor_inside_boundary(road):
+        return float(boundary.exterior.distance(corridor))
+    outside = corridor.difference(boundary)
+    penetration = 0.0
+    for polygon in getattr(outside, "geoms", [outside]):
+        if polygon.is_empty:
+            continue
+        for x_value, y_value in polygon.exterior.coords:
+            penetration = max(
+                penetration,
+                float(
+                    boundary.exterior.distance(
+                        Point(float(x_value), float(y_value))
+                    )
+                ),
+            )
+    return -penetration
 
 
 def _degree_one_endpoints() -> set[tuple[float, float]]:
@@ -140,114 +162,138 @@ def _degree_one_endpoints() -> set[tuple[float, float]]:
     return {point for point, value in degree.items() if value == 1}
 
 
-# ------------------------------------------------- main-road alignment
-def test_main08_alignment_removes_its_overlap_and_keeps_endpoints():
+# ------------------------------------------------- published-boundary gate
+def test_every_main_corridor_is_inside_the_published_boundary():
+    boundary = _site_boundary()
+    margins = []
+    for road in _layout().roads:
+        if road.class_name != "main":
+            continue
+        assert _main_corridor_inside_boundary(road), road.edge_id
+        margin = _boundary_margin(road)
+        assert margin >= -1e-9, (road.edge_id, margin)
+        margins.append(margin)
+        for x_value, y_value in road.centerline.coords:
+            assert boundary.covers(
+                Point(float(x_value), float(y_value))
+            ), road.edge_id
+    assert min(margins) == pytest.approx(
+        BASE_BOUNDARY_MARGIN_M, abs=1e-6
+    )
+    assert min(margins) >= 0.0
+    simplification = _layout().simplification
+    assert simplification["main_boundary_ok"] is True
+    assert simplification["main_boundary_margin_m"] == pytest.approx(
+        BASE_BOUNDARY_MARGIN_M, abs=1e-6
+    )
+    assert simplification["main_boundary_repair_count"] == 3
+
+
+def test_main08_source_overhang_is_repaired_at_the_boundary():
+    layout = _layout()
     record = next(
         item
-        for item in _layout().main_alignment_records
+        for item in layout.main_boundary_repairs
         if item["road_id"] == "MAIN-08"
     )
-    assert set(record["conflict_building_ids"]) == {
-        "SK-BLD-0038",
-        "SK-BLD-0061",
-    }
-    assert record["obstacle_building_ids"] == []
-    assert record["per_building_overlap_before_m2"] == pytest.approx(
-        {"SK-BLD-0038": 3.6837, "SK-BLD-0061": 0.0852}, rel=1e-3
+    assert record["boundary_ok_before"] is False
+    assert record["boundary_ok_after"] is True
+    assert record["outside_area_before_m2"] == pytest.approx(
+        MAIN08_OUTSIDE_BEFORE_M2, rel=1e-6
     )
-    assert record["residual_conflict_building_ids"] == []
-    assert record["overlap_before_m2"] == pytest.approx(
-        MAIN_08_BEFORE_M2, rel=1e-9
+    assert record["outside_area_after_m2"] == pytest.approx(0.0, abs=1e-9)
+    assert record["boundary_margin_after_m"] == pytest.approx(
+        MAIN08_REPAIR_MARGIN_M, abs=1e-6
     )
-    assert record["overlap_after_m2"] == pytest.approx(0.0, abs=1e-9)
-    assert record["constraint_satisfied"] is True
-    assert 0.0 < record["max_displacement_m"] <= 30.0
-    assert record["vertices_added"] >= 2
-    original = record["original_centerline"]
-    adjusted = record["adjusted_centerline"]
-    # endpoints (which carry the shared main-road vertices) are preserved
-    assert adjusted[0] == pytest.approx(original[0], abs=1e-9)
-    assert adjusted[-1] == pytest.approx(original[-1], abs=1e-9)
-    # geometry check: the new corridor is clear of every footprint
+    assert record["vertices_before"] == 14
+    assert record["vertices_after"] > record["vertices_before"]
     road = _road_by_id("MAIN-08")
+    assert _main_corridor_inside_boundary(road)
     assert road.corridor.intersection(_footprint_union()).area <= 1e-9
+    # MAIN-08 is repaired in the base geometry, not by the alignment record
+    assert all(
+        item["road_id"] != "MAIN-08"
+        for item in layout.main_alignment_records
+    )
 
 
-def test_main19_is_realigned_around_the_proven_infeasible_gap():
+def test_main16_and_main18_source_overhangs_are_repaired():
+    layout = _layout()
+    repairs = {
+        item["road_id"]: item for item in layout.main_boundary_repairs
+    }
+    assert set(repairs) == {"MAIN-08", "MAIN-16", "MAIN-18"}
+    assert repairs["MAIN-16"]["outside_area_before_m2"] == pytest.approx(
+        MAIN16_OUTSIDE_BEFORE_M2, rel=1e-6
+    )
+    assert repairs["MAIN-18"]["outside_area_before_m2"] == pytest.approx(
+        MAIN18_OUTSIDE_BEFORE_M2, rel=1e-6
+    )
+    for road_id in ("MAIN-16", "MAIN-18"):
+        assert repairs[road_id]["boundary_ok_after"] is True
+        assert repairs[road_id]["outside_area_after_m2"] == pytest.approx(
+            0.0, abs=1e-9
+        )
+        assert _main_corridor_inside_boundary(_road_by_id(road_id))
+
+
+# ------------------------------------------------- main-road alignment
+def test_main19_diversion_is_boundary_safe_and_keeps_endpoints():
     layout = _layout()
     record = next(
         item
         for item in layout.main_alignment_records
         if item["road_id"] == "MAIN-19"
     )
-    # C1: only buildings with a *before* overlap are conflicts; SK-BLD-0029 is
-    # the diversion obstacle (it had zero overlap before the realignment)
+    assert record["alignment_strategy"] == "diversion"
     assert set(record["conflict_building_ids"]) == {"SK-BLD-0006"}
     assert set(record["obstacle_building_ids"]) == {"SK-BLD-0029"}
-    assert set(record["per_building_overlap_before_m2"]) == {
-        "SK-BLD-0006"
-    }
-    assert record["per_building_overlap_before_m2"][
-        "SK-BLD-0006"
-    ] == pytest.approx(34.421783197612406, rel=1e-9)
-    assert "SK-BLD-0029" not in record["per_building_overlap_before_m2"]
     assert record["overlap_before_m2"] == pytest.approx(
-        34.421783197612406, rel=1e-9
+        MAIN19_BEFORE_M2, rel=1e-9
     )
-    assert record["constraint_satisfied"] is True
     assert record["overlap_after_m2"] == pytest.approx(0.0, abs=1e-9)
-    assert record["alignment_strategy"] == "diversion"
-    assert record["local_detour_infeasible"] is True
-    # proof that the local detour could not work: the conflict footprint and the
-    # diversion obstacle are closer together than the corridor is wide
-    assert record["conflicting_building_gap_m"] < MAIN_WIDTH_M
+    assert record["constraint_satisfied"] is True
+    assert record["local_search_exhausted"] is True
     assert record["conflicting_building_gap_m"] == pytest.approx(
-        MAIN_19_GAP_M, rel=1e-9
+        MAIN19_GAP_M, rel=1e-9
     )
-    # the diversion needs more than the 30 m local-detour guideline; it is
-    # recorded rather than hidden
-    assert record["max_displacement_m"] > 30.0
-    assert "infeasible" in record["reason"]
-    assert "30 m local-detour guideline" in record["reason"]
-    assert record["vertices_added"] > 2
+    assert record["max_displacement_m"] == pytest.approx(
+        MAIN19_DISPLACEMENT_M, rel=1e-9
+    )
+    assert record["vertices_added"] == 29
+    reason = record["reason"]
+    assert "local search family" in reason
+    assert "passage between the two buildings is infeasible" in reason
+    assert "legal candidate" in reason
+    assert "provably infeasible" not in reason
+    assert "can clear both" not in reason
     original = record["original_centerline"]
     adjusted = record["adjusted_centerline"]
     assert adjusted[0] == pytest.approx(original[0], abs=1e-9)
     assert adjusted[-1] == pytest.approx(original[-1], abs=1e-9)
     road = _road_by_id("MAIN-19")
+    assert _main_corridor_inside_boundary(road)
     assert road.corridor.intersection(_footprint_union()).area <= 1e-9
-    # every main corridor is now clear of building footprints
-    for other in layout.roads:
-        if other.class_name != "main":
-            continue
-        assert other.corridor.intersection(_footprint_union()).area <= 1e-9
 
 
 def test_main_overlap_evidence_is_honest():
     layout = _layout()
     assert layout.road_building_overlap_m2_main == pytest.approx(
-        MAIN_OVERLAP_BEFORE_M2, rel=1e-6
+        38.19068149970835, rel=1e-6
     )
     assert layout.road_building_overlap_m2_main_after == pytest.approx(
-        MAIN_OVERLAP_AFTER_M2, abs=1e-9
+        0.0, abs=1e-9
     )
-    assert layout.road_building_overlap_m2_main_after < (
-        layout.road_building_overlap_m2_main
-    )
-    # the hard check now passes for real (not hidden behind a flag)
     assert layout.main_overlap_resolved is True
-    assert layout.simplification["main_overlap_resolved"] is True
-    # total footprint overlap of the final corridor union matches the field
+    footprint_union = _footprint_union()
     computed_total = layout.corridor_union.intersection(
-        _footprint_union()
+        footprint_union
     ).area
     assert layout.road_building_overlap_m2_total == pytest.approx(
         computed_total, rel=1e-12
     )
-    assert layout.road_building_overlap_m2_total == pytest.approx(
-        layout.road_building_overlap_m2_new_access, abs=1e-9
-    )
     assert computed_total < layout.road_building_overlap_m2_main
+    assert layout.simplification["main_overlap_resolved"] is True
 
 
 # ------------------------------------------------------ dead-end resolution
@@ -262,49 +308,20 @@ def test_seven_dead_ends_each_have_a_recorded_strategy():
         road_id = item["road_id"]
         assert item["strategy"] == EXPECTED_STRATEGIES[road_id]
         assert item["node_id"] == f"DE-{road_id}"
-        assert item["original_xy"] == pytest.approx(
-            EXPECTED_ORIGINAL_DEAD_END_XY[road_id], abs=1e-9
-        )
+        assert item["criterion_met"] is True
         assert item["boundary_distance_m"] >= 0.0
         if item["strategy"] == "site_edge_terminus":
-            assert item["criterion_met"] is True
-            # C2/C4: never claim the source road continues outside the site
+            # no extension to the published boundary anymore: the base design
+            # already insets the corridor-safe terminus, so the road ends where
+            # its corridor edge is inside the boundary (margin >= 0)
+            assert item["extended_to_site_boundary"] is False
+            assert item["boundary_margin_m"] is not None
+            assert item["boundary_margin_m"] >= 0.0
+            assert item["adjusted_xy"] == pytest.approx(
+                item["original_xy"], abs=1e-9
+            )
+            assert "corridor-safe boundary line" in item["reason"]
             assert "continues outside the site" not in item["reason"]
-            assert "clipped" in item["reason"]
-            if item["extended_to_site_boundary"]:
-                assert item["adjusted_xy"] != pytest.approx(
-                    item["original_xy"], abs=1e-9
-                )
-                assert item["extension_length_m"] == pytest.approx(
-                    item["displacement_m"], rel=1e-12
-                )
-                assert item["boundary_distance_m"] <= 1e-9
-                # C3: the extension follows the shortest direction to the
-                # boundary, not a straight continuation of the terminal segment
-                assert "shortest direction" in item["reason"]
-                assert "not a straight continuation" in item["reason"]
-                assert item["extension_direction_cross"] is not None
-                assert item["extension_angle_deg"] is not None
-                site_boundary = _r1_design()[1].site_boundary
-                endpoint = Point(item["adjusted_xy"])
-                assert site_boundary.boundary.distance(endpoint) <= 1e-6
-                road = _road_by_id(road_id)
-                coordinates = list(road.centerline.coords)
-                endpoints = [
-                    (float(coordinates[0][0]), float(coordinates[0][1])),
-                    (float(coordinates[-1][0]), float(coordinates[-1][1])),
-                ]
-                assert tuple(item["adjusted_xy"]) in endpoints
-            else:
-                assert item["adjusted_xy"] == pytest.approx(
-                    item["original_xy"], abs=1e-9
-                )
-                assert item["displacement_m"] == 0.0
-                assert item["boundary_distance_m"] <= 5.0 or (
-                    item["boundary_band_m"] is not None
-                    and item["boundary_distance_m"]
-                    <= item["boundary_band_m"]
-                )
         elif item["strategy"] == "bridged":
             assert item["bridge_road_id"] in EXPECTED_ROAD_IDS
             assert item["bridge_road_id"] != road_id
@@ -331,55 +348,25 @@ def test_seven_dead_ends_each_have_a_recorded_strategy():
             assert tuple(item["adjusted_xy"]) in vertices
             assert item["displacement_m"] > 0.0
             assert road.centerline.length > 1.0
-    # every dead-end resolution is now actually resolved (no False entries)
-    assert all(
-        item["criterion_met"] is True for item in resolutions
-    )
-    assert [
-        item["road_id"]
-        for item in resolutions
-        if not item["criterion_met"]
-    ] == []
-    # MAIN-25 is resolved by extending the dangling end to the published
-    # boundary (Lead decision: never leave it as criterion_met=False)
-    main_25 = next(
-        item for item in resolutions if item["road_id"] == "MAIN-25"
-    )
-    assert main_25["strategy"] == "site_edge_terminus"
-    assert main_25["criterion_met"] is True
-    assert main_25["extended_to_site_boundary"] is True
-    assert main_25["extension_length_m"] == pytest.approx(
-        5.643487350037444, rel=1e-9
-    )
-    assert main_25["displacement_m"] == pytest.approx(
-        5.643487350037444, rel=1e-9
-    )
-    assert main_25["boundary_distance_m"] == 0.0
-    assert main_25["extension_direction_cross"] == pytest.approx(
-        0.7572412110751457, rel=1e-9
-    )
-    assert main_25["extension_angle_deg"] == pytest.approx(
-        49.22158907463808, rel=1e-9
-    )
-    assert "shortest direction" in main_25["reason"]
-    assert "normalized cross 0.757" in main_25["reason"]
-    assert "clipped at that boundary" in main_25["reason"]
-    assert "continues outside the site" not in main_25["reason"]
-    site_boundary = _r1_design()[1].site_boundary
-    main_25_endpoint = Point(main_25["adjusted_xy"])
-    assert site_boundary.boundary.distance(main_25_endpoint) <= 1e-6
-    main_25_road = _road_by_id("MAIN-25")
-    assert tuple(main_25_road.centerline.coords[-1]) == pytest.approx(
-        tuple(main_25["adjusted_xy"]), abs=1e-12
-    )
+    assert all(item["criterion_met"] is True for item in resolutions)
     main_18 = next(
         item for item in resolutions if item["road_id"] == "MAIN-18"
     )
-    assert main_18["criterion_met"] is True
-    assert main_18["extended_to_site_boundary"] is False
-    assert main_18["boundary_distance_m"] <= 5.0
-    assert "clipped at the published boundary" in main_18["reason"]
-    assert "continues outside the site" not in main_18["reason"]
+    assert main_18["original_xy"] == pytest.approx(
+        MAIN18_DEAD_END_XY, abs=1e-9
+    )
+    assert main_18["boundary_margin_m"] == pytest.approx(
+        MAIN18_MARGIN_M, abs=1e-6
+    )
+    main_25 = next(
+        item for item in resolutions if item["road_id"] == "MAIN-25"
+    )
+    assert main_25["original_xy"] == pytest.approx(
+        MAIN25_DEAD_END_XY, abs=1e-9
+    )
+    assert main_25["boundary_margin_m"] == pytest.approx(
+        MAIN25_MARGIN_M, abs=1e-6
+    )
 
 
 def test_remaining_dead_ends_are_only_justified_site_edge_and_branch_tips():
@@ -415,19 +402,19 @@ def test_topology_ids_and_vertex_budget_are_preserved():
     assert topology.max_endpoint_gap_m == 0.0
     assert topology_violations(topology) == ()
     assert layout.corridor_union_pieces == 1
-    assert topology.node_count == 57
-    assert topology.edge_count == 66
-    assert topology.cyclomatic == 10
-    assert topology.degree_histogram == {1: 19, 2: 3, 3: 33, 4: 2}
-    assert topology.junction_count == 35
+    assert topology.node_count == 58
+    assert topology.edge_count == 68
+    assert topology.cyclomatic == 11
+    assert topology.degree_histogram == {1: 19, 2: 3, 3: 33, 4: 3}
+    assert topology.junction_count == 36
     assert topology.explicit_junction_count == 24
     assert topology.closed_ring_count == 3
     assert {road.edge_id for road in layout.roads} == EXPECTED_ROAD_IDS
     assert len(layout.roads) == 44
-    # vertex budget: local detour + diversion, 45 vertices added, none deleted
-    assert layout.simplification["main_alignment_road_count"] == 2
-    assert layout.simplification["main_alignment_vertices_added"] == 45
+    assert layout.simplification["main_alignment_road_count"] == 1
+    assert layout.simplification["main_alignment_vertices_added"] == 29
     assert layout.simplification["main_alignment_vertices_removed"] == 0
+    assert layout.simplification["main_boundary_repair_count"] == 3
     assert layout.simplification["dead_end_resolution_count"] == 7
     assert layout.simplification["dead_end_resolution_strategies"] == {
         "site_edge_terminus": 2,
@@ -440,11 +427,17 @@ def test_service_binding_and_access_coverage_survive_realignment():
     basis, design_input, intent, building_layout, layout = _r1_design()
     parking = build_parking_layout(design_input, intent, layout, basis)
     access = build_road_access(
-        building_layout, layout, intent, parking, basis
+        building_layout,
+        layout,
+        intent,
+        parking,
+        basis,
+        design_input.site_boundary,
     )
     assert access.road_access_coverage == pytest.approx(1.0)
     assert len(access.groups) == 17
     assert all(group.served for group in access.groups)
+    assert access.dead_ends_unresolved == 0
     assert layout.group_access_unserved == ()
     assert layout.simplification["terminal_frozen_violations"] == []
     declared = {
@@ -482,7 +475,6 @@ def test_service_binding_and_access_coverage_survive_realignment():
 
 
 def test_access_terminals_match_committed_evidence_exactly():
-    """M4c-1e evidence binds each group to its terminal; realignment keeps it."""
     evidence = _committed_evidence()
     expected: dict[str, tuple[list[str], tuple[float, float], str, float]] = {}
     for feature in evidence["features"]:
@@ -512,10 +504,11 @@ def test_access_terminals_match_committed_evidence_exactly():
         )
 
 
-def test_layout_to_dict_exposes_alignment_evidence():
+def test_layout_to_dict_exposes_alignment_and_boundary_evidence():
     payload = _layout().to_dict()
     for key in (
         "main_alignment_records",
+        "main_boundary_repairs",
         "dead_end_resolutions",
         "road_building_overlap_m2_main_after",
         "main_overlap_resolved",
@@ -523,6 +516,9 @@ def test_layout_to_dict_exposes_alignment_evidence():
         assert key in payload
     assert payload["main_overlap_resolved"] is True
     assert len(payload["dead_end_resolutions"]) == 7
-    assert len(payload["main_alignment_records"]) == 2
-    # the evidence must be JSON serialisable for the committed artifacts
+    assert len(payload["main_alignment_records"]) == 1
+    assert len(payload["main_boundary_repairs"]) == 3
+    simplification = payload["simplification"]
+    assert simplification["main_boundary_ok"] is True
+    assert simplification["main_boundary_repair_count"] == 3
     json.dumps(payload)

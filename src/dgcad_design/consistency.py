@@ -325,6 +325,40 @@ def check_design(
             },
         },
         {
+            "id": "ROAD_BOUNDARY_CONTAINMENT",
+            "status": (
+                "pass"
+                if road_layout.simplification.get("main_boundary_ok")
+                else "fail"
+            ),
+            "value": road_layout.simplification.get(
+                "main_boundary_margin_m"
+            ),
+            "required": 0.0,
+            "message": (
+                "every main-road corridor edge (centreline ± width/2) must lie "
+                "inside the published site boundary; this is a geometric "
+                "containment check, not a source-alignment claim. Repaired "
+                "source overhangs are recorded per road, and the repaired "
+                "MAIN-08 route is functional but not a polished alignment"
+            ),
+            "detail": {
+                "boundary_ok": road_layout.simplification.get(
+                    "main_boundary_ok"
+                ),
+                "boundary_margin_m": road_layout.simplification.get(
+                    "main_boundary_margin_m"
+                ),
+                "repair_count": road_layout.simplification.get(
+                    "main_boundary_repair_count"
+                ),
+                "repairs": [
+                    dict(item)
+                    for item in road_layout.main_boundary_repairs
+                ],
+            },
+        },
+        {
             "id": "MAIN_ROAD_BUILDING_OVERLAP",
             "status": (
                 "pass"
@@ -615,14 +649,35 @@ def check_design(
             1 for item in road_access.entrances if item.driveway_designed
         ),
         "road_relation_error_count": len(road_access.relation_errors),
+        "main_boundary_ok": road_layout.simplification.get("main_boundary_ok"),
+        "main_boundary_margin_m": road_layout.simplification.get(
+            "main_boundary_margin_m"
+        ),
+        "main_boundary_repair_count": road_layout.simplification.get(
+            "main_boundary_repair_count"
+        ),
+        "source_segment_map_road_count": len(
+            road_layout.source_segment_map
+        ),
         "dead_end_unresolved_count": road_access.dead_ends_unresolved,
         "dead_end_resolved_count": len(road_access.dead_end_resolutions),
         "main_road_building_overlap_m2": road_access.main_road_overlap.get(
             "area_m2"
         ),
-        "main_road_building_overlap_before_m2": sum(
+        "main_road_building_overlap_before_m2": (
+            road_layout.road_building_overlap_m2_main
+        ),
+        "main_road_overlap_before_records_m2": sum(
             record.get("overlap_before_m2") or 0.0
             for record in road_access.main_alignment_records
+        ),
+        "main_road_overlap_before_boundary_replaced_m2": max(
+            0.0,
+            road_layout.road_building_overlap_m2_main
+            - sum(
+                record.get("overlap_before_m2") or 0.0
+                for record in road_access.main_alignment_records
+            ),
         ),
         "main_road_building_overlap_status": road_access.main_road_overlap.get(
             "status"

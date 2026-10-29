@@ -78,7 +78,8 @@ This map is the single index of which research artifacts have been promoted into
 | E2E-003b semantic/dependency | **promoted** | `src/dgcad_cad/` + `tests/e2e/test_e2e_003b_semantics.py` | Fingerprint consistency, symbol tables, ring keys, raw/canonical manifest; same-library only |
 | E2E-003c third-party CAD | **partially promoted** | `contracts/third-party-roundtrip-v0.1.yaml` + `scripts/third_party/autocad_core_roundtrip.py` | AutoCAD 2024 Core Console evidence captured; LibreCAD/FreeCAD/GUI matrix still open (#6) |
 | CASE-SKETCH-001-HANDOFF-A | **promoted (gate; pilot blocked)** | `contracts/sketch-domain-handoff-v0.2.yaml` + `src/dgcad_domain/sketch_handoff.py` + `docs/e2e/sketch-handoff-a/` | Source integrity, road topology, review packet and scope/authority propagation promoted; the real pilot blocks at `HUMAN_OBJECT_REVIEW_REQUIRED` until an object-level review exists |
-| CASE-SKETCH-001-AUTONOMOUS-DESIGN-001 | **promoted (partial draft)** | `contracts/design-synthesis-v0.7.yaml` + `src/dgcad_design/` + `docs/e2e/design-synthesis-001/` | Full-site metrics + focus-block standardized design; `rule_derived` draft, no human review gate; full-site spacing/road clearance deferred; road topology corrected in 4c-1a; honest semantics in 4c-1c/1d; road service coverage in 4c-1b (44 roads, coverage 1.0, first design-geometry change); M4c-1e (0.20.0) bound access to declared `serves_group_ids` relations; M4c-2 (0.21.0) resolved the main-road/building conflicts by recorded alignments (38.19068149970834 → 0 m², MAIN-19 diversion + MAIN-08 local detour, +45 vertices) and the 7 dead ends (`MAIN_ROAD_BUILDING_OVERLAP`/`DEAD_END_RESOLUTION` pass, `ROAD_ALIGNMENT_EVIDENCE` info), DXF content 206 → 211 — 26 checks = 8 pass + 11 info + 7 deferred; v0.6/v0.5/v0.4/v0.3/v0.2/v0.1 superseded |
+| CASE-SKETCH-001-AUTONOMOUS-DESIGN-001 | **promoted (partial draft)** | `contracts/design-synthesis-v0.8.yaml` + `src/dgcad_design/` + `docs/e2e/design-synthesis-001/` | Full-site metrics + focus-block standardized design; `rule_derived` draft, no human review gate; full-site spacing/road clearance deferred; road topology corrected in 4c-1a; honest semantics in 4c-1c/1d; road service coverage in 4c-1b (44 roads, coverage 1.0, first design-geometry change); M4c-1e (0.20.0) bound access to declared `serves_group_ids` relations; M4c-2/Phase-0 (0.21.0–0.22.0) resolved the main-road/building overlap by a recorded MAIN-19 diversion, added site-boundary containment as a hard check with MAIN-08/16/18 repairs, split the overlap fields (`main_before` 38.19068149970835 / `main_after` 0.0 / `new_access` 0.9943558185246757 / `total_after` 0.9943558185246756), made alignment semantics `local_search_exhausted`, published `source_segment_map`/design-diff alignment+dead-end records, and re-baselined geometry to 58/68/cyclomatic 11 — DXF 211 entities, 27 checks = 9 pass + 11 info + 7 deferred (+3 DXF = 30), 396 tests; v0.7/v0.6/v0.5/v0.4/v0.3/v0.2/v0.1 superseded |
+| CASE-SKETCH-001-MULTI-CANDIDATE-001 | **promoted (first experiment)** | `contracts/design-candidates-v0.1.yaml` + `src/dgcad_design/candidates.py`/`evaluation.py`/`visuals.py` + `docs/e2e/design-candidates-001/` | Four deterministic candidates A/B1/B2/C for the MAIN-19 conflict; hard gates recomputed from geometry; default preference recommends B1, road-first recommends A; Pareto [B1,B2,C,A] with reasons and no single score; B1 is only a candidate baseline, not a selected or professional design |
 | CASE-SKETCH-001-OPEN-SOURCE-REUSE-001 | **promoted (research evidence)** | `experiments/m4c0/` + `docs/e2e/open-source-reuse-001/` | Building Regulariser, OSMnx, PyGeoOps, Clothoids, momepy tested; OSMnx useful as an optional source-skeleton preprocessor, not a connectivity proof (see 4c-1a); no new core dependencies |
 | DEV-CAD-001..008 | **partially promoted** | Issues #1/#4/#5/#6/#8 + closed #2/#3/#7 | Milestone 3a fixed 002/003/007; 009/010 added and fixed; 001/004/005/006/008/011 remain for 3b/3c |
 | R0 acquisition batches (BATCH-001..005) | `research_only` | — | Unclosed evidence; gate claims remain blocked |
@@ -199,7 +200,7 @@ Still open: LibreCAD/FreeCAD/GUI third-party matrix (#6), arcs/splines outside t
 ## CASE-SKETCH-001 autonomous design synthesis (0.14.0)
 
 > Historical 0.14.0 snapshot (contract v0.2, 208 entities, 8 tests). Current
-> state: 0.21.0 / contract v0.7 / 26 checks / 347 tests — see the promotion
+> state: 0.22.0 / contract v0.8 / 27 checks / 396 tests — see the promotion
 > registry row above and `docs/status.md` §16. This section is not rewritten;
 > it records what was promoted at 0.14.0.
 
@@ -245,7 +246,8 @@ contracts/
 ├── third-party-roundtrip-v0.1.yaml
 ├── sketch-evidence-v0.1.yaml
 ├── sketch-domain-handoff-v0.2.yaml
-├── design-synthesis-v0.7.yaml
+├── design-synthesis-v0.8.yaml
+├── design-candidates-v0.1.yaml
 ├── evidence-gate-register-v0.2.yaml
 ├── runtime-state-contract-v0.1.yaml
 ├── runtime-agent-surface-v0.1.yaml
