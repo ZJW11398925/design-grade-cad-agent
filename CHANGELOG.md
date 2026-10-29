@@ -2,6 +2,55 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.25.0 — 2026-10-30
+
+### Added
+
+- **M4d-2 — first building-road co-design A/B experiment.** Both candidates
+  start from the same CASE-SKETCH-001 input, basis and frozen 44-road network;
+  the old focus-era access declarations are never reused.
+  - **Candidate A** keeps the M4d-1 full-site building layout and rebuilds all
+    17 group connectors (`CD-A-G01…G17`, 16 branch + 1 access, 362.09 m):
+    access coverage **1.0**, relation errors 0, dead ends 17 justified /
+    unresolved 0, topology one component, new connector/building overlap 0.
+    It fails **`FULL_SITE_ROAD_CLEARANCE`**: the served-facade corridor is
+    2.825 m < 3 m, structurally unavoidable under the declared 3.4–3.5 m
+    terminal band + 7 m branch width. Reported, not hidden.
+  - **Candidate B** uses the new group-preserving full-site layout (17 intent
+    groups, 39 rows, group-local 31 m row lattices) plus the same rebuilt
+    access generator. It is **hard-valid**: 29 checks = **13 pass + 11 info +
+    5 deferred + 0 fail**; access **17/17** (coverage 1.0, band
+    3.499999 m), boundary/overlap/NS (min 19.999999999999943 m)/clearance
+    (min 3.0164672 m) pass, dead ends unresolved 0. New-connector sidewalks
+    are clipped along building footprints (17 connector bands, **115.202 m²**
+    clipped); the independent recalc reports **0 building/sidewalk overlaps**
+    for both candidates (baseline M4d-1 had 0 as well), so B's hard-valid
+    claim covers the previously ungated sidewalk conflict. Group preservation
+    is partial: all 17 groups present, 12 split across non-adjacent rows,
+    group centroid displacement max **140.12 m / mean 33.99 m**,
+    single-building displacement max **278.46 m**.
+  - **Decision:** hard-first; **recommend B**; A excluded for the clearance
+    failure. No opaque score, explicit reasons in `evaluation.json`.
+- Evidence `docs/e2e/design-co-design-001/`: `candidates.json`,
+  `evaluation.json`, per-candidate 29-check consistency reports, README with
+  measured table and honest failure/limitation notes, and candidate CAD
+  evidence: `A/` **584 entities / readback 584/584**, `B/` **587 entities /
+  readback 587/587**, both XDATA 11 / privacy pass / audit 0-0; A's sheet is
+  stamped `INCOMPLETE` (clearance fail), B's `HARD-VALID` (0 hard fails).
+  Potential open space stays on `L-OPEN-SPACE`; designed green on `L-GREEN`.
+  The A/B/baseline same-scale comparison is `comparison.svg`.
+- The full-site NS check now applies to the group-preserved layout only after
+  its row repair: consecutive-row spacing min = max = 20.0 m, under/over 0.
+
+### Verified
+
+- Full test suite: **515 passed** (472 baseline + 11 co-design access + 10
+  group-preserving layout + 11 group metrics + 11 co-design evidence; no test
+  removed).
+- Candidate A/B metrics are recomputed from geometry by `group_metrics`
+  (access truth, group integrity) and `check_design`; the generator does not
+  self-certify. CI 4/4.
+
 ## 0.24.1 — 2026-10-29
 
 ### Fixed

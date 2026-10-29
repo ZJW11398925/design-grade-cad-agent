@@ -17,17 +17,20 @@ Repository: `D:\agent-cad`
 > 先读 `D:\agent-cad\docs\development\session-handoff.md`（§1 是唯一当前状态），再读
 > `docs/status.md` §2/§16–18、`docs/roadmap.md` 的 M4c-2/4c-3 与 Next 块、以及
 > `docs/e2e/design-synthesis-001/README.md` / `docs/e2e/design-candidates-001/README.md`。
-> 当前版本 0.24.1（M4d-1a delivery 语义修正 + M4d 全场地扩展：55 栋 / 109 units / 2,398
-> households，18 rows / 36 row records / 8 superblocks，focus G-01 保留；位移 sum
-> 2,328.95 m / max 147.25 m / mean 42.34 m；全场地检查 29 = 11 pass + 11 info + 5
-> deferred + 2 fail（access 0.0/17，dead 17；DESIGNED_GREEN_RATIO deferred，designed
-> green 15.93%；61.06% 为 `POTENTIAL OPEN SPACE ... NOT LANDSCAPE DESIGN`，仅 auxiliary），
-> focus 29 = 9 pass + 11 info + 9 deferred（designed green 6.54%）；全场地 CAD 用
-> `L-OPEN-SPACE`/POTENTIAL OPEN SPACE 标签和 `DESIGNED GREEN 15.93% - INCOMPLETE` 标题；
-> 20 m 是候选 row-rhythm + basis 假设（非普适）；147.25 m 是现有搜索族最大候选，未证明全局
-> 最小；3.016362/19.999999 是模型坐标内部一致性，非测绘级；DXF 553/553/XDATA 11/privacy；
-> 测试 472）。下一步 M4d-2 access/road co-design + 真实 CAD 宿主往返/R1 并行。
-> 不要新增核心依赖，不要声称 human_confirmed / 合规 / 已采纳，不要重写 Foundation/Runtime/CAD-IR。
+> 当前版本 0.25.0（M4d-2 A/B 建筑-道路协同实验：A 固定 M4d-1 布局 + 重建 17 连接路
+> （362.095 m；access 17/17、relation 0、dead 0）仅 `FULL_SITE_ROAD_CLEARANCE` fail
+> （served-face **2.8250521190593507 m <3 m**，结构冲突未放宽）；B 组保持布局（17 组 /
+> 39 rows）+ 同 access，**hard-valid 29 = 13 pass + 11 info + 5 deferred + 0 fail**
+> （access 17/17、band 3.499999、NS 20.0、clearance **3.0164672267820585 m**、dead 0），
+> 但组拆分 **12**、组质心 max **140.12/mean 33.99 m**、单栋 max **278.46 m**；
+> hard-first 推荐 **B**、A excluded，无单一总分/排名；candidate DXF 已交付：A **584/584**
+> （`INCOMPLETE`）、B **587/587**（`HARD-VALID`），XDATA 11/privacy/audit 0，
+> `comparison.svg` 三面板，connector sidewalk 17 条/115.202 m²、A/B overlap 0；
+> tests **515**）。M4d-1a/full-site 历史：55 栋/109 units/2,398 households；18 rows/
+> 36 row records/8 superblocks；full-site 29 = 11/11/5/2 fail；focus 29 = 9/11/9；
+> 61.06% 为 `POTENTIAL OPEN SPACE ... NOT LANDSCAPE DESIGN`；DXF 553/553。下一步解决
+> served-facade/terminal-band 冲突 + CAD 宿主/R1 并行。不要新增核心依赖，不要声称
+> human_confirmed / 合规 / 已采纳，不要重写 Foundation/Runtime/CAD-IR。
 
 ## 1. Repo state (verified 2026-10-28)
 
@@ -58,12 +61,12 @@ Repository: `D:\agent-cad`
   contain the same history (M4c-1a `9d4ae56` + `1209955`, M4c-1c `e02337b`,
   M4c-1d `2f396b2`, M4c-1b `2750bc5`). **Start new work from `main`** — e.g.
   `feat/m4d-full-site` or `feat/real-cad-host-evidence`.
-- Version: `0.24.1` (`pyproject.toml`).
+- Version: `0.25.0` (`pyproject.toml`).
 - Contract: `design-synthesis-v0.9.yaml` (v0.8/v0.7/v0.6/v0.5/v0.4/v0.3/v0.2/v0.1
   superseded; gate-register pointer → v0.9) and
   `design-candidates-v0.2.yaml` (v0.1 superseded; multi-candidate
   evaluation/comparison with basis binding and 11 single-unit objectives).
-- Test baseline: **472 passed** (`python -m pytest -q`).
+- Test baseline: **515 passed** (`python -m pytest -q`).
 - Milestone order: M4c-1d honest-semantics residuals (**complete**) →
   M4c-1b road service coverage (**complete** — first design-geometry change:
   44 roads, coverage 1.0, DXF 206 entities) → M4c-1e evidence binding
@@ -78,17 +81,18 @@ Repository: `D:\agent-cad`
   class/terminal, basis fingerprint binding, `HISTORICAL_BOUNDARY_ARCHIVE`,
   11 single-unit objectives with auxiliary excluded, contract v0.2, 414 tests)
   → M4d full-site expansion (**complete research draft in 0.24.1, delivery
-  semantics corrected** — 55
-  semantics corrected in 0.24.1** — 55
-  buildings / 109 units / 2,398 households, 18 rows / 36 row records / 8
-  superblocks, focus preserved; full-site 29 checks = 11 pass + 11 info +
-  5 deferred + 2 fail (access 0.0, dead-end 17 unresolved; designed green
-  15.93% deferred; 61.06% is `POTENTIAL OPEN SPACE ... NOT LANDSCAPE DESIGN`,
-  auxiliary); focus sheet 29 = 9 pass + 11 info + 9 deferred (designed green
-  6.54%); full-site DXF 553/553; contract v0.9; 472 tests) → **next: M4d-2
-  access/road co-design (recompute access terminals or clearance-preserving
-  road geometry), in parallel with real CAD host round-trip
-  (LibreCAD/FreeCAD/AutoCAD GUI) and R1 evidence closure**.
+  semantics corrected** — 55 buildings / 109 units / 2,398 households, 18
+  rows / 36 row records / 8 superblocks, focus preserved; full-site 29 checks
+  = 11 pass + 11 info + 5 deferred + 2 fail (access 0.0, dead-end 17 unresolved;
+  designed green 15.93% deferred; 61.06% is `POTENTIAL OPEN SPACE ... NOT
+  LANDSCAPE DESIGN`, auxiliary); focus sheet 29 = 9 pass + 11 info + 9 deferred
+  (designed green 6.54%); full-site DXF 553/553; contract v0.9; 472 tests) →
+  M4d-2 A/B co-design (**research draft in 0.25.0** — A fails only
+  `FULL_SITE_ROAD_CLEARANCE` at served-face 2.825 m; B hard-valid, 12 group
+  splits; A/B DXF 584/587 delivered; 515 tests) → **next: resolve
+  served-facade/terminal-band conflict + M4d-2 completion**, in parallel with
+  real CAD host round-trip (LibreCAD/FreeCAD/AutoCAD GUI) and R1 evidence
+  closure**.
 - Local environment: Windows, Python 3.13. Core dependencies remain only
   **PyYAML 6.0.3 / Shapely 2.1.2 / ezdxf 1.4.5**.
 - Optional research-only installs (NOT in `pyproject.toml`): osmnx 2.1.1,
@@ -299,7 +303,22 @@ Evidence: `docs/e2e/sketch-handoff-a/` (status `blocked`, correct).
   553/553, XDATA 11, privacy pass; CAD title `DESIGNED GREEN 15.93% -
   INCOMPLETE` + `INCOMPLETE: ROAD ACCESS 0/17 - DEAD ENDS 17 UNRESOLVED -
   DESIGNED GREEN < 30%`. 3.016362/19.999999 are model-coordinate internal
-  consistency, not survey-grade. Tests **472**.
+  consistency, not survey-grade. Tests **472 at M4d**.
+- M4d-2 (0.25.0) A/B building-road co-design — a **research draft**: A (fixed
+  M4d-1 layout + rebuilt 17 connectors, 16 branch + 1 access, 362.0944726221448 m)
+  gets access 17/17, 0 relation errors and 0 unresolved dead ends but fails only
+  `FULL_SITE_ROAD_CLEARANCE` at served-face **2.8250521190593507 m <3 m**
+  (structural terminal-band/branch-width conflict, not tolerance-widened;
+  check status 12 pass + 11 info + 5 deferred + 1 fail). B (group-preserving
+  layout, 17 groups / 39 rows) is **hard-valid 29 = 13 pass + 11 info + 5
+  deferred + 0 fail** (access 17/17, band 3.499999 m, boundary/overlap, NS 20.0,
+  clearance **3.0164672267820585 m**, dead 0); honest residuals are **12 group
+  splits**, group-centroid max **140.12 m**/mean **33.99 m**, single-building
+  max **278.46 m**. Hard-first recommends **B**, excludes **A**, no score/ranking.
+  Candidate DXF delivered: A **584 entities/readback 584/584** (`INCOMPLETE`),
+  B **587/587** (`HARD-VALID`), XDATA 11/privacy/audit 0; connector sidewalks
+  clipped 17/115.202 m² and A/B sidewalk overlap 0; `comparison.svg` three
+  panels. Tests **515**.
 - M4c-1a (0.16.0) corrected the road-topology defect: explicit shared-coordinate
   junctions, noded graph 1 component (51 nodes / 55 segments, cyclomatic 5,
   dead ends 21, junctions 27, `max_endpoint_gap_m` 0.0); `design-roads.geojson`
@@ -386,14 +405,20 @@ Do not present either as a finished road design.
    layout; the unbounded search produced the 147.25 m candidate, not a proven
    global minimum. **M4d-2 open:** recompute access declarations/terminals or
    generate clearance-preserving road geometry (and then re-check dead ends).
-7. **Real CAD host/external evidence** — LibreCAD/FreeCAD/AutoCAD GUI, a real
+7. ~~M4d-2 A/B co-design~~ — **research draft in 0.25.0**: A fails only
+   `FULL_SITE_ROAD_CLEARANCE` (served-face 2.825 m); B hard-valid (29 = 13/11/5/0,
+   access 17/17, dead 0) with 12 group splits and honest displacement residuals;
+   hard-first recommends B, A excluded; A/B DXF 584/587 delivered. **Open:**
+   resolve served-facade/terminal-band conflict (access standard/road width) and
+   complete M4d-2.
+8. **Real CAD host/external evidence** — LibreCAD/FreeCAD/AutoCAD GUI, a real
    design-office profile and IFC remain open; the committed DXF evidence is
    same-library ezdxf readback only.
-8. Replace the provisional 24×11 m staircase module with the designer’s
+9. Replace the provisional 24×11 m staircase module with the designer’s
    unit-type library — open (designer input).
-9. Design driveways/garage access (`PARKING_DRIVEWAY_CONNECTION` deferred) and
-   review the 19 remaining dead ends (17 planned group terminals + 2 site-edge
-   termini) in the full-site design — open.
+10. Design driveways/garage access (`PARKING_DRIVEWAY_CONNECTION` deferred) and
+    review the 19 remaining dead ends (17 planned group terminals + 2 site-edge
+    termini) in the full-site design — open.
 
 Acceptance for step 3 (met): the noded graph is 1 component; FAR remains
 inside 1.55–1.60; parking ≥1/household; focus spacing ≥20 m; DXF remains
@@ -428,7 +453,11 @@ and road clearance 3.0163622902759215 m pass; designed green is **15.93% (<30%,
 deferred; the 61.06% open-space tiling is auxiliary only)**; the two honest fails
 are `ROAD_ACCESS_COVERAGE` 0.0 (17 relation errors) and `DEAD_END_RESOLUTION` 17
 unresolved; full-site DXF 553/553, XDATA 11, privacy pass; contract v0.9 and
-**472 tests**.
+**472 tests at M4d**. M4d-2 acceptance (research draft): A excluded solely for
+`FULL_SITE_ROAD_CLEARANCE` at served-face 2.825 m; B hard-valid 29 = 13/11/5/0
+with access 17/17, dead 0, clearance 3.0164672267820585 m; A/B DXF 584/587,
+readback 584/584 and 587/587, XDATA 11, privacy, audit 0; sidewalk overlap 0;
+tests **515**.
 
 ## 5. Non-negotiable constraints
 
@@ -500,6 +529,9 @@ Tests:
   `tests/test_evaluation.py` (27), `tests/test_visuals.py` (13).
 - `tests/test_full_site_layout.py` (16), `tests/test_full_site_constraints.py`
   (29), `tests/test_full_site_evidence.py` (13).
+- `tests/test_co_design_access.py` (11), `tests/test_group_preserving_layout.py`
+  (10), `tests/test_group_metrics.py` (11), `tests/test_co_design_evidence.py`
+  (11).
 - `tests/test_open_source_reuse.py` (3).
 - `tests/test_sketch_handoff.py` (32), `tests/e2e/test_sketch_handoff_a.py` (6).
 
@@ -623,10 +655,16 @@ hash (see pitfalls).
   LANDSCAPE DESIGN`, auxiliary), but `ROAD_ACCESS_COVERAGE` 0.0 (17 relation
   errors) and `DEAD_END_RESOLUTION` 17 unresolved fail. The frozen network + old
   access declarations make clearance and access coverage mutually incompatible.
-  Full-site DXF 553/553, XDATA 11, privacy pass; tests 472. **Next: M4d-2**
-  access/road co-design (recompute access terminals or clearance-preserving
-  roads), plus a real CAD host (LibreCAD/FreeCAD/AutoCAD GUI), a real
-  design-office profile, IFC and R1 closure; the committed DXF evidence is
-  same-library ezdxf readback.
+  Full-site DXF 553/553, XDATA 11, privacy pass; tests 472 at M4d. **M4d-2
+  A/B co-design (0.25.0, research draft):** A fails only
+  `FULL_SITE_ROAD_CLEARANCE` at served-face 2.825 m; B is hard-valid
+  (29 = 13/11/5/0; access 17/17, dead 0; 12 group splits; group-centroid max
+  140.12 m / mean 33.99 m; single max 278.46 m); hard-first recommends B and
+  excludes A; A/B DXF **584/587** delivered (`INCOMPLETE` / `HARD-VALID`),
+  XDATA 11/privacy/audit 0; connector sidewalk 17/115.202 m² and sidewalk
+  overlap 0; tests **515**. **Next:** resolve served-facade/terminal-band
+  conflict and complete M4d-2, plus a real CAD host
+  (LibreCAD/FreeCAD/AutoCAD GUI), a real design-office profile, IFC and R1
+  closure; the committed DXF evidence is same-library ezdxf readback.
 - `EP-R1-SKETCH-001` remains in progress; `R1-G07` partial;
   `EP-R1-DESIGN-001` in progress.

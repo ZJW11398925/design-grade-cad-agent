@@ -1,0 +1,67 @@
+{
+  "schema_id": "dgcad.co-design-render.v0.1",
+  "candidates": {
+    "A": {
+      "status": "incomplete_candidate",
+      "hard_ok": false,
+      "failed_hard_checks": [
+        "FULL_SITE_ROAD_CLEARANCE"
+      ],
+      "dxf": {
+        "path": "candidate-a.dxf",
+        "sha256": "dcc423bdd35fbb01e0e87680ae996a91d716b8a274d11f70e0f1a5165c5a0b16",
+        "entity_count": 584,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      "readback": {
+        "verdict": "pass",
+        "codes": [],
+        "entity_count": 584,
+        "expected_entity_count": 584,
+        "confirmation_scopes": [
+          "design_draft"
+        ],
+        "manifest_sha256": "a394901b37d308b987f699cae63e7cf635b9160a31f5395427548e323fe3d0ba"
+      },
+      "privacy_ok": true,
+      "preview_svg_sha256": "cb76efa91c78c843153139e31b50b68420db95988a889cd30a6d967c5bf34f84"
+    },
+    "B": {
+      "status": "hard_valid_candidate",
+      "hard_ok": true,
+      "failed_hard_checks": [],
+      "dxf": {
+        "path": "candidate-b.dxf",
+        "sha256": "27967de18a645dffd2e2d45d490bfbd9e3516b1ce366a83f2576effdc5f5594a",
+        "entity_count": 587,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      "readback": {
+        "verdict": "pass",
+        "codes": [],
+        "entity_count": 587,
+        "expected_entity_count": 587,
+        "confirmation_scopes": [
+          "design_draft"
+        ],
+        "manifest_sha256": "0bc4b7fc9c994be188f725f41c7e254aeebd01bddcf1c2f002b1acdabb8d0622"
+      },
+      "privacy_ok": true,
+      "preview_svg_sha256": "b7ac15ac1836be881946c200616d36be2248441c8485d4f82ea73ec2caa17d1d"
+    }
+  },
+  "comparison": {
+    "path": "D:\\agent-cad\\docs\\e2e\\design-co-design-001\\comparison.svg",
+    "bytes": 211825,
+    "sha256": "a276afb3d04ba4bbd23b56386b421cc5db936da0ea99f20427f11dfad5805ac0",
+    "panels": [
+      "M4D1-BASELINE",
+      "CANDIDATE A",
+      "CANDIDATE B"
+    ]
+  },
+  "recommendation": "B",
+  "hard_first": true
+}

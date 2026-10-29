@@ -30,8 +30,8 @@ from shapely.ops import unary_union
 from .basis import DesignBasis
 from .buildings import BuildingLayout
 from .intent import DesignIntent
-from .parking import ParkingLayout
-from .roads import RoadLayout
+from .parking import ParkingLayout, build_parking_layout
+from .roads import RoadLayout, rebuild_group_access
 
 SCHEMA_ID = "dgcad.design-road-access.v0.2"
 
@@ -897,3 +897,188 @@ def build_road_access(
             getattr(road_layout, "dead_end_resolutions", ()) or ()
         ),
     )
+
+
+# ---------------------------------------------------------------------------
+# M4d-2 candidate A — co-designed full-site access model
+# ---------------------------------------------------------------------------
+#
+# The M4d-1 full-site layout moved the 55 buildings off the focus positions the
+# frozen 44-road network was designed around.  Candidate A keeps both the fixed
+# building layout and the frozen network and rebuilds each group's declared
+# access as a *new* connector (``roads.rebuild_group_access``); this function
+# assembles the model that consumes it: the new RoadLayout, the
+# RoadAccessLayout measured from that geometry, and the evidence metrics.
+
+CO_DESIGN_ACCESS_SCHEMA_ID = "dgcad.co-design-access.v0.1"
+
+
+def build_co_design_access(
+    design_input: Any,
+    basis: DesignBasis,
+    intent: DesignIntent,
+    building_layout: BuildingLayout,
+    frozen_road_layout: RoadLayout,
+    *,
+    route_cell_m: float | None = None,
+    candidate_id: str | None = None,
+) -> tuple[RoadLayout, RoadAccessLayout, dict[str, Any]]:
+    """Candidate A/B model: fixed buildings + frozen 44 roads + rebuilt access.
+
+    Returns ``(RoadLayout, RoadAccessLayout, metrics)``.  The road layout keeps
+    every frozen road exactly as delivered and adds one connector per group;
+    the access layout is then *measured* from that geometry with
+    :func:`build_road_access`, never inferred.  Groups whose connector geometry
+    cannot be built honestly stay unserved and are listed in
+    ``metrics["unresolved_group_ids"]`` / ``metrics["connector_failures"]``.
+    ``candidate_id`` (``"A"`` / ``"B"``) is passed through from the caller and
+    echoed in both the access meta and the road-layout report; it is never
+    guessed, so a candidate B model cannot be mislabelled.
+    """
+    road_layout, connector_report = rebuild_group_access(
+        design_input,
+        basis,
+        intent,
+        building_layout,
+        frozen_road_layout,
+        **({} if route_cell_m is None else {"route_cell_m": route_cell_m}),
+        candidate_id=candidate_id,
+    )
+    parking_layout = build_parking_layout(
+        design_input, intent, road_layout, basis
+    )
+    access_layout = build_road_access(
+        building_layout,
+        road_layout,
+        intent,
+        parking_layout,
+        basis,
+        site_boundary=design_input.site_boundary,
+    )
+    dead_end_classes: dict[str, int] = {}
+    for record in access_layout.dead_ends:
+        dead_end_classes[record.classification] = (
+            dead_end_classes.get(record.classification, 0) + 1
+        )
+    buildings = {item.building_id: item for item in building_layout.buildings}
+    scattered_groups: list[dict[str, Any]] = []
+    for group in intent.groups:
+        present = [
+            buildings[building_id]
+            for building_id in group.building_ids
+            if building_id in buildings
+        ]
+        if len(present) < 2:
+            continue
+        span = 0.0
+        for index, first in enumerate(present):
+            first_point = Point(*first.design_centroid)
+            for second in present[index + 1:]:
+                span = max(
+                    span,
+                    first_point.distance(Point(*second.design_centroid)),
+                )
+        if span > float(basis.group_distance_m) + 1e-9:
+            scattered_groups.append(
+                {
+                    "group_id": group.group_id,
+                    "max_member_span_m": float(span),
+                }
+            )
+    metrics: dict[str, Any] = {
+        "schema_id": CO_DESIGN_ACCESS_SCHEMA_ID,
+        "groups_total": access_layout.groups_total,
+        "groups_served": access_layout.groups_served,
+        "road_access_coverage": access_layout.road_access_coverage,
+        "unserved_group_ids": list(access_layout.unserved_group_ids),
+        "relation_error_count": len(access_layout.relation_errors),
+        "relation_errors": [
+            dict(item) for item in access_layout.relation_errors
+        ],
+        "dead_ends_total": len(access_layout.dead_ends),
+        "dead_ends_justified": access_layout.dead_ends_justified,
+        "dead_ends_unresolved": access_layout.dead_ends_unresolved,
+        "dead_ends_unfinished": access_layout.dead_ends_unfinished,
+        "dead_ends_resolved": access_layout.dead_ends_resolved,
+        "dead_end_classifications": dict(sorted(dead_end_classes.items())),
+        "dead_end_records": [
+            record.to_dict() for record in access_layout.dead_ends
+        ],
+        "connector_count": connector_report["connector_count"],
+        "connector_branch_count": connector_report["branch_count"],
+        "connector_access_count": connector_report["access_count"],
+        "connector_total_length_m": connector_report[
+            "connector_total_length_m"
+        ],
+        "connectors": connector_report["connectors"],
+        "relink_count": connector_report["relink_count"],
+        "relink_total_length_m": connector_report[
+            "relink_total_length_m"
+        ],
+        "relinks": connector_report["relinks"],
+        "relink_failures": connector_report["relink_failures"],
+        "relink_skipped": connector_report["relink_skipped"],
+        "new_road_count": connector_report["new_road_count"],
+        "connector_failures": connector_report["failures"],
+        "unresolved_group_ids_from_connectors": connector_report[
+            "unresolved_group_ids"
+        ],
+        "superseded_declarations": connector_report[
+            "superseded_declarations"
+        ],
+        "frozen_road_count": connector_report["frozen_road_count"],
+        "road_count": connector_report["road_count"],
+        "original_roads_unchanged": connector_report[
+            "original_roads_unchanged"
+        ],
+        "original_road_problems": connector_report[
+            "original_road_problems"
+        ],
+        "corridor_overlap_m2": connector_report["corridor_overlap_m2"],
+        "sidewalk": connector_report["sidewalk"],
+        "clearance_m": connector_report["clearance_m"],
+        "topology": connector_report["topology"],
+        "terminal_band_m": connector_report["terminal_band_m"],
+        "parking_entrance_count": len(parking_layout.entrances),
+        "groups_scattered_beyond_group_distance": [
+            record["group_id"] for record in scattered_groups
+        ],
+        "group_member_spans_m": {
+            record["group_id"]: record["max_member_span_m"]
+            for record in scattered_groups
+        },
+        "notes": [
+            connector_report["clearance_m"]["note"],
+            (
+                "the frozen 44-road group-access declarations were superseded "
+                "(metadata only) and moved to the new connectors; every frozen "
+                "road keeps its id, class, width and exact centreline"
+            ),
+        ],
+    }
+    if candidate_id is not None:
+        metrics["candidate_id"] = candidate_id
+    if scattered_groups:
+        worst = max(
+            record["max_member_span_m"] for record in scattered_groups
+        )
+        metrics["notes"].append(
+            "the M4d-1 layout scatters "
+            f"{len(scattered_groups)} group(s) beyond the declared "
+            f"{float(basis.group_distance_m):.0f} m group distance (largest "
+            f"member-centroid span {worst:.1f} m); the declared access relation "
+            "is group-level, so one connector serves the group declaration but "
+            "does not physically touch every member"
+        )
+    if connector_report["relink_count"] or connector_report["relink_failures"]:
+        metrics["relink_unresolved_group_ids"] = sorted(
+            item["group_id"] for item in connector_report["relink_failures"]
+        )
+        metrics["notes"].append(
+            f"{connector_report['relink_count']} frozen group terminal(s) are "
+            "enclosed by the fixed road network and were reconnected by short "
+            "new relink connectors (the frozen branches themselves are "
+            "unchanged); a relink failure is reported as an unresolved dangling "
+            "stub, never hidden"
+        )
+    return road_layout, access_layout, metrics

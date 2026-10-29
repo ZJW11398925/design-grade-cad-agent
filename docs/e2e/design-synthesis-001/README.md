@@ -414,6 +414,12 @@ design elements (otherwise the summary records `dxf: pending_interface`).
   `HISTORICAL_BOUNDARY_ARCHIVE` only, the candidate set is not exhaustive, no
   candidate is human-confirmed or code-compliant, and the 11 single-unit
   objectives are not a complete quality model.
+- M4d-2 A/B co-design is a separate **research draft** in
+  `docs/e2e/design-co-design-001/`: A is excluded (served-face clearance
+  2.825 m); B is hard-valid but has 12 group splits and disclosed residual
+  displacements; A/B DXF 584/587 are delivered, but no co-design candidate is
+  the canonical sheet and the CAD host remains unverified. Current project
+  test baseline: 515 passed.
 - The full-site north-south spacing is not enforced on this focus sheet (the
   full-site experiment separately checks it at min 19.999999999999943 m); the
   focus sheet remains canonical.

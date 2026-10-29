@@ -898,6 +898,10 @@ def build_full_site_drawing_elements(
     parking_layout: ParkingLayout,
     basis: DesignBasis,
     metrics: dict[str, Any],
+    *,
+    sheet_id: str = "A-102",
+    candidate_id: str | None = None,
+    status_line: str | None = None,
 ) -> tuple[DesignElement, ...]:
     """Build the full-site sheet (A-102): every building, road and green.
 
@@ -909,6 +913,12 @@ def build_full_site_drawing_elements(
     ``B-*`` / ``UL-*`` / ``LBL-*`` convention so the CAD/XDATA chain is
     identical; only the plan transform and the label text heights differ
     (the sheet scale is 1:2000, not 1:1000).
+
+    ``sheet_id``, ``candidate_id`` and ``status_line`` let a co-design
+    candidate reuse this sheet verbatim: the sheet number, the candidate tag
+    and the completeness declaration (e.g. a hard-valid candidate or an
+    ``INCOMPLETE`` clearance failure) are stamped in the title block.  The
+    defaults reproduce the A-102 sheet exactly.
     """
     elements: list[DesignElement] = []
     site_box = box(*design_input.site_boundary.bounds)
@@ -1348,10 +1358,18 @@ def build_full_site_drawing_elements(
     )
     title_lines = (
         (396.0, "CASE-SKETCH-001 / AUTONOMOUS DESIGN DRAFT", 2.4),
-        (385.0, "SITE PLAN - FULL SITE", 2.8),
+        (
+            385.0,
+            (
+                "SITE PLAN - FULL SITE"
+                if candidate_id is None
+                else f"SITE PLAN - FULL SITE - CANDIDATE {candidate_id}"
+            ),
+            2.8,
+        ),
         (
             371.0,
-            "SCALE 1:2000 (A2) | UNITS: m | SHEET A-102 | "
+            f"SCALE 1:2000 (A2) | UNITS: m | SHEET {sheet_id} | "
             f"STANDARD: {basis.drawing_standard} | BASIS: {basis.basis_id}",
             1.9,
         ),
@@ -1382,7 +1400,11 @@ def build_full_site_drawing_elements(
             f"POTENTIAL OPEN SPACE {potential_text} - NOT LANDSCAPE DESIGN",
             1.9,
         ),
-        (315.0, incomplete_line, 1.9),
+        (
+            315.0,
+            incomplete_line if status_line is None else status_line,
+            1.9,
+        ),
         (
             301.0,
             "AGENT-GENERATED PROPOSAL - NOT HUMAN-CONFIRMED - NOT CODE-COMPLIANCE",

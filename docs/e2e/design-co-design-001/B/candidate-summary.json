@@ -1,0 +1,2450 @@
+{
+  "schema_id": "dgcad.co-design-candidate-evidence.v0.1",
+  "case_id": "CASE-SKETCH-001",
+  "candidate_id": "B",
+  "status": "hard_valid_candidate",
+  "hard_ok": true,
+  "failed_hard_checks": [],
+  "check_status": {
+    "info": 11,
+    "deferred": 5,
+    "pass": 13
+  },
+  "layout_source": "group_preserving_layout",
+  "layout_note": "group-preserving full-site building layout + rebuilt group access",
+  "sheet_id": "A-202",
+  "plan_scale": "1:2000",
+  "status_line": "HARD-VALID CANDIDATE: 0 HARD FAILS - ROAD ACCESS 17/17 - DEAD ENDS 0 UNRESOLVED - DESIGNED GREEN < 30% (5 DEFERRED)",
+  "building_count": 55,
+  "unit_count": 109,
+  "households": 2398,
+  "metrics": {
+    "far": 1.5654107291796402,
+    "households": 2398,
+    "parking_spaces": 2398,
+    "road_access_coverage": 1.0,
+    "road_groups_served": 17,
+    "road_groups_total": 17,
+    "road_relation_error_count": 0,
+    "dead_ends_unresolved": 0,
+    "min_road_clearance_m": 3.0164672267820585,
+    "road_clearance_required_m": 3.0,
+    "road_clearance_violation_count": 0,
+    "min_ns_spacing_m": 19.999999999999943,
+    "ns_spacing_violation_count": null,
+    "designed_green_ratio": 0.15109953361356496,
+    "full_site_open_space_account_ratio": 0.6051880544324033,
+    "full_site_open_space_account_parcel_count": 12,
+    "full_site_green_target_ratio": 0.3
+  },
+  "road_change": {
+    "frozen_road_count": 44,
+    "candidate_road_count": 64,
+    "added_road_ids": [
+      "CD-A-G01",
+      "CD-A-G02",
+      "CD-A-G03",
+      "CD-A-G04",
+      "CD-A-G05",
+      "CD-A-G06",
+      "CD-A-G07",
+      "CD-A-G08",
+      "CD-A-G09",
+      "CD-A-G10",
+      "CD-A-G11",
+      "CD-A-G12",
+      "CD-A-G13",
+      "CD-A-G14",
+      "CD-A-G15",
+      "CD-A-G16",
+      "CD-A-G17",
+      "CD-R-G01",
+      "CD-R-G02",
+      "CD-R-G05"
+    ],
+    "removed_road_ids": [],
+    "added_road_count": 20,
+    "added_road_length_m": 189.06174241763668
+  },
+  "displacement": {
+    "count": 55,
+    "mean_m": 47.920354757238925,
+    "max_m": 278.4615666910247,
+    "min_m": 0.4120476772280881
+  },
+  "group_metrics": {
+    "schema_id": "dgcad.group-metrics.v0.1",
+    "group_count": 17,
+    "groups_preserved": 17,
+    "groups_with_missing_buildings": 0,
+    "groups_with_duplicate_buildings": 0,
+    "missing_building_count": 0,
+    "duplicate_building_count": 0,
+    "unexpected_building_ids": [],
+    "unexpected_building_count": 0,
+    "groups_split": 12,
+    "groups_row_unverified": 0,
+    "max_centroid_displacement_m": 140.1229138140712,
+    "mean_centroid_displacement_m": 33.99167167875439,
+    "max_bbox_area_change_ratio": 8.603576576526747,
+    "max_relative_distance_change_m": 258.76509721607476,
+    "max_orientation_change_deg": 172.43050367790187,
+    "access_served_count": 17,
+    "access_relation_error_count": 0,
+    "groups": [
+      {
+        "group_id": "G-01",
+        "source_building_count": 9,
+        "retained_building_ids": [
+          "SK-BLD-0007",
+          "SK-BLD-0015",
+          "SK-BLD-0021",
+          "SK-BLD-0025",
+          "SK-BLD-0032",
+          "SK-BLD-0034",
+          "SK-BLD-0035",
+          "SK-BLD-0038",
+          "SK-BLD-0061"
+        ],
+        "missing_building_ids": [],
+        "duplicate_building_ids": [],
+        "preserved": true,
+        "source_centroid": [
+          179.0442578489105,
+          527.0979304236495
+        ],
+        "design_centroid": [
+          157.1430088934009,
+          474.80216033333335
+        ],
+        "centroid_displacement_m": 56.69666899519242,
+        "source_bbox": [
+          97.621001,
+          401.968827,
+          235.028712,
+          619.360131
+        ],
+        "design_bbox": [
+          81.121001,
+          396.968827,
+          214.121001,
+          562.968827
+        ],
+        "bbox_area_change_ratio": 0.7391055379890149,
+        "bbox_width_change_m": -4.407711000000006,
+        "bbox_depth_change_m": -51.39130399999999,
+        "relative_position": {
+          "pair_count": 36,
+          "max_distance_change_m": 88.11963143324314,
+          "mean_distance_change_m": 34.25671012020414,
+          "max_orientation_change_deg": 172.43050367790187,
+          "mean_orientation_change_deg": 54.27354856946364
+        },
+        "row_indices": [
+          29,
+          32,
+          34,
+          36,
+          37,
+          38
+        ],
+        "row_span": 9,
+        "row_contiguous": false,
+        "row_runs": 4,
+        "row_cohesion": "non_contiguous_rows",
+        "split": true,
+        "access": {
+          "available": true,
+          "served": true,
+          "served_by_relation": true,
+          "declared": true,
+          "access_road_id": "CD-A-G01",
+          "terminal_xy": [
+            168.63868918197903,
+            442.468826
+          ],
+          "terminal_band_distance_m": 3.4999990000000025,
+          "terminal_corridor_edge_clearance_m": 3.186255311731145,
+          "connector_length_m": 0.0,
+          "relation_error_codes": []
+        }
+      },
+      {
+        "group_id": "G-02",
+        "source_building_count": 7,
+        "retained_building_ids": [
+          "SK-BLD-0009",
+          "SK-BLD-0010",
+          "SK-BLD-0014",
+          "SK-BLD-0016",
+          "SK-BLD-0020",
+          "SK-BLD-0022",
+          "SK-BLD-0024"
+        ],
+        "missing_building_ids": [],
+        "duplicate_building_ids": [],
+        "preserved": true,
+        "source_centroid": [
+          348.92592870917485,
+          134.44101230533235
+        ],
+        "design_centroid": [
+          323.5943977079648,
+          163.21428571428572
+        ],
+        "centroid_displacement_m": 38.33520217152441,
+        "source_bbox": [
+          320.344545,
+          25.430681,
+          373.256768,
+          244.872847
+        ],
+        "design_bbox": [
+          220.1984209882769,
+          78.0,
+          377.978671,
+          244.0
+        ],
+        "bbox_area_change_ratio": 2.2557171356605563,
+        "bbox_width_change_m": 104.86802701172309,
+        "bbox_depth_change_m": -53.442166000000014,
+        "relative_position": {
+          "pair_count": 21,
+          "max_distance_change_m": 69.371844011372,
+          "mean_distance_change_m": 33.365590213199134,
+          "max_orientation_change_deg": 75.54736300079556,
+          "mean_orientation_change_deg": 25.629233795849775
+        },
+        "row_indices": [
+          6,
+          10,
+          11,
+          13,
+          16,
+          19
+        ],
+        "row_span": 13,
+        "row_contiguous": false,
+        "row_runs": 5,
+        "row_cohesion": "non_contiguous_rows",
+        "split": true,
+        "access": {
+          "available": true,
+          "served": true,
+          "served_by_relation": true,
+          "declared": true,
+          "access_road_id": "CD-A-G02",
+          "terminal_xy": [
+            289.17133525338176,
+            229.500001
+          ],
+          "terminal_band_distance_m": 3.4999990000000025,
+          "terminal_corridor_edge_clearance_m": 3.1146057848478392,
+          "connector_length_m": 0.0,
+          "relation_error_codes": []
+        }
+      },
+      {
+        "group_id": "G-03",
+        "source_building_count": 6,
+        "retained_building_ids": [
+          "SK-BLD-0049",
+          "SK-BLD-0050",
+          "SK-BLD-0052",
+          "SK-BLD-0054",
+          "SK-BLD-0056",
+          "SK-BLD-0057"
+        ],
+        "missing_building_ids": [],
+        "duplicate_building_ids": [],
+        "preserved": true,
+        "source_centroid": [
+          138.37597413361223,
+          253.38413227491904
+        ],
+        "design_centroid": [
+          138.34533088165838,
+          260.0
+        ],
+        "centroid_displacement_m": 6.615938691119971,
+        "source_bbox": [
+          123.872026,
+          153.40443,
+          151.763741,
+          348.236259
+        ],
+        "design_bbox": [
+          123.561936,
+          177.0,
+          152.8941755,
+          343.0
+        ],
+        "bbox_area_change_ratio": 0.896020991104794,
+        "bbox_width_change_m": 1.440524499999981,
+        "bbox_depth_change_m": -28.831829000000027,
+        "relative_position": {
+          "pair_count": 15,
+          "max_distance_change_m": 28.946472422583156,
+          "mean_distance_change_m": 13.54237383151388,
+          "max_orientation_change_deg": 2.1221842158732795,
+          "mean_orientation_change_deg": 0.4393459306097094
+        },
+        "row_indices": [
+          14,
+          17,
+          20,
+          21,
+          23,
+          25
+        ],
+        "row_span": 11,
+        "row_contiguous": false,
+        "row_runs": 5,
+        "row_cohesion": "non_contiguous_rows",
+        "split": true,
+        "access": {
+          "available": true,
+          "served": true,
+          "served_by_relation": true,
+          "declared": true,
+          "access_road_id": "CD-A-G03",
+          "terminal_xy": [
+            123.85536109514057,
+            173.51685445183205
+          ],
+          "terminal_band_distance_m": 3.4999989999999923,
+          "terminal_corridor_edge_clearance_m": 3.4965807278917675,
+          "connector_length_m": 0.0,
+          "relation_error_codes": []
+        }
+      },
+      {
+        "group_id": "G-04",
+        "source_building_count": 5,
+        "retained_building_ids": [
+          "SK-BLD-0040",
+          "SK-BLD-0041",
+          "SK-BLD-0042",
+          "SK-BLD-0043",
+          "SK-BLD-0044"
+        ],
+        "missing_building_ids": [],
+        "duplicate_building_ids": [],
+        "preserved": true,
+        "source_centroid": [
+          292.08420331913965,
+          457.2331528261586
+        ],
+        "design_centroid": [
+          281.8522274570709,
+          462.5
+        ],
+        "centroid_displacement_m": 11.507954170683801,
+        "source_bbox": [
+          262.920427,
+          401.968827,
+          328.137818,
+          495.077933
+        ],
+        "design_bbox": [
+          215.95456926699015,
+          395.0,
+          327.83265,
+          499.0
+        ],
+        "bbox_area_change_ratio": 1.9161202869689777,
+        "bbox_width_change_m": 46.66068973300989,
+        "bbox_depth_change_m": 10.890894000000003,
+        "relative_position": {
+          "pair_count": 10,
+          "max_distance_change_m": 51.45632082977577,
+          "mean_distance_change_m": 17.66531753581557,
+          "max_orientation_change_deg": 42.77377876579658,
+          "mean_orientation_change_deg": 12.037531387177149
+        },
+        "row_indices": [
+          28,
+          33,
+          35
+        ],
+        "row_span": 7,
+        "row_contiguous": false,
+        "row_runs": 3,
+        "row_cohesion": "non_contiguous_rows",
+        "split": true,
+        "access": {
+          "available": true,
+          "served": true,
+          "served_by_relation": true,
+          "declared": true,
+          "access_road_id": "CD-A-G04",
+          "terminal_xy": [
+            262.0045129198941,
+            453.6507097818776
+          ],
+          "terminal_band_distance_m": 3.4999990000000083,
+          "terminal_corridor_edge_clearance_m": 3.4962257680788213,
+          "connector_length_m": 0.0,
+          "relation_error_codes": []
+        }
+      },
+      {
+        "group_id": "G-05",
+        "source_building_count": 3,
+        "retained_building_ids": [
+          "SK-BLD-0002",
+          "SK-BLD-0017",
+          "SK-BLD-0033"
+        ],
+        "missing_building_ids": [],
+        "duplicate_building_ids": [],
+        "preserved": true,
+        "source_centroid": [
+          81.39773195891898,
+          463.1397315146269
+        ],
+        "design_centroid": [
+          133.88152468013604,
+          441.8333333333333
+        ],
+        "centroid_displacement_m": 56.64372076288338,
+        "source_bbox": [
+          42.657916,
+          408.531583,
+          117.719442,
+          514.35603
+        ],
+        "design_bbox": [
+          23.81233696813915,
+          333.0,
+          237.8941755,
+          623.0
+        ],
+        "bbox_area_change_ratio": 7.815817799559545,
+        "bbox_width_change_m": 139.02031253186084,
+        "bbox_depth_change_m": 184.17555299999998,
+        "relative_position": {
+          "pair_count": 3,
+          "max_distance_change_m": 226.4095880871241,
+          "mean_distance_change_m": 182.76651115293205,
+          "max_orientation_change_deg": 87.19866100414369,
+          "mean_orientation_change_deg": 40.923661238405096
+        },
+        "row_indices": [
+          26,
+          27,
+          39
+        ],
+        "row_span": 13,
+        "row_contiguous": false,
+        "row_runs": 2,
+        "row_cohesion": "non_contiguous_rows",
+        "split": true,
+        "access": {
+          "available": true,
+          "served": true,
+          "served_by_relation": true,
+          "declared": true,
+          "access_road_id": "CD-A-G05",
+          "terminal_xy": [
+            125.99356631227056,
+            609.0898571884107
+          ],
+          "terminal_band_distance_m": 3.499998999999965,
+          "terminal_corridor_edge_clearance_m": 3.4997062868591375,
+          "connector_length_m": 0.0,
+          "relation_error_codes": []
+        }
+      },
+      {
+        "group_id": "G-06",
+        "source_building_count": 3,
+        "retained_building_ids": [
+          "SK-BLD-0003",
+          "SK-BLD-0005",
+          "SK-BLD-0008"
+        ],
+        "missing_building_ids": [],
+        "duplicate_building_ids": [],
+        "preserved": true,
+        "source_centroid": [
+          202.84886251404518,
+          197.1243624161568
+        ],
+        "design_centroid": [
+          184.859007106975,
+          196.5
+        ],
+        "centroid_displacement_m": 18.000686820063308,
+        "source_bbox": [
+          175.963905,
+          151.763741,
+          228.876128,
+          241.181296
+        ],
+        "design_bbox": [
+          148.1984209882769,
+          160.0,
+          222.18017934437125,
+          233.0
+        ],
+        "bbox_area_change_ratio": 1.1414810626081613,
+        "bbox_width_change_m": 21.069535356094377,
+        "bbox_depth_change_m": -16.417554999999993,
+        "relative_position": {
+          "pair_count": 3,
+          "max_distance_change_m": 15.625575737512264,
+          "mean_distance_change_m": 10.407585405579082,
+          "max_orientation_change_deg": 1.3392658305122076,
+          "mean_orientation_change_deg": 0.8790239035208085
+        },
+        "row_indices": [
+          12,
+          15,
+          18
+        ],
+        "row_span": 6,
+        "row_contiguous": false,
+        "row_runs": 3,
+        "row_cohesion": "non_contiguous_rows",
+        "split": true,
+        "access": {
+          "available": true,
+          "served": true,
+          "served_by_relation": true,
+          "declared": true,
+          "access_road_id": "CD-A-G06",
+          "terminal_xy": [
+            165.18073280629784,
+            156.500001
+          ],
+          "terminal_band_distance_m": 3.4999990000000025,
+          "terminal_corridor_edge_clearance_m": 3.3017596320395057,
+          "connector_length_m": 0.0,
+          "relation_error_codes": []
+        }
+      },
+      {
+        "group_id": "G-07",
+        "source_building_count": 3,
+        "retained_building_ids": [
+          "SK-BLD-0004",
+          "SK-BLD-0013",
+          "SK-BLD-0018"
+        ],
+        "missing_building_ids": [],
+        "duplicate_building_ids": [],
+        "preserved": true,
+        "source_centroid": [
+          52.29460626472508,
+          73.2983087773414
+        ],
+        "design_centroid": [
+          144.85791901516043,
+          83.5
+        ],
+        "centroid_displacement_m": 93.12379594463157,
+        "source_bbox": [
+          25.840853,
+          32.40361,
+          77.112387,
+          115.258409
+        ],
+        "design_bbox": [
+          15.376570893900357,
+          47.0,
+          366.80724749738386,
+          151.0
+        ],
+        "bbox_area_change_ratio": 8.603576576526747,
+        "bbox_width_change_m": 300.1591426034835,
+        "bbox_depth_change_m": 21.145201,
+        "relative_position": {
+          "pair_count": 3,
+          "max_distance_change_m": 258.76509721607476,
+          "mean_distance_change_m": 174.52995585302278,
+          "max_orientation_change_deg": 88.82440004465062,
+          "mean_orientation_change_deg": 52.60522836677688
+        },
+        "row_indices": [
+          3,
+          11
+        ],
+        "row_span": 8,
+        "row_contiguous": false,
+        "row_runs": 2,
+        "row_cohesion": "non_contiguous_rows",
+        "split": true,
+        "access": {
+          "available": true,
+          "served": true,
+          "served_by_relation": true,
+          "declared": true,
+          "access_road_id": "CD-A-G07",
+          "terminal_xy": [
+            87.71963078703668,
+            136.51685445183205
+          ],
+          "terminal_band_distance_m": 3.4999989999999923,
+          "terminal_corridor_edge_clearance_m": 3.4997166887467386,
+          "connector_length_m": 0.0,
+          "relation_error_codes": []
+        }
+      },
+      {
+        "group_id": "G-08",
+        "source_building_count": 3,
+        "retained_building_ids": [
+          "SK-BLD-0006",
+          "SK-BLD-0011",
+          "SK-BLD-0012"
+        ],
+        "missing_building_ids": [],
+        "duplicate_building_ids": [],
+        "preserved": true,
+        "source_centroid": [
+          193.17745610974063,
+          70.22516907412633
+        ],
+        "design_centroid": [
+          152.95833963826828,
+          70.5
+        ],
+        "centroid_displacement_m": 40.22005546718795,
+        "source_bbox": [
+          162.42822,
+          29.532404,
+          220.672683,
+          111.97703
+        ],
+        "design_bbox": [
+          81.6950522529635,
+          34.0,
+          223.0848656165156,
+          107.0
+        ],
+        "bbox_area_change_ratio": 2.1494333529196332,
+        "bbox_width_change_m": 83.1453503635521,
+        "bbox_depth_change_m": -9.444626,
+        "relative_position": {
+          "pair_count": 3,
+          "max_distance_change_m": 21.650710627356858,
+          "mean_distance_change_m": 14.310250240126628,
+          "max_orientation_change_deg": 60.24191601964837,
+          "mean_orientation_change_deg": 55.64453596636477
+        },
+        "row_indices": [
+          2,
+          5,
+          8
+        ],
+        "row_span": 6,
+        "row_contiguous": false,
+        "row_runs": 3,
+        "row_cohesion": "non_contiguous_rows",
+        "split": true,
+        "access": {
+          "available": true,
+          "served": true,
+          "served_by_relation": true,
+          "declared": true,
+          "access_road_id": "CD-A-G08",
+          "terminal_xy": [
+            155.63954751296188,
+            109.9101428115893
+          ],
+          "terminal_band_distance_m": 3.4999990000000007,
+          "terminal_corridor_edge_clearance_m": 3.4988287477272775,
+          "connector_length_m": 0.0,
+          "relation_error_codes": []
+        }
+      },
+      {
+        "group_id": "G-09",
+        "source_building_count": 3,
+        "retained_building_ids": [
+          "SK-BLD-0029",
+          "SK-BLD-0031",
+          "SK-BLD-0036"
+        ],
+        "missing_building_ids": [],
+        "duplicate_building_ids": [],
+        "preserved": true,
+        "source_centroid": [
+          269.0367533652521,
+          68.47229158537051
+        ],
+        "design_centroid": [
+          247.01795161396527,
+          68.5
+        ],
+        "centroid_displacement_m": 22.018819185385773,
+        "source_bbox": [
+          251.025431,
+          25.840853,
+          286.710418,
+          110.336341
+        ],
+        "design_bbox": [
+          178.09510104532572,
+          32.0,
+          294.80724749738386,
+          105.0
+        ],
+        "bbox_area_change_ratio": 2.8256596820872804,
+        "bbox_width_change_m": 81.02715945205813,
+        "bbox_depth_change_m": -11.495488000000009,
+        "relative_position": {
+          "pair_count": 3,
+          "max_distance_change_m": 38.10417688262007,
+          "mean_distance_change_m": 21.573508064790587,
+          "max_orientation_change_deg": 64.85952734341437,
+          "mean_orientation_change_deg": 37.17827620187198
+        },
+        "row_indices": [
+          1,
+          4,
+          7
+        ],
+        "row_span": 6,
+        "row_contiguous": false,
+        "row_runs": 3,
+        "row_cohesion": "non_contiguous_rows",
+        "split": true,
+        "access": {
+          "available": true,
+          "served": true,
+          "served_by_relation": true,
+          "declared": true,
+          "access_road_id": "CD-A-G09",
+          "terminal_xy": [
+            229.32867848523568,
+            106.33939163059438
+          ],
+          "terminal_band_distance_m": 3.4999989999999923,
+          "terminal_corridor_edge_clearance_m": 3.494987554696761,
+          "connector_length_m": 0.0,
+          "relation_error_codes": []
+        }
+      },
+      {
+        "group_id": "G-10",
+        "source_building_count": 3,
+        "retained_building_ids": [
+          "SK-BLD-0045",
+          "SK-BLD-0051",
+          "SK-BLD-0055"
+        ],
+        "missing_building_ids": [],
+        "duplicate_building_ids": [],
+        "preserved": true,
+        "source_centroid": [
+          270.618975853599,
+          193.36226873829355
+        ],
+        "design_centroid": [
+          288.031508791902,
+          197.16666666666666
+        ],
+        "centroid_displacement_m": 17.82329225830336,
+        "source_bbox": [
+          256.767842,
+          149.302707,
+          285.069729,
+          237.079573
+        ],
+        "design_bbox": [
+          256.78883904639235,
+          140.0,
+          337.617418504909,
+          244.0
+        ],
+        "bbox_area_change_ratio": 3.383785477965188,
+        "bbox_width_change_m": 52.52669245851661,
+        "bbox_depth_change_m": 16.223133999999988,
+        "relative_position": {
+          "pair_count": 3,
+          "max_distance_change_m": 31.637849756987578,
+          "mean_distance_change_m": 26.72882808401179,
+          "max_orientation_change_deg": 55.44436104100235,
+          "mean_orientation_change_deg": 27.983315165108113
+        },
+        "row_indices": [
+          11,
+          16,
+          19
+        ],
+        "row_span": 8,
+        "row_contiguous": false,
+        "row_runs": 3,
+        "row_cohesion": "non_contiguous_rows",
+        "split": true,
+        "access": {
+          "available": true,
+          "served": true,
+          "served_by_relation": true,
+          "declared": true,
+          "access_road_id": "CD-A-G10",
+          "terminal_xy": [
+            283.338156931899,
+            216.08672354329798
+          ],
+          "terminal_band_distance_m": 3.4999989999999905,
+          "terminal_corridor_edge_clearance_m": 3.499736652279656,
+          "connector_length_m": 0.0,
+          "relation_error_codes": []
+        }
+      },
+      {
+        "group_id": "G-11",
+        "source_building_count": 3,
+        "retained_building_ids": [
+          "SK-BLD-MRG-0002",
+          "SK-BLD-MRG-0004",
+          "SK-BLD-MRG-0005"
+        ],
+        "missing_building_ids": [],
+        "duplicate_building_ids": [],
+        "preserved": true,
+        "source_centroid": [
+          53.60638086136529,
+          202.59331087518228
+        ],
+        "design_centroid": [
+          53.60638086136529,
+          207.5
+        ],
+        "centroid_displacement_m": 4.906689124817717,
+        "source_bbox": [
+          22.969647,
+          152.994258,
+          84.495488,
+          251.025431
+        ],
+        "design_bbox": [
+          16.390369428302243,
+          171.0,
+          90.29980875460419,
+          244.0
+        ],
+        "bbox_area_change_ratio": 0.8945425637390634,
+        "bbox_width_change_m": 12.383598326301936,
+        "bbox_depth_change_m": -25.031172999999995,
+        "relative_position": {
+          "pair_count": 3,
+          "max_distance_change_m": 22.806340151693675,
+          "mean_distance_change_m": 15.202435512056534,
+          "max_orientation_change_deg": 0.8663801779793042,
+          "mean_orientation_change_deg": 0.47507505325781046
+        },
+        "row_indices": [
+          13,
+          16,
+          19
+        ],
+        "row_span": 6,
+        "row_contiguous": false,
+        "row_runs": 3,
+        "row_cohesion": "non_contiguous_rows",
+        "split": true,
+        "access": {
+          "available": true,
+          "served": true,
+          "served_by_relation": true,
+          "declared": true,
+          "access_road_id": "CD-A-G11",
+          "terminal_xy": [
+            91.94969686209843,
+            247.08672354329798
+          ],
+          "terminal_band_distance_m": 3.499998999999997,
+          "terminal_corridor_edge_clearance_m": 3.4998632393826683,
+          "connector_length_m": 0.0,
+          "relation_error_codes": []
+        }
+      },
+      {
+        "group_id": "G-12",
+        "source_building_count": 2,
+        "retained_building_ids": [
+          "SK-BLD-0023",
+          "SK-BLD-0026"
+        ],
+        "missing_building_ids": [],
+        "duplicate_building_ids": [],
+        "preserved": true,
+        "source_centroid": [
+          142.17605842259087,
+          425.75334223604534
+        ],
+        "design_centroid": [
+          281.959116376594,
+          416.0
+        ],
+        "centroid_displacement_m": 140.1229138140712,
+        "source_bbox": [
+          122.231337,
+          401.968827,
+          161.607875,
+          449.138638
+        ],
+        "design_bbox": [
+          257.9236634146723,
+          395.0,
+          305.9945693385157,
+          437.0
+        ],
+        "bbox_area_change_ratio": 1.0870009680801795,
+        "bbox_width_change_m": 8.694367923843373,
+        "bbox_depth_change_m": -5.169811000000038,
+        "relative_position": {
+          "pair_count": 1,
+          "max_distance_change_m": 4.720749283636074,
+          "mean_distance_change_m": 4.720749283636074,
+          "max_orientation_change_deg": 2.0079601314091247,
+          "mean_orientation_change_deg": 2.0079601314091247
+        },
+        "row_indices": [
+          28,
+          31
+        ],
+        "row_span": 3,
+        "row_contiguous": false,
+        "row_runs": 2,
+        "row_cohesion": "non_contiguous_rows",
+        "split": true,
+        "access": {
+          "available": true,
+          "served": true,
+          "served_by_relation": true,
+          "declared": true,
+          "access_road_id": "CD-A-G12",
+          "terminal_xy": [
+            259.9325075056618,
+            440.499999
+          ],
+          "terminal_band_distance_m": 3.4999990000000025,
+          "terminal_corridor_edge_clearance_m": 3.2455683323105835,
+          "connector_length_m": 0.0,
+          "relation_error_codes": []
+        }
+      },
+      {
+        "group_id": "G-13",
+        "source_building_count": 1,
+        "retained_building_ids": [
+          "SK-BLD-0028"
+        ],
+        "missing_building_ids": [],
+        "duplicate_building_ids": [],
+        "preserved": true,
+        "source_centroid": [
+          115.77367787144706,
+          107.68162197688417
+        ],
+        "design_centroid": [
+          57.69505225296351,
+          112.5
+        ],
+        "centroid_displacement_m": 58.27815646111002,
+        "source_bbox": [
+          98.031173,
+          101.312551,
+          133.716161,
+          114.027892
+        ],
+        "design_bbox": [
+          33.69505225296351,
+          107.0,
+          81.6950522529635,
+          118.0
+        ],
+        "bbox_area_change_ratio": 1.1636445931337585,
+        "bbox_width_change_m": 12.315011999999996,
+        "bbox_depth_change_m": -1.7153409999999951,
+        "relative_position": {
+          "pair_count": 0,
+          "max_distance_change_m": null,
+          "mean_distance_change_m": null,
+          "max_orientation_change_deg": null,
+          "mean_orientation_change_deg": null
+        },
+        "row_indices": [
+          9
+        ],
+        "row_span": 0,
+        "row_contiguous": true,
+        "row_runs": 1,
+        "row_cohesion": "single_row",
+        "split": false,
+        "access": {
+          "available": true,
+          "served": true,
+          "served_by_relation": true,
+          "declared": true,
+          "access_road_id": "CD-A-G13",
+          "terminal_xy": [
+            85.19505125296351,
+            115.48673386351575
+          ],
+          "terminal_band_distance_m": 3.499999000000002,
+          "terminal_corridor_edge_clearance_m": 3.3644096207014624,
+          "connector_length_m": 0.0,
+          "relation_error_codes": []
+        }
+      },
+      {
+        "group_id": "G-14",
+        "source_building_count": 1,
+        "retained_building_ids": [
+          "SK-BLD-0039"
+        ],
+        "missing_building_ids": [],
+        "duplicate_building_ids": [],
+        "preserved": true,
+        "source_centroid": [
+          115.5733149892067,
+          35.5800187269218
+        ],
+        "design_centroid": [
+          113.5863858329806,
+          37.5
+        ],
+        "centroid_displacement_m": 2.763008425762096,
+        "source_bbox": [
+          98.441345,
+          29.942576,
+          132.485644,
+          41.017227
+        ],
+        "design_bbox": [
+          89.5863858329806,
+          32.0,
+          137.5863858329806,
+          43.0
+        ],
+        "bbox_area_change_ratio": 1.4004237821598007,
+        "bbox_width_change_m": 13.95570099999999,
+        "bbox_depth_change_m": -0.07465099999999936,
+        "relative_position": {
+          "pair_count": 0,
+          "max_distance_change_m": null,
+          "mean_distance_change_m": null,
+          "max_orientation_change_deg": null,
+          "mean_orientation_change_deg": null
+        },
+        "row_indices": [
+          1
+        ],
+        "row_span": 0,
+        "row_contiguous": true,
+        "row_runs": 1,
+        "row_cohesion": "single_row",
+        "split": false,
+        "access": {
+          "available": true,
+          "served": true,
+          "served_by_relation": true,
+          "declared": true,
+          "access_road_id": "CD-A-G14",
+          "terminal_xy": [
+            140.06125886002673,
+            29.525126972953863
+          ],
+          "terminal_band_distance_m": 3.4999989999999968,
+          "terminal_corridor_edge_clearance_m": 3.4937601574462276,
+          "connector_length_m": 0.0,
+          "relation_error_codes": []
+        }
+      },
+      {
+        "group_id": "G-15",
+        "source_building_count": 1,
+        "retained_building_ids": [
+          "SK-BLD-0048"
+        ],
+        "missing_building_ids": [],
+        "duplicate_building_ids": [],
+        "preserved": true,
+        "source_centroid": [
+          331.1802154426545,
+          407.3872779646992
+        ],
+        "design_centroid": [
+          333.45979706163735,
+          409.5
+        ],
+        "centroid_displacement_m": 3.1080680102034393,
+        "source_bbox": [
+          319.5242,
+          401.558655,
+          342.90402,
+          413.453651
+        ],
+        "design_bbox": [
+          321.45979706163735,
+          404.0,
+          345.45979706163735,
+          415.0
+        ],
+        "bbox_area_change_ratio": 0.9492890324541852,
+        "bbox_width_change_m": 0.6201800000000048,
+        "bbox_depth_change_m": -0.8949959999999919,
+        "relative_position": {
+          "pair_count": 0,
+          "max_distance_change_m": null,
+          "mean_distance_change_m": null,
+          "max_orientation_change_deg": null,
+          "mean_orientation_change_deg": null
+        },
+        "row_indices": [
+          30
+        ],
+        "row_span": 0,
+        "row_contiguous": true,
+        "row_runs": 1,
+        "row_cohesion": "single_row",
+        "split": false,
+        "access": {
+          "available": true,
+          "served": true,
+          "served_by_relation": true,
+          "declared": true,
+          "access_road_id": "CD-A-G15",
+          "terminal_xy": [
+            319.23942120145784,
+            401.2944641862409
+          ],
+          "terminal_band_distance_m": 3.4999990000000176,
+          "terminal_corridor_edge_clearance_m": 3.4869353816007713,
+          "connector_length_m": 0.0,
+          "relation_error_codes": []
+        }
+      },
+      {
+        "group_id": "G-16",
+        "source_building_count": 1,
+        "retained_building_ids": [
+          "SK-BLD-MRG-0001"
+        ],
+        "missing_building_ids": [],
+        "duplicate_building_ids": [],
+        "preserved": true,
+        "source_centroid": [
+          45.06365653809305,
+          328.899530903572
+        ],
+        "design_centroid": [
+          43.757346974566914,
+          324.5
+        ],
+        "centroid_displacement_m": 4.58936998369545,
+        "source_bbox": [
+          17.227235,
+          309.269893,
+          72.600492,
+          340.853158
+        ],
+        "design_bbox": [
+          7.757346974566914,
+          319.0,
+          79.75734697456691,
+          330.0
+        ],
+        "bbox_area_change_ratio": 0.45286430245153464,
+        "bbox_width_change_m": 16.626742999999998,
+        "bbox_depth_change_m": -20.583264999999983,
+        "relative_position": {
+          "pair_count": 0,
+          "max_distance_change_m": null,
+          "mean_distance_change_m": null,
+          "max_orientation_change_deg": null,
+          "mean_orientation_change_deg": null
+        },
+        "row_indices": [
+          24
+        ],
+        "row_span": 0,
+        "row_contiguous": true,
+        "row_runs": 1,
+        "row_cohesion": "single_row",
+        "split": false,
+        "access": {
+          "available": true,
+          "served": true,
+          "served_by_relation": true,
+          "declared": true,
+          "access_road_id": "CD-A-G16",
+          "terminal_xy": [
+            82.23222000161304,
+            332.47487302704616
+          ],
+          "terminal_band_distance_m": 3.499999000000012,
+          "terminal_corridor_edge_clearance_m": 3.4841220583614887,
+          "connector_length_m": 0.0,
+          "relation_error_codes": []
+        }
+      },
+      {
+        "group_id": "G-17",
+        "source_building_count": 1,
+        "retained_building_ids": [
+          "SK-BLD-MRG-0003"
+        ],
+        "missing_building_ids": [],
+        "duplicate_building_ids": [],
+        "preserved": true,
+        "source_centroid": [
+          350.77672966470635,
+          297.7801124806519
+        ],
+        "design_centroid": [
+          353.84399602527947,
+          297.3034796355726
+        ],
+        "centroid_displacement_m": 3.1040782521888537,
+        "source_bbox": [
+          318.703856,
+          278.506973,
+          374.077112,
+          327.317473
+        ],
+        "design_bbox": [
+          338.84399602527947,
+          287.3034796355726,
+          368.84399602527947,
+          307.3034796355726
+        ],
+        "bbox_area_change_ratio": 0.22199231119961058,
+        "bbox_width_change_m": -25.373256000000026,
+        "bbox_depth_change_m": -28.81049999999999,
+        "relative_position": {
+          "pair_count": 0,
+          "max_distance_change_m": null,
+          "mean_distance_change_m": null,
+          "max_orientation_change_deg": null,
+          "mean_orientation_change_deg": null
+        },
+        "row_indices": [
+          22
+        ],
+        "row_span": 0,
+        "row_contiguous": true,
+        "row_runs": 1,
+        "row_cohesion": "single_row",
+        "split": false,
+        "access": {
+          "available": true,
+          "served": true,
+          "served_by_relation": true,
+          "declared": true,
+          "access_road_id": "CD-A-G17",
+          "terminal_xy": [
+            335.41124852465344,
+            307.9862955675387
+          ],
+          "terminal_band_distance_m": 3.499998999999991,
+          "terminal_corridor_edge_clearance_m": 3.4874853523432523,
+          "connector_length_m": 0.0,
+          "relation_error_codes": []
+        }
+      }
+    ]
+  },
+  "access_truth": {
+    "schema_id": "dgcad.group-metrics.v0.1",
+    "groups_total": 17,
+    "groups_served": 17,
+    "coverage": 1.0,
+    "groups_geometry_verified_served": 17,
+    "geometry_verified_coverage": 1.0,
+    "relation_error_count": 0,
+    "relation_error_codes": {},
+    "terminal_band_required_m": [
+      3.4,
+      3.5
+    ],
+    "terminal_band_min_m": 3.499998999999965,
+    "terminal_band_max_m": 3.4999990000000176,
+    "terminal_band_violation_group_ids": [],
+    "terminal_on_serving_road_violation_group_ids": [],
+    "terminal_outside_boundary_group_ids": [],
+    "terminal_inside_footprint_group_ids": [],
+    "field_geometry_disagreement_group_ids": [],
+    "dead_ends": {
+      "count": 19,
+      "unresolved": 0,
+      "justified": 17,
+      "resolved": 2
+    },
+    "site_boundary_provided": true,
+    "building_layout_provided": true,
+    "groups": [
+      {
+        "group_id": "G-01",
+        "building_ids": [
+          "SK-BLD-0007",
+          "SK-BLD-0015",
+          "SK-BLD-0021",
+          "SK-BLD-0025",
+          "SK-BLD-0032",
+          "SK-BLD-0034",
+          "SK-BLD-0035",
+          "SK-BLD-0038",
+          "SK-BLD-0061"
+        ],
+        "field_served": true,
+        "served_by_relation": true,
+        "declared": true,
+        "access_road_id": "CD-A-G01",
+        "serving_road_ids": [
+          "CD-A-G01"
+        ],
+        "serving_road_present": true,
+        "access_road_declared": true,
+        "terminal_xy": [
+          168.63868918197903,
+          442.468826
+        ],
+        "terminal_to_serving_road_m": 0.0,
+        "terminal_on_serving_road": true,
+        "terminal_band_distance_m": 3.4999990000000025,
+        "terminal_band_source": "geometry",
+        "terminal_band_ok": true,
+        "terminal_inside_site_boundary": true,
+        "terminal_inside_footprint_ids": [],
+        "geometry_verified_served": true,
+        "geometry_reasons": [],
+        "field_geometry_disagreement": false
+      },
+      {
+        "group_id": "G-02",
+        "building_ids": [
+          "SK-BLD-0009",
+          "SK-BLD-0010",
+          "SK-BLD-0014",
+          "SK-BLD-0016",
+          "SK-BLD-0020",
+          "SK-BLD-0022",
+          "SK-BLD-0024"
+        ],
+        "field_served": true,
+        "served_by_relation": true,
+        "declared": true,
+        "access_road_id": "CD-A-G02",
+        "serving_road_ids": [
+          "CD-A-G02"
+        ],
+        "serving_road_present": true,
+        "access_road_declared": true,
+        "terminal_xy": [
+          289.17133525338176,
+          229.500001
+        ],
+        "terminal_to_serving_road_m": 0.0,
+        "terminal_on_serving_road": true,
+        "terminal_band_distance_m": 3.4999990000000025,
+        "terminal_band_source": "geometry",
+        "terminal_band_ok": true,
+        "terminal_inside_site_boundary": true,
+        "terminal_inside_footprint_ids": [],
+        "geometry_verified_served": true,
+        "geometry_reasons": [],
+        "field_geometry_disagreement": false
+      },
+      {
+        "group_id": "G-03",
+        "building_ids": [
+          "SK-BLD-0049",
+          "SK-BLD-0050",
+          "SK-BLD-0052",
+          "SK-BLD-0054",
+          "SK-BLD-0056",
+          "SK-BLD-0057"
+        ],
+        "field_served": true,
+        "served_by_relation": true,
+        "declared": true,
+        "access_road_id": "CD-A-G03",
+        "serving_road_ids": [
+          "CD-A-G03"
+        ],
+        "serving_road_present": true,
+        "access_road_declared": true,
+        "terminal_xy": [
+          123.85536109514057,
+          173.51685445183205
+        ],
+        "terminal_to_serving_road_m": 0.0,
+        "terminal_on_serving_road": true,
+        "terminal_band_distance_m": 3.4999989999999923,
+        "terminal_band_source": "geometry",
+        "terminal_band_ok": true,
+        "terminal_inside_site_boundary": true,
+        "terminal_inside_footprint_ids": [],
+        "geometry_verified_served": true,
+        "geometry_reasons": [],
+        "field_geometry_disagreement": false
+      },
+      {
+        "group_id": "G-04",
+        "building_ids": [
+          "SK-BLD-0040",
+          "SK-BLD-0041",
+          "SK-BLD-0042",
+          "SK-BLD-0043",
+          "SK-BLD-0044"
+        ],
+        "field_served": true,
+        "served_by_relation": true,
+        "declared": true,
+        "access_road_id": "CD-A-G04",
+        "serving_road_ids": [
+          "CD-A-G04"
+        ],
+        "serving_road_present": true,
+        "access_road_declared": true,
+        "terminal_xy": [
+          262.0045129198941,
+          453.6507097818776
+        ],
+        "terminal_to_serving_road_m": 0.0,
+        "terminal_on_serving_road": true,
+        "terminal_band_distance_m": 3.4999990000000083,
+        "terminal_band_source": "geometry",
+        "terminal_band_ok": true,
+        "terminal_inside_site_boundary": true,
+        "terminal_inside_footprint_ids": [],
+        "geometry_verified_served": true,
+        "geometry_reasons": [],
+        "field_geometry_disagreement": false
+      },
+      {
+        "group_id": "G-05",
+        "building_ids": [
+          "SK-BLD-0002",
+          "SK-BLD-0017",
+          "SK-BLD-0033"
+        ],
+        "field_served": true,
+        "served_by_relation": true,
+        "declared": true,
+        "access_road_id": "CD-A-G05",
+        "serving_road_ids": [
+          "CD-A-G05"
+        ],
+        "serving_road_present": true,
+        "access_road_declared": true,
+        "terminal_xy": [
+          125.99356631227056,
+          609.0898571884107
+        ],
+        "terminal_to_serving_road_m": 0.0,
+        "terminal_on_serving_road": true,
+        "terminal_band_distance_m": 3.499998999999965,
+        "terminal_band_source": "geometry",
+        "terminal_band_ok": true,
+        "terminal_inside_site_boundary": true,
+        "terminal_inside_footprint_ids": [],
+        "geometry_verified_served": true,
+        "geometry_reasons": [],
+        "field_geometry_disagreement": false
+      },
+      {
+        "group_id": "G-06",
+        "building_ids": [
+          "SK-BLD-0003",
+          "SK-BLD-0005",
+          "SK-BLD-0008"
+        ],
+        "field_served": true,
+        "served_by_relation": true,
+        "declared": true,
+        "access_road_id": "CD-A-G06",
+        "serving_road_ids": [
+          "CD-A-G06"
+        ],
+        "serving_road_present": true,
+        "access_road_declared": true,
+        "terminal_xy": [
+          165.18073280629784,
+          156.500001
+        ],
+        "terminal_to_serving_road_m": 0.0,
+        "terminal_on_serving_road": true,
+        "terminal_band_distance_m": 3.4999990000000025,
+        "terminal_band_source": "geometry",
+        "terminal_band_ok": true,
+        "terminal_inside_site_boundary": true,
+        "terminal_inside_footprint_ids": [],
+        "geometry_verified_served": true,
+        "geometry_reasons": [],
+        "field_geometry_disagreement": false
+      },
+      {
+        "group_id": "G-07",
+        "building_ids": [
+          "SK-BLD-0004",
+          "SK-BLD-0013",
+          "SK-BLD-0018"
+        ],
+        "field_served": true,
+        "served_by_relation": true,
+        "declared": true,
+        "access_road_id": "CD-A-G07",
+        "serving_road_ids": [
+          "CD-A-G07"
+        ],
+        "serving_road_present": true,
+        "access_road_declared": true,
+        "terminal_xy": [
+          87.71963078703668,
+          136.51685445183205
+        ],
+        "terminal_to_serving_road_m": 0.0,
+        "terminal_on_serving_road": true,
+        "terminal_band_distance_m": 3.4999989999999923,
+        "terminal_band_source": "geometry",
+        "terminal_band_ok": true,
+        "terminal_inside_site_boundary": true,
+        "terminal_inside_footprint_ids": [],
+        "geometry_verified_served": true,
+        "geometry_reasons": [],
+        "field_geometry_disagreement": false
+      },
+      {
+        "group_id": "G-08",
+        "building_ids": [
+          "SK-BLD-0006",
+          "SK-BLD-0011",
+          "SK-BLD-0012"
+        ],
+        "field_served": true,
+        "served_by_relation": true,
+        "declared": true,
+        "access_road_id": "CD-A-G08",
+        "serving_road_ids": [
+          "CD-A-G08"
+        ],
+        "serving_road_present": true,
+        "access_road_declared": true,
+        "terminal_xy": [
+          155.63954751296188,
+          109.9101428115893
+        ],
+        "terminal_to_serving_road_m": 0.0,
+        "terminal_on_serving_road": true,
+        "terminal_band_distance_m": 3.4999990000000007,
+        "terminal_band_source": "geometry",
+        "terminal_band_ok": true,
+        "terminal_inside_site_boundary": true,
+        "terminal_inside_footprint_ids": [],
+        "geometry_verified_served": true,
+        "geometry_reasons": [],
+        "field_geometry_disagreement": false
+      },
+      {
+        "group_id": "G-09",
+        "building_ids": [
+          "SK-BLD-0029",
+          "SK-BLD-0031",
+          "SK-BLD-0036"
+        ],
+        "field_served": true,
+        "served_by_relation": true,
+        "declared": true,
+        "access_road_id": "CD-A-G09",
+        "serving_road_ids": [
+          "CD-A-G09"
+        ],
+        "serving_road_present": true,
+        "access_road_declared": true,
+        "terminal_xy": [
+          229.32867848523568,
+          106.33939163059438
+        ],
+        "terminal_to_serving_road_m": 0.0,
+        "terminal_on_serving_road": true,
+        "terminal_band_distance_m": 3.4999989999999923,
+        "terminal_band_source": "geometry",
+        "terminal_band_ok": true,
+        "terminal_inside_site_boundary": true,
+        "terminal_inside_footprint_ids": [],
+        "geometry_verified_served": true,
+        "geometry_reasons": [],
+        "field_geometry_disagreement": false
+      },
+      {
+        "group_id": "G-10",
+        "building_ids": [
+          "SK-BLD-0045",
+          "SK-BLD-0051",
+          "SK-BLD-0055"
+        ],
+        "field_served": true,
+        "served_by_relation": true,
+        "declared": true,
+        "access_road_id": "CD-A-G10",
+        "serving_road_ids": [
+          "CD-A-G10"
+        ],
+        "serving_road_present": true,
+        "access_road_declared": true,
+        "terminal_xy": [
+          283.338156931899,
+          216.08672354329798
+        ],
+        "terminal_to_serving_road_m": 0.0,
+        "terminal_on_serving_road": true,
+        "terminal_band_distance_m": 3.4999989999999905,
+        "terminal_band_source": "geometry",
+        "terminal_band_ok": true,
+        "terminal_inside_site_boundary": true,
+        "terminal_inside_footprint_ids": [],
+        "geometry_verified_served": true,
+        "geometry_reasons": [],
+        "field_geometry_disagreement": false
+      },
+      {
+        "group_id": "G-11",
+        "building_ids": [
+          "SK-BLD-MRG-0002",
+          "SK-BLD-MRG-0004",
+          "SK-BLD-MRG-0005"
+        ],
+        "field_served": true,
+        "served_by_relation": true,
+        "declared": true,
+        "access_road_id": "CD-A-G11",
+        "serving_road_ids": [
+          "CD-A-G11"
+        ],
+        "serving_road_present": true,
+        "access_road_declared": true,
+        "terminal_xy": [
+          91.94969686209843,
+          247.08672354329798
+        ],
+        "terminal_to_serving_road_m": 0.0,
+        "terminal_on_serving_road": true,
+        "terminal_band_distance_m": 3.499998999999997,
+        "terminal_band_source": "geometry",
+        "terminal_band_ok": true,
+        "terminal_inside_site_boundary": true,
+        "terminal_inside_footprint_ids": [],
+        "geometry_verified_served": true,
+        "geometry_reasons": [],
+        "field_geometry_disagreement": false
+      },
+      {
+        "group_id": "G-12",
+        "building_ids": [
+          "SK-BLD-0023",
+          "SK-BLD-0026"
+        ],
+        "field_served": true,
+        "served_by_relation": true,
+        "declared": true,
+        "access_road_id": "CD-A-G12",
+        "serving_road_ids": [
+          "CD-A-G12"
+        ],
+        "serving_road_present": true,
+        "access_road_declared": true,
+        "terminal_xy": [
+          259.9325075056618,
+          440.499999
+        ],
+        "terminal_to_serving_road_m": 0.0,
+        "terminal_on_serving_road": true,
+        "terminal_band_distance_m": 3.4999990000000025,
+        "terminal_band_source": "geometry",
+        "terminal_band_ok": true,
+        "terminal_inside_site_boundary": true,
+        "terminal_inside_footprint_ids": [],
+        "geometry_verified_served": true,
+        "geometry_reasons": [],
+        "field_geometry_disagreement": false
+      },
+      {
+        "group_id": "G-13",
+        "building_ids": [
+          "SK-BLD-0028"
+        ],
+        "field_served": true,
+        "served_by_relation": true,
+        "declared": true,
+        "access_road_id": "CD-A-G13",
+        "serving_road_ids": [
+          "CD-A-G13"
+        ],
+        "serving_road_present": true,
+        "access_road_declared": true,
+        "terminal_xy": [
+          85.19505125296351,
+          115.48673386351575
+        ],
+        "terminal_to_serving_road_m": 0.0,
+        "terminal_on_serving_road": true,
+        "terminal_band_distance_m": 3.499999000000002,
+        "terminal_band_source": "geometry",
+        "terminal_band_ok": true,
+        "terminal_inside_site_boundary": true,
+        "terminal_inside_footprint_ids": [],
+        "geometry_verified_served": true,
+        "geometry_reasons": [],
+        "field_geometry_disagreement": false
+      },
+      {
+        "group_id": "G-14",
+        "building_ids": [
+          "SK-BLD-0039"
+        ],
+        "field_served": true,
+        "served_by_relation": true,
+        "declared": true,
+        "access_road_id": "CD-A-G14",
+        "serving_road_ids": [
+          "CD-A-G14"
+        ],
+        "serving_road_present": true,
+        "access_road_declared": true,
+        "terminal_xy": [
+          140.06125886002673,
+          29.525126972953863
+        ],
+        "terminal_to_serving_road_m": 0.0,
+        "terminal_on_serving_road": true,
+        "terminal_band_distance_m": 3.4999989999999968,
+        "terminal_band_source": "geometry",
+        "terminal_band_ok": true,
+        "terminal_inside_site_boundary": true,
+        "terminal_inside_footprint_ids": [],
+        "geometry_verified_served": true,
+        "geometry_reasons": [],
+        "field_geometry_disagreement": false
+      },
+      {
+        "group_id": "G-15",
+        "building_ids": [
+          "SK-BLD-0048"
+        ],
+        "field_served": true,
+        "served_by_relation": true,
+        "declared": true,
+        "access_road_id": "CD-A-G15",
+        "serving_road_ids": [
+          "CD-A-G15"
+        ],
+        "serving_road_present": true,
+        "access_road_declared": true,
+        "terminal_xy": [
+          319.23942120145784,
+          401.2944641862409
+        ],
+        "terminal_to_serving_road_m": 0.0,
+        "terminal_on_serving_road": true,
+        "terminal_band_distance_m": 3.4999990000000176,
+        "terminal_band_source": "geometry",
+        "terminal_band_ok": true,
+        "terminal_inside_site_boundary": true,
+        "terminal_inside_footprint_ids": [],
+        "geometry_verified_served": true,
+        "geometry_reasons": [],
+        "field_geometry_disagreement": false
+      },
+      {
+        "group_id": "G-16",
+        "building_ids": [
+          "SK-BLD-MRG-0001"
+        ],
+        "field_served": true,
+        "served_by_relation": true,
+        "declared": true,
+        "access_road_id": "CD-A-G16",
+        "serving_road_ids": [
+          "CD-A-G16"
+        ],
+        "serving_road_present": true,
+        "access_road_declared": true,
+        "terminal_xy": [
+          82.23222000161304,
+          332.47487302704616
+        ],
+        "terminal_to_serving_road_m": 0.0,
+        "terminal_on_serving_road": true,
+        "terminal_band_distance_m": 3.499999000000012,
+        "terminal_band_source": "geometry",
+        "terminal_band_ok": true,
+        "terminal_inside_site_boundary": true,
+        "terminal_inside_footprint_ids": [],
+        "geometry_verified_served": true,
+        "geometry_reasons": [],
+        "field_geometry_disagreement": false
+      },
+      {
+        "group_id": "G-17",
+        "building_ids": [
+          "SK-BLD-MRG-0003"
+        ],
+        "field_served": true,
+        "served_by_relation": true,
+        "declared": true,
+        "access_road_id": "CD-A-G17",
+        "serving_road_ids": [
+          "CD-A-G17"
+        ],
+        "serving_road_present": true,
+        "access_road_declared": true,
+        "terminal_xy": [
+          335.41124852465344,
+          307.9862955675387
+        ],
+        "terminal_to_serving_road_m": 0.0,
+        "terminal_on_serving_road": true,
+        "terminal_band_distance_m": 3.499998999999991,
+        "terminal_band_source": "geometry",
+        "terminal_band_ok": true,
+        "terminal_inside_site_boundary": true,
+        "terminal_inside_footprint_ids": [],
+        "geometry_verified_served": true,
+        "geometry_reasons": [],
+        "field_geometry_disagreement": false
+      }
+    ]
+  },
+  "checks": {
+    "FAR_ARITHMETIC_SCENARIO": {
+      "status": "info",
+      "value": 1.5654107291796402
+    },
+    "PARKING_REQUIREMENT_ARITHMETIC": {
+      "status": "info",
+      "value": 1.0
+    },
+    "PARKING_ENTRANCE_COUNT": {
+      "status": "info",
+      "value": 5
+    },
+    "PARKING_CAPACITY": {
+      "status": "deferred",
+      "value": 1000
+    },
+    "PARKING_ENTRANCE_PROXIMITY": {
+      "status": "info",
+      "value": 0.4
+    },
+    "PARKING_DRIVEWAY_CONNECTION": {
+      "status": "deferred",
+      "value": "not_designed"
+    },
+    "PARKING_LAYOUT": {
+      "status": "deferred",
+      "value": "not_designed"
+    },
+    "UNIT_COUNT_BASIS_INVARIANT": {
+      "status": "info",
+      "value": 109
+    },
+    "FOCUS_NS_SPACING": {
+      "status": "pass",
+      "value": 20.0
+    },
+    "FOCUS_BOUNDARY_SETBACK": {
+      "status": "pass",
+      "value": []
+    },
+    "FOCUS_BUILDING_OVERLAP": {
+      "status": "pass",
+      "value": []
+    },
+    "FOCUS_ROAD_CLEARANCE": {
+      "status": "pass",
+      "value": []
+    },
+    "ROAD_CONNECTIVITY": {
+      "status": "pass",
+      "value": 1
+    },
+    "ROAD_CORRIDOR_COVERAGE": {
+      "status": "info",
+      "value": 1
+    },
+    "ROAD_ACCESS_COVERAGE": {
+      "status": "pass",
+      "value": 1.0
+    },
+    "ROAD_BOUNDARY_CONTAINMENT": {
+      "status": "pass",
+      "value": 0.6735131264650868
+    },
+    "MAIN_ROAD_BUILDING_OVERLAP": {
+      "status": "pass",
+      "value": 0.0
+    },
+    "ROAD_ALIGNMENT_EVIDENCE": {
+      "status": "info",
+      "value": 1
+    },
+    "FULL_SITE_BOUNDARY_SETBACK": {
+      "status": "pass",
+      "value": []
+    },
+    "FULL_SITE_BUILDING_OVERLAP": {
+      "status": "pass",
+      "value": []
+    },
+    "FULL_SITE_ROAD_CLEARANCE": {
+      "status": "pass",
+      "value": 3.0164672267820585
+    },
+    "FULL_SITE_NS_SPACING": {
+      "status": "pass",
+      "value": 19.999999999999943
+    },
+    "DEAD_END_JUSTIFICATION": {
+      "status": "info",
+      "value": "17/19"
+    },
+    "DEAD_END_RESOLUTION": {
+      "status": "pass",
+      "value": "0 unresolved"
+    },
+    "ROAD_WIDTH_ASSIGNMENT": {
+      "status": "info",
+      "value": [
+        4.0,
+        7.0,
+        12.0
+      ]
+    },
+    "CANDIDATE_OPEN_SPACE_RATIO": {
+      "status": "info",
+      "value": 0.6124159548298536
+    },
+    "UNBUILT_RATIO": {
+      "status": "info",
+      "value": 0.6319347503189597
+    },
+    "DESIGNED_GREEN_RATIO": {
+      "status": "deferred",
+      "value": 0.15109953361356496
+    },
+    "FAR_FINAL_VERIFICATION": {
+      "status": "deferred",
+      "value": null
+    }
+  },
+  "non_claims": [
+    "this is a schematic design proposal, not a construction or permit drawing",
+    "no Chinese code, fire-access, daylight or accessibility compliance is claimed",
+    "the candidate placement is rule-derived, not a designer-confirmed site plan",
+    "the open-space tiling is potential open space, not a landscape design",
+    "the garage layout is not designed; only the entrance requirement is checked"
+  ],
+  "scene_id": "scene-CO-DESIGN-B-R1",
+  "scene_object_count": 544,
+  "scene_sha256": "0fc1d96a750ad216edf759978af83af5937c4a415b899649890548e4d9dadf85",
+  "dxf": {
+    "path": "candidate-b.dxf",
+    "sha256": "27967de18a645dffd2e2d45d490bfbd9e3516b1ce366a83f2576effdc5f5594a",
+    "entity_count": 587,
+    "audit_errors": 0,
+    "audit_fixes": 0
+  },
+  "readback": {
+    "verdict": "pass",
+    "codes": [],
+    "entity_count": 587,
+    "expected_entity_count": 587,
+    "confirmation_scopes": [
+      "design_draft"
+    ],
+    "manifest_sha256": "0bc4b7fc9c994be188f725f41c7e254aeebd01bddcf1c2f002b1acdabb8d0622"
+  },
+  "cad_ir_validation": {
+    "verdict": "pass_with_scope_limits",
+    "issues": [
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0002",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0003",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0004",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0005",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0006",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0007",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0008",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0009",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0010",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0011",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0012",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0013",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0014",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0015",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0016",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0017",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0018",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0020",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0021",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0022",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0023",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0024",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0025",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0026",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0028",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0029",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0031",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0032",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0033",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0034",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0035",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0036",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0038",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0039",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0040",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0041",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0042",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0043",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0044",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0045",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0048",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0049",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0050",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0051",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0052",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0054",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0055",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0056",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0057",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-0061",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-MRG-0001",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-MRG-0002",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-MRG-0003",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-MRG-0004",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "UNKNOWN_HEIGHT_ALLOWED",
+        "severity": "warning",
+        "object_id": "B-SK-BLD-MRG-0005",
+        "message": "building height is not confirmed; exported as metadata only",
+        "expected": null,
+        "actual": null
+      }
+    ],
+    "coverage_limits": [
+      "current delivery profile and entity set only (LWPOLYLINE/CIRCLE/TEXT)",
+      "no standards or design-office profile compliance",
+      "no IFC",
+      "no third-party CAD round-trip in this pipeline",
+      "no arcs/splines; modelspace only"
+    ]
+  },
+  "privacy": {
+    "ok": true,
+    "code": "PRIVACY_SCAN_PASS",
+    "file": "candidate-b.dxf",
+    "findings": []
+  },
+  "preview": {
+    "path": "D:\\agent-cad\\docs\\e2e\\design-co-design-001\\B\\candidate-b-preview.svg",
+    "bytes": 155362,
+    "sha256": "b7ac15ac1836be881946c200616d36be2248441c8485d4f82ea73ec2caa17d1d",
+    "line_count": 225,
+    "bounds": [
+      0.0,
+      0.0,
+      388.02297,
+      644.360131
+    ],
+    "counts": {
+      "buildings": 55,
+      "roads": 64,
+      "green": 12,
+      "main_roads": 25,
+      "centerlines": 64
+    },
+    "scale": 3.896676529227123,
+    "width": 1600,
+    "height": 2598.862998837414
+  },
+  "png": {
+    "status": "rendered",
+    "path": "D:\\agent-cad\\docs\\e2e\\design-co-design-001\\B\\candidate-b-preview.png",
+    "bytes": 73312
+  }
+}
