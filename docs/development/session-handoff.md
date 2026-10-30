@@ -17,18 +17,20 @@ Repository: `D:\agent-cad`
 > 先读 `D:\agent-cad\docs\development\session-handoff.md`（§1 是唯一当前状态），再读
 > `docs/status.md` §2/§16–18、`docs/roadmap.md` 的 M4c-2/4c-3 与 Next 块、以及
 > `docs/e2e/design-synthesis-001/README.md` / `docs/e2e/design-candidates-001/README.md`。
-> 当前版本 0.26.0（M4d-2a 设计意图审计，不改算法/阈值：17 组为推断组——45 m +
-> 8 m 主路 buffer + Union-Find，G-01 9 成员 vs focus 7，链式最大 209.738 m，
-> provenance `not_designer_confirmed`；B 非连续 12/17、runs 43、位移 mean 47.92/
-> P90 102.83/max 278.46；修正绿地 table：building-occupied 845.541/845.541/
-> 713.445 m²，road-occupied 64.113/320.949/73.815 m²，retained 10,076.757(91.72%)/
-> 9,819.92(89.38%)/10,199.151(92.83%)，preserved/shrunk/cancelled 7/5/0；access
-> L1 17/17、L2 0/17、L3 15/24/26 of 55、L4 0 driveway；0.1 m 独立扰动 100% <3.0
-> （B min 2.8887，common datum 不变）；四层 B = geometric pass/intent descriptive/
-> deferred 5/host not_verified；tests **556**）。M4d-2 A/B 历史：A fail only clearance
-> 2.825<3；B hard-valid；A/B DXF 584/587；M4d-1a/full-site DXF 553/553。下一步
-> M4d-2b candidate C + CAD 宿主/R1 并行。不要新增核心依赖，不要声称
-> human_confirmed / 合规 / 已采纳，不要重写 Foundation/Runtime/CAD-IR。
+> 当前版本 0.27.0（M4d-2b candidate C，negative result：decision
+> `no_improvement_same_as_b`、same_as_b=true、hard-ok 29=13/11/5/0，C vs B deltas
+> 全 0（fragmented 12、runs 43、位移 max 278.46/mean 47.92、组质心 max 140.12、
+> road 189.06）；20 变体、5 hard-valid（default/focus_first_y_asc/y_asc_swap01 与
+> B 同质；y_asc_swap12 runs 41 vs 43 但 mean 59.02 vs 47.92、road 316.08 vs 189.06；
+> y_asc_rotate1 runs 46/max 293.42/road 445.50），13 fail NS/clearance、2 layout
+> error；local repair 8 proposals/0 accepted（7 no feasible、1 no strict
+> improvement）；C 不 promoted、**无 C DXF**；B 仍是唯一 hard-valid 研究基线
+> （非专业：5 deferred、host not_verified、26/55 frontage、无内部路/车库引道）；
+> tests **571**）。M4d-2a 历史：17 推断组、绿地修正 845.541/713.445 m²、
+> preserved/shrunk/cancelled 7/5/0、access L1 17/17/L2 0/17/L3 26/55/L4 0 driveway、
+> 0.1 m 扰动 100% <3；A/B DXF 584/587；M4d-1a/full-site DXF 553/553。下一步
+> M4d-2c（局部道路 re-align/主路调整/更强优化器）+ CAD 宿主/R1 并行。不要新增
+> 核心依赖，不要声称 human_confirmed / 合规 / 已采纳，不要重写 Foundation/Runtime/CAD-IR。
 
 ## 1. Repo state (verified 2026-10-28)
 
@@ -63,12 +65,12 @@ Repository: `D:\agent-cad`
   contain the same history (M4c-1a `9d4ae56` + `1209955`, M4c-1c `e02337b`,
   M4c-1d `2f396b2`, M4c-1b `2750bc5`). **Start new work from `main`** — e.g.
   `feat/m4d-full-site` or `feat/real-cad-host-evidence`.
-- Version: `0.26.0` (`pyproject.toml`).
+- Version: `0.27.0` (`pyproject.toml`).
 - Contract: `design-synthesis-v0.9.yaml` (v0.8/v0.7/v0.6/v0.5/v0.4/v0.3/v0.2/v0.1
   superseded; gate-register pointer → v0.9) and
   `design-candidates-v0.2.yaml` (v0.1 superseded; multi-candidate
   evaluation/comparison with basis binding and 11 single-unit objectives).
-- Test baseline: **556 passed** (`python -m pytest -q`).
+- Test baseline: **571 passed** (`python -m pytest -q`).
 - Milestone order: M4c-1d honest-semantics residuals (**complete**) →
   M4c-1b road service coverage (**complete** — first design-geometry change:
   44 roads, coverage 1.0, DXF 206 entities) → M4c-1e evidence binding
@@ -94,9 +96,12 @@ Repository: `D:\agent-cad`
   splits; A/B DXF 584/587 delivered) → M4d-2a design-intent audit (**0.26.0,
   descriptive only**: 17 inferred groups, B 12/17 fragmented, corrected green
   table 845.541/713.445 m², access L1 17/17 vs L3 26/55 vs L4 0 driveway,
-  0.1 m perturbation 100% <3 m; 556 tests) → **next: M4d-2b candidate C +
-  served-facade/terminal-band resolution**, in parallel with real CAD host
-  round-trip (LibreCAD/FreeCAD/AutoCAD GUI) and R1 evidence closure**.
+  0.1 m perturbation 100% <3 m; 556 tests) → M4d-2b candidate C (**0.27.0,
+  negative result**: 20 variants/5 hard-valid, local repair 8/0, decision
+  `no_improvement_same_as_b`, C-vs-B deltas 0, no C DXF; 571 tests) → **next:
+  M4d-2c (local road re-align/main-road adjustment/stronger optimizer)**,
+  in parallel with real CAD host round-trip (LibreCAD/FreeCAD/AutoCAD GUI) and
+  R1 evidence closure**.
 - Local environment: Windows, Python 3.13. Core dependencies remain only
   **PyYAML 6.0.3 / Shapely 2.1.2 / ezdxf 1.4.5**.
 - Optional research-only installs (NOT in `pyproject.toml`): osmnx 2.1.1,
@@ -308,6 +313,18 @@ Evidence: `docs/e2e/sketch-handoff-a/` (status `blocked`, correct).
   INCOMPLETE` + `INCOMPLETE: ROAD ACCESS 0/17 - DEAD ENDS 17 UNRESOLVED -
   DESIGNED GREEN < 30%`. 3.016362/19.999999 are model-coordinate internal
   consistency, not survey-grade. Tests **472 at M4d**.
+- M4d-2b (0.27.0) candidate C — **bounded generate-and-test, negative result**:
+  20 deterministic group-order variants + rebuilt access + 29 checks; **5
+  hard-valid** (default/focus_first_y_asc/y_asc_swap01 same as B; y_asc_swap12
+  41 runs vs 43 but mean 59.02 vs 47.92 and road 316.08 vs 189.06; y_asc_rotate1
+  46 runs/293.42 max/445.50 road); 13 fail NS/clearance, 2 layout errors; local
+  repair **8 proposals/0 accepted** (7 no feasible, 1 no strict improvement).
+  Decision **`no_improvement_same_as_b`**, `same_as_b = true`, hard-ok
+  29 = 13/11/5/0, C-vs-B deltas all 0 (fragmented 12, runs 43, displacement max
+  278.46/mean 47.92, centroid max 140.12, road 189.06); green/access inherit B.
+  **C not promoted, no C DXF**; B remains sole hard-valid research baseline
+  (5 deferred, host not_verified, 26/55 frontage, no internal roads/driveway).
+  Next M4d-2c, no threshold relaxation; tests **571**.
 - M4d-2a (0.26.0) design-intent audit — **descriptive only, no algorithm/gate change**: 17 groups are inferred (45 m + 8 m main buffer + Union-Find; G-01 9 inferred vs 7 focus; chain max 209.738 m; `not_designer_confirmed`); B non-contiguous **12/17**, runs 43, displacement mean 47.92/P90 102.83/max 278.46 (A/baseline 10/17, max 147.25). Corrected green table: building-occupied **845.541/845.541/713.445 m²**, road-occupied **64.113/320.949/73.815 m²**, retained **10,076.757 (91.72%)/9,819.92 (89.38%)/10,199.151 (92.83%)**, preserved/shrunk/cancelled **7/5/0**; area ≠ intent. Access L1 **17/17**, L2 **0/17**, L3 **15/24/26 of 55**, L4 5 entrances/2 proximity/**0 driveway**; no combined coverage. 0.1 m independent perturbation → **100% <3.0** (B min 2.8887; common datum unchanged); four-level B = geometric pass/intent descriptive/deferred 5/host not_verified; tests **556**.
 - M4d-2 (0.25.0) A/B building-road co-design — a **research draft**: A (fixed
   M4d-1 layout + rebuilt 17 connectors, 16 branch + 1 access, 362.0944726221448 m)
@@ -419,8 +436,11 @@ Do not present either as a finished road design.
    845.541/713.445 m² building-occupied and 7/5/0 preserved/shrunk/cancelled;
    access L1 17/17, L2 0/17, L3 15/24/26, L4 0 driveway; 0.1 m perturbation 100%
    <3 m; four-level B geometric pass/intent descriptive/deferred 5/host
-   not_verified. **Open:** resolve served-facade/terminal-band conflict and run
-   M4d-2b candidate C.
+   not_verified. **M4d-2b candidate C (0.27.0, negative result):** 20 variants/
+   5 hard-valid, local repair 8/0, decision `no_improvement_same_as_b`,
+   `same_as_b=true`, C-vs-B deltas 0, no C DXF. **Open:** M4d-2c (local road
+   re-align/main-road adjustment/stronger optimizer) with no threshold
+   relaxation.
 8. **Real CAD host/external evidence** — LibreCAD/FreeCAD/AutoCAD GUI, a real
    design-office profile and IFC remain open; the committed DXF evidence is
    same-library ezdxf readback only.
@@ -544,6 +564,7 @@ Tests:
   (11), `tests/test_intent_metrics.py` (14), `tests/test_green_retention.py` (8),
   `tests/test_access_semantics.py` (9), `tests/test_intent_robustness.py` (4),
   `tests/test_intent_audit_evidence.py` (6).
+- `tests/test_candidate_c.py` (11), `tests/test_candidate_c_evidence.py` (4).
 - `tests/test_open_source_reuse.py` (3).
 - `tests/test_sketch_handoff.py` (32), `tests/e2e/test_sketch_handoff_a.py` (6).
 
@@ -681,9 +702,14 @@ hash (see pitfalls).
   retained 10,076.757/9,819.92/10,199.151 m², preserved/shrunk/cancelled 7/5/0;
   access L1 17/17, L2 0/17, L3 15/24/26, L4 0 driveway; 0.1 m independent
   perturbation 100% <3.0 (B min 2.8887); four-level B geometric pass/intent
-  descriptive/deferred 5/host not_verified; tests **556**. **Next:** M4d-2b
-  candidate C + resolve served-facade/terminal-band conflict, plus a real CAD
-  host (LibreCAD/FreeCAD/AutoCAD GUI), a real design-office profile, IFC and R1
-  closure; the committed DXF evidence is same-library ezdxf readback.
+  descriptive/deferred 5/host not_verified; tests 556 at M4d-2a. **M4d-2b
+  candidate C (0.27.0, negative result):** 20 variants/5 hard-valid, local
+  repair 8/0, decision `no_improvement_same_as_b`, `same_as_b=true`, hard-ok
+  29=13/11/5/0, C-vs-B deltas 0, no C DXF; B remains sole hard-valid baseline
+  (5 deferred, host not_verified, 26/55 frontage, no internal roads/driveway);
+  tests **571**. **Next:** M4d-2c (local road re-align/main-road adjustment/
+  stronger optimizer), plus a real CAD host (LibreCAD/FreeCAD/AutoCAD GUI), a
+  real design-office profile, IFC and R1 closure; the committed DXF evidence is
+  same-library ezdxf readback.
 - `EP-R1-SKETCH-001` remains in progress; `R1-G07` partial;
   `EP-R1-DESIGN-001` in progress.
