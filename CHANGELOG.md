@@ -2,6 +2,49 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.27.0 — 2026-10-30
+
+### Added
+
+- **M4d-2b — candidate C bounded building/local-road co-design search.**
+  A deliberately bounded generate-and-test experiment, not a full joint
+  solver: 20 deterministic group-order variants, each followed by a rebuilt
+  access network and the full 29-check evaluation, plus a bounded local repair
+  from B (one-building micro-moves on the worst-fragmentation groups, access
+  rebuilt and all checks re-evaluated per move).
+  - **Outcome: no improvement — `no_improvement_same_as_b`.** C is not
+    promoted; no new DXF is emitted.
+  - **20 variants:** 5 hard-valid (default = B, `focus_first_y_asc`,
+    `y_asc_swap01`, `y_asc_swap12`, `y_asc_rotate1`); of these, three are
+    quality-identical to B; `y_asc_swap12` adds ~127 m of road with no quality
+    gain; `y_asc_rotate1` is worse (293.4 m max displacement / 445.5 m road).
+    The other 15 fail `FULL_SITE_ROAD_CLEARANCE` and/or
+    `FULL_SITE_NS_SPACING`; 2 variants cannot generate a layout (recorded as
+    errors).
+  - **Local repair:** 8 deterministic micro-move proposals on G-01/G-02/G-03/
+    G-04; 7 have no geometrically feasible position under boundary/overlap/
+    13 m side/20 m row/3 m corridor; the remaining hard-valid move does not
+    strictly improve the quality key. **0 accepted.**
+  - **C vs B deltas are all zero:** fragmented groups 12/17, row runs 43,
+    building displacement max 278.46 m / mean 47.92 m, group-centroid max
+    140.12 m, added road 189.06 m; B remains the sole hard-valid research
+    baseline.
+- Evidence `docs/e2e/design-candidate-c-001/` (`candidate-c.json` with the
+  20-variant table, local-repair log, decision, `README.md`).
+- Honest conclusion: under the frozen 44-road skeleton, the current group
+  layout and the 20 m row / 3 m clearance / terminal-band rules, the tested
+  bounded building/local-road adjustments cannot improve B's fragmentation or
+  displacement tail. The next experiment (M4d-2c) must enlarge the design
+  space in a controlled way: local road re-alignment (not only rebuilding the
+  same connector pattern), selected main-road adjustments, and/or a richer
+  group-aware objective/optimizer.
+
+### Verified
+
+- Full test suite: **571 passed** (556 baseline + 11 candidate-C search + 4
+  candidate-C evidence tests; no test removed).
+- CI 4/4.
+
 ## 0.26.0 — 2026-10-30
 
 ### Added
