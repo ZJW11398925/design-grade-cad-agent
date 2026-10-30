@@ -320,7 +320,7 @@ Next in 4c (4c-1a/1c/1d/1b/1e/2/3/3a complete; sequence: M4d full-site expansion
 - [x] Candidate DXF delivered: **A 584 entities/readback 584/584** (`INCOMPLETE`), **B 587/587** (`HARD-VALID`); XDATA 11, privacy pass, audit 0/0; `comparison.svg` three panels; connector sidewalks clipped 17/115.202 m² and **A/B sidewalk overlap 0**.
 - [x] Tests 472 → **515** (co-design access 11, group-preserving layout 10, group metrics 11, co-design evidence 11; no deletion). Research draft, not professional design/compliance; CAD host unverified; next is served-facade/terminal-band resolution + host/R1.
 
-### Milestone 4d-2a — Design-Intent Integrity and Candidate Quality Audit (descriptive audit, 0.26.0; branch `feat/m4d-2a-intent-audit`; no algorithm/gate change)
+### Milestone 4d-2a — Design-Intent Integrity and Candidate Quality Audit (descriptive audit, 0.26.0; merged as **PR #55** (merge commit `ac16738`); no algorithm/gate change)
 
 - [x] 17 groups are **inferred** (45.0 m centroid distance + 8.0 m main-road buffer + Union-Find single linkage; G-01 9 inferred members vs 7 focus, `SK-BLD-0038`/`0061` absent; chain max pairwise **209.738 m**; provenance `not_designer_confirmed`). `groups_preserved = 17` means member completeness only.
 - [x] Group quality (descriptive, no gate): B non-contiguous **12/17**, runs **43**, max row gap 12, relative-position max 258.77 m, building displacement mean **47.92** / P90 **102.83** / max **278.46** m; A/baseline 10/17, max 147.25 m; group-centroid max 140.12 m. Trade-off, not uniform improvement.
