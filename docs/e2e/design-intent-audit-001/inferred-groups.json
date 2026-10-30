@@ -1,0 +1,503 @@
+{
+  "schema_id": "dgcad.intent-metrics.v0.1",
+  "groups_are_inferred": true,
+  "designer_confirmed": false,
+  "method": "single_linkage_union_find",
+  "source": "dgcad_design.intent.build_design_intent",
+  "group_distance_m": 45.0,
+  "main_road_buffer_m": 8.0,
+  "transitive": true,
+  "intent_declared_provenance": {
+    "schema_id": "dgcad.inferred-groups.v0.1",
+    "kind": "inferred_groups",
+    "not_designer_confirmed": true,
+    "method": "union_find_single_linkage",
+    "group_distance_m": 45.0,
+    "main_road_buffer_m": 8.0,
+    "main_road_filter": "class_candidate == main_road",
+    "transitive_merge": true,
+    "note": "the 17 groups are inferred by the Agent from building centroid distance, the main-road 8 m buffer and transitive Union-Find merging; they must not be described as designer-confirmed spatial groups"
+  },
+  "matches_intent_declaration": true,
+  "pair_rule": "two buildings are linked when their centroid distance is at most group_distance_m AND the straight segment between the centroids does not cross the main-road buffer; links are then closed transitively by Union-Find (single linkage)",
+  "chaining_note": "single linkage means a group may contain members farther apart than group_distance_m when a chain of pairwise links connects them; see max_pairwise_source_distance_m per group",
+  "group_count": 17,
+  "groups": [
+    {
+      "group_id": "G-01",
+      "building_ids": [
+        "SK-BLD-0007",
+        "SK-BLD-0015",
+        "SK-BLD-0021",
+        "SK-BLD-0025",
+        "SK-BLD-0032",
+        "SK-BLD-0034",
+        "SK-BLD-0035",
+        "SK-BLD-0038",
+        "SK-BLD-0061"
+      ],
+      "inferred_building_count": 9,
+      "present_building_count": 9,
+      "missing_building_ids": [],
+      "unit_count": 19,
+      "households": 418,
+      "bbox": [
+        97.621001,
+        401.968827,
+        235.028712,
+        619.360131
+      ],
+      "centroid": [
+        179.0442578489105,
+        527.0979304236495
+      ],
+      "main_road_distance_m": 54.31966860564312,
+      "max_pairwise_source_distance_m": 209.73801637008503,
+      "chain_ratio_to_group_distance": 4.660844808224112
+    },
+    {
+      "group_id": "G-02",
+      "building_ids": [
+        "SK-BLD-0009",
+        "SK-BLD-0010",
+        "SK-BLD-0014",
+        "SK-BLD-0016",
+        "SK-BLD-0020",
+        "SK-BLD-0022",
+        "SK-BLD-0024"
+      ],
+      "inferred_building_count": 7,
+      "present_building_count": 7,
+      "missing_building_ids": [],
+      "unit_count": 16,
+      "households": 352,
+      "bbox": [
+        320.344545,
+        25.430681,
+        373.256768,
+        244.872847
+      ],
+      "centroid": [
+        348.92592870917485,
+        134.44101230533235
+      ],
+      "main_road_distance_m": 50.103934249633625,
+      "max_pairwise_source_distance_m": 207.34461942468135,
+      "chain_ratio_to_group_distance": 4.607658209437363
+    },
+    {
+      "group_id": "G-03",
+      "building_ids": [
+        "SK-BLD-0049",
+        "SK-BLD-0050",
+        "SK-BLD-0052",
+        "SK-BLD-0054",
+        "SK-BLD-0056",
+        "SK-BLD-0057"
+      ],
+      "inferred_building_count": 6,
+      "present_building_count": 6,
+      "missing_building_ids": [],
+      "unit_count": 6,
+      "households": 132,
+      "bbox": [
+        123.872026,
+        153.40443,
+        151.763741,
+        348.236259
+      ],
+      "centroid": [
+        138.37597413361223,
+        253.38413227491904
+      ],
+      "main_road_distance_m": 35.01256150030625,
+      "max_pairwise_source_distance_m": 184.01758549795375,
+      "chain_ratio_to_group_distance": 4.089279677732305
+    },
+    {
+      "group_id": "G-04",
+      "building_ids": [
+        "SK-BLD-0040",
+        "SK-BLD-0041",
+        "SK-BLD-0042",
+        "SK-BLD-0043",
+        "SK-BLD-0044"
+      ],
+      "inferred_building_count": 5,
+      "present_building_count": 5,
+      "missing_building_ids": [],
+      "unit_count": 5,
+      "households": 110,
+      "bbox": [
+        262.920427,
+        401.968827,
+        328.137818,
+        495.077933
+      ],
+      "centroid": [
+        292.08420331913965,
+        457.2331528261586
+      ],
+      "main_road_distance_m": 43.42380068608817,
+      "max_pairwise_source_distance_m": 89.4409111374863,
+      "chain_ratio_to_group_distance": 1.987575803055251
+    },
+    {
+      "group_id": "G-05",
+      "building_ids": [
+        "SK-BLD-0002",
+        "SK-BLD-0017",
+        "SK-BLD-0033"
+      ],
+      "inferred_building_count": 3,
+      "present_building_count": 3,
+      "missing_building_ids": [],
+      "unit_count": 7,
+      "households": 154,
+      "bbox": [
+        42.657916,
+        408.531583,
+        117.719442,
+        514.35603
+      ],
+      "centroid": [
+        81.39773195891898,
+        463.1397315146269
+      ],
+      "main_road_distance_m": 33.31196999141256,
+      "max_pairwise_source_distance_m": 80.00051135101738,
+      "chain_ratio_to_group_distance": 1.7777891411337197
+    },
+    {
+      "group_id": "G-06",
+      "building_ids": [
+        "SK-BLD-0003",
+        "SK-BLD-0005",
+        "SK-BLD-0008"
+      ],
+      "inferred_building_count": 3,
+      "present_building_count": 3,
+      "missing_building_ids": [],
+      "unit_count": 9,
+      "households": 198,
+      "bbox": [
+        175.963905,
+        151.763741,
+        228.876128,
+        241.181296
+      ],
+      "centroid": [
+        202.84886251404518,
+        197.1243624161568
+      ],
+      "main_road_distance_m": 71.33140514825037,
+      "max_pairwise_source_distance_m": 77.6572399597621,
+      "chain_ratio_to_group_distance": 1.7257164435502688
+    },
+    {
+      "group_id": "G-07",
+      "building_ids": [
+        "SK-BLD-0004",
+        "SK-BLD-0013",
+        "SK-BLD-0018"
+      ],
+      "inferred_building_count": 3,
+      "present_building_count": 3,
+      "missing_building_ids": [],
+      "unit_count": 9,
+      "households": 198,
+      "bbox": [
+        25.840853,
+        32.40361,
+        77.112387,
+        115.258409
+      ],
+      "centroid": [
+        52.29460626472508,
+        73.2983087773414
+      ],
+      "main_road_distance_m": 76.85522473580848,
+      "max_pairwise_source_distance_m": 71.14536208357633,
+      "chain_ratio_to_group_distance": 1.5810080463016962
+    },
+    {
+      "group_id": "G-08",
+      "building_ids": [
+        "SK-BLD-0006",
+        "SK-BLD-0011",
+        "SK-BLD-0012"
+      ],
+      "inferred_building_count": 3,
+      "present_building_count": 3,
+      "missing_building_ids": [],
+      "unit_count": 8,
+      "households": 176,
+      "bbox": [
+        162.42822,
+        29.532404,
+        220.672683,
+        111.97703
+      ],
+      "centroid": [
+        193.17745610974063,
+        70.22516907412633
+      ],
+      "main_road_distance_m": 40.914656787484276,
+      "max_pairwise_source_distance_m": 71.40274819405715,
+      "chain_ratio_to_group_distance": 1.5867277376457145
+    },
+    {
+      "group_id": "G-09",
+      "building_ids": [
+        "SK-BLD-0029",
+        "SK-BLD-0031",
+        "SK-BLD-0036"
+      ],
+      "inferred_building_count": 3,
+      "present_building_count": 3,
+      "missing_building_ids": [],
+      "unit_count": 6,
+      "households": 132,
+      "bbox": [
+        251.025431,
+        25.840853,
+        286.710418,
+        110.336341
+      ],
+      "centroid": [
+        269.0367533652521,
+        68.47229158537051
+      ],
+      "main_road_distance_m": 30.026980800770406,
+      "max_pairwise_source_distance_m": 72.35407301848431,
+      "chain_ratio_to_group_distance": 1.6078682892996514
+    },
+    {
+      "group_id": "G-10",
+      "building_ids": [
+        "SK-BLD-0045",
+        "SK-BLD-0051",
+        "SK-BLD-0055"
+      ],
+      "inferred_building_count": 3,
+      "present_building_count": 3,
+      "missing_building_ids": [],
+      "unit_count": 3,
+      "households": 66,
+      "bbox": [
+        256.767842,
+        149.302707,
+        285.069729,
+        237.079573
+      ],
+      "centroid": [
+        270.618975853599,
+        193.36226873829355
+      ],
+      "main_road_distance_m": 31.7945080487767,
+      "max_pairwise_source_distance_m": 77.35062414403068,
+      "chain_ratio_to_group_distance": 1.7189027587562373
+    },
+    {
+      "group_id": "G-11",
+      "building_ids": [
+        "SK-BLD-MRG-0002",
+        "SK-BLD-MRG-0004",
+        "SK-BLD-MRG-0005"
+      ],
+      "inferred_building_count": 3,
+      "present_building_count": 3,
+      "missing_building_ids": [],
+      "unit_count": 9,
+      "households": 198,
+      "bbox": [
+        22.969647,
+        152.994258,
+        84.495488,
+        251.025431
+      ],
+      "centroid": [
+        53.60638086136529,
+        202.59331087518228
+      ],
+      "main_road_distance_m": 49.757031771940696,
+      "max_pairwise_source_distance_m": 84.83573607444008,
+      "chain_ratio_to_group_distance": 1.8852385794320017
+    },
+    {
+      "group_id": "G-12",
+      "building_ids": [
+        "SK-BLD-0023",
+        "SK-BLD-0026"
+      ],
+      "inferred_building_count": 2,
+      "present_building_count": 2,
+      "missing_building_ids": [],
+      "unit_count": 4,
+      "households": 88,
+      "bbox": [
+        122.231337,
+        401.968827,
+        161.607875,
+        449.138638
+      ],
+      "centroid": [
+        142.17605842259087,
+        425.75334223604534
+      ],
+      "main_road_distance_m": 48.39485123604533,
+      "max_pairwise_source_distance_m": 35.72083037465963,
+      "chain_ratio_to_group_distance": 0.7937962305479918
+    },
+    {
+      "group_id": "G-13",
+      "building_ids": [
+        "SK-BLD-0028"
+      ],
+      "inferred_building_count": 1,
+      "present_building_count": 1,
+      "missing_building_ids": [],
+      "unit_count": 2,
+      "households": 44,
+      "bbox": [
+        98.031173,
+        101.312551,
+        133.716161,
+        114.027892
+      ],
+      "centroid": [
+        115.77367787144706,
+        107.68162197688417
+      ],
+      "main_road_distance_m": 20.81074321266004,
+      "max_pairwise_source_distance_m": 0.0,
+      "chain_ratio_to_group_distance": null
+    },
+    {
+      "group_id": "G-14",
+      "building_ids": [
+        "SK-BLD-0039"
+      ],
+      "inferred_building_count": 1,
+      "present_building_count": 1,
+      "missing_building_ids": [],
+      "unit_count": 2,
+      "households": 44,
+      "bbox": [
+        98.441345,
+        29.942576,
+        132.485644,
+        41.017227
+      ],
+      "centroid": [
+        115.5733149892067,
+        35.5800187269218
+      ],
+      "main_road_distance_m": 90.45497520013049,
+      "max_pairwise_source_distance_m": 0.0,
+      "chain_ratio_to_group_distance": null
+    },
+    {
+      "group_id": "G-15",
+      "building_ids": [
+        "SK-BLD-0048"
+      ],
+      "inferred_building_count": 1,
+      "present_building_count": 1,
+      "missing_building_ids": [],
+      "unit_count": 1,
+      "households": 22,
+      "bbox": [
+        319.5242,
+        401.558655,
+        342.90402,
+        413.453651
+      ],
+      "centroid": [
+        331.1802154426545,
+        407.3872779646992
+      ],
+      "main_road_distance_m": 41.77454853241653,
+      "max_pairwise_source_distance_m": 0.0,
+      "chain_ratio_to_group_distance": null
+    },
+    {
+      "group_id": "G-16",
+      "building_ids": [
+        "SK-BLD-MRG-0001"
+      ],
+      "inferred_building_count": 1,
+      "present_building_count": 1,
+      "missing_building_ids": [],
+      "unit_count": 3,
+      "households": 66,
+      "bbox": [
+        17.227235,
+        309.269893,
+        72.600492,
+        340.853158
+      ],
+      "centroid": [
+        45.06365653809305,
+        328.899530903572
+      ],
+      "main_road_distance_m": 58.29975609521293,
+      "max_pairwise_source_distance_m": 0.0,
+      "chain_ratio_to_group_distance": null
+    },
+    {
+      "group_id": "G-17",
+      "building_ids": [
+        "SK-BLD-MRG-0003"
+      ],
+      "inferred_building_count": 1,
+      "present_building_count": 1,
+      "missing_building_ids": [],
+      "unit_count": 0,
+      "households": 0,
+      "bbox": [
+        318.703856,
+        278.506973,
+        374.077112,
+        327.317473
+      ],
+      "centroid": [
+        350.77672966470635,
+        297.7801124806519
+      ],
+      "main_road_distance_m": 45.558166131265004,
+      "max_pairwise_source_distance_m": 0.0,
+      "chain_ratio_to_group_distance": null
+    }
+  ],
+  "focus_group": {
+    "group_id": "G-01",
+    "inferred_building_ids": [
+      "SK-BLD-0007",
+      "SK-BLD-0015",
+      "SK-BLD-0021",
+      "SK-BLD-0025",
+      "SK-BLD-0032",
+      "SK-BLD-0034",
+      "SK-BLD-0035",
+      "SK-BLD-0038",
+      "SK-BLD-0061"
+    ],
+    "inferred_building_count": 9,
+    "focus_layout_building_ids": [
+      "SK-BLD-0007",
+      "SK-BLD-0015",
+      "SK-BLD-0021",
+      "SK-BLD-0025",
+      "SK-BLD-0032",
+      "SK-BLD-0034",
+      "SK-BLD-0035"
+    ],
+    "focus_layout_building_count": 7,
+    "dropped_from_focus_layout": [
+      "SK-BLD-0038",
+      "SK-BLD-0061"
+    ],
+    "note": "the focus layout row-places only the buildings it can fit; the remaining inferred G-01 members stay at source positions, so inferred membership and focus placement are different sets"
+  }
+}

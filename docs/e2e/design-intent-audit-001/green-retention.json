@@ -1,0 +1,2713 @@
+{
+  "baseline": {
+    "summary": {
+      "source_green_count": 12,
+      "traced_green_count": 12,
+      "status_counts": {
+        "preserved": 7,
+        "shrunk": 5,
+        "cancelled": 0,
+        "occupied_by_buildings": 0,
+        "occupied_by_roads": 0,
+        "moved": 0,
+        "not_applicable": 0
+      },
+      "source_area_m2": 10986.41,
+      "inside_site_area_m2": 10986.41,
+      "outside_site_area_m2": 0.0,
+      "building_occupied_area_m2": 845.541,
+      "road_occupied_area_m2": 64.113,
+      "retained_open_space_area_m2": 10076.757,
+      "retained_designed_area_m2": 10076.757,
+      "free_space_retaining_area_m2": 10076.757,
+      "lost_area_m2": 0.0,
+      "retained_open_space_ratio_of_source": 0.9172,
+      "retained_designed_ratio_of_source": 0.9172,
+      "free_space_retaining_ratio_of_source": 0.9172,
+      "building_occupied_ratio_of_source": 0.077,
+      "road_occupied_ratio_of_source": 0.0058,
+      "lost_ratio_of_source": 0.0,
+      "new_open_space_area_m2": 114800.899,
+      "new_designed_green_area_m2": 20864.147,
+      "candidate_object_count": 69,
+      "new_open_space_object_count": 57,
+      "preserved_count": 7,
+      "shrunk_count": 5,
+      "cancelled_count": 0,
+      "occupied_by_buildings_count": 0,
+      "occupied_by_roads_count": 0,
+      "moved_count": 0,
+      "not_applicable_count": 0
+    },
+    "report": {
+      "schema_id": "dgcad.green-retention.v0.1",
+      "area_retention_is_not_intent_retention": true,
+      "descriptive_status_not_gate": true,
+      "status_labels": [
+        "preserved",
+        "shrunk",
+        "cancelled",
+        "occupied_by_buildings",
+        "occupied_by_roads",
+        "moved",
+        "not_applicable"
+      ],
+      "candidate_open_space_basis": {
+        "retained_open_space": "source green ∩ union(candidate green geometries + full-site potential-open-space parcels)",
+        "retained_designed": "source green ∩ union(cluster_green, green_strip)",
+        "free_space_retaining": "source green ∩ (site_inner − building footprints − road corridor − sidewalks)",
+        "note": "the building layout is packed without the source greens as obstacles; every number is a post-hoc area intersection"
+      },
+      "status_thresholds": {
+        "preserved_open_space_ratio": 0.99,
+        "cancelled_open_space_ratio": 0.01,
+        "occupation_dominant_ratio": 0.5,
+        "shared_area_tolerance_m2": 0.01,
+        "note": "labels are descriptive reporting devices; no existing check reads them and no tolerance was widened"
+      },
+      "summary": {
+        "source_green_count": 12,
+        "traced_green_count": 12,
+        "status_counts": {
+          "preserved": 7,
+          "shrunk": 5,
+          "cancelled": 0,
+          "occupied_by_buildings": 0,
+          "occupied_by_roads": 0,
+          "moved": 0,
+          "not_applicable": 0
+        },
+        "source_area_m2": 10986.41,
+        "inside_site_area_m2": 10986.41,
+        "outside_site_area_m2": 0.0,
+        "building_occupied_area_m2": 845.541,
+        "road_occupied_area_m2": 64.113,
+        "retained_open_space_area_m2": 10076.757,
+        "retained_designed_area_m2": 10076.757,
+        "free_space_retaining_area_m2": 10076.757,
+        "lost_area_m2": 0.0,
+        "retained_open_space_ratio_of_source": 0.9172,
+        "retained_designed_ratio_of_source": 0.9172,
+        "free_space_retaining_ratio_of_source": 0.9172,
+        "building_occupied_ratio_of_source": 0.077,
+        "road_occupied_ratio_of_source": 0.0058,
+        "lost_ratio_of_source": 0.0,
+        "new_open_space_area_m2": 114800.899,
+        "new_designed_green_area_m2": 20864.147,
+        "candidate_object_count": 69,
+        "new_open_space_object_count": 57
+      },
+      "objects": [
+        {
+          "green_id": "SK-GRN-0001",
+          "group_id": null,
+          "status": "preserved",
+          "source_area_m2": 1629.753,
+          "inside_site_area_m2": 1629.753,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 0.0,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 1629.753,
+          "retained_designed_area_m2": 1629.753,
+          "free_space_retaining_area_m2": 1629.753,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 1.0,
+          "retained_open_space_ratio_of_source": 1.0,
+          "occupied_by_buildings_ratio_of_inside": 0.0,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0001",
+          "candidate_cluster_area_m2": 1629.753,
+          "candidate_cluster_shared_area_m2": 1629.753
+        },
+        {
+          "green_id": "SK-GRN-0002",
+          "group_id": null,
+          "status": "preserved",
+          "source_area_m2": 1473.625,
+          "inside_site_area_m2": 1473.625,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 0.0,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 1473.625,
+          "retained_designed_area_m2": 1473.625,
+          "free_space_retaining_area_m2": 1473.625,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 1.0,
+          "retained_open_space_ratio_of_source": 1.0,
+          "occupied_by_buildings_ratio_of_inside": 0.0,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0002",
+          "candidate_cluster_area_m2": 1473.625,
+          "candidate_cluster_shared_area_m2": 1473.625
+        },
+        {
+          "green_id": "SK-GRN-0003",
+          "group_id": null,
+          "status": "preserved",
+          "source_area_m2": 1215.291,
+          "inside_site_area_m2": 1215.291,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 0.0,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 1215.291,
+          "retained_designed_area_m2": 1215.291,
+          "free_space_retaining_area_m2": 1215.291,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 1.0,
+          "retained_open_space_ratio_of_source": 1.0,
+          "occupied_by_buildings_ratio_of_inside": 0.0,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0003",
+          "candidate_cluster_area_m2": 1215.291,
+          "candidate_cluster_shared_area_m2": 1215.291
+        },
+        {
+          "green_id": "SK-GRN-0004",
+          "group_id": null,
+          "status": "shrunk",
+          "source_area_m2": 1140.592,
+          "inside_site_area_m2": 1140.592,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 464.447,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 676.145,
+          "retained_designed_area_m2": 676.145,
+          "free_space_retaining_area_m2": 676.145,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 0.5928,
+          "retained_open_space_ratio_of_source": 0.5928,
+          "occupied_by_buildings_ratio_of_inside": 0.4072,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0004",
+          "candidate_cluster_area_m2": 676.145,
+          "candidate_cluster_shared_area_m2": 676.145
+        },
+        {
+          "green_id": "SK-GRN-0005",
+          "group_id": null,
+          "status": "shrunk",
+          "source_area_m2": 974.623,
+          "inside_site_area_m2": 974.623,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 186.269,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 788.354,
+          "retained_designed_area_m2": 788.354,
+          "free_space_retaining_area_m2": 788.354,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 0.8089,
+          "retained_open_space_ratio_of_source": 0.8089,
+          "occupied_by_buildings_ratio_of_inside": 0.1911,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0005",
+          "candidate_cluster_area_m2": 788.354,
+          "candidate_cluster_shared_area_m2": 788.354
+        },
+        {
+          "green_id": "SK-GRN-0006",
+          "group_id": null,
+          "status": "preserved",
+          "source_area_m2": 896.642,
+          "inside_site_area_m2": 896.642,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 0.0,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 896.642,
+          "retained_designed_area_m2": 896.642,
+          "free_space_retaining_area_m2": 896.642,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 1.0,
+          "retained_open_space_ratio_of_source": 1.0,
+          "occupied_by_buildings_ratio_of_inside": 0.0,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0006",
+          "candidate_cluster_area_m2": 896.642,
+          "candidate_cluster_shared_area_m2": 896.642
+        },
+        {
+          "green_id": "SK-GRN-0007",
+          "group_id": null,
+          "status": "preserved",
+          "source_area_m2": 830.944,
+          "inside_site_area_m2": 830.944,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 0.0,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 830.944,
+          "retained_designed_area_m2": 830.944,
+          "free_space_retaining_area_m2": 830.944,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 1.0,
+          "retained_open_space_ratio_of_source": 1.0,
+          "occupied_by_buildings_ratio_of_inside": 0.0,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0007",
+          "candidate_cluster_area_m2": 830.944,
+          "candidate_cluster_shared_area_m2": 830.944
+        },
+        {
+          "green_id": "SK-GRN-0008",
+          "group_id": "G-01",
+          "status": "shrunk",
+          "source_area_m2": 799.483,
+          "inside_site_area_m2": 799.483,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 137.895,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 661.587,
+          "retained_designed_area_m2": 661.587,
+          "free_space_retaining_area_m2": 661.587,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 0.8275,
+          "retained_open_space_ratio_of_source": 0.8275,
+          "occupied_by_buildings_ratio_of_inside": 0.1725,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0008",
+          "candidate_cluster_area_m2": 661.587,
+          "candidate_cluster_shared_area_m2": 661.587
+        },
+        {
+          "green_id": "SK-GRN-0009",
+          "group_id": null,
+          "status": "preserved",
+          "source_area_m2": 683.649,
+          "inside_site_area_m2": 683.649,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 0.0,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 683.649,
+          "retained_designed_area_m2": 683.649,
+          "free_space_retaining_area_m2": 683.649,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 1.0,
+          "retained_open_space_ratio_of_source": 1.0,
+          "occupied_by_buildings_ratio_of_inside": 0.0,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0009",
+          "candidate_cluster_area_m2": 683.649,
+          "candidate_cluster_shared_area_m2": 683.649
+        },
+        {
+          "green_id": "SK-GRN-0010",
+          "group_id": null,
+          "status": "preserved",
+          "source_area_m2": 517.763,
+          "inside_site_area_m2": 517.763,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 0.0,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 517.763,
+          "retained_designed_area_m2": 517.763,
+          "free_space_retaining_area_m2": 517.763,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 1.0,
+          "retained_open_space_ratio_of_source": 1.0,
+          "occupied_by_buildings_ratio_of_inside": 0.0,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0010",
+          "candidate_cluster_area_m2": 517.763,
+          "candidate_cluster_shared_area_m2": 517.763
+        },
+        {
+          "green_id": "SK-GRN-0011",
+          "group_id": "G-17",
+          "status": "shrunk",
+          "source_area_m2": 427.922,
+          "inside_site_area_m2": 427.922,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 0.0,
+          "road_occupied_area_m2": 64.113,
+          "retained_open_space_area_m2": 363.809,
+          "retained_designed_area_m2": 363.809,
+          "free_space_retaining_area_m2": 363.809,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 0.8502,
+          "retained_open_space_ratio_of_source": 0.8502,
+          "occupied_by_buildings_ratio_of_inside": 0.0,
+          "occupied_by_roads_ratio_of_inside": 0.1498,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0011",
+          "candidate_cluster_area_m2": 363.809,
+          "candidate_cluster_shared_area_m2": 363.809
+        },
+        {
+          "green_id": "SK-GRN-0012",
+          "group_id": "G-02",
+          "status": "shrunk",
+          "source_area_m2": 396.124,
+          "inside_site_area_m2": 396.124,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 56.929,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 339.195,
+          "retained_designed_area_m2": 339.195,
+          "free_space_retaining_area_m2": 339.195,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 0.8563,
+          "retained_open_space_ratio_of_source": 0.8563,
+          "occupied_by_buildings_ratio_of_inside": 0.1437,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0012",
+          "candidate_cluster_area_m2": 339.195,
+          "candidate_cluster_shared_area_m2": 339.195
+        }
+      ],
+      "candidate_objects": [
+        {
+          "green_id": "SK-GRN-0001",
+          "classification": "cluster_green",
+          "area_m2": 1629.753,
+          "overlap_with_source_greens_m2": 1629.753,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0002",
+          "classification": "cluster_green",
+          "area_m2": 1473.625,
+          "overlap_with_source_greens_m2": 1473.625,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0003",
+          "classification": "cluster_green",
+          "area_m2": 1215.291,
+          "overlap_with_source_greens_m2": 1215.291,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0004",
+          "classification": "cluster_green",
+          "area_m2": 676.145,
+          "overlap_with_source_greens_m2": 676.145,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0005",
+          "classification": "cluster_green",
+          "area_m2": 788.354,
+          "overlap_with_source_greens_m2": 788.354,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0006",
+          "classification": "cluster_green",
+          "area_m2": 896.642,
+          "overlap_with_source_greens_m2": 896.642,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0007",
+          "classification": "cluster_green",
+          "area_m2": 830.944,
+          "overlap_with_source_greens_m2": 830.944,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0008",
+          "classification": "cluster_green",
+          "area_m2": 661.587,
+          "overlap_with_source_greens_m2": 661.587,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0009",
+          "classification": "cluster_green",
+          "area_m2": 683.649,
+          "overlap_with_source_greens_m2": 683.649,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0010",
+          "classification": "cluster_green",
+          "area_m2": 517.763,
+          "overlap_with_source_greens_m2": 517.763,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0011",
+          "classification": "cluster_green",
+          "area_m2": 363.809,
+          "overlap_with_source_greens_m2": 363.809,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0012",
+          "classification": "cluster_green",
+          "area_m2": 339.195,
+          "overlap_with_source_greens_m2": 339.195,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "GREEN-STRIP-01",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 576.0
+        },
+        {
+          "green_id": "GREEN-STRIP-02",
+          "classification": "green_strip",
+          "area_m2": 872.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 872.0
+        },
+        {
+          "green_id": "GREEN-STRIP-03",
+          "classification": "green_strip",
+          "area_m2": 1256.0,
+          "overlap_with_source_greens_m2": 356.12,
+          "new_area_m2": 899.88
+        },
+        {
+          "green_id": "GREEN-STRIP-04",
+          "classification": "green_strip",
+          "area_m2": 871.972,
+          "overlap_with_source_greens_m2": 140.171,
+          "new_area_m2": 731.8
+        },
+        {
+          "green_id": "GREEN-STRIP-05",
+          "classification": "green_strip",
+          "area_m2": 1204.403,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 1204.403
+        },
+        {
+          "green_id": "GREEN-STRIP-06",
+          "classification": "green_strip",
+          "area_m2": 384.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 384.0
+        },
+        {
+          "green_id": "GREEN-STRIP-07",
+          "classification": "green_strip",
+          "area_m2": 384.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 384.0
+        },
+        {
+          "green_id": "GREEN-STRIP-08",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 576.0
+        },
+        {
+          "green_id": "GREEN-STRIP-09",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 576.0
+        },
+        {
+          "green_id": "GREEN-STRIP-10",
+          "classification": "green_strip",
+          "area_m2": 1229.336,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 1229.336
+        },
+        {
+          "green_id": "GREEN-STRIP-11",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 576.0
+        },
+        {
+          "green_id": "GREEN-STRIP-12",
+          "classification": "green_strip",
+          "area_m2": 1240.758,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 1240.758
+        },
+        {
+          "green_id": "GREEN-STRIP-13",
+          "classification": "green_strip",
+          "area_m2": 384.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 384.0
+        },
+        {
+          "green_id": "GREEN-STRIP-14",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 576.0
+        },
+        {
+          "green_id": "GREEN-STRIP-15",
+          "classification": "green_strip",
+          "area_m2": 1360.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 1360.0
+        },
+        {
+          "green_id": "GREEN-STRIP-16",
+          "classification": "green_strip",
+          "area_m2": 384.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 384.0
+        },
+        {
+          "green_id": "GREEN-STRIP-17",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 576.0
+        },
+        {
+          "green_id": "GREEN-STRIP-18",
+          "classification": "green_strip",
+          "area_m2": 1262.566,
+          "overlap_with_source_greens_m2": 627.638,
+          "new_area_m2": 634.929
+        },
+        {
+          "green_id": "GREEN-STRIP-19",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 218.0,
+          "new_area_m2": 358.0
+        },
+        {
+          "green_id": "GREEN-STRIP-20",
+          "classification": "green_strip",
+          "area_m2": 192.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 192.0
+        },
+        {
+          "green_id": "GREEN-STRIP-21",
+          "classification": "green_strip",
+          "area_m2": 150.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 150.0
+        },
+        {
+          "green_id": "GREEN-STRIP-22",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 576.0
+        },
+        {
+          "green_id": "GREEN-STRIP-23",
+          "classification": "green_strip",
+          "area_m2": 192.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 192.0
+        },
+        {
+          "green_id": "GREEN-STRIP-24",
+          "classification": "green_strip",
+          "area_m2": 384.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 384.0
+        },
+        {
+          "green_id": "GREEN-STRIP-25",
+          "classification": "green_strip",
+          "area_m2": 227.028,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 227.028
+        },
+        {
+          "green_id": "GREEN-STRIP-26",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 576.0
+        },
+        {
+          "green_id": "GREEN-STRIP-27",
+          "classification": "green_strip",
+          "area_m2": 647.462,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 647.462
+        },
+        {
+          "green_id": "GREEN-STRIP-28",
+          "classification": "green_strip",
+          "area_m2": 110.763,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 110.763
+        },
+        {
+          "green_id": "GREEN-STRIP-29",
+          "classification": "green_strip",
+          "area_m2": 799.755,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 799.755
+        },
+        {
+          "green_id": "GREEN-STRIP-30",
+          "classification": "green_strip",
+          "area_m2": 382.309,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 382.309
+        },
+        {
+          "green_id": "GREEN-STRIP-31",
+          "classification": "green_strip",
+          "area_m2": 872.0,
+          "overlap_with_source_greens_m2": 236.289,
+          "new_area_m2": 635.711
+        },
+        {
+          "green_id": "GREEN-STRIP-32",
+          "classification": "green_strip",
+          "area_m2": 510.377,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 510.377
+        },
+        {
+          "green_id": "GREEN-STRIP-33",
+          "classification": "green_strip",
+          "area_m2": 494.938,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 494.938
+        },
+        {
+          "green_id": "GREEN-STRIP-34",
+          "classification": "green_strip",
+          "area_m2": 408.709,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 408.709
+        },
+        {
+          "green_id": "GREEN-STRIP-35",
+          "classification": "green_strip",
+          "area_m2": 384.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 384.0
+        },
+        {
+          "green_id": "GREEN-STRIP-36",
+          "classification": "green_strip",
+          "area_m2": 669.988,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 669.988
+        },
+        {
+          "green_id": "GREEN-SUPP-001",
+          "classification": "supplementary_green",
+          "area_m2": 26007.389,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 26007.389
+        },
+        {
+          "green_id": "GREEN-SUPP-002",
+          "classification": "supplementary_green",
+          "area_m2": 22197.206,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 22197.206
+        },
+        {
+          "green_id": "GREEN-SUPP-003",
+          "classification": "supplementary_green",
+          "area_m2": 15406.956,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 15406.956
+        },
+        {
+          "green_id": "GREEN-SUPP-004",
+          "classification": "supplementary_green",
+          "area_m2": 10370.118,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 10370.118
+        },
+        {
+          "green_id": "GREEN-SUPP-005",
+          "classification": "supplementary_green",
+          "area_m2": 9652.357,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 9652.357
+        },
+        {
+          "green_id": "GREEN-SUPP-006",
+          "classification": "supplementary_green",
+          "area_m2": 4922.13,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 4922.13
+        },
+        {
+          "green_id": "GREEN-SUPP-007",
+          "classification": "supplementary_green",
+          "area_m2": 1984.41,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 1984.41
+        },
+        {
+          "green_id": "GREEN-SUPP-008",
+          "classification": "supplementary_green",
+          "area_m2": 1576.911,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 1576.911
+        },
+        {
+          "green_id": "GREEN-SUPP-009",
+          "classification": "supplementary_green",
+          "area_m2": 788.21,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 788.21
+        },
+        {
+          "green_id": "GREEN-SUPP-010",
+          "classification": "supplementary_green",
+          "area_m2": 704.376,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 704.376
+        },
+        {
+          "green_id": "GREEN-SUPP-011",
+          "classification": "supplementary_green",
+          "area_m2": 253.617,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 253.617
+        },
+        {
+          "green_id": "GREEN-FS-001",
+          "classification": "potential_open_space",
+          "area_m2": 34675.214,
+          "overlap_with_source_greens_m2": 7244.985,
+          "new_area_m2": 27430.229
+        },
+        {
+          "green_id": "GREEN-FS-002",
+          "classification": "potential_open_space",
+          "area_m2": 33641.544,
+          "overlap_with_source_greens_m2": 1400.724,
+          "new_area_m2": 32240.82
+        },
+        {
+          "green_id": "GREEN-FS-003",
+          "classification": "potential_open_space",
+          "area_m2": 20122.897,
+          "overlap_with_source_greens_m2": 685.574,
+          "new_area_m2": 19437.323
+        },
+        {
+          "green_id": "GREEN-FS-004",
+          "classification": "potential_open_space",
+          "area_m2": 12745.418,
+          "overlap_with_source_greens_m2": 640.904,
+          "new_area_m2": 12104.514
+        },
+        {
+          "green_id": "GREEN-FS-005",
+          "classification": "potential_open_space",
+          "area_m2": 12317.386,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 12317.386
+        },
+        {
+          "green_id": "GREEN-FS-006",
+          "classification": "potential_open_space",
+          "area_m2": 5977.776,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 5977.776
+        },
+        {
+          "green_id": "GREEN-FS-007",
+          "classification": "potential_open_space",
+          "area_m2": 1984.41,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 1984.41
+        },
+        {
+          "green_id": "GREEN-FS-008",
+          "classification": "potential_open_space",
+          "area_m2": 1576.911,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 1576.911
+        },
+        {
+          "green_id": "GREEN-FS-009",
+          "classification": "potential_open_space",
+          "area_m2": 887.268,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 887.268
+        },
+        {
+          "green_id": "GREEN-FS-010",
+          "classification": "potential_open_space",
+          "area_m2": 704.376,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 704.376
+        }
+      ],
+      "note": "retained area is an area intersection; it does not establish spatial continuity, usability, access, planting or design intent for the original green. The source greens are not treated as obstacles by the building layout, so occupation was measured after the fact, not prevented."
+    }
+  },
+  "A": {
+    "summary": {
+      "source_green_count": 12,
+      "traced_green_count": 12,
+      "status_counts": {
+        "preserved": 7,
+        "shrunk": 5,
+        "cancelled": 0,
+        "occupied_by_buildings": 0,
+        "occupied_by_roads": 0,
+        "moved": 0,
+        "not_applicable": 0
+      },
+      "source_area_m2": 10986.41,
+      "inside_site_area_m2": 10986.41,
+      "outside_site_area_m2": 0.0,
+      "building_occupied_area_m2": 845.541,
+      "road_occupied_area_m2": 320.949,
+      "retained_open_space_area_m2": 9819.92,
+      "retained_designed_area_m2": 9819.92,
+      "free_space_retaining_area_m2": 9819.92,
+      "lost_area_m2": 0.0,
+      "retained_open_space_ratio_of_source": 0.8938,
+      "retained_designed_ratio_of_source": 0.8938,
+      "free_space_retaining_ratio_of_source": 0.8938,
+      "building_occupied_ratio_of_source": 0.077,
+      "road_occupied_ratio_of_source": 0.0292,
+      "lost_ratio_of_source": 0.0,
+      "new_open_space_area_m2": 111992.968,
+      "new_designed_green_area_m2": 20206.008,
+      "candidate_object_count": 71,
+      "new_open_space_object_count": 59,
+      "preserved_count": 7,
+      "shrunk_count": 5,
+      "cancelled_count": 0,
+      "occupied_by_buildings_count": 0,
+      "occupied_by_roads_count": 0,
+      "moved_count": 0,
+      "not_applicable_count": 0
+    },
+    "report": {
+      "schema_id": "dgcad.green-retention.v0.1",
+      "area_retention_is_not_intent_retention": true,
+      "descriptive_status_not_gate": true,
+      "status_labels": [
+        "preserved",
+        "shrunk",
+        "cancelled",
+        "occupied_by_buildings",
+        "occupied_by_roads",
+        "moved",
+        "not_applicable"
+      ],
+      "candidate_open_space_basis": {
+        "retained_open_space": "source green ∩ union(candidate green geometries + full-site potential-open-space parcels)",
+        "retained_designed": "source green ∩ union(cluster_green, green_strip)",
+        "free_space_retaining": "source green ∩ (site_inner − building footprints − road corridor − sidewalks)",
+        "note": "the building layout is packed without the source greens as obstacles; every number is a post-hoc area intersection"
+      },
+      "status_thresholds": {
+        "preserved_open_space_ratio": 0.99,
+        "cancelled_open_space_ratio": 0.01,
+        "occupation_dominant_ratio": 0.5,
+        "shared_area_tolerance_m2": 0.01,
+        "note": "labels are descriptive reporting devices; no existing check reads them and no tolerance was widened"
+      },
+      "summary": {
+        "source_green_count": 12,
+        "traced_green_count": 12,
+        "status_counts": {
+          "preserved": 7,
+          "shrunk": 5,
+          "cancelled": 0,
+          "occupied_by_buildings": 0,
+          "occupied_by_roads": 0,
+          "moved": 0,
+          "not_applicable": 0
+        },
+        "source_area_m2": 10986.41,
+        "inside_site_area_m2": 10986.41,
+        "outside_site_area_m2": 0.0,
+        "building_occupied_area_m2": 845.541,
+        "road_occupied_area_m2": 320.949,
+        "retained_open_space_area_m2": 9819.92,
+        "retained_designed_area_m2": 9819.92,
+        "free_space_retaining_area_m2": 9819.92,
+        "lost_area_m2": 0.0,
+        "retained_open_space_ratio_of_source": 0.8938,
+        "retained_designed_ratio_of_source": 0.8938,
+        "free_space_retaining_ratio_of_source": 0.8938,
+        "building_occupied_ratio_of_source": 0.077,
+        "road_occupied_ratio_of_source": 0.0292,
+        "lost_ratio_of_source": 0.0,
+        "new_open_space_area_m2": 111992.968,
+        "new_designed_green_area_m2": 20206.008,
+        "candidate_object_count": 71,
+        "new_open_space_object_count": 59
+      },
+      "objects": [
+        {
+          "green_id": "SK-GRN-0001",
+          "group_id": null,
+          "status": "preserved",
+          "source_area_m2": 1629.753,
+          "inside_site_area_m2": 1629.753,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 0.0,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 1629.753,
+          "retained_designed_area_m2": 1629.753,
+          "free_space_retaining_area_m2": 1629.753,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 1.0,
+          "retained_open_space_ratio_of_source": 1.0,
+          "occupied_by_buildings_ratio_of_inside": 0.0,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0001",
+          "candidate_cluster_area_m2": 1629.753,
+          "candidate_cluster_shared_area_m2": 1629.753
+        },
+        {
+          "green_id": "SK-GRN-0002",
+          "group_id": null,
+          "status": "preserved",
+          "source_area_m2": 1473.625,
+          "inside_site_area_m2": 1473.625,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 0.0,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 1473.625,
+          "retained_designed_area_m2": 1473.625,
+          "free_space_retaining_area_m2": 1473.625,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 1.0,
+          "retained_open_space_ratio_of_source": 1.0,
+          "occupied_by_buildings_ratio_of_inside": 0.0,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0002",
+          "candidate_cluster_area_m2": 1473.625,
+          "candidate_cluster_shared_area_m2": 1473.625
+        },
+        {
+          "green_id": "SK-GRN-0003",
+          "group_id": null,
+          "status": "preserved",
+          "source_area_m2": 1215.291,
+          "inside_site_area_m2": 1215.291,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 0.0,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 1215.291,
+          "retained_designed_area_m2": 1215.291,
+          "free_space_retaining_area_m2": 1215.291,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 1.0,
+          "retained_open_space_ratio_of_source": 1.0,
+          "occupied_by_buildings_ratio_of_inside": 0.0,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0003",
+          "candidate_cluster_area_m2": 1215.291,
+          "candidate_cluster_shared_area_m2": 1215.291
+        },
+        {
+          "green_id": "SK-GRN-0004",
+          "group_id": null,
+          "status": "shrunk",
+          "source_area_m2": 1140.592,
+          "inside_site_area_m2": 1140.592,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 464.447,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 676.145,
+          "retained_designed_area_m2": 676.145,
+          "free_space_retaining_area_m2": 676.145,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 0.5928,
+          "retained_open_space_ratio_of_source": 0.5928,
+          "occupied_by_buildings_ratio_of_inside": 0.4072,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0004",
+          "candidate_cluster_area_m2": 676.145,
+          "candidate_cluster_shared_area_m2": 676.145
+        },
+        {
+          "green_id": "SK-GRN-0005",
+          "group_id": null,
+          "status": "shrunk",
+          "source_area_m2": 974.623,
+          "inside_site_area_m2": 974.623,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 186.269,
+          "road_occupied_area_m2": 256.834,
+          "retained_open_space_area_m2": 531.52,
+          "retained_designed_area_m2": 531.52,
+          "free_space_retaining_area_m2": 531.52,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 0.5454,
+          "retained_open_space_ratio_of_source": 0.5454,
+          "occupied_by_buildings_ratio_of_inside": 0.1911,
+          "occupied_by_roads_ratio_of_inside": 0.2635,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0005",
+          "candidate_cluster_area_m2": 531.52,
+          "candidate_cluster_shared_area_m2": 531.52
+        },
+        {
+          "green_id": "SK-GRN-0006",
+          "group_id": null,
+          "status": "preserved",
+          "source_area_m2": 896.642,
+          "inside_site_area_m2": 896.642,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 0.0,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 896.642,
+          "retained_designed_area_m2": 896.642,
+          "free_space_retaining_area_m2": 896.642,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 1.0,
+          "retained_open_space_ratio_of_source": 1.0,
+          "occupied_by_buildings_ratio_of_inside": 0.0,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0006",
+          "candidate_cluster_area_m2": 896.642,
+          "candidate_cluster_shared_area_m2": 896.642
+        },
+        {
+          "green_id": "SK-GRN-0007",
+          "group_id": null,
+          "status": "preserved",
+          "source_area_m2": 830.944,
+          "inside_site_area_m2": 830.944,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 0.0,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 830.944,
+          "retained_designed_area_m2": 830.944,
+          "free_space_retaining_area_m2": 830.944,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 1.0,
+          "retained_open_space_ratio_of_source": 1.0,
+          "occupied_by_buildings_ratio_of_inside": 0.0,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0007",
+          "candidate_cluster_area_m2": 830.944,
+          "candidate_cluster_shared_area_m2": 830.944
+        },
+        {
+          "green_id": "SK-GRN-0008",
+          "group_id": "G-01",
+          "status": "shrunk",
+          "source_area_m2": 799.483,
+          "inside_site_area_m2": 799.483,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 137.895,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 661.587,
+          "retained_designed_area_m2": 661.587,
+          "free_space_retaining_area_m2": 661.587,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 0.8275,
+          "retained_open_space_ratio_of_source": 0.8275,
+          "occupied_by_buildings_ratio_of_inside": 0.1725,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0008",
+          "candidate_cluster_area_m2": 661.587,
+          "candidate_cluster_shared_area_m2": 661.587
+        },
+        {
+          "green_id": "SK-GRN-0009",
+          "group_id": null,
+          "status": "preserved",
+          "source_area_m2": 683.649,
+          "inside_site_area_m2": 683.649,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 0.0,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 683.649,
+          "retained_designed_area_m2": 683.649,
+          "free_space_retaining_area_m2": 683.649,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 1.0,
+          "retained_open_space_ratio_of_source": 1.0,
+          "occupied_by_buildings_ratio_of_inside": 0.0,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0009",
+          "candidate_cluster_area_m2": 683.649,
+          "candidate_cluster_shared_area_m2": 683.649
+        },
+        {
+          "green_id": "SK-GRN-0010",
+          "group_id": null,
+          "status": "preserved",
+          "source_area_m2": 517.763,
+          "inside_site_area_m2": 517.763,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 0.0,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 517.763,
+          "retained_designed_area_m2": 517.763,
+          "free_space_retaining_area_m2": 517.763,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 1.0,
+          "retained_open_space_ratio_of_source": 1.0,
+          "occupied_by_buildings_ratio_of_inside": 0.0,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0010",
+          "candidate_cluster_area_m2": 517.763,
+          "candidate_cluster_shared_area_m2": 517.763
+        },
+        {
+          "green_id": "SK-GRN-0011",
+          "group_id": "G-17",
+          "status": "shrunk",
+          "source_area_m2": 427.922,
+          "inside_site_area_m2": 427.922,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 0.0,
+          "road_occupied_area_m2": 64.115,
+          "retained_open_space_area_m2": 363.807,
+          "retained_designed_area_m2": 363.807,
+          "free_space_retaining_area_m2": 363.807,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 0.8502,
+          "retained_open_space_ratio_of_source": 0.8502,
+          "occupied_by_buildings_ratio_of_inside": 0.0,
+          "occupied_by_roads_ratio_of_inside": 0.1498,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0011",
+          "candidate_cluster_area_m2": 363.807,
+          "candidate_cluster_shared_area_m2": 363.807
+        },
+        {
+          "green_id": "SK-GRN-0012",
+          "group_id": "G-02",
+          "status": "shrunk",
+          "source_area_m2": 396.124,
+          "inside_site_area_m2": 396.124,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 56.929,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 339.195,
+          "retained_designed_area_m2": 339.195,
+          "free_space_retaining_area_m2": 339.195,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 0.8563,
+          "retained_open_space_ratio_of_source": 0.8563,
+          "occupied_by_buildings_ratio_of_inside": 0.1437,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0012",
+          "candidate_cluster_area_m2": 339.195,
+          "candidate_cluster_shared_area_m2": 339.195
+        }
+      ],
+      "candidate_objects": [
+        {
+          "green_id": "SK-GRN-0001",
+          "classification": "cluster_green",
+          "area_m2": 1629.753,
+          "overlap_with_source_greens_m2": 1629.753,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0002",
+          "classification": "cluster_green",
+          "area_m2": 1473.625,
+          "overlap_with_source_greens_m2": 1473.625,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0003",
+          "classification": "cluster_green",
+          "area_m2": 1215.291,
+          "overlap_with_source_greens_m2": 1215.291,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0004",
+          "classification": "cluster_green",
+          "area_m2": 676.145,
+          "overlap_with_source_greens_m2": 676.145,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0005",
+          "classification": "cluster_green",
+          "area_m2": 531.52,
+          "overlap_with_source_greens_m2": 531.52,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0006",
+          "classification": "cluster_green",
+          "area_m2": 896.642,
+          "overlap_with_source_greens_m2": 896.642,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0007",
+          "classification": "cluster_green",
+          "area_m2": 830.944,
+          "overlap_with_source_greens_m2": 830.944,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0008",
+          "classification": "cluster_green",
+          "area_m2": 661.587,
+          "overlap_with_source_greens_m2": 661.587,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0009",
+          "classification": "cluster_green",
+          "area_m2": 683.649,
+          "overlap_with_source_greens_m2": 683.649,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0010",
+          "classification": "cluster_green",
+          "area_m2": 517.763,
+          "overlap_with_source_greens_m2": 517.763,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0011",
+          "classification": "cluster_green",
+          "area_m2": 363.807,
+          "overlap_with_source_greens_m2": 363.807,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0012",
+          "classification": "cluster_green",
+          "area_m2": 339.195,
+          "overlap_with_source_greens_m2": 339.195,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "GREEN-STRIP-01",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 576.0
+        },
+        {
+          "green_id": "GREEN-STRIP-02",
+          "classification": "green_strip",
+          "area_m2": 872.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 872.0
+        },
+        {
+          "green_id": "GREEN-STRIP-03",
+          "classification": "green_strip",
+          "area_m2": 890.356,
+          "overlap_with_source_greens_m2": 239.038,
+          "new_area_m2": 651.318
+        },
+        {
+          "green_id": "GREEN-STRIP-04",
+          "classification": "green_strip",
+          "area_m2": 871.972,
+          "overlap_with_source_greens_m2": 140.171,
+          "new_area_m2": 731.8
+        },
+        {
+          "green_id": "GREEN-STRIP-05",
+          "classification": "green_strip",
+          "area_m2": 910.8,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 910.8
+        },
+        {
+          "green_id": "GREEN-STRIP-06",
+          "classification": "green_strip",
+          "area_m2": 384.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 384.0
+        },
+        {
+          "green_id": "GREEN-STRIP-07",
+          "classification": "green_strip",
+          "area_m2": 384.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 384.0
+        },
+        {
+          "green_id": "GREEN-STRIP-08",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 576.0
+        },
+        {
+          "green_id": "GREEN-STRIP-09",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 576.0
+        },
+        {
+          "green_id": "GREEN-STRIP-10",
+          "classification": "green_strip",
+          "area_m2": 1229.336,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 1229.336
+        },
+        {
+          "green_id": "GREEN-STRIP-11",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 576.0
+        },
+        {
+          "green_id": "GREEN-STRIP-12",
+          "classification": "green_strip",
+          "area_m2": 1240.758,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 1240.758
+        },
+        {
+          "green_id": "GREEN-STRIP-13",
+          "classification": "green_strip",
+          "area_m2": 384.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 384.0
+        },
+        {
+          "green_id": "GREEN-STRIP-14",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 576.0
+        },
+        {
+          "green_id": "GREEN-STRIP-15",
+          "classification": "green_strip",
+          "area_m2": 1334.145,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 1334.145
+        },
+        {
+          "green_id": "GREEN-STRIP-16",
+          "classification": "green_strip",
+          "area_m2": 382.407,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 382.407
+        },
+        {
+          "green_id": "GREEN-STRIP-17",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 576.0
+        },
+        {
+          "green_id": "GREEN-STRIP-18",
+          "classification": "green_strip",
+          "area_m2": 1262.566,
+          "overlap_with_source_greens_m2": 627.638,
+          "new_area_m2": 634.929
+        },
+        {
+          "green_id": "GREEN-STRIP-19",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 218.0,
+          "new_area_m2": 358.0
+        },
+        {
+          "green_id": "GREEN-STRIP-20",
+          "classification": "green_strip",
+          "area_m2": 192.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 192.0
+        },
+        {
+          "green_id": "GREEN-STRIP-21",
+          "classification": "green_strip",
+          "area_m2": 127.362,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 127.362
+        },
+        {
+          "green_id": "GREEN-STRIP-22",
+          "classification": "green_strip",
+          "area_m2": 546.037,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 546.037
+        },
+        {
+          "green_id": "GREEN-STRIP-23",
+          "classification": "green_strip",
+          "area_m2": 192.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 192.0
+        },
+        {
+          "green_id": "GREEN-STRIP-24",
+          "classification": "green_strip",
+          "area_m2": 384.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 384.0
+        },
+        {
+          "green_id": "GREEN-STRIP-25",
+          "classification": "green_strip",
+          "area_m2": 227.028,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 227.028
+        },
+        {
+          "green_id": "GREEN-STRIP-26",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 576.0
+        },
+        {
+          "green_id": "GREEN-STRIP-27",
+          "classification": "green_strip",
+          "area_m2": 647.462,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 647.462
+        },
+        {
+          "green_id": "GREEN-STRIP-28",
+          "classification": "green_strip",
+          "area_m2": 110.763,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 110.763
+        },
+        {
+          "green_id": "GREEN-STRIP-29",
+          "classification": "green_strip",
+          "area_m2": 783.292,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 783.292
+        },
+        {
+          "green_id": "GREEN-STRIP-30",
+          "classification": "green_strip",
+          "area_m2": 362.847,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 362.847
+        },
+        {
+          "green_id": "GREEN-STRIP-31",
+          "classification": "green_strip",
+          "area_m2": 872.0,
+          "overlap_with_source_greens_m2": 236.289,
+          "new_area_m2": 635.711
+        },
+        {
+          "green_id": "GREEN-STRIP-32",
+          "classification": "green_strip",
+          "area_m2": 510.377,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 510.377
+        },
+        {
+          "green_id": "GREEN-STRIP-33",
+          "classification": "green_strip",
+          "area_m2": 494.938,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 494.938
+        },
+        {
+          "green_id": "GREEN-STRIP-34",
+          "classification": "green_strip",
+          "area_m2": 408.709,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 408.709
+        },
+        {
+          "green_id": "GREEN-STRIP-35",
+          "classification": "green_strip",
+          "area_m2": 384.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 384.0
+        },
+        {
+          "green_id": "GREEN-STRIP-36",
+          "classification": "green_strip",
+          "area_m2": 669.988,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 669.988
+        },
+        {
+          "green_id": "GREEN-SUPP-001",
+          "classification": "supplementary_green",
+          "area_m2": 18076.541,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 18076.541
+        },
+        {
+          "green_id": "GREEN-SUPP-002",
+          "classification": "supplementary_green",
+          "area_m2": 14991.6,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 14991.6
+        },
+        {
+          "green_id": "GREEN-SUPP-003",
+          "classification": "supplementary_green",
+          "area_m2": 12970.477,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 12970.477
+        },
+        {
+          "green_id": "GREEN-SUPP-004",
+          "classification": "supplementary_green",
+          "area_m2": 10230.777,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 10230.777
+        },
+        {
+          "green_id": "GREEN-SUPP-005",
+          "classification": "supplementary_green",
+          "area_m2": 9607.65,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 9607.65
+        },
+        {
+          "green_id": "GREEN-SUPP-006",
+          "classification": "supplementary_green",
+          "area_m2": 8988.523,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 8988.523
+        },
+        {
+          "green_id": "GREEN-SUPP-007",
+          "classification": "supplementary_green",
+          "area_m2": 6621.066,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 6621.066
+        },
+        {
+          "green_id": "GREEN-SUPP-008",
+          "classification": "supplementary_green",
+          "area_m2": 4922.13,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 4922.13
+        },
+        {
+          "green_id": "GREEN-SUPP-009",
+          "classification": "supplementary_green",
+          "area_m2": 1984.41,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 1984.41
+        },
+        {
+          "green_id": "GREEN-SUPP-010",
+          "classification": "supplementary_green",
+          "area_m2": 1576.911,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 1576.911
+        },
+        {
+          "green_id": "GREEN-SUPP-011",
+          "classification": "supplementary_green",
+          "area_m2": 788.21,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 788.21
+        },
+        {
+          "green_id": "GREEN-SUPP-012",
+          "classification": "supplementary_green",
+          "area_m2": 704.376,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 704.376
+        },
+        {
+          "green_id": "GREEN-SUPP-013",
+          "classification": "supplementary_green",
+          "area_m2": 253.617,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 253.617
+        },
+        {
+          "green_id": "GREEN-FS-001",
+          "classification": "potential_open_space",
+          "area_m2": 34402.704,
+          "overlap_with_source_greens_m2": 7244.985,
+          "new_area_m2": 27157.718
+        },
+        {
+          "green_id": "GREEN-FS-002",
+          "classification": "potential_open_space",
+          "area_m2": 31420.277,
+          "overlap_with_source_greens_m2": 1116.766,
+          "new_area_m2": 30303.51
+        },
+        {
+          "green_id": "GREEN-FS-003",
+          "classification": "potential_open_space",
+          "area_m2": 19681.377,
+          "overlap_with_source_greens_m2": 685.569,
+          "new_area_m2": 18995.807
+        },
+        {
+          "green_id": "GREEN-FS-004",
+          "classification": "potential_open_space",
+          "area_m2": 12683.043,
+          "overlap_with_source_greens_m2": 640.904,
+          "new_area_m2": 12042.139
+        },
+        {
+          "green_id": "GREEN-FS-005",
+          "classification": "potential_open_space",
+          "area_m2": 12155.991,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 12155.991
+        },
+        {
+          "green_id": "GREEN-FS-006",
+          "classification": "potential_open_space",
+          "area_m2": 5977.776,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 5977.776
+        },
+        {
+          "green_id": "GREEN-FS-007",
+          "classification": "potential_open_space",
+          "area_m2": 1984.41,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 1984.41
+        },
+        {
+          "green_id": "GREEN-FS-008",
+          "classification": "potential_open_space",
+          "area_m2": 1576.911,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 1576.911
+        },
+        {
+          "green_id": "GREEN-FS-009",
+          "classification": "potential_open_space",
+          "area_m2": 887.268,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 887.268
+        },
+        {
+          "green_id": "GREEN-FS-010",
+          "classification": "potential_open_space",
+          "area_m2": 704.376,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 704.376
+        }
+      ],
+      "note": "retained area is an area intersection; it does not establish spatial continuity, usability, access, planting or design intent for the original green. The source greens are not treated as obstacles by the building layout, so occupation was measured after the fact, not prevented."
+    }
+  },
+  "B": {
+    "summary": {
+      "source_green_count": 12,
+      "traced_green_count": 12,
+      "status_counts": {
+        "preserved": 7,
+        "shrunk": 5,
+        "cancelled": 0,
+        "occupied_by_buildings": 0,
+        "occupied_by_roads": 0,
+        "moved": 0,
+        "not_applicable": 0
+      },
+      "source_area_m2": 10986.41,
+      "inside_site_area_m2": 10986.41,
+      "outside_site_area_m2": 0.0,
+      "building_occupied_area_m2": 713.445,
+      "road_occupied_area_m2": 73.815,
+      "retained_open_space_area_m2": 10199.151,
+      "retained_designed_area_m2": 10199.151,
+      "free_space_retaining_area_m2": 10199.151,
+      "lost_area_m2": 0.0,
+      "retained_open_space_ratio_of_source": 0.9283,
+      "retained_designed_ratio_of_source": 0.9283,
+      "free_space_retaining_ratio_of_source": 0.9283,
+      "building_occupied_ratio_of_source": 0.0649,
+      "road_occupied_ratio_of_source": 0.0067,
+      "lost_ratio_of_source": 0.0,
+      "new_open_space_area_m2": 113664.528,
+      "new_designed_green_area_m2": 19457.61,
+      "candidate_object_count": 84,
+      "new_open_space_object_count": 72,
+      "preserved_count": 7,
+      "shrunk_count": 5,
+      "cancelled_count": 0,
+      "occupied_by_buildings_count": 0,
+      "occupied_by_roads_count": 0,
+      "moved_count": 0,
+      "not_applicable_count": 0
+    },
+    "report": {
+      "schema_id": "dgcad.green-retention.v0.1",
+      "area_retention_is_not_intent_retention": true,
+      "descriptive_status_not_gate": true,
+      "status_labels": [
+        "preserved",
+        "shrunk",
+        "cancelled",
+        "occupied_by_buildings",
+        "occupied_by_roads",
+        "moved",
+        "not_applicable"
+      ],
+      "candidate_open_space_basis": {
+        "retained_open_space": "source green ∩ union(candidate green geometries + full-site potential-open-space parcels)",
+        "retained_designed": "source green ∩ union(cluster_green, green_strip)",
+        "free_space_retaining": "source green ∩ (site_inner − building footprints − road corridor − sidewalks)",
+        "note": "the building layout is packed without the source greens as obstacles; every number is a post-hoc area intersection"
+      },
+      "status_thresholds": {
+        "preserved_open_space_ratio": 0.99,
+        "cancelled_open_space_ratio": 0.01,
+        "occupation_dominant_ratio": 0.5,
+        "shared_area_tolerance_m2": 0.01,
+        "note": "labels are descriptive reporting devices; no existing check reads them and no tolerance was widened"
+      },
+      "summary": {
+        "source_green_count": 12,
+        "traced_green_count": 12,
+        "status_counts": {
+          "preserved": 7,
+          "shrunk": 5,
+          "cancelled": 0,
+          "occupied_by_buildings": 0,
+          "occupied_by_roads": 0,
+          "moved": 0,
+          "not_applicable": 0
+        },
+        "source_area_m2": 10986.41,
+        "inside_site_area_m2": 10986.41,
+        "outside_site_area_m2": 0.0,
+        "building_occupied_area_m2": 713.445,
+        "road_occupied_area_m2": 73.815,
+        "retained_open_space_area_m2": 10199.151,
+        "retained_designed_area_m2": 10199.151,
+        "free_space_retaining_area_m2": 10199.151,
+        "lost_area_m2": 0.0,
+        "retained_open_space_ratio_of_source": 0.9283,
+        "retained_designed_ratio_of_source": 0.9283,
+        "free_space_retaining_ratio_of_source": 0.9283,
+        "building_occupied_ratio_of_source": 0.0649,
+        "road_occupied_ratio_of_source": 0.0067,
+        "lost_ratio_of_source": 0.0,
+        "new_open_space_area_m2": 113664.528,
+        "new_designed_green_area_m2": 19457.61,
+        "candidate_object_count": 84,
+        "new_open_space_object_count": 72
+      },
+      "objects": [
+        {
+          "green_id": "SK-GRN-0001",
+          "group_id": null,
+          "status": "shrunk",
+          "source_area_m2": 1629.753,
+          "inside_site_area_m2": 1629.753,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 404.68,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 1225.073,
+          "retained_designed_area_m2": 1225.073,
+          "free_space_retaining_area_m2": 1225.073,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 0.7517,
+          "retained_open_space_ratio_of_source": 0.7517,
+          "occupied_by_buildings_ratio_of_inside": 0.2483,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0001",
+          "candidate_cluster_area_m2": 1225.073,
+          "candidate_cluster_shared_area_m2": 1225.073
+        },
+        {
+          "green_id": "SK-GRN-0002",
+          "group_id": null,
+          "status": "preserved",
+          "source_area_m2": 1473.625,
+          "inside_site_area_m2": 1473.625,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 0.0,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 1473.625,
+          "retained_designed_area_m2": 1473.625,
+          "free_space_retaining_area_m2": 1473.625,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 1.0,
+          "retained_open_space_ratio_of_source": 1.0,
+          "occupied_by_buildings_ratio_of_inside": 0.0,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0002",
+          "candidate_cluster_area_m2": 1473.625,
+          "candidate_cluster_shared_area_m2": 1473.625
+        },
+        {
+          "green_id": "SK-GRN-0003",
+          "group_id": null,
+          "status": "preserved",
+          "source_area_m2": 1215.291,
+          "inside_site_area_m2": 1215.291,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 0.0,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 1215.291,
+          "retained_designed_area_m2": 1215.291,
+          "free_space_retaining_area_m2": 1215.291,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 1.0,
+          "retained_open_space_ratio_of_source": 1.0,
+          "occupied_by_buildings_ratio_of_inside": 0.0,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0003",
+          "candidate_cluster_area_m2": 1215.291,
+          "candidate_cluster_shared_area_m2": 1215.291
+        },
+        {
+          "green_id": "SK-GRN-0004",
+          "group_id": null,
+          "status": "preserved",
+          "source_area_m2": 1140.592,
+          "inside_site_area_m2": 1140.592,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 0.0,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 1140.592,
+          "retained_designed_area_m2": 1140.592,
+          "free_space_retaining_area_m2": 1140.592,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 1.0,
+          "retained_open_space_ratio_of_source": 1.0,
+          "occupied_by_buildings_ratio_of_inside": 0.0,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0004",
+          "candidate_cluster_area_m2": 1140.592,
+          "candidate_cluster_shared_area_m2": 1140.592
+        },
+        {
+          "green_id": "SK-GRN-0005",
+          "group_id": null,
+          "status": "shrunk",
+          "source_area_m2": 974.623,
+          "inside_site_area_m2": 974.623,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 166.832,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 807.792,
+          "retained_designed_area_m2": 807.792,
+          "free_space_retaining_area_m2": 807.792,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 0.8288,
+          "retained_open_space_ratio_of_source": 0.8288,
+          "occupied_by_buildings_ratio_of_inside": 0.1712,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0005",
+          "candidate_cluster_area_m2": 807.792,
+          "candidate_cluster_shared_area_m2": 807.792
+        },
+        {
+          "green_id": "SK-GRN-0006",
+          "group_id": null,
+          "status": "preserved",
+          "source_area_m2": 896.642,
+          "inside_site_area_m2": 896.642,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 0.0,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 896.642,
+          "retained_designed_area_m2": 896.642,
+          "free_space_retaining_area_m2": 896.642,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 1.0,
+          "retained_open_space_ratio_of_source": 1.0,
+          "occupied_by_buildings_ratio_of_inside": 0.0,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0006",
+          "candidate_cluster_area_m2": 896.642,
+          "candidate_cluster_shared_area_m2": 896.642
+        },
+        {
+          "green_id": "SK-GRN-0007",
+          "group_id": null,
+          "status": "preserved",
+          "source_area_m2": 830.944,
+          "inside_site_area_m2": 830.944,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 0.0,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 830.944,
+          "retained_designed_area_m2": 830.944,
+          "free_space_retaining_area_m2": 830.944,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 1.0,
+          "retained_open_space_ratio_of_source": 1.0,
+          "occupied_by_buildings_ratio_of_inside": 0.0,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0007",
+          "candidate_cluster_area_m2": 830.944,
+          "candidate_cluster_shared_area_m2": 830.944
+        },
+        {
+          "green_id": "SK-GRN-0008",
+          "group_id": "G-01",
+          "status": "shrunk",
+          "source_area_m2": 799.483,
+          "inside_site_area_m2": 799.483,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 137.895,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 661.587,
+          "retained_designed_area_m2": 661.587,
+          "free_space_retaining_area_m2": 661.587,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 0.8275,
+          "retained_open_space_ratio_of_source": 0.8275,
+          "occupied_by_buildings_ratio_of_inside": 0.1725,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0008",
+          "candidate_cluster_area_m2": 661.587,
+          "candidate_cluster_shared_area_m2": 661.587
+        },
+        {
+          "green_id": "SK-GRN-0009",
+          "group_id": null,
+          "status": "preserved",
+          "source_area_m2": 683.649,
+          "inside_site_area_m2": 683.649,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 0.0,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 683.649,
+          "retained_designed_area_m2": 683.649,
+          "free_space_retaining_area_m2": 683.649,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 1.0,
+          "retained_open_space_ratio_of_source": 1.0,
+          "occupied_by_buildings_ratio_of_inside": 0.0,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0009",
+          "candidate_cluster_area_m2": 683.649,
+          "candidate_cluster_shared_area_m2": 683.649
+        },
+        {
+          "green_id": "SK-GRN-0010",
+          "group_id": null,
+          "status": "preserved",
+          "source_area_m2": 517.763,
+          "inside_site_area_m2": 517.763,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 0.0,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 517.763,
+          "retained_designed_area_m2": 517.763,
+          "free_space_retaining_area_m2": 517.763,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 1.0,
+          "retained_open_space_ratio_of_source": 1.0,
+          "occupied_by_buildings_ratio_of_inside": 0.0,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0010",
+          "candidate_cluster_area_m2": 517.763,
+          "candidate_cluster_shared_area_m2": 517.763
+        },
+        {
+          "green_id": "SK-GRN-0011",
+          "group_id": "G-17",
+          "status": "shrunk",
+          "source_area_m2": 427.922,
+          "inside_site_area_m2": 427.922,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 0.0,
+          "road_occupied_area_m2": 73.815,
+          "retained_open_space_area_m2": 354.107,
+          "retained_designed_area_m2": 354.107,
+          "free_space_retaining_area_m2": 354.107,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 0.8275,
+          "retained_open_space_ratio_of_source": 0.8275,
+          "occupied_by_buildings_ratio_of_inside": 0.0,
+          "occupied_by_roads_ratio_of_inside": 0.1725,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0011",
+          "candidate_cluster_area_m2": 354.107,
+          "candidate_cluster_shared_area_m2": 354.107
+        },
+        {
+          "green_id": "SK-GRN-0012",
+          "group_id": "G-02",
+          "status": "shrunk",
+          "source_area_m2": 396.124,
+          "inside_site_area_m2": 396.124,
+          "outside_site_area_m2": 0.0,
+          "building_occupied_area_m2": 4.038,
+          "road_occupied_area_m2": 0.0,
+          "retained_open_space_area_m2": 392.086,
+          "retained_designed_area_m2": 392.086,
+          "free_space_retaining_area_m2": 392.086,
+          "lost_area_m2": 0.0,
+          "inside_site_ratio": 1.0,
+          "retained_open_space_ratio_of_inside": 0.9898,
+          "retained_open_space_ratio_of_source": 0.9898,
+          "occupied_by_buildings_ratio_of_inside": 0.0102,
+          "occupied_by_roads_ratio_of_inside": 0.0,
+          "lost_ratio_of_inside": 0.0,
+          "candidate_cluster_id": "SK-GRN-0012",
+          "candidate_cluster_area_m2": 392.086,
+          "candidate_cluster_shared_area_m2": 392.086
+        }
+      ],
+      "candidate_objects": [
+        {
+          "green_id": "SK-GRN-0001",
+          "classification": "cluster_green",
+          "area_m2": 1225.073,
+          "overlap_with_source_greens_m2": 1225.073,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0002",
+          "classification": "cluster_green",
+          "area_m2": 1473.625,
+          "overlap_with_source_greens_m2": 1473.625,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0003",
+          "classification": "cluster_green",
+          "area_m2": 1215.291,
+          "overlap_with_source_greens_m2": 1215.291,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0004",
+          "classification": "cluster_green",
+          "area_m2": 1140.592,
+          "overlap_with_source_greens_m2": 1140.592,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0005",
+          "classification": "cluster_green",
+          "area_m2": 807.792,
+          "overlap_with_source_greens_m2": 807.792,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0006",
+          "classification": "cluster_green",
+          "area_m2": 896.642,
+          "overlap_with_source_greens_m2": 896.642,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0007",
+          "classification": "cluster_green",
+          "area_m2": 830.944,
+          "overlap_with_source_greens_m2": 830.944,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0008",
+          "classification": "cluster_green",
+          "area_m2": 661.587,
+          "overlap_with_source_greens_m2": 661.587,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0009",
+          "classification": "cluster_green",
+          "area_m2": 683.649,
+          "overlap_with_source_greens_m2": 683.649,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0010",
+          "classification": "cluster_green",
+          "area_m2": 517.763,
+          "overlap_with_source_greens_m2": 517.763,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0011",
+          "classification": "cluster_green",
+          "area_m2": 354.107,
+          "overlap_with_source_greens_m2": 354.107,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "SK-GRN-0012",
+          "classification": "cluster_green",
+          "area_m2": 392.086,
+          "overlap_with_source_greens_m2": 392.086,
+          "new_area_m2": 0.0
+        },
+        {
+          "green_id": "GREEN-STRIP-01",
+          "classification": "green_strip",
+          "area_m2": 384.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 384.0
+        },
+        {
+          "green_id": "GREEN-STRIP-02",
+          "classification": "green_strip",
+          "area_m2": 384.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 384.0
+        },
+        {
+          "green_id": "GREEN-STRIP-03",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 576.0
+        },
+        {
+          "green_id": "GREEN-STRIP-04",
+          "classification": "green_strip",
+          "area_m2": 1955.136,
+          "overlap_with_source_greens_m2": 397.387,
+          "new_area_m2": 1557.749
+        },
+        {
+          "green_id": "GREEN-STRIP-05",
+          "classification": "green_strip",
+          "area_m2": 49.81,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 49.81
+        },
+        {
+          "green_id": "GREEN-STRIP-06",
+          "classification": "green_strip",
+          "area_m2": 384.0,
+          "overlap_with_source_greens_m2": 4.66,
+          "new_area_m2": 379.34
+        },
+        {
+          "green_id": "GREEN-STRIP-07",
+          "classification": "green_strip",
+          "area_m2": 384.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 384.0
+        },
+        {
+          "green_id": "GREEN-STRIP-08",
+          "classification": "green_strip",
+          "area_m2": 324.007,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 324.007
+        },
+        {
+          "green_id": "GREEN-STRIP-09",
+          "classification": "green_strip",
+          "area_m2": 242.05,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 242.05
+        },
+        {
+          "green_id": "GREEN-STRIP-10",
+          "classification": "green_strip",
+          "area_m2": 370.054,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 370.054
+        },
+        {
+          "green_id": "GREEN-STRIP-11",
+          "classification": "green_strip",
+          "area_m2": 384.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 384.0
+        },
+        {
+          "green_id": "GREEN-STRIP-12",
+          "classification": "green_strip",
+          "area_m2": 384.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 384.0
+        },
+        {
+          "green_id": "GREEN-STRIP-13",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 576.0
+        },
+        {
+          "green_id": "GREEN-STRIP-14",
+          "classification": "green_strip",
+          "area_m2": 192.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 192.0
+        },
+        {
+          "green_id": "GREEN-STRIP-15",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 576.0
+        },
+        {
+          "green_id": "GREEN-STRIP-16",
+          "classification": "green_strip",
+          "area_m2": 1133.322,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 1133.322
+        },
+        {
+          "green_id": "GREEN-STRIP-17",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 576.0
+        },
+        {
+          "green_id": "GREEN-STRIP-18",
+          "classification": "green_strip",
+          "area_m2": 192.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 192.0
+        },
+        {
+          "green_id": "GREEN-STRIP-19",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 576.0
+        },
+        {
+          "green_id": "GREEN-STRIP-20",
+          "classification": "green_strip",
+          "area_m2": 384.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 384.0
+        },
+        {
+          "green_id": "GREEN-STRIP-21",
+          "classification": "green_strip",
+          "area_m2": 183.688,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 183.688
+        },
+        {
+          "green_id": "GREEN-STRIP-22",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 576.0
+        },
+        {
+          "green_id": "GREEN-STRIP-23",
+          "classification": "green_strip",
+          "area_m2": 192.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 192.0
+        },
+        {
+          "green_id": "GREEN-STRIP-24",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 576.0
+        },
+        {
+          "green_id": "GREEN-STRIP-25",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 93.407,
+          "new_area_m2": 482.593
+        },
+        {
+          "green_id": "GREEN-STRIP-26",
+          "classification": "green_strip",
+          "area_m2": 192.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 192.0
+        },
+        {
+          "green_id": "GREEN-STRIP-27",
+          "classification": "green_strip",
+          "area_m2": 568.03,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 568.03
+        },
+        {
+          "green_id": "GREEN-STRIP-28",
+          "classification": "green_strip",
+          "area_m2": 192.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 192.0
+        },
+        {
+          "green_id": "GREEN-STRIP-29",
+          "classification": "green_strip",
+          "area_m2": 192.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 192.0
+        },
+        {
+          "green_id": "GREEN-STRIP-30",
+          "classification": "green_strip",
+          "area_m2": 240.0,
+          "overlap_with_source_greens_m2": 45.112,
+          "new_area_m2": 194.888
+        },
+        {
+          "green_id": "GREEN-STRIP-31",
+          "classification": "green_strip",
+          "area_m2": 192.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 192.0
+        },
+        {
+          "green_id": "GREEN-STRIP-32",
+          "classification": "green_strip",
+          "area_m2": 574.554,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 574.554
+        },
+        {
+          "green_id": "GREEN-STRIP-33",
+          "classification": "green_strip",
+          "area_m2": 192.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 192.0
+        },
+        {
+          "green_id": "GREEN-STRIP-34",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 409.242,
+          "new_area_m2": 166.758
+        },
+        {
+          "green_id": "GREEN-STRIP-35",
+          "classification": "green_strip",
+          "area_m2": 223.826,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 223.826
+        },
+        {
+          "green_id": "GREEN-STRIP-36",
+          "classification": "green_strip",
+          "area_m2": 152.323,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 152.323
+        },
+        {
+          "green_id": "GREEN-STRIP-37",
+          "classification": "green_strip",
+          "area_m2": 384.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 384.0
+        },
+        {
+          "green_id": "GREEN-STRIP-38",
+          "classification": "green_strip",
+          "area_m2": 576.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 576.0
+        },
+        {
+          "green_id": "GREEN-STRIP-39",
+          "classification": "green_strip",
+          "area_m2": 192.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 192.0
+        },
+        {
+          "green_id": "GREEN-STRIP-40",
+          "classification": "green_strip",
+          "area_m2": 319.387,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 319.387
+        },
+        {
+          "green_id": "GREEN-STRIP-41",
+          "classification": "green_strip",
+          "area_m2": 783.292,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 783.292
+        },
+        {
+          "green_id": "GREEN-STRIP-42",
+          "classification": "green_strip",
+          "area_m2": 510.377,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 510.377
+        },
+        {
+          "green_id": "GREEN-STRIP-43",
+          "classification": "green_strip",
+          "area_m2": 872.0,
+          "overlap_with_source_greens_m2": 236.289,
+          "new_area_m2": 635.711
+        },
+        {
+          "green_id": "GREEN-STRIP-44",
+          "classification": "green_strip",
+          "area_m2": 513.483,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 513.483
+        },
+        {
+          "green_id": "GREEN-STRIP-45",
+          "classification": "green_strip",
+          "area_m2": 494.938,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 494.938
+        },
+        {
+          "green_id": "GREEN-STRIP-46",
+          "classification": "green_strip",
+          "area_m2": 384.0,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 384.0
+        },
+        {
+          "green_id": "GREEN-STRIP-47",
+          "classification": "green_strip",
+          "area_m2": 189.429,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 189.429
+        },
+        {
+          "green_id": "GREEN-SUPP-001",
+          "classification": "supplementary_green",
+          "area_m2": 21446.517,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 21446.517
+        },
+        {
+          "green_id": "GREEN-SUPP-002",
+          "classification": "supplementary_green",
+          "area_m2": 21142.931,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 21142.931
+        },
+        {
+          "green_id": "GREEN-SUPP-003",
+          "classification": "supplementary_green",
+          "area_m2": 16619.227,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 16619.227
+        },
+        {
+          "green_id": "GREEN-SUPP-004",
+          "classification": "supplementary_green",
+          "area_m2": 9975.151,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 9975.151
+        },
+        {
+          "green_id": "GREEN-SUPP-005",
+          "classification": "supplementary_green",
+          "area_m2": 9607.739,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 9607.739
+        },
+        {
+          "green_id": "GREEN-SUPP-006",
+          "classification": "supplementary_green",
+          "area_m2": 5986.396,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 5986.396
+        },
+        {
+          "green_id": "GREEN-SUPP-007",
+          "classification": "supplementary_green",
+          "area_m2": 3155.601,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 3155.601
+        },
+        {
+          "green_id": "GREEN-SUPP-008",
+          "classification": "supplementary_green",
+          "area_m2": 1576.911,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 1576.911
+        },
+        {
+          "green_id": "GREEN-SUPP-009",
+          "classification": "supplementary_green",
+          "area_m2": 1547.506,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 1547.506
+        },
+        {
+          "green_id": "GREEN-SUPP-010",
+          "classification": "supplementary_green",
+          "area_m2": 1385.887,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 1385.887
+        },
+        {
+          "green_id": "GREEN-SUPP-011",
+          "classification": "supplementary_green",
+          "area_m2": 734.376,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 734.376
+        },
+        {
+          "green_id": "GREEN-SUPP-012",
+          "classification": "supplementary_green",
+          "area_m2": 704.376,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 704.376
+        },
+        {
+          "green_id": "GREEN-SUPP-013",
+          "classification": "supplementary_green",
+          "area_m2": 282.576,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 282.576
+        },
+        {
+          "green_id": "GREEN-FS-001",
+          "classification": "potential_open_space",
+          "area_m2": 33970.803,
+          "overlap_with_source_greens_m2": 6805.285,
+          "new_area_m2": 27165.518
+        },
+        {
+          "green_id": "GREEN-FS-002",
+          "classification": "potential_open_space",
+          "area_m2": 28757.965,
+          "overlap_with_source_greens_m2": 1927.325,
+          "new_area_m2": 26830.639
+        },
+        {
+          "green_id": "GREEN-FS-003",
+          "classification": "potential_open_space",
+          "area_m2": 20667.698,
+          "overlap_with_source_greens_m2": 733.917,
+          "new_area_m2": 19933.781
+        },
+        {
+          "green_id": "GREEN-FS-004",
+          "classification": "potential_open_space",
+          "area_m2": 12683.043,
+          "overlap_with_source_greens_m2": 640.904,
+          "new_area_m2": 12042.139
+        },
+        {
+          "green_id": "GREEN-FS-005",
+          "classification": "potential_open_space",
+          "area_m2": 11890.279,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 11890.279
+        },
+        {
+          "green_id": "GREEN-FS-006",
+          "classification": "potential_open_space",
+          "area_m2": 6565.561,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 6565.561
+        },
+        {
+          "green_id": "GREEN-FS-007",
+          "classification": "potential_open_space",
+          "area_m2": 3943.006,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 3943.006
+        },
+        {
+          "green_id": "GREEN-FS-008",
+          "classification": "potential_open_space",
+          "area_m2": 1576.911,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 1576.911
+        },
+        {
+          "green_id": "GREEN-FS-009",
+          "classification": "potential_open_space",
+          "area_m2": 1385.887,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 1385.887
+        },
+        {
+          "green_id": "GREEN-FS-010",
+          "classification": "potential_open_space",
+          "area_m2": 887.268,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 887.268
+        },
+        {
+          "green_id": "GREEN-FS-011",
+          "classification": "potential_open_space",
+          "area_m2": 704.376,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 704.376
+        },
+        {
+          "green_id": "GREEN-FS-012",
+          "classification": "potential_open_space",
+          "area_m2": 499.878,
+          "overlap_with_source_greens_m2": 0.0,
+          "new_area_m2": 499.878
+        }
+      ],
+      "note": "retained area is an area intersection; it does not establish spatial continuity, usability, access, planting or design intent for the original green. The source greens are not treated as obstacles by the building layout, so occupation was measured after the fact, not prevented."
+    }
+  }
+}

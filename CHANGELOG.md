@@ -2,6 +2,60 @@
 
 All notable changes to the formal repository are recorded here. Research snapshots keep their own versions in `research/archive/`.
 
+## 0.26.0 — 2026-10-30
+
+### Added
+
+- **M4d-2a — spatial-intent integrity and candidate-quality audit** (no layout
+  rewrite; all measurements are descriptive, not gates):
+  - The **17 groups are explicitly labelled inferred groups**: 45.0 m centroid
+    distance + 8.0 m main-road buffer + transitive Union-Find single linkage.
+    The longest inferred group spans **209.738 m** in pairwise source distance.
+    `groups_preserved` is only member-ID completeness; B has **12/17 groups**
+    on non-adjacent rows (A/baseline 10/17). G-01 has **9 inferred members**;
+    the focus layout preserves 7 (`SK-BLD-0038`/`0061` are outside the focus
+    set).
+  - **Group quality metrics** (`intent_metrics.py`): cohesion, fragmentation,
+    relative-position change, shape distortion, displacement distribution
+    (mean/P90/max) per group and site. B: displacement mean 47.92 m / P90
+    102.83 m / max **278.46 m**, 43 row runs vs baseline 29; A/baseline use the
+    same M4d-1 layout. No score, ranking or pass/fail gate.
+  - **Source-green retention** (`green_retention.py`): all **12** source greens
+    (10,986.4 m²) traced. Baseline and A share the M4d-1 building layout, so
+    both occupy **845.5 m²** of source green; B reduces that to **713.4 m²**.
+    A's rebuilt access raises road-occupied source green from **64.1 m²** to
+    **320.9 m²**. Preserved/shrunk/cancelled = **7/5/0** for all three. No
+    green is wholly cancelled, but area retention is explicitly **not**
+    spatial/intent retention; the building buildable area does not subtract
+    source greens.
+  - **Access semantics layers** (`access_semantics.py`): L1 group external
+    access (A/B 17/17; baseline 0/17), L2 internal group roads
+    **not designed** (0/17, 0 m), L3 building frontage geometry (B **26/55**
+    front a pavement at ≤5.0 m; max 53.28 m; geometry only, not entrances),
+    L4 garage driveway **deferred** (5 entrances, 2 proximity, 0 driveway).
+    No combined coverage; 17/17 is never presented as 55-building access.
+  - **Clearance robustness**: B's 3.0164672267820585 m is only 0.016 m above
+    the 3.0 m rule. Under independent coordinate jitter of **0.1 m**, 100 % of
+    samples fall below 3.0 m (min 2.8887 m); only common-datum translation is
+    invariant. The 3.0 m rule is unchanged; status is **model-coordinate
+    internal pass, engineering robustness not established**.
+  - **Four-level candidate status** in evidence: geometric hard checks /
+    design-intent quality (descriptive) / deferred design items / real CAD
+    host verification. B remains a research baseline with **5 deferred**
+    items and **no host verification**, not a professional design.
+- Evidence `docs/e2e/design-intent-audit-001/` (`audit.json`,
+  `inferred-groups.json`, `group-quality.json`, `green-retention.json`,
+  `access-semantics.json`, `robustness.json`, README).
+- The M4d-2 co-design README now points to this audit and qualifies the
+  `HARD-VALID` sheet stamp as “hard-valid on the 29 declared checks”.
+
+### Verified
+
+- Full test suite: **556 passed** (515 baseline + 14 intent-metrics + 8
+  green-retention + 9 access-semantics + 4 robustness + 6 audit-evidence tests;
+  no test removed).
+- CI 4/4.
+
 ## 0.25.0 — 2026-10-30
 
 ### Added
