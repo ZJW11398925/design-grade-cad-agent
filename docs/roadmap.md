@@ -330,7 +330,7 @@ Next in 4c (4c-1a/1c/1d/1b/1e/2/3/3a complete; sequence: M4d full-site expansion
 - [x] Four-level B status: **geometric pass / intent descriptive / deferred 5 / host not_verified**. B remains a research baseline, not a professional design.
 - [x] Tests 515 → **556** (intent metrics 14, green retention 8, access semantics 9, robustness 4, audit evidence 6; no deletion). Evidence `docs/e2e/design-intent-audit-001/`; historical M4d-1/1a/2 evidence preserved. Next is **M4d-2b candidate C** plus host/R1.
 
-### Milestone 4d-2b — Candidate C Bounded Co-Design Search (negative result, 0.27.0; branch `feat/m4d-2b-candidate-c`; no threshold change)
+### Milestone 4d-2b — Candidate C Bounded Co-Design Search (negative result, 0.27.0; merged as **PR #57** (merge commit `a961bb0`); no threshold change)
 
 - [x] Bounded **generate-and-test**, not a joint optimisation: **20** deterministic group-order variants, each followed by rebuilt access and the full 29 checks. **5 hard-valid**: `default`, `focus_first_y_asc`, `y_asc_swap01` are quality-identical to B; `y_asc_swap12` cuts row runs 43→41 but worsens mean displacement 47.92→59.02 m and road 189.06→316.08 m; `y_asc_rotate1` is worse (46 runs, 293.42 m max, 445.50 m road). 13 fail `FULL_SITE_NS_SPACING`/`FULL_SITE_ROAD_CLEARANCE`; 2 layout errors.
 - [x] Bounded local repair from B: **8 proposals, 0 accepted** (7 no feasible position, 1 no strict improvement).
