@@ -1,0 +1,5231 @@
+{
+  "baseline": {
+    "schema_id": "dgcad.access-semantics.v0.1",
+    "case_id": "CASE-SKETCH-001",
+    "building_count": 55,
+    "group_count": 17,
+    "layers": {
+      "l1_group_external_access": {
+        "layer": "l1_group_external_access",
+        "status": "not_designed",
+        "label": "group_level_declared_access",
+        "scope": "group",
+        "summary": {
+          "groups_total": 17,
+          "groups_in_access_evidence": 17,
+          "groups_served": 0,
+          "group_coverage": 0.0,
+          "road_access_coverage": 0.0,
+          "evidence_matches_road_access": true,
+          "relation_error_count": 17,
+          "dead_ends_unresolved": 17,
+          "terminal_band_m": [
+            3.4,
+            3.5
+          ]
+        },
+        "claims": {
+          "access_scope": "group_level",
+          "claims_single_building_access": false,
+          "claims_internal_group_roads": false,
+          "claims_garage_driveway": false
+        },
+        "groups": [
+          {
+            "group_id": "G-01",
+            "building_ids": [
+              "SK-BLD-0007",
+              "SK-BLD-0015",
+              "SK-BLD-0021",
+              "SK-BLD-0025",
+              "SK-BLD-0032",
+              "SK-BLD-0034",
+              "SK-BLD-0035",
+              "SK-BLD-0038",
+              "SK-BLD-0061"
+            ],
+            "declared": true,
+            "served": false,
+            "served_by_relation": false,
+            "serving_road_id": "BR-G-01",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              204.5930225394812,
+              612.77806003196
+            ],
+            "terminal_distance_m": 49.80923303196005,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": false,
+            "relation_errors": [
+              {
+                "code": "terminal_distance_out_of_band",
+                "group_id": "G-01",
+                "road_id": "BR-G-01",
+                "terminal_centerline_distance_m": 49.80923303196005,
+                "required_band_m": [
+                  3.4,
+                  3.5
+                ]
+              }
+            ]
+          },
+          {
+            "group_id": "G-02",
+            "building_ids": [
+              "SK-BLD-0009",
+              "SK-BLD-0010",
+              "SK-BLD-0014",
+              "SK-BLD-0016",
+              "SK-BLD-0020",
+              "SK-BLD-0022",
+              "SK-BLD-0024"
+            ],
+            "declared": true,
+            "served": false,
+            "served_by_relation": false,
+            "serving_road_id": "BR-G-02",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              307.19812484872534,
+              245.11737789684884
+            ],
+            "terminal_distance_m": 32.47781845466776,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": false,
+            "relation_errors": [
+              {
+                "code": "terminal_distance_out_of_band",
+                "group_id": "G-02",
+                "road_id": "BR-G-02",
+                "terminal_centerline_distance_m": 32.47781845466776,
+                "required_band_m": [
+                  3.4,
+                  3.5
+                ]
+              }
+            ]
+          },
+          {
+            "group_id": "G-03",
+            "building_ids": [
+              "SK-BLD-0049",
+              "SK-BLD-0050",
+              "SK-BLD-0052",
+              "SK-BLD-0054",
+              "SK-BLD-0056",
+              "SK-BLD-0057"
+            ],
+            "declared": true,
+            "served": false,
+            "served_by_relation": false,
+            "serving_road_id": "BR-G-03",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              120.89913495183204,
+              152.89360960686366
+            ],
+            "terminal_distance_m": 6.516856003953208,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": false,
+            "relation_errors": [
+              {
+                "code": "terminal_distance_out_of_band",
+                "group_id": "G-03",
+                "road_id": "BR-G-03",
+                "terminal_centerline_distance_m": 6.516856003953208,
+                "required_band_m": [
+                  3.4,
+                  3.5
+                ]
+              }
+            ]
+          },
+          {
+            "group_id": "G-04",
+            "building_ids": [
+              "SK-BLD-0040",
+              "SK-BLD-0041",
+              "SK-BLD-0042",
+              "SK-BLD-0043",
+              "SK-BLD-0044"
+            ],
+            "declared": true,
+            "served": false,
+            "served_by_relation": false,
+            "serving_road_id": "BR-G-04",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              259.5373634518321,
+              443.91083710686365
+            ],
+            "terminal_distance_m": 15.455593244243907,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": false,
+            "relation_errors": [
+              {
+                "code": "terminal_distance_out_of_band",
+                "group_id": "G-04",
+                "road_id": "BR-G-04",
+                "terminal_centerline_distance_m": 15.455593244243907,
+                "required_band_m": [
+                  3.4,
+                  3.5
+                ]
+              }
+            ]
+          },
+          {
+            "group_id": "G-05",
+            "building_ids": [
+              "SK-BLD-0002",
+              "SK-BLD-0017",
+              "SK-BLD-0033"
+            ],
+            "declared": true,
+            "served": false,
+            "served_by_relation": false,
+            "serving_road_id": "BR-G-05",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              32.495631311261754,
+              436.70291090117996
+            ],
+            "terminal_distance_m": 59.734083901179986,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": false,
+            "relation_errors": [
+              {
+                "code": "terminal_distance_out_of_band",
+                "group_id": "G-05",
+                "road_id": "BR-G-05",
+                "terminal_centerline_distance_m": 59.734083901179986,
+                "required_band_m": [
+                  3.4,
+                  3.5
+                ]
+              }
+            ]
+          },
+          {
+            "group_id": "G-06",
+            "building_ids": [
+              "SK-BLD-0003",
+              "SK-BLD-0005",
+              "SK-BLD-0008"
+            ],
+            "declared": true,
+            "served": false,
+            "served_by_relation": false,
+            "serving_road_id": "BR-G-06",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              165.5664030478256,
+              149.70176046639037
+            ],
+            "terminal_distance_m": 6.516616394688327,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": false,
+            "relation_errors": [
+              {
+                "code": "terminal_distance_out_of_band",
+                "group_id": "G-06",
+                "road_id": "BR-G-06",
+                "terminal_centerline_distance_m": 6.516616394688327,
+                "required_band_m": [
+                  3.4,
+                  3.5
+                ]
+              }
+            ]
+          },
+          {
+            "group_id": "G-07",
+            "building_ids": [
+              "SK-BLD-0004",
+              "SK-BLD-0013",
+              "SK-BLD-0018"
+            ],
+            "declared": true,
+            "served": false,
+            "served_by_relation": false,
+            "serving_road_id": "BR-G-07",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              89.97410178701078,
+              116.26699318587342
+            ],
+            "terminal_distance_m": 18.29816618587344,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": false,
+            "relation_errors": [
+              {
+                "code": "terminal_distance_out_of_band",
+                "group_id": "G-07",
+                "road_id": "BR-G-07",
+                "terminal_centerline_distance_m": 18.29816618587344,
+                "required_band_m": [
+                  3.4,
+                  3.5
+                ]
+              }
+            ]
+          },
+          {
+            "group_id": "G-08",
+            "building_ids": [
+              "SK-BLD-0006",
+              "SK-BLD-0011",
+              "SK-BLD-0012"
+            ],
+            "declared": true,
+            "served": false,
+            "served_by_relation": false,
+            "serving_road_id": "BR-G-08",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              157.25025335673936,
+              112.46114966732631
+            ],
+            "terminal_distance_m": 14.492322667326334,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": false,
+            "relation_errors": [
+              {
+                "code": "terminal_distance_out_of_band",
+                "group_id": "G-08",
+                "road_id": "BR-G-08",
+                "terminal_centerline_distance_m": 14.492322667326334,
+                "required_band_m": [
+                  3.4,
+                  3.5
+                ]
+              }
+            ]
+          },
+          {
+            "group_id": "G-09",
+            "building_ids": [
+              "SK-BLD-0029",
+              "SK-BLD-0031",
+              "SK-BLD-0036"
+            ],
+            "declared": true,
+            "served": false,
+            "served_by_relation": false,
+            "serving_road_id": "BR-G-09",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              240.7398633050156,
+              110.36541450355081
+            ],
+            "terminal_distance_m": 45.479692732436156,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": false,
+            "relation_errors": [
+              {
+                "code": "terminal_distance_out_of_band",
+                "group_id": "G-09",
+                "road_id": "BR-G-09",
+                "terminal_centerline_distance_m": 45.479692732436156,
+                "required_band_m": [
+                  3.4,
+                  3.5
+                ]
+              }
+            ]
+          },
+          {
+            "group_id": "G-10",
+            "building_ids": [
+              "SK-BLD-0045",
+              "SK-BLD-0051",
+              "SK-BLD-0055"
+            ],
+            "declared": true,
+            "served": false,
+            "served_by_relation": false,
+            "serving_road_id": "BR-G-10",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              288.78095757412234,
+              225.97629217046463
+            ],
+            "terminal_distance_m": 16.350195998235417,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": false,
+            "relation_errors": [
+              {
+                "code": "terminal_distance_out_of_band",
+                "group_id": "G-10",
+                "road_id": "BR-G-10",
+                "terminal_centerline_distance_m": 16.350195998235417,
+                "required_band_m": [
+                  3.4,
+                  3.5
+                ]
+              }
+            ]
+          },
+          {
+            "group_id": "G-11",
+            "building_ids": [
+              "SK-BLD-MRG-0002",
+              "SK-BLD-MRG-0004",
+              "SK-BLD-MRG-0005"
+            ],
+            "declared": true,
+            "served": false,
+            "served_by_relation": false,
+            "serving_road_id": "BR-G-11",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              93.79980775460419,
+              250.4758924613709
+            ],
+            "terminal_distance_m": 6.5163622902759215,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": false,
+            "relation_errors": [
+              {
+                "code": "terminal_distance_out_of_band",
+                "group_id": "G-11",
+                "road_id": "BR-G-11",
+                "terminal_centerline_distance_m": 6.5163622902759215,
+                "required_band_m": [
+                  3.4,
+                  3.5
+                ]
+              }
+            ]
+          },
+          {
+            "group_id": "G-12",
+            "building_ids": [
+              "SK-BLD-0023",
+              "SK-BLD-0026"
+            ],
+            "declared": true,
+            "served": false,
+            "served_by_relation": false,
+            "serving_road_id": "ACC-G-12",
+            "serving_road_class": "access",
+            "serving_road_width_m": 4.0,
+            "terminal_xy": [
+              169.009433,
+              446.5880463635157
+            ],
+            "terminal_distance_m": 95.08101705270794,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": false,
+            "relation_errors": [
+              {
+                "code": "terminal_distance_out_of_band",
+                "group_id": "G-12",
+                "road_id": "ACC-G-12",
+                "terminal_centerline_distance_m": 95.08101705270794,
+                "required_band_m": [
+                  3.4,
+                  3.5
+                ]
+              }
+            ]
+          },
+          {
+            "group_id": "G-13",
+            "building_ids": [
+              "SK-BLD-0028"
+            ],
+            "declared": true,
+            "served": false,
+            "served_by_relation": false,
+            "serving_road_id": "BR-G-13",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              110.49081434251151,
+              116.8054439913529
+            ],
+            "terminal_distance_m": 94.18240083972948,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": false,
+            "relation_errors": [
+              {
+                "code": "terminal_distance_out_of_band",
+                "group_id": "G-13",
+                "road_id": "BR-G-13",
+                "terminal_centerline_distance_m": 94.18240083972948,
+                "required_band_m": [
+                  3.4,
+                  3.5
+                ]
+              }
+            ]
+          },
+          {
+            "group_id": "G-14",
+            "building_ids": [
+              "SK-BLD-0039"
+            ],
+            "declared": true,
+            "served": false,
+            "served_by_relation": false,
+            "serving_road_id": "BR-G-14",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              142.31938469454892,
+              27.521785862260035
+            ],
+            "terminal_distance_m": 114.43762355330362,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": false,
+            "relation_errors": [
+              {
+                "code": "terminal_distance_out_of_band",
+                "group_id": "G-14",
+                "road_id": "BR-G-14",
+                "terminal_centerline_distance_m": 114.43762355330362,
+                "required_band_m": [
+                  3.4,
+                  3.5
+                ]
+              }
+            ]
+          },
+          {
+            "group_id": "G-15",
+            "building_ids": [
+              "SK-BLD-0048"
+            ],
+            "declared": true,
+            "served": false,
+            "served_by_relation": false,
+            "serving_road_id": "BR-G-15",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              317.5303273351603,
+              398.8005544214012
+            ],
+            "terminal_distance_m": 6.51692154208223,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": false,
+            "relation_errors": [
+              {
+                "code": "terminal_distance_out_of_band",
+                "group_id": "G-15",
+                "road_id": "BR-G-15",
+                "terminal_centerline_distance_m": 6.51692154208223,
+                "required_band_m": [
+                  3.4,
+                  3.5
+                ]
+              }
+            ]
+          },
+          {
+            "group_id": "G-16",
+            "building_ids": [
+              "SK-BLD-MRG-0001"
+            ],
+            "declared": true,
+            "served": false,
+            "served_by_relation": false,
+            "serving_road_id": "BR-G-16",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              84.56365553809306,
+              334.399530903572
+            ],
+            "terminal_distance_m": 19.743410221850976,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": false,
+            "relation_errors": [
+              {
+                "code": "terminal_distance_out_of_band",
+                "group_id": "G-16",
+                "road_id": "BR-G-16",
+                "terminal_centerline_distance_m": 19.743410221850976,
+                "required_band_m": [
+                  3.4,
+                  3.5
+                ]
+              }
+            ]
+          },
+          {
+            "group_id": "G-17",
+            "building_ids": [
+              "SK-BLD-MRG-0003"
+            ],
+            "declared": true,
+            "served": false,
+            "served_by_relation": false,
+            "serving_road_id": "BR-G-17",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              332.40709373542757,
+              308.32345318146946
+            ],
+            "terminal_distance_m": 15.720018812601806,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": false,
+            "relation_errors": [
+              {
+                "code": "terminal_distance_out_of_band",
+                "group_id": "G-17",
+                "road_id": "BR-G-17",
+                "terminal_centerline_distance_m": 15.720018812601806,
+                "required_band_m": [
+                  3.4,
+                  3.5
+                ]
+              }
+            ]
+          }
+        ],
+        "note": "a served group means one road declares serves_group_ids for the group and its terminal is validated against the group footprint union (3.4-3.5 m band, outside footprints, route crossing <= 0.1 m); it says nothing about any single building's entrance"
+      },
+      "l2_internal_group_roads": {
+        "layer": "l2_internal_group_roads",
+        "status": "not_designed",
+        "label": "internal_group_roads",
+        "scope": "group",
+        "summary": {
+          "groups_total": 17,
+          "groups_with_internal_roads": 0,
+          "internal_road_length_m": 0.0
+        },
+        "claims": {
+          "internal_roads_designed": false,
+          "l1_connector_is_not_internal_road": true
+        },
+        "groups": [
+          {
+            "group_id": "G-01",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-02",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-03",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-04",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-05",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-06",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-07",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-08",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-09",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-10",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-11",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-12",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-13",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-14",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-15",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-16",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-17",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          }
+        ],
+        "note": "the L1 connector ends at the group footprint ring; no road inside the group block is designed, so internal circulation is reported as not_designed and is not inferred from the L1 coverage"
+      },
+      "l3_building_frontage": {
+        "layer": "l3_building_frontage",
+        "status": "geometry_measured",
+        "label": "frontage_geometry_only",
+        "scope": "building",
+        "summary": {
+          "building_count": 55,
+          "group_count": 17,
+          "fronts_road_count": 15,
+          "sidewalk_adjacent_count": 0,
+          "blocked_by_building_count": 1,
+          "blocked_by_green_count": null,
+          "distance_stats_m": {
+            "count": 55,
+            "min": 3.0163622902759215,
+            "median": 12.139879258219738,
+            "max": 58.264151101889915,
+            "mean": 15.76682577438238
+          },
+          "frontage_reserve_m": 5.0,
+          "declared_clearance_m": 3.0,
+          "declared_sidewalk_width_m": 2.0,
+          "frontage_definition": "fronts_road = footprint is within the declared frontage reserve of the nearest pavement edge (building_road_clearance_m + sidewalk_width_m); it is a geometric proximity, not an entrance, address or plot access",
+          "basis_source": "documented_case_default_constants"
+        },
+        "claims": {
+          "geometry_only": true,
+          "entrance_designed": false,
+          "address_assigned": false,
+          "plot_access_designed": false
+        },
+        "buildings": [
+          {
+            "building_id": "SK-BLD-MRG-0003",
+            "group_id": "G-17",
+            "distance_to_corridor_edge_m": 12.220044342984531,
+            "nearest_road_id": "BR-G-17",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-MRG-0004",
+            "group_id": "G-11",
+            "distance_to_corridor_edge_m": 11.571659528850331,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-MRG-0005",
+            "group_id": "G-11",
+            "distance_to_corridor_edge_m": 7.234448232116562,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "close_setback_5_to_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-MRG-0001",
+            "group_id": "G-16",
+            "distance_to_corridor_edge_m": 16.244109610226342,
+            "nearest_road_id": "BR-G-16",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-MRG-0002",
+            "group_id": "G-11",
+            "distance_to_corridor_edge_m": 3.0163622902759215,
+            "nearest_road_id": "BR-G-11",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0002",
+            "group_id": "G-05",
+            "distance_to_corridor_edge_m": 3.020000008752803,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0003",
+            "group_id": "G-06",
+            "distance_to_corridor_edge_m": 27.042308140514,
+            "nearest_road_id": "BR-G-06",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0004",
+            "group_id": "G-07",
+            "distance_to_corridor_edge_m": 14.801782778497625,
+            "nearest_road_id": "BR-G-07",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0005",
+            "group_id": "G-06",
+            "distance_to_corridor_edge_m": 3.0199559905229023,
+            "nearest_road_id": "BR-G-06",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0006",
+            "group_id": "G-08",
+            "distance_to_corridor_edge_m": 10.992761343139165,
+            "nearest_road_id": "BR-G-08",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0007",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 5.999999999999996,
+            "nearest_road_id": "ACC-FOCUS-01",
+            "nearest_road_class": "access",
+            "nearest_road_width_m": 4.0,
+            "fronts_road": false,
+            "frontage_band": "close_setback_5_to_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0008",
+            "group_id": "G-06",
+            "distance_to_corridor_edge_m": 51.11655376154897,
+            "nearest_road_id": "BR-G-10",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0009",
+            "group_id": "G-02",
+            "distance_to_corridor_edge_m": 3.4088075632464347,
+            "nearest_road_id": "MAIN-19",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0010",
+            "group_id": "G-02",
+            "distance_to_corridor_edge_m": 3.8331244282563515,
+            "nearest_road_id": "MAIN-21",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0011",
+            "group_id": "G-08",
+            "distance_to_corridor_edge_m": 24.94803234232346,
+            "nearest_road_id": "BR-G-14",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0012",
+            "group_id": "G-08",
+            "distance_to_corridor_edge_m": 58.264151101889915,
+            "nearest_road_id": "BR-G-06",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [
+              "SK-BLD-0003"
+            ],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0013",
+            "group_id": "G-07",
+            "distance_to_corridor_edge_m": 36.86861574887669,
+            "nearest_road_id": "BR-G-14",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0014",
+            "group_id": "G-02",
+            "distance_to_corridor_edge_m": 16.29050411541979,
+            "nearest_road_id": "MAIN-19",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0015",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 15.622538753151554,
+            "nearest_road_id": "ACC-G-12",
+            "nearest_road_class": "access",
+            "nearest_road_width_m": 4.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0016",
+            "group_id": "G-02",
+            "distance_to_corridor_edge_m": 23.60116562722966,
+            "nearest_road_id": "MAIN-19",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0017",
+            "group_id": "G-05",
+            "distance_to_corridor_edge_m": 3.0200000000976583,
+            "nearest_road_id": "ACC-FOCUS-01",
+            "nearest_road_class": "access",
+            "nearest_road_width_m": 4.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0018",
+            "group_id": "G-07",
+            "distance_to_corridor_edge_m": 50.430437244935334,
+            "nearest_road_id": "BR-G-14",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0020",
+            "group_id": "G-02",
+            "distance_to_corridor_edge_m": 21.011740207658267,
+            "nearest_road_id": "MAIN-21",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0021",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 5.619246041520739,
+            "nearest_road_id": "ACC-G-12",
+            "nearest_road_class": "access",
+            "nearest_road_width_m": 4.0,
+            "fronts_road": false,
+            "frontage_band": "close_setback_5_to_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0022",
+            "group_id": "G-02",
+            "distance_to_corridor_edge_m": 21.48450225384645,
+            "nearest_road_id": "MAIN-21",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0023",
+            "group_id": "G-12",
+            "distance_to_corridor_edge_m": 9.479270211875786,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "close_setback_5_to_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0024",
+            "group_id": "G-02",
+            "distance_to_corridor_edge_m": 50.92042052700178,
+            "nearest_road_id": "MAIN-19",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0025",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 5.999999999999935,
+            "nearest_road_id": "ACC-FOCUS-01",
+            "nearest_road_class": "access",
+            "nearest_road_width_m": 4.0,
+            "fronts_road": false,
+            "frontage_band": "close_setback_5_to_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0026",
+            "group_id": "G-12",
+            "distance_to_corridor_edge_m": 3.0163917734730203,
+            "nearest_road_id": "BR-G-04",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0028",
+            "group_id": "G-13",
+            "distance_to_corridor_edge_m": 3.020000003168121,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0029",
+            "group_id": "G-09",
+            "distance_to_corridor_edge_m": 4.0492475191530435,
+            "nearest_road_id": "BR-G-10",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0031",
+            "group_id": "G-09",
+            "distance_to_corridor_edge_m": 12.609530739328381,
+            "nearest_road_id": "MAIN-20",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0032",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 13.383676853765238,
+            "nearest_road_id": "ACC-FOCUS-01",
+            "nearest_road_class": "access",
+            "nearest_road_width_m": 4.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0033",
+            "group_id": "G-05",
+            "distance_to_corridor_edge_m": 3.0200000019897906,
+            "nearest_road_id": "MAIN-02",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0034",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 28.513510616577047,
+            "nearest_road_id": "ACC-G-12",
+            "nearest_road_class": "access",
+            "nearest_road_width_m": 4.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0035",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 3.863277682733488,
+            "nearest_road_id": "ACC-G-12",
+            "nearest_road_class": "access",
+            "nearest_road_width_m": 4.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0036",
+            "group_id": "G-09",
+            "distance_to_corridor_edge_m": 5.996092463184043,
+            "nearest_road_id": "MAIN-18",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "close_setback_5_to_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0038",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 14.673473455953399,
+            "nearest_road_id": "MAIN-08",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0039",
+            "group_id": "G-14",
+            "distance_to_corridor_edge_m": 3.0177782647519504,
+            "nearest_road_id": "MAIN-10",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0040",
+            "group_id": "G-04",
+            "distance_to_corridor_edge_m": 12.139879258219738,
+            "nearest_road_id": "MAIN-23",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0041",
+            "group_id": "G-04",
+            "distance_to_corridor_edge_m": 42.3256742836013,
+            "nearest_road_id": "BR-G-04",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0042",
+            "group_id": "G-04",
+            "distance_to_corridor_edge_m": 8.797287012088077,
+            "nearest_road_id": "MAIN-08",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "close_setback_5_to_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0043",
+            "group_id": "G-04",
+            "distance_to_corridor_edge_m": 10.053244551942083,
+            "nearest_road_id": "MAIN-08",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0044",
+            "group_id": "G-04",
+            "distance_to_corridor_edge_m": 50.24153796180805,
+            "nearest_road_id": "MAIN-08",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0045",
+            "group_id": "G-10",
+            "distance_to_corridor_edge_m": 17.150539062494907,
+            "nearest_road_id": "MAIN-21",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0048",
+            "group_id": "G-15",
+            "distance_to_corridor_edge_m": 3.0199088888350047,
+            "nearest_road_id": "BR-G-15",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0049",
+            "group_id": "G-03",
+            "distance_to_corridor_edge_m": 18.195606293192327,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0050",
+            "group_id": "G-03",
+            "distance_to_corridor_edge_m": 14.198523366694019,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0051",
+            "group_id": "G-10",
+            "distance_to_corridor_edge_m": 12.582429181821752,
+            "nearest_road_id": "MAIN-21",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0052",
+            "group_id": "G-03",
+            "distance_to_corridor_edge_m": 19.530762866694005,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0054",
+            "group_id": "G-03",
+            "distance_to_corridor_edge_m": 3.020000005727841,
+            "nearest_road_id": "ACC-FOCUS-01",
+            "nearest_road_class": "access",
+            "nearest_road_width_m": 4.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0055",
+            "group_id": "G-10",
+            "distance_to_corridor_edge_m": 12.014881856360738,
+            "nearest_road_id": "MAIN-21",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0056",
+            "group_id": "G-03",
+            "distance_to_corridor_edge_m": 19.25860405448327,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0057",
+            "group_id": "G-03",
+            "distance_to_corridor_edge_m": 3.0199209736239965,
+            "nearest_road_id": "BR-G-03",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0061",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 9.38109640460723,
+            "nearest_road_id": "MAIN-08",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "close_setback_5_to_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          }
+        ],
+        "note": "L3 is measured for every building independently of L1: a group can be served (L1) while its buildings are still set back far from any road edge.  Distances are footprint-to-pavement-edge (corridor) polygon distances",
+        "group_summary": [
+          {
+            "group_id": "G-01",
+            "building_count": 9,
+            "building_ids": [
+              "SK-BLD-0007",
+              "SK-BLD-0015",
+              "SK-BLD-0021",
+              "SK-BLD-0025",
+              "SK-BLD-0032",
+              "SK-BLD-0034",
+              "SK-BLD-0035",
+              "SK-BLD-0038",
+              "SK-BLD-0061"
+            ],
+            "min_distance_m": 3.863277682733488,
+            "max_distance_m": 28.513510616577047,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-02",
+            "building_count": 7,
+            "building_ids": [
+              "SK-BLD-0009",
+              "SK-BLD-0010",
+              "SK-BLD-0014",
+              "SK-BLD-0016",
+              "SK-BLD-0020",
+              "SK-BLD-0022",
+              "SK-BLD-0024"
+            ],
+            "min_distance_m": 3.4088075632464347,
+            "max_distance_m": 50.92042052700178,
+            "fronts_road_count": 2,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-03",
+            "building_count": 6,
+            "building_ids": [
+              "SK-BLD-0049",
+              "SK-BLD-0050",
+              "SK-BLD-0052",
+              "SK-BLD-0054",
+              "SK-BLD-0056",
+              "SK-BLD-0057"
+            ],
+            "min_distance_m": 3.0199209736239965,
+            "max_distance_m": 19.530762866694005,
+            "fronts_road_count": 2,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-04",
+            "building_count": 5,
+            "building_ids": [
+              "SK-BLD-0040",
+              "SK-BLD-0041",
+              "SK-BLD-0042",
+              "SK-BLD-0043",
+              "SK-BLD-0044"
+            ],
+            "min_distance_m": 8.797287012088077,
+            "max_distance_m": 50.24153796180805,
+            "fronts_road_count": 0,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-05",
+            "building_count": 3,
+            "building_ids": [
+              "SK-BLD-0002",
+              "SK-BLD-0017",
+              "SK-BLD-0033"
+            ],
+            "min_distance_m": 3.0200000000976583,
+            "max_distance_m": 3.020000008752803,
+            "fronts_road_count": 3,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-06",
+            "building_count": 3,
+            "building_ids": [
+              "SK-BLD-0003",
+              "SK-BLD-0005",
+              "SK-BLD-0008"
+            ],
+            "min_distance_m": 3.0199559905229023,
+            "max_distance_m": 51.11655376154897,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-07",
+            "building_count": 3,
+            "building_ids": [
+              "SK-BLD-0004",
+              "SK-BLD-0013",
+              "SK-BLD-0018"
+            ],
+            "min_distance_m": 14.801782778497625,
+            "max_distance_m": 50.430437244935334,
+            "fronts_road_count": 0,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-08",
+            "building_count": 3,
+            "building_ids": [
+              "SK-BLD-0006",
+              "SK-BLD-0011",
+              "SK-BLD-0012"
+            ],
+            "min_distance_m": 10.992761343139165,
+            "max_distance_m": 58.264151101889915,
+            "fronts_road_count": 0,
+            "blocked_by_building_count": 1,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-09",
+            "building_count": 3,
+            "building_ids": [
+              "SK-BLD-0029",
+              "SK-BLD-0031",
+              "SK-BLD-0036"
+            ],
+            "min_distance_m": 4.0492475191530435,
+            "max_distance_m": 12.609530739328381,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-10",
+            "building_count": 3,
+            "building_ids": [
+              "SK-BLD-0045",
+              "SK-BLD-0051",
+              "SK-BLD-0055"
+            ],
+            "min_distance_m": 12.014881856360738,
+            "max_distance_m": 17.150539062494907,
+            "fronts_road_count": 0,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-11",
+            "building_count": 3,
+            "building_ids": [
+              "SK-BLD-MRG-0004",
+              "SK-BLD-MRG-0005",
+              "SK-BLD-MRG-0002"
+            ],
+            "min_distance_m": 3.0163622902759215,
+            "max_distance_m": 11.571659528850331,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-12",
+            "building_count": 2,
+            "building_ids": [
+              "SK-BLD-0023",
+              "SK-BLD-0026"
+            ],
+            "min_distance_m": 3.0163917734730203,
+            "max_distance_m": 9.479270211875786,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-13",
+            "building_count": 1,
+            "building_ids": [
+              "SK-BLD-0028"
+            ],
+            "min_distance_m": 3.020000003168121,
+            "max_distance_m": 3.020000003168121,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-14",
+            "building_count": 1,
+            "building_ids": [
+              "SK-BLD-0039"
+            ],
+            "min_distance_m": 3.0177782647519504,
+            "max_distance_m": 3.0177782647519504,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-15",
+            "building_count": 1,
+            "building_ids": [
+              "SK-BLD-0048"
+            ],
+            "min_distance_m": 3.0199088888350047,
+            "max_distance_m": 3.0199088888350047,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-16",
+            "building_count": 1,
+            "building_ids": [
+              "SK-BLD-MRG-0001"
+            ],
+            "min_distance_m": 16.244109610226342,
+            "max_distance_m": 16.244109610226342,
+            "fronts_road_count": 0,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-17",
+            "building_count": 1,
+            "building_ids": [
+              "SK-BLD-MRG-0003"
+            ],
+            "min_distance_m": 12.220044342984531,
+            "max_distance_m": 12.220044342984531,
+            "fronts_road_count": 0,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          }
+        ]
+      },
+      "l4_garage_driveway": {
+        "layer": "l4_garage_driveway",
+        "status": "driveway_deferred",
+        "label": "underground_garage_entrance_proximity",
+        "scope": "entrance",
+        "summary": {
+          "entrance_count": 5,
+          "proximity_connected_count": 2,
+          "driveway_designed_count": 0,
+          "parking_entrance_count": 5,
+          "garage_layout": "not_designed"
+        },
+        "claims": {
+          "entrance_proximity_only": true,
+          "driveway_designed": false,
+          "garage_layout_designed": false
+        },
+        "entrances": [
+          {
+            "entrance_id": "SK-GAR-0001",
+            "status": "existing",
+            "point_xy": [
+              38.31332799660663,
+              372.026251
+            ],
+            "nearest_road_id": "MAIN-02",
+            "distance_m": 25.411120786892965,
+            "proximity_connected": false,
+            "driveway_designed": false,
+            "reason": "designer-marked garage face; driveway connection not designed (proximity only, 25.411 m from the nearest centreline)"
+          },
+          {
+            "entrance_id": "SK-GAR-0002",
+            "status": "existing",
+            "point_xy": [
+              76.69559932674298,
+              129.614438
+            ],
+            "nearest_road_id": "BR-G-07",
+            "distance_m": 18.827450986617727,
+            "proximity_connected": false,
+            "driveway_designed": false,
+            "reason": "designer-marked garage face; driveway connection not designed (proximity only, 18.827 m from the nearest centreline)"
+          },
+          {
+            "entrance_id": "SK-GAR-0003",
+            "status": "existing",
+            "point_xy": [
+              338.80229699999995,
+              368.744873
+            ],
+            "nearest_road_id": "MAIN-25",
+            "distance_m": 25.71443618054793,
+            "proximity_connected": false,
+            "driveway_designed": false,
+            "reason": "designer-marked garage face; driveway connection not designed (proximity only, 25.714 m from the nearest centreline)"
+          },
+          {
+            "entrance_id": "GARAGE-ENTRANCE-P01",
+            "status": "proposed",
+            "point_xy": [
+              229.84455977440086,
+              545.6179178258168
+            ],
+            "nearest_road_id": "MAIN-08",
+            "distance_m": 2.5794492433084418e-14,
+            "proximity_connected": true,
+            "driveway_designed": false,
+            "reason": "proximity only; driveway geometry not designed (0.000 m from the nearest centreline, within half the 12.0 m road width + 1.0 m)"
+          },
+          {
+            "entrance_id": "GARAGE-ENTRANCE-P02",
+            "status": "proposed",
+            "point_xy": [
+              298.94237312140615,
+              137.91209255448302
+            ],
+            "nearest_road_id": "MAIN-21",
+            "distance_m": 1.6681362918762538e-14,
+            "proximity_connected": true,
+            "driveway_designed": false,
+            "reason": "proximity only; driveway geometry not designed (0.000 m from the nearest centreline, within half the 12.0 m road width + 1.0 m)"
+          }
+        ],
+        "note": "the entrances only report proximity to the nearest road centreline (half road width + margin); no driveway geometry, ramp or garage layout is designed, so the driveway is deferred"
+      }
+    },
+    "layer_order": [
+      "l1_group_external_access",
+      "l2_internal_group_roads",
+      "l3_building_frontage",
+      "l4_garage_driveway"
+    ],
+    "no_combined_coverage": true,
+    "notes": [
+      "the four layers are independent evidence; there is no combined access coverage and none of them implies another",
+      "L1 is group-level declared external access; L2 is not designed; L3 is building-level geometry only (no entrance/address); L4 is entrance proximity only (no driveway)",
+      "nothing in this report changes RoadAccessLayout, RoadLayout or any declared threshold"
+    ]
+  },
+  "A": {
+    "schema_id": "dgcad.access-semantics.v0.1",
+    "case_id": "CASE-SKETCH-001",
+    "building_count": 55,
+    "group_count": 17,
+    "layers": {
+      "l1_group_external_access": {
+        "layer": "l1_group_external_access",
+        "status": "designed",
+        "label": "group_level_declared_access",
+        "scope": "group",
+        "summary": {
+          "groups_total": 17,
+          "groups_in_access_evidence": 17,
+          "groups_served": 17,
+          "group_coverage": 1.0,
+          "road_access_coverage": 1.0,
+          "evidence_matches_road_access": true,
+          "relation_error_count": 0,
+          "dead_ends_unresolved": 0,
+          "terminal_band_m": [
+            3.4,
+            3.5
+          ]
+        },
+        "claims": {
+          "access_scope": "group_level",
+          "claims_single_building_access": false,
+          "claims_internal_group_roads": false,
+          "claims_garage_driveway": false
+        },
+        "groups": [
+          {
+            "group_id": "G-01",
+            "building_ids": [
+              "SK-BLD-0007",
+              "SK-BLD-0015",
+              "SK-BLD-0021",
+              "SK-BLD-0025",
+              "SK-BLD-0032",
+              "SK-BLD-0034",
+              "SK-BLD-0035",
+              "SK-BLD-0038",
+              "SK-BLD-0061"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G01",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              168.63868918197903,
+              442.468826
+            ],
+            "terminal_distance_m": 3.4999990000000025,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-02",
+            "building_ids": [
+              "SK-BLD-0009",
+              "SK-BLD-0010",
+              "SK-BLD-0014",
+              "SK-BLD-0016",
+              "SK-BLD-0020",
+              "SK-BLD-0022",
+              "SK-BLD-0024"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G02",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              327.50379797295386,
+              224.4437000270461
+            ],
+            "terminal_distance_m": 3.499999000000012,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-03",
+            "building_ids": [
+              "SK-BLD-0049",
+              "SK-BLD-0050",
+              "SK-BLD-0052",
+              "SK-BLD-0054",
+              "SK-BLD-0056",
+              "SK-BLD-0057"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G03",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              123.91599195578524,
+              153.48651518197903
+            ],
+            "terminal_distance_m": 3.499999000000002,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-04",
+            "building_ids": [
+              "SK-BLD-0040",
+              "SK-BLD-0041",
+              "SK-BLD-0042",
+              "SK-BLD-0043",
+              "SK-BLD-0044"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G04",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              262.33769306803396,
+              455.53607949937395
+            ],
+            "terminal_distance_m": 3.499998999999991,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-05",
+            "building_ids": [
+              "SK-BLD-0002",
+              "SK-BLD-0017",
+              "SK-BLD-0033"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G05",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              66.12186389515895,
+              380.468826
+            ],
+            "terminal_distance_m": 3.4999990000000025,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-06",
+            "building_ids": [
+              "SK-BLD-0003",
+              "SK-BLD-0005",
+              "SK-BLD-0008"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G06",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              168.5830204425139,
+              149.47324904549473
+            ],
+            "terminal_distance_m": 3.499999000000002,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-07",
+            "building_ids": [
+              "SK-BLD-0004",
+              "SK-BLD-0013",
+              "SK-BLD-0018"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G07",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              89.47898735149057,
+              101.46882599999998
+            ],
+            "terminal_distance_m": 3.4999990000000025,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-08",
+            "building_ids": [
+              "SK-BLD-0006",
+              "SK-BLD-0011",
+              "SK-BLD-0012"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G08",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              157.97898735149056,
+              101.46882599999998
+            ],
+            "terminal_distance_m": 3.4999990000000025,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-09",
+            "building_ids": [
+              "SK-BLD-0029",
+              "SK-BLD-0031",
+              "SK-BLD-0036"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G09",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              285.2935554480634,
+              223.91332225999835
+            ],
+            "terminal_distance_m": 3.4999990000000123,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-10",
+            "building_ids": [
+              "SK-BLD-0045",
+              "SK-BLD-0051",
+              "SK-BLD-0055"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G10",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              286.0626356219661,
+              238.53607949937395
+            ],
+            "terminal_distance_m": 3.499998999999991,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-11",
+            "building_ids": [
+              "SK-BLD-MRG-0002",
+              "SK-BLD-MRG-0004",
+              "SK-BLD-MRG-0005"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G11",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              90.78344446432827,
+              250.45998290901045
+            ],
+            "terminal_distance_m": 3.499999000000002,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-12",
+            "building_ids": [
+              "SK-BLD-0023",
+              "SK-BLD-0026"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G12",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              261.5643033809565,
+              441.6743628137591
+            ],
+            "terminal_distance_m": 3.4999990000000176,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-13",
+            "building_ids": [
+              "SK-BLD-0028"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G13",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              111.36741655636817,
+              225.31811721812238
+            ],
+            "terminal_distance_m": 3.4999990000000083,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-14",
+            "building_ids": [
+              "SK-BLD-0039"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G14",
+            "serving_road_class": "access",
+            "serving_road_width_m": 4.0,
+            "terminal_xy": [
+              72.8929827307518,
+              114.53607949937395
+            ],
+            "terminal_distance_m": 3.4999989999999963,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-15",
+            "building_ids": [
+              "SK-BLD-0048"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G15",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              320.5472498772425,
+              398.97324904549475
+            ],
+            "terminal_distance_m": 3.499999000000002,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-16",
+            "building_ids": [
+              "SK-BLD-MRG-0001"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G16",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              81.74647247005919,
+              318.401574500626
+            ],
+            "terminal_distance_m": 3.4999989999999963,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-17",
+            "building_ids": [
+              "SK-BLD-MRG-0003"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G17",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              335.09391373274025,
+              296.401574500626
+            ],
+            "terminal_distance_m": 3.499998999999991,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          }
+        ],
+        "note": "a served group means one road declares serves_group_ids for the group and its terminal is validated against the group footprint union (3.4-3.5 m band, outside footprints, route crossing <= 0.1 m); it says nothing about any single building's entrance"
+      },
+      "l2_internal_group_roads": {
+        "layer": "l2_internal_group_roads",
+        "status": "not_designed",
+        "label": "internal_group_roads",
+        "scope": "group",
+        "summary": {
+          "groups_total": 17,
+          "groups_with_internal_roads": 0,
+          "internal_road_length_m": 0.0
+        },
+        "claims": {
+          "internal_roads_designed": false,
+          "l1_connector_is_not_internal_road": true
+        },
+        "groups": [
+          {
+            "group_id": "G-01",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-02",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-03",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-04",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-05",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-06",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-07",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-08",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-09",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-10",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-11",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-12",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-13",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-14",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-15",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-16",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-17",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          }
+        ],
+        "note": "the L1 connector ends at the group footprint ring; no road inside the group block is designed, so internal circulation is reported as not_designed and is not inferred from the L1 coverage"
+      },
+      "l3_building_frontage": {
+        "layer": "l3_building_frontage",
+        "status": "geometry_measured",
+        "label": "frontage_geometry_only",
+        "scope": "building",
+        "summary": {
+          "building_count": 55,
+          "group_count": 17,
+          "fronts_road_count": 24,
+          "sidewalk_adjacent_count": 0,
+          "blocked_by_building_count": 1,
+          "blocked_by_green_count": null,
+          "distance_stats_m": {
+            "count": 55,
+            "min": 2.8250521190593507,
+            "median": 5.999999999999996,
+            "max": 58.182664339711025,
+            "mean": 12.81852893726399
+          },
+          "frontage_reserve_m": 5.0,
+          "declared_clearance_m": 3.0,
+          "declared_sidewalk_width_m": 2.0,
+          "frontage_definition": "fronts_road = footprint is within the declared frontage reserve of the nearest pavement edge (building_road_clearance_m + sidewalk_width_m); it is a geometric proximity, not an entrance, address or plot access",
+          "basis_source": "documented_case_default_constants"
+        },
+        "claims": {
+          "geometry_only": true,
+          "entrance_designed": false,
+          "address_assigned": false,
+          "plot_access_designed": false
+        },
+        "buildings": [
+          {
+            "building_id": "SK-BLD-MRG-0003",
+            "group_id": "G-17",
+            "distance_to_corridor_edge_m": 3.4988774905009903,
+            "nearest_road_id": "CD-A-G17",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-MRG-0004",
+            "group_id": "G-11",
+            "distance_to_corridor_edge_m": 11.571659528850331,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-MRG-0005",
+            "group_id": "G-11",
+            "distance_to_corridor_edge_m": 7.234448232116562,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "close_setback_5_to_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-MRG-0001",
+            "group_id": "G-16",
+            "distance_to_corridor_edge_m": 3.499148934908264,
+            "nearest_road_id": "CD-A-G16",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-MRG-0002",
+            "group_id": "G-11",
+            "distance_to_corridor_edge_m": 3.0163622902759215,
+            "nearest_road_id": "BR-G-11",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0002",
+            "group_id": "G-05",
+            "distance_to_corridor_edge_m": 3.020000008752803,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0003",
+            "group_id": "G-06",
+            "distance_to_corridor_edge_m": 26.989556649042445,
+            "nearest_road_id": "CD-A-G06",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0004",
+            "group_id": "G-07",
+            "distance_to_corridor_edge_m": 3.264791490845709,
+            "nearest_road_id": "CD-A-G14",
+            "nearest_road_class": "access",
+            "nearest_road_width_m": 4.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0005",
+            "group_id": "G-06",
+            "distance_to_corridor_edge_m": 3.0199559905229023,
+            "nearest_road_id": "BR-G-06",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0006",
+            "group_id": "G-08",
+            "distance_to_corridor_edge_m": 3.2684753850780197,
+            "nearest_road_id": "CD-A-G08",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0007",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 5.999999999999996,
+            "nearest_road_id": "ACC-FOCUS-01",
+            "nearest_road_class": "access",
+            "nearest_road_width_m": 4.0,
+            "fronts_road": false,
+            "frontage_band": "close_setback_5_to_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0008",
+            "group_id": "G-06",
+            "distance_to_corridor_edge_m": 46.27138473308524,
+            "nearest_road_id": "CD-A-G10",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0009",
+            "group_id": "G-02",
+            "distance_to_corridor_edge_m": 3.4088075632464347,
+            "nearest_road_id": "MAIN-19",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0010",
+            "group_id": "G-02",
+            "distance_to_corridor_edge_m": 3.8331244282563515,
+            "nearest_road_id": "MAIN-21",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0011",
+            "group_id": "G-08",
+            "distance_to_corridor_edge_m": 5.177042067484777,
+            "nearest_road_id": "CD-A-G14",
+            "nearest_road_class": "access",
+            "nearest_road_width_m": 4.0,
+            "fronts_road": false,
+            "frontage_band": "close_setback_5_to_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0012",
+            "group_id": "G-08",
+            "distance_to_corridor_edge_m": 58.182664339711025,
+            "nearest_road_id": "CD-A-G06",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [
+              "SK-BLD-0003"
+            ],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0013",
+            "group_id": "G-07",
+            "distance_to_corridor_edge_m": 3.8229579325152225,
+            "nearest_road_id": "CD-A-G14",
+            "nearest_road_class": "access",
+            "nearest_road_width_m": 4.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0014",
+            "group_id": "G-02",
+            "distance_to_corridor_edge_m": 16.29050411541979,
+            "nearest_road_id": "MAIN-19",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0015",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 12.621740452167524,
+            "nearest_road_id": "CD-A-G01",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0016",
+            "group_id": "G-02",
+            "distance_to_corridor_edge_m": 23.60116562722966,
+            "nearest_road_id": "MAIN-19",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0017",
+            "group_id": "G-05",
+            "distance_to_corridor_edge_m": 3.0200000000976583,
+            "nearest_road_id": "ACC-FOCUS-01",
+            "nearest_road_class": "access",
+            "nearest_road_width_m": 4.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0018",
+            "group_id": "G-07",
+            "distance_to_corridor_edge_m": 31.821807375160923,
+            "nearest_road_id": "CD-A-G14",
+            "nearest_road_class": "access",
+            "nearest_road_width_m": 4.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0020",
+            "group_id": "G-02",
+            "distance_to_corridor_edge_m": 3.499857880072717,
+            "nearest_road_id": "CD-A-G02",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0021",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 3.186255311731145,
+            "nearest_road_id": "CD-A-G01",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0022",
+            "group_id": "G-02",
+            "distance_to_corridor_edge_m": 21.48450225384645,
+            "nearest_road_id": "MAIN-21",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0023",
+            "group_id": "G-12",
+            "distance_to_corridor_edge_m": 9.479270211875786,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "close_setback_5_to_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0024",
+            "group_id": "G-02",
+            "distance_to_corridor_edge_m": 50.92042052700178,
+            "nearest_road_id": "MAIN-19",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0025",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 5.999999999999935,
+            "nearest_road_id": "ACC-FOCUS-01",
+            "nearest_road_class": "access",
+            "nearest_road_width_m": 4.0,
+            "fronts_road": false,
+            "frontage_band": "close_setback_5_to_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0026",
+            "group_id": "G-12",
+            "distance_to_corridor_edge_m": 3.0163917734730203,
+            "nearest_road_id": "BR-G-04",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0028",
+            "group_id": "G-13",
+            "distance_to_corridor_edge_m": 3.020000003168121,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0029",
+            "group_id": "G-09",
+            "distance_to_corridor_edge_m": 3.494732312583846,
+            "nearest_road_id": "CD-A-G09",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0031",
+            "group_id": "G-09",
+            "distance_to_corridor_edge_m": 12.609530739328381,
+            "nearest_road_id": "MAIN-20",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0032",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 13.383676853765238,
+            "nearest_road_id": "ACC-FOCUS-01",
+            "nearest_road_class": "access",
+            "nearest_road_width_m": 4.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0033",
+            "group_id": "G-05",
+            "distance_to_corridor_edge_m": 3.0200000019897906,
+            "nearest_road_id": "MAIN-02",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0034",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 27.223087372329438,
+            "nearest_road_id": "CD-A-G01",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0035",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 3.863277682733488,
+            "nearest_road_id": "ACC-G-12",
+            "nearest_road_class": "access",
+            "nearest_road_width_m": 4.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0036",
+            "group_id": "G-09",
+            "distance_to_corridor_edge_m": 5.996092463184043,
+            "nearest_road_id": "MAIN-18",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "close_setback_5_to_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0038",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 14.673473455953399,
+            "nearest_road_id": "MAIN-08",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0039",
+            "group_id": "G-14",
+            "distance_to_corridor_edge_m": 3.0177782647519504,
+            "nearest_road_id": "MAIN-10",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0040",
+            "group_id": "G-04",
+            "distance_to_corridor_edge_m": 12.139879258219738,
+            "nearest_road_id": "MAIN-23",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0041",
+            "group_id": "G-04",
+            "distance_to_corridor_edge_m": 37.320333892793116,
+            "nearest_road_id": "CD-A-G04",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0042",
+            "group_id": "G-04",
+            "distance_to_corridor_edge_m": 3.497195075871393,
+            "nearest_road_id": "CD-A-G04",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0043",
+            "group_id": "G-04",
+            "distance_to_corridor_edge_m": 10.053244551942083,
+            "nearest_road_id": "MAIN-08",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0044",
+            "group_id": "G-04",
+            "distance_to_corridor_edge_m": 50.24153796180805,
+            "nearest_road_id": "MAIN-08",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0045",
+            "group_id": "G-10",
+            "distance_to_corridor_edge_m": 17.150539062494907,
+            "nearest_road_id": "MAIN-21",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0048",
+            "group_id": "G-15",
+            "distance_to_corridor_edge_m": 3.0199088888350047,
+            "nearest_road_id": "BR-G-15",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0049",
+            "group_id": "G-03",
+            "distance_to_corridor_edge_m": 16.977657646346877,
+            "nearest_road_id": "CD-A-G13",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0050",
+            "group_id": "G-03",
+            "distance_to_corridor_edge_m": 14.198523366694019,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0051",
+            "group_id": "G-10",
+            "distance_to_corridor_edge_m": 12.582429181821752,
+            "nearest_road_id": "MAIN-21",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0052",
+            "group_id": "G-03",
+            "distance_to_corridor_edge_m": 19.530762866694005,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0054",
+            "group_id": "G-03",
+            "distance_to_corridor_edge_m": 3.020000005727841,
+            "nearest_road_id": "ACC-FOCUS-01",
+            "nearest_road_class": "access",
+            "nearest_road_width_m": 4.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0055",
+            "group_id": "G-10",
+            "distance_to_corridor_edge_m": 3.4995054690637377,
+            "nearest_road_id": "CD-A-G10",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0056",
+            "group_id": "G-03",
+            "distance_to_corridor_edge_m": 19.25860405448327,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0057",
+            "group_id": "G-03",
+            "distance_to_corridor_edge_m": 2.8250521190593507,
+            "nearest_road_id": "CD-A-G03",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0061",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 9.38109640460723,
+            "nearest_road_id": "MAIN-08",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "close_setback_5_to_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          }
+        ],
+        "note": "L3 is measured for every building independently of L1: a group can be served (L1) while its buildings are still set back far from any road edge.  Distances are footprint-to-pavement-edge (corridor) polygon distances",
+        "group_summary": [
+          {
+            "group_id": "G-01",
+            "building_count": 9,
+            "building_ids": [
+              "SK-BLD-0007",
+              "SK-BLD-0015",
+              "SK-BLD-0021",
+              "SK-BLD-0025",
+              "SK-BLD-0032",
+              "SK-BLD-0034",
+              "SK-BLD-0035",
+              "SK-BLD-0038",
+              "SK-BLD-0061"
+            ],
+            "min_distance_m": 3.186255311731145,
+            "max_distance_m": 27.223087372329438,
+            "fronts_road_count": 2,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-02",
+            "building_count": 7,
+            "building_ids": [
+              "SK-BLD-0009",
+              "SK-BLD-0010",
+              "SK-BLD-0014",
+              "SK-BLD-0016",
+              "SK-BLD-0020",
+              "SK-BLD-0022",
+              "SK-BLD-0024"
+            ],
+            "min_distance_m": 3.4088075632464347,
+            "max_distance_m": 50.92042052700178,
+            "fronts_road_count": 3,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-03",
+            "building_count": 6,
+            "building_ids": [
+              "SK-BLD-0049",
+              "SK-BLD-0050",
+              "SK-BLD-0052",
+              "SK-BLD-0054",
+              "SK-BLD-0056",
+              "SK-BLD-0057"
+            ],
+            "min_distance_m": 2.8250521190593507,
+            "max_distance_m": 19.530762866694005,
+            "fronts_road_count": 2,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-04",
+            "building_count": 5,
+            "building_ids": [
+              "SK-BLD-0040",
+              "SK-BLD-0041",
+              "SK-BLD-0042",
+              "SK-BLD-0043",
+              "SK-BLD-0044"
+            ],
+            "min_distance_m": 3.497195075871393,
+            "max_distance_m": 50.24153796180805,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-05",
+            "building_count": 3,
+            "building_ids": [
+              "SK-BLD-0002",
+              "SK-BLD-0017",
+              "SK-BLD-0033"
+            ],
+            "min_distance_m": 3.0200000000976583,
+            "max_distance_m": 3.020000008752803,
+            "fronts_road_count": 3,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-06",
+            "building_count": 3,
+            "building_ids": [
+              "SK-BLD-0003",
+              "SK-BLD-0005",
+              "SK-BLD-0008"
+            ],
+            "min_distance_m": 3.0199559905229023,
+            "max_distance_m": 46.27138473308524,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-07",
+            "building_count": 3,
+            "building_ids": [
+              "SK-BLD-0004",
+              "SK-BLD-0013",
+              "SK-BLD-0018"
+            ],
+            "min_distance_m": 3.264791490845709,
+            "max_distance_m": 31.821807375160923,
+            "fronts_road_count": 2,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-08",
+            "building_count": 3,
+            "building_ids": [
+              "SK-BLD-0006",
+              "SK-BLD-0011",
+              "SK-BLD-0012"
+            ],
+            "min_distance_m": 3.2684753850780197,
+            "max_distance_m": 58.182664339711025,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 1,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-09",
+            "building_count": 3,
+            "building_ids": [
+              "SK-BLD-0029",
+              "SK-BLD-0031",
+              "SK-BLD-0036"
+            ],
+            "min_distance_m": 3.494732312583846,
+            "max_distance_m": 12.609530739328381,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-10",
+            "building_count": 3,
+            "building_ids": [
+              "SK-BLD-0045",
+              "SK-BLD-0051",
+              "SK-BLD-0055"
+            ],
+            "min_distance_m": 3.4995054690637377,
+            "max_distance_m": 17.150539062494907,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-11",
+            "building_count": 3,
+            "building_ids": [
+              "SK-BLD-MRG-0004",
+              "SK-BLD-MRG-0005",
+              "SK-BLD-MRG-0002"
+            ],
+            "min_distance_m": 3.0163622902759215,
+            "max_distance_m": 11.571659528850331,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-12",
+            "building_count": 2,
+            "building_ids": [
+              "SK-BLD-0023",
+              "SK-BLD-0026"
+            ],
+            "min_distance_m": 3.0163917734730203,
+            "max_distance_m": 9.479270211875786,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-13",
+            "building_count": 1,
+            "building_ids": [
+              "SK-BLD-0028"
+            ],
+            "min_distance_m": 3.020000003168121,
+            "max_distance_m": 3.020000003168121,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-14",
+            "building_count": 1,
+            "building_ids": [
+              "SK-BLD-0039"
+            ],
+            "min_distance_m": 3.0177782647519504,
+            "max_distance_m": 3.0177782647519504,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-15",
+            "building_count": 1,
+            "building_ids": [
+              "SK-BLD-0048"
+            ],
+            "min_distance_m": 3.0199088888350047,
+            "max_distance_m": 3.0199088888350047,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-16",
+            "building_count": 1,
+            "building_ids": [
+              "SK-BLD-MRG-0001"
+            ],
+            "min_distance_m": 3.499148934908264,
+            "max_distance_m": 3.499148934908264,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-17",
+            "building_count": 1,
+            "building_ids": [
+              "SK-BLD-MRG-0003"
+            ],
+            "min_distance_m": 3.4988774905009903,
+            "max_distance_m": 3.4988774905009903,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          }
+        ]
+      },
+      "l4_garage_driveway": {
+        "layer": "l4_garage_driveway",
+        "status": "driveway_deferred",
+        "label": "underground_garage_entrance_proximity",
+        "scope": "entrance",
+        "summary": {
+          "entrance_count": 5,
+          "proximity_connected_count": 2,
+          "driveway_designed_count": 0,
+          "parking_entrance_count": 5,
+          "garage_layout": "not_designed"
+        },
+        "claims": {
+          "entrance_proximity_only": true,
+          "driveway_designed": false,
+          "garage_layout_designed": false
+        },
+        "entrances": [
+          {
+            "entrance_id": "SK-GAR-0001",
+            "status": "existing",
+            "point_xy": [
+              38.31332799660663,
+              372.026251
+            ],
+            "nearest_road_id": "MAIN-02",
+            "distance_m": 25.411120786892965,
+            "proximity_connected": false,
+            "driveway_designed": false,
+            "reason": "designer-marked garage face; driveway connection not designed (proximity only, 25.411 m from the nearest centreline)"
+          },
+          {
+            "entrance_id": "SK-GAR-0002",
+            "status": "existing",
+            "point_xy": [
+              76.69559932674298,
+              129.614438
+            ],
+            "nearest_road_id": "CD-A-G14",
+            "distance_m": 15.550459416027216,
+            "proximity_connected": false,
+            "driveway_designed": false,
+            "reason": "designer-marked garage face; driveway connection not designed (proximity only, 15.550 m from the nearest centreline)"
+          },
+          {
+            "entrance_id": "SK-GAR-0003",
+            "status": "existing",
+            "point_xy": [
+              338.80229699999995,
+              368.744873
+            ],
+            "nearest_road_id": "MAIN-25",
+            "distance_m": 25.71443618054793,
+            "proximity_connected": false,
+            "driveway_designed": false,
+            "reason": "designer-marked garage face; driveway connection not designed (proximity only, 25.714 m from the nearest centreline)"
+          },
+          {
+            "entrance_id": "GARAGE-ENTRANCE-P01",
+            "status": "proposed",
+            "point_xy": [
+              229.84455977440086,
+              545.6179178258168
+            ],
+            "nearest_road_id": "MAIN-08",
+            "distance_m": 2.5794492433084418e-14,
+            "proximity_connected": true,
+            "driveway_designed": false,
+            "reason": "proximity only; driveway geometry not designed (0.000 m from the nearest centreline, within half the 12.0 m road width + 1.0 m)"
+          },
+          {
+            "entrance_id": "GARAGE-ENTRANCE-P02",
+            "status": "proposed",
+            "point_xy": [
+              298.94237312140615,
+              137.91209255448302
+            ],
+            "nearest_road_id": "MAIN-21",
+            "distance_m": 1.6681362918762538e-14,
+            "proximity_connected": true,
+            "driveway_designed": false,
+            "reason": "proximity only; driveway geometry not designed (0.000 m from the nearest centreline, within half the 12.0 m road width + 1.0 m)"
+          }
+        ],
+        "note": "the entrances only report proximity to the nearest road centreline (half road width + margin); no driveway geometry, ramp or garage layout is designed, so the driveway is deferred"
+      }
+    },
+    "layer_order": [
+      "l1_group_external_access",
+      "l2_internal_group_roads",
+      "l3_building_frontage",
+      "l4_garage_driveway"
+    ],
+    "no_combined_coverage": true,
+    "notes": [
+      "the four layers are independent evidence; there is no combined access coverage and none of them implies another",
+      "L1 is group-level declared external access; L2 is not designed; L3 is building-level geometry only (no entrance/address); L4 is entrance proximity only (no driveway)",
+      "nothing in this report changes RoadAccessLayout, RoadLayout or any declared threshold"
+    ]
+  },
+  "B": {
+    "schema_id": "dgcad.access-semantics.v0.1",
+    "case_id": "CASE-SKETCH-001",
+    "building_count": 55,
+    "group_count": 17,
+    "layers": {
+      "l1_group_external_access": {
+        "layer": "l1_group_external_access",
+        "status": "designed",
+        "label": "group_level_declared_access",
+        "scope": "group",
+        "summary": {
+          "groups_total": 17,
+          "groups_in_access_evidence": 17,
+          "groups_served": 17,
+          "group_coverage": 1.0,
+          "road_access_coverage": 1.0,
+          "evidence_matches_road_access": true,
+          "relation_error_count": 0,
+          "dead_ends_unresolved": 0,
+          "terminal_band_m": [
+            3.4,
+            3.5
+          ]
+        },
+        "claims": {
+          "access_scope": "group_level",
+          "claims_single_building_access": false,
+          "claims_internal_group_roads": false,
+          "claims_garage_driveway": false
+        },
+        "groups": [
+          {
+            "group_id": "G-01",
+            "building_ids": [
+              "SK-BLD-0007",
+              "SK-BLD-0015",
+              "SK-BLD-0021",
+              "SK-BLD-0025",
+              "SK-BLD-0032",
+              "SK-BLD-0034",
+              "SK-BLD-0035",
+              "SK-BLD-0038",
+              "SK-BLD-0061"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G01",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              168.63868918197903,
+              442.468826
+            ],
+            "terminal_distance_m": 3.4999990000000025,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-02",
+            "building_ids": [
+              "SK-BLD-0009",
+              "SK-BLD-0010",
+              "SK-BLD-0014",
+              "SK-BLD-0016",
+              "SK-BLD-0020",
+              "SK-BLD-0022",
+              "SK-BLD-0024"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G02",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              289.17133525338176,
+              229.500001
+            ],
+            "terminal_distance_m": 3.4999990000000025,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-03",
+            "building_ids": [
+              "SK-BLD-0049",
+              "SK-BLD-0050",
+              "SK-BLD-0052",
+              "SK-BLD-0054",
+              "SK-BLD-0056",
+              "SK-BLD-0057"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G03",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              123.85536109514057,
+              173.51685445183205
+            ],
+            "terminal_distance_m": 3.4999989999999923,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-04",
+            "building_ids": [
+              "SK-BLD-0040",
+              "SK-BLD-0041",
+              "SK-BLD-0042",
+              "SK-BLD-0043",
+              "SK-BLD-0044"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G04",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              262.0045129198941,
+              453.6507097818776
+            ],
+            "terminal_distance_m": 3.4999990000000083,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-05",
+            "building_ids": [
+              "SK-BLD-0002",
+              "SK-BLD-0017",
+              "SK-BLD-0033"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G05",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              125.99356631227056,
+              609.0898571884107
+            ],
+            "terminal_distance_m": 3.499998999999965,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-06",
+            "building_ids": [
+              "SK-BLD-0003",
+              "SK-BLD-0005",
+              "SK-BLD-0008"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G06",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              165.18073280629784,
+              156.500001
+            ],
+            "terminal_distance_m": 3.4999990000000025,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-07",
+            "building_ids": [
+              "SK-BLD-0004",
+              "SK-BLD-0013",
+              "SK-BLD-0018"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G07",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              87.71963078703668,
+              136.51685445183205
+            ],
+            "terminal_distance_m": 3.4999989999999923,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-08",
+            "building_ids": [
+              "SK-BLD-0006",
+              "SK-BLD-0011",
+              "SK-BLD-0012"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G08",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              155.63954751296188,
+              109.9101428115893
+            ],
+            "terminal_distance_m": 3.4999990000000007,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-09",
+            "building_ids": [
+              "SK-BLD-0029",
+              "SK-BLD-0031",
+              "SK-BLD-0036"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G09",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              229.32867848523568,
+              106.33939163059438
+            ],
+            "terminal_distance_m": 3.4999989999999923,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-10",
+            "building_ids": [
+              "SK-BLD-0045",
+              "SK-BLD-0051",
+              "SK-BLD-0055"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G10",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              283.338156931899,
+              216.08672354329798
+            ],
+            "terminal_distance_m": 3.4999989999999905,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-11",
+            "building_ids": [
+              "SK-BLD-MRG-0002",
+              "SK-BLD-MRG-0004",
+              "SK-BLD-MRG-0005"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G11",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              91.94969686209843,
+              247.08672354329798
+            ],
+            "terminal_distance_m": 3.499998999999997,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-12",
+            "building_ids": [
+              "SK-BLD-0023",
+              "SK-BLD-0026"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G12",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              259.9325075056618,
+              440.499999
+            ],
+            "terminal_distance_m": 3.4999990000000025,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-13",
+            "building_ids": [
+              "SK-BLD-0028"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G13",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              85.19505125296351,
+              115.48673386351575
+            ],
+            "terminal_distance_m": 3.499999000000002,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-14",
+            "building_ids": [
+              "SK-BLD-0039"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G14",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              140.06125886002673,
+              29.525126972953863
+            ],
+            "terminal_distance_m": 3.4999989999999968,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-15",
+            "building_ids": [
+              "SK-BLD-0048"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G15",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              319.23942120145784,
+              401.2944641862409
+            ],
+            "terminal_distance_m": 3.4999990000000176,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-16",
+            "building_ids": [
+              "SK-BLD-MRG-0001"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G16",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              82.23222000161304,
+              332.47487302704616
+            ],
+            "terminal_distance_m": 3.499999000000012,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          },
+          {
+            "group_id": "G-17",
+            "building_ids": [
+              "SK-BLD-MRG-0003"
+            ],
+            "declared": true,
+            "served": true,
+            "served_by_relation": true,
+            "serving_road_id": "CD-A-G17",
+            "serving_road_class": "branch",
+            "serving_road_width_m": 7.0,
+            "terminal_xy": [
+              335.41124852465344,
+              307.9862955675387
+            ],
+            "terminal_distance_m": 3.499998999999991,
+            "terminal_band_m": [
+              3.4,
+              3.5
+            ],
+            "terminal_band_ok": true,
+            "relation_errors": []
+          }
+        ],
+        "note": "a served group means one road declares serves_group_ids for the group and its terminal is validated against the group footprint union (3.4-3.5 m band, outside footprints, route crossing <= 0.1 m); it says nothing about any single building's entrance"
+      },
+      "l2_internal_group_roads": {
+        "layer": "l2_internal_group_roads",
+        "status": "not_designed",
+        "label": "internal_group_roads",
+        "scope": "group",
+        "summary": {
+          "groups_total": 17,
+          "groups_with_internal_roads": 0,
+          "internal_road_length_m": 0.0
+        },
+        "claims": {
+          "internal_roads_designed": false,
+          "l1_connector_is_not_internal_road": true
+        },
+        "groups": [
+          {
+            "group_id": "G-01",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-02",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-03",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-04",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-05",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-06",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-07",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-08",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-09",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-10",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-11",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-12",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-13",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-14",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-15",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-16",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          },
+          {
+            "group_id": "G-17",
+            "internal_road_count": 0,
+            "designed_length_m": 0.0,
+            "status": "not_designed"
+          }
+        ],
+        "note": "the L1 connector ends at the group footprint ring; no road inside the group block is designed, so internal circulation is reported as not_designed and is not inferred from the L1 coverage"
+      },
+      "l3_building_frontage": {
+        "layer": "l3_building_frontage",
+        "status": "geometry_measured",
+        "label": "frontage_geometry_only",
+        "scope": "building",
+        "summary": {
+          "building_count": 55,
+          "group_count": 17,
+          "fronts_road_count": 26,
+          "sidewalk_adjacent_count": 0,
+          "blocked_by_building_count": 2,
+          "blocked_by_green_count": null,
+          "distance_stats_m": {
+            "count": 55,
+            "min": 3.0164672267820585,
+            "median": 5.999999999999935,
+            "max": 53.282368635967366,
+            "mean": 12.130223720505985
+          },
+          "frontage_reserve_m": 5.0,
+          "declared_clearance_m": 3.0,
+          "declared_sidewalk_width_m": 2.0,
+          "frontage_definition": "fronts_road = footprint is within the declared frontage reserve of the nearest pavement edge (building_road_clearance_m + sidewalk_width_m); it is a geometric proximity, not an entrance, address or plot access",
+          "basis_source": "documented_case_default_constants"
+        },
+        "claims": {
+          "geometry_only": true,
+          "entrance_designed": false,
+          "address_assigned": false,
+          "plot_access_designed": false
+        },
+        "buildings": [
+          {
+            "building_id": "SK-BLD-MRG-0003",
+            "group_id": "G-17",
+            "distance_to_corridor_edge_m": 3.0181982652973613,
+            "nearest_road_id": "BR-G-17",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-MRG-0004",
+            "group_id": "G-11",
+            "distance_to_corridor_edge_m": 8.973043205003734,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "close_setback_5_to_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-MRG-0005",
+            "group_id": "G-11",
+            "distance_to_corridor_edge_m": 7.234448232116562,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "close_setback_5_to_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-MRG-0001",
+            "group_id": "G-16",
+            "distance_to_corridor_edge_m": 3.0200000176497235,
+            "nearest_road_id": "BR-G-16",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-MRG-0002",
+            "group_id": "G-11",
+            "distance_to_corridor_edge_m": 3.4998632393826683,
+            "nearest_road_id": "CD-A-G11",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0002",
+            "group_id": "G-05",
+            "distance_to_corridor_edge_m": 25.39313143161254,
+            "nearest_road_id": "MAIN-13",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0003",
+            "group_id": "G-06",
+            "distance_to_corridor_edge_m": 27.55327463974514,
+            "nearest_road_id": "CD-A-G03",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [
+              "SK-BLD-0057"
+            ],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0004",
+            "group_id": "G-07",
+            "distance_to_corridor_edge_m": 3.2002074551820954,
+            "nearest_road_id": "MAIN-10",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0005",
+            "group_id": "G-06",
+            "distance_to_corridor_edge_m": 3.3017596320395057,
+            "nearest_road_id": "CD-A-G06",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0006",
+            "group_id": "G-08",
+            "distance_to_corridor_edge_m": 3.0164672267820585,
+            "nearest_road_id": "BR-G-08",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0007",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 5.999999999999996,
+            "nearest_road_id": "ACC-FOCUS-01",
+            "nearest_road_class": "access",
+            "nearest_road_width_m": 4.0,
+            "fronts_road": false,
+            "frontage_band": "close_setback_5_to_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0008",
+            "group_id": "G-06",
+            "distance_to_corridor_edge_m": 40.81676671106526,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0009",
+            "group_id": "G-02",
+            "distance_to_corridor_edge_m": 3.0200000282548554,
+            "nearest_road_id": "MAIN-21",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0010",
+            "group_id": "G-02",
+            "distance_to_corridor_edge_m": 3.0200000360903254,
+            "nearest_road_id": "MAIN-21",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0011",
+            "group_id": "G-08",
+            "distance_to_corridor_edge_m": 3.0200000136951206,
+            "nearest_road_id": "MAIN-17",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0012",
+            "group_id": "G-08",
+            "distance_to_corridor_edge_m": 32.04154583680419,
+            "nearest_road_id": "CD-A-G08",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0013",
+            "group_id": "G-07",
+            "distance_to_corridor_edge_m": 24.97745037837871,
+            "nearest_road_id": "MAIN-19",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0014",
+            "group_id": "G-02",
+            "distance_to_corridor_edge_m": 17.917229989833487,
+            "nearest_road_id": "MAIN-21",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0015",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 12.621740452167524,
+            "nearest_road_id": "CD-A-G01",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0016",
+            "group_id": "G-02",
+            "distance_to_corridor_edge_m": 17.854796442669112,
+            "nearest_road_id": "MAIN-19",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0017",
+            "group_id": "G-05",
+            "distance_to_corridor_edge_m": 3.0198558594630214,
+            "nearest_road_id": "MAIN-08",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0018",
+            "group_id": "G-07",
+            "distance_to_corridor_edge_m": 53.282368635967366,
+            "nearest_road_id": "CD-A-G14",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [
+              "SK-BLD-0039"
+            ],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0020",
+            "group_id": "G-02",
+            "distance_to_corridor_edge_m": 21.208377732788804,
+            "nearest_road_id": "MAIN-21",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0021",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 3.186255311731145,
+            "nearest_road_id": "CD-A-G01",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0022",
+            "group_id": "G-02",
+            "distance_to_corridor_edge_m": 21.794959610634788,
+            "nearest_road_id": "MAIN-21",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0023",
+            "group_id": "G-12",
+            "distance_to_corridor_edge_m": 3.020000019401692,
+            "nearest_road_id": "MAIN-23",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0024",
+            "group_id": "G-02",
+            "distance_to_corridor_edge_m": 15.42210147396438,
+            "nearest_road_id": "MAIN-19",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0025",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 5.999999999999935,
+            "nearest_road_id": "ACC-FOCUS-01",
+            "nearest_road_class": "access",
+            "nearest_road_width_m": 4.0,
+            "fronts_road": false,
+            "frontage_band": "close_setback_5_to_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0026",
+            "group_id": "G-12",
+            "distance_to_corridor_edge_m": 3.0200000191736045,
+            "nearest_road_id": "MAIN-08",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0028",
+            "group_id": "G-13",
+            "distance_to_corridor_edge_m": 3.3644096207014624,
+            "nearest_road_id": "CD-A-G13",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0029",
+            "group_id": "G-09",
+            "distance_to_corridor_edge_m": 3.020000018991764,
+            "nearest_road_id": "MAIN-19",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0031",
+            "group_id": "G-09",
+            "distance_to_corridor_edge_m": 3.7669426117245512,
+            "nearest_road_id": "MAIN-17",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0032",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 13.383676853765238,
+            "nearest_road_id": "ACC-FOCUS-01",
+            "nearest_road_class": "access",
+            "nearest_road_width_m": 4.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0033",
+            "group_id": "G-05",
+            "distance_to_corridor_edge_m": 3.0200000156687437,
+            "nearest_road_id": "MAIN-02",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0034",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 27.223087372329438,
+            "nearest_road_id": "CD-A-G01",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0035",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 3.863277682733488,
+            "nearest_road_id": "ACC-G-12",
+            "nearest_road_class": "access",
+            "nearest_road_width_m": 4.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0036",
+            "group_id": "G-09",
+            "distance_to_corridor_edge_m": 6.581524398747236,
+            "nearest_road_id": "MAIN-18",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "close_setback_5_to_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0038",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 3.020000001901353,
+            "nearest_road_id": "ACC-FOCUS-01",
+            "nearest_road_class": "access",
+            "nearest_road_width_m": 4.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0039",
+            "group_id": "G-14",
+            "distance_to_corridor_edge_m": 3.0200000079713076,
+            "nearest_road_id": "BR-G-14",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0040",
+            "group_id": "G-04",
+            "distance_to_corridor_edge_m": 3.020000052123863,
+            "nearest_road_id": "MAIN-23",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0041",
+            "group_id": "G-04",
+            "distance_to_corridor_edge_m": 37.65622048139384,
+            "nearest_road_id": "CD-A-G04",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0042",
+            "group_id": "G-04",
+            "distance_to_corridor_edge_m": 3.4962257680788213,
+            "nearest_road_id": "CD-A-G04",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0043",
+            "group_id": "G-04",
+            "distance_to_corridor_edge_m": 10.01254502287765,
+            "nearest_road_id": "MAIN-08",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0044",
+            "group_id": "G-04",
+            "distance_to_corridor_edge_m": 50.20083843274362,
+            "nearest_road_id": "MAIN-08",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0045",
+            "group_id": "G-10",
+            "distance_to_corridor_edge_m": 3.499736652279656,
+            "nearest_road_id": "CD-A-G10",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0048",
+            "group_id": "G-15",
+            "distance_to_corridor_edge_m": 3.018348988390938,
+            "nearest_road_id": "BR-G-15",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0049",
+            "group_id": "G-03",
+            "distance_to_corridor_edge_m": 14.537847980578277,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0050",
+            "group_id": "G-03",
+            "distance_to_corridor_edge_m": 14.198523366694019,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0051",
+            "group_id": "G-10",
+            "distance_to_corridor_edge_m": 7.459671579811771,
+            "nearest_road_id": "MAIN-21",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "close_setback_5_to_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0052",
+            "group_id": "G-03",
+            "distance_to_corridor_edge_m": 19.530762866694005,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0054",
+            "group_id": "G-03",
+            "distance_to_corridor_edge_m": 19.530762866694005,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0055",
+            "group_id": "G-10",
+            "distance_to_corridor_edge_m": 3.020000049569612,
+            "nearest_road_id": "BR-G-02",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0056",
+            "group_id": "G-03",
+            "distance_to_corridor_edge_m": 19.25860405448327,
+            "nearest_road_id": "MAIN-07",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "far_setback_over_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0057",
+            "group_id": "G-03",
+            "distance_to_corridor_edge_m": 3.4965807278917675,
+            "nearest_road_id": "CD-A-G03",
+            "nearest_road_class": "branch",
+            "nearest_road_width_m": 7.0,
+            "fronts_road": true,
+            "frontage_band": "within_frontage_reserve",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          },
+          {
+            "building_id": "SK-BLD-0061",
+            "group_id": "G-01",
+            "distance_to_corridor_edge_m": 5.50887525609473,
+            "nearest_road_id": "MAIN-08",
+            "nearest_road_class": "main",
+            "nearest_road_width_m": 12.0,
+            "fronts_road": false,
+            "frontage_band": "close_setback_5_to_10_m",
+            "sidewalk_adjacent": false,
+            "blocked_by_building_ids": [],
+            "blocked_by_green_ids": null
+          }
+        ],
+        "note": "L3 is measured for every building independently of L1: a group can be served (L1) while its buildings are still set back far from any road edge.  Distances are footprint-to-pavement-edge (corridor) polygon distances",
+        "group_summary": [
+          {
+            "group_id": "G-01",
+            "building_count": 9,
+            "building_ids": [
+              "SK-BLD-0007",
+              "SK-BLD-0015",
+              "SK-BLD-0021",
+              "SK-BLD-0025",
+              "SK-BLD-0032",
+              "SK-BLD-0034",
+              "SK-BLD-0035",
+              "SK-BLD-0038",
+              "SK-BLD-0061"
+            ],
+            "min_distance_m": 3.020000001901353,
+            "max_distance_m": 27.223087372329438,
+            "fronts_road_count": 3,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-02",
+            "building_count": 7,
+            "building_ids": [
+              "SK-BLD-0009",
+              "SK-BLD-0010",
+              "SK-BLD-0014",
+              "SK-BLD-0016",
+              "SK-BLD-0020",
+              "SK-BLD-0022",
+              "SK-BLD-0024"
+            ],
+            "min_distance_m": 3.0200000282548554,
+            "max_distance_m": 21.794959610634788,
+            "fronts_road_count": 2,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-03",
+            "building_count": 6,
+            "building_ids": [
+              "SK-BLD-0049",
+              "SK-BLD-0050",
+              "SK-BLD-0052",
+              "SK-BLD-0054",
+              "SK-BLD-0056",
+              "SK-BLD-0057"
+            ],
+            "min_distance_m": 3.4965807278917675,
+            "max_distance_m": 19.530762866694005,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-04",
+            "building_count": 5,
+            "building_ids": [
+              "SK-BLD-0040",
+              "SK-BLD-0041",
+              "SK-BLD-0042",
+              "SK-BLD-0043",
+              "SK-BLD-0044"
+            ],
+            "min_distance_m": 3.020000052123863,
+            "max_distance_m": 50.20083843274362,
+            "fronts_road_count": 2,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-05",
+            "building_count": 3,
+            "building_ids": [
+              "SK-BLD-0002",
+              "SK-BLD-0017",
+              "SK-BLD-0033"
+            ],
+            "min_distance_m": 3.0198558594630214,
+            "max_distance_m": 25.39313143161254,
+            "fronts_road_count": 2,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-06",
+            "building_count": 3,
+            "building_ids": [
+              "SK-BLD-0003",
+              "SK-BLD-0005",
+              "SK-BLD-0008"
+            ],
+            "min_distance_m": 3.3017596320395057,
+            "max_distance_m": 40.81676671106526,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 1,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-07",
+            "building_count": 3,
+            "building_ids": [
+              "SK-BLD-0004",
+              "SK-BLD-0013",
+              "SK-BLD-0018"
+            ],
+            "min_distance_m": 3.2002074551820954,
+            "max_distance_m": 53.282368635967366,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 1,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-08",
+            "building_count": 3,
+            "building_ids": [
+              "SK-BLD-0006",
+              "SK-BLD-0011",
+              "SK-BLD-0012"
+            ],
+            "min_distance_m": 3.0164672267820585,
+            "max_distance_m": 32.04154583680419,
+            "fronts_road_count": 2,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-09",
+            "building_count": 3,
+            "building_ids": [
+              "SK-BLD-0029",
+              "SK-BLD-0031",
+              "SK-BLD-0036"
+            ],
+            "min_distance_m": 3.020000018991764,
+            "max_distance_m": 6.581524398747236,
+            "fronts_road_count": 2,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-10",
+            "building_count": 3,
+            "building_ids": [
+              "SK-BLD-0045",
+              "SK-BLD-0051",
+              "SK-BLD-0055"
+            ],
+            "min_distance_m": 3.020000049569612,
+            "max_distance_m": 7.459671579811771,
+            "fronts_road_count": 2,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-11",
+            "building_count": 3,
+            "building_ids": [
+              "SK-BLD-MRG-0004",
+              "SK-BLD-MRG-0005",
+              "SK-BLD-MRG-0002"
+            ],
+            "min_distance_m": 3.4998632393826683,
+            "max_distance_m": 8.973043205003734,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-12",
+            "building_count": 2,
+            "building_ids": [
+              "SK-BLD-0023",
+              "SK-BLD-0026"
+            ],
+            "min_distance_m": 3.0200000191736045,
+            "max_distance_m": 3.020000019401692,
+            "fronts_road_count": 2,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-13",
+            "building_count": 1,
+            "building_ids": [
+              "SK-BLD-0028"
+            ],
+            "min_distance_m": 3.3644096207014624,
+            "max_distance_m": 3.3644096207014624,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-14",
+            "building_count": 1,
+            "building_ids": [
+              "SK-BLD-0039"
+            ],
+            "min_distance_m": 3.0200000079713076,
+            "max_distance_m": 3.0200000079713076,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-15",
+            "building_count": 1,
+            "building_ids": [
+              "SK-BLD-0048"
+            ],
+            "min_distance_m": 3.018348988390938,
+            "max_distance_m": 3.018348988390938,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-16",
+            "building_count": 1,
+            "building_ids": [
+              "SK-BLD-MRG-0001"
+            ],
+            "min_distance_m": 3.0200000176497235,
+            "max_distance_m": 3.0200000176497235,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          },
+          {
+            "group_id": "G-17",
+            "building_count": 1,
+            "building_ids": [
+              "SK-BLD-MRG-0003"
+            ],
+            "min_distance_m": 3.0181982652973613,
+            "max_distance_m": 3.0181982652973613,
+            "fronts_road_count": 1,
+            "blocked_by_building_count": 0,
+            "blocked_by_green_count": null
+          }
+        ]
+      },
+      "l4_garage_driveway": {
+        "layer": "l4_garage_driveway",
+        "status": "driveway_deferred",
+        "label": "underground_garage_entrance_proximity",
+        "scope": "entrance",
+        "summary": {
+          "entrance_count": 5,
+          "proximity_connected_count": 2,
+          "driveway_designed_count": 0,
+          "parking_entrance_count": 5,
+          "garage_layout": "not_designed"
+        },
+        "claims": {
+          "entrance_proximity_only": true,
+          "driveway_designed": false,
+          "garage_layout_designed": false
+        },
+        "entrances": [
+          {
+            "entrance_id": "SK-GAR-0001",
+            "status": "existing",
+            "point_xy": [
+              38.31332799660663,
+              372.026251
+            ],
+            "nearest_road_id": "MAIN-02",
+            "distance_m": 25.411120786892965,
+            "proximity_connected": false,
+            "driveway_designed": false,
+            "reason": "designer-marked garage face; driveway connection not designed (proximity only, 25.411 m from the nearest centreline)"
+          },
+          {
+            "entrance_id": "SK-GAR-0002",
+            "status": "existing",
+            "point_xy": [
+              76.69559932674298,
+              129.614438
+            ],
+            "nearest_road_id": "CD-A-G07",
+            "distance_m": 11.720084562803876,
+            "proximity_connected": false,
+            "driveway_designed": false,
+            "reason": "designer-marked garage face; driveway connection not designed (proximity only, 11.720 m from the nearest centreline)"
+          },
+          {
+            "entrance_id": "SK-GAR-0003",
+            "status": "existing",
+            "point_xy": [
+              338.80229699999995,
+              368.744873
+            ],
+            "nearest_road_id": "MAIN-25",
+            "distance_m": 25.71443618054793,
+            "proximity_connected": false,
+            "driveway_designed": false,
+            "reason": "designer-marked garage face; driveway connection not designed (proximity only, 25.714 m from the nearest centreline)"
+          },
+          {
+            "entrance_id": "GARAGE-ENTRANCE-P01",
+            "status": "proposed",
+            "point_xy": [
+              229.84455977440086,
+              545.6179178258168
+            ],
+            "nearest_road_id": "MAIN-08",
+            "distance_m": 2.5794492433084418e-14,
+            "proximity_connected": true,
+            "driveway_designed": false,
+            "reason": "proximity only; driveway geometry not designed (0.000 m from the nearest centreline, within half the 12.0 m road width + 1.0 m)"
+          },
+          {
+            "entrance_id": "GARAGE-ENTRANCE-P02",
+            "status": "proposed",
+            "point_xy": [
+              298.94237312140615,
+              137.91209255448302
+            ],
+            "nearest_road_id": "MAIN-21",
+            "distance_m": 1.6681362918762538e-14,
+            "proximity_connected": true,
+            "driveway_designed": false,
+            "reason": "proximity only; driveway geometry not designed (0.000 m from the nearest centreline, within half the 12.0 m road width + 1.0 m)"
+          }
+        ],
+        "note": "the entrances only report proximity to the nearest road centreline (half road width + margin); no driveway geometry, ramp or garage layout is designed, so the driveway is deferred"
+      }
+    },
+    "layer_order": [
+      "l1_group_external_access",
+      "l2_internal_group_roads",
+      "l3_building_frontage",
+      "l4_garage_driveway"
+    ],
+    "no_combined_coverage": true,
+    "notes": [
+      "the four layers are independent evidence; there is no combined access coverage and none of them implies another",
+      "L1 is group-level declared external access; L2 is not designed; L3 is building-level geometry only (no entrance/address); L4 is entrance proximity only (no driveway)",
+      "nothing in this report changes RoadAccessLayout, RoadLayout or any declared threshold"
+    ]
+  }
+}

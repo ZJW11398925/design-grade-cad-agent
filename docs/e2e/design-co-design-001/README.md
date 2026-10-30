@@ -11,6 +11,22 @@ focus-era access declarations are never reused.
 | **A** | fixed M4d-1 full-site layout | rebuilt connectors (17, 362.09 m) | see below |
 | **B** | group-preserving layout (17 groups; 39 rows) | rebuilt connectors | see below |
 
+## M4d-2a audit qualification
+
+The `HARD-VALID` stamp means **hard-valid on the 29 declared checks only**.
+The M4d-2a intent audit (`../design-intent-audit-001/`) shows that B still has
+**12/17 inferred groups fragmented**, **43 row runs**, **278.46 m** maximum
+building displacement, **713.445 m²** of source-green area occupied by
+buildings (baseline/A **845.541 m²**; road-occupied **64.113/320.949/73.815 m²**;
+retained **10,076.757/9,819.92/10,199.151 m²**, preserved/shrunk/cancelled
+**7/5/0**), **26/55** buildings with geometric road frontage (L3 baseline/A/B
+**15/24/26 of 55**), no internal group roads (L2 0/17), no garage driveway
+(L4 0), and **5 deferred** design items; the 3.016 m clearance is not robust to
+a 0.1 m relative coordinate perturbation (**100% of samples <3.0 m**, B min
+2.8887 m). Four-level B status: **geometric pass / intent descriptive /
+deferred 5 / host not_verified**. B is a research baseline, not a professional
+design. The project baseline is **556 passed** (515 + 41 audit tests).
+
 ## Measured results
 
 | metric | baseline | A | B |
@@ -78,4 +94,6 @@ python scripts/design/build_co_design_evidence.py
 ```
 
 The co-design suites collect **11 access + 10 group-layout + 11 group-metric +
-11 evidence = 43 tests**; the project baseline is **515 passed** (472 + 43).
+11 evidence = 43 tests**; the M4d-2a audit adds **14 intent-metrics + 8
+green-retention + 9 access-semantics + 4 robustness + 6 audit-evidence = 41
+tests**, for a project baseline of **556 passed** (515 + 41).

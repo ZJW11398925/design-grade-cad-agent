@@ -30,7 +30,7 @@ python -m pip install -e ".[dev]"
 python -m pytest -q
 ```
 
-Expected: `515 passed`.
+Expected: `556 passed`.
 
 ## Pull request checklist
 

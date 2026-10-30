@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any
 
 from shapely.geometry import LineString, Point, box
@@ -45,6 +45,10 @@ class DesignIntent:
     focus_green_ids: tuple[str, ...]
     focus_road_ids: tuple[str, ...]
     focus_subgroups: dict[str, tuple[str, ...]]
+    #: The 17 groups are *inferred* by the Agent from proximity and the main
+    #: road buffer; they are not designer-confirmed groups.  The provenance
+    #: records the assumptions so consumers cannot silently upgrade them.
+    grouping_provenance: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -61,6 +65,7 @@ class DesignIntent:
                 key: list(value)
                 for key, value in self.focus_subgroups.items()
             },
+            "grouping_provenance": dict(self.grouping_provenance),
         }
 
 
@@ -258,4 +263,20 @@ def build_design_intent(
         focus_green_ids=focus_greens,
         focus_road_ids=focus_roads,
         focus_subgroups=focus_subgroups,
+        grouping_provenance={
+            "schema_id": "dgcad.inferred-groups.v0.1",
+            "kind": "inferred_groups",
+            "not_designer_confirmed": True,
+            "method": "union_find_single_linkage",
+            "group_distance_m": float(basis.group_distance_m),
+            "main_road_buffer_m": 8.0,
+            "main_road_filter": "class_candidate == main_road",
+            "transitive_merge": True,
+            "note": (
+                "the 17 groups are inferred by the Agent from building "
+                "centroid distance, the main-road 8 m buffer and transitive "
+                "Union-Find merging; they must not be described as "
+                "designer-confirmed spatial groups"
+            ),
+        },
     )
